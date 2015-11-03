@@ -49,6 +49,10 @@ org.eclipse.*
 CFDump.php
 db.class.php
 db-live.class.php
+bot.json
+
+# Config
+config.json
 
 # Visual Studio
 *.sln
