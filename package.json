@@ -8,9 +8,14 @@
     "discord.io": "^1.4.1",
     "websocket": "^1.0.22"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "browserify": "latest",
+    "watchify": "latest"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify web/main.js -o web/static/bundle.js",
+    "watch": "watchify web/main.js -d -o web/static/bundle.js -v"
   },
   "repository": {
     "type": "git",
