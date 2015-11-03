@@ -1,2 +1,2 @@
-# d-zone
-An ambient life simulation driven by user activity within a Discord server
+# D-Zone
+An _ambient life simulation_ driven by the user activity within a [Discord](https://discordapp.com) server
