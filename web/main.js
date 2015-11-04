@@ -1,3 +1,8 @@
 'use strict';
-var test = require('uniq');
-console.log('here are your uniques',test([1,1,2,2,3,4]));
+var Game = require('./script/engine/gameloop.js');
+
+var game = new Game({step:1000/60});
+
+game.on('update', function(interval){
+    // Update
+});
