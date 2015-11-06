@@ -5,14 +5,8 @@ var inherits = require('inherits');
 module.exports = Input;
 inherits(Input, EventEmitter);
 
-function Input(options) {
+function Input() {
     console.log('Initializing input');
-    this.scale = options.scale;
-    this.canvas = options.canvas;
-    this.canvas.addEventListener("mousemove", this.mousemove.bind(this));
-    this.canvas.addEventListener("mousedown", this.mousedown.bind(this));
-    this.canvas.addEventListener("mouseup", this.mouseup.bind(this));
-    this.preventContextMenu = true;
     this.mouseX = 0;
     this.mouseY = 0;
     this.mouseLeft = false;
@@ -20,15 +14,22 @@ function Input(options) {
     this.keys = {};
     document.addEventListener('keydown', this.keydown.bind(this));
     document.addEventListener('keyup', this.keyup.bind(this));
-    var self = this;
-    this.canvas.addEventListener("contextmenu", function(e) {
-        if(self.preventContextMenu && !e.metaKey) e.preventDefault();
-    });
 }
 
+Input.prototype.bindCanvas = function(renderer) {
+    this.canvas = renderer.canvas;
+    this.mouseScale = renderer.scale;
+    this.canvas.addEventListener("mousemove", this.mousemove.bind(this));
+    this.canvas.addEventListener("mousedown", this.mousedown.bind(this));
+    this.canvas.addEventListener("mouseup", this.mouseup.bind(this));
+    this.canvas.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+    });
+};
+
 Input.prototype.mousemove = function(e) {
-    this.mouseX = Math.floor(e.pageX / this.scale);
-    this.mouseY = Math.floor(e.pageY / this.scale);
+    this.mouseX = Math.floor(e.pageX / this.mouseScale);
+    this.mouseY = Math.floor(e.pageY / this.mouseScale);
     this.emit('mousemove', { x: this.mouseX, y: this.mouseY });
 };
 
