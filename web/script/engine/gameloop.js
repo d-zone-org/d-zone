@@ -10,6 +10,7 @@ module.exports = Game;
 inherits(Game, EventEmitter);
 
 function Game(options) {
+    console.log('Initializing game loop');
     this.step = options.step || 1000/60;
     this.lastUpdate = 0;
     this.dt = 0;

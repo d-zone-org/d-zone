@@ -19,3 +19,5 @@ The server runs a [Discord bot](https://www.npmjs.com/package/discord.io) which 
 
 ### Client Component
 The client (also designed with node via browserify) runs a graphical simulation in a canvas depicting an isometric scene populated by objects and characters. The activity in the scene is dictated and influenced by the data received from the server component.
+
+Core client modules such as the renderer and input controller are loosely based on implementations found in [playground.js](http://playgroundjs.com/).
