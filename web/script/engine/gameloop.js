@@ -11,11 +11,6 @@ inherits(Game, EventEmitter);
 
 function Game(options) {
     this.step = options.step || 1000/60;
-    //this.canvas = document.getElementById(options.canvasId);
-    //this.context = this.canvas.getContext('2d');
-    //this.width = this.canvas.width = options.width;
-    //this.height = this.canvas.height = options.height;
-    //this.backgroundColor = options.backgroundColor;
     this.lastUpdate = 0;
     this.dt = 0;
     this.ticks = 0;
@@ -24,8 +19,8 @@ function Game(options) {
     this.interval = setInterval(function(){
         if(self.crashed) return;
         self.dt += now() - self.lastUpdate;
-        if(self.dt > 60000) {
-            console.log('too many updates missed! game crash');
+        if(self.lastUpdate > 0 && self.dt > 60000) {
+            console.log('too many updates missed! game crash...');
             self.crashed = true; self.paused = true;
         }
         if(self.dt > self.step) {
