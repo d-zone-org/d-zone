@@ -1,6 +1,6 @@
 {
   "name": "d-zone",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "An ambient life simulation driven by the user activity within a Discord server",
   "main": "index.js",
   "dependencies": {

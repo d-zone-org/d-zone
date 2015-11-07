@@ -45,14 +45,14 @@ Game.prototype.update = function() {
     this.emit('update',this.dt);
 };
 
-Game.prototype.bindCanvas = function(renderer) {
-    this.input.bindCanvas(renderer);
-    this.viewWidth = renderer.canvas.width;
-    this.viewHeight = renderer.canvas.height;
+Game.prototype.bindCanvas = function(canvas) {
+    this.input.bindCanvas(canvas);
+    this.viewWidth = canvas.width;
+    this.viewHeight = canvas.height;
     this.input.on('mousemove',this.mousemove.bind(this));
     this.input.on('mousedown',this.mousedown.bind(this));
     this.input.on('mouseup',this.mouseup.bind(this));
-    renderer.on('resize',this.viewResize.bind(this));
+    canvas.on('resize',this.viewResize.bind(this));
 };
 
 Game.prototype.viewResize = function(resize) {

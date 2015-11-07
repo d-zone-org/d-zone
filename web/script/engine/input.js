@@ -16,15 +16,12 @@ function Input() {
     document.addEventListener('keyup', this.keyup.bind(this));
 }
 
-Input.prototype.bindCanvas = function(renderer) {
-    this.canvas = renderer.canvas;
-    this.mouseScale = renderer.scale;
+Input.prototype.bindCanvas = function(canvas) {
+    this.canvas = canvas.canvas; // Canvas element
+    this.mouseScale = canvas.scale;
     this.canvas.addEventListener("mousemove", this.mousemove.bind(this));
     this.canvas.addEventListener("mousedown", this.mousedown.bind(this));
     this.canvas.addEventListener("mouseup", this.mouseup.bind(this));
-    this.canvas.addEventListener("contextmenu", function(e) {
-        e.preventDefault();
-    });
 };
 
 Input.prototype.mousemove = function(e) {
@@ -55,7 +52,7 @@ Input.prototype.mouseup = function(e) {
 
 Input.prototype.keydown = function(e) {
     var key = e.which >= 48 && e.which <= 90 ? 
-        String.fromCharCode(parseInt(e.which)).toLowerCase() : keycodes[e.which];
+        String.fromCharCode(parseInt(e.which)).toLowerCase() : keyCodes[e.which];
     if(this.keys[key]) return; // Ignore if key already held
     this.keys[key] = true;
     this.emit('keydown', { key: key });
@@ -63,13 +60,13 @@ Input.prototype.keydown = function(e) {
 
 Input.prototype.keyup = function(e) {
     var key = e.which >= 48 && e.which <= 90 ?
-        String.fromCharCode(parseInt(e.which)).toLowerCase() : keycodes[e.which];
+        String.fromCharCode(parseInt(e.which)).toLowerCase() : keyCodes[e.which];
     if(!this.keys[key]) return; // Ignore if key already up
     this.keys[key] = false;
     this.emit('keyup', { key: key });
 };
 
-var keycodes = {
+var keyCodes = {
     37: "left",
     38: "up",
     39: "right",

@@ -6,27 +6,9 @@ var inherits = require('inherits');
 module.exports = Renderer;
 inherits(Renderer, EventEmitter);
 
-function Renderer(options) {
+function Renderer(game) {
     console.log('Initializing renderer');
-    this.id = options.id;
-    this.game = options.game;
-    this.canvas = document.createElement('canvas');
-    document.body.appendChild(this.canvas);
-    this.context = this.canvas.getContext('2d');
-    this.scale = options.scale || 1;
-    if(options.width == 'auto') {
-        this.onResize();
-        window.addEventListener('resize',this.onResize.bind(this));
-    } else {
-        this.width = this.canvas.width = options.width * this.scale;
-        this.height = this.canvas.height = options.height * this.scale;
-    }
-    if(this.scale > 1) {
-        this.canvas.style.transform = 'scale(' + this.scale + ', ' + this.scale + ')';
-    }
-    this.context.mozImageSmoothingEnabled = false;
-    this.context.imageSmoothingEnabled = false;
-    this.backgroundColor = options.backgroundColor;
+    this.game = game;
     this.updateDrawn = false;
     
     var self = this;
@@ -36,9 +18,12 @@ function Renderer(options) {
     });
     var draw = function() {
         if(self.updateDrawn == false) {
-            self.context.fillStyle = self.backgroundColor;
-            self.context.fillRect(0, 0, self.width, self.height);
-            self.emit('draw', self.context);
+            if(self.canvases) {
+                for(var i = 0; i < self.canvases.length; i++) {
+                    self.canvases[i].draw();
+                    self.emit('draw', self.canvases[i].context);
+                }
+            }
             self.updateDrawn = true;
         }
         requestAnimationFrame(draw);
@@ -46,8 +31,8 @@ function Renderer(options) {
     requestAnimationFrame(draw);
 }
 
-Renderer.prototype.onResize = function() {
-    this.width = this.canvas.width = Math.ceil(window.innerWidth / this.scale);
-    this.height = this.canvas.height = Math.ceil(window.innerHeight / this.scale);
-    this.emit('resize',{ width:this.width, height: this.height })
+Renderer.prototype.addCanvas = function(canvas) {
+    canvas.renderer = this;
+    if(!this.canvases) this.canvases = [];
+    this.canvases.push(canvas);
 };
