@@ -23,6 +23,7 @@ function Game(options) {
     this.input.on('keyup',this.keyup.bind(this));
     this.centerMouseX = 0;
     this.centerMouseY = 0;
+    this.entities = [];
 
     var self = this;
     this.interval = setInterval(function(){

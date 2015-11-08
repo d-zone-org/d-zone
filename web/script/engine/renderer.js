@@ -9,7 +9,6 @@ inherits(Renderer, EventEmitter);
 function Renderer(options) {
     console.log('Initializing renderer');
     this.game = options.game;
-    this.tileSize = options.tileSize;
     this.updateDrawn = false;
     this.zBuffer = [];
     
@@ -22,11 +21,33 @@ function Renderer(options) {
     var draw = function() {
         if(self.updateDrawn == false) {
             if(self.canvases) {
-                for(var i = 0; i < self.canvases.length; i++) {
-                    self.canvases[i].draw();
-                    self.emit('draw', self.canvases[i]);
-                    for(var j = 0; j < self.zBuffer.length; j++) {
-                        self.zBuffer[j].emit('draw',self.canvases[i])
+                for(var pivot = 0; pivot < self.zBuffer.length;) {
+                    var new_pivot = false;
+                    for(var i = pivot; i < self.zBuffer.length; ++i) {
+                        var obj = self.zBuffer[i];
+                        var parent = true;
+                        for(var j = pivot; j < self.zBuffer.length; ++j) {
+                            if(j == i) continue;
+                            var obj2 = self.zBuffer[j];
+                            if(obj2.isBehind(obj)) {
+                                parent = false;
+                                break;
+                            }
+                        }
+                        if(parent) {
+                            self.zBuffer[i] = self.zBuffer[pivot];
+                            self.zBuffer[pivot] = obj;
+                            ++pivot;
+                            new_pivot = true;
+                        }
+                    }
+                    if(!new_pivot) ++pivot;
+                }
+                for(var c = 0; c < self.canvases.length; c++) {
+                    self.canvases[c].draw();
+                    self.emit('draw', self.canvases[c]);
+                    for(var z = 0; z < self.zBuffer.length; z++) {
+                        self.zBuffer[z].emit('draw',self.canvases[c])
                     }
                 }
             }
@@ -41,45 +62,4 @@ Renderer.prototype.addCanvas = function(canvas) {
     canvas.renderer = this;
     if(!this.canvases) this.canvases = [];
     this.canvases.push(canvas);
-};
-
-Renderer.prototype.addToZBuffer = function(entity) {
-    var nearness = entity.nearness();
-    // If zBuffer is empty or nearness matches/exceeds highest, add it to the end
-    if(this.zBuffer.length == 0 || nearness >= this.zBuffer[this.zBuffer.length-1].nearness()) { 
-        this.zBuffer.push(entity);
-        return;
-    }
-    for(var i = 0; i < this.zBuffer.length; i++) {
-        if(nearness <= this.zBuffer[i].nearness()) {
-            this.zBuffer.splice(i,0,entity);
-            return;
-        }
-    }
-    console.error('could not find spot in zBuffer!');
-};
-
-Renderer.prototype.updateZBuffer = function(entity) {
-    var oldIndex, newIndex = this.zBuffer.length-1;
-    var oldIndexFound, newIndexFound;
-    var nearness = entity.nearness();
-    for(var i = 0; i < this.zBuffer.length; i++) {
-        var thisNearness = this.zBuffer[i].nearness();
-        if(!oldIndexFound && this.zBuffer[i] === entity) {
-            oldIndex = i;
-            oldIndexFound = true;
-            if(newIndexFound) break;
-        }
-        if(nearness <= thisNearness) {
-            newIndex = i;
-            newIndexFound = true;
-            if(oldIndexFound) break;
-        }
-    }
-    
-    if(oldIndexFound) {
-        if(oldIndex != newIndex) this.zBuffer.splice(newIndex, 0, this.zBuffer.splice(oldIndex,1)[0]);
-    } else { // If entity not in zBuffer, add it
-        this.addToZBuffer(entity);
-    }
 };

@@ -11,16 +11,13 @@ function Entity() {
 
 Entity.prototype.addToGame = function(game) {
     this.game = game;
-    if(!this.game.entities) {
-        this.game.entities = [];
-    }
     this.game.entities.push(this);
     if(!this.game.findEntity) this.game.findEntity = this.findEntity;
     var self = this;
     this.game.on('update', function(interval) {
         self.emit('update', interval);
     });
-    this.game.renderer.addToZBuffer(this);
+    this.game.renderer.zBuffer.push(this);
     this.exists = true;
 };
 
@@ -43,8 +40,4 @@ Entity.prototype.findEntity = function(entity, callback){
             callback(true, this.game.entities, i);
         }
     }
-};
-
-Entity.prototype.nearness = function() {
-    return 10000;
 };

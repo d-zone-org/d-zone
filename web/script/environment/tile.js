@@ -10,17 +10,15 @@ var spriteHeight = 18;
 var sheet = new Sheet({
     tile: { x: spriteX, y: spriteY, width: spriteWidth, height: spriteHeight }
 });
-var origin = { x: 17, y: 8 };
 
 module.exports = Tile;
 inherits(Tile, WorldObject);
 
 function Tile(x,y,z) {
-    var tile = new WorldObject({position:{x:x,y:y,z:z}});
+    var tile = new WorldObject({position:{x:x,y:y,z:z},size:{x:16,y:16,z:1}});
     tile.on('draw',function(canvas) {
         if(!sheet.sprite.loaded) return;
-        canvas.drawImageIso(sheet.sprite.img,spriteX,spriteY,spriteWidth,spriteHeight,origin,
-            tile.position.x,tile.position.y,tile.position.z);
+        canvas.drawImageIso(sheet.sprite.img,spriteX,spriteY,spriteWidth,spriteHeight,tile);
     });
     return tile;
 }

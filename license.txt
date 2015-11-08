@@ -1,0 +1,6 @@
+D-Zone
+Copyright 2015 Devin Spikowski
+Distributed under the Boost Software License, Version 1.0.
+http://www.boost.org/LICENSE_1_0.txt
+
+Portions of isometric programming (depth sorting, volumetric object functions) adapted without permission from Joaquín M López Muñoz under the above license.
