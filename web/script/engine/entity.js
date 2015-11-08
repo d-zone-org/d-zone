@@ -20,9 +20,7 @@ Entity.prototype.addToGame = function(game) {
     this.game.on('update', function(interval) {
         self.emit('update', interval);
     });
-    this.game.renderer.on('draw', function(context) {
-        self.emit('draw', context);
-    });
+    this.game.renderer.addToZBuffer(this);
     this.exists = true;
 };
 
@@ -45,4 +43,8 @@ Entity.prototype.findEntity = function(entity, callback){
             callback(true, this.game.entities, i);
         }
     }
+};
+
+Entity.prototype.nearness = function() {
+    return 10000;
 };

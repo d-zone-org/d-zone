@@ -1,6 +1,7 @@
 'use strict';
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
+var Isometric = require('./../common/isometric.js');
 
 module.exports = Canvas;
 inherits(Canvas, EventEmitter);
@@ -39,10 +40,19 @@ function Canvas(options) {
     this.canvas.addEventListener("contextmenu", function(e) {
         e.preventDefault();
     });
+    this.iso = new Isometric(options.game.renderer.tileSize);
 }
 
 Canvas.prototype.onResize = function() {
-    // TODO: Change scale based on window size
+    // TODO: Scale based on world size
+    if(window.innerWidth < 970 || window.innerHeight < 515) {
+        this.scale = 1;
+    } else if(window.innerWidth < 1450 || window.innerHeight < 770) {
+        this.scale = 2;
+    } else {
+        this.scale = 3;
+    }
+    this.canvas.style.transform = 'scale(' + this.scale + ', ' + this.scale + ')';
     this.width = this.canvas.width = Math.ceil(window.innerWidth / this.scale);
     this.height = this.canvas.height = Math.ceil(window.innerHeight / this.scale);
     this.emit('resize',{ width: this.width, height: this.height })
@@ -51,4 +61,24 @@ Canvas.prototype.onResize = function() {
 Canvas.prototype.draw = function() {
     this.context.fillStyle = this.backgroundColor;
     this.context.fillRect(0, 0, this.width, this.height);
+};
+
+Canvas.prototype.fillIso = function(x,y,z,w,h) {
+    var screen = this.iso.toScreen({x:x,y:y,z:z});
+    if(this.autosize) {
+        screen.x += this.width/2;
+        screen.y += this.height/2;
+    }
+    this.context.fillRect(Math.floor(screen.x),Math.floor(screen.y),w,h);
+};
+
+Canvas.prototype.drawImageIso = function(img,ix,iy,iw,ih,origin,dx,dy,dz) {
+    var screen = this.iso.toScreen({x:dx,y:dy,z:dz});
+    screen.x -= origin.x;
+    screen.y -= origin.y;
+    if(this.autosize) {
+        screen.x += this.width/2;
+        screen.y += this.height/2;
+    }
+    this.context.drawImage(img,ix,iy,iw,ih,Math.floor(screen.x),Math.floor(screen.y),iw,ih);
 };

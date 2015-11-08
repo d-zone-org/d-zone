@@ -11,6 +11,7 @@ module.exports = Game;
 inherits(Game, EventEmitter);
 
 function Game(options) {
+    this.setMaxListeners(0);
     console.log('Initializing game loop');
     this.step = options.step || 1000/60;
     this.lastUpdate = 0;
