@@ -13,6 +13,7 @@ game.renderer.addCanvas(canvas);
 game.bindCanvas(canvas);
 
 var Tile = require('./script/environment/tile.js');
+var Block = require('./script/environment/block.js');
 var HalfBlock = require('./script/environment/halfblock.js');
 var Actor = require('./script/actors/actor.js');
 //var centerBlock = new HalfBlock(0,0,0);
@@ -40,7 +41,8 @@ for(var tx = 0; tx < worldSize; tx++) for(var ty = 0; ty < worldSize; ty++) {
             //actor.emit('impulse');
         }
     } else {
-        grid = new HalfBlock(x*gridSize,y*gridSize,0);
+        grid = Math.random() < (radius - 64) / 15 ? 
+            new Block(x*gridSize,y*gridSize,0) : new HalfBlock(x*gridSize,y*gridSize,0);
     }
     grid.addToGame(game);
 }

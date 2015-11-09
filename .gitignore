@@ -50,7 +50,7 @@ CFDump.php
 db.class.php
 db-live.class.php
 bot.json
-reference
+reference/*
 
 # Config
 config.json

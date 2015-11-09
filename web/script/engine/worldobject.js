@@ -100,3 +100,7 @@ WorldObject.prototype.supports = function(obj) {
             obj.position.y - obj.size.y/2, obj.position.y + obj.size.y/2
         );
 };
+
+WorldObject.prototype.getSprite = function() {
+    // Return generic sprite
+};

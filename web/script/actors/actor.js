@@ -1,26 +1,25 @@
 'use strict';
 var inherits = require('inherits');
+var Geometry = require('./../common/geometry.js');
+var util = require('./../common/util.js');
 var WorldObject = require('./../engine/worldobject.js');
 var Sheet = require('./sheet.js');
 var Wander = require('./behaviors/wander.js');
-
-var spriteX = 0;
-var spriteY = 0;
-var spriteWidth = 14;
-var spriteHeight = 14;
-var sheet = new Sheet({
-    actor: { x: spriteX, y: spriteY, width: spriteWidth, height: spriteHeight }
-});
 
 module.exports = Actor;
 inherits(Actor, WorldObject);
 
 function Actor(x,y,z) {
-    var actor = new WorldObject({position:{x:x,y:y,z:z},size:{x:6.5,y:6.5,z:8}});
+    var actor = new WorldObject({position:{x:x,y:y,z:z},size:{x:7,y:7,z:8}});
+    this.object = actor;
+    actor.sheet = new Sheet('actor');
+    actor.getSprite = function() {
+        return actor.sheet.map[actor.facing];
+    };
     actor.on('draw',function(canvas) {
-        if(!sheet.sprite.loaded) return;
-        canvas.drawImageIso(sheet.sprite.img,spriteX,spriteY,spriteWidth,spriteHeight,actor);
+        canvas.drawImageIso(actor);
     });
+    actor.facing = util.pickInObject(Geometry.DIRECTIONS);
     actor.behaviors = [new Wander(actor)];
     function newImpulse() {
         if(actor.stopped()) actor.emit('impulse');

@@ -61,12 +61,18 @@ Canvas.prototype.draw = function() {
     this.context.fillRect(0, 0, this.width, this.height);
 };
 
-Canvas.prototype.drawImageIso = function(img,ix,iy,iw,ih,obj) {
-    var screen = obj.toScreen();
+Canvas.prototype.drawImageIso = function(obj) {
+    if(!obj.sheet || !obj.sheet.image.loaded) return;
+    var screen = obj.toScreen(), sprite = obj.getSprite();
     if(this.autosize) {
         screen.x += this.width/2;
         screen.y += this.height/2;
     }
+    if(sprite.offset) {
+        screen.x += sprite.offset.x;
+        screen.y += sprite.offset.y;
+    }
     // TODO: Lock all sprites to 2:1 grid to prevent jittery movement?
-    this.context.drawImage(img,ix,iy,iw,ih,Math.round(screen.x),Math.round(screen.y),iw,ih);
+    this.context.drawImage(obj.sheet.image.img,sprite.x,sprite.y,sprite.width,sprite.height,
+        Math.round(screen.x),Math.round(screen.y),sprite.width,sprite.height);
 };
