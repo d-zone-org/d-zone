@@ -8,6 +8,21 @@ This is not meant for any actual monitoring or diagnostics, only an experiment i
 
 Hopefully the simulation is interesting to watch.
 
+## Installation
+This project is still **very early in development**, so there isn't much point in running it yet. But in case you're curious, here's what you need to do:
+
+`npm install d-zone`
+
+Contained in the package are the server files and client files.
+
+Rename `config-example.json` to `config.json` and insert the login and server info for your Discord server and websocket server.
+
+Start the server with `npm run-script start` or just `node index.js`
+
+The client files are all contained within the `web` folder, and need to be built with `npm run-script build` or `npm run-script watch`
+
+If everything works, the client should load the world, and receive websocket data from the server.
+
 ## Design
 
 The game's modular architecture is currently loosely based on [crtrdg](http://crtrdg.com/).

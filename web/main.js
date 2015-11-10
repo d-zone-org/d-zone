@@ -70,6 +70,7 @@ ws.on('data',function(data){
     }
 });
 ws.on('connect', function(){console.log('Websocket connected');});
+ws.on('disconnect', function(){console.log('Websocket disconnected');});
 ws.on('error', function(err){console.log('error',err);});
 
 ws.broadcast = function broadcast(data) {

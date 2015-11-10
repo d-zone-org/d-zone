@@ -1,0 +1,13 @@
+{
+  "discord":
+  {
+    "email": "test@example.com",
+    "password": "password",
+    "serverID": "123456789"
+  },
+  "server":
+  {
+    "address": "192.168.0.1",
+    "port": "3000"
+  }
+}
