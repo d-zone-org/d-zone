@@ -53,9 +53,12 @@ WorldObject.prototype.move = function(velocity) {
 };
 
 WorldObject.prototype.toScreen = function() {
+    // Lock visual position to 2x2 grid to avoid jittery movement
+    var roundedX = Math.round(this.position.x / 2)*2;
+    var roundedY = Math.round(this.position.y / 2)*2;
     return {
-        x: this.position.x - this.size.x / 2 - this.position.y - this.size.y / 2,
-        y: (this.position.x - this.size.x / 2 + this.position.y - this.size.y / 2) / 2 - this.position.z - this.size.z
+        x: roundedX - this.size.x / 2 - roundedY - this.size.y / 2,
+        y: (roundedX - this.size.x / 2 + roundedY - this.size.y / 2) / 2 - this.position.z - this.size.z
     };
 };
 

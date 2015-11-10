@@ -51,6 +51,7 @@ db.class.php
 db-live.class.php
 bot.json
 reference/*
+web/static
 
 # Config
 config.json

@@ -35,11 +35,10 @@ for(var tx = 0; tx < worldSize; tx++) for(var ty = 0; ty < worldSize; ty++) {
     var grid;
     if(radius < 64 && Math.random() < (80 - radius)/70) {
         grid = new Tile(x*gridSize,y*gridSize,0);
-        if(Math.random() < 0.1) {
-            var actor = new Actor(x*gridSize,y*gridSize,grid.size.z);
-            actor.addToGame(game);
-            //actor.emit('impulse');
-        }
+        //if(Math.random() < 0.1) {
+        //    var actor = new Actor(x*gridSize,y*gridSize,grid.size.z);
+        //    actor.addToGame(game);
+        //}
     } else {
         grid = Math.random() < (radius - 64) / 15 ? 
             new Block(x*gridSize,y*gridSize,0) : new HalfBlock(x*gridSize,y*gridSize,0);
@@ -52,6 +51,32 @@ console.log('Game initialized!');
 game.on('update', function (interval) {
     // Update
 });
+var config = JSON.parse(require('fs').readFileSync('./config.json'));
+console.log('Initializing websocket on port',config.server.port);
+var WebSocket = require('websocket-stream'),
+    ws = WebSocket('ws://'+config.server.address+':'+config.server.port);
+ws.write(new Buffer(JSON.stringify('im a client!')));
+ws.on('data',function(data){
+    data = JSON.parse(data);
+    console.log('Websocket data:',data);
+    
+    if(data[0].status) { // If server status
+        console.log('Initializing actors');
+        for(var i = 0; i < data.length; i++) {
+            var actor = new Actor(Math.floor(i-data.length/2)*8,0,1);
+            actor.id = i;
+            actor.addToGame(game);
+        }
+    }
+});
+ws.on('connect', function(){console.log('Websocket connected');});
+ws.on('error', function(err){console.log('error',err);});
+
+ws.broadcast = function broadcast(data) {
+    ws.clients.forEach(function each(client) {
+        client.send(data, function(err) { console.error(err); });
+    });
+};
 
 window.pause = function() { game.paused = true; };
 window.unpause = function() { game.paused = false; };

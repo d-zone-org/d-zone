@@ -1,6 +1,6 @@
 {
   "name": "d-zone",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "An ambient life simulation driven by the user activity within a Discord server",
   "main": "index.js",
   "dependencies": {
@@ -8,16 +8,18 @@
     "discord.io": "^1.4.1",
     "inherits": "^2.0.1",
     "raf": "^3.1.0",
-    "websocket": "^1.0.22"
+    "websocket-stream": "^2.1.0",
+    "ws": "^0.8.0"
   },
   "devDependencies": {
+    "brfs": "^1.4.1",
     "browserify": "latest",
     "watchify": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify web/main.js -o web/static/bundle.js",
-    "watch": "watchify web/main.js -d -o web/static/bundle.js -v"
+    "build": "browserify web/main.js -t brfs -o web/static/bundle.js",
+    "watch": "watchify web/main.js -t brfs -d -o web/static/bundle.js -v"
   },
   "repository": {
     "type": "git",

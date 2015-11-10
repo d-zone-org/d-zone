@@ -15,7 +15,7 @@ function Wander(actor) {
             self.heading = util.pickInObject(Geometry.DIRECTIONS);
         }
         self.actor.velocity = {
-            x: Geometry.DIRECTIONS[self.heading].x, y: Geometry.DIRECTIONS[self.heading].y, z: 0
+            x: Geometry.DIRECTIONS[self.heading].x/4, y: Geometry.DIRECTIONS[self.heading].y/4, z: 0
         };
         self.actor.facing = self.heading;
         self.state = 'moving';
