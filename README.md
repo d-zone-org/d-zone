@@ -2,7 +2,7 @@
 An _ambient life simulation_ driven by the user activity within a [Discord](https://discordapp.com) server
 
 ## Concept
-**D-Zone** is a simulation game meant to abstractly represent what's happening in your Discord server.
+**D-Zone** is a graphical simulation meant to abstractly represent what's happening in your Discord server.
 
 This is not meant for any actual monitoring or diagnostics, only an experiment in the abstraction of chatroom data represented via autonomous characters in a scene.
 

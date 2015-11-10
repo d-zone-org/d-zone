@@ -9,17 +9,6 @@ function Wander(actor) {
     this.state = 'idle';
     
     var self = this;
-    this.actor.on('impulse', function() {
-        if(self.state != 'idle') return;
-        if(!self.heading) {
-            self.heading = util.pickInObject(Geometry.DIRECTIONS);
-        }
-        self.actor.velocity = {
-            x: Geometry.DIRECTIONS[self.heading].x/4, y: Geometry.DIRECTIONS[self.heading].y/4, z: 0
-        };
-        self.actor.facing = self.heading;
-        self.state = 'moving';
-    });
     this.actor.on('collision', function() {
         if(self.state == 'moving') {
             self.state = 'idle';
@@ -27,3 +16,15 @@ function Wander(actor) {
         }
     });
 }
+
+Wander.prototype.impulse = function() {
+    if(this.state != 'idle') return;
+    if(!this.heading) {
+        this.heading = util.pickInObject(Geometry.DIRECTIONS);
+    }
+    this.actor.velocity = {
+        x: Geometry.DIRECTIONS[this.heading].x/4, y: Geometry.DIRECTIONS[this.heading].y/4, z: 0
+    };
+    this.actor.facing = this.heading;
+    this.state = 'moving';
+};

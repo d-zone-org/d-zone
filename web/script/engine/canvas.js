@@ -43,9 +43,9 @@ function Canvas(options) {
 
 Canvas.prototype.onResize = function() {
     // TODO: Scale based on world size
-    if(window.innerWidth < 910 || window.innerHeight < 490) {
+    if(window.innerWidth < 835 || window.innerHeight < 455) {
         this.scale = 1;
-    } else if(window.innerWidth < 1355 || window.innerHeight < 740) {
+    } else if(window.innerWidth < 1255 || window.innerHeight < 680) {
         this.scale = 2;
     } else {
         this.scale = 3;
@@ -66,13 +66,12 @@ Canvas.prototype.drawImageIso = function(obj) {
     var screen = obj.toScreen(), sprite = obj.getSprite();
     if(this.autosize) {
         screen.x += this.width/2;
-        screen.y += this.height/2;
+        screen.y += this.height/2 + 8;
     }
     if(sprite.offset) {
         screen.x += sprite.offset.x;
         screen.y += sprite.offset.y;
     }
-    // TODO: Lock all sprites to 2:1 grid to prevent jittery movement?
     this.context.drawImage(obj.sheet.image.img,sprite.x,sprite.y,sprite.width,sprite.height,
         Math.round(screen.x),Math.round(screen.y),sprite.width,sprite.height);
 };

@@ -20,16 +20,42 @@ function Inbox(config) {
         //console.log('message received:',message);
         self.emit('test',message);
     });
-
+    bot.on('presence', function(user, userID, status, rawEvent) {
+        var presence = { type: 'presence', data: { uid: userID, status: status } };
+        self.emit('presence',presence);
+    });
+    
     bot.on("ready", function(rawEvent) {
         console.log(new Date(),"Logged in as: "+bot.username + " - (" + bot.id + ")");
         setTimeout(function() {
+            self.server = bot.servers[config.get('discord.serverID')];
             require('fs').writeFileSync('./bot.json', JSON.stringify(bot, null, '\t'));
         }, 2000);
+    });
+    bot.on("disconnected", function() {
+        console.log("Bot disconnected, reconnecting");
+        bot.connect(); //Auto reconnect
     });
     this.msgQueue = [];
     this.sending = false;
 }
+
+Inbox.prototype.getUsers = function() {
+    var online = {};
+    for(var uid in this.server.members) { if(!this.server.members.hasOwnProperty(uid)) continue;
+        online[uid] = this.server.members[uid];
+    }
+    return online;
+};
+
+Inbox.prototype.getUsersOnline = function() {
+    var online = {};
+    for(var uid in this.server.members) { if(!this.server.members.hasOwnProperty(uid)) continue;
+        if(!this.server.members[uid].status || this.server.members[uid].status == 'offline') continue;
+        online[uid] = this.server.members[uid];
+    }
+    return online;
+};
 
 Inbox.prototype.sendMessages = function(ID, messageArr, callback) {
     for(var i = 0; i < messageArr.length; i++) { // Add messages to buffer

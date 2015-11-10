@@ -8,8 +8,9 @@ var inbox = new Inbox(config);
 
 var WebSock = require('./script/websock.js');
 var webSock = new WebSock(function(socket) {
-    // Send current server status to set up initial client state
-    socket.send(JSON.stringify(inbox.bot.servers[config.get('discord.serverID')].presences));
+    // Send list of current online users to set up initial client state
+    socket.send(JSON.stringify({ type:'init', data:inbox.getUsers() }));
 });
 
 inbox.on('test',webSock.sendData.bind(webSock));
+inbox.on('presence',webSock.sendData.bind(webSock));

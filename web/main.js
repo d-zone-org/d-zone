@@ -3,7 +3,6 @@ var Game = require('./script/engine/game.js');
 var Renderer = require('./script/engine/renderer.js');
 var Canvas = require('./script/engine/canvas.js');
 
-var gridSize = 16;
 var game = new Game({ step: 1000 / 60 });
 game.renderer = new Renderer({ game: game });
 var canvas = new Canvas({
@@ -12,9 +11,6 @@ var canvas = new Canvas({
 game.renderer.addCanvas(canvas);
 game.bindCanvas(canvas);
 
-var Tile = require('./script/environment/tile.js');
-var Block = require('./script/environment/block.js');
-var HalfBlock = require('./script/environment/halfblock.js');
 var Actor = require('./script/actors/actor.js');
 //var centerBlock = new HalfBlock(0,0,0);
 //centerBlock.addToGame(game);
@@ -27,24 +23,12 @@ var Actor = require('./script/actors/actor.js');
 //    mouseBlock.position.x = iso.x;
 //    mouseBlock.position.y = iso.y;
 //});
-var worldSize = 17;
-for(var tx = 0; tx < worldSize; tx++) for(var ty = 0; ty < worldSize; ty++) {
-    var x = tx-(worldSize-1)/2, y = ty-(worldSize-1)/2;
-    var radius = x*x+y*y;
-    if(radius > 97) continue;
-    var grid;
-    if(radius < 64 && Math.random() < (80 - radius)/70) {
-        grid = new Tile(x*gridSize,y*gridSize,0);
-        //if(Math.random() < 0.1) {
-        //    var actor = new Actor(x*gridSize,y*gridSize,grid.size.z);
-        //    actor.addToGame(game);
-        //}
-    } else {
-        grid = Math.random() < (radius - 64) / 15 ? 
-            new Block(x*gridSize,y*gridSize,0) : new HalfBlock(x*gridSize,y*gridSize,0);
-    }
-    grid.addToGame(game);
-}
+
+var World = require('./script/environment/world.js');
+var world = new World(game,16,17);
+
+var Users = require('./script/actors/users.js');
+var users = new Users(game,world);
 
 console.log('Game initialized!');
 
@@ -58,15 +42,19 @@ var WebSocket = require('websocket-stream'),
 ws.write(new Buffer(JSON.stringify('im a client!')));
 ws.on('data',function(data){
     data = JSON.parse(data);
-    console.log('Websocket data:',data);
-    
-    if(data[0].status) { // If server status
-        console.log('Initializing actors');
-        for(var i = 0; i < data.length; i++) {
-            var actor = new Actor(Math.floor(i-data.length/2)*8,0,1);
-            actor.id = i;
+    if(data.type == 'init') { // Initial server status
+        console.log('Initializing actors',data.data);
+        for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
+            var actor = new Actor(0,0,0);
+            actor.uid = data.data[uid].user.id;
+            actor.updatePresence(data.data[uid].status);
+            users.addActor(actor);
             actor.addToGame(game);
         }
+    } else if(data.type == 'presence') { // User status update
+        users.actors[data.data.uid].updatePresence(data.data.status);
+    } else {
+        console.log('Websocket data:',data);
     }
 });
 ws.on('connect', function(){console.log('Websocket connected');});
