@@ -1,20 +1,23 @@
 'use strict';
 var inherits = require('inherits');
+var util = require('./../common/util.js');
 var WorldObject = require('./../engine/worldobject.js');
 var Sheet = require('./sheet.js');
 
 module.exports = HalfBlock;
 inherits(HalfBlock, WorldObject);
 
-function HalfBlock(x,y,z) {
-    var halfBlock = new WorldObject({position:{x:x,y:y,z:z},size:{x:16,y:16,z:9}});
-    this.object = halfBlock;
-    halfBlock.sheet = new Sheet('halfBlock');
-    halfBlock.getSprite = function() {
-        return halfBlock.sheet.map;
-    };
-    halfBlock.on('draw',function(canvas) {
-        canvas.drawImageIso(halfBlock);
+function HalfBlock(style,x,y,z) {
+    WorldObject.call(this, {position:{x:x,y:y,z:z},size:{x:16,y:16,z:9}});
+    var self = this;
+    this.style = style;
+    this.sheet = new Sheet('halfBlock');
+    this.variation = util.randomIntRange(0,this.sheet.map[this.style].length-1);
+    this.on('draw',function(canvas) {
+        canvas.drawImageIso(self);
     });
-    return halfBlock;
 }
+
+HalfBlock.prototype.getSprite = function() {
+    return this.sheet.map[this.style][this.variation];
+};

@@ -23,14 +23,14 @@ function World(game,gridSize,worldSize) {
         if(radius > maxRadius) continue;
         var grid;
         if(radius < 64 && Math.random() < (80 - radius)/70) {
-            grid = new Tile(x*gridSize,y*gridSize,0);
+            grid = new Tile('grass',x*gridSize,y*gridSize,0);
             //if(Math.random() < 0.1) {
             //    var actor = new Actor(x*gridSize,y*gridSize,grid.size.z);
             //    actor.addToGame(game);
             //}
         } else {
             grid = Math.random() < (radius - 64) / 15 ?
-                new Block(x*gridSize,y*gridSize,0) : new HalfBlock(x*gridSize,y*gridSize,0);
+                new Block('plain',x*gridSize,y*gridSize,0) : new HalfBlock('plain',x*gridSize,y*gridSize,0);
         }
         this.map[x+':'+y] = grid;
         grid.addToGame(game);

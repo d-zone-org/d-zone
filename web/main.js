@@ -44,13 +44,16 @@ ws.on('data',function(data){
     data = JSON.parse(data);
     if(data.type == 'init') { // Initial server status
         console.log('Initializing actors',data.data);
+        var actorCount = 0;
         for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
             var actor = new Actor(0,0,0);
             actor.uid = data.data[uid].user.id;
             actor.updatePresence(data.data[uid].status);
             users.addActor(actor);
             actor.addToGame(game);
+            actorCount++;
         }
+        console.log((actorCount).toString()+' actors created');
     } else if(data.type == 'presence') { // User status update
         users.actors[data.data.uid].updatePresence(data.data.status);
     } else {

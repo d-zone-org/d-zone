@@ -18,12 +18,16 @@ function Actor(x,y,z) {
     });
     this.presence = 'offline';
     this.facing = util.pickInObject(Geometry.DIRECTIONS);
+    this.behaviors = [];
     setTimeout(this.newImpulse.bind(this),Math.random() * 3000);
 }
 
 Actor.prototype.updatePresence = function(presence) {
     this.presence = presence ? presence : 'offline';
     if(this.presence == 'offline' || this.presence == 'idle') {
+        for(var i = 0; i < this.behaviors.length; i++) {
+            this.behaviors[i].detach();
+        }
         this.behaviors = [];
         this.velocity = { x: 0, y: 0, z: 0 };
     } else {
