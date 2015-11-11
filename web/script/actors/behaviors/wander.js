@@ -8,7 +8,7 @@ function Wander(actor) {
     this.actor = actor;
     this.state = 'idle';
     this.listeners = [];
-
+    
     this.addListener(this.actor,'collision', function() {
         if(this.state == 'moving') {
             this.state = 'idle';
@@ -18,7 +18,7 @@ function Wander(actor) {
 }
 
 Wander.prototype.impulse = function() {
-    if(this.state != 'idle') return;
+    if(this.state != 'idle') return; // Maybe just replace this with a velocity check
     if(!this.heading) {
         this.heading = util.pickInObject(Geometry.DIRECTIONS);
     }
@@ -35,8 +35,8 @@ Wander.prototype.addListener = function(emitter, event, handler) {
 };
 
 Wander.prototype.detach = function() { // Detach behavior from actor
-    for(var i = 0; i < this.listeners; i++) {
-        this.listeners[i].emitter.removeEventListener(this.listeners[i].event,this.listeners[i].handler);
+    for(var i = 0; i < this.listeners.length; i++) {
+        this.listeners[i].emitter.removeListener(this.listeners[i].event,this.listeners[i].handler);
     }
     delete this.actor;
     delete this.listeners;

@@ -57,7 +57,7 @@ ws.on('data',function(data){
     } else if(data.type == 'presence') { // User status update
         users.actors[data.data.uid].updatePresence(data.data.status);
     } else {
-        console.log('Websocket data:',data);
+        //console.log('Websocket data:',data);
     }
 });
 ws.on('connect', function(){console.log('Websocket connected');});

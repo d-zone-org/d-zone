@@ -17,9 +17,7 @@ function Tile(style,x,y,z) {
     } else {
         this.variation = util.randomIntRange(0,1);
     }
-    this.on('draw',function(canvas) {
-        canvas.drawImageIso(self);
-    });
+    this.on('draw',function(canvas) { canvas.drawImageIso(self); });
 }
 
 Tile.prototype.getSprite = function() {

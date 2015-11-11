@@ -30,9 +30,11 @@ Actor.prototype.updatePresence = function(presence) {
         }
         this.behaviors = [];
         this.velocity = { x: 0, y: 0, z: 0 };
-    } else {
-        this.behaviors = [new Wander(this)];
+    } else if(this.behaviors.length == 0) { // If coming online and have no behaviors already
+        this.behaviors.push(new Wander(this));
     }
+    if(this.behaviors.length > 1) console.error('>1 behavior!',this.presence,this);
+    if(this.listenerCount > 1) console.error('>1 listener!',this.presence,this);
 };
 
 Actor.prototype.getSprite = function() {

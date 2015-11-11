@@ -10,7 +10,7 @@ function Users(game,world) {
 }
 
 Users.prototype.addActor = function(actor) {
-    var grid = this.world.randomEmptyGrid();
+    var grid = this.world.randomEmptyGrid(actor);
     actor.position = {
         x: grid.x * this.world.gridSize,
         y: grid.y * this.world.gridSize,

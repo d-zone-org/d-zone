@@ -6,7 +6,7 @@ An _ambient life simulation_ driven by the user activity within a [Discord](http
 
 This is not meant for any actual monitoring or diagnostics, only an experiment in the abstraction of chatroom data represented via autonomous characters in a scene.
 
-Hopefully the simulation is interesting to watch.
+Hopefully the simulation is interesting to watch. You can see the current (uninteresting) client version running for my server here: http://pixelatomy.com/dzone/
 
 ## Installation
 This project is still **very early in development**, so there isn't much point in running it yet. But in case you're curious, here's what you need to do:

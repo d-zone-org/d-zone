@@ -13,9 +13,7 @@ function HalfBlock(style,x,y,z) {
     this.style = style;
     this.sheet = new Sheet('halfBlock');
     this.variation = util.randomIntRange(0,this.sheet.map[this.style].length-1);
-    this.on('draw',function(canvas) {
-        canvas.drawImageIso(self);
-    });
+    this.on('draw',function(canvas) { canvas.drawImageIso(self); });
 }
 
 HalfBlock.prototype.getSprite = function() {

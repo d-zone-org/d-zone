@@ -40,7 +40,9 @@ function World(game,gridSize,worldSize) {
 
 World.prototype.randomGrid = function() {
     var self = this;
-    function randomRange() { return util.randomIntRange(self.worldRadius*-1-1,self.worldRadius-1); }
+    function randomRange() { 
+        return util.randomIntRange(self.worldRadius*-1,self.worldRadius); 
+    }
     var x = randomRange(), y = randomRange();
     while(!this.map[x+':'+y]) {
         x = randomRange();
@@ -49,12 +51,34 @@ World.prototype.randomGrid = function() {
     return { x: x, y: y };
 };
 
-World.prototype.randomEmptyGrid = function() {
-    var grid = this.randomGrid();
+World.prototype.randomEmptyGrid = function(obj) {
+    var self = this;
+    function buildTestObject(grid) {
+        return {
+            position: {
+                x: grid.x * self.gridSize,
+                y: grid.y * self.gridSize,
+                z: self.map[grid.x+':'+grid.y].size.z
+            },
+            size: { x: obj.size.x, y: obj.size.y, z: obj.size.z }
+        }
+    }
     var safety = 0;
-    while(safety < 1000 && this.map[grid.x+':'+grid.y].size.z > 1) {
-        grid = this.randomGrid();
+    do {
+        var grid = this.randomGrid();
+        var testObj = obj ? buildTestObject(grid) : null;
+        var unoccupied = testObj ? !this.checkCollision(testObj) : true;
         safety++;
     }
+    while(safety < 1000 && (this.map[grid.x+':'+grid.y].size.z > 1 || !unoccupied));
     return grid;
+};
+
+World.prototype.checkCollision = function(obj) {
+    for(var i = 0; i < this.game.entities.length; i++) {
+        if(this.game.entities[i].hasOwnProperty('variation')) continue; // Skip environment tiles
+        if(!this.game.entities[i].size || obj === this.game.entities[i]) continue;
+        if(this.game.entities[i].overlaps(obj)) return true;
+    }
+    return false;
 };
