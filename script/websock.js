@@ -3,9 +3,9 @@ var DateFormat = require('dateformat');
 
 module.exports = WebSock;
 
-function WebSock(onConnect) {
+function WebSock(config,onConnect) {
     var WSServer = require('ws').Server;
-    var wss = new WSServer({port:8970});
+    var wss = new WSServer({port:config.get('server.port')});
     this.wss = wss;
     wss.on('connection', function (socket) {
         console.log(DateFormat(new Date(),
