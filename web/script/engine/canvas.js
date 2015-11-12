@@ -62,16 +62,18 @@ Canvas.prototype.draw = function() {
 };
 
 Canvas.prototype.drawImageIso = function(obj) {
-    if(!obj.sheet || !obj.sheet.image.loaded) return;
-    var screen = obj.toScreen(), sprite = obj.getSprite();
+    if(!obj.sheet) return;
+    var sprite = obj.getSprite();
+    if(!sprite.image) return;
+    var screen = obj.toScreen();
     if(this.autosize) {
         screen.x += this.width/2;
         screen.y += this.height/2 + 8;
     }
-    if(sprite.offset) {
-        screen.x += sprite.offset.x;
-        screen.y += sprite.offset.y;
+    if(sprite.metrics.offset) {
+        screen.x += sprite.metrics.offset.x;
+        screen.y += sprite.metrics.offset.y;
     }
-    this.context.drawImage(obj.sheet.image.img,sprite.x,sprite.y,sprite.w,sprite.h,
-        Math.round(screen.x),Math.round(screen.y),sprite.w,sprite.h);
+    this.context.drawImage(sprite.image,sprite.metrics.x,sprite.metrics.y,sprite.metrics.w,sprite.metrics.h,
+        Math.round(screen.x),Math.round(screen.y),sprite.metrics.w,sprite.metrics.h);
 };

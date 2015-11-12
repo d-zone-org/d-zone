@@ -24,11 +24,18 @@ var map = {
         ]
     }
 };
-var image = new SpriteSheet('environment.png', map);
+var image = new SpriteSheet('environment.png');
+image.once('loaded',function(canvas) {
+    image.img = canvas;
+});
 
 module.exports = Sheet;
 
-function Sheet(sprite) {
-    this.image = image;
-    this.map = map[sprite];
+function Sheet(spriteName) {
+    this.map = JSON.parse(JSON.stringify(map[spriteName]));
 }
+
+Sheet.prototype.getSprite = function() {
+    if(!image.img) return;
+    return image.img;
+};

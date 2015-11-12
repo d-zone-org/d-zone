@@ -17,12 +17,16 @@ function Tile(style,x,y,z) {
     } else {
         this.variation = util.randomIntRange(0,1);
     }
-    this.march = 0;
     this.on('draw',function(canvas) { canvas.drawImageIso(self); });
 }
 
 Tile.prototype.getSprite = function() {
-    var tile = JSON.parse(JSON.stringify(this.sheet.map[this.style][this.variation]));
-    tile.x += this.march * tile.w;
-    return tile;
+    return {
+        metrics: this.sheet.map[this.style][this.variation],
+        image: this.sheet.getSprite()
+    }
+};
+
+Tile.prototype.setMarch = function(march) {
+    this.sheet.map[this.style][this.variation].x += march * this.sheet.map[this.style][this.variation].w;
 };

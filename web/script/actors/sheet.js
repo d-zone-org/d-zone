@@ -1,4 +1,6 @@
 'use strict';
+var inherits = require('inherits');
+var EventEmitter = require('events').EventEmitter;
 var SpriteSheet = require('./../engine/spritesheet.js');
 
 var map = {
@@ -23,11 +25,24 @@ var map = {
         }
     }
 };
-var image = new SpriteSheet('actors.png',map);
+var image = new SpriteSheet('actors.png');
+image.once('loaded',function(canvas) {
+    image.img = canvas;
+    Sheet.prototype.emit('loaded');
+});
 
 module.exports = Sheet;
+inherits(Sheet, EventEmitter);
 
-function Sheet(sprite) {
-    this.image = image;
-    this.map = map[sprite];
+function Sheet(spriteName) {
+    this.map = JSON.parse(JSON.stringify(map[spriteName]));
 }
+
+Sheet.prototype.getSprite = function() {
+    if(!image.img) return;
+    return image.img;
+};
+
+Sheet.prototype.onLoad = function(cb) {
+    image.once('loaded',cb);
+};

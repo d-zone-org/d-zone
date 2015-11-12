@@ -54,6 +54,7 @@ ws.on('data',function(data){
         for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
             var actor = new Actor(0,0,0);
             actor.uid = data.data[uid].user.id;
+            actor.setRoleColor(data.data[uid].roleColor);
             actor.updatePresence(data.data[uid].status);
             users.addActor(actor);
             actor.addToGame(game);

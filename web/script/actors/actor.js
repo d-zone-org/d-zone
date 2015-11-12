@@ -5,6 +5,7 @@ var util = require('./../common/util.js');
 var WorldObject = require('./../engine/worldobject.js');
 var Sheet = require('./sheet.js');
 var Wander = require('./behaviors/wander.js');
+var ColorUtil = require('./colorutil.js');
 
 module.exports = Actor;
 inherits(Actor, WorldObject);
@@ -37,7 +38,24 @@ Actor.prototype.updatePresence = function(presence) {
 };
 
 Actor.prototype.getSprite = function() {
-    return this.sheet.map[this.presence][this.facing];
+    var image = this.sheet.image || this.sheet.getSprite();
+    return {
+        metrics: this.sheet.map[this.presence][this.facing],
+        image: image
+    }
+};
+
+Actor.prototype.setRoleColor = function(color) {
+    if(!color) return;
+    this.roleColor = color;
+    if(this.sheet.image) { // If image already loaded
+        this.sheet.image = ColorUtil.colorize(this.sheet.image, color);
+    } else { // Else wait for image to load
+        var self = this;
+        this.sheet.onLoad(function() {
+            self.sheet.image = ColorUtil.colorize(self.sheet.getSprite(), color);
+        });
+    }
 };
 
 Actor.prototype.newImpulse = function() {

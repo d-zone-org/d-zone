@@ -42,7 +42,7 @@ World.prototype.marchSquares = function() {
         var w = this.map[(x-1)+':'+y], n = this.map[x+':'+(y-1)];
         w = w instanceof Tile ? 0 : 1;
         n = n instanceof Tile ? 0 : 1;
-        this.map[key].march = w | (n << 1);
+        this.map[key].setMarch(w | (n << 1));
     }
 };
 

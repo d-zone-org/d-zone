@@ -17,5 +17,8 @@ function HalfBlock(style,x,y,z) {
 }
 
 HalfBlock.prototype.getSprite = function() {
-    return this.sheet.map[this.style][this.variation];
+    return {
+        metrics: this.sheet.map[this.style][this.variation],
+        image: this.sheet.getSprite()
+    }
 };

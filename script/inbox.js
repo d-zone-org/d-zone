@@ -26,9 +26,9 @@ function Inbox(config) {
     });
     bot.on("ready", function(rawEvent) {
         console.log(new Date(),"Logged in as: "+bot.username + " - (" + bot.id + ")");
-        this.emit('connected');
         setTimeout(function() {
             self.server = bot.servers[config.get('discord.serverID')];
+            self.emit('connected');
             require('fs').writeFileSync('./bot.json', JSON.stringify(bot, null, '\t'));
         }, 2000);
     });
@@ -44,6 +44,9 @@ Inbox.prototype.getUsers = function() {
     var online = {};
     for(var uid in this.server.members) { if(!this.server.members.hasOwnProperty(uid)) continue;
         online[uid] = this.server.members[uid];
+        for(var i = 0; i < this.server.members[uid].roles.length; i++) {
+            online[uid].roleColor = '#'+this.server.roles[this.server.members[uid].roles[i]].color.toString(16);
+        }
     }
     return online;
 };

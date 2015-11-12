@@ -17,5 +17,8 @@ function Block(style,x,y,z) {
 }
 
 Block.prototype.getSprite = function() {
-    return this.sheet.map[this.style][this.variation];
+    return {
+        metrics: this.sheet.map[this.style][this.variation],
+        image: this.sheet.getSprite()
+    }
 };
