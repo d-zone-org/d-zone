@@ -37,9 +37,11 @@ game.on('update', function (interval) {
 });
 var config = JSON.parse(require('fs').readFileSync('./config.json'));
 console.log('Initializing websocket on port',config.server.port);
-var WebSocket = require('websocket-stream'),
-    ws = WebSocket('ws://'+config.server.address+':'+config.server.port);
-ws.write(new Buffer(JSON.stringify('im a client!')));
+//var WebSocket = require('websocket-stream'),
+//    ws = WebSocket('ws://'+config.server.address+':'+config.server.port);
+var TestSocket = require('./script/engine/tester.js'),
+    ws = new TestSocket(12,10000);
+//ws.write(new Buffer(JSON.stringify('im a client!')));
 ws.on('data',function(data){
     data = JSON.parse(data);
     if(data.type == 'init') { // Initial server status

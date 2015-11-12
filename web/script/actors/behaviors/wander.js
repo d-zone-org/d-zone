@@ -8,13 +8,6 @@ function Wander(actor) {
     this.actor = actor;
     this.state = 'idle';
     this.listeners = [];
-    
-    this.addListener(this.actor,'collision', function() {
-        if(this.state == 'moving') {
-            this.state = 'idle';
-            this.heading = false;
-        }
-    });
 }
 
 Wander.prototype.impulse = function() {
@@ -27,17 +20,18 @@ Wander.prototype.impulse = function() {
     };
     this.actor.facing = this.heading;
     this.state = 'moving';
-};
-
-Wander.prototype.addListener = function(emitter, event, handler) {
-    emitter.on(event, handler.bind(this));
-    this.listeners.push({ emitter: emitter, event: event, handler: handler });
+    this.actor.removeAllListeners('collision',this.onCollision.bind(this)); // Clear any previous listeners
+    this.actor.once('collision', this.onCollision.bind(this));
 };
 
 Wander.prototype.detach = function() { // Detach behavior from actor
-    for(var i = 0; i < this.listeners.length; i++) {
-        this.listeners[i].emitter.removeListener(this.listeners[i].event,this.listeners[i].handler);
-    }
+    this.actor.removeAllListeners('collision',this.onCollision.bind(this));
     delete this.actor;
-    delete this.listeners;
+};
+
+Wander.prototype.onCollision = function() {
+    if(this.state == 'moving') {
+        this.state = 'idle';
+        this.heading = false;
+    }
 };

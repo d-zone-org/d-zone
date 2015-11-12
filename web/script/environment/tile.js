@@ -17,9 +17,12 @@ function Tile(style,x,y,z) {
     } else {
         this.variation = util.randomIntRange(0,1);
     }
+    this.march = 0;
     this.on('draw',function(canvas) { canvas.drawImageIso(self); });
 }
 
 Tile.prototype.getSprite = function() {
-    return this.sheet.map[this.style][this.variation];
+    var tile = JSON.parse(JSON.stringify(this.sheet.map[this.style][this.variation]));
+    tile.x += this.march * tile.w;
+    return tile;
 };

@@ -33,13 +33,11 @@ Actor.prototype.updatePresence = function(presence) {
     } else if(this.behaviors.length == 0) { // If coming online and have no behaviors already
         this.behaviors.push(new Wander(this));
     }
-    if(this.behaviors.length > 1) console.error('>1 behavior!',this.presence,this);
-    if(this.listenerCount > 1) console.error('>1 listener!',this.presence,this);
+    if(this.listenerCount('collision') > 1) console.error('>1 listener!',this);
 };
 
 Actor.prototype.getSprite = function() {
-    var presence = this.presence == 'idle' ? 'online' : this.presence;
-    return this.sheet.map[presence][this.facing];
+    return this.sheet.map[this.presence][this.facing];
 };
 
 Actor.prototype.newImpulse = function() {
@@ -48,5 +46,5 @@ Actor.prototype.newImpulse = function() {
             this.behaviors[i].impulse();
         }
     }
-    setTimeout(this.newImpulse.bind(this),200+Math.random() * 3000);
+    setTimeout(this.newImpulse.bind(this), 200 + Math.random() * 3000);
 };

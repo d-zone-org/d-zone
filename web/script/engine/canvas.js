@@ -72,6 +72,6 @@ Canvas.prototype.drawImageIso = function(obj) {
         screen.x += sprite.offset.x;
         screen.y += sprite.offset.y;
     }
-    this.context.drawImage(obj.sheet.image.img,sprite.x,sprite.y,sprite.width,sprite.height,
-        Math.round(screen.x),Math.round(screen.y),sprite.width,sprite.height);
+    this.context.drawImage(obj.sheet.image.img,sprite.x,sprite.y,sprite.w,sprite.h,
+        Math.round(screen.x),Math.round(screen.y),sprite.w,sprite.h);
 };

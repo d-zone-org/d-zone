@@ -1,4 +1,5 @@
 'use strict';
+var DateFormat = require('dateformat');
 
 module.exports = WebSock;
 
@@ -7,7 +8,8 @@ function WebSock(onConnect) {
     var wss = new WSServer({port:8970});
     this.wss = wss;
     wss.on('connection', function (socket) {
-        console.log('client connected to server, total:', wss.clients.length);
+        console.log(DateFormat(new Date(),
+            "h:MM:ss TT"),'client connected to server, total:', wss.clients.length);
         
         onConnect(socket);
         
@@ -15,7 +17,8 @@ function WebSock(onConnect) {
             console.log('received data:',JSON.parse(data));
         });
         socket.on('close', function(code, desc) {
-            console.log('client disconnected, total:', wss.clients.length);
+            console.log(DateFormat(new Date(),
+                "h:MM:ss TT"),'client disconnected, total:', wss.clients.length);
         });
     });
 }

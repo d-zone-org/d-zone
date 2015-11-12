@@ -24,10 +24,6 @@ function World(game,gridSize,worldSize) {
         var grid;
         if(radius < 64 && Math.random() < (80 - radius)/70) {
             grid = new Tile('grass',x*gridSize,y*gridSize,0);
-            //if(Math.random() < 0.1) {
-            //    var actor = new Actor(x*gridSize,y*gridSize,grid.size.z);
-            //    actor.addToGame(game);
-            //}
         } else {
             grid = Math.random() < (radius - 64) / 15 ?
                 new Block('plain',x*gridSize,y*gridSize,0) : new HalfBlock('plain',x*gridSize,y*gridSize,0);
@@ -35,8 +31,20 @@ function World(game,gridSize,worldSize) {
         this.map[x+':'+y] = grid;
         grid.addToGame(game);
     }
+    this.marchSquares(); // Examine neighbors to determine march bits
     console.log('Created world with',util.countProperties(this.map),'tiles');
 }
+
+World.prototype.marchSquares = function() {
+    for(var key in this.map) { if(!this.map.hasOwnProperty(key)) continue;
+        if(!(this.map[key] instanceof Tile)) continue;
+        var x = +key.split(':')[0], y = +key.split(':')[1];
+        var w = this.map[(x-1)+':'+y], n = this.map[x+':'+(y-1)];
+        w = w instanceof Tile ? 0 : 1;
+        n = n instanceof Tile ? 0 : 1;
+        this.map[key].march = w | (n << 1);
+    }
+};
 
 World.prototype.randomGrid = function() {
     var self = this;
