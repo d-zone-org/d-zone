@@ -24,9 +24,9 @@ function Inbox(config) {
         var presence = { type: 'presence', data: { uid: userID, status: status } };
         self.emit('presence',presence);
     });
-    
     bot.on("ready", function(rawEvent) {
         console.log(new Date(),"Logged in as: "+bot.username + " - (" + bot.id + ")");
+        this.emit('connected');
         setTimeout(function() {
             self.server = bot.servers[config.get('discord.serverID')];
             require('fs').writeFileSync('./bot.json', JSON.stringify(bot, null, '\t'));
