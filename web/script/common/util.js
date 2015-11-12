@@ -1,10 +1,5 @@
 'use strict';
 module.exports = {
-    countProperties: function(obj) { // Return number of properties an object has
-        if(!obj) { return 0; } var count = 0;
-        for(var key in obj) { if(!obj.hasOwnProperty(key)) { continue; } count++; }
-        return count;
-    },
     randomIntRange: function(min,max) {
         return Math.floor(Math.random() * (+max - +min + 1)) + +min ;
     },

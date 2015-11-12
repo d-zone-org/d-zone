@@ -32,7 +32,7 @@ function World(game,gridSize,worldSize) {
         grid.addToGame(game);
     }
     this.marchSquares(); // Examine neighbors to determine march bits
-    console.log('Created world with',util.countProperties(this.map),'tiles');
+    console.log('Created world with',Object.keys(this.map).length,'tiles');
 }
 
 World.prototype.marchSquares = function() {

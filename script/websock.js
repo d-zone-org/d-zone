@@ -25,6 +25,7 @@ function WebSock(config,onConnect) {
 
 WebSock.prototype.sendData = function(data) {
     this.wss.clients.forEach(function each(client) {
+        if(client.readyState != 1) return;
         client.send(JSON.stringify(data));
     });
 };
