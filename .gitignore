@@ -51,7 +51,7 @@ db.class.php
 db-live.class.php
 bot.json
 reference/*
-web/static/*
+web/static/bundle.js
 
 # Config
 config.json
