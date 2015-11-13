@@ -6,7 +6,6 @@ module.exports = Input;
 inherits(Input, EventEmitter);
 
 function Input() {
-    console.log('Initializing input');
     this.mouseX = 0;
     this.mouseY = 0;
     this.mouseLeft = false;
@@ -17,7 +16,7 @@ function Input() {
 }
 
 Input.prototype.bindCanvas = function(canvas) {
-    this.canvas = canvas.canvas; // Canvas element
+    this.canvas = canvas.canvas.canvas; // Canvas element
     this.mouseScale = canvas.scale;
     this.canvas.addEventListener("mousemove", this.mousemove.bind(this));
     this.canvas.addEventListener("mousedown", this.mousedown.bind(this));

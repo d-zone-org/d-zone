@@ -23,13 +23,15 @@ function WorldObject(options) {
         y: options.velocity.y,
         z: options.velocity.z
     };
-    this.on('update',function(interval) {
-        this.move(this.velocity);
-    });
+    this.on('update',this.onUpdate);
 }
 
 WorldObject.prototype.stopped = function() {
     return this.velocity.x == 0 && this.velocity.y == 0 && this.velocity.z == 0;
+};
+
+WorldObject.prototype.onUpdate = function(interval) {
+    this.move(this.velocity);
 };
 
 WorldObject.prototype.move = function(velocity) {
@@ -63,6 +65,7 @@ WorldObject.prototype.toScreen = function() {
 };
 
 WorldObject.prototype.overlaps = function(obj) {
+    if(!obj.hasOwnProperty('position') || !obj.hasOwnProperty('size')) return false;
     return Geometry.intervalOverlaps(
             this.position.x - this.size.x/2, this.position.x + this.size.x/2, 
             obj.position.x - obj.size.x/2, obj.position.x + obj.size.x/2
@@ -76,6 +79,7 @@ WorldObject.prototype.overlaps = function(obj) {
 };
 
 WorldObject.prototype.projectionOverlaps = function(obj) {
+    if(!obj.hasOwnProperty('position') || !obj.hasOwnProperty('size')) return false;
     var xa = this.position.x - this.size.x/2, ya = this.position.y - this.size.y/2, za = this.position.z, 
         xxa = xa + this.size.x, yya = ya + this.size.y, zza = za + this.size.z, 
         xb = obj.position.x - obj.size.x/2, yb = obj.position.y - obj.size.y/2, zb = obj.position.z, 

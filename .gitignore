@@ -55,6 +55,8 @@ web/static/bundle.js
 
 # Config
 config.json
+config-dzone.json
+config-dbot.json
 
 # Visual Studio
 *.sln

@@ -1,6 +1,4 @@
 'use strict';
-var inherits = require('inherits');
-var EventEmitter = require('events').EventEmitter;
 var SpriteSheet = require('./../engine/spritesheet.js');
 
 var map = {
@@ -28,11 +26,9 @@ var map = {
 var image = new SpriteSheet('actors.png');
 image.once('loaded',function(canvas) {
     image.img = canvas;
-    Sheet.prototype.emit('loaded');
 });
 
 module.exports = Sheet;
-inherits(Sheet, EventEmitter);
 
 function Sheet(spriteName) {
     this.map = JSON.parse(JSON.stringify(map[spriteName]));

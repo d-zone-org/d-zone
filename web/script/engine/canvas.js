@@ -1,15 +1,16 @@
 'use strict';
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
+var BetterCanvas = require('./../common/bettercanvas.js');
 
 module.exports = Canvas;
 inherits(Canvas, EventEmitter);
 
 function Canvas(options) {
     this.id = options.id;
-    this.canvas = document.createElement('canvas');
-    document.body.appendChild(this.canvas);
-    this.context = this.canvas.getContext('2d');
+    this.canvas = new BetterCanvas(0,0);
+    document.body.appendChild(this.canvas.canvas);
+    this.context = this.canvas.context;
     this.scale = options.scale || 1;
     this.autosize = !options.hasOwnProperty('width');
     if(this.autosize) {
@@ -20,23 +21,23 @@ function Canvas(options) {
         this.width = this.canvas.width = options.width;
         this.height = this.canvas.height = options.height;
         if(options.hasOwnProperty('left')) {
-            this.canvas.style.left = options.left + 'px';
+            this.canvas.canvas.style.left = options.left + 'px';
         } else if(options.hasOwnProperty('right')) {
-            this.canvas.style.right = (options.right + options.width) + 'px';
+            this.canvas.canvas.style.right = (options.right + options.width) + 'px';
         }
         if(options.hasOwnProperty('top')) {
-            this.canvas.style.top = options.top + 'px';
+            this.canvas.canvas.style.top = options.top + 'px';
         } else if(options.hasOwnProperty('bottom')) {
-            this.canvas.style.bottom = (options.bottom + options.height) + 'px';
+            this.canvas.canvas.style.bottom = (options.bottom + options.height) + 'px';
         }
     }
     if(this.scale > 1) {
-        this.canvas.style.transform = 'scale(' + this.scale + ', ' + this.scale + ')';
+        this.canvas.canvas.style.transform = 'scale(' + this.scale + ', ' + this.scale + ')';
     }
     this.context.mozImageSmoothingEnabled = false;
     this.context.imageSmoothingEnabled = false;
     this.backgroundColor = options.backgroundColor;
-    this.canvas.addEventListener("contextmenu", function(e) {
+    this.canvas.canvas.addEventListener("contextmenu", function(e) {
         e.preventDefault();
     });
 }
@@ -50,21 +51,19 @@ Canvas.prototype.onResize = function() {
     } else {
         this.scale = 3;
     }
-    this.canvas.style.transform = 'scale(' + this.scale + ', ' + this.scale + ')';
-    this.width = this.canvas.width = Math.ceil(window.innerWidth / this.scale);
-    this.height = this.canvas.height = Math.ceil(window.innerHeight / this.scale);
+    this.canvas.canvas.style.transform = 'scale(' + this.scale + ', ' + this.scale + ')';
+    this.width = this.canvas.canvas.width = Math.ceil(window.innerWidth / this.scale);
+    this.height = this.canvas.canvas.height = Math.ceil(window.innerHeight / this.scale);
     this.emit('resize',{ width: this.width, height: this.height })
 };
 
 Canvas.prototype.draw = function() {
-    this.context.fillStyle = this.backgroundColor;
-    this.context.fillRect(0, 0, this.width, this.height);
+    this.canvas.fill(this.backgroundColor);
 };
 
 Canvas.prototype.drawImageIso = function(obj) {
-    if(!obj.sheet) return;
     var sprite = obj.getSprite();
-    if(!sprite.image) return;
+    if(!sprite || !sprite.image) return;
     var screen = obj.toScreen();
     if(this.autosize) {
         screen.x += this.width/2;
@@ -74,6 +73,10 @@ Canvas.prototype.drawImageIso = function(obj) {
         screen.x += sprite.metrics.offset.x;
         screen.y += sprite.metrics.offset.y;
     }
-    this.context.drawImage(sprite.image,sprite.metrics.x,sprite.metrics.y,sprite.metrics.w,sprite.metrics.h,
+    if(obj.keepOnScreen) {
+        screen.x = Math.min(this.width - sprite.metrics.w, Math.max(0, screen.x));
+        screen.y = Math.min(this.height - sprite.metrics.h, Math.max(0, screen.y));
+    }
+    this.canvas.drawImage(sprite.image,sprite.metrics.x,sprite.metrics.y,sprite.metrics.w,sprite.metrics.h,
         Math.round(screen.x),Math.round(screen.y),sprite.metrics.w,sprite.metrics.h);
 };

@@ -10,8 +10,6 @@ function TestSocket(userCount,updateInterval) {
     this.userCount = userCount;
     this.updateInterval = updateInterval;
     setTimeout(this.connect.bind(this),200);
-    
-    
 }
 
 TestSocket.prototype.connect = function() {
@@ -23,11 +21,26 @@ TestSocket.prototype.connect = function() {
     }
     var self = this;
     setTimeout(function() { self.sendData('init', userList); },50);
-    setInterval(function() { 
+    setInterval(function() {
         var uid = util.pickInObject(userList);
-        self.sendData('presence', { 
-            uid: uid, status: util.pickInArray(['online','online','online','idle','offline']) 
-        });
+        var nonsense = ['lol','omg','discord','haha','...','yeah','no','wow','indeed','right','memes'];
+        function sentenceBuilder() {
+            var sentence = '';
+            var wordCount = util.randomIntRange(1,20);
+            for(var i = 0; i < wordCount; i++) {
+                sentence += (i == 0 ? '' : ' ') + util.pickInArray(nonsense);
+            }
+            return sentence;
+        }
+        if(Math.random() > 0.9) {
+            self.sendData('presence', {
+                uid: uid, status: util.pickInArray(['online','online','online','idle','offline'])
+            });
+        } else {
+            self.sendData('message', {
+                uid: uid, message: sentenceBuilder(), channel: '10000000000'
+            });
+        }
     },self.updateInterval)
 };
 

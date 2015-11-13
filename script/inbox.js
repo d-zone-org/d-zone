@@ -16,9 +16,11 @@ function Inbox(config) {
     this.bot = bot;
     var self = this;
     bot.on('message', function(user, userID, channelID, message, rawEvent) {
+        if(bot.serverFromChannel(channelID) != config.get('discord.serverID')) return;
         var isPM = bot.servers[bot.serverFromChannel(channelID)] === undefined;
-        //console.log('message received:',message);
-        self.emit('test',message);
+        if(isPM) return;
+        var messageObject = { type: 'message', data: { uid: userID, message: message, channel: channelID } };
+        self.emit('message',messageObject);
     });
     bot.on('presence', function(user, userID, status, rawEvent) {
         var presence = { type: 'presence', data: { uid: userID, status: status } };
@@ -28,6 +30,10 @@ function Inbox(config) {
         console.log(new Date(),"Logged in as: "+bot.username + " - (" + bot.id + ")");
         setTimeout(function() {
             self.server = bot.servers[config.get('discord.serverID')];
+            if(!self.server) {
+                console.error('Server not found!');
+                return;
+            }
             self.emit('connected');
             require('fs').writeFileSync('./bot.json', JSON.stringify(bot, null, '\t'));
         }, 2000);

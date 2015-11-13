@@ -5,7 +5,7 @@ var util = require('./../common/util.js');
 var WorldObject = require('./../engine/worldobject.js');
 var Sheet = require('./sheet.js');
 var Wander = require('./behaviors/wander.js');
-var ColorUtil = require('./colorutil.js');
+var ColorUtil = require('./../common/colorutil.js');
 
 module.exports = Actor;
 inherits(Actor, WorldObject);
@@ -18,12 +18,14 @@ function Actor(x,y,z) {
         canvas.drawImageIso(self);
     });
     this.presence = 'offline';
+    this.talking = false;
     this.facing = util.pickInObject(Geometry.DIRECTIONS);
     this.behaviors = [];
     setTimeout(this.newImpulse.bind(this),Math.random() * 3000);
 }
 
 Actor.prototype.updatePresence = function(presence) {
+    // TODO: Lower saturation on role colored sprite when offline
     this.presence = presence ? presence : 'offline';
     if(this.presence == 'offline' || this.presence == 'idle') {
         for(var i = 0; i < this.behaviors.length; i++) {
@@ -37,23 +39,37 @@ Actor.prototype.updatePresence = function(presence) {
     if(this.listenerCount('collision') > 1) console.error('>1 listener!',this);
 };
 
+Actor.prototype.setUsername = function(name,game) {
+    this.username = name;
+};
+
 Actor.prototype.getSprite = function() {
+    if(!this.sheet) return;
     var image = this.sheet.image || this.sheet.getSprite();
-    return {
-        metrics: this.sheet.map[this.presence][this.facing],
-        image: image
+    var facing = this.facing, presence = this.presence;
+    if(this.talking) {
+        presence = 'online';
+        facing = facing == 'north' ? 'east' : facing == 'west' ? 'south' : facing;
     }
+    var metrics = JSON.parse(JSON.stringify(this.sheet.map[presence][facing]));
+    if(this.talking) {
+        metrics.y += (Math.floor(this.game.ticks / 4) % 4) * metrics.h;
+    }
+    return {
+        metrics: metrics,
+        image: image
+    };
 };
 
 Actor.prototype.setRoleColor = function(color) {
     if(!color) return;
     this.roleColor = color;
     if(this.sheet.image) { // If image already loaded
-        this.sheet.image = ColorUtil.colorize(this.sheet.image, color);
+        this.sheet.image = ColorUtil.colorize(this.sheet.image, color, 0.75);
     } else { // Else wait for image to load
         var self = this;
         this.sheet.onLoad(function() {
-            self.sheet.image = ColorUtil.colorize(self.sheet.getSprite(), color);
+            self.sheet.image = ColorUtil.colorize(self.sheet.getSprite(), color, 0.75);
         });
     }
 };
@@ -65,4 +81,8 @@ Actor.prototype.newImpulse = function() {
         }
     }
     setTimeout(this.newImpulse.bind(this), 200 + Math.random() * 3000);
+};
+
+Actor.prototype.move = function(velocity) {
+    if(!this.talking) WorldObject.prototype.move.call(this, velocity);
 };

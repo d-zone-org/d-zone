@@ -11,7 +11,7 @@ function applyAlpha(source, target) {
 }
 
 module.exports = {
-    colorize: function(img, color) {
+    colorize: function(img, color, amount) {
         var canvas = document.createElement('canvas');
         canvas.width = img.width;
         canvas.height = img.height;
@@ -19,7 +19,7 @@ module.exports = {
         context.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
         context.globalCompositeOperation = 'color';
         context.fillStyle = color;
-        context.globalAlpha = 0.65;
+        context.globalAlpha = amount;
         context.fillRect(0, 0, img.width, img.height);
         applyAlpha(img, canvas); // Restore original alpha channel
         return canvas;

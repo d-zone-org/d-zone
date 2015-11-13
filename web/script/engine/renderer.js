@@ -7,17 +7,16 @@ module.exports = Renderer;
 inherits(Renderer, EventEmitter);
 
 function Renderer(options) {
-    console.log('Initializing renderer');
     this.game = options.game;
     this.updateDrawn = false;
     this.zBuffer = [];
+    this.overlay = [];
     
     var self = this;
     this.game.on('update', function (interval) {
         self.updateDrawn = false;
         self.interval = interval;
     });
-    
     var draw = function() {
         if(self.updateDrawn == false) {
             if(self.canvases) {
@@ -48,6 +47,9 @@ function Renderer(options) {
                     self.emit('draw', self.canvases[c]);
                     for(var z = 0; z < self.zBuffer.length; z++) {
                         self.zBuffer[z].emit('draw',self.canvases[c])
+                    }
+                    for(var o = 0; o < self.overlay.length; o++) {
+                        self.overlay[o].emit('draw',self.canvases[c])
                     }
                 }
             }

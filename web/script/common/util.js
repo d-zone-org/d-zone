@@ -7,9 +7,15 @@ module.exports = {
         return arr[this.randomIntRange(0,arr.length-1)];
     },
     pickInObject: function(obj) { // Return random property name from object
-        var array = [];
-        for(var key in obj) { if(obj.hasOwnProperty(key)) array.push(key); }
-        return this.pickInArray(array);
+        return this.pickInArray(Object.keys(obj));
+    },
+    findAndRemove: function(elem,arr) {
+        for(var i = 0; i < arr.length; i++) {
+            if(arr[i] === elem) { 
+                arr.splice(i, 1);
+                i--;
+            }
+        }
     },
     alphabet: ['a','b','c','d','e','f','g','h','i','j','k','l','m',
         'n','o','p','q','r','s','t','u','v','w','x','y','z'],

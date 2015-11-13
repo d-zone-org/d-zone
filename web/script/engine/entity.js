@@ -1,6 +1,7 @@
 'use strict';
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
+var util = require('./../common/util.js');
 
 module.exports = Entity;
 inherits(Entity, EventEmitter);
@@ -17,16 +18,25 @@ Entity.prototype.addToGame = function(game) {
     this.game.on('update', function(interval) {
         self.emit('update', interval);
     });
-    this.game.renderer.zBuffer.push(this);
+    if(this.hasOwnProperty('position') && this.hasOwnProperty('size')) {
+        this.game.renderer.zBuffer.push(this);
+    } else {
+        this.game.renderer.overlay.push(this);
+    }
     this.exists = true;
 };
 
 Entity.prototype.remove = function(){
     this.exists = false;
-
     this.removeAllListeners('update');
     this.removeAllListeners('draw');
-
+    
+    if(this.hasOwnProperty('position') && this.hasOwnProperty('size')) {
+        util.findAndRemove(this, this.game.renderer.zBuffer);
+    } else {
+        util.findAndRemove(this, this.game.renderer.overlay);
+    }
+    
     this.findEntity(this, function(exists, entities, index) {
         if(exists) {
             entities.splice(index, 1);
@@ -40,4 +50,12 @@ Entity.prototype.findEntity = function(entity, callback){
             callback(true, this.game.entities, i);
         }
     }
+};
+
+Entity.prototype.tickDelay = function(cb, ticks) { // Execute callback after X ticks
+    this.game.schedule.push({ type: 'once', tick: this.game.ticks+ticks, cb: cb });
+};
+
+Entity.prototype.tickRepeat = function(cb, ticks) { // Execute callback every tick for X ticks
+    this.game.schedule.push({ type: 'repeat', start: this.game.ticks, count: ticks, cb: cb });
 };

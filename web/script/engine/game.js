@@ -12,7 +12,6 @@ inherits(Game, EventEmitter);
 
 function Game(options) {
     this.setMaxListeners(0);
-    console.log('Initializing game loop');
     this.step = options.step || 1000/60;
     this.lastUpdate = 0;
     this.dt = 0;
@@ -24,6 +23,7 @@ function Game(options) {
     this.centerMouseX = 0;
     this.centerMouseY = 0;
     this.entities = [];
+    this.schedule = [];
 
     var self = this;
     this.interval = setInterval(function(){
@@ -45,6 +45,23 @@ function Game(options) {
 
 Game.prototype.update = function() {
     this.emit('update',this.dt);
+    for(var i = 0; i < this.schedule.length; i++) {
+        var task = this.schedule[i];
+        var endTick;
+        if(task.type == 'repeat') {
+            endTick = task.start + task.count;
+            if(task.start <= this.ticks) {
+                task.cb((this.ticks - task.start) / task.count)
+            }
+        } else {
+            endTick = task.tick;
+        }
+        if(endTick <= this.ticks) {
+            if(task.type == 'once') task.cb();
+            this.schedule.splice(i,1);
+            i--;
+        }
+    }
 };
 
 Game.prototype.bindCanvas = function(canvas) {

@@ -15,6 +15,6 @@ inbox.on('connected',function() {
         // Send list of current online users to set up initial client state
         socket.send(JSON.stringify({ type:'init', data:inbox.getUsers() }));
     });
-    inbox.on('test',webSock.sendData.bind(webSock));
+    inbox.on('message',webSock.sendData.bind(webSock));
     inbox.on('presence',webSock.sendData.bind(webSock));
 });
