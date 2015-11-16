@@ -17,8 +17,8 @@ function WebSock(config,onConnect) {
             console.log('received data:',JSON.parse(data));
         });
         socket.on('close', function(code, desc) {
-            console.log(DateFormat(new Date(),
-                "h:MM:ss TT"),'client disconnected, total:', wss.clients.length);
+            //console.log(DateFormat(new Date(),
+            //    "h:MM:ss TT"),'client disconnected, total:', wss.clients.length);
         });
     });
 }

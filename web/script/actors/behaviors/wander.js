@@ -11,17 +11,11 @@ function Wander(actor) {
 }
 
 Wander.prototype.impulse = function() {
-    if(this.state != 'idle') return; // Maybe just replace this with a velocity check
-    if(!this.heading) {
-        this.heading = util.pickInObject(Geometry.DIRECTIONS);
-    }
-    this.actor.velocity = {
-        x: Geometry.DIRECTIONS[this.heading].x/3, y: Geometry.DIRECTIONS[this.heading].y/3, z: 0
-    };
-    this.actor.facing = this.heading;
-    this.state = 'moving';
-    this.actor.removeAllListeners('collision',this.onCollision.bind(this)); // Clear any previous listeners
-    this.actor.once('collision', this.onCollision.bind(this));
+    var direction = util.pickInObject(Geometry.DIRECTIONS);
+    this.actor.move({
+        x: Geometry.DIRECTIONS[direction].x, y: Geometry.DIRECTIONS[direction].y, z: 0
+    });
+    this.actor.facing = direction;
 };
 
 Wander.prototype.detach = function() { // Detach behavior from actor

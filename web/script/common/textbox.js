@@ -30,7 +30,7 @@ TextBox.prototype.getSprite = function() {
 TextBox.prototype.toScreen = function() {
     var parent = this.parent.toScreen();
     return {
-        x: parent.x - this.canvas.width/2 + this.parent.size.x,
+        x: parent.x - this.canvas.width/2 + this.parent.pixelSize.x,
         y: parent.y - 18
     }
 };

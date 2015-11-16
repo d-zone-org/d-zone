@@ -12,10 +12,11 @@ function WorldObject(options) {
         y: options.position.y,
         z: options.position.z
     };
-    this.size = {
-        x: options.size.x,
-        y: options.size.y,
-        z: options.size.z
+    this.zDepth = this.calcZDepth();
+    this.pixelSize = {
+        x: options.pixelSize.x,
+        y: options.pixelSize.y,
+        z: options.pixelSize.z
     };
     if(!options.velocity) options.velocity = { x: 0, y: 0, z: 0 };
     this.velocity = {
@@ -30,82 +31,57 @@ WorldObject.prototype.stopped = function() {
     return this.velocity.x == 0 && this.velocity.y == 0 && this.velocity.z == 0;
 };
 
-WorldObject.prototype.onUpdate = function(interval) {
+WorldObject.prototype.onUpdate = function() {
     this.move(this.velocity);
 };
 
-WorldObject.prototype.move = function(velocity) {
+WorldObject.prototype.move = function(velocity, noClip) {
     if(velocity.x == 0 && velocity.y == 0 && velocity.z == 0) return;
-    this.position.x += velocity.x;
-    this.position.y += velocity.y;
-    this.position.z += velocity.z;
-    var blocked = false, objs = this.game.entities;
-    for(var i = 0; i < objs.length; i++) {
-        if(this === objs[i]) continue;
-        if(this.overlaps(objs[i])) {
-            this.position.x -= velocity.x;
-            this.position.y -= velocity.y;
-            this.position.z -= velocity.z;
+    if(this.game.world.objectAtXYZ(this.position.x,this.position.y,this.position.z+this.height)) {
+        this.emit('getoffme');
+        return; // Can't move with object on top
+    }
+    var newX = this.position.x + velocity.x;
+    var newY = this.position.y + velocity.y;
+    var newZ = this.position.z + velocity.z;
+    var success = false;
+    var obstruction = this.game.world.objectAtXYZ(newX,newY,newZ);
+    if(!noClip && obstruction) {
+        if(obstruction.position.z + obstruction.height <= newZ + 0.5
+            && !this.game.world.objectAtXYZ(newX,newY,newZ+0.5)) {
+            newZ = obstruction.position.z + obstruction.height;
+            success = true;
+        } else {
+            this.velocity = { x: 0, y: 0, z: 0 };
             this.emit('collision');
-            blocked = true;
-            break;
+        }
+    } else if(!noClip) {
+        var under = this.game.world.objectUnderXYZ(newX,newY,newZ);
+        if(under && under.position.z + under.height >= newZ - 0.5) {
+            newZ = under.position.z + under.height;
+            success = true;
+        } else {
+            this.velocity = { x: 0, y: 0, z: 0 };
+            this.emit('collision');
         }
     }
-    if(blocked) this.velocity = { x: 0, y: 0, z: 0 };
+    if(noClip || success) {
+        this.game.world.moveObject(this,this.position.x,this.position.y,this.position.z,newX,newY,newZ);
+        var oldZDepth = this.zDepth;
+        this.zDepth = this.calcZDepth();
+        this.game.renderer.updateZBuffer(oldZDepth, this);
+    }
+};
+
+WorldObject.prototype.calcZDepth = function() {
+    return this.position.x + this.position.y/* + this.position.z/10 - (this.height || 0)*/;
 };
 
 WorldObject.prototype.toScreen = function() {
-    // Lock visual position to 2x2 grid to avoid jittery movement
-    var roundedX = Math.round(this.position.x / 2)*2;
-    var roundedY = Math.round(this.position.y / 2)*2;
     return {
-        x: roundedX - this.size.x / 2 - roundedY - this.size.y / 2,
-        y: (roundedX - this.size.x / 2 + roundedY - this.size.y / 2) / 2 - this.position.z - this.size.z
+        x: (this.position.x - this.position.y) * 16 - this.pixelSize.x,
+        y: (this.position.x + this.position.y) * 8 - (this.position.z - this.height) * 16
     };
-};
-
-WorldObject.prototype.overlaps = function(obj) {
-    if(!obj.hasOwnProperty('position') || !obj.hasOwnProperty('size')) return false;
-    return Geometry.intervalOverlaps(
-            this.position.x - this.size.x/2, this.position.x + this.size.x/2, 
-            obj.position.x - obj.size.x/2, obj.position.x + obj.size.x/2
-        ) && Geometry.intervalOverlaps(
-            this.position.y - this.size.y/2, this.position.y + this.size.y/2, 
-            obj.position.y - obj.size.y/2, obj.position.y + obj.size.y/2
-        ) && Geometry.intervalOverlaps(
-            this.position.z, this.position.z + this.size.z, 
-            obj.position.z, obj.position.z + obj.size.z
-        );
-};
-
-WorldObject.prototype.projectionOverlaps = function(obj) {
-    if(!obj.hasOwnProperty('position') || !obj.hasOwnProperty('size')) return false;
-    var xa = this.position.x - this.size.x/2, ya = this.position.y - this.size.y/2, za = this.position.z, 
-        xxa = xa + this.size.x, yya = ya + this.size.y, zza = za + this.size.z, 
-        xb = obj.position.x - obj.size.x/2, yb = obj.position.y - obj.size.y/2, zb = obj.position.z, 
-        xxb = xb + obj.size.x, yyb = yb + obj.size.y, zzb = zb + obj.size.z;
-    return Geometry.intervalOverlaps(xa-yya, xxa-ya, xb-yyb, xxb-yb) 
-        && Geometry.intervalOverlaps(xa-zza, xxa-za, xb-zzb, xxb-zb) 
-        && Geometry.intervalOverlaps(-yya+za, -ya+zza, -yyb+zb, -yb+zzb);
-};
-
-WorldObject.prototype.isBehind = function(obj) {
-    return this.projectionOverlaps(obj) && (
-        this.position.x + this.size.x/2 <= obj.position.x - obj.size.x/2 || 
-        this.position.y + this.size.y/2 <= obj.position.y - obj.size.y/2 || 
-        this.position.z + this.size.z <= obj.position.z
-        );
-};
-
-WorldObject.prototype.supports = function(obj) {
-    return this.position.z + this.size.z == obj.position.z &&
-        Geometry.intervalOverlaps(
-            this.position.x - this.size.x/2, this.position.x + this.size.x/2, 
-            obj.position.x - obj.size.x/2, obj.position.x + obj.size.x/2
-        ) && Geometry.intervalOverlaps(
-            this.position.y - this.size.y/2, this.position.y + this.size.y/2, 
-            obj.position.y - obj.size.y/2, obj.position.y + obj.size.y/2
-        );
 };
 
 WorldObject.prototype.getSprite = function() {

@@ -8,17 +8,18 @@ module.exports = Block;
 inherits(Block, WorldObject);
 
 function Block(style,x,y,z) {
-    WorldObject.call(this, {position:{x:x,y:y,z:z},size:{x:16,y:16,z:17}});
-    var self = this;
+    WorldObject.call(this, {position:{x:x,y:y,z:z},pixelSize:{x:16,y:16,z:17}});
+    this.height = 1;
     this.style = style;
     this.sheet = new Sheet('block');
-    this.variation = util.randomIntRange(0,this.sheet.map[this.style].length-1);
-    this.on('draw',function(canvas) { canvas.drawImageIso(self); });
+    this.variation = 0;
+    var self = this;
+    this.on('draw',function(canvas) { if(self.exists) canvas.drawImageIso(self); });
 }
 
 Block.prototype.getSprite = function() {
     return {
-        metrics: this.sheet.map[this.style][this.variation],
+        metrics: this.sheet.map[this.style]/*[this.variation]*/,
         image: this.sheet.getSprite()
     }
 };

@@ -11,11 +11,12 @@ module.exports = Actor;
 inherits(Actor, WorldObject);
 
 function Actor(x,y,z) {
-    WorldObject.call(this, {position:{x:x,y:y,z:z},size:{x:7,y:7,z:8}});
-    var self = this;
+    WorldObject.call(this, {position:{x:x,y:y,z:z},pixelSize:{x:7,y:7,z:8}});
+    this.height = 0.5;
     this.sheet = new Sheet('actor');
+    var self = this;
     this.on('draw',function(canvas) {
-        canvas.drawImageIso(self);
+        if(self.exists) canvas.drawImageIso(self);
     });
     this.presence = 'offline';
     this.talking = false;
@@ -39,13 +40,8 @@ Actor.prototype.updatePresence = function(presence) {
     if(this.listenerCount('collision') > 1) console.error('>1 listener!',this);
 };
 
-Actor.prototype.setUsername = function(name,game) {
-    this.username = name;
-};
-
 Actor.prototype.getSprite = function() {
     if(!this.sheet) return;
-    var image = this.sheet.image || this.sheet.getSprite();
     var facing = this.facing, presence = this.presence;
     if(this.talking) {
         presence = 'online';
@@ -57,7 +53,7 @@ Actor.prototype.getSprite = function() {
     }
     return {
         metrics: metrics,
-        image: image
+        image: this.sheet.image || this.sheet.getSprite()
     };
 };
 

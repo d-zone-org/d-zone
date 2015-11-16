@@ -8,8 +8,8 @@ module.exports = Tile;
 inherits(Tile, WorldObject);
 
 function Tile(style,x,y,z) {
-    WorldObject.call(this, {position:{x:x,y:y,z:z},size:{x:16,y:16,z:1}});
-    var self = this;
+    WorldObject.call(this, {position:{x:x,y:y,z:z},pixelSize:{x:16,y:16,z:1}});
+    this.height = 0;
     this.style = style;
     this.sheet = new Sheet('tile');
     if(Math.random() < 0.1) {
@@ -17,16 +17,19 @@ function Tile(style,x,y,z) {
     } else {
         this.variation = util.randomIntRange(0,1);
     }
-    this.on('draw',function(canvas) { canvas.drawImageIso(self); });
+    var self = this;
+    this.on('draw',function(canvas) { if(self.exists) canvas.drawImageIso(self); });
 }
 
 Tile.prototype.getSprite = function() {
+    var metrics = JSON.parse(JSON.stringify(this.sheet.map[this.style]));
+    metrics.y += metrics.h * this.variation;
     return {
-        metrics: this.sheet.map[this.style][this.variation],
+        metrics: metrics,
         image: this.sheet.getSprite()
     }
 };
 
 Tile.prototype.setMarch = function(march) {
-    this.sheet.map[this.style][this.variation].x += march * this.sheet.map[this.style][this.variation].w;
+    this.sheet.map[this.style].x += march * this.sheet.map[this.style].w;
 };

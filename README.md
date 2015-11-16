@@ -25,7 +25,7 @@ If everything works, the client should load the world, and receive websocket dat
 
 ## Design
 
-The game's modular architecture is currently loosely based on [crtrdg](http://crtrdg.com/).
+The game engine architecture is currently loosely based on [crtrdg](http://crtrdg.com/).
 
 It consists of both a server and client component:
 

@@ -18,9 +18,11 @@ function Input() {
 Input.prototype.bindCanvas = function(canvas) {
     this.canvas = canvas.canvas.canvas; // Canvas element
     this.mouseScale = canvas.scale;
-    this.canvas.addEventListener("mousemove", this.mousemove.bind(this));
-    this.canvas.addEventListener("mousedown", this.mousedown.bind(this));
-    this.canvas.addEventListener("mouseup", this.mouseup.bind(this));
+    this.canvas.addEventListener('mousemove', this.mousemove.bind(this));
+    this.canvas.addEventListener('mousedown', this.mousedown.bind(this));
+    this.canvas.addEventListener('mouseup', this.mouseup.bind(this));
+    var wheelSupport = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+    this.canvas.addEventListener(wheelSupport, this.mousewheel.bind(this))
 };
 
 Input.prototype.mousemove = function(e) {
@@ -34,8 +36,8 @@ var buttons = ['left','middle','right'];
 Input.prototype.mousedown = function(e) {
     var button = buttons[e.button];
     switch(button) {
-        case 'left': this.mouseLeft = true; break;
-        case 'right': this.mouseRight = true; break;
+        case 'left': self.mouseLeft = true; break;
+        case 'right': self.mouseRight = true; break;
     }
     this.emit('mousedown', { button: button, x: this.mouseX, y: this.mouseY });
 };
@@ -47,6 +49,12 @@ Input.prototype.mouseup = function(e) {
         case 'right': this.mouseRight = false; break;
     }
     this.emit('mouseup', { button: button, x: this.mouseX, y: this.mouseY });
+};
+
+Input.prototype.mousewheel = function(e) {
+    if(!e.deltaY) return;
+    var direction = e.deltaY > 0 ? 'down' : 'up';
+    this.emit('mousewheel', { direction: direction, x: this.mouseX, y: this.mouseY });
 };
 
 Input.prototype.keydown = function(e) {

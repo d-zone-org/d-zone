@@ -15,23 +15,24 @@ Entity.prototype.addToGame = function(game) {
     this.game.entities.push(this);
     if(!this.game.findEntity) this.game.findEntity = this.findEntity;
     var self = this;
-    this.game.on('update', function(interval) {
-        self.emit('update', interval);
+    this.game.on('update', function() {
+        self.emit('update');
     });
-    if(this.hasOwnProperty('position') && this.hasOwnProperty('size')) {
-        this.game.renderer.zBuffer.push(this);
+    if(this.hasOwnProperty('position')) {
+        this.game.world.addToWorld(this);
+        this.game.renderer.addToZBuffer(this);
     } else {
         this.game.renderer.overlay.push(this);
     }
     this.exists = true;
 };
 
-Entity.prototype.remove = function(){
+Entity.prototype.remove = function() {
     this.exists = false;
     this.removeAllListeners('update');
     this.removeAllListeners('draw');
     
-    if(this.hasOwnProperty('position') && this.hasOwnProperty('size')) {
+    if(this.hasOwnProperty('position')) {
         util.findAndRemove(this, this.game.renderer.zBuffer);
     } else {
         util.findAndRemove(this, this.game.renderer.overlay);
@@ -44,7 +45,7 @@ Entity.prototype.remove = function(){
     });
 };
 
-Entity.prototype.findEntity = function(entity, callback){
+Entity.prototype.findEntity = function(entity, callback) {
     for(var i = 0; i < this.game.entities.length; i++) {
         if(this.game.entities[i] === entity) {
             callback(true, this.game.entities, i);

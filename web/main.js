@@ -12,14 +12,10 @@ game.renderer.addCanvas(canvas);
 game.bindCanvas(canvas);
 
 var World = require('./script/environment/world.js');
-var world = new World(game,16,17);
-
 var Users = require('./script/actors/users.js');
-var users = new Users(game,world);
+var users, world;
 
-console.log('Game initialized!');
-
-game.on('update', function (interval) {
+game.on('update', function () {
     // Update
 });
 var config = JSON.parse(require('fs').readFileSync('./config.json'));
@@ -27,33 +23,30 @@ console.log('Initializing websocket on port',config.server.port);
 
 // Swap the comments on the next 4 lines to switch between your websocket server and a virtual one
 
+// TODO: We don't need websocket-stream, we can use the native browser websocket api
 var WebSocket = require('websocket-stream'),
     ws = WebSocket('ws://'+config.server.address+':'+config.server.port);
 //var TestSocket = require('./script/engine/tester.js'),
 //    ws = new TestSocket(12,2000);
-
-var Actor = require('./script/actors/actor.js');
+// TODO: Loading screen while connecting to websocket and generating world
 //ws.write(new Buffer(JSON.stringify('im a client!')));
 ws.on('data',function(data) {
     data = JSON.parse(data);
     if(data.type == 'init') { // Initial server status
+        world = new World(game, Math.round(3 * Math.sqrt(Object.keys(data.data).length)));
+        users = new Users(game,world);
+        //return;
         console.log('Initializing actors',data.data);
         var actorCount = 0;
         for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
-            var actor = new Actor(0,0,0);
-            actor.uid = data.data[uid].user.id;
-            actor.setUsername(data.data[uid].user.username,game);
-            actor.setRoleColor(data.data[uid].roleColor);
-            actor.updatePresence(data.data[uid].status);
-            users.addActor(actor);
-            actor.addToGame(game);
+            users.addActor(data.data[uid]);
             actorCount++;
         }
         console.log((actorCount).toString()+' actors created');
     } else if(data.type == 'presence') { // User status update
+        if(!users.actors[data.data.uid]) return;
         users.actors[data.data.uid].updatePresence(data.data.status);
     } else if(data.type == 'message') { // Chatter
-        if(!data.data.message) return;
         users.queueMessage(data.data);
     } {
         //console.log('Websocket data:',data);
@@ -69,7 +62,7 @@ ws.broadcast = function broadcast(data) {
     });
 };
 
-//setTimeout(function() { game.paused = true; },3000);
+//setTimeout(function() { game.paused = true; },1000);
 
 window.pause = function() { game.paused = true; };
 window.unpause = function() { game.paused = false; };

@@ -1,24 +1,25 @@
 'use strict';
 var TextBox = require('./../common/textbox.js');
+var Actor = require('./actor.js');
 
 module.exports = Users;
 
 function Users(game,world) {
     this.game = game;
     this.world = world;
-    
     this.actors = {};
+    this.messageQueue = {};
 }
 
-Users.prototype.addActor = function(actor) {
-    var grid = this.world.randomEmptyGrid(actor);
-    actor.position = {
-        x: grid.x * this.world.gridSize,
-        y: grid.y * this.world.gridSize,
-        z: this.world.map[grid.x+':'+grid.y].size.z
-    };
+Users.prototype.addActor = function(data) {
+    var grid = this.world.randomEmptyGrid();
+    var actor = new Actor(grid.position.x, grid.position.y, grid.position.z + grid.height);
+    actor.uid = data.user.id;
+    actor.username = data.user.username;
+    actor.setRoleColor(data.roleColor);
+    actor.updatePresence(data.status);
     this.actors[actor.uid] = actor;
-    this.messageQueue = {};
+    actor.addToGame(this.game);
 };
 
 Users.prototype.removeActor = function(actor) {
@@ -27,6 +28,7 @@ Users.prototype.removeActor = function(actor) {
 };
 
 Users.prototype.queueMessage = function(data) {
+    if(!data.message || !this.actors[data.uid]) return;
     if(!this.messageQueue[data.channel]) this.messageQueue[data.channel] = { busy: false, messages: [] };
     this.messageQueue[data.channel].messages.push({
         uid: data.uid,

@@ -24,27 +24,33 @@ function Game(options) {
     this.centerMouseY = 0;
     this.entities = [];
     this.schedule = [];
-
+    
     var self = this;
-    this.interval = setInterval(function(){
+    this.interval = setInterval(function() {
         if(self.crashed) return;
-        self.dt += now() - self.lastUpdate;
+        var rightNow = now();
+        self.dt += rightNow - self.lastUpdate;
+        //if((self.ticks & 7) == 0) console.log(delta);
         if(self.lastUpdate > 0 && self.dt > 60000) {
             console.log('too many updates missed! game crash...');
             self.crashed = true; self.paused = true;
         }
         if(self.dt > self.step) {
             while(self.dt >= self.step) {
-                self.dt -= self.step; if(self.paused) { continue; } else { self.rendered = false; }
-                self.ticks++; self.update();
+                self.dt -= self.step; 
+                if(self.paused) continue;
+                self.ticks++; 
+                self.update();
             }
         }
         self.lastUpdate = now();
-    },this.step);
+    }, this.step);
 }
 
 Game.prototype.update = function() {
-    this.emit('update',this.dt);
+    //var timeThis = (this.ticks & 63) == 0;
+    //if(timeThis) console.time('update');
+    this.emit('update');
     for(var i = 0; i < this.schedule.length; i++) {
         var task = this.schedule[i];
         var endTick;
@@ -62,6 +68,7 @@ Game.prototype.update = function() {
             i--;
         }
     }
+    //if(timeThis) console.timeEnd('update');
 };
 
 Game.prototype.bindCanvas = function(canvas) {
@@ -71,12 +78,14 @@ Game.prototype.bindCanvas = function(canvas) {
     this.input.on('mousemove',this.mousemove.bind(this));
     this.input.on('mousedown',this.mousedown.bind(this));
     this.input.on('mouseup',this.mouseup.bind(this));
+    this.input.on('mousewheel',this.mousewheel.bind(this));
     canvas.on('resize',this.viewResize.bind(this));
 };
 
 Game.prototype.viewResize = function(resize) {
     this.viewWidth = resize.width;
     this.viewHeight = resize.height;
+    this.input.mouseScale = resize.scale;
 };
 
 Game.prototype.mousemove = function(mouseEvent) {
@@ -93,6 +102,10 @@ Game.prototype.mousedown = function(mouseEvent) {
 
 Game.prototype.mouseup = function(mouseEvent) {
     this.emit('mouseup',mouseEvent);
+};
+
+Game.prototype.mousewheel = function(mouseEvent) {
+    this.emit('mousewheel',mouseEvent);
 };
 
 Game.prototype.keydown = function(keyEvent) {
