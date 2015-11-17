@@ -15,7 +15,7 @@ function Renderer(options) {
     this.frames = 0;
     
     var self = this;
-    this.game.on('update', function () {
+    this.game.on('render', function () {
         self.updateDrawn = false;
     });
     var draw = function() {

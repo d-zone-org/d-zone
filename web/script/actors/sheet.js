@@ -20,6 +20,13 @@ var map = {
             south: { x: 70, y: 0, w: 14, h: 14, ox: 0, oy: 5 },
             east: { x: 84, y: 0, w: 14, h: 14, ox: 0, oy: 5 },
             west: { x: 70, y: 0, w: 14, h: 14, ox: 0, oy: 5 }
+        },
+        hopping: {
+            animation: { frames: 14, zStartFrame: 5 },
+            north: { x: 0, y: 81, w: 35, h: 27, ox: -2, oy: -6 },
+            south: { x: 0, y: 135, w: 35, h: 25, ox: -19, oy: 3 },
+            east: { x: 0, y: 56, w: 35, h: 25, ox: -2, oy: 3 },
+            west: { x: 0, y: 108, w: 35, h: 27, ox: -19, oy: -6 }
         }
     }
 };

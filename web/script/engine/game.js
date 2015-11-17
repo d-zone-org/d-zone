@@ -49,6 +49,7 @@ function Game(options) {
 
 Game.prototype.update = function() {
     //var timeThis = (this.ticks & 63) == 0;
+    //if(timeThis) console.log(this.entities.length);
     //if(timeThis) console.time('update');
     this.emit('update');
     for(var i = 0; i < this.schedule.length; i++) {
@@ -68,6 +69,7 @@ Game.prototype.update = function() {
             i--;
         }
     }
+    this.emit('render');
     //if(timeThis) console.timeEnd('update');
 };
 

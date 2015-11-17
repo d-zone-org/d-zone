@@ -71,12 +71,12 @@ World.prototype.crawlMap = function() {
                     nw[n].position.z + allowance : lowestZ;
             }
             var zDelta = lowestZ - currentTile.position.z;
-            if(zDelta < 0) currentTile.move({x:0,y:0,z:zDelta},true);
+            if(zDelta < 0) currentTile.move(0, 0, zDelta);
             // Check if the neighbors behind are too high
             for(var n2 = 0; n2 < nw.length; n2++) { if(!nw[n2]) continue;
                 if(nw[n2].position.z > currentTile.position.z + 0.5) {
                     zDelta = currentTile.position.z + 0.5 - nw[n2].position.z;
-                    nw[n2].move({x:0,y:0,z:zDelta},true);
+                    nw[n2].move(0, 0, zDelta);
                     goBack = { x: +(nw[n2].grid.split(':')[0]), y: +(nw[n2].grid.split(':')[1]) };
                 }
             }
@@ -146,13 +146,15 @@ World.prototype.addToWorld = function(obj) {
         this.objects[obj.position.x] = {};
         this.objects[obj.position.x][obj.position.y] = {}
     }
-    if(this.objects[obj.position.x][obj.position.y][obj.position.z]) console.log('no no no no!!');
     this.objects[obj.position.x][obj.position.y][obj.position.z] = obj;
-    return true;
 };
 
-World.prototype.moveObject = function(obj,x1,y1,z1,x2,y2,z2) {
-    delete this.objects[x1][y1][z1];
+World.prototype.removeFromWorld = function(obj) {
+    delete this.objects[obj.position.x][obj.position.y][obj.position.z];
+};
+
+World.prototype.moveObject = function(obj,x2,y2,z2) {
+    delete this.objects[obj.position.x][obj.position.y][obj.position.z];
     obj.position.x = x2;
     obj.position.y = y2;
     obj.position.z = z2;

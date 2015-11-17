@@ -11,21 +11,24 @@ function Wander(actor) {
 }
 
 Wander.prototype.impulse = function() {
+    if(this.state == 'moving' || this.actor.talking) return;
     var direction = util.pickInObject(Geometry.DIRECTIONS);
-    this.actor.move({
-        x: Geometry.DIRECTIONS[direction].x, y: Geometry.DIRECTIONS[direction].y, z: 0
-    });
+    var moveXY = Geometry.DIRECTIONS[direction];
     this.actor.facing = direction;
+    var canMove = this.actor.tryMove(moveXY.x, moveXY.y, 0);
+    if(canMove) {
+        this.actor.destination = canMove;
+        this.actor.startMove();
+        this.state = 'moving';
+        this.actor.once('movecomplete', this.impulseComplete.bind(this))
+    }
+};
+
+Wander.prototype.impulseComplete = function() {
+    this.state = 'idle';
 };
 
 Wander.prototype.detach = function() { // Detach behavior from actor
-    this.actor.removeAllListeners('collision',this.onCollision.bind(this));
+    this.actor.removeAllListeners('movecomplete',this.impulseComplete.bind(this));
     delete this.actor;
-};
-
-Wander.prototype.onCollision = function() {
-    if(this.state == 'moving') {
-        this.state = 'idle';
-        this.heading = false;
-    }
 };

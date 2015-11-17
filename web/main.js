@@ -39,8 +39,10 @@ ws.on('data',function(data) {
         console.log('Initializing actors',data.data);
         var actorCount = 0;
         for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
+            //if(data.data[uid].status != 'online') continue;
             users.addActor(data.data[uid]);
             actorCount++;
+            //break;
         }
         console.log((actorCount).toString()+' actors created');
     } else if(data.type == 'presence') { // User status update

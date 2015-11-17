@@ -18,6 +18,7 @@ BetterCanvas.prototype.drawImage = function(img,sx,sy,sw,sh,dx,dy,dw,dh) {
     if(!img || !(sx >= 0) || !(sy >= 0) || !(sw >= 1) || !(sh >= 1)
         || !isNumeric(dx) || !isNumeric(dy) || !(dw >= 1) || !(dh >= 1)) {
         console.error('bad drawImage params!',img,sx,sy,sw,sh,dx,dy,dw,dh);
+        window.pause();
     }
     this.context.drawImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
 };
@@ -30,6 +31,7 @@ BetterCanvas.prototype.fill = function(color) {
 BetterCanvas.prototype.fillRect = function(color,x,y,w,h) {
     if(!isNumeric(x) || !isNumeric(y) || !isNumeric(w) || !isNumeric(h)) {
         console.error('bad fillRect params!',color,x,y,w,h);
+        window.pause();
     }
     this.context.fillStyle = color;
     this.context.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));

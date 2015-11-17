@@ -105,7 +105,7 @@ Canvas.prototype.drawImageIso = function(obj) {
     var screen = obj.toScreen();
     if(this.autosize) {
         screen.x += this.width/2;
-        screen.y += this.height/2 + 32;
+        screen.y += this.height/2;
     }
     screen.x += this.panning.panned.x;
     screen.y += this.panning.panned.y;

@@ -20,7 +20,7 @@ Entity.prototype.addToGame = function(game) {
     });
     if(this.hasOwnProperty('position')) {
         this.game.world.addToWorld(this);
-        this.game.renderer.addToZBuffer(this);
+        if(!this.invisible) this.game.renderer.addToZBuffer(this);
     } else {
         this.game.renderer.overlay.push(this);
     }
@@ -33,11 +33,11 @@ Entity.prototype.remove = function() {
     this.removeAllListeners('draw');
     
     if(this.hasOwnProperty('position')) {
-        util.findAndRemove(this, this.game.renderer.zBuffer);
+        if(!this.invisible) util.findAndRemove(this, this.game.renderer.zBuffer);
+        this.game.world.removeFromWorld(this);
     } else {
         util.findAndRemove(this, this.game.renderer.overlay);
     }
-    
     this.findEntity(this, function(exists, entities, index) {
         if(exists) {
             entities.splice(index, 1);
