@@ -12,8 +12,7 @@ module.exports = Actor;
 inherits(Actor, WorldObject);
 
 function Actor(x,y,z) {
-    WorldObject.call(this, {position:{x:x,y:y,z:z},pixelSize:{x:7,y:7,z:8}});
-    this.height = 0.5;
+    WorldObject.call(this, {position:{x:x,y:y,z:z},pixelSize:{x:7,y:7,z:8},height:0.5});
     this.sheet = new Sheet('actor');
     var self = this;
     this.on('draw',function(canvas) {
@@ -30,6 +29,18 @@ function Actor(x,y,z) {
 
 Actor.prototype.onUpdate = function() {
     if(this.destination) this.doMove();
+};
+
+Actor.prototype.addToGame = function(game) {
+    WorldObject.prototype.addToGame.call(this, game);
+    this.game.on('update', this.onUpdate.bind(this));
+};
+
+Actor.prototype.remove = function() {
+    WorldObject.prototype.remove.call(this);
+    console.log('removing listener',this.game.listenerCount('update'));
+    this.game.removeListener('update',this.onUpdate.bind(this));
+    console.log(this.game.listenerCount('update'));
 };
 
 Actor.prototype.updatePresence = function(presence) {
@@ -153,6 +164,7 @@ Actor.prototype.move = function(x, y, z, absolute) {
     var newY = (absolute ? 0 : this.position.y) + y;
     var newZ = (absolute ? 0 : this.position.z) + z;
     this.game.world.moveObject(this,newX,newY,newZ);
+    this.screen = this.toScreen();
     var previousZDepth = this.zDepth;
     this.zDepth = this.calcZDepth();
     if(previousZDepth != this.zDepth) this.game.renderer.updateZBuffer(previousZDepth, this);

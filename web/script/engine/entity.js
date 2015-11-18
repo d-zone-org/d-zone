@@ -15,9 +15,6 @@ Entity.prototype.addToGame = function(game) {
     this.game.entities.push(this);
     if(!this.game.findEntity) this.game.findEntity = this.findEntity;
     var self = this;
-    this.game.on('update', function() {
-        self.emit('update');
-    });
     if(this.hasOwnProperty('position')) {
         this.game.world.addToWorld(this);
         if(!this.invisible) this.game.renderer.addToZBuffer(this);
@@ -27,10 +24,12 @@ Entity.prototype.addToGame = function(game) {
     this.exists = true;
 };
 
+Entity.prototype.onUpdate = function() {
+    
+};
+
 Entity.prototype.remove = function() {
     this.exists = false;
-    this.removeAllListeners('update');
-    this.removeAllListeners('draw');
     
     if(this.hasOwnProperty('position')) {
         if(!this.invisible) util.findAndRemove(this, this.game.renderer.zBuffer);

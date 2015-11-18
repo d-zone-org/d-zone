@@ -8,8 +8,7 @@ module.exports = Tile;
 inherits(Tile, WorldObject);
 
 function Tile(style,x,y,z) {
-    WorldObject.call(this, {position:{x:x,y:y,z:z},pixelSize:{x:16,y:16,z:1}});
-    this.height = 0;
+    WorldObject.call(this, {position:{x:x,y:y,z:z},pixelSize:{x:16,y:16,z:1},height:0});
     this.style = style;
     this.sheet = new Sheet('tile');
     if(Math.random() < 0.1) {

@@ -8,8 +8,7 @@ module.exports = HalfBlock;
 inherits(HalfBlock, WorldObject);
 
 function HalfBlock(style,x,y,z) {
-    WorldObject.call(this, {position:{x:x,y:y,z:z},pixelSize:{x:16,y:16,z:9}});
-    this.height = 0.5;
+    WorldObject.call(this, {position:{x:x,y:y,z:z},pixelSize:{x:16,y:16,z:9},height:0.5});
     this.style = style;
     this.sheet = new Sheet('halfBlock');
     this.variation = 0;

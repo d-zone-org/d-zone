@@ -90,6 +90,8 @@ Canvas.prototype.onResize = function() {
     this.scale = 2;/*util.clamp(nativeScale + this.scrollZoom - 3, 1,4);*/
     this.width = this.canvas.canvas.width = Math.ceil(window.innerWidth / this.scale);
     this.height = this.canvas.canvas.height = Math.ceil(window.innerHeight / this.scale);
+    this.halfWidth = Math.round(this.width/2);
+    this.halfHeight = Math.round(this.height/2);
     this.emit('resize',{ scale: this.scale, width: this.width, height: this.height });
     //if(this.scale == oldScale) return;
     //this.canvas.canvas.style.transform = 'scale(' + this.scale + ', ' + this.scale + ')';
@@ -102,10 +104,10 @@ Canvas.prototype.draw = function() {
 Canvas.prototype.drawImageIso = function(obj) {
     var sprite = obj.getSprite();
     if(!sprite || !sprite.image) return;
-    var screen = obj.toScreen();
+    var screen = { x: obj.screen.x, y: obj.screen.y };
     if(this.autosize) {
-        screen.x += this.width/2;
-        screen.y += this.height/2;
+        screen.x += this.halfWidth;
+        screen.y += this.halfHeight;
     }
     screen.x += this.panning.panned.x;
     screen.y += this.panning.panned.y;

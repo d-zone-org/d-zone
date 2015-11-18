@@ -14,6 +14,8 @@ function Renderer(options) {
     this.overlay = [];
     this.frames = 0;
     
+    var lastRenderTime = 0;
+    
     var self = this;
     this.game.on('render', function () {
         self.updateDrawn = false;
@@ -21,8 +23,9 @@ function Renderer(options) {
     var draw = function() {
         if(self.updateDrawn == false) {
             if(self.canvases) {
-                //var timeThis = (self.game.ticks & 63) == 0;
-                //if(timeThis) console.time('render');
+                var timeThis = (self.game.ticks & 1023) == 0;
+                if(timeThis) console.time('render');
+                //if(timeThis) var renderStart = performance.now();
                 for(var c = 0; c < self.canvases.length; c++) {
                     self.canvases[c].draw();
                     self.emit('draw', self.canvases[c]);
@@ -36,7 +39,12 @@ function Renderer(options) {
                         self.overlay[o].emit('draw',self.canvases[c])
                     }
                 }
-                //if(timeThis) console.timeEnd('render');
+                if(timeThis) console.timeEnd('render');
+                //if(timeThis) var thisRenderTime = performance.now() - renderStart;
+                //if(timeThis) var renderTimeChange = thisRenderTime-lastRenderTime;
+                //if(timeThis && renderTimeChange <= 0) console.log('%c'+renderTimeChange, 'color: #00bb00');
+                //if(timeThis && renderTimeChange > 0) console.log('%c'+renderTimeChange, 'color: #ff0000');
+                //if(timeThis) lastRenderTime = thisRenderTime;
             }
             //self.frames++;
             //if((self.game.ticks & 63) == 0) {

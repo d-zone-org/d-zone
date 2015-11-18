@@ -11,7 +11,7 @@ module.exports = Game;
 inherits(Game, EventEmitter);
 
 function Game(options) {
-    this.setMaxListeners(0);
+    this.setMaxListeners(1000);
     this.step = options.step || 1000/60;
     this.lastUpdate = 0;
     this.dt = 0;
@@ -47,10 +47,12 @@ function Game(options) {
     }, this.step);
 }
 
+var lastUpdateTime = 0;
 Game.prototype.update = function() {
-    //var timeThis = (this.ticks & 63) == 0;
-    //if(timeThis) console.log(this.entities.length);
-    //if(timeThis) console.time('update');
+    var timeThis = (this.ticks & 1023) == 0;
+    if(timeThis) console.time('update');
+    //if(timeThis) var updateStart = now();
+    //if(timeThis) console.log('entities:', this.entities.length);
     this.emit('update');
     for(var i = 0; i < this.schedule.length; i++) {
         var task = this.schedule[i];
@@ -70,7 +72,12 @@ Game.prototype.update = function() {
         }
     }
     this.emit('render');
-    //if(timeThis) console.timeEnd('update');
+    if(timeThis) console.timeEnd('update');
+    //if(timeThis) var thisUpdateTime = now() - updateStart;
+    //if(timeThis) var updateTimeChange = thisUpdateTime-lastUpdateTime;
+    //if(timeThis && updateTimeChange <= 0) console.log('%c'+updateTimeChange, 'color: #00bb00');
+    //if(timeThis && updateTimeChange > 0) console.log('%c'+updateTimeChange, 'color: #ff0000');
+    //if(timeThis) lastUpdateTime = thisUpdateTime;
 };
 
 Game.prototype.bindCanvas = function(canvas) {

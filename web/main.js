@@ -15,9 +15,9 @@ var World = require('./script/environment/world.js');
 var Users = require('./script/actors/users.js');
 var users, world;
 
-game.on('update', function () {
-    // Update
-});
+//game.on('update', function () {
+//    // Update
+//});
 var config = JSON.parse(require('fs').readFileSync('./config.json'));
 console.log('Initializing websocket on port',config.server.port);
 
@@ -37,14 +37,12 @@ ws.on('data',function(data) {
         users = new Users(game,world);
         //return;
         console.log('Initializing actors',data.data);
-        var actorCount = 0;
         for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
             //if(data.data[uid].status != 'online') continue;
             users.addActor(data.data[uid]);
-            actorCount++;
             //break;
         }
-        console.log((actorCount).toString()+' actors created');
+        console.log((Object.keys(users.actors).length).toString()+' actors created');
     } else if(data.type == 'presence') { // User status update
         if(!users.actors[data.data.uid]) return;
         users.actors[data.data.uid].updatePresence(data.data.status);
@@ -68,3 +66,4 @@ ws.broadcast = function broadcast(data) {
 
 window.pause = function() { game.paused = true; };
 window.unpause = function() { game.paused = false; };
+window.game = game;

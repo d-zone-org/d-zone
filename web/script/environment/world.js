@@ -80,6 +80,7 @@ World.prototype.crawlMap = function() {
                     goBack = { x: +(nw[n2].grid.split(':')[0]), y: +(nw[n2].grid.split(':')[1]) };
                 }
             }
+            // TODO: Tiles without lower neighbors north and west can be put in the static map canvas
             // If we adjusted a previous tile's height, we need to go back to it
             if(goBack) { x = goBack.x; y = goBack.y - 1; continue; }
             if(crawled[currentTile.grid]) continue; // Skip already-crawled tiles
