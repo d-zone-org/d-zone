@@ -15,12 +15,13 @@ function TextBox(parent, text) {
     this.blotter = new TextBlotter();
     var self = this;
     this.on('draw',function(canvas) {
-        canvas.drawImageIso(self);
+        canvas.drawEntity(self);
     });
 }
 
 TextBox.prototype.getSprite = function() {
     if(!this.canvas) return;
+    this.screen = this.toScreen();
     return {
         metrics: { x: 0, y: 0, w: this.canvas.width, h: this.canvas.height },
         image: this.canvas
@@ -28,7 +29,7 @@ TextBox.prototype.getSprite = function() {
 };
 
 TextBox.prototype.toScreen = function() {
-    var parent = this.parent.toScreen();
+    var parent = this.parent.screen;
     return {
         x: parent.x - this.canvas.width/2 + this.parent.pixelSize.x,
         y: parent.y - 18

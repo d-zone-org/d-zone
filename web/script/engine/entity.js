@@ -6,15 +6,11 @@ var util = require('./../common/util.js');
 module.exports = Entity;
 inherits(Entity, EventEmitter);
 
-function Entity() {
-    
-}
+function Entity() {}
 
 Entity.prototype.addToGame = function(game) {
     this.game = game;
     this.game.entities.push(this);
-    if(!this.game.findEntity) this.game.findEntity = this.findEntity;
-    var self = this;
     if(this.hasOwnProperty('position')) {
         this.game.world.addToWorld(this);
         if(!this.invisible) this.game.renderer.addToZBuffer(this);
@@ -37,19 +33,7 @@ Entity.prototype.remove = function() {
     } else {
         util.findAndRemove(this, this.game.renderer.overlay);
     }
-    this.findEntity(this, function(exists, entities, index) {
-        if(exists) {
-            entities.splice(index, 1);
-        }
-    });
-};
-
-Entity.prototype.findEntity = function(entity, callback) {
-    for(var i = 0; i < this.game.entities.length; i++) {
-        if(this.game.entities[i] === entity) {
-            callback(true, this.game.entities, i);
-        }
-    }
+    util.findAndRemove(this, this.game.entities);
 };
 
 Entity.prototype.tickDelay = function(cb, ticks) { // Execute callback after X ticks

@@ -6,7 +6,6 @@ var WorldObject = require('./../engine/worldobject.js');
 var Sheet = require('./sheet.js');
 var Placeholder = require('./placeholder.js');
 var Wander = require('./behaviors/wander.js');
-var ColorUtil = require('./../common/colorutil.js');
 
 module.exports = Actor;
 inherits(Actor, WorldObject);
@@ -16,7 +15,7 @@ function Actor(x,y,z) {
     this.sheet = new Sheet('actor');
     var self = this;
     this.on('draw',function(canvas) {
-        if(self.exists) canvas.drawImageIso(self);
+        if(self.exists) canvas.drawEntity(self);
     });
     this.presence = 'offline';
     this.talking = false;
@@ -57,13 +56,16 @@ Actor.prototype.updatePresence = function(presence) {
 };
 
 Actor.prototype.getSprite = function() {
-    if(!this.sheet) return;
     var facing = this.facing, state = this.destination ? 'hopping' : this.presence;
     if(!this.destination && this.talking) {
         state = 'online';
         facing = facing == 'north' ? 'east' : facing == 'west' ? 'south' : facing;
     }
-    var metrics = JSON.parse(JSON.stringify(this.sheet.map[state][facing]));
+    var metrics = {
+        x: this.sheet.map[state][facing].x, y: this.sheet.map[state][facing].y,
+        w: this.sheet.map[state][facing].w, h: this.sheet.map[state][facing].h,
+        ox: this.sheet.map[state][facing].ox, oy: this.sheet.map[state][facing].oy
+    };
     if(!this.destination && this.talking) {
         metrics.y += (Math.floor(this.game.ticks / 4) % 4) * metrics.h;
     } else if(this.destination) {
@@ -78,23 +80,13 @@ Actor.prototype.getSprite = function() {
             }
         }
     }
-    return {
-        metrics: metrics,
-        image: this.sheet.image || this.sheet.getSprite()
-    };
+    return { metrics: metrics, image: 'actors' };
 };
 
 Actor.prototype.setRoleColor = function(color) {
     if(!color) return;
     this.roleColor = color;
-    if(this.sheet.image) { // If image already loaded
-        this.sheet.image = ColorUtil.colorize(this.sheet.image, color, 0.75);
-    } else { // Else wait for image to load
-        var self = this;
-        this.sheet.onLoad(function() {
-            self.sheet.image = ColorUtil.colorize(self.sheet.getSprite(), color, 0.75);
-        });
-    }
+    this.game.renderer.addColorSheet('actors',color);
 };
 
 Actor.prototype.newImpulse = function() {

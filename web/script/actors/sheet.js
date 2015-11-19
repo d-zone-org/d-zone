@@ -1,5 +1,4 @@
 'use strict';
-var SpriteSheet = require('./../engine/spritesheet.js');
 
 var map = {
     actor: {
@@ -30,22 +29,9 @@ var map = {
         }
     }
 };
-var image = new SpriteSheet('actors.png');
-image.once('loaded',function(canvas) {
-    image.img = canvas;
-});
 
 module.exports = Sheet;
 
 function Sheet(spriteName) {
     this.map = JSON.parse(JSON.stringify(map[spriteName]));
 }
-
-Sheet.prototype.getSprite = function() {
-    if(!image.img) return;
-    return image.img;
-};
-
-Sheet.prototype.onLoad = function(cb) {
-    image.once('loaded',cb);
-};

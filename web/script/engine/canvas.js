@@ -74,6 +74,10 @@ function Canvas(options) {
     });
 }
 
+Canvas.prototype.setRenderer = function(renderer) {
+    this.images = renderer.images;
+};
+
 // TODO: Create 4 different canvases to swap between when changing zoom level
 // TODO: to prevent canvas occasionally flashing and blurring on chrome
 
@@ -101,14 +105,19 @@ Canvas.prototype.draw = function() {
     this.canvas.fill(this.backgroundColor);
 };
 
-Canvas.prototype.drawImageIso = function(obj) {
+Canvas.prototype.drawStatic = function(staticCanvas) {
+    var x = staticCanvas.x, y = staticCanvas.y;
+    if(this.autosize) { x += this.halfWidth; y += this.halfHeight; }
+    x += this.panning.panned.x;
+    y += this.panning.panned.y;
+    this.canvas.context.drawImage(staticCanvas.image, x, y);
+};
+
+Canvas.prototype.drawEntity = function(obj) {
     var sprite = obj.getSprite();
     if(!sprite || !sprite.image) return;
     var screen = { x: obj.screen.x, y: obj.screen.y };
-    if(this.autosize) {
-        screen.x += this.halfWidth;
-        screen.y += this.halfHeight;
-    }
+    if(this.autosize) { screen.x += this.halfWidth; screen.y += this.halfHeight; }
     screen.x += this.panning.panned.x;
     screen.y += this.panning.panned.y;
     screen.x += sprite.metrics.ox || 0;
@@ -119,13 +128,15 @@ Canvas.prototype.drawImageIso = function(obj) {
     }
     if(screen.x >= this.width || screen.y >= this.height
         || screen.x + sprite.metrics.w <= 0 || screen.y + sprite.metrics.h <= 0) return;
+    var image = obj.roleColor ? this.images[obj.roleColor][sprite.image] 
+        : (this.images[sprite.image] || sprite.image);
     this.canvas.drawImage(
-        sprite.image, sprite.metrics.x, sprite.metrics.y, sprite.metrics.w, sprite.metrics.h,
+        image, sprite.metrics.x, sprite.metrics.y, sprite.metrics.w, sprite.metrics.h,
         Math.round(screen.x), Math.round(screen.y), sprite.metrics.w, sprite.metrics.h
     );
-    //if(obj.grid) { // Show tile grid
-    //    this.canvas.context.fillStyle = 'white';
-    //    this.canvas.context.font="9px Arial";
-    //    this.canvas.context.fillText(obj.grid,Math.round(screen.x)+5, Math.round(screen.y)+9);
-    //}
+    if(this.game.showGrid && obj.grid) { // Show tile grid
+        this.canvas.context.fillStyle = 'gray';
+        this.canvas.context.font="9px Arial";
+        this.canvas.context.fillText(obj.grid,Math.round(screen.x)+5, Math.round(screen.y)+9);
+    }
 };

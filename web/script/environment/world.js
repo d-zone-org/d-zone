@@ -9,18 +9,17 @@ var HalfBlock = require('./halfblock.js');
 module.exports = World;
 
 var Canvas = require('./../common/bettercanvas.js');
-var testCanvas = new Canvas(100,50);
+var testCanvas = new Canvas(200,100);
 document.body.appendChild(testCanvas.canvas);
 
 function World(game,worldSize) {
     this.game = game;
     this.game.world = this;
-    this.worldSize = Math.floor(worldSize/2)*2; // Must be an even number
+    this.worldSize = Math.max(24,Math.floor(worldSize/2)*2); // Must be an even number >= 24
     this.worldRadius = Math.floor(worldSize/2);
     this.objects = {};
     // Grid-based map to hold world tiles
     this.map = {};
-    console.log('generating world size',this.worldSize);
     
     var noiseBig = geometry.buildNoiseMap(this.worldRadius/3 + 1, this.worldRadius/3 + 1);
     var noiseSmall = geometry.buildNoiseMap(this.worldRadius/1.5 + 1,this.worldRadius/1.5 + 1);
@@ -42,14 +41,54 @@ function World(game,worldSize) {
             this.mapBounds.xh = x > this.mapBounds.xh ? x : this.mapBounds.xh;
             this.mapBounds.yh = y > this.mapBounds.yh ? y : this.mapBounds.yh;
             var height = Math.round(noiseValue * (1/farness) * 6);
-            grid = new HalfBlock('plain', x, y, height/2);
+            grid = new Tile('plain', x, y, height/2);
             grid.grid = x+':'+y;
             this.map[x+':'+y] = grid;
             grid.addToGame(game);
         }
     }
+    this.staticMap = [];
     this.crawlMap(); // Examine map to determine islands, border tiles, fix elevation, etc
     this.marchSquares(); // Examine neighbors to determine march bits
+    
+    var lowestScreenX = 0, lowestScreenY = 0, highestScreenX = 0, highestScreenY = 0;
+    for(var i = 0; i < this.staticMap.length; i++) {
+        var preTile = this.staticMap[i];
+        if(!preTile.exists) { this.staticMap.splice(i,1); i--; continue; }
+        var preSprite = preTile.getSprite();
+        var preScreen = { x: preTile.screen.x, y: preTile.screen.y };
+        preScreen.x += preSprite.metrics.ox || 0;
+        preScreen.y += preSprite.metrics.oy || 0;
+        lowestScreenX = lowestScreenX < preScreen.x ? lowestScreenX : preScreen.x;
+        lowestScreenY = lowestScreenY < preScreen.y ? lowestScreenY : preScreen.y;
+        highestScreenX = highestScreenX > preScreen.x ? highestScreenX : preScreen.x;
+        highestScreenY = highestScreenY > preScreen.y ? highestScreenY : preScreen.y;
+    }
+    var staticCanvas = new Canvas(
+        (highestScreenX - lowestScreenX) + 32 + 1,
+        (highestScreenY - lowestScreenY) + 16 + 9
+    );
+    for(var j = 0; j < this.staticMap.length; j++) {
+        var tile = this.staticMap[j];
+        this.game.renderer.removeFromZBuffer(tile);
+        var sprite = tile.getSprite();
+        var screen = { x: tile.screen.x, y: tile.screen.y };
+        screen.x += sprite.metrics.ox || 0;
+        screen.y += sprite.metrics.oy || 0;
+        screen.x -= lowestScreenX;
+        screen.y -= lowestScreenY;
+        staticCanvas.drawImage(
+            this.game.renderer.images[sprite.image], sprite.metrics.x, sprite.metrics.y,
+            sprite.metrics.w, sprite.metrics.h,
+            Math.round(screen.x), Math.round(screen.y), sprite.metrics.w, sprite.metrics.h
+        );
+    }
+    //staticCanvas.context.globalCompositeOperation = 'color';
+    //staticCanvas.fill('#321118');
+    this.game.renderer.staticCanvas = {
+        x: lowestScreenX, y: lowestScreenY,
+        image: staticCanvas.canvas
+    };
     console.log('Created world with',Object.keys(this.map).length,'tiles');
     // TODO: Retry if tile count is too high/low
 }
@@ -80,9 +119,17 @@ World.prototype.crawlMap = function() {
                     goBack = { x: +(nw[n2].grid.split(':')[0]), y: +(nw[n2].grid.split(':')[1]) };
                 }
             }
-            // TODO: Tiles without lower neighbors north and west can be put in the static map canvas
             // If we adjusted a previous tile's height, we need to go back to it
             if(goBack) { x = goBack.x; y = goBack.y - 1; continue; }
+            // Determine if this tile can be put into the static map image
+            currentTile.static = true;
+            nw.push(this.map[(x-1)+':'+(y-1)]); // Include NW tile for static check
+            for(var s = 0; s < nw.length; s++) { if(!nw[s]) { currentTile.static = false; continue; }
+                if(nw[s].position.z < currentTile.position.z) currentTile.static = false;
+            }
+            if(currentTile.static 
+                && this.staticMap.indexOf(currentTile) < 0) this.staticMap.push(currentTile);
+            
             if(crawled[currentTile.grid]) continue; // Skip already-crawled tiles
             var neighborsToCrawl = [];
             while(true) { // Keep crawling outward until no neighbors are left
@@ -102,8 +149,8 @@ World.prototype.crawlMap = function() {
                 }
                 var color = currentTile.border ? 'white' : // Draw debug map
                     ['red','blue','green','yellow','orange','purple','teal'][thisIsland];
-                testCanvas.fillRect(color, +currentTile.grid.split(':')[0]+this.worldSize*1.5+2,
-                    +currentTile.grid.split(':')[1]+this.worldSize/2+2, 1, 1);
+                testCanvas.fillRect(color, +currentTile.grid.split(':')[0]*2+this.worldSize*3+2,
+                    +currentTile.grid.split(':')[1]*2+this.worldSize+2, 2, 2);
                 if(neighborsToCrawl.length > 0) {
                     currentTile = neighborsToCrawl.pop();
                 } else { thisIsland++; break; } // No more neighbors, this island is done
@@ -125,12 +172,27 @@ World.prototype.crawlMap = function() {
 
 World.prototype.marchSquares = function() {
     for(var key in this.map) { if(!this.map.hasOwnProperty(key)) continue;
-        if(!(this.map[key] instanceof Tile)) continue;
         var neighbors = geometry.getNeighbors(key);
-        var w = this.map[neighbors.w], n = this.map[neighbors.n];
-        w = w instanceof Tile ? 0 : 1;
-        n = n instanceof Tile ? 0 : 1;
-        this.map[key].setMarch(w | (n << 1));
+        var wt = this.map[neighbors.w], nt = this.map[neighbors.n],
+            et = this.map[neighbors.e], st = this.map[neighbors.s],
+            w = 0, n = 0, e = 0, s = 0;
+        w = 0;
+        n = 0;
+        if(et) {
+            if(this.map[key].position.z == et.position.z + 0.5) e = 1;
+            else if(this.map[key].position.z != et.position.z
+                && this.map[key].position.z != et.position.z - 0.5) e = 2;
+        } else {
+            e = 2;
+        }
+        if(st) {
+            if(this.map[key].position.z == st.position.z + 0.5) s = 1;
+            else if(this.map[key].position.z != st.position.z
+                && this.map[key].position.z != st.position.z - 0.5) s = 2;
+        } else {
+            s = 2;
+        }
+        this.map[key].march = w | (n << 2) | (e << 4) | (s << 6);
     }
 };
 
@@ -138,6 +200,8 @@ World.prototype.addToWorld = function(obj) {
     if(this.objects[obj.position.x]) {
         if(this.objects[obj.position.x][obj.position.y]) {
             if(this.objects[obj.position.x][obj.position.y][obj.position.z]) {
+                console.error('occupado!',
+                    obj,this.objects[obj.position.x][obj.position.y][obj.position.z]);
                 return false;
             }
         } else {
@@ -162,24 +226,11 @@ World.prototype.moveObject = function(obj,x2,y2,z2) {
     this.addToWorld(obj)
 };
 
-World.prototype.randomGrid = function() {
-    var self = this;
-    function randomRange() { 
-        return util.randomIntRange(self.worldRadius*-1,self.worldRadius); 
-    }
-    var x = randomRange(), y = randomRange();
-    while(!this.map[x+':'+y]) {
-        x = randomRange();
-        y = randomRange();
-    }
-    return this.map[x+':'+y];
-};
-
 World.prototype.randomEmptyGrid = function() {
     var safety = 0;
     do {
-        var grid = this.randomGrid();
-        var unoccupied = !this.objectAtXYZ(grid.position.x,grid.position.y,grid.position.z);
+        var grid = this.map[util.pickInObject(this.map)];
+        var unoccupied = !this.objectAtXYZ(grid.position.x,grid.position.y,grid.position.z+grid.height);
         safety++;
     }
     while(safety < 1000 && !unoccupied);
@@ -201,4 +252,16 @@ World.prototype.objectUnderXYZ = function(x,y,z) {
         highest = +zKey > highest ? +zKey : highest;
     }
     return this.objects[x][y][highest];
+};
+
+World.prototype.findObject = function(obj) { // For debugging
+    for(var xKey in this.objects) { if (!this.objects.hasOwnProperty(xKey)) continue;
+        var xObjects = this.objects[xKey];
+        for(var yKey in xObjects) { if (!xObjects.hasOwnProperty(yKey)) continue;
+            var yObjects = xObjects[yKey];
+            for(var zKey in yObjects) { if (!yObjects.hasOwnProperty(zKey)) continue;
+                if(obj === yObjects[zKey]) return [xKey,yKey,zKey];
+            }
+        }
+    }
 };

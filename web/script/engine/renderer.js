@@ -2,12 +2,14 @@
 var EventEmitter = require('events').EventEmitter;
 var requestAnimationFrame = require('raf');
 var inherits = require('inherits');
+var ColorUtil = require('./../common/colorutil.js');
 
 module.exports = Renderer;
 inherits(Renderer, EventEmitter);
 
 function Renderer(options) {
     this.game = options.game;
+    this.images = options.images;
     this.updateDrawn = false;
     this.zBuffer = {};
     this.zBufferKeys = [];
@@ -23,12 +25,13 @@ function Renderer(options) {
     var draw = function() {
         if(self.updateDrawn == false) {
             if(self.canvases) {
-                var timeThis = (self.game.ticks & 1023) == 0;
-                if(timeThis) console.time('render');
+                //var timeThis = (self.game.ticks & 1023) == 0;
+                //if(timeThis) console.time('render');
                 //if(timeThis) var renderStart = performance.now();
                 for(var c = 0; c < self.canvases.length; c++) {
                     self.canvases[c].draw();
-                    self.emit('draw', self.canvases[c]);
+                    if(self.staticCanvas) self.canvases[c].drawStatic(self.staticCanvas);
+                    //self.emit('draw', self.canvases[c]);
                     for(var z = 0; z < self.zBufferKeys.length; z++) {
                         var zBufferDepth = self.zBuffer[self.zBufferKeys[z]];
                         for(var zz = 0; zz < zBufferDepth.length; zz++) {
@@ -39,7 +42,7 @@ function Renderer(options) {
                         self.overlay[o].emit('draw',self.canvases[c])
                     }
                 }
-                if(timeThis) console.timeEnd('render');
+                //if(timeThis) console.timeEnd('render');
                 //if(timeThis) var thisRenderTime = performance.now() - renderStart;
                 //if(timeThis) var renderTimeChange = thisRenderTime-lastRenderTime;
                 //if(timeThis && renderTimeChange <= 0) console.log('%c'+renderTimeChange, 'color: #00bb00');
@@ -59,7 +62,7 @@ function Renderer(options) {
 }
 
 Renderer.prototype.addCanvas = function(canvas) {
-    canvas.renderer = this;
+    canvas.setRenderer(this);
     if(!this.canvases) this.canvases = [];
     this.canvases.push(canvas);
 };
@@ -84,8 +87,6 @@ Renderer.prototype.addToZBuffer = function(obj) {
     this.zBufferKeys.sort(function compareNumbers(a, b) { return a - b; });
 };
 
-//TODO: Optimization: Store a drawing of the base map layer that never needs sorting
-
 Renderer.prototype.updateZBuffer = function(oldZDepth, obj) {
     var zBufferDepth = this.zBuffer[oldZDepth];
     for(var i = 0; i < zBufferDepth.length; i++) {
@@ -95,4 +96,21 @@ Renderer.prototype.updateZBuffer = function(oldZDepth, obj) {
         }
     }
     this.addToZBuffer(obj);
+};
+
+Renderer.prototype.removeFromZBuffer = function(obj) {
+    var zBufferDepth = this.zBuffer[obj.zDepth];
+    for(var i = 0; i < zBufferDepth.length; i++) {
+        if(zBufferDepth[i] == obj) {
+            zBufferDepth.splice(i,1);
+            break;
+        }
+    }
+    this.zBufferKeys = Object.keys(this.zBuffer);
+    this.zBufferKeys.sort(function compareNumbers(a, b) { return a - b; });
+};
+
+Renderer.prototype.addColorSheet = function(sheet, color) {
+    if(!this.images[color]) this.images[color] = {};
+    this.images[color][sheet] = ColorUtil.colorize(this.images[sheet], color, 0.75);
 };

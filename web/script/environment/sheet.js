@@ -1,9 +1,18 @@
 'use strict';
-var SpriteSheet = require('./../engine/spritesheet.js');
 
 var map = {
     tile: {
-        plain: {x: 132, y: 0, w: 33, h: 18, ox: -1, oy: -1},
+        plain: {
+            0: {x: 165, y: 0, w: 33, h: 24, ox: -1, oy: -1},
+            16: {x: 165, y: 24, w: 33, h: 24, ox: -1, oy: -1},
+            64: {x: 165, y: 48, w: 33, h: 24, ox: -1, oy: -1},
+            80: {x: 165, y: 72, w: 33, h: 24, ox: -1, oy: -1},
+            32: {x: 165, y: 96, w: 33, h: 24, ox: -1, oy: -1},
+            128: {x: 165, y: 120, w: 33, h: 24, ox: -1, oy: -1},
+            160: {x: 165, y: 144, w: 33, h: 24, ox: -1, oy: -1},
+            96: {x: 165, y: 168, w: 33, h: 24, ox: -1, oy: -1},
+            144: {x: 165, y: 192, w: 33, h: 24, ox: -1, oy: -1}
+        },
         grass: {x: 0, y: 0, w: 33, h: 19, ox: -1, oy: -1}
     },
     halfBlock: {
@@ -13,18 +22,9 @@ var map = {
         plain: {x: 198, y: 0, w: 33, h: 34, ox: -1, oy: -1}
     }
 };
-var image = new SpriteSheet('environment.png');
-image.once('loaded',function(canvas) {
-    image.img = canvas;
-});
 
 module.exports = Sheet;
 
 function Sheet(spriteName) {
     this.map = JSON.parse(JSON.stringify(map[spriteName]));
 }
-
-Sheet.prototype.getSprite = function() {
-    if(!image.img) return;
-    return image.img;
-};

@@ -13,12 +13,9 @@ function HalfBlock(style,x,y,z) {
     this.sheet = new Sheet('halfBlock');
     this.variation = 0;
     var self = this;
-    this.on('draw',function(canvas) { if(self.exists) canvas.drawImageIso(self); });
+    this.on('draw',function(canvas) { if(self.exists) canvas.drawEntity(self); });
 }
 
 HalfBlock.prototype.getSprite = function() {
-    return {
-        metrics: this.sheet.map[this.style]/*[this.variation]*/,
-        image: this.sheet.getSprite()
-    }
+    return { metrics: this.sheet.map[this.style]/*[this.variation]*/, image: 'environment' }
 };

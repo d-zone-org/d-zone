@@ -49,8 +49,8 @@ function Game(options) {
 
 var lastUpdateTime = 0;
 Game.prototype.update = function() {
-    var timeThis = (this.ticks & 1023) == 0;
-    if(timeThis) console.time('update');
+    //var timeThis = (this.ticks & 1023) == 0;
+    //if(timeThis) console.time('update');
     //if(timeThis) var updateStart = now();
     //if(timeThis) console.log('entities:', this.entities.length);
     this.emit('update');
@@ -72,7 +72,7 @@ Game.prototype.update = function() {
         }
     }
     this.emit('render');
-    if(timeThis) console.timeEnd('update');
+    //if(timeThis) console.timeEnd('update');
     //if(timeThis) var thisUpdateTime = now() - updateStart;
     //if(timeThis) var updateTimeChange = thisUpdateTime-lastUpdateTime;
     //if(timeThis && updateTimeChange <= 0) console.log('%c'+updateTimeChange, 'color: #00bb00');
