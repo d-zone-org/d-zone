@@ -6,13 +6,23 @@ var WorldObject = require('./../engine/worldobject.js');
 var Sheet = require('./sheet.js');
 var Placeholder = require('./placeholder.js');
 var Wander = require('./behaviors/wander.js');
+var TextBox = require('./../common/textbox.js');
 
 module.exports = Actor;
 inherits(Actor, WorldObject);
 
-function Actor(x,y,z) {
-    WorldObject.call(this, {position:{x:x,y:y,z:z},pixelSize:{x:7,y:7,z:8},height:0.5});
+function Actor(options) {
+    WorldObject.call(this, {
+        position: {x:options.x,y:options.y,z:options.z},
+        pixelSize:{x:7,y:7,z:8},
+        height:0.5
+    });
+    this.uid = options.uid;
+    this.username = options.username;
+    this.nametag = new TextBox(this, this.username);
+    this.nametag.blotText();
     this.sheet = new Sheet('actor');
+    this.preciseScreen = this.toScreenPrecise();
     var self = this;
     this.on('draw',function(canvas) {
         if(self.exists) canvas.drawEntity(self);
@@ -28,10 +38,25 @@ function Actor(x,y,z) {
 
 Actor.prototype.onUpdate = function() {
     if(this.destination) this.doMove();
+    if(this.game.mouseOut) return;
+    var mouse = { 
+        x: this.game.centerMouseX - this.game.renderer.canvases[0].panning.panned.x,
+        y: this.game.centerMouseY - this.game.renderer.canvases[0].panning.panned.y
+    };
+    var metrics = this.sheet.map.online.north;
+    if(mouse.x >= this.preciseScreen.x + metrics.ox
+        && mouse.x < this.preciseScreen.x + metrics.w + metrics.ox
+        && mouse.y >= this.preciseScreen.y  + metrics.oy
+        && mouse.y <  this.preciseScreen.y + metrics.h + metrics.oy) {
+        this.game.mouseOver = this;
+    } else if(this.game.mouseOver === this) {
+        this.game.mouseOver = false;
+    }
 };
 
 Actor.prototype.addToGame = function(game) {
     WorldObject.prototype.addToGame.call(this, game);
+    this.nametag.addToGame(game);
     this.game.on('update', this.onUpdate.bind(this));
 };
 
@@ -53,6 +78,27 @@ Actor.prototype.updatePresence = function(presence) {
     } else if(this.behaviors.length == 0) { // If coming online and have no behaviors already
         this.behaviors.push(new Wander(this));
     }
+};
+
+Actor.prototype.toScreenPrecise = function() {
+    if(this.destination) {
+        var xDelta = this.destination.x - this.position.x,
+            yDelta = this.destination.y - this.position.y,
+            zDelta = this.destination.z - this.position.z;
+        var tick = this.game.ticks - this.moveStart;
+        var progress = tick / 40;
+        xDelta *= progress;
+        yDelta *= progress;
+        zDelta *= progress;
+        var deltaScreen = {
+            x: (xDelta - yDelta) * 16,
+            y: (xDelta + yDelta) * 8 - zDelta * 16
+        };
+        return {
+            x: this.screen.x + deltaScreen.x,
+            y: this.screen.y + deltaScreen.y
+        };
+    } else return this.screen;
 };
 
 Actor.prototype.getSprite = function() {
@@ -148,6 +194,7 @@ Actor.prototype.doMove = function() {
         this.zDepth = this.destination.x + this.destination.y;
         this.game.renderer.updateZBuffer(previousZDepth2, this);
     }
+    this.preciseScreen = this.toScreenPrecise();
 };
 
 Actor.prototype.move = function(x, y, z, absolute) {
@@ -157,7 +204,18 @@ Actor.prototype.move = function(x, y, z, absolute) {
     var newZ = (absolute ? 0 : this.position.z) + z;
     this.game.world.moveObject(this,newX,newY,newZ);
     this.screen = this.toScreen();
+    this.preciseScreen = this.toScreenPrecise();
     var previousZDepth = this.zDepth;
     this.zDepth = this.calcZDepth();
     if(previousZDepth != this.zDepth) this.game.renderer.updateZBuffer(previousZDepth, this);
+};
+
+Actor.prototype.startTalking = function() {
+    this.talking = true;
+    this.nametag.hidden = true;
+};
+
+Actor.prototype.stopTalking = function() {
+    this.talking = false;
+    this.nametag.hidden = false;
 };

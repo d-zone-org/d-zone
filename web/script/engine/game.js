@@ -20,8 +20,8 @@ function Game(options) {
     this.input = new Input();
     this.input.on('keydown',this.keydown.bind(this));
     this.input.on('keyup',this.keyup.bind(this));
-    this.centerMouseX = 0;
-    this.centerMouseY = 0;
+    this.centerMouseX = -999;
+    this.centerMouseY = -999;
     this.entities = [];
     this.schedule = [];
     
@@ -49,8 +49,9 @@ function Game(options) {
 
 var lastUpdateTime = 0;
 Game.prototype.update = function() {
-    //var timeThis = (this.ticks & 1023) == 0;
-    //if(timeThis) console.time('update');
+    var timeThis = this.timeUpdates && (this.ticks & 255) == 0;
+    if(timeThis) console.time('update');
+    //if(timeThis) console.log(this.mouseOver);
     //if(timeThis) var updateStart = now();
     //if(timeThis) console.log('entities:', this.entities.length);
     this.emit('update');
@@ -72,7 +73,7 @@ Game.prototype.update = function() {
         }
     }
     this.emit('render');
-    //if(timeThis) console.timeEnd('update');
+    if(timeThis) console.timeEnd('update');
     //if(timeThis) var thisUpdateTime = now() - updateStart;
     //if(timeThis) var updateTimeChange = thisUpdateTime-lastUpdateTime;
     //if(timeThis && updateTimeChange <= 0) console.log('%c'+updateTimeChange, 'color: #00bb00');
@@ -87,6 +88,8 @@ Game.prototype.bindCanvas = function(canvas) {
     this.input.on('mousemove',this.mousemove.bind(this));
     this.input.on('mousedown',this.mousedown.bind(this));
     this.input.on('mouseup',this.mouseup.bind(this));
+    this.input.on('mouseout',this.mouseout.bind(this));
+    this.input.on('mouseover',this.mouseover.bind(this));
     this.input.on('mousewheel',this.mousewheel.bind(this));
     canvas.on('resize',this.viewResize.bind(this));
 };
@@ -98,6 +101,10 @@ Game.prototype.viewResize = function(resize) {
 };
 
 Game.prototype.mousemove = function(mouseEvent) {
+    if(this.mouseOut) return;
+    //this.mouseOut = false;
+    this.mouseX = mouseEvent.x;
+    this.mouseY = mouseEvent.y;
     this.centerMouseX = Math.floor(mouseEvent.x - this.viewWidth / 2);
     this.centerMouseY = Math.floor(mouseEvent.y - this.viewHeight / 2);
     mouseEvent.centerMouseX = this.centerMouseX;
@@ -111,6 +118,17 @@ Game.prototype.mousedown = function(mouseEvent) {
 
 Game.prototype.mouseup = function(mouseEvent) {
     this.emit('mouseup',mouseEvent);
+};
+
+Game.prototype.mouseout = function(mouseEvent) {
+    this.mouseOut = true;
+    this.mouseOver = false;
+    this.emit('mouseout',mouseEvent);
+};
+
+Game.prototype.mouseover = function(mouseEvent) {
+    this.mouseOut = false;
+    this.emit('mouseover',mouseEvent);
 };
 
 Game.prototype.mousewheel = function(mouseEvent) {

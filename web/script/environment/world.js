@@ -66,7 +66,7 @@ function World(game,worldSize) {
     }
     var staticCanvas = new Canvas(
         (highestScreenX - lowestScreenX) + 32 + 1,
-        (highestScreenY - lowestScreenY) + 16 + 9
+        (highestScreenY - lowestScreenY) + 32 + 9
     );
     for(var j = 0; j < this.staticMap.length; j++) {
         var tile = this.staticMap[j];
@@ -125,11 +125,15 @@ World.prototype.crawlMap = function() {
             currentTile.static = true;
             nw.push(this.map[(x-1)+':'+(y-1)]); // Include NW tile for static check
             for(var s = 0; s < nw.length; s++) { if(!nw[s]) { currentTile.static = false; continue; }
-                if(nw[s].position.z < currentTile.position.z) currentTile.static = false;
+                if(nw[s].position.z < currentTile.position.z
+                    || nw[s].border) currentTile.static = false;
             }
-            if(currentTile.static 
-                && this.staticMap.indexOf(currentTile) < 0) this.staticMap.push(currentTile);
-            
+            var staticMapIndex = this.staticMap.indexOf(currentTile);
+            if(currentTile.static) {
+                if(staticMapIndex < 0) this.staticMap.push(currentTile);
+            } else if(staticMapIndex >= 0) {
+                this.staticMap.splice(staticMapIndex,1);
+            }
             if(crawled[currentTile.grid]) continue; // Skip already-crawled tiles
             var neighborsToCrawl = [];
             while(true) { // Keep crawling outward until no neighbors are left
@@ -139,13 +143,8 @@ World.prototype.crawlMap = function() {
                 var currentNeighbors = geometry.getNeighbors(currentTile.grid);
                 for(var nKey in currentNeighbors) { if (!currentNeighbors.hasOwnProperty(nKey)) continue;
                     var neighbor = this.map[currentNeighbors[nKey]];
-                    if(!neighbor) {
-                        currentTile.border = true;
-                        continue;
-                    }
-                    if(!crawled[neighbor.grid]) {
-                        neighborsToCrawl.push(neighbor);
-                    }
+                    if(!neighbor) { currentTile.border = true; continue; }
+                    if(!crawled[neighbor.grid]) neighborsToCrawl.push(neighbor);
                 }
                 var color = currentTile.border ? 'white' : // Draw debug map
                     ['red','blue','green','yellow','orange','purple','teal'][thisIsland];

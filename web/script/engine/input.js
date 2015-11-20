@@ -10,6 +10,7 @@ function Input() {
     this.mouseY = 0;
     this.mouseLeft = false;
     this.mouseRight = false;
+    this.mouseOut = false;
     this.keys = {};
     document.addEventListener('keydown', this.keydown.bind(this));
     document.addEventListener('keyup', this.keyup.bind(this));
@@ -21,11 +22,14 @@ Input.prototype.bindCanvas = function(canvas) {
     this.canvas.addEventListener('mousemove', this.mousemove.bind(this));
     this.canvas.addEventListener('mousedown', this.mousedown.bind(this));
     this.canvas.addEventListener('mouseup', this.mouseup.bind(this));
+    document.addEventListener('mouseout', this.mouseout.bind(this));
+    document.addEventListener('mouseover', this.mouseover.bind(this));
     var wheelSupport = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
     this.canvas.addEventListener(wheelSupport, this.mousewheel.bind(this))
 };
 
 Input.prototype.mousemove = function(e) {
+    if(this.mouseOut) return;
     this.mouseX = Math.floor(e.pageX / this.mouseScale);
     this.mouseY = Math.floor(e.pageY / this.mouseScale);
     this.emit('mousemove', { x: this.mouseX, y: this.mouseY });
@@ -49,6 +53,22 @@ Input.prototype.mouseup = function(e) {
         case 'right': this.mouseRight = false; break;
     }
     this.emit('mouseup', { button: button, x: this.mouseX, y: this.mouseY });
+};
+
+Input.prototype.mouseout = function(e) {
+    var button = buttons[e.which-1];
+    this.mouseOut = true;
+    this.mouseX = Math.floor(e.pageX / this.mouseScale);
+    this.mouseY = Math.floor(e.pageY / this.mouseScale);
+    this.emit('mouseout', { x: this.mouseX, y: this.mouseY, button: button });
+};
+
+Input.prototype.mouseover = function(e) {
+    var button = buttons[e.which-1];
+    this.mouseOut = false;
+    this.mouseX = Math.floor(e.pageX / this.mouseScale);
+    this.mouseY = Math.floor(e.pageY / this.mouseScale);
+    this.emit('mouseover', { x: this.mouseX, y: this.mouseY, button: button });
 };
 
 Input.prototype.mousewheel = function(e) {

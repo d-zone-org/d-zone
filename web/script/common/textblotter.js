@@ -77,3 +77,4 @@ TextBlotter.prototype.calculateWidth = function(text) {
 };
 
 TextBlotter.prototype.metrics = metrics;
+TextBlotter.prototype.fontMap = fontMap;

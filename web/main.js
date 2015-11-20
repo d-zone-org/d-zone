@@ -17,11 +17,11 @@ function initGame(images) {
     game.renderer.addCanvas(canvas);
     game.bindCanvas(canvas);
     //game.showGrid = true;
+    //game.timeRenders = true;
     
     //game.on('update', function () {
     //    // Update
     //});
-    
     initWebsocket(game);
     
     window.pause = function() { game.paused = true; };
@@ -58,6 +58,7 @@ function initWebsocket(game) {
                 //break;
             }
             console.log((Object.keys(users.actors).length).toString()+' actors created');
+            game.renderer.canvases[0].onResize();
         } else if(data.type == 'presence') { // User status update
             if(!users.actors[data.data.uid]) return;
             users.actors[data.data.uid].updatePresence(data.data.status);

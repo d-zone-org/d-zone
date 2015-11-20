@@ -14,9 +14,11 @@ function Users(game,world) {
 
 Users.prototype.addActor = function(data) {
     var grid = this.world.randomEmptyGrid();
-    var actor = new Actor(grid.position.x, grid.position.y, grid.position.z + grid.height);
-    actor.uid = data.user.id;
-    actor.username = data.user.username;
+    var actor = new Actor({
+        x: grid.position.x, y: grid.position.y, z: grid.position.z + grid.height, 
+        uid: data.user.id,
+        username: data.user.username
+    });
     actor.updatePresence(data.status);
     this.actors[actor.uid] = actor;
     actor.addToGame(this.game);
@@ -46,13 +48,13 @@ Users.prototype.onMessageAdded = function(channel) {
     var self = this;
     var messageBox = new TextBox(this.actors[message.uid], message.message);
     messageBox.addToGame(this.game);
+    this.actors[message.uid].startTalking();
     messageBox.scrollMessage(3, function() {
-        self.actors[message.uid].talking = false;
+        self.actors[message.uid].stopTalking();
         self.messageQueue[channel].messages.shift();
         self.messageQueue[channel].busy = false;
         self.onMessageAdded(channel);
     });
-    this.actors[message.uid].talking = true;
 };
 
 Users.prototype.getActorAtPosition = function(x,y,z) { // For debugging

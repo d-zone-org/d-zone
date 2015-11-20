@@ -68,6 +68,14 @@ function Canvas(options) {
         self.panning.origin.x = mouseEvent.x;
         self.panning.origin.y = mouseEvent.y;
     });
+    this.game.on('mouseout', function(mouseEvent) {
+        
+    });
+    this.game.on('mouseover', function(mouseEvent) {
+        self.panning.origin.x = mouseEvent.x;
+        self.panning.origin.y = mouseEvent.y;
+        if(!mouseEvent.button) self.panning.buttons = [];
+    });
     this.game.on('mousewheel', function(mouseEvent) {
         //self.scrollZoom = util.clamp(self.scrollZoom + (mouseEvent.direction == 'up' ? 1 : -1), 0, 6);
         //self.onResize();
@@ -114,6 +122,7 @@ Canvas.prototype.drawStatic = function(staticCanvas) {
 };
 
 Canvas.prototype.drawEntity = function(obj) {
+    if(obj.hidden) return;
     var sprite = obj.getSprite();
     if(!sprite || !sprite.image) return;
     var screen = { x: obj.screen.x, y: obj.screen.y };
@@ -128,12 +137,24 @@ Canvas.prototype.drawEntity = function(obj) {
     }
     if(screen.x >= this.width || screen.y >= this.height
         || screen.x + sprite.metrics.w <= 0 || screen.y + sprite.metrics.h <= 0) return;
-    var image = obj.roleColor ? this.images[obj.roleColor][sprite.image] 
+    var image = obj.roleColor ? this.images[obj.roleColor][sprite.image]
         : (this.images[sprite.image] || sprite.image);
+    var highlight = obj === this.game.mouseOver;
+    if(highlight) {
+        this.canvas.context.save();
+        this.canvas.context.shadowColor = 'rgba(255,255,255,1)';
+        this.canvas.context.shadowBlur = 3;
+    }
+    if(obj.parent && obj.parent !== this.game.mouseOver && obj.parent.nametag === obj) {
+        if(!obj.parent.mouseOver) return;
+    }
     this.canvas.drawImage(
         image, sprite.metrics.x, sprite.metrics.y, sprite.metrics.w, sprite.metrics.h,
         Math.round(screen.x), Math.round(screen.y), sprite.metrics.w, sprite.metrics.h
     );
+    if(highlight) {
+        this.canvas.context.restore();
+    }
     if(this.game.showGrid && obj.grid) { // Show tile grid
         this.canvas.context.fillStyle = 'gray';
         this.canvas.context.font="9px Arial";

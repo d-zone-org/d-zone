@@ -8,9 +8,22 @@ var bg = 'rgba(0,0,0,0.7)';
 module.exports = TextBox;
 inherits(TextBox, Entity);
 
+function cleanString(text) {
+    if(!text) return text;
+    for(var i = 0; i < text.length; i++) {
+        if(!TextBlotter.prototype.fontMap[text[i]]) {
+            var charArray = text.split('');
+            charArray.splice(i,1);
+            text = charArray.join('');
+            i--;
+        }
+    }
+    return text;
+}
+
 function TextBox(parent, text) {
     this.parent = parent;
-    this.text = text;
+    this.text = cleanString(text);
     this.keepOnScreen = true;
     this.blotter = new TextBlotter();
     var self = this;
@@ -29,7 +42,7 @@ TextBox.prototype.getSprite = function() {
 };
 
 TextBox.prototype.toScreen = function() {
-    var parent = this.parent.screen;
+    var parent = this.parent.preciseScreen;
     return {
         x: parent.x - this.canvas.width/2 + this.parent.pixelSize.x,
         y: parent.y - 18
