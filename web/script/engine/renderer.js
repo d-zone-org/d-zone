@@ -84,7 +84,7 @@ Renderer.prototype.addToZBuffer = function(obj) {
         this.zBuffer[zDepth] = [obj];
     }
     this.zBufferKeys = Object.keys(this.zBuffer);
-    this.zBufferKeys.sort(function compareNumbers(a, b) { return a - b; });
+    this.zBufferKeys.sort(function(a, b) { return a - b; });
 };
 
 Renderer.prototype.updateZBuffer = function(oldZDepth, obj) {
@@ -107,7 +107,7 @@ Renderer.prototype.removeFromZBuffer = function(obj) {
         }
     }
     this.zBufferKeys = Object.keys(this.zBuffer);
-    this.zBufferKeys.sort(function compareNumbers(a, b) { return a - b; });
+    this.zBufferKeys.sort(function(a, b) { return a - b; });
 };
 
 Renderer.prototype.addColorSheet = function(sheet, color) {

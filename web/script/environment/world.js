@@ -160,20 +160,6 @@ World.prototype.crawlMap = function() {
     for(var gKey in this.map) { if(!this.map.hasOwnProperty(gKey)) continue;
         var finalTile = this.map[gKey];
         
-        // Determine if this tile can be put into the static map image
-        finalTile.static = true;
-        var nwTiles = [this.map[x+':'+(y-1)],this.map[(x-1)+':'+y],this.map[(x-1)+':'+(y-1)]];
-        for(var s = 0; s < nwTiles.length; s++) { if(!nwTiles[s]) { finalTile.static = false; continue; }
-            if(nwTiles[s].position.z < finalTile.position.z
-                || nwTiles[s].border) finalTile.static = false;
-        }
-        var staticMapIndex = this.staticMap.indexOf(finalTile);
-        if(finalTile.static) {
-            if(staticMapIndex < 0) this.staticMap.push(finalTile);
-        } else if(staticMapIndex >= 0) {
-            this.staticMap.splice(staticMapIndex,1);
-        }
-        
         // Set tile style based on neighbors
         if(finalTile.border) finalTile.setStyle('grass');
         var finalNeighbors = geometry.get8Neighbors(finalTile.grid);
@@ -185,6 +171,24 @@ World.prototype.crawlMap = function() {
             }
         }
         if(finalTile.border) finalTile.setStyle('plain');
+        
+        // Determine if this tile can be put into the static map image
+        finalTile.static = true;
+        x = finalTile.position.x; y = finalTile.position.y;
+        var nwTiles = [this.map[x+':'+(y-1)],this.map[(x-1)+':'+y],this.map[(x-1)+':'+(y-1)]];
+        for(var s = 0; s < nwTiles.length; s++) { if(!nwTiles[s]) { finalTile.static = false; continue; }
+            if(nwTiles[s].position.z < finalTile.position.z
+                || nwTiles[s].border 
+                || (nwTiles[s].style == 'plain' && finalTile.style == 'grass')) {
+                finalTile.static = false;
+            }
+        }
+        var staticMapIndex = this.staticMap.indexOf(finalTile);
+        if(finalTile.static) {
+            if(staticMapIndex < 0) this.staticMap.push(finalTile);
+        } else if(staticMapIndex >= 0) {
+            this.staticMap.splice(staticMapIndex,1);
+        }
     }
 };
 

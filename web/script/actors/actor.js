@@ -13,9 +13,9 @@ inherits(Actor, WorldObject);
 
 function Actor(options) {
     WorldObject.call(this, {
-        position: {x:options.x,y:options.y,z:options.z},
-        pixelSize:{x:7,y:7,z:8},
-        height:0.5
+        position: { x: options.x, y: options.y, z: options.z },
+        pixelSize: { x: 7, y: 7, z: 8 },
+        height: 0.5
     });
     this.uid = options.uid;
     this.username = options.username;

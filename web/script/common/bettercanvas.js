@@ -14,13 +14,20 @@ function BetterCanvas(width, height) {
     this.context = this.canvas.getContext('2d');
 }
 
-BetterCanvas.prototype.drawImage = function(img,sx,sy,sw,sh,dx,dy,dw,dh) {
+BetterCanvas.prototype.drawImage = function(img,sx,sy,sw,sh,dx,dy,dw,dh,opacity) {
     if(!img || !(sx >= 0) || !(sy >= 0) || !(sw >= 1) || !(sh >= 1)
         || !isNumeric(dx) || !isNumeric(dy) || !(dw >= 1) || !(dh >= 1)) {
         console.error('bad drawImage params!',img,sx,sy,sw,sh,dx,dy,dw,dh);
         window.pause();
     }
+    if(opacity) {
+        this.context.save();
+        this.context.globalAlpha = opacity;
+    }
     this.context.drawImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
+    if(opacity) {
+        this.context.restore();
+    }
 };
 
 BetterCanvas.prototype.fill = function(color) {

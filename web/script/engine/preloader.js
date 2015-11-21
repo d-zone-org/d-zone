@@ -3,7 +3,7 @@ var BetterCanvas = require('./../common/bettercanvas.js');
 
 module.exports = Preloader;
 
-var imageList = ['actors','environment','font'];
+var imageList = ['actors','environment','props'];
 
 function Preloader(onComplete) {
     this.images = {};

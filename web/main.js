@@ -32,7 +32,8 @@ function initGame(images) {
 function initWebsocket(game) {
     var World = require('./script/environment/world.js');
     var Users = require('./script/actors/users.js');
-    var users, world;
+    var Decorator = require('./script/props/decorator.js');
+    var users, world, decorator;
     var config = JSON.parse(require('fs').readFileSync('./config.json'));
     
     console.log('Initializing websocket on port',config.server.port);
@@ -47,9 +48,11 @@ function initWebsocket(game) {
     //ws.write(new Buffer(JSON.stringify('im a client!')));
     ws.on('data',function(data) {
         data = JSON.parse(data);
+        if(decorator) decorator.beacon.ping();
         if(data.type == 'init') { // Initial server status
             world = new World(game, Math.round(3 * Math.sqrt(Object.keys(data.data).length)));
-            users = new Users(game,world);
+            decorator = new Decorator(game, world);
+            users = new Users(game, world);
             //return;
             console.log('Initializing actors',data.data);
             for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
@@ -80,10 +83,6 @@ function initWebsocket(game) {
     };
     
     window.testMessage = function() {
-        console.log({ type: 'message', data: {
-            uid: users.actors[Object.keys(users.actors)[0]].uid,
-            message: 'hello, test message yo', channel: '1'
-        }});
         ws.emit('data',JSON.stringify({ type: 'message', data: {
             uid: users.actors[Object.keys(users.actors)[0]].uid,
             message: 'hello, test message yo', channel: '1'

@@ -40,7 +40,7 @@ WorldObject.prototype.calcZDepth = function() {
 WorldObject.prototype.toScreen = function() {
     return {
         x: (this.position.x - this.position.y) * 16 - this.pixelSize.x,
-        y: (this.position.x + this.position.y) * 8 - (this.position.z - this.height) * 16
+        y: (this.position.x + this.position.y) * 8 - (this.position.z + this.height) * 16
     };
 };
 

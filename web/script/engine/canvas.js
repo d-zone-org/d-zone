@@ -117,7 +117,7 @@ Canvas.prototype.drawStatic = function(staticCanvas) {
     var x = staticCanvas.x, y = staticCanvas.y;
     if(this.autosize) { x += this.halfWidth; y += this.halfHeight; }
     x += this.panning.panned.x;
-    y += this.panning.panned.y;
+    y += this.panning.panned.y + 32;
     this.canvas.context.drawImage(staticCanvas.image, x, y);
 };
 
@@ -126,7 +126,7 @@ Canvas.prototype.drawEntity = function(obj) {
     var sprite = obj.getSprite();
     if(!sprite || !sprite.image) return;
     var screen = { x: obj.screen.x, y: obj.screen.y };
-    if(this.autosize) { screen.x += this.halfWidth; screen.y += this.halfHeight; }
+    if(this.autosize) { screen.x += this.halfWidth; screen.y += this.halfHeight + 32; }
     screen.x += this.panning.panned.x;
     screen.y += this.panning.panned.y;
     screen.x += sprite.metrics.ox || 0;
