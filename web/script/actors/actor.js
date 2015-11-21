@@ -37,7 +37,9 @@ function Actor(options) {
 
 Actor.prototype.onUpdate = function() {
     if(this.destination) this.doMove();
-    if(this.game.mouseOut) return;
+    if(this.game.mouseOut || (this.game.mouseOver 
+        && (this.game.mouseOver.zDepth > this.zDepth // Don't override closer objects
+        || this.game.mouseOver.position.z > this.position.z))) return; // Don't override higher objects
     var mouse = { 
         x: this.game.centerMouseX - this.game.renderer.canvases[0].panning.panned.x,
         y: this.game.centerMouseY - this.game.renderer.canvases[0].panning.panned.y
@@ -172,6 +174,11 @@ Actor.prototype.tryMove = function(x,y,z) {
 Actor.prototype.startMove = function() {
     this.moveStart = this.game.ticks;
     this.movePlaceholder = new Placeholder(this,this.destination.x,this.destination.y,this.destination.z);
+    this.destDelta = {
+        x: this.destination.x - this.position.x,
+        y: this.destination.y - this.position.y,
+        z: this.destination.z - this.position.z
+    };
 };
 
 Actor.prototype.doMove = function() {
@@ -181,17 +188,18 @@ Actor.prototype.doMove = function() {
     if(tick == animation.frames * 3 - 1) {
         this.emit('movecomplete');
         delete this.movePlaceholder;
+        delete this.fakeZ;
         this.move(this.destination.x, this.destination.y, this.destination.z, true);
         this.destination = false;
         delete this.moveStart;
     } else if(halfZDepthFrame && tick == 5 * 3 - 1) { // Move zDepth half-way between tiles
         var previousZDepth1 = this.zDepth;
-        var destDelta = { x: this.destination.x - this.position.x, y: this.destination.y - this.position.y };
-        this.zDepth = (this.position.x + this.position.y + (destDelta.x + destDelta.y)/2);
+        this.zDepth = (this.position.x + this.position.y + (this.destDelta.x + this.destDelta.y)/2);
         this.game.renderer.updateZBuffer(previousZDepth1, this);
     } else if(tick == 9 * 3 - 1) { // Move zDepth all the way
         var previousZDepth2 = this.zDepth;
         this.zDepth = this.destination.x + this.destination.y;
+        if(this.destDelta.z) this.fakeZ = this.destDelta.z;
         this.game.renderer.updateZBuffer(previousZDepth2, this);
     }
     this.preciseScreen = this.toScreenPrecise();
@@ -207,7 +215,7 @@ Actor.prototype.move = function(x, y, z, absolute) {
     this.preciseScreen = this.toScreenPrecise();
     var previousZDepth = this.zDepth;
     this.zDepth = this.calcZDepth();
-    if(previousZDepth != this.zDepth) this.game.renderer.updateZBuffer(previousZDepth, this);
+    this.game.renderer.updateZBuffer(previousZDepth, this);
 };
 
 Actor.prototype.startTalking = function() {

@@ -231,7 +231,7 @@ World.prototype.addToWorld = function(obj) {
     if(this.objects[obj.position.x]) {
         if(this.objects[obj.position.x][obj.position.y]) {
             if(this.objects[obj.position.x][obj.position.y][obj.position.z]) {
-                console.error('occupado!',
+                console.error('occupado!',obj.position.x,obj.position.y,obj.position.z,
                     obj,this.objects[obj.position.x][obj.position.y][obj.position.z]);
                 return false;
             }
@@ -251,9 +251,7 @@ World.prototype.removeFromWorld = function(obj) {
 
 World.prototype.moveObject = function(obj,x2,y2,z2) {
     delete this.objects[obj.position.x][obj.position.y][obj.position.z];
-    obj.position.x = x2;
-    obj.position.y = y2;
-    obj.position.z = z2;
+    obj.position.x = x2; obj.position.y = y2; obj.position.z = z2;
     this.addToWorld(obj)
 };
 

@@ -28,7 +28,7 @@ Entity.prototype.remove = function() {
     this.exists = false;
     
     if(this.hasOwnProperty('position')) {
-        if(!this.invisible) util.findAndRemove(this, this.game.renderer.zBuffer);
+        if(!this.invisible) this.game.renderer.removeFromZBuffer(this);
         this.game.world.removeFromWorld(this);
     } else {
         util.findAndRemove(this, this.game.renderer.overlay);

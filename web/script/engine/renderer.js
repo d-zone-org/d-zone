@@ -68,20 +68,14 @@ Renderer.prototype.addCanvas = function(canvas) {
 };
 
 Renderer.prototype.addToZBuffer = function(obj) {
-    var zDepth = obj.zDepth;
-    var zBufferDepth = this.zBuffer[zDepth];
+    var zBufferDepth = this.zBuffer[obj.zDepth];
     if(zBufferDepth) {
-        var added = false;
-        for(var i = 0; i < zBufferDepth.length; i++) {
-            if(zDepth < zBufferDepth[i].zDepth) {
-                zBufferDepth.splice(i,0,obj);
-                added = true;
-                break;
-            }
-        }
-        if(!added) zBufferDepth.push(obj);
+        zBufferDepth.push(obj);
+        zBufferDepth.sort(function(a, b) {
+            return (a.position.z + (a.fakeZ || 0)) - (b.position.z + (b.fakeZ || 0)); 
+        });
     } else {
-        this.zBuffer[zDepth] = [obj];
+        this.zBuffer[obj.zDepth] = [obj];
     }
     this.zBufferKeys = Object.keys(this.zBuffer);
     this.zBufferKeys.sort(function(a, b) { return a - b; });
@@ -90,7 +84,7 @@ Renderer.prototype.addToZBuffer = function(obj) {
 Renderer.prototype.updateZBuffer = function(oldZDepth, obj) {
     var zBufferDepth = this.zBuffer[oldZDepth];
     for(var i = 0; i < zBufferDepth.length; i++) {
-        if(zBufferDepth[i] == obj) {
+        if(zBufferDepth[i] === obj) {
             zBufferDepth.splice(i,1);
             break;
         }
@@ -101,7 +95,7 @@ Renderer.prototype.updateZBuffer = function(oldZDepth, obj) {
 Renderer.prototype.removeFromZBuffer = function(obj) {
     var zBufferDepth = this.zBuffer[obj.zDepth];
     for(var i = 0; i < zBufferDepth.length; i++) {
-        if(zBufferDepth[i] == obj) {
+        if(zBufferDepth[i] === obj) {
             zBufferDepth.splice(i,1);
             break;
         }

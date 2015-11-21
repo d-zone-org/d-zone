@@ -156,7 +156,7 @@ Canvas.prototype.drawEntity = function(obj) {
         this.canvas.context.restore();
     }
     if(this.game.showGrid && obj.grid) { // Show tile grid
-        this.canvas.context.fillStyle = 'gray';
+        this.canvas.context.fillStyle = '#bbbbbb';
         this.canvas.context.font="9px Arial";
         this.canvas.context.fillText(obj.grid,Math.round(screen.x)+5, Math.round(screen.y)+9);
     }
