@@ -45,7 +45,7 @@ Actor.prototype.onUpdate = function() {
     var metrics = this.sheet.map.online.north;
     if(mouse.x >= this.preciseScreen.x + metrics.ox
         && mouse.x < this.preciseScreen.x + metrics.w + metrics.ox
-        && mouse.y >= this.preciseScreen.y  + metrics.oy
+        && mouse.y >= this.preciseScreen.y + metrics.oy
         && mouse.y <  this.preciseScreen.y + metrics.h + metrics.oy) {
         this.game.mouseOver = this;
     } else if(this.game.mouseOver === this) {
