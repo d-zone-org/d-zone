@@ -54,6 +54,7 @@ function initWebsocket(game) {
             console.log('Initializing actors',data.data);
             for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
                 //if(data.data[uid].status != 'online') continue;
+                if(!data.data[uid].user.username) continue;
                 users.addActor(data.data[uid]);
                 //break;
             }

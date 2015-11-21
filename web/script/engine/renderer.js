@@ -25,7 +25,7 @@ function Renderer(options) {
     var draw = function() {
         if(self.updateDrawn == false) {
             if(self.canvases) {
-                var timeThis = (game.timeRenders && self.game.ticks & 511) == 0;
+                var timeThis = game.timeRenders && (self.game.ticks & 511) == 0;
                 if(timeThis) console.time('render');
                 //if(timeThis) var renderStart = performance.now();
                 for(var c = 0; c < self.canvases.length; c++) {

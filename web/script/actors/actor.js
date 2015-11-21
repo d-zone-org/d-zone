@@ -30,10 +30,9 @@ function Actor(options) {
     this.presence = 'offline';
     this.talking = false;
     this.destination = false;
-    this.impulseInterval = 1000;
+    this.impulseInterval = 75;
     this.facing = util.pickInObject(Geometry.DIRECTIONS);
     this.behaviors = [];
-    setTimeout(this.newImpulse.bind(this),Math.random() * this.impulseInterval);
 }
 
 Actor.prototype.onUpdate = function() {
@@ -58,6 +57,7 @@ Actor.prototype.addToGame = function(game) {
     WorldObject.prototype.addToGame.call(this, game);
     this.nametag.addToGame(game);
     this.game.on('update', this.onUpdate.bind(this));
+    this.tickDelay(this.newImpulse.bind(this), Math.random() * this.impulseInterval);
 };
 
 Actor.prototype.remove = function() {
@@ -139,7 +139,7 @@ Actor.prototype.newImpulse = function() {
     for(var i = 0; i < this.behaviors.length; i++) {
         this.behaviors[i].impulse();
     }
-    setTimeout(this.newImpulse.bind(this), 200 + Math.random() * this.impulseInterval);
+    this.tickDelay(this.newImpulse.bind(this), 15 + Math.random() * this.impulseInterval);
 };
 
 Actor.prototype.tryMove = function(x,y,z) {

@@ -9,7 +9,7 @@ function WebSock(config,onConnect) {
     this.wss = wss;
     wss.on('connection', function (socket) {
         console.log(DateFormat(new Date(),
-            "h:MM:ss TT"),'client connected to server, total:', wss.clients.length);
+            "m/d h:MM:ss TT"),'client connected to server, total:', wss.clients.length);
         
         onConnect(socket);
         

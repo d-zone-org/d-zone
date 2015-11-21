@@ -41,7 +41,7 @@ function World(game,worldSize) {
             this.mapBounds.xh = x > this.mapBounds.xh ? x : this.mapBounds.xh;
             this.mapBounds.yh = y > this.mapBounds.yh ? y : this.mapBounds.yh;
             var height = Math.round(noiseValue * (1/farness) * 6);
-            grid = new Tile('plain', x, y, height/2);
+            grid = new Tile('grass', x, y, height/2);
             grid.grid = x+':'+y;
             this.map[x+':'+y] = grid;
             grid.addToGame(game);
@@ -121,19 +121,6 @@ World.prototype.crawlMap = function() {
             }
             // If we adjusted a previous tile's height, we need to go back to it
             if(goBack) { x = goBack.x; y = goBack.y - 1; continue; }
-            // Determine if this tile can be put into the static map image
-            currentTile.static = true;
-            nw.push(this.map[(x-1)+':'+(y-1)]); // Include NW tile for static check
-            for(var s = 0; s < nw.length; s++) { if(!nw[s]) { currentTile.static = false; continue; }
-                if(nw[s].position.z < currentTile.position.z
-                    || nw[s].border) currentTile.static = false;
-            }
-            var staticMapIndex = this.staticMap.indexOf(currentTile);
-            if(currentTile.static) {
-                if(staticMapIndex < 0) this.staticMap.push(currentTile);
-            } else if(staticMapIndex >= 0) {
-                this.staticMap.splice(staticMapIndex,1);
-            }
             if(crawled[currentTile.grid]) continue; // Skip already-crawled tiles
             var neighborsToCrawl = [];
             while(true) { // Keep crawling outward until no neighbors are left
@@ -141,7 +128,8 @@ World.prototype.crawlMap = function() {
                 if(this.islands[thisIsland]) this.islands[thisIsland].push(currentTile);
                     else this.islands.push([currentTile]);
                 var currentNeighbors = geometry.getNeighbors(currentTile.grid);
-                for(var nKey in currentNeighbors) { if (!currentNeighbors.hasOwnProperty(nKey)) continue;
+                currentNeighbors = geometry.getNeighbors(currentTile.grid);
+                for(nKey in currentNeighbors) { if (!currentNeighbors.hasOwnProperty(nKey)) continue;
                     var neighbor = this.map[currentNeighbors[nKey]];
                     if(!neighbor) { currentTile.border = true; continue; }
                     if(!crawled[neighbor.grid]) neighborsToCrawl.push(neighbor);
@@ -156,6 +144,7 @@ World.prototype.crawlMap = function() {
             }
         }
     }
+    
     this.mainIsland = 0;
     for(var i = 1; i < this.islands.length; i++) {
         this.mainIsland = this.islands[i].length > this.islands[this.mainIsland].length ? 
@@ -167,6 +156,36 @@ World.prototype.crawlMap = function() {
             this.islands[i2][it].remove();
         }
     }
+    // Iterate over finalized map
+    for(var gKey in this.map) { if(!this.map.hasOwnProperty(gKey)) continue;
+        var finalTile = this.map[gKey];
+        
+        // Determine if this tile can be put into the static map image
+        finalTile.static = true;
+        var nwTiles = [this.map[x+':'+(y-1)],this.map[(x-1)+':'+y],this.map[(x-1)+':'+(y-1)]];
+        for(var s = 0; s < nwTiles.length; s++) { if(!nwTiles[s]) { finalTile.static = false; continue; }
+            if(nwTiles[s].position.z < finalTile.position.z
+                || nwTiles[s].border) finalTile.static = false;
+        }
+        var staticMapIndex = this.staticMap.indexOf(finalTile);
+        if(finalTile.static) {
+            if(staticMapIndex < 0) this.staticMap.push(finalTile);
+        } else if(staticMapIndex >= 0) {
+            this.staticMap.splice(staticMapIndex,1);
+        }
+        
+        // Set tile style based on neighbors
+        if(finalTile.border) finalTile.setStyle('grass');
+        var finalNeighbors = geometry.get8Neighbors(finalTile.grid);
+        for(var nKey in finalNeighbors) { if (!finalNeighbors.hasOwnProperty(nKey)) continue;
+            if(!this.map[finalNeighbors[nKey]]
+                || this.map[finalNeighbors[nKey]].position.z < finalTile.position.z) {
+                finalTile.setStyle('plain');
+                break;
+            }
+        }
+        if(finalTile.border) finalTile.setStyle('plain');
+    }
 };
 
 World.prototype.marchSquares = function() {
@@ -177,6 +196,15 @@ World.prototype.marchSquares = function() {
             w = 0, n = 0, e = 0, s = 0;
         w = 0;
         n = 0;
+        
+        if(this.map[key].style == 'grass') {
+            if(wt) {
+                if(wt.style != 'grass') w = 1;
+            }
+            if(nt) {
+                if(nt.style != 'grass') n = 1;
+            }
+        }
         if(et) {
             if(this.map[key].position.z == et.position.z + 0.5) e = 1;
             else if(this.map[key].position.z != et.position.z

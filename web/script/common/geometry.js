@@ -14,6 +14,13 @@ module.exports = {
         var x = +grid.split(':')[0], y = +grid.split(':')[1];
         return { n: x+':'+(y-1), e: (x+1)+':'+y, s: x+':'+(y+1), w: (x-1)+':'+y }
     },
+    get8Neighbors: function(grid) {
+        var x = +grid.split(':')[0], y = +grid.split(':')[1];
+        return { 
+            n: x+':'+(y-1), e: (x+1)+':'+y, s: x+':'+(y+1), w: (x-1)+':'+y,
+            nw: (x-1)+':'+(y-1), ne: (x+1)+':'+(y-1), sw: (x-1)+':'+(y+1), se: (x+1)+':'+(y+1)
+        }
+    },
     intervalOverlaps: function(a1,a2,b1,b2) {
         return a1 >= b1 && a1 < b2 || b1 >= a1 && b1 < a2;
     },
