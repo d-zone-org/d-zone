@@ -10,7 +10,7 @@ inherits(Beacon, WorldObject);
 function Beacon(x,y,z) {
     WorldObject.call(this, {
         position: { x: x, y: y, z: z },
-        pixelSize: { x: 15, y: 16, z: 42 },
+        pixelSize: { x: 15, y: 16, z: 45 },
         height: 2.5
     });
     this.invalid = true;

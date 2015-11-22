@@ -62,13 +62,6 @@ Actor.prototype.addToGame = function(game) {
     this.tickDelay(this.newImpulse.bind(this), Math.random() * this.impulseInterval);
 };
 
-Actor.prototype.remove = function() {
-    WorldObject.prototype.remove.call(this);
-    console.log('removing listener',this.game.listenerCount('update'));
-    this.game.removeListener('update',this.onUpdate.bind(this));
-    console.log(this.game.listenerCount('update'));
-};
-
 Actor.prototype.updatePresence = function(presence) {
     // TODO: Lower saturation on role colored sprite when offline
     this.presence = presence ? presence : 'offline';
@@ -117,7 +110,7 @@ Actor.prototype.getSprite = function() {
     if(!this.destination && this.talking) {
         metrics.y += (Math.floor(this.game.ticks / 4) % 4) * metrics.h;
     } else if(this.destination) {
-        var frame = Math.floor((this.game.ticks - this.moveStart)/3) + 1;
+        var frame = Math.min(14,Math.floor((this.game.ticks - this.moveStart)/3) + 1);
         metrics.x += (frame - 1) * metrics.w;
         var animation = this.sheet.map['hopping'].animation;
         if(frame >= animation.zStartFrame) {

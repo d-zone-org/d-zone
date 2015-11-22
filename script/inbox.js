@@ -16,24 +16,42 @@ function Inbox(config) {
     this.bot = bot;
     var self = this;
     bot.on('message', function(user, userID, channelID, message, rawEvent) {
-        if(bot.serverFromChannel(channelID) != config.get('discord.serverID')) return;
-        var isPM = bot.servers[bot.serverFromChannel(channelID)] === undefined;
+        var serverID = bot.serverFromChannel(channelID);
+        if(!self.servers[serverID]) return;
+        var isPM = bot.servers[serverID] === undefined;
         if(isPM) return;
-        var messageObject = { type: 'message', data: { uid: userID, message: message, channel: channelID } };
+        var messageObject = { 
+            type: 'message', servers: [serverID], data: { uid: userID, message: message, channel: channelID }
+        };
         self.emit('message',messageObject);
     });
     bot.on('presence', function(user, userID, status, rawEvent) {
-        var presence = { type: 'presence', data: { uid: userID, status: status } };
+        var userInServers = [];
+        for(var sKey in bot.servers) { if(!bot.servers.hasOwnProperty(sKey)) continue;
+            if(bot.servers[sKey].members[userID]) userInServers.push(sKey);
+        }
+        var presence = { 
+            type: 'presence', servers: userInServers, data: { uid: userID, status: status }
+        };
         self.emit('presence',presence);
     });
     bot.on("ready", function(rawEvent) {
         console.log(new Date(),"Logged in as: "+bot.username + " - (" + bot.id + ")");
         setTimeout(function() {
-            self.server = bot.servers[config.get('discord.serverID')];
-            if(!self.server) {
-                console.error('Server not found!');
-                return;
+            var serverList = config.get('discord.servers');
+            self.servers = {};
+            for(var i = 0; i < serverList.length; i++) {
+                if(!bot.servers[serverList[i].id]) { // Skip unknown servers
+                    console.log('Unknown server ID:',serverList[i].id);
+                    continue;
+                }
+                self.servers[serverList[i].id] = { 
+                    id: serverList[i].id, name: bot.servers[serverList[i].id].name 
+                };
+                if(serverList[i].password) self.servers[serverList[i].id].password = serverList[i].password;
+                if(serverList[i].default) self.servers.default = self.servers[serverList[i].id];
             }
+            console.log('Connected to',Object.keys(self.servers).length-1, 'server(s)');
             self.emit('connected');
             require('fs').writeFileSync('./bot.json', JSON.stringify(bot, null, '\t'));
         }, 2000);
@@ -46,24 +64,27 @@ function Inbox(config) {
     this.sending = false;
 }
 
-Inbox.prototype.getUsers = function() {
-    var online = {};
-    for(var uid in this.server.members) { if(!this.server.members.hasOwnProperty(uid)) continue;
-        online[uid] = this.server.members[uid];
-        for(var i = 0; i < this.server.members[uid].roles.length; i++) {
-            online[uid].roleColor = '#'+this.server.roles[this.server.members[uid].roles[i]].color.toString(16);
+Inbox.prototype.getUsers = function(connectRequest) {
+    var server = this.servers[connectRequest.server];
+    if(!server) return;
+    if(server.password && server.password !== connectRequest.password) return;
+    var discordServer = this.bot.servers[server.id], users = {};
+    for(var uid in discordServer.members) { if(!discordServer.members.hasOwnProperty(uid)) continue;
+        users[uid] = discordServer.members[uid];
+        for(var i = 0; i < discordServer.members[uid].roles.length; i++) {
+            users[uid].roleColor = 
+                '#'+discordServer.roles[discordServer.members[uid].roles[i]].color.toString(16);
         }
     }
-    return online;
+    return users;
 };
 
-Inbox.prototype.getUsersOnline = function() {
-    var online = {};
-    for(var uid in this.server.members) { if(!this.server.members.hasOwnProperty(uid)) continue;
-        if(!this.server.members[uid].status || this.server.members[uid].status == 'offline') continue;
-        online[uid] = this.server.members[uid];
+Inbox.prototype.getServers = function() {
+    var serverList = {};
+    for(var sKey in this.servers) { if(!this.servers.hasOwnProperty(sKey)) continue;
+        serverList[sKey] = { id: this.servers[sKey].id, name: this.servers[sKey].name };
     }
-    return online;
+    return serverList;
 };
 
 Inbox.prototype.sendMessages = function(ID, messageArr, callback) {

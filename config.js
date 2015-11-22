@@ -13,11 +13,23 @@ var config = module.exports = convict({
             format: String,
             default: "password"
         },
-        serverID: {
-            doc: "The Discord server ID you want to attach to",
-            format: String,
-            default: "123456789"
-        }
+        servers: [
+            {
+                id: {
+                    doc: "The Discord server ID you want to attach to",
+                    format: String,
+                    default: "123456789"
+                },
+                default: {
+                    doc: "Indicates whether clients connect to this server by default. One server should have this set to true.",
+                    format: Boolean
+                },
+                password: {
+                    doc: "Optional, clients will be required to enter this password to connect to this server.",
+                    format: String
+                }
+            }
+        ]
     },
     server: {
         address: {

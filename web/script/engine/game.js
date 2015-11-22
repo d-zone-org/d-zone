@@ -143,3 +143,12 @@ Game.prototype.keydown = function(keyEvent) {
 Game.prototype.keyup = function(keyEvent) {
     this.emit('keyup',keyEvent);
 };
+
+Game.prototype.reset = function() {
+    this.emit('destroy');
+    this.removeAllListeners('update');
+    this.schedule = [];
+    while(this.entities.length > 0) {
+        this.entities[0].remove();
+    }
+};

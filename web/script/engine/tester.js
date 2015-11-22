@@ -12,6 +12,8 @@ function TestSocket(userCount,updateInterval) {
     setTimeout(this.connect.bind(this),200);
 }
 
+// TODO: Update this to the new multi-server format
+
 TestSocket.prototype.connect = function() {
     this.emit('connect');
     var userList = {};

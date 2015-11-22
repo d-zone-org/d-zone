@@ -16,7 +16,7 @@ function World(game,worldSize) {
     this.game = game;
     this.game.world = this;
     this.worldSize = Math.max(24,Math.floor(worldSize/2)*2); // Must be an even number >= 24
-    this.worldRadius = Math.floor(worldSize/2);
+    this.worldRadius = Math.floor(this.worldSize/2);
     this.objects = {};
     // Grid-based map to hold world tiles
     this.map = {};

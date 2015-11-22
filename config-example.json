@@ -3,7 +3,16 @@
   {
     "email": "test@example.com",
     "password": "password",
-    "serverID": "123456789"
+    "servers": [
+      {
+        "id": "1234567891234567",
+        "default": true
+      },
+      {
+        "id": "3213213213213213",
+        "password": "rosebud"
+      }
+    ]
   },
   "server":
   {

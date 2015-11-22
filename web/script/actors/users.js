@@ -6,6 +6,7 @@ module.exports = Users;
 
 function Users(game,world) {
     this.game = game;
+    this.game.once('destroy', this.destroy.bind(this));
     this.game.users = this;
     this.world = world;
     this.actors = {};
@@ -63,4 +64,9 @@ Users.prototype.getActorAtPosition = function(x,y,z) { // For debugging
             && this.actors[aKey].position.y == y 
             && this.actors[aKey].position.z == z) return this.actors[aKey];
     }
+};
+
+Users.prototype.destroy = function() {
+    this.actors = {};
+    this.messageQueue = {};
 };

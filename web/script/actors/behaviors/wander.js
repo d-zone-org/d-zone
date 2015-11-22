@@ -20,7 +20,8 @@ Wander.prototype.impulse = function() {
         this.actor.destination = canMove;
         this.actor.startMove();
         this.state = 'moving';
-        this.actor.once('movecomplete', this.impulseComplete.bind(this))
+        this.impulseCompleteBound = this.impulseComplete.bind(this);
+        this.actor.once('movecomplete', this.impulseCompleteBound)
     }
 };
 
@@ -29,6 +30,6 @@ Wander.prototype.impulseComplete = function() {
 };
 
 Wander.prototype.detach = function() { // Detach behavior from actor
-    this.actor.removeListener('movecomplete',this.impulseComplete.bind(this));
+    this.actor.removeListener('movecomplete',this.impulseCompleteBound);
     delete this.actor;
 };
