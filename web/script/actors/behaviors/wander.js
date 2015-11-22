@@ -8,6 +8,7 @@ function Wander(actor) {
     this.actor = actor;
     this.state = 'idle';
     this.listeners = [];
+    this.impulseCompleteBound = this.impulseComplete.bind(this);
 }
 
 Wander.prototype.impulse = function() {
@@ -20,7 +21,6 @@ Wander.prototype.impulse = function() {
         this.actor.destination = canMove;
         this.actor.startMove();
         this.state = 'moving';
-        this.impulseCompleteBound = this.impulseComplete.bind(this);
         this.actor.once('movecomplete', this.impulseCompleteBound)
     }
 };
