@@ -173,7 +173,9 @@ Actor.prototype.tryMove = function(x,y,z) {
 
 Actor.prototype.startMove = function() {
     this.moveStart = this.game.ticks;
-    this.movePlaceholder = new Placeholder(this,this.destination.x,this.destination.y,this.destination.z);
+    this.movePlaceholder = new Placeholder(this, {
+        x: this.destination.x, y: this.destination.y, z: this.destination.z
+    });
     this.destDelta = {
         x: this.destination.x - this.position.x,
         y: this.destination.y - this.position.y,
