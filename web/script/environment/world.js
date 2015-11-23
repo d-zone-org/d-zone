@@ -21,6 +21,8 @@ function World(game,worldSize) {
     // Grid-based map to hold world tiles
     this.map = {};
     
+    testCanvas.clear();
+    
     var noiseBig = geometry.buildNoiseMap(this.worldRadius/3 + 1, this.worldRadius/3 + 1);
     var noiseSmall = geometry.buildNoiseMap(this.worldRadius/1.5 + 1,this.worldRadius/1.5 + 1);
     var bigBlur = (noiseBig.length - 1) / this.worldSize;
@@ -64,7 +66,7 @@ function World(game,worldSize) {
         highestScreenX = highestScreenX > preScreen.x ? highestScreenX : preScreen.x;
         highestScreenY = highestScreenY > preScreen.y ? highestScreenY : preScreen.y;
     }
-    var staticCanvas = new Canvas(
+    var bgCanvas = new Canvas(
         (highestScreenX - lowestScreenX) + 32 + 1,
         (highestScreenY - lowestScreenY) + 32 + 9
     );
@@ -77,17 +79,17 @@ function World(game,worldSize) {
         screen.y += sprite.metrics.oy || 0;
         screen.x -= lowestScreenX;
         screen.y -= lowestScreenY;
-        staticCanvas.drawImage(
+        bgCanvas.drawImage(
             this.game.renderer.images[sprite.image], sprite.metrics.x, sprite.metrics.y,
             sprite.metrics.w, sprite.metrics.h,
             Math.round(screen.x), Math.round(screen.y), sprite.metrics.w, sprite.metrics.h
         );
     }
-    //staticCanvas.context.globalCompositeOperation = 'color';
-    //staticCanvas.fill('#321118');
-    this.game.renderer.staticCanvas = {
+    //bgCanvas.context.globalCompositeOperation = 'color';
+    //bgCanvas.fill('#321118');
+    this.game.renderer.bgCanvas = {
         x: lowestScreenX, y: lowestScreenY,
-        image: staticCanvas.canvas
+        image: bgCanvas.canvas
     };
     console.log('Created world with',Object.keys(this.map).length,'tiles');
     // TODO: Retry if tile count is too high/low

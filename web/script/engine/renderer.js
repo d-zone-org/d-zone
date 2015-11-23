@@ -30,7 +30,7 @@ function Renderer(options) {
                 //if(timeThis) var renderStart = performance.now();
                 for(var c = 0; c < self.canvases.length; c++) {
                     self.canvases[c].draw();
-                    if(self.staticCanvas) self.canvases[c].drawStatic(self.staticCanvas);
+                    if(self.bgCanvas) self.canvases[c].drawBG(self.bgCanvas);
                     //self.emit('draw', self.canvases[c]);
                     for(var z = 0; z < self.zBufferKeys.length; z++) {
                         var zBufferDepth = self.zBuffer[self.zBufferKeys[z]];
@@ -41,6 +41,7 @@ function Renderer(options) {
                     for(var o = 0; o < self.overlay.length; o++) {
                         self.overlay[o].emit('draw',self.canvases[c])
                     }
+                    if(self.game.ui) self.game.ui.emit('draw',self.canvases[c]);
                 }
                 if(timeThis) console.timeEnd('render');
                 //if(timeThis) var thisRenderTime = performance.now() - renderStart;
@@ -104,7 +105,9 @@ Renderer.prototype.removeFromZBuffer = function(obj) {
     this.zBufferKeys.sort(function(a, b) { return a - b; });
 };
 
-Renderer.prototype.addColorSheet = function(sheet, color) {
-    if(!this.images[color]) this.images[color] = {};
-    this.images[color][sheet] = ColorUtil.colorize(this.images[sheet], color, 0.75);
+Renderer.prototype.addColorSheet = function(options) {
+    if(!this.images[options.color]) this.images[options.color] = {};
+    if(this.images[options.color][options.sheet]) return;
+    options.image = this.images[options.sheet];
+    this.images[options.color][options.sheet] = ColorUtil.colorize(options);
 };

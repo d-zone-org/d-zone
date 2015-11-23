@@ -1,5 +1,4 @@
 'use strict';
-var SpriteSheet = require('./../engine/spritesheet.js');
 var BetterCanvas = require('./../common/bettercanvas.js');
 
 var metrics = [
@@ -23,58 +22,38 @@ for(var m = 0; m < metrics.length; m++) {
     if(m == 25 || m == 52) rx = 0;
 }
 var padding = 4;
+var image;
 
-var image = new SpriteSheet('font.png');
-image.setMaxListeners(0);
-image.once('loaded',function(canvas) {
-    image.img = canvas;
-});
-
-module.exports = TextBlotter;
-
-function TextBlotter() {
-    
-}
-
-TextBlotter.prototype.blot = function(text, canvas, x, y, alignment, bg, fullWidth) {
-    if(!image.img) return;
-    fullWidth = fullWidth || 0;
-    var totalWidth = this.calculateWidth(text);
-    canvas = canvas ? canvas : new BetterCanvas((fullWidth || totalWidth) + padding*2, 11 + padding * 1.5);
-    var xPos = 0;
-    var offset = alignment == 'center' ? Math.floor((totalWidth-1)/2) - fullWidth/2 : 0;
-    if(bg) canvas.fill(bg);
-    for(var l = 0; l < text.length; l++) {
-        var ltr = fontMap[text[l]] ? fontMap[text[l]] : fontMap[' '];
-        canvas.drawImage(image.img,ltr.x,ltr.y,ltr.w,ltr.h,padding+x+xPos-offset,padding+y,ltr.w,ltr.h);
-        xPos += ltr.w;
-    }
-    return canvas.canvas;
+module.exports = {
+    loadImage: function(img) { image = img; },
+    blot: function(text, canvas, x, y, alignment, bg, fullWidth) {
+        if(!image) return;
+        fullWidth = fullWidth || 0;
+        var totalWidth = this.calculateWidth(text);
+        canvas = canvas ? canvas : new BetterCanvas((fullWidth || totalWidth) + padding*2, 11 + padding * 1.5);
+        var offset = alignment == 'center' ? Math.round(fullWidth/2) - Math.round((totalWidth-1)/2) : 0;
+        var xPos = offset;
+        if(bg) canvas.fill(bg);
+        for(var l = 0; l < text.length; l++) {
+            var ltr = fontMap[text[l]] ? fontMap[text[l]] : fontMap[' '];
+            canvas.drawImage(image,ltr.x,ltr.y,ltr.w,ltr.h,padding+x+xPos/*-offset*/,padding+y,ltr.w,ltr.h);
+            xPos += ltr.w;
+        }
+        return canvas.canvas;
+    },
+    transition: function(canvas, bg, fullWidth, progress) {
+        canvas = canvas ? canvas : new BetterCanvas(fullWidth + padding*2, 11 + padding * 1.5);
+        var fillWidth = Math.max(2,Math.max(0, progress - 0.25) / 0.75 * canvas.canvas.width);
+        var fillHeight = Math.min(1, progress * 4) * canvas.canvas.height * -1;
+        canvas.fillRect(bg, (canvas.canvas.width - fillWidth) / 2, canvas.canvas.height, fillWidth, fillHeight);
+        return canvas.canvas;
+    },
+    calculateWidth: function(text) {
+        var totalWidth = 0;
+        for(var a = 0; a < text.length; a++) {
+            totalWidth += (fontMap[text[a]] ? fontMap[text[a]].w : fontMap[' '].w);
+        }
+        return totalWidth-1;
+    },
+    metrics: metrics, fontMap: fontMap
 };
-
-TextBlotter.prototype.transition = function(canvas, bg, fullWidth, progress) {
-    canvas = canvas ? canvas : new BetterCanvas(fullWidth + padding*2, 11 + padding * 1.5);
-    var fillWidth = Math.max(2,Math.max(0, progress - 0.25) / 0.75 * canvas.canvas.width);
-    var fillHeight = Math.min(1, progress * 4) * canvas.canvas.height * -1;
-    canvas.fillRect(bg, (canvas.canvas.width - fillWidth) / 2, canvas.canvas.height, fillWidth, fillHeight);
-    return canvas.canvas;
-};
-
-TextBlotter.prototype.ready = function() {
-    return image.img;
-};
-
-TextBlotter.prototype.onLoad = function(cb) {
-    image.once('loaded',cb);
-};
-
-TextBlotter.prototype.calculateWidth = function(text) {
-    var totalWidth = 0;
-    for(var a = 0; a < text.length; a++) {
-        totalWidth += (fontMap[text[a]] ? fontMap[text[a]].w : fontMap[' '].w);
-    }
-    return totalWidth-1;
-};
-
-TextBlotter.prototype.metrics = metrics;
-TextBlotter.prototype.fontMap = fontMap;

@@ -39,7 +39,8 @@ Actor.prototype.onUpdate = function() {
     if(this.destination) this.doMove();
     if(this.game.mouseOut || (this.game.mouseOver 
         && (this.game.mouseOver.zDepth > this.zDepth // Don't override closer objects
-        || this.game.mouseOver.position.z > this.position.z))) return; // Don't override higher objects
+        || this.game.mouseOver.position.z > this.position.z)) // Don't override higher objects
+    || this.game.ui.mouseOnElement) return; // Ignore if mouse on UI element
     var mouse = { 
         x: this.game.centerMouseX - this.game.renderer.canvases[0].panning.panned.x,
         y: this.game.centerMouseY - this.game.renderer.canvases[0].panning.panned.y
@@ -127,7 +128,9 @@ Actor.prototype.getSprite = function() {
 Actor.prototype.setRoleColor = function(color) {
     if(!color) return;
     this.roleColor = color;
-    this.game.renderer.addColorSheet('actors',color);
+    this.game.renderer.addColorSheet({ // Less colorizing for offline sprites
+        sheet: 'actors', color: color, alpha: 0.8, regions: [{ alpha: 0.4, x: 70, y: 0, w: 28, h: 14 }] 
+    });
 };
 
 Actor.prototype.newImpulse = function() {

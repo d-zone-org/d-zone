@@ -98,6 +98,7 @@ Game.prototype.viewResize = function(resize) {
     this.viewWidth = resize.width;
     this.viewHeight = resize.height;
     this.input.mouseScale = resize.scale;
+    this.emit('resize', resize);
 };
 
 Game.prototype.mousemove = function(mouseEvent) {

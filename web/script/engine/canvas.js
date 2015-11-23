@@ -10,7 +10,7 @@ inherits(Canvas, EventEmitter);
 function Canvas(options) {
     this.id = options.id;
     this.game = options.game;
-    this.canvas = new BetterCanvas(0,0);
+    this.canvas = new BetterCanvas(1,1);
     document.body.appendChild(this.canvas.canvas);
     this.context = this.canvas.context;
     this.scale = options.scale || 1;
@@ -49,6 +49,7 @@ function Canvas(options) {
     };
     var self = this;
     this.game.on('mousedown', function(mouseEvent) {
+        if(self.game.ui.mouseOnElement) return;
         if(self.panning.buttons.length == 0) {
             self.panning.origin.x = mouseEvent.x;
             self.panning.origin.y = mouseEvent.y;
@@ -114,11 +115,15 @@ Canvas.prototype.draw = function() {
 };
 
 Canvas.prototype.drawStatic = function(staticCanvas) {
-    var x = staticCanvas.x, y = staticCanvas.y;
+    this.canvas.context.drawImage(staticCanvas, 0, 0);
+};
+
+Canvas.prototype.drawBG = function(bgCanvas) {
+    var x = bgCanvas.x, y = bgCanvas.y;
     if(this.autosize) { x += this.halfWidth; y += this.halfHeight; }
     x += this.panning.panned.x;
     y += this.panning.panned.y;
-    this.canvas.context.drawImage(staticCanvas.image, x, y);
+    this.canvas.context.drawImage(bgCanvas.image, x, y);
 };
 
 Canvas.prototype.drawEntity = function(obj) {

@@ -3,6 +3,7 @@ var Preloader = require('./script/engine/preloader.js');
 var Game = require('./script/engine/game.js');
 var Renderer = require('./script/engine/renderer.js');
 var Canvas = require('./script/engine/canvas.js');
+var UI = require('./script/ui/ui.js');
 var bs = require('browser-storage');
 
 // TODO: Loading screen while preloading images, connecting to websocket, and generating world
@@ -18,6 +19,7 @@ function initGame(images) {
     });
     game.renderer.addCanvas(canvas);
     game.bindCanvas(canvas);
+    game.ui = new UI(game);
     //game.showGrid = true;
     //game.timeRenders = true;
     
@@ -54,6 +56,33 @@ function initWebsocket() {
         if(data.type == 'server-list') {
             game.servers = data.data;
             console.log('Got server list:',game.servers);
+            game.ui.addButton({ text: 'Server', top: 5, right: 5, onPress: function() {
+                if(game.serverListPanel) {
+                    game.serverListPanel.remove();
+                    delete game.serverListPanel;
+                    return;
+                }
+                game.serverListPanel = game.ui.addPanel({
+                    left: 'auto', top: 'auto', 
+                    w: 130, h: 28 + 21 * (Object.keys(game.servers).length - 2)
+                });
+                var joinThisServer = function(server) { return function() {
+                    bs.setItem('dzone-default-server',JSON.stringify({ id: server.id }));
+                    joinServer(server);
+                    game.serverListPanel.remove();
+                    delete game.serverListPanel;
+                } };
+                var serverButtonY = 0;
+                for(var sKey in game.servers) { if(!game.servers.hasOwnProperty(sKey)) continue;
+                    if(sKey == 'default') continue;
+                    var server = game.servers[sKey];
+                    game.ui.addButton({
+                        text: game.servers[sKey].name, left: 5, top: 5 + serverButtonY * 21, 
+                        w: 120, h: 18, parent: game.serverListPanel, onPress: new joinThisServer(server)
+                    });
+                    serverButtonY++;
+                }
+            } });
             var defaultServer = bs.getItem('dzone-default-server'); // Look for saved discord server info
             if(defaultServer) defaultServer = JSON.parse(defaultServer);
             if(!defaultServer || !game.servers[defaultServer.id]) defaultServer = { id: 'default' };
@@ -64,7 +93,7 @@ function initWebsocket() {
             decorator = new Decorator(game, world);
             users = new Users(game, world);
             //return;
-            console.log('Initializing actors',data.data);
+            //console.log('Initializing actors',data.data);
             for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
                 //if(data.data[uid].status != 'online') continue;
                 if(!data.data[uid].user.username) continue;
@@ -102,11 +131,5 @@ function joinServer(server) {
     console.log('Requesting to join server', game.servers[server.id].name);
     ws.write(new Buffer(JSON.stringify(connectionMessage)));
 }
-
-window.setDefaultServer = function(serverID) {
-    bs.setItem('dzone-default-server',JSON.stringify({ id: serverID }));
-};
-
-window.joinServer = joinServer;
 
 //setTimeout(function() { game.paused = true; },1000);

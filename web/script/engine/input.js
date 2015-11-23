@@ -30,15 +30,16 @@ Input.prototype.bindCanvas = function(canvas) {
 
 Input.prototype.mousemove = function(e) {
     if(this.mouseOut) return;
+    var button = buttons[e.button-1];
     this.mouseX = Math.floor(e.pageX / this.mouseScale);
     this.mouseY = Math.floor(e.pageY / this.mouseScale);
-    this.emit('mousemove', { x: this.mouseX, y: this.mouseY });
+    this.emit('mousemove', { x: this.mouseX, y: this.mouseY, button: button });
 };
 
 var buttons = ['left','middle','right'];
 
 Input.prototype.mousedown = function(e) {
-    var button = buttons[e.button];
+    var button = buttons[e.button-1];
     switch(button) {
         case 'left': self.mouseLeft = true; break;
         case 'right': self.mouseRight = true; break;
@@ -47,7 +48,7 @@ Input.prototype.mousedown = function(e) {
 };
 
 Input.prototype.mouseup = function(e) {
-    var button = buttons[e.button];
+    var button = buttons[e.button-1];
     switch(button) {
         case 'left': this.mouseLeft = false; break;
         case 'right': this.mouseRight = false; break;
@@ -56,7 +57,7 @@ Input.prototype.mouseup = function(e) {
 };
 
 Input.prototype.mouseout = function(e) {
-    var button = buttons[e.which-1];
+    var button = buttons[e.button-1];
     this.mouseOut = true;
     this.mouseX = Math.floor(e.pageX / this.mouseScale);
     this.mouseY = Math.floor(e.pageY / this.mouseScale);
@@ -64,7 +65,7 @@ Input.prototype.mouseout = function(e) {
 };
 
 Input.prototype.mouseover = function(e) {
-    var button = buttons[e.which-1];
+    var button = buttons[e.button-1];
     this.mouseOut = false;
     this.mouseX = Math.floor(e.pageX / this.mouseScale);
     this.mouseY = Math.floor(e.pageY / this.mouseScale);
@@ -77,6 +78,7 @@ Input.prototype.mousewheel = function(e) {
     this.emit('mousewheel', { direction: direction, x: this.mouseX, y: this.mouseY });
 };
 
+// TODO: Replace use of deprecated 'which' property
 Input.prototype.keydown = function(e) {
     var key = e.which >= 48 && e.which <= 90 ? 
         String.fromCharCode(parseInt(e.which)).toLowerCase() : keyCodes[e.which];

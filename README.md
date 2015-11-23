@@ -24,15 +24,16 @@ The client files are all contained within the `web` folder, and need to be built
 If everything works, the client should connect to the default server, generate a world, and receive live updates via websocket from the server.
 
 ## Design
-
 The game engine architecture is currently loosely based on [crtrdg](http://crtrdg.com/).
 
 It consists of both a server and client component:
 
 ### Server Component
-The server runs a [Discord bot](https://www.npmjs.com/package/discord.io) which monitors the activity and user statuses in the server of your choice. This data is sent to clients in real time via websockets.
+The server runs a [Discord bot](https://www.npmjs.com/package/discord.io) which monitors the activity and user statuses in the server(s) of your choice. This data is sent to clients in real time via websockets.
 
 ### Client Component
-The client (also designed with node via browserify) runs a graphical simulation in a canvas depicting an isometric scene populated by objects and autonomous characters. The activity in the scene is dictated and influenced by the data received from the server component.
+The client (also designed with node via browserify) runs a graphical simulation in a canvas depicting an isometric scene populated by objects and autonomous characters. The activity in the scene is dictated and influenced by the data received from the server component. Clients are able to change which Discord server they are viewing with in-game UI.
 
 Core client modules such as the renderer and input controller are loosely based on implementations found in [playground.js](http://playgroundjs.com/).
+
+__Disclaimer: I cannot be held responsible for anything that happens to your computer, your server, your bot, or anything else as a result of using this package.__

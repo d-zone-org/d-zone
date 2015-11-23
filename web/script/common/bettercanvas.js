@@ -35,6 +35,10 @@ BetterCanvas.prototype.fill = function(color) {
     this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
 };
 
+BetterCanvas.prototype.clear = function() {
+    this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
+};
+
 BetterCanvas.prototype.fillRect = function(color,x,y,w,h) {
     if(!isNumeric(x) || !isNumeric(y) || !isNumeric(w) || !isNumeric(h)) {
         console.error('bad fillRect params!',color,x,y,w,h);
@@ -42,4 +46,12 @@ BetterCanvas.prototype.fillRect = function(color,x,y,w,h) {
     }
     this.context.fillStyle = color;
     this.context.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
+};
+
+BetterCanvas.prototype.clearRect = function(x,y,w,h) {
+    if(!isNumeric(x) || !isNumeric(y) || !isNumeric(w) || !isNumeric(h)) {
+        console.error('bad clearRect params!',x,y,w,h);
+        window.pause();
+    }
+    this.context.clearRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
 };

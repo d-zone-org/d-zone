@@ -11,7 +11,7 @@ inherits(TextBox, Entity);
 function cleanString(text) {
     if(!text) return text;
     for(var i = 0; i < text.length; i++) {
-        if(!TextBlotter.prototype.fontMap[text[i]]) {
+        if(!TextBlotter.fontMap[text[i]]) {
             var charArray = text.split('');
             charArray.splice(i,1);
             text = charArray.join('');
@@ -25,7 +25,6 @@ function TextBox(parent, text) {
     this.parent = parent;
     this.text = cleanString(text);
     this.keepOnScreen = true;
-    this.blotter = new TextBlotter();
     var self = this;
     this.on('draw',function(canvas) {
         canvas.drawEntity(self);
@@ -52,15 +51,7 @@ TextBox.prototype.toScreen = function() {
 TextBox.prototype.blotText = function(text, fullWidth) {
     text = text || this.text;
     if(!text) return;
-    // TODO: Move this ready check into the blotter
-    if(this.blotter.ready()) {
-        this.canvas = this.blotter.blot(text,null,0,0,'left',bg, fullWidth);
-    } else {
-        var self = this;
-        this.blotter.onLoad(function() {
-            self.canvas = self.blotter.blot(text,null,0,0,'left',bg, fullWidth);
-        });
-    }
+    this.canvas = TextBlotter.blot(text,null,0,0,'left',bg, fullWidth);
 };
 
 TextBox.prototype.scrollMessage = function(speed,cb) {
@@ -68,8 +59,8 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
     var chunked = this.text.split(' ');
     var currentChunk = '';
     for(var i = 0; i < chunked.length; i++) {
-        if(this.blotter.calculateWidth(chunked[i]) > 96) continue; // Ignore long unbroken strings
-        if(this.blotter.calculateWidth(currentChunk+chunked[i]) > 96) {
+        if(TextBlotter.calculateWidth(chunked[i]) > 96) continue; // Ignore long unbroken strings
+        if(TextBlotter.calculateWidth(currentChunk+chunked[i]) > 96) {
             this.messageChunks.push(currentChunk.trim());
             currentChunk = '';
         }
@@ -91,14 +82,14 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
     var chunkIndex = 0;
     var addLetter = function() {
         typingMessage += self.messageChunks[chunkIndex].substr(typingMessage.length,1);
-        self.blotText(typingMessage,self.blotter.calculateWidth(self.messageChunks[chunkIndex]));
+        self.blotText(typingMessage,TextBlotter.calculateWidth(self.messageChunks[chunkIndex]));
         if(typingMessage.length == self.messageChunks[chunkIndex].length) { // Chunk finished?
             chunkIndex++;
             if(chunkIndex > self.messageChunks.length - 1) {
                 self.tickDelay(function() {
                     self.tickRepeat(function(progress) {
-                        self.canvas = self.blotter.transition(
-                            null, bg, self.blotter.calculateWidth(typingMessage), 1-progress
+                        self.canvas = TextBlotter.transition(
+                            null, bg, TextBlotter.calculateWidth(typingMessage), 1-progress
                         );
                         if(progress == 1) complete();
                     }, 16);
@@ -112,8 +103,8 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
         }
     };
     this.tickRepeat(function(progress) {
-        self.canvas = self.blotter.transition(
-            null, bg, self.blotter.calculateWidth(self.messageChunks[chunkIndex]), progress
+        self.canvas = TextBlotter.transition(
+            null, bg, TextBlotter.calculateWidth(self.messageChunks[chunkIndex]), progress
         );
         if(progress == 1) self.tickDelay(addLetter, speed);
     }, 20);
