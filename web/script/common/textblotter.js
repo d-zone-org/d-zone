@@ -26,17 +26,18 @@ var image;
 
 module.exports = {
     loadImage: function(img) { image = img; },
-    blot: function(text, canvas, x, y, alignment, bg, fullWidth) {
+    blot: function(options) {
         if(!image) return;
-        fullWidth = fullWidth || 0;
-        var totalWidth = this.calculateWidth(text);
-        canvas = canvas ? canvas : new BetterCanvas((fullWidth || totalWidth) + padding*2, 11 + padding * 1.5);
-        var offset = alignment == 'center' ? Math.round(fullWidth/2) - Math.round((totalWidth-1)/2) : 0;
-        var xPos = offset;
-        if(bg) canvas.fill(bg);
-        for(var l = 0; l < text.length; l++) {
-            var ltr = fontMap[text[l]] ? fontMap[text[l]] : fontMap[' '];
-            canvas.drawImage(image,ltr.x,ltr.y,ltr.w,ltr.h,padding+x+xPos/*-offset*/,padding+y,ltr.w,ltr.h);
+        var x = options.x || 0, y = options.y || 0;
+        var fullWidth = options.fullWidth || 0;
+        var totalWidth = this.calculateWidth(options.text);
+        var canvas = options.canvas ? options.canvas : 
+            new BetterCanvas((fullWidth || totalWidth) + padding*2, 11 + padding * 1.5);
+        var xPos = options.align == 'center' ? Math.round(fullWidth/2) - Math.round((totalWidth-1)/2) : 0;
+        if(options.bg) canvas.fill(options.bg);
+        for(var l = 0; l < options.text.length; l++) {
+            var ltr = fontMap[options.text[l]] ? fontMap[options.text[l]] : fontMap[' '];
+            canvas.drawImage(image,ltr.x,ltr.y,ltr.w,ltr.h,padding+x+xPos,padding+y,ltr.w,ltr.h);
             xPos += ltr.w;
         }
         return canvas.canvas;

@@ -38,7 +38,7 @@ Input.prototype.mousemove = function(e) {
 var buttons = ['left','middle','right'];
 
 Input.prototype.mousedown = function(e) {
-    var button = buttons[e.button-1];
+    var button = buttons[e.button];
     switch(button) {
         case 'left': self.mouseLeft = true; break;
         case 'right': self.mouseRight = true; break;
@@ -47,7 +47,7 @@ Input.prototype.mousedown = function(e) {
 };
 
 Input.prototype.mouseup = function(e) {
-    var button = buttons[e.button-1];
+    var button = buttons[e.button];
     switch(button) {
         case 'left': this.mouseLeft = false; break;
         case 'right': this.mouseRight = false; break;
@@ -56,7 +56,7 @@ Input.prototype.mouseup = function(e) {
 };
 
 Input.prototype.mouseout = function(e) {
-    var button = buttons[e.button-1];
+    var button = buttons[e.button];
     this.mouseOut = true;
     this.mouseX = Math.floor(e.pageX / this.mouseScale);
     this.mouseY = Math.floor(e.pageY / this.mouseScale);
@@ -64,7 +64,8 @@ Input.prototype.mouseout = function(e) {
 };
 
 Input.prototype.mouseover = function(e) {
-    var button = buttons[e.button-1];
+    var buttonNumber = e.buttons & 1 ? 1 : e.buttons & 2 ? 2 : e.buttons & 4 ? 3 : 0;
+    var button = buttons[buttonNumber-1];
     this.mouseOut = false;
     this.mouseX = Math.floor(e.pageX / this.mouseScale);
     this.mouseY = Math.floor(e.pageY / this.mouseScale);

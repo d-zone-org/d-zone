@@ -51,7 +51,7 @@ TextBox.prototype.toScreen = function() {
 TextBox.prototype.blotText = function(text, fullWidth) {
     text = text || this.text;
     if(!text) return;
-    this.canvas = TextBlotter.blot(text,null,0,0,'left',bg, fullWidth);
+    this.canvas = TextBlotter.blot({ text: text, align: 'left', bg: bg, fullWidth: fullWidth });
 };
 
 TextBox.prototype.scrollMessage = function(speed,cb) {

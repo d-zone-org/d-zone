@@ -22,7 +22,7 @@ function Button(options) {
 
 Button.prototype.changeText = function(text) {
     this.text = text;
-    this.textCanvas = TextBlotter.blot(this.text, null, 0, 0, 'left');
+    this.textCanvas = TextBlotter.blot({ text: this.text, align: 'left' });
     if(this.autosize) {
         this.w = this.canvas.canvas.width = this.textCanvas.width + 2;
         this.h = this.canvas.canvas.height = this.textCanvas.height + 2;

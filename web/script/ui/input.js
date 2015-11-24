@@ -26,7 +26,7 @@ function Input(options) {
 Input.prototype.changeText = function(text) {
     this.text = text;
     var showText = text + (this.focused ? '_' : '');
-    this.textCanvas = TextBlotter.blot(showText, null, 0, 0, 'left');
+    this.textCanvas = TextBlotter.blot({ text: showText, align: 'left' });
     if(this.autosize) {
         this.w = this.canvas.canvas.width = this.textCanvas.width + 2;
         this.h = this.canvas.canvas.height = this.textCanvas.height + 2;
