@@ -66,8 +66,8 @@ function Inbox(config) {
 
 Inbox.prototype.getUsers = function(connectRequest) {
     var server = this.servers[connectRequest.server];
-    if(!server) return;
-    if(server.password && server.password !== connectRequest.password) return;
+    if(!server) return 'unknown-server';
+    if(server.password && server.password !== connectRequest.password) return 'bad-password';
     var discordServer = this.bot.servers[server.id], users = {};
     for(var uid in discordServer.members) { if(!discordServer.members.hasOwnProperty(uid)) continue;
         users[uid] = discordServer.members[uid];
@@ -83,6 +83,7 @@ Inbox.prototype.getServers = function() {
     var serverList = {};
     for(var sKey in this.servers) { if(!this.servers.hasOwnProperty(sKey)) continue;
         serverList[sKey] = { id: this.servers[sKey].id, name: this.servers[sKey].name };
+        if(this.servers[sKey].password) serverList[sKey].passworded = true;
     }
     return serverList;
 };

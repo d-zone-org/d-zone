@@ -55,4 +55,5 @@ UIElement.prototype.remove = function() {
             this.elements[i].remove();
         }
     }
+    this.ui.redraw();
 };

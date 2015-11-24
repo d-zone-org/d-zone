@@ -5,6 +5,7 @@ var BetterCanvas = require('./../common/bettercanvas.js');
 var TextBlotter = require('./../common/textblotter.js');
 var Button = require('./button.js');
 var Panel = require('./panel.js');
+var Input = require('./input.js');
 
 module.exports = UI;
 inherits(UI, EventEmitter);
@@ -16,14 +17,16 @@ function UI(game) {
     this.game.on('mousemove', this.onMouseMove.bind(this));
     this.game.on('mousedown', this.onMouseDown.bind(this));
     this.game.on('mouseup', this.onMouseUp.bind(this));
+    this.game.on('keydown', this.onKeyDown.bind(this));
+    this.game.on('keyup', this.onKeyUp.bind(this));
     this.elements = [];
     this.x = 0; this.y = 0;
     this.canvas = new BetterCanvas(1,1);
     var self = this;
     this.on('draw', function(canvas) { canvas.drawStatic(self.canvas.canvas); });
     this.boundRedraw = this.redraw.bind(this);
-    this.boundonMouseOnElement = this.onMouseOnElement.bind(this);
-    this.boundonMouseOffElement = this.onMouseOffElement.bind(this);
+    this.boundOnMouseOnElement = this.onMouseOnElement.bind(this);
+    this.boundOnMouseOffElement = this.onMouseOffElement.bind(this);
 }
 
 UI.prototype.addButton = function(options) {
@@ -33,8 +36,8 @@ UI.prototype.addButton = function(options) {
     options.parent.elements.push(newButton);
     if(options.parent !== this) this.elements.push(newButton);
     newButton.on('redraw', this.boundRedraw);
-    newButton.on('mouse-on-element', this.boundonMouseOnElement);
-    newButton.on('mouse-off-element', this.boundonMouseOffElement);
+    newButton.on('mouse-on-element', this.boundOnMouseOnElement);
+    newButton.on('mouse-off-element', this.boundOnMouseOffElement);
     return newButton;
 };
 
@@ -48,6 +51,18 @@ UI.prototype.addPanel = function(options) {
     return newPanel;
 };
 
+UI.prototype.addInput = function(options) {
+    if(!options.parent) options.parent = this;
+    options.ui = this;
+    var newInput = new Input(options);
+    options.parent.elements.push(newInput);
+    if(options.parent !== this) this.elements.push(newInput);
+    newInput.on('redraw', this.boundRedraw);
+    newInput.on('mouse-on-element', this.boundOnMouseOnElement);
+    newInput.on('mouse-off-element', this.boundOnMouseOffElement);
+    return newInput;
+};
+
 UI.prototype.redraw = function() {
     this.canvas.clear();
     for(var i = 0; i < this.elements.length; i++) {
@@ -56,7 +71,7 @@ UI.prototype.redraw = function() {
 };
 
 UI.prototype.onMouseMove = function(mouseEvent) {
-    if(mouseEvent.button) return;
+    if(this.game.mouseButtons.length > 0) return;
     for(var i = 0; i < this.elements.length; i++) {
         var elem = this.elements[i];
         if(mouseEvent.x >= elem.x && mouseEvent.x < elem.x + elem.w
@@ -69,12 +84,26 @@ UI.prototype.onMouseMove = function(mouseEvent) {
 };
 
 UI.prototype.onMouseDown = function(mouseEvent) {
-    if(this.mouseOnElement) this.mouseOnElement.emit('mouse-down');
+    for(var i = 0; i < this.elements.length; i++) {
+        this.elements[i].emit('mouse-down', mouseEvent);
+    }
 };
 
 UI.prototype.onMouseUp = function(mouseEvent) {
     for(var i = 0; i < this.elements.length; i++) {
-        this.elements[i].emit('mouse-up');
+        this.elements[i].emit('mouse-up', mouseEvent);
+    }
+};
+
+UI.prototype.onKeyDown = function(keyEvent) {
+    for(var i = 0; i < this.elements.length; i++) {
+        this.elements[i].emit('key-down', keyEvent);
+    }
+};
+
+UI.prototype.onKeyUp = function(keyEvent) {
+    for(var i = 0; i < this.elements.length; i++) {
+        this.elements[i].emit('key-up', keyEvent);
     }
 };
 

@@ -1,4 +1,5 @@
 'use strict';
+var util = require('./script/common/util.js');
 var Preloader = require('./script/engine/preloader.js');
 var Game = require('./script/engine/game.js');
 var Renderer = require('./script/engine/renderer.js');
@@ -63,12 +64,35 @@ function initWebsocket() {
                     return;
                 }
                 game.serverListPanel = game.ui.addPanel({
-                    left: 'auto', top: 'auto', 
-                    w: 130, h: 28 + 21 * (Object.keys(game.servers).length - 2)
+                    left: 'auto', top: 'auto', w: 130, h: 28 + 21 * (Object.keys(game.servers).length - 2)
                 });
                 var joinThisServer = function(server) { return function() {
-                    bs.setItem('dzone-default-server',JSON.stringify({ id: server.id }));
-                    joinServer(server);
+                    if(server.passworded) {
+                        var submitPassword = function(pass) {
+                            bs.setItem('dzone-default-server',JSON.stringify({ 
+                                id: server.id, password: pass
+                            }));
+                            server.password = pass;
+                            joinServer(server);
+                            game.passwordPromptPanel.remove();
+                            delete game.passwordPromptPanel;
+                        };
+                        game.passwordPromptPanel = game.ui.addPanel({
+                            left: 'auto', top: 'auto', w: 102, h: 28
+                        });
+                        game.passwordPromptInput = game.ui.addInput({
+                            left: 5, top: 5, w: 65, h: 18, parent: game.passwordPromptPanel,
+                            onSubmit: submitPassword, text: server.password ? server.password : ''
+                        });
+                        game.passwordPromptInput.focus();
+                        game.passwordPromptOK = game.ui.addButton({
+                            text: 'OK', right: 5, top: 5, w: 24, h: 18, parent: game.passwordPromptPanel,
+                            onPress: game.passwordPromptInput.submit.bind(game.passwordPromptInput)
+                        });
+                    } else {
+                        bs.setItem('dzone-default-server',JSON.stringify({ id: server.id }));
+                        joinServer(server);
+                    }
                     game.serverListPanel.remove();
                     delete game.serverListPanel;
                 } };
@@ -83,10 +107,8 @@ function initWebsocket() {
                     serverButtonY++;
                 }
             } });
-            var defaultServer = bs.getItem('dzone-default-server'); // Look for saved discord server info
-            if(defaultServer) defaultServer = JSON.parse(defaultServer);
-            if(!defaultServer || !game.servers[defaultServer.id]) defaultServer = { id: 'default' };
-            joinServer(defaultServer);
+            var startupServer = getStartupServer();
+            joinServer(startupServer);
         } else if(data.type == 'server-join') { // Initial server status
             game.reset();
             world = new World(game, Math.round(3 * Math.sqrt(Object.keys(data.data).length)));
@@ -109,6 +131,7 @@ function initWebsocket() {
             users.queueMessage(data.data);
         } else if(data.type == 'error') {
             window.alert(data.data.message);
+            if(!game.world) joinServer({id: 'default'});
         } else {
             //console.log('Websocket data:',data);
         }
@@ -130,6 +153,18 @@ function joinServer(server) {
     if(server.password) connectionMessage.data.password = server.password;
     console.log('Requesting to join server', game.servers[server.id].name);
     ws.write(new Buffer(JSON.stringify(connectionMessage)));
+}
+
+function getStartupServer() {
+    // Get startup server, first checking URL params, then localstorage
+    var startupServer = { id: util.getURLParameter('s') }; // Check URL params
+    if(!startupServer.id) {
+        startupServer = bs.getItem('dzone-default-server'); // Check localstorage
+        if(startupServer) startupServer = JSON.parse(startupServer);
+    }
+    if(!startupServer || !game.servers[startupServer.id]) startupServer = { id: 'default' };
+    if(util.getURLParameter('p')) startupServer.password = util.getURLParameter('p');
+    return startupServer;
 }
 
 //setTimeout(function() { game.paused = true; },1000);

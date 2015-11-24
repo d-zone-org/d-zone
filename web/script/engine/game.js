@@ -1,6 +1,7 @@
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
 var Input = require('./input.js');
+var util = require('./../common/util.js');
 var now = global.performance && global.performance.now ? function() {
     return performance.now()
 } : Date.now || function () {
@@ -20,6 +21,7 @@ function Game(options) {
     this.input = new Input();
     this.input.on('keydown',this.keydown.bind(this));
     this.input.on('keyup',this.keyup.bind(this));
+    this.mouseButtons = [];
     this.centerMouseX = -999;
     this.centerMouseY = -999;
     this.entities = [];
@@ -115,10 +117,12 @@ Game.prototype.mousemove = function(mouseEvent) {
 
 Game.prototype.mousedown = function(mouseEvent) {
     if(this.mouseOver) console.log(this.mouseOver);
+    this.mouseButtons.push(mouseEvent.button);
     this.emit('mousedown',mouseEvent);
 };
 
 Game.prototype.mouseup = function(mouseEvent) {
+    util.findAndRemove(mouseEvent.button, this.mouseButtons);
     this.emit('mouseup',mouseEvent);
 };
 

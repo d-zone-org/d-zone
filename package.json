@@ -7,7 +7,7 @@
     "browser-storage": "0.0.2",
     "convict": "^1.0.1",
     "dateformat": "^1.0.11",
-    "discord.io": "^1.4.1",
+    "discord.io": "^1.4.6",
     "inherits": "^2.0.1",
     "raf": "^3.1.0",
     "websocket-stream": "^2.1.0",

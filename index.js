@@ -17,15 +17,21 @@ inbox.on('connected',function() {
         },
         function onJoinServer(socket, connectRequest) {
             var userList = inbox.getUsers(connectRequest);
-            if(!userList) {
+            if(userList == 'unknown-server') {
                 socket.send(JSON.stringify({
-                    type: 'error', data: { message: 'Sorry, couldn\'t connect to that Discord server.' } 
+                    type: 'error', data: { message: 'Sorry, couldn\'t connect to that Discord server.' }
                 }));
+            } else if(userList == 'bad-password') {
+                socket.send(JSON.stringify({
+                    type: 'error', data: { message: 'Sorry, wrong password for that Discord server.' }
+                }));
+                console.log('Client used wrong password to join server',inbox.servers[connectRequest.server].name);
+            } else {
+                socket.discordServer = inbox.servers[connectRequest.server].id;
+                // Send list of current online users to set up initial client state
+                console.log('Client joined server', inbox.servers[connectRequest.server].name);
+                socket.send(JSON.stringify({ type: 'server-join', data: userList }));
             }
-            socket.discordServer = inbox.servers[connectRequest.server].id;
-            // Send list of current online users to set up initial client state
-            console.log('Client joined server', inbox.servers[connectRequest.server].name);
-            socket.send(JSON.stringify({ type: 'server-join', data: userList }));
         }
     );
     inbox.on('message',webSock.sendData.bind(webSock));

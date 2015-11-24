@@ -30,10 +30,9 @@ Input.prototype.bindCanvas = function(canvas) {
 
 Input.prototype.mousemove = function(e) {
     if(this.mouseOut) return;
-    var button = buttons[e.button-1];
     this.mouseX = Math.floor(e.pageX / this.mouseScale);
     this.mouseY = Math.floor(e.pageY / this.mouseScale);
-    this.emit('mousemove', { x: this.mouseX, y: this.mouseY, button: button });
+    this.emit('mousemove', { x: this.mouseX, y: this.mouseY });
 };
 
 var buttons = ['left','middle','right'];
@@ -78,18 +77,18 @@ Input.prototype.mousewheel = function(e) {
     this.emit('mousewheel', { direction: direction, x: this.mouseX, y: this.mouseY });
 };
 
-// TODO: Replace use of deprecated 'which' property
 Input.prototype.keydown = function(e) {
-    var key = e.which >= 48 && e.which <= 90 ? 
-        String.fromCharCode(parseInt(e.which)).toLowerCase() : keyCodes[e.which];
+    var key = e.keyCode >= 48 && e.keyCode <= 90 ? 
+        String.fromCharCode(parseInt(e.keyCode)).toLowerCase() : keyCodes[e.keyCode];
+    if(key == 'backspace') e.preventDefault();
     if(this.keys[key]) return; // Ignore if key already held
     this.keys[key] = true;
     this.emit('keydown', { key: key });
 };
 
 Input.prototype.keyup = function(e) {
-    var key = e.which >= 48 && e.which <= 90 ?
-        String.fromCharCode(parseInt(e.which)).toLowerCase() : keyCodes[e.which];
+    var key = e.keyCode >= 48 && e.keyCode <= 90 ?
+        String.fromCharCode(parseInt(e.keyCode)).toLowerCase() : keyCodes[e.keyCode];
     if(!this.keys[key]) return; // Ignore if key already up
     this.keys[key] = false;
     this.emit('keyup', { key: key });
