@@ -68,17 +68,19 @@ module.exports = {
                 wordWidth += ltr.w;
             }
             if(options.maxWidth && runningWidth + wordWidth > options.maxWidth) {
-                // Remove trailing space
-                if(charMap.length > 0 && charMap[charMap.length-1].char == ' ') charMap.pop(); 
-                runningWidth -= fontMap[' '].w;
-                runningWidth = 0;
-                if(includeLine) {
-                    runningHeight += 10;
-                    lines.push(currentLine.trim());
+                if(wordWidth <= options.maxWidth) {
+                    // Remove trailing space
+                    if(charMap.length > 0 && charMap[charMap.length-1].char == ' ') charMap.pop();
+                    runningWidth -= fontMap[' '].w;
+                    runningWidth = 0;
+                    if(includeLine) {
+                        runningHeight += 10;
+                        lines.push(currentLine.trim());
+                    }
+                    lineNumber++;
+                    currentLine = '';
+                    w--;
                 }
-                lineNumber++;
-                currentLine = '';
-                w--;
             } else {
                 currentLine += word + ' ';
                 for(var b = 0; b < word.length; b++) {
