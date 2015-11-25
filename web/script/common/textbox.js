@@ -57,10 +57,6 @@ TextBox.prototype.blotText = function(options) {
 };
 
 TextBox.prototype.scrollMessage = function(speed,cb) {
-    if(this.text.trim() == '') { // No message to show
-        complete();
-        return;
-    }
     var self = this;
     function complete() {
         self.remove();
@@ -68,6 +64,10 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
     }
     console.log('Saying:',this.text);
     this.textMetrics = TextBlotter.calculateMetrics({ text: this.text, maxWidth: 96 });
+    if(this.text.trim() == '' || this.textMetrics.charMap.length == 0) { // No message to show
+        complete();
+        return;
+    }
     var lineNumber = 1;
     var lineChar = 0;
     var addLetter = function() {

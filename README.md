@@ -15,7 +15,7 @@ This project is still **very early in development**, so there isn't much point i
 
 Contained in the package are the server files and client files.
 
-Rename `discord-config-example.json` to `discord-config.json` and insert the login and server info for your Discord server(s). **You must specify _one_  `default`  Discord server.** You can include multiple servers here, and as long as your bot can connect to them, they will be available for clients to view. You can password-protect a server from being viewed by a client by using the `password` property.
+Rename `discord-config-example.json` to `discord-config.json` and insert the login and server info for your Discord server(s). **You must specify _one_ `default` Discord server.** You can include multiple servers here, and as long as your bot can connect to them, they will be available for clients to view. You can password-protect a server from being viewed by a client by using the `password` property.
 
 Rename `socket-config-example.json` to `socket-config.json` and insert the IP and port you want to run the websocket on.
 
