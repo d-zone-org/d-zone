@@ -44,14 +44,16 @@ TextBox.prototype.toScreen = function() {
     var parent = this.parent.preciseScreen;
     return {
         x: parent.x - this.canvas.width/2 + this.parent.pixelSize.x,
-        y: parent.y - 18
+        y: parent.y - this.canvas.height + 2
     }
 };
 
-TextBox.prototype.blotText = function(text, fullWidth) {
-    text = text || this.text;
-    if(!text) return;
-    this.canvas = TextBlotter.blot({ text: text, align: 'left', bg: bg, fullWidth: fullWidth });
+TextBox.prototype.blotText = function(options) {
+    if(!options) options = {};
+    options.bg = options.bg || bg;
+    options.text = options.text || this.text;
+    if(!options.text) return;
+    this.canvas = TextBlotter.blot(options);
 };
 
 TextBox.prototype.scrollMessage = function(speed,cb) {
@@ -59,8 +61,8 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
     var chunked = this.text.split(' ');
     var currentChunk = '';
     for(var i = 0; i < chunked.length; i++) {
-        if(TextBlotter.calculateWidth(chunked[i]) > 96) continue; // Ignore long unbroken strings
-        if(TextBlotter.calculateWidth(currentChunk+chunked[i]) > 96) {
+        if(TextBlotter.calculateMetrics({ text: chunked[i] }).w > 96) continue; // Ignore long unbroken strings
+        if(TextBlotter.calculateMetrics({ text: currentChunk+chunked[i], maxWidth: 96 }).lines > 2) {
             this.messageChunks.push(currentChunk.trim());
             currentChunk = '';
         }
@@ -78,24 +80,27 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
         return;
     }
     console.log('Saying:',this.messageChunks);
-    var typingMessage = '';
     var chunkIndex = 0;
+    var chunkChar = 1;
     var addLetter = function() {
-        typingMessage += self.messageChunks[chunkIndex].substr(typingMessage.length,1);
-        self.blotText(typingMessage,TextBlotter.calculateWidth(self.messageChunks[chunkIndex]));
-        if(typingMessage.length == self.messageChunks[chunkIndex].length) { // Chunk finished?
+        chunkChar++;
+        self.blotText({ text: self.messageChunks[chunkIndex], charCount: chunkChar, maxWidth: 96 });
+        if(chunkChar == self.messageChunks[chunkIndex].length) { // Chunk finished?
             chunkIndex++;
             if(chunkIndex > self.messageChunks.length - 1) {
                 self.tickDelay(function() {
                     self.tickRepeat(function(progress) {
-                        self.canvas = TextBlotter.transition(
-                            null, bg, TextBlotter.calculateWidth(typingMessage), 1-progress
-                        );
+                        var metrics = TextBlotter.calculateMetrics({
+                            text: self.messageChunks[chunkIndex-1], maxWidth: 96
+                        });
+                        self.canvas = TextBlotter.transition({
+                            bg: bg, w: metrics.w, h: metrics.h, progress: 1 - progress
+                        });
                         if(progress == 1) complete();
                     }, 16);
                 }, 70); // Last chunk complete
             } else {
-                typingMessage = '';
+                chunkChar = 1;
                 self.tickDelay(addLetter, speed * 6); // Begin next chunk
             }
         } else { // Chunk not finished, continue
@@ -103,9 +108,10 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
         }
     };
     this.tickRepeat(function(progress) {
-        self.canvas = TextBlotter.transition(
-            null, bg, TextBlotter.calculateWidth(self.messageChunks[chunkIndex]), progress
-        );
+        var metrics = TextBlotter.calculateMetrics({ text: self.messageChunks[chunkIndex], maxWidth: 96 });
+        self.canvas = TextBlotter.transition({
+            bg: bg, w: metrics.w, h: metrics.h, progress: progress
+        });
         if(progress == 1) self.tickDelay(addLetter, speed);
     }, 20);
 };

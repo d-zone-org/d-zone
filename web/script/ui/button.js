@@ -22,7 +22,7 @@ function Button(options) {
 
 Button.prototype.changeText = function(text) {
     this.text = text;
-    this.textCanvas = TextBlotter.blot({ text: this.text, align: 'left' });
+    this.textCanvas = TextBlotter.blot({ text: this.text });
     if(this.autosize) {
         this.w = this.canvas.canvas.width = this.textCanvas.width + 2;
         this.h = this.canvas.canvas.height = this.textCanvas.height + 2;
@@ -38,7 +38,7 @@ Button.prototype.draw = function() {
     this.canvas.fillRect(buttonColor,1,1,this.w-2,this.h-2);
     var textOffset = Math.floor((this.canvas.canvas.width - this.textCanvas.width) / 2);
     this.canvas.drawImage(this.textCanvas,0,0,this.textCanvas.width,this.textCanvas.height,
-        1+textOffset,1,this.textCanvas.width,this.textCanvas.height);
+        textOffset,1,this.textCanvas.width,this.textCanvas.height);
     this.emit('redraw');
 };
 

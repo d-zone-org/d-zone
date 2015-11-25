@@ -57,7 +57,7 @@ function initWebsocket() {
         if(data.type == 'server-list') {
             game.servers = data.data;
             console.log('Got server list:',game.servers);
-            game.ui.addButton({ text: 'Server', top: 5, right: 5, onPress: function() {
+            game.ui.addButton({ text: 'Server', top: 3, right: 3, onPress: function() {
                 if(game.serverListPanel) {
                     game.serverListPanel.remove();
                     delete game.serverListPanel;
@@ -140,10 +140,11 @@ function initWebsocket() {
     ws.on('disconnect', function() {console.log('Websocket disconnected'); });
     ws.on('error', function(err) { console.log('error',err); });
     
-    window.testMessage = function() {
+    window.testMessage = function(message) {
+        message = message || 'hello, test message yo!';
         ws.emit('data',JSON.stringify({ type: 'message', data: {
             uid: users.actors[Object.keys(users.actors)[0]].uid,
-            message: 'hello, test message yo', channel: '1'
+            message: message, channel: '1'
         }}));
     };
 }

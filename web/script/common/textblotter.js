@@ -21,40 +21,52 @@ for(var m = 0; m < metrics.length; m++) {
     rx += metrics[m][1]+1;
     if(m == 25 || m == 52) rx = 0;
 }
-var padding = 4;
+var padding = { x: 4, y: 3 };
+var vertOffset = 1;
 var image;
 
 module.exports = {
     loadImage: function(img) { image = img; },
     blot: function(options) {
-        if(!image) return;
         var x = options.x || 0, y = options.y || 0;
-        var fullWidth = options.fullWidth || 0;
-        var totalWidth = this.calculateWidth(options.text);
-        var canvas = options.canvas ? options.canvas : 
-            new BetterCanvas((fullWidth || totalWidth) + padding*2, 11 + padding * 1.5);
-        var xPos = options.align == 'center' ? Math.round(fullWidth/2) - Math.round((totalWidth-1)/2) : 0;
+        var metrics = this.calculateMetrics(options);
+        var canvas = options.canvas 
+            || new BetterCanvas(padding.x * 2 + x + metrics.w, padding.y * 2 + y + metrics.h);
         if(options.bg) canvas.fill(options.bg);
-        for(var l = 0; l < options.text.length; l++) {
-            var ltr = fontMap[options.text[l]] ? fontMap[options.text[l]] : fontMap[' '];
-            canvas.drawImage(image,ltr.x,ltr.y,ltr.w,ltr.h,padding+x+xPos,padding+y,ltr.w,ltr.h);
-            xPos += ltr.w;
+        var charCount = options.charCount ? options.charCount : metrics.charMap.length;
+        for(var c = 0; c < charCount; c++) {
+            var char = metrics.charMap[c];
+            if(char.char == ' ') continue;
+            canvas.drawImage(image, char.ltr.x, char.ltr.y, char.ltr.w, char.ltr.h,
+                padding.x + x + char.x, padding.y + y + char.y + vertOffset, char.ltr.w, char.ltr.h);
         }
         return canvas.canvas;
     },
-    transition: function(canvas, bg, fullWidth, progress) {
-        canvas = canvas ? canvas : new BetterCanvas(fullWidth + padding*2, 11 + padding * 1.5);
-        var fillWidth = Math.max(2,Math.max(0, progress - 0.25) / 0.75 * canvas.canvas.width);
-        var fillHeight = Math.min(1, progress * 4) * canvas.canvas.height * -1;
-        canvas.fillRect(bg, (canvas.canvas.width - fillWidth) / 2, canvas.canvas.height, fillWidth, fillHeight);
+    transition: function(options) {
+        var canvas = options.canvas || new BetterCanvas(options.w + padding.x * 2, options.h + padding.y * 2);
+        var fillWidth = Math.max(2,Math.max(0, options.progress - 0.25) / 0.75 * canvas.canvas.width);
+        var fillHeight = Math.min(1, options.progress * 4) * canvas.canvas.height * -1;
+        canvas.fillRect(options.bg, (canvas.canvas.width - fillWidth) / 2, canvas.canvas.height, 
+            fillWidth, fillHeight);
         return canvas.canvas;
     },
-    calculateWidth: function(text) {
-        var totalWidth = 0;
+    calculateMetrics: function(options) {
+        var text = options.text;
+        var runningWidth = 0, runningHeight = 10, totalWidth = 0, lineCount = 1, charMap = [];
         for(var a = 0; a < text.length; a++) {
-            totalWidth += (fontMap[text[a]] ? fontMap[text[a]].w : fontMap[' '].w);
+            var ltr = fontMap[text[a]] ? fontMap[text[a]] : fontMap[' '];
+            if(options.maxWidth && runningWidth + ltr.w > options.maxWidth) {
+                runningWidth = 0;
+                runningHeight += 10;
+                lineCount++;
+            }
+            charMap.push({ char: text[a], ltr: ltr, x: runningWidth, y: runningHeight - 10 });
+            if(!(text[a] == ' ' && runningWidth == 0)) { // Don't start line with space
+                runningWidth += ltr.w;
+            }
+            totalWidth = Math.max(runningWidth, totalWidth);
         }
-        return totalWidth-1;
+        return { w: totalWidth-1, h: runningHeight, lines: lineCount, charMap: charMap };
     },
     metrics: metrics, fontMap: fontMap
 };
