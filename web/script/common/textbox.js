@@ -57,60 +57,50 @@ TextBox.prototype.blotText = function(options) {
 };
 
 TextBox.prototype.scrollMessage = function(speed,cb) {
-    this.messageChunks = [];
-    var chunked = this.text.split(' ');
-    var currentChunk = '';
-    for(var i = 0; i < chunked.length; i++) {
-        if(TextBlotter.calculateMetrics({ text: chunked[i] }).w > 96) continue; // Ignore long unbroken strings
-        if(TextBlotter.calculateMetrics({ text: currentChunk+chunked[i], maxWidth: 96 }).lines > 2) {
-            this.messageChunks.push(currentChunk.trim());
-            currentChunk = '';
-        }
-        currentChunk += chunked[i] + ' ';
+    if(this.text.trim() == '') { // No message to show
+        complete();
+        return;
     }
-    this.messageChunks.push(currentChunk.trim());
     var self = this;
     function complete() {
         self.remove();
         cb();
     }
-    // TODO: Normalize chunk lengths so there are no single-word remainders
-    if(this.messageChunks[0] == '') { // No message to show
-        complete();
-        return;
-    }
-    console.log('Saying:',this.messageChunks);
-    var chunkIndex = 0;
-    var chunkChar = 1;
+    console.log('Saying:',this.text);
+    this.textMetrics = TextBlotter.calculateMetrics({ text: this.text, maxWidth: 96 });
+    var lineNumber = 1;
+    var lineChar = 0;
     var addLetter = function() {
-        chunkChar++;
-        self.blotText({ text: self.messageChunks[chunkIndex], charCount: chunkChar, maxWidth: 96 });
-        if(chunkChar == self.messageChunks[chunkIndex].length) { // Chunk finished?
-            chunkIndex++;
-            if(chunkIndex > self.messageChunks.length - 1) {
+        lineChar++;
+        self.blotText({ 
+            text: self.text, charCount: lineChar, maxWidth: 96, lineNumber: lineNumber, maxLines: 2 
+        });
+        var totalChars = self.textMetrics.lines[lineNumber-1].length 
+            + (self.textMetrics.lines[lineNumber] ? self.textMetrics.lines[lineNumber].length : 0);
+        if(lineChar == totalChars) { // Line finished?
+            lineNumber += 2; // 2 lines at a time
+            if(lineNumber > self.textMetrics.lines.length) {
                 self.tickDelay(function() {
                     self.tickRepeat(function(progress) {
-                        var metrics = TextBlotter.calculateMetrics({
-                            text: self.messageChunks[chunkIndex-1], maxWidth: 96
-                        });
                         self.canvas = TextBlotter.transition({
-                            bg: bg, w: metrics.w, h: metrics.h, progress: 1 - progress
+                            bg: bg, text: self.text, progress: 1 - progress,
+                            lineNumber: lineNumber-2, maxLines: 2, maxWidth: 96
                         });
                         if(progress == 1) complete();
                     }, 16);
-                }, 70); // Last chunk complete
+                }, 70); // Last line complete
             } else {
-                chunkChar = 1;
-                self.tickDelay(addLetter, speed * 6); // Begin next chunk
+                lineChar = 0;
+                self.tickDelay(addLetter, speed * 6); // Begin next line
             }
-        } else { // Chunk not finished, continue
+        } else { // Line not finished, continue
             self.tickDelay(addLetter, speed);
         }
     };
     this.tickRepeat(function(progress) {
-        var metrics = TextBlotter.calculateMetrics({ text: self.messageChunks[chunkIndex], maxWidth: 96 });
         self.canvas = TextBlotter.transition({
-            bg: bg, w: metrics.w, h: metrics.h, progress: progress
+            bg: bg, text: self.text, progress: progress, 
+            lineNumber: lineNumber, maxLines: 2, maxWidth: 96
         });
         if(progress == 1) self.tickDelay(addLetter, speed);
     }, 20);

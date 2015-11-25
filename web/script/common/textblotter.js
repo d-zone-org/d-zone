@@ -43,7 +43,8 @@ module.exports = {
         return canvas.canvas;
     },
     transition: function(options) {
-        var canvas = options.canvas || new BetterCanvas(options.w + padding.x * 2, options.h + padding.y * 2);
+        var metrics = this.calculateMetrics(options);
+        var canvas = options.canvas || new BetterCanvas(metrics.w + padding.x * 2, metrics.h + padding.y * 2);
         var fillWidth = Math.max(2,Math.max(0, options.progress - 0.25) / 0.75 * canvas.canvas.width);
         var fillHeight = Math.min(1, options.progress * 4) * canvas.canvas.height * -1;
         canvas.fillRect(options.bg, (canvas.canvas.width - fillWidth) / 2, canvas.canvas.height, 
@@ -51,22 +52,55 @@ module.exports = {
         return canvas.canvas;
     },
     calculateMetrics: function(options) {
+        // TODO: Normalize line lengths so there are no single-word remainders
         var text = options.text;
-        var runningWidth = 0, runningHeight = 10, totalWidth = 0, lineCount = 1, charMap = [];
-        for(var a = 0; a < text.length; a++) {
-            var ltr = fontMap[text[a]] ? fontMap[text[a]] : fontMap[' '];
-            if(options.maxWidth && runningWidth + ltr.w > options.maxWidth) {
-                runningWidth = 0;
-                runningHeight += 10;
-                lineCount++;
+        var runningWidth = 0, runningHeight = 10, totalWidth = 0, 
+            lineNumber = 1, charMap = [], lines = [];
+        var words = text.split(' ');
+        var currentLine = '';
+        for(var w = 0; w < words.length; w++) {
+            var includeLine = !options.hasOwnProperty('lineNumber')
+                || (lineNumber >= options.lineNumber && lineNumber < options.lineNumber+options.maxLines);
+            var word = words[w];
+            var wordWidth = 0;
+            for(var a = 0; a < word.length; a++) {
+                var ltr = fontMap[word[a]] ? fontMap[word[a]] : fontMap[' '];
+                wordWidth += ltr.w;
             }
-            charMap.push({ char: text[a], ltr: ltr, x: runningWidth, y: runningHeight - 10 });
-            if(!(text[a] == ' ' && runningWidth == 0)) { // Don't start line with space
+            if(options.maxWidth && runningWidth + wordWidth > options.maxWidth) {
+                // Remove trailing space
+                if(charMap.length > 0 && charMap[charMap.length-1].char == ' ') charMap.pop(); 
+                runningWidth -= fontMap[' '].w;
+                runningWidth = 0;
+                if(includeLine) {
+                    runningHeight += 10;
+                    lines.push(currentLine.trim());
+                }
+                lineNumber++;
+                currentLine = '';
+                w--;
+            } else {
+                currentLine += word + ' ';
+                for(var b = 0; b < word.length; b++) {
+                    ltr = fontMap[word[b]] ? fontMap[word[b]] : fontMap[' '];
+                    if(includeLine) {
+                        charMap.push({
+                            char: word[b], ltr: ltr, x: runningWidth, y: runningHeight - 10
+                        });
+                    }
+                    runningWidth += ltr.w;
+                }
+                if(includeLine) totalWidth = Math.max(runningWidth, totalWidth);
+                ltr = fontMap[' '];
+                if(includeLine) charMap.push({
+                    char: ' ', ltr: ltr, x: runningWidth, y: runningHeight - 10
+                });
                 runningWidth += ltr.w;
             }
-            totalWidth = Math.max(runningWidth, totalWidth);
         }
-        return { w: totalWidth-1, h: runningHeight, lines: lineCount, charMap: charMap };
+        if(charMap.length > 0 && charMap[charMap.length-1].char == ' ') charMap.pop(); // Remove final space
+        if(currentLine != '' && includeLine) lines.push(currentLine.trim());
+        return { w: totalWidth-1, h: lines.length * 10, lines: lines, charMap: charMap };
     },
     metrics: metrics, fontMap: fontMap
 };

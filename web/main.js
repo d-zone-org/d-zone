@@ -39,16 +39,16 @@ function initWebsocket() {
     var Users = require('./script/actors/users.js');
     var Decorator = require('./script/props/decorator.js');
     var users, world, decorator;
-    var config = JSON.parse(require('fs').readFileSync('./config.json'));
+    var config = JSON.parse(require('fs').readFileSync('./socket-config.json'));
     
-    console.log('Initializing websocket on port',config.server.port);
+    console.log('Initializing websocket on port',config.port);
     
     // Swap the comments on the next 4 lines to switch between your websocket server and a virtual one
     // NOTE: Virtual server currently incompatible with new format, pester me to update it
     
     // TODO: We don't need websocket-stream, we can use the native browser websocket api
     var WebSocket = require('websocket-stream');
-    ws = WebSocket('ws://'+config.server.address+':'+config.server.port);
+    ws = WebSocket('ws://'+config.address+':'+config.port);
     //var TestSocket = require('./script/engine/tester.js'),
     //    ws = new TestSocket(12,2000);
     ws.on('data',function(data) {

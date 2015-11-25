@@ -15,9 +15,11 @@ This project is still **very early in development**, so there isn't much point i
 
 Contained in the package are the server files and client files.
 
-Rename `config-example.json` to `config.json` and insert the login and server info for your Discord server(s) and websocket server. **You must specify _one_ `default` Discord server.** You can include multiple servers here, and as long as your bot can connect to them, they will be available for clients to view. You can password-protect a server from being viewed by a client by using the `password` property.
+Rename `discord-config-example.json` to `discord-config.json` and insert the login and server info for your Discord server(s). **You must specify _one_  `default`  Discord server.** You can include multiple servers here, and as long as your bot can connect to them, they will be available for clients to view. You can password-protect a server from being viewed by a client by using the `password` property.
 
-Start the server with `npm run-script start` or just `node index.js`
+Rename `socket-config-example.json` to `socket-config.json` and insert the IP and port you want to run the websocket on.
+
+Start the server with `npm start` or just `node index.js`
 
 The client files are all contained within the `web` folder, and need to be built with `npm run-script build` or `npm run-script watch`. Upload everything in the `web` folder except the `script` folder.
 
@@ -36,4 +38,4 @@ The client (also designed with node via browserify) runs a graphical simulation 
 
 Core client modules such as the renderer and input controller are loosely based on implementations found in [playground.js](http://playgroundjs.com/).
 
-__Disclaimer: I cannot be held responsible for anything that happens to your computer, your server, your bot, or anything else as a result of using this package.__
+_Disclaimer: I cannot be held responsible for anything that happens to your computer, your server, your bot, or anything else as a result of using this package._

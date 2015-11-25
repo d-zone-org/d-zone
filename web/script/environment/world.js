@@ -136,10 +136,10 @@ World.prototype.crawlMap = function() {
                     if(!neighbor) { currentTile.border = true; continue; }
                     if(!crawled[neighbor.grid]) neighborsToCrawl.push(neighbor);
                 }
-                var color = currentTile.border ? 'white' : // Draw debug map
-                    ['red','blue','green','yellow','orange','purple','teal'][thisIsland];
-                testCanvas.fillRect(color, +currentTile.grid.split(':')[0]*2+this.worldSize*3+2,
-                    +currentTile.grid.split(':')[1]*2+this.worldSize+2, 2, 2);
+                //var color = currentTile.border ? 'white' : // Draw debug map
+                //    ['red','blue','green','yellow','orange','purple','teal'][thisIsland];
+                //testCanvas.fillRect(color, +currentTile.grid.split(':')[0]*2+this.worldSize*3+2,
+                //    +currentTile.grid.split(':')[1]*2+this.worldSize+2, 2, 2);
                 if(neighborsToCrawl.length > 0) {
                     currentTile = neighborsToCrawl.pop();
                 } else { thisIsland++; break; } // No more neighbors, this island is done

@@ -5,7 +5,7 @@ module.exports = WebSock;
 
 function WebSock(config, onConnect, onJoinServer) {
     var WSServer = require('ws').Server;
-    var wss = new WSServer({port:config.get('server.port')});
+    var wss = new WSServer({port:config.get('port')});
     this.wss = wss;
     wss.on('connection', function (socket) {
         console.log(DateFormat(new Date(),

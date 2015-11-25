@@ -1,17 +1,18 @@
 'use strict';
-var config = require('./config');
+var discordConfig = require('./discord-config');
+var socketConfig = require('./socket-config');
 var Inbox = require('./script/inbox.js');
 
 console.log('Initializing server');
 
 var WebSock = require('./script/websock.js');
 
-var inbox = new Inbox(config);
+var inbox = new Inbox(discordConfig);
 
 var webSock;
 
 inbox.on('connected',function() {
-    webSock = new WebSock(config, 
+    webSock = new WebSock(socketConfig, 
         function onConnect(socket) {
             socket.send(JSON.stringify({ type: 'server-list', data: inbox.getServers() }));
         },

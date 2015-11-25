@@ -55,7 +55,8 @@ web/static/bundle.js
 web/index-down.html
 
 # Config
-config.json
+discord-config.json
+socket-config.json
 config-dzone.json
 config-dbot.json
 
