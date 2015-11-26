@@ -21,6 +21,8 @@ for(var m = 0; m < metrics.length; m++) {
     rx += metrics[m][1]+1;
     if(m == 25 || m == 52) rx = 0;
 }
+fontMap[':icon-npm:'] = { x: 0, y: 27, w: 12, h: 12 };
+fontMap[':icon-github:'] = { x: 12, y: 27, w: 12, h: 12 };
 var padding = { x: 4, y: 3 };
 var vertOffset = 1;
 var image;
@@ -63,9 +65,13 @@ module.exports = {
                 || (lineNumber >= options.lineNumber && lineNumber < options.lineNumber+options.maxLines);
             var word = words[w];
             var wordWidth = 0;
-            for(var a = 0; a < word.length; a++) {
-                var ltr = fontMap[word[a]] ? fontMap[word[a]] : fontMap[' '];
-                wordWidth += ltr.w;
+            if(word.substr(0,6) == ':icon-' && fontMap[word]) {
+                wordWidth = fontMap[word].w;
+            } else {
+                for(var a = 0; a < word.length; a++) {
+                    var ltr = fontMap[word[a]] ? fontMap[word[a]] : fontMap[' '];
+                    wordWidth += ltr.w;
+                }
             }
             if(options.maxWidth && runningWidth + wordWidth > options.maxWidth) {
                 if(wordWidth <= options.maxWidth) {
@@ -75,6 +81,8 @@ module.exports = {
                     runningWidth = 0;
                     if(includeLine) {
                         runningHeight += 10;
+                        // Filter out icon codes (clean this up!)
+                        currentLine = currentLine.split(':icon-github:').join('_').split(':icon-npm').join('_');
                         lines.push(currentLine.trim());
                     }
                     lineNumber++;
@@ -83,14 +91,21 @@ module.exports = {
                 }
             } else {
                 currentLine += word + ' ';
-                for(var b = 0; b < word.length; b++) {
-                    ltr = fontMap[word[b]] ? fontMap[word[b]] : fontMap[' '];
-                    if(includeLine) {
-                        charMap.push({
-                            char: word[b], ltr: ltr, x: runningWidth, y: runningHeight - 10
-                        });
+                if(word.substr(0,6) == ':icon-' && fontMap[word]) {
+                    charMap.push({
+                        char: word, ltr: fontMap[word], x: runningWidth, y: runningHeight - 12
+                    });
+                    runningWidth += fontMap[word].w;
+                } else {
+                    for(var b = 0; b < word.length; b++) {
+                        ltr = fontMap[word[b]] ? fontMap[word[b]] : fontMap[' '];
+                        if(includeLine) {
+                            charMap.push({
+                                char: word[b], ltr: ltr, x: runningWidth, y: runningHeight - 10
+                            });
+                        }
+                        runningWidth += ltr.w;
                     }
-                    runningWidth += ltr.w;
                 }
                 if(includeLine) totalWidth = Math.max(runningWidth, totalWidth);
                 ltr = fontMap[' '];
@@ -101,8 +116,9 @@ module.exports = {
             }
         }
         if(charMap.length > 0 && charMap[charMap.length-1].char == ' ') charMap.pop(); // Remove final space
+        currentLine = currentLine.split(':icon-github:').join('_').split(':icon-npm').join('_');
         if(currentLine != '' && includeLine) lines.push(currentLine.trim());
         return { w: totalWidth-1, h: lines.length * 10, lines: lines, charMap: charMap };
     },
-    metrics: metrics, fontMap: fontMap
+    fontMap: fontMap
 };

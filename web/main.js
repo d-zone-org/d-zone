@@ -57,6 +57,7 @@ function initWebsocket() {
         if(data.type == 'server-list') {
             game.servers = data.data;
             console.log('Got server list:',game.servers);
+            // Server button
             game.ui.addButton({ text: 'Server', top: 3, right: 3, onPress: function() {
                 if(game.serverListPanel) {
                     game.serverListPanel.remove();
@@ -107,6 +108,28 @@ function initWebsocket() {
                     serverButtonY++;
                 }
             } });
+            // Help button
+            game.ui.addButton({ text: '?', bottom: 3, right: 3, w: 18, h: 18, onPress: function() {
+                if(game.helpPanel) {
+                    game.helpPanel.remove();
+                    delete game.helpPanel;
+                    return;
+                }
+                game.helpPanel = game.ui.addPanel({ left: 'auto', top: 'auto', w: 200, h: 75 });
+                game.ui.addLabel({ text: 'D-Zone', top: 5, left: 'auto', parent: game.helpPanel });
+                game.ui.addLabel({
+                    text: 'An ambient life simulation driven by the user activity within a Discord server',
+                    top: 20, left: 2, maxWidth: 196, parent: game.helpPanel
+                });
+                game.ui.addLabel({ 
+                    text: ':icon-npm: View on npm', hyperlink: 'https://www.npmjs.com/package/d-zone',
+                    top: 50, left: 8, parent: game.helpPanel 
+                });
+                game.ui.addLabel({ 
+                    text: ':icon-github: View on GitHub', hyperlink: 'https://github.com/vegeta897/d-zone',
+                    top: 50, right: 8, parent: game.helpPanel 
+                });
+            }});
             var startupServer = getStartupServer();
             joinServer(startupServer);
         } else if(data.type == 'server-join') { // Initial server status

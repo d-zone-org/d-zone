@@ -6,3 +6,4 @@
 * Some large perpetual project that is constructed/destroyed by the actors over time
   * Progress controlled/stored on server
   * Influenced by activity in chat
+* Headphones on users that are in voice

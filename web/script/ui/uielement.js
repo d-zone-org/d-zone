@@ -11,6 +11,7 @@ function UIElement(options) {
     this.ui = options.ui;
     this.parent = options.parent;
     this.elements = [];
+    this.w = 1; this.h = 1;
     if(options.hasOwnProperty('w')) this.w = options.w; else this.autosize = true;
     if(options.hasOwnProperty('h')) this.h = options.h; else this.autosize = true;
     if(options.hasOwnProperty('top')) this.top = options.top;

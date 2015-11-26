@@ -6,6 +6,7 @@ var TextBlotter = require('./../common/textblotter.js');
 var Button = require('./button.js');
 var Panel = require('./panel.js');
 var Input = require('./input.js');
+var Label = require('./label.js');
 
 module.exports = UI;
 inherits(UI, EventEmitter);
@@ -29,6 +30,7 @@ function UI(game) {
     this.boundOnMouseOffElement = this.onMouseOffElement.bind(this);
 }
 
+// TODO: Abstract these different add methods into one
 UI.prototype.addButton = function(options) {
     if(!options.parent) options.parent = this;
     options.ui = this;
@@ -61,6 +63,18 @@ UI.prototype.addInput = function(options) {
     newInput.on('mouse-on-element', this.boundOnMouseOnElement);
     newInput.on('mouse-off-element', this.boundOnMouseOffElement);
     return newInput;
+};
+
+UI.prototype.addLabel = function(options) {
+    if(!options.parent) options.parent = this;
+    options.ui = this;
+    var newLabel = new Label(options);
+    options.parent.elements.push(newLabel);
+    if(options.parent !== this) this.elements.push(newLabel);
+    newLabel.on('redraw', this.boundRedraw);
+    newLabel.on('mouse-on-element', this.boundOnMouseOnElement);
+    newLabel.on('mouse-off-element', this.boundOnMouseOffElement);
+    return newLabel;
 };
 
 UI.prototype.redraw = function() {

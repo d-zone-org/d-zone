@@ -11,6 +11,7 @@ function Canvas(options) {
     this.id = options.id;
     this.game = options.game;
     this.canvas = new BetterCanvas(1,1);
+    this.canvas.canvas.id = this.id;
     document.body.appendChild(this.canvas.canvas);
     this.context = this.canvas.context;
     this.scale = options.scale || 1;
