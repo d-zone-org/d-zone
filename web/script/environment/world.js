@@ -10,7 +10,7 @@ module.exports = World;
 
 var Canvas = require('./../common/bettercanvas.js');
 var testCanvas = new Canvas(200,100);
-document.body.appendChild(testCanvas.canvas);
+//document.body.appendChild(testCanvas.canvas);
 
 function World(game,worldSize) {
     this.game = game;

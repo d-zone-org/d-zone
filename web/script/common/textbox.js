@@ -62,35 +62,41 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
         self.remove();
         cb();
     }
-    console.log('Saying:',this.text);
     this.textMetrics = TextBlotter.calculateMetrics({ text: this.text, maxWidth: 96 });
-    if(this.text.trim() == '' || this.textMetrics.charMap.length == 0) { // No message to show
+    if(this.text.trim() == '' || this.textMetrics.lines.length == 0 
+        || this.textMetrics.lines[0].chars.length == 0) { // No message to show
         complete();
         return;
     }
-    var lineNumber = 1;
+    var lineNumber = 0;
     var lineChar = 0;
+    var lineChars = self.textMetrics.lines[lineNumber].chars.length;
+    var nextLine = self.textMetrics.lines[lineNumber + 1];
+    if(nextLine) lineChars += nextLine.chars.length;
+    console.log('Saying:',this.text);
     var addLetter = function() {
         lineChar++;
         self.blotText({ 
-            text: self.text, charCount: lineChar, maxWidth: 96, lineNumber: lineNumber, maxLines: 2 
+            text: self.text, maxWidth: 96, metrics: self.textMetrics,
+            maxChars: lineChar, lineStart: lineNumber, lineCount: 2 
         });
-        var totalChars = self.textMetrics.lines[lineNumber-1].length 
-            + (self.textMetrics.lines[lineNumber] ? self.textMetrics.lines[lineNumber].length : 0);
-        if(lineChar == totalChars) { // Line finished?
+        if(lineChar == lineChars) { // Line pair finished?
             lineNumber += 2; // 2 lines at a time
-            if(lineNumber > self.textMetrics.lines.length) {
+            if(lineNumber + 1 > self.textMetrics.lines.length) {
                 self.tickDelay(function() {
                     self.tickRepeat(function(progress) {
                         self.canvas = TextBlotter.transition({
-                            bg: bg, text: self.text, progress: 1 - progress,
-                            lineNumber: lineNumber-2, maxLines: 2, maxWidth: 96
+                            bg: bg, metrics: self.textMetrics, progress: 1 - progress, 
+                            lineCount : Math.min(self.textMetrics.lines.length, 2)
                         });
                         if(progress == 1) complete();
                     }, 16);
                 }, 70); // Last line complete
             } else {
                 lineChar = 0;
+                lineChars = self.textMetrics.lines[lineNumber].chars.length;
+                nextLine = self.textMetrics.lines[lineNumber + 1];
+                if(nextLine) lineChars += nextLine.chars.length;
                 self.tickDelay(addLetter, speed * 6); // Begin next line
             }
         } else { // Line not finished, continue
@@ -99,8 +105,8 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
     };
     this.tickRepeat(function(progress) {
         self.canvas = TextBlotter.transition({
-            bg: bg, text: self.text, progress: progress, 
-            lineNumber: lineNumber, maxLines: 2, maxWidth: 96
+            bg: bg, metrics: self.textMetrics, progress: progress,
+            lineCount : Math.min(self.textMetrics.lines.length, 2)
         });
         if(progress == 1) self.tickDelay(addLetter, speed);
     }, 20);

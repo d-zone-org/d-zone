@@ -17,12 +17,12 @@ var metrics = [
 var fontMap = {}, rx = 0;
 for(var m = 0; m < metrics.length; m++) {
     fontMap[metrics[m][0]] = { x: rx, y: (m < 26 ? 0 : m > 52 ? 19 : 8),
-        w: metrics[m][1]+1, h: m < 26 ? 8 : m > 52 ? 8 : 11 };
+        w: metrics[m][1]+1, h: m < 26 ? 8 : m > 52 ? 8 : 11, text: metrics[m][0] };
     rx += metrics[m][1]+1;
     if(m == 25 || m == 52) rx = 0;
 }
-fontMap[':icon-npm:'] = { x: 0, y: 27, w: 12, h: 12 };
-fontMap[':icon-github:'] = { x: 12, y: 27, w: 12, h: 12 };
+fontMap[':icon-npm:'] = { x: 0, y: 27, w: 12, h: 12, text: ':icon-npm:' };
+fontMap[':icon-github:'] = { x: 12, y: 27, w: 12, h: 12, text: ':icon-github:' };
 var padding = { x: 4, y: 3 };
 var vertOffset = 1;
 var image;
@@ -31,22 +31,36 @@ module.exports = {
     loadImage: function(img) { image = img; },
     blot: function(options) {
         var x = options.x || 0, y = options.y || 0;
-        var metrics = this.calculateMetrics(options);
-        var canvas = options.canvas 
-            || new BetterCanvas(padding.x * 2 + x + metrics.w, padding.y * 2 + y + metrics.h);
+        var metrics = options.metrics || this.calculateMetrics(options);
+        var lineStart = options.lineStart ? options.lineStart : 0;
+        var lineCount = options.lineCount ? Math.min(metrics.lines.length, options.lineCount) 
+            : metrics.lines.length;
+        var canvas = options.canvas || new BetterCanvas(
+                padding.x * 2 + x + metrics.w - 1,
+                padding.y * 2 + y + lineCount * 10
+            );
         if(options.bg) canvas.fill(options.bg);
-        var charCount = options.charCount ? options.charCount : metrics.charMap.length;
-        for(var c = 0; c < charCount; c++) {
-            var char = metrics.charMap[c];
-            if(char.char == ' ') continue;
-            canvas.drawImage(image, char.ltr.x, char.ltr.y, char.ltr.w, char.ltr.h,
-                padding.x + x + char.x, padding.y + y + char.y + vertOffset, char.ltr.w, char.ltr.h);
+        var charCount = 0;
+        for(var l = lineStart; l < Math.min(metrics.lines.length, lineStart + lineCount); l++) {
+            var maxChars = metrics.lines[l].chars.length;
+            if(options.maxChars) maxChars = Math.min(maxChars,options.maxChars - charCount);
+            for(var c = 0; c < maxChars; c++) {
+                var char = metrics.lines[l].chars[c];
+                if(char.char.text == ' ') continue;
+                canvas.drawImage(image, char.char.x, char.char.y, char.w, char.char.h,
+                    padding.x + x + char.x, padding.y + y + (l - lineStart) * 10 + (char.oy || 0) + vertOffset, 
+                    char.w, char.char.h);
+            }
+            charCount += metrics.lines[l].chars.length;
         }
         return canvas.canvas;
     },
     transition: function(options) {
-        var metrics = this.calculateMetrics(options);
-        var canvas = options.canvas || new BetterCanvas(metrics.w + padding.x * 2, metrics.h + padding.y * 2);
+        var metrics = options.metrics || this.calculateMetrics(options);
+        var canvas = options.canvas || new BetterCanvas(
+                metrics.w + padding.x * 2, 
+                (options.lineCount || metrics.lines.length) * 10 + padding.y * 2
+            );
         var fillWidth = Math.max(2,Math.max(0, options.progress - 0.25) / 0.75 * canvas.canvas.width);
         var fillHeight = Math.min(1, options.progress * 4) * canvas.canvas.height * -1;
         canvas.fillRect(options.bg, (canvas.canvas.width - fillWidth) / 2, canvas.canvas.height, 
@@ -56,69 +70,63 @@ module.exports = {
     calculateMetrics: function(options) {
         // TODO: Normalize line lengths so there are no single-word remainders
         var text = options.text;
-        var runningWidth = 0, runningHeight = 10, totalWidth = 0, 
-            lineNumber = 1, charMap = [], lines = [];
+        var lines = [];
         var words = text.split(' ');
-        var currentLine = '';
+        var space = fontMap[' '];
+        var lineWidth = 0, lineChars = [], maxLineWidth = 0;
         for(var w = 0; w < words.length; w++) {
-            var includeLine = !options.hasOwnProperty('lineNumber')
-                || (lineNumber >= options.lineNumber && lineNumber < options.lineNumber+options.maxLines);
             var word = words[w];
+            if(word == '') continue; // Skip empty words
             var wordWidth = 0;
-            if(word.substr(0,6) == ':icon-' && fontMap[word]) {
-                wordWidth = fontMap[word].w;
+            var wordChars = [];
+            if(lineChars.length > 0) { // Add space before word unless starting a line
+                wordChars.push({ x: lineWidth, char: space, w: space.w });
+                wordWidth += space.w;
+            }
+            if(word.length > 1 && fontMap[word]) {
+                wordChars.push({ x: lineWidth + wordWidth, char: fontMap[word], w: fontMap[word].w, oy: -2 });
+                wordWidth += fontMap[word].w;
             } else {
                 for(var a = 0; a < word.length; a++) {
-                    var ltr = fontMap[word[a]] ? fontMap[word[a]] : fontMap[' '];
+                    var ltr = fontMap[word[a]] || space;
+                    wordChars.push({ x: lineWidth + wordWidth, char: ltr, w: ltr.w });
                     wordWidth += ltr.w;
                 }
             }
-            if(options.maxWidth && runningWidth + wordWidth > options.maxWidth) {
-                if(wordWidth <= options.maxWidth) {
-                    // Remove trailing space
-                    if(charMap.length > 0 && charMap[charMap.length-1].char == ' ') charMap.pop();
-                    runningWidth -= fontMap[' '].w;
-                    runningWidth = 0;
-                    if(includeLine) {
-                        runningHeight += 10;
-                        // Filter out icon codes (clean this up!)
-                        currentLine = currentLine.split(':icon-github:').join('_').split(':icon-npm').join('_');
-                        lines.push(currentLine.trim());
+            if(options.maxWidth && lineWidth + wordWidth > options.maxWidth) {
+                if(wordWidth > options.maxWidth) { // Word is longer than maxWidth, won't fit any line
+                    wordChars = [];
+                    wordWidth = 0;
+                    for(var b = 0; b < word.length; b++) {
+                        var ltrB = fontMap[word[b]] || space;
+                        if(lineWidth + wordWidth + ltrB.w < options.maxWidth) {
+                            wordChars.push({ x: lineWidth + wordWidth, char: ltrB, w: ltrB.w });
+                            wordWidth += ltrB.w;
+                        } else {
+                            var trimWidth = (lineWidth + wordWidth + ltrB.w) - options.maxWidth;
+                            wordChars.push({ x: lineWidth + wordWidth, char: ltrB, w: ltrB.w - trimWidth });
+                            wordWidth += ltrB.w - trimWidth;
+                            break;
+                        }
                     }
-                    lineNumber++;
-                    currentLine = '';
+                    lineWidth += wordWidth;
+                    lineChars = lineChars.concat(wordChars);
+                } else { // Word can be pushed to next line
                     w--;
                 }
-            } else {
-                currentLine += word + ' ';
-                if(word.substr(0,6) == ':icon-' && fontMap[word]) {
-                    charMap.push({
-                        char: word, ltr: fontMap[word], x: runningWidth, y: runningHeight - 12
-                    });
-                    runningWidth += fontMap[word].w;
-                } else {
-                    for(var b = 0; b < word.length; b++) {
-                        ltr = fontMap[word[b]] ? fontMap[word[b]] : fontMap[' '];
-                        if(includeLine) {
-                            charMap.push({
-                                char: word[b], ltr: ltr, x: runningWidth, y: runningHeight - 10
-                            });
-                        }
-                        runningWidth += ltr.w;
-                    }
+                lines.push({ w: lineWidth, chars: lineChars });
+                maxLineWidth = Math.max(lineWidth, maxLineWidth);
+                lineWidth = 0; lineChars = [];
+            } else { // Word fits on line
+                lineWidth += wordWidth;
+                lineChars = lineChars.concat(wordChars);
+                if(w == words.length - 1) {
+                    lines.push({ w: lineWidth, chars: lineChars });
+                    maxLineWidth = Math.max(lineWidth, maxLineWidth);
                 }
-                if(includeLine) totalWidth = Math.max(runningWidth, totalWidth);
-                ltr = fontMap[' '];
-                if(includeLine) charMap.push({
-                    char: ' ', ltr: ltr, x: runningWidth, y: runningHeight - 10
-                });
-                runningWidth += ltr.w;
             }
         }
-        if(charMap.length > 0 && charMap[charMap.length-1].char == ' ') charMap.pop(); // Remove final space
-        currentLine = currentLine.split(':icon-github:').join('_').split(':icon-npm').join('_');
-        if(currentLine != '' && includeLine) lines.push(currentLine.trim());
-        return { w: totalWidth-1, h: lines.length * 10, lines: lines, charMap: charMap };
+        return { lines: lines, text: text, w: maxLineWidth };
     },
     fontMap: fontMap
 };
