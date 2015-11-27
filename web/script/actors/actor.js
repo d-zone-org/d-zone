@@ -36,7 +36,6 @@ function Actor(options) {
 }
 
 Actor.prototype.onUpdate = function() {
-    if(this.destination) this.doMove();
     if(this.game.mouseOut || (this.game.mouseOver 
         && (this.game.mouseOver.zDepth > this.zDepth // Don't override closer objects
         || this.game.mouseOver.position.z > this.position.z)) // Don't override higher objects
@@ -111,14 +110,13 @@ Actor.prototype.getSprite = function() {
     if(!this.destination && this.talking) {
         metrics.y += (Math.floor(this.game.ticks / 4) % 4) * metrics.h;
     } else if(this.destination) {
-        var frame = Math.min(14,Math.floor((this.game.ticks - this.moveStart)/3) + 1);
-        metrics.x += (frame - 1) * metrics.w;
+        metrics.x += (this.frame) * metrics.w;
         var animation = this.sheet.map['hopping'].animation;
-        if(frame >= animation.zStartFrame) {
+        if(this.frame >= animation.zStartFrame) {
             if(this.destination.z > this.position.z) {
-                metrics.oy -= Math.min(8,frame + 1 - animation.zStartFrame);
+                metrics.oy -= Math.min(8,this.frame - animation.zStartFrame);
             } else if(this.destination.z < this.position.z) {
-                metrics.oy += Math.min(8, frame + 1 - animation.zStartFrame);
+                metrics.oy += Math.min(8, this.frame - animation.zStartFrame);
             }
         }
     }
@@ -177,30 +175,35 @@ Actor.prototype.startMove = function() {
         y: this.destination.y - this.position.y,
         z: this.destination.z - this.position.z
     };
-};
-
-Actor.prototype.doMove = function() {
+    this.frame = 0;
+    var self = this;
     var animation = this.sheet.map['hopping'].animation;
-    var tick = this.game.ticks - this.moveStart;
     var halfZDepthFrame = this.facing == 'south' || this.facing == 'east';
-    if(tick == animation.frames * 3 - 1) {
-        this.emit('movecomplete');
-        delete this.movePlaceholder;
-        delete this.fakeZ;
-        this.move(this.destination.x, this.destination.y, this.destination.z, true);
-        this.destination = false;
-        delete this.moveStart;
-    } else if(halfZDepthFrame && tick == 5 * 3 - 1) { // Move zDepth half-way between tiles
-        var previousZDepth1 = this.zDepth;
-        this.zDepth = (this.position.x + this.position.y + (this.destDelta.x + this.destDelta.y)/2);
-        this.game.renderer.updateZBuffer(previousZDepth1, this);
-    } else if(tick == 9 * 3 - 1) { // Move zDepth all the way
-        var previousZDepth2 = this.zDepth;
-        this.zDepth = this.destination.x + this.destination.y;
-        if(this.destDelta.z) this.fakeZ = this.destDelta.z;
-        this.game.renderer.updateZBuffer(previousZDepth2, this);
-    }
-    this.preciseScreen = this.toScreenPrecise();
+    this.tickRepeat(function(progress) {
+        var newFrame = false;
+        if(progress.ticks > 0 && progress.ticks % 3 == 0) {
+            self.frame++;
+            newFrame = true;
+        }
+        if(self.frame == animation.frames) {
+            self.emit('movecomplete');
+            delete self.movePlaceholder;
+            delete self.fakeZ;
+            self.move(self.destination.x, self.destination.y, self.destination.z, true);
+            self.destination = false;
+            delete self.frame;
+        } else if(halfZDepthFrame && newFrame && self.frame == 4) { // Move zDepth half-way between tiles
+            var previousZDepth1 = self.zDepth;
+            self.zDepth = (self.position.x + self.position.y + (self.destDelta.x + self.destDelta.y)/2);
+            self.game.renderer.updateZBuffer(previousZDepth1, self);
+        } else if(newFrame && self.frame == 8) { // Move zDepth all the way
+            var previousZDepth2 = self.zDepth;
+            self.zDepth = self.destination.x + self.destination.y;
+            if(self.destDelta.z) self.fakeZ = self.destDelta.z;
+            self.game.renderer.updateZBuffer(previousZDepth2, self);
+        }
+        self.preciseScreen = self.toScreenPrecise();
+    }, 3*(animation.frames));
 };
 
 Actor.prototype.move = function(x, y, z, absolute) {

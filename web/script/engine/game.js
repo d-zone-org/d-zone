@@ -63,7 +63,8 @@ Game.prototype.update = function() {
         if(task.type == 'repeat') {
             endTick = task.start + task.count;
             if(task.start <= this.ticks) {
-                task.cb((this.ticks - task.start) / task.count)
+                var ticks = this.ticks - task.start;
+                task.cb({ ticks: ticks, percent: ticks / task.count });
             }
         } else {
             endTick = task.tick;

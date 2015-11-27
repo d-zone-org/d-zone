@@ -86,10 +86,10 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
                 self.tickDelay(function() {
                     self.tickRepeat(function(progress) {
                         self.canvas = TextBlotter.transition({
-                            bg: bg, metrics: self.textMetrics, progress: 1 - progress, 
+                            bg: bg, metrics: self.textMetrics, progress: 1 - progress.percent, 
                             lineCount : Math.min(self.textMetrics.lines.length, 2)
                         });
-                        if(progress == 1) complete();
+                        if(progress.percent == 1) complete();
                     }, 16);
                 }, 70); // Last line complete
             } else {
@@ -105,9 +105,9 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
     };
     this.tickRepeat(function(progress) {
         self.canvas = TextBlotter.transition({
-            bg: bg, metrics: self.textMetrics, progress: progress,
+            bg: bg, metrics: self.textMetrics, progress: progress.percent,
             lineCount : Math.min(self.textMetrics.lines.length, 2)
         });
-        if(progress == 1) self.tickDelay(addLetter, speed);
+        if(progress.percent == 1) self.tickDelay(addLetter, speed);
     }, 20);
 };
