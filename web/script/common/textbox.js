@@ -23,7 +23,7 @@ function cleanString(text) {
 
 function TextBox(parent, text) {
     this.parent = parent;
-    this.text = cleanString(text);
+    this.text = text;
     this.keepOnScreen = true;
     var self = this;
     this.on('draw',function(canvas) {
@@ -97,7 +97,7 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
                 lineChars = self.textMetrics.lines[lineNumber].chars.length;
                 nextLine = self.textMetrics.lines[lineNumber + 1];
                 if(nextLine) lineChars += nextLine.chars.length;
-                self.tickDelay(addLetter, speed * 6); // Begin next line
+                self.tickDelay(addLetter, speed * 5); // Begin next line
             }
         } else { // Line not finished, continue
             self.tickDelay(addLetter, speed);

@@ -12,7 +12,7 @@ module.exports = Game;
 inherits(Game, EventEmitter);
 
 function Game(options) {
-    this.setMaxListeners(1000);
+    this.setMaxListeners(5000);
     this.step = options.step || 1000/60;
     this.lastUpdate = 0;
     this.dt = 0;
@@ -53,7 +53,10 @@ var lastUpdateTime = 0;
 Game.prototype.update = function() {
     var timeThis = this.timeUpdates && (this.ticks & 255) == 0;
     if(timeThis) console.time('update');
-    //if(timeThis) console.log(this.mouseOver);
+    if(timeThis) console.log('entities:',this.entities.length, 'actors:', Object.keys(this.users.actors).length, 'update listeners', this.listenerCount('update'), 'message listeners',this.users.listenerCount('message'));
+    if(timeThis) for(var uKey in this.users.actors) { if(!this.users.actors.hasOwnProperty(uKey)) continue;
+        console.log(uKey, 'movecomplete listeners:',this.users.actors[uKey].listenerCount('movecomplete'), 'behavior count:',this.users.actors[uKey].behaviors.length);
+    }
     //if(timeThis) var updateStart = now();
     //if(timeThis) console.log('entities:', this.entities.length);
     this.emit('update');

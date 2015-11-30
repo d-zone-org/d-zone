@@ -15,15 +15,4 @@ function Placeholder(parent,options) {
     });
     this.invalid = true;
     this.addToGame(this.parent.game);
-    this.destroyBound = this.destroy.bind(this);
-    this.parent.once('movecomplete',this.destroyBound);
 }
-
-Placeholder.prototype.remove = function() {
-    WorldObject.prototype.remove.call(this);
-    this.parent.removeListener('movecomplete',this.destroyBound);
-};
-
-Placeholder.prototype.destroy = function() {
-    this.remove();
-};

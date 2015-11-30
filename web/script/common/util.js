@@ -17,6 +17,7 @@ module.exports = {
             }
         }
     },
+    right: function(text, length) { return text.substring(text.length-length,text.length); },
     clamp: function(val, min, max) { return Math.min(max,Math.max(min,val)); },
     fractionalArrayIndex: function(arr, index) {
         var floorX = Math.floor(index);

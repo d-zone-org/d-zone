@@ -42,3 +42,12 @@ Entity.prototype.tickDelay = function(cb, ticks) { // Execute callback after X t
 Entity.prototype.tickRepeat = function(cb, ticks) { // Execute callback every tick for X ticks
     this.game.schedule.push({ type: 'repeat', start: this.game.ticks, count: ticks, cb: cb });
 };
+
+Entity.prototype.removeFromSchedule = function(cb) {
+    for(var i = 0; i < this.game.schedule.length; i++) {
+        if(this.game.schedule[i].cb === cb) {
+            this.game.schedule.splice(i,1);
+            break;
+        }
+    }
+};

@@ -1,27 +1,36 @@
 'use strict';
 var Geometry = require('./../../common/geometry.js');
 var util = require('./../../common/util.js');
+var Pathfinder = require('./../pathfinder.js');
 
 module.exports = GoTo;
 
-function GoTo(actor) {
+function GoTo(actor, destination) {
     this.actor = actor;
-    this.state = 'idle';
-    this.listeners = [];
-    this.impulseCompleteBound = this.impulseComplete.bind(this);
+    this.destination = destination;
+    if(this.actor.destination) {
+        this.actor.once('movecomplete', this.startGoTo.bind(this));
+    } else {
+        this.startGoTo();
+    }
 }
 
-GoTo.prototype.impulse = function() {
-    if(this.state == 'moving' || this.actor.talking) return;
-    this.state = 'moving';
-    this.actor.once('movecomplete', this.impulseCompleteBound)
-};
-
-GoTo.prototype.impulseComplete = function() {
-    this.state = 'idle';
+GoTo.prototype.startGoTo = function() {
+    console.log('pathing');
+    this.path = Pathfinder.findPath({ start: this.actor.position, end: this.destination });
+    //for(var i = 0; i < this.path.length; i++) {
+    //    console.log(this.path[i].x,this.path[i].y,this.path[i].z);
+    //}
+    //this.actor.game.paused = true;
+    if(this.path[0]) { // If there is a path
+        this.actor.destination = { x: this.path[0].x, y: this.path[0].y, z: this.path[0].z };
+        this.actor.startMove();
+        this.actor.once('movecomplete', this.startGoTo.bind(this));
+    } else { // If no path, try adjacent tile
+        
+    }
 };
 
 GoTo.prototype.detach = function() { // Detach behavior from actor
-    this.actor.removeListener('movecomplete',this.impulseCompleteBound);
     delete this.actor;
 };

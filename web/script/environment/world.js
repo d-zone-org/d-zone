@@ -1,6 +1,7 @@
 'use strict';
 var util = require('./../common/util.js');
 var geometry = require('./../common/geometry.js');
+var Pathfinder = require('./../actors/pathfinder.js');
 
 var Tile = require('./tile.js');
 var Block = require('./block.js');
@@ -18,8 +19,8 @@ function World(game,worldSize) {
     this.worldSize = Math.max(24,Math.floor(worldSize/2)*2); // Must be an even number >= 24
     this.worldRadius = Math.floor(this.worldSize/2);
     this.objects = {};
-    // Grid-based map to hold world tiles
-    this.map = {};
+    this.map = {}; // Grid-based map to hold world tiles
+    this.walkable = {}; // Grid-based map to hold walkable surfaces
     
     testCanvas.clear();
     
@@ -91,6 +92,17 @@ function World(game,worldSize) {
         x: lowestScreenX, y: lowestScreenY,
         image: bgCanvas.canvas
     };
+    Pathfinder.loadMap(this.walkable);
+    //for(var wx = this.mapBounds.xl; wx < this.mapBounds.xh + 1; wx++) {
+    //    var row = '';
+    //    for(var wy = this.mapBounds.yh; wy >= this.mapBounds.yl; wy--) {
+    //        row += !this.walkable[wx+':'+wy] ? '   ' 
+    //            : this.walkable[wx+':'+wy] < 1.5 ? ' . ' 
+    //            : this.walkable[wx+':'+wy] < 2 ? ' : '
+    //            : this.walkable[wx+':'+wy] < 2.5 ? ' + ' : ' # ';
+    //    }
+    //    console.log(row);
+    //}
     console.log('Created world with',Object.keys(this.map).length,'tiles');
     // TODO: Retry if tile count is too high/low
 }
@@ -245,16 +257,29 @@ World.prototype.addToWorld = function(obj) {
         this.objects[obj.position.x][obj.position.y] = {}
     }
     this.objects[obj.position.x][obj.position.y][obj.position.z] = obj;
+    this.updateWalkable(obj.position.x, obj.position.y, this.objects[obj.position.x][obj.position.y]);
 };
 
 World.prototype.removeFromWorld = function(obj) {
     delete this.objects[obj.position.x][obj.position.y][obj.position.z];
+    this.updateWalkable(obj.position.x, obj.position.y, this.objects[obj.position.x][obj.position.y]);
 };
 
 World.prototype.moveObject = function(obj,x2,y2,z2) {
-    delete this.objects[obj.position.x][obj.position.y][obj.position.z];
+    this.removeFromWorld(obj);
     obj.position.x = x2; obj.position.y = y2; obj.position.z = z2;
     this.addToWorld(obj)
+};
+
+World.prototype.updateWalkable = function(x, y, objects) {
+    if(!objects || Object.keys(objects).length == 0) {
+        delete this.walkable[x+':'+y];
+        return;
+    }
+    var zKeys = Object.keys(objects).sort(function(a, b) { return a - b; });
+    var topObject = objects[zKeys[zKeys.length-1]];
+    if(topObject.invalid) delete this.walkable[x+':'+y];
+    else this.walkable[x+':'+y] = topObject.position.z + topObject.height;
 };
 
 World.prototype.randomEmptyGrid = function() {

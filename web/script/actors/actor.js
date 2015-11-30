@@ -6,6 +6,7 @@ var WorldObject = require('./../engine/worldobject.js');
 var Sheet = require('./sheet.js');
 var Placeholder = require('./placeholder.js');
 var Wander = require('./behaviors/wander.js');
+var GoTo = require('./behaviors/goto.js');
 var TextBox = require('./../common/textbox.js');
 
 module.exports = Actor;
@@ -30,9 +31,9 @@ function Actor(options) {
     this.presence = 'offline';
     this.talking = false;
     this.destination = false;
-    this.impulseInterval = 75;
     this.facing = util.pickInObject(Geometry.DIRECTIONS);
     this.behaviors = [];
+    this.boundOnMessage = this.onMessage.bind(this);
 }
 
 Actor.prototype.onUpdate = function() {
@@ -59,11 +60,10 @@ Actor.prototype.addToGame = function(game) {
     WorldObject.prototype.addToGame.call(this, game);
     this.nametag.addToGame(game);
     this.game.on('update', this.onUpdate.bind(this));
-    this.tickDelay(this.newImpulse.bind(this), Math.random() * this.impulseInterval);
+    this.game.users.on('message', this.boundOnMessage);
 };
 
 Actor.prototype.updatePresence = function(presence) {
-    // TODO: Lower saturation on role colored sprite when offline
     this.presence = presence ? presence : 'offline';
     if(this.presence == 'offline' || this.presence == 'idle') {
         for(var i = 0; i < this.behaviors.length; i++) {
@@ -71,7 +71,7 @@ Actor.prototype.updatePresence = function(presence) {
         }
         this.behaviors = [];
     } else if(this.behaviors.length == 0) { // If coming online and have no behaviors already
-        this.behaviors.push(new Wander(this));
+        //this.behaviors.push(new Wander(this));
     }
 };
 
@@ -131,38 +131,18 @@ Actor.prototype.setRoleColor = function(color) {
     });
 };
 
-Actor.prototype.newImpulse = function() {
-    for(var i = 0; i < this.behaviors.length; i++) {
-        this.behaviors[i].impulse();
-    }
-    this.tickDelay(this.newImpulse.bind(this), 15 + Math.random() * this.impulseInterval);
-};
-
-Actor.prototype.tryMove = function(x,y,z) {
+Actor.prototype.tryMove = function(x,y) {
+    this.facing = x < 0 ? 'west' : x > 0 ? 'east' : y < 0 ? 'north' : 'south';
     if(this.game.world.objectAtXYZ(this.position.x,this.position.y,this.position.z+this.height)) {
         this.emit('getoffme');
         return; // Can't move with object on top
     }
     var newX = this.position.x + x;
     var newY = this.position.y + y;
-    var newZ = this.position.z + z;
-    var canMove = false;
-    var obstruction = this.game.world.objectAtXYZ(newX,newY,newZ);
-    if(obstruction) {
-        if(!obstruction.invalid && !obstruction.destination
-            && obstruction.position.z + obstruction.height <= newZ + 0.5
-            && !this.game.world.objectAtXYZ(newX,newY,newZ+0.5)) { // Climb up
-            
-            canMove = { x: newX, y: newY, z: obstruction.position.z + obstruction.height };
-        }
-    } else {
-        var under = this.game.world.objectUnderXYZ(newX,newY,newZ);
-        if(under && !under.invalid && !under.destination 
-            && under.position.z + under.height >= newZ - 0.5) { // Level or hop down
-            canMove = { x: newX, y: newY, z: under.position.z + under.height };
-        }
+    var walkable = this.game.world.walkable[newX+':'+newY];
+    if(walkable && Math.abs(this.position.z - walkable) <= 0.5) {
+        return { x: newX, y: newY, z: walkable };
     }
-    return canMove;
 };
 
 Actor.prototype.startMove = function() {
@@ -175,6 +155,8 @@ Actor.prototype.startMove = function() {
         y: this.destination.y - this.position.y,
         z: this.destination.z - this.position.z
     };
+    this.facing = this.destDelta.x < 0 ? 'west' : this.destDelta.x > 0 ? 'east' 
+        : this.destDelta.y < 0 ? 'north' : 'south';
     this.frame = 0;
     var self = this;
     var animation = this.sheet.map['hopping'].animation;
@@ -186,12 +168,13 @@ Actor.prototype.startMove = function() {
             newFrame = true;
         }
         if(self.frame == animation.frames) {
-            self.emit('movecomplete');
+            self.movePlaceholder.remove();
             delete self.movePlaceholder;
             delete self.fakeZ;
             self.move(self.destination.x, self.destination.y, self.destination.z, true);
             self.destination = false;
             delete self.frame;
+            self.emit('movecomplete');
         } else if(halfZDepthFrame && newFrame && self.frame == 4) { // Move zDepth half-way between tiles
             var previousZDepth1 = self.zDepth;
             self.zDepth = (self.position.x + self.position.y + (self.destDelta.x + self.destDelta.y)/2);
@@ -219,12 +202,42 @@ Actor.prototype.move = function(x, y, z, absolute) {
     this.game.renderer.updateZBuffer(previousZDepth, this);
 };
 
-Actor.prototype.startTalking = function() {
+Actor.prototype.startTalking = function(message, channel, onStop) {
     this.talking = true;
+    this.lastChannel = channel;
     this.nametag.hidden = true;
+    this.messageBox = new TextBox(this, message);
+    this.messageBox.addToGame(this.game);
+    var self = this;
+    this.messageBox.scrollMessage(3, function() {
+        delete self.messageBox;
+        self.talking = false;
+        self.nametag.hidden = false;
+        self.emit('donetalking');
+        onStop();
+    });
 };
 
-Actor.prototype.stopTalking = function() {
-    this.talking = false;
-    this.nametag.hidden = false;
+Actor.prototype.onMessage = function(message) { // Move this to the GoTo behavior
+    if(message.channel != this.lastChannel || message.user === this) return;
+    console.log(this.talking,'hey! I am on that channel!');
+    var notTalking = true, notMoving = true;
+    var self = this;
+    function readyToMove() {
+        if(notTalking && notMoving) {
+            for(var i = 0; i < self.behaviors.length; i++) {
+                self.behaviors[i].detach();
+            }
+            self.behaviors = [new GoTo(self, message.user.position)];
+        }
+    }
+    if(this.talking) {
+        notTalking = false;
+        this.once('donetalking', readyToMove);
+    }
+    if(this.destination) {
+        notMoving = false;
+        this.once('movecomplete', readyToMove);
+    }
+    readyToMove();
 };

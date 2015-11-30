@@ -1,10 +1,13 @@
 'use strict';
-var TextBox = require('./../common/textbox.js');
+var EventEmitter = require('events').EventEmitter;
+var inherits = require('inherits');
 var Actor = require('./actor.js');
 
 module.exports = Users;
+inherits(Users, EventEmitter);
 
 function Users(game,world) {
+    this.setMaxListeners(3000);
     this.game = game;
     this.game.once('destroy', this.destroy.bind(this));
     this.game.users = this;
@@ -20,9 +23,9 @@ Users.prototype.addActor = function(data) {
         uid: data.user.id,
         username: data.user.username
     });
-    actor.updatePresence(data.status);
     this.actors[actor.uid] = actor;
     actor.addToGame(this.game);
+    actor.updatePresence(data.status);
     actor.setRoleColor(data.roleColor);
 };
 
@@ -47,15 +50,12 @@ Users.prototype.onMessageAdded = function(channel) {
     this.messageQueue[channel].busy = true;
     var message = this.messageQueue[channel].messages[0];
     var self = this;
-    var messageBox = new TextBox(this.actors[message.uid], message.message);
-    messageBox.addToGame(this.game);
-    this.actors[message.uid].startTalking();
-    messageBox.scrollMessage(3, function() {
-        self.actors[message.uid].stopTalking();
+    this.actors[message.uid].startTalking(message.message, channel, function() {
         self.messageQueue[channel].messages.shift();
         self.messageQueue[channel].busy = false;
         self.onMessageAdded(channel);
     });
+    this.emit('message', { user: this.actors[message.uid], channel: channel });
 };
 
 Users.prototype.getActorAtPosition = function(x,y,z) { // For debugging

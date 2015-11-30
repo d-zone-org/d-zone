@@ -95,6 +95,11 @@ module.exports = {
             }
             if(options.maxWidth && lineWidth + wordWidth > options.maxWidth) {
                 if(wordWidth > options.maxWidth) { // Word is longer than maxWidth, won't fit any line
+                    if(lineWidth > 0) {
+                        lines.push({ w: lineWidth, chars: lineChars });
+                        maxLineWidth = Math.max(lineWidth, maxLineWidth);
+                        lineWidth = 0; lineChars = [];
+                    }
                     wordChars = [];
                     wordWidth = 0;
                     for(var b = 0; b < word.length; b++) {

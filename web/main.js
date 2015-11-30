@@ -9,6 +9,7 @@ var bs = require('browser-storage');
 
 // TODO: Loading screen while preloading images, connecting to websocket, and generating world
 console.log('Loading...');
+var version = JSON.parse(require('fs').readFileSync('./package.json')).version;
 var preloader = new Preloader(initGame);
 var game, ws;
 
@@ -39,16 +40,16 @@ function initWebsocket() {
     var Users = require('./script/actors/users.js');
     var Decorator = require('./script/props/decorator.js');
     var users, world, decorator;
-    var config = JSON.parse(require('fs').readFileSync('./socket-config.json'));
+    var socketConfig = JSON.parse(require('fs').readFileSync('./socket-config.json'));
     
-    console.log('Initializing websocket on port',config.port);
+    console.log('Initializing websocket on port',socketConfig.port);
     
     // Swap the comments on the next 4 lines to switch between your websocket server and a virtual one
     // NOTE: Virtual server currently incompatible with new format, pester me to update it
     
     // TODO: We don't need websocket-stream, we can use the native browser websocket api
     var WebSocket = require('websocket-stream');
-    ws = WebSocket('ws://'+config.address+':'+config.port);
+    ws = WebSocket('ws://'+socketConfig.address+':'+socketConfig.port);
     //var TestSocket = require('./script/engine/tester.js'),
     //    ws = new TestSocket(12,2000);
     ws.on('data',function(data) {
@@ -116,7 +117,7 @@ function initWebsocket() {
                     return;
                 }
                 game.helpPanel = game.ui.addPanel({ left: 'auto', top: 'auto', w: 200, h: 75 });
-                game.ui.addLabel({ text: 'D-Zone', top: 5, left: 'auto', parent: game.helpPanel });
+                game.ui.addLabel({ text: 'D-Zone '+version, top: 5, left: 'auto', parent: game.helpPanel });
                 game.ui.addLabel({
                     text: 'An ambient life simulation driven by the user activity within a Discord server',
                     top: 20, left: 2, maxWidth: 196, parent: game.helpPanel
@@ -140,6 +141,7 @@ function initWebsocket() {
             //return;
             //console.log('Initializing actors',data.data);
             for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
+                //if(uid == '114588180144979972') continue;
                 //if(data.data[uid].status != 'online') continue;
                 if(!data.data[uid].user.username) continue;
                 users.addActor(data.data[uid]);
@@ -164,10 +166,11 @@ function initWebsocket() {
     ws.on('error', function(err) { console.log('error',err); });
     
     window.testMessage = function(message) {
-        message = message || 'hello, test message yo!';
+        var msg = (message && message.length ? message : message.text) || 'hello, test message yo!';
+        var uid = message.uid || users.actors[Object.keys(users.actors)[0]].uid;
+        var channel = message.channel || '1';
         ws.emit('data',JSON.stringify({ type: 'message', data: {
-            uid: users.actors[Object.keys(users.actors)[0]].uid,
-            message: message, channel: '1'
+            uid: uid, message: msg, channel: channel
         }}));
     };
 }
