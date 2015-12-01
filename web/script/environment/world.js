@@ -22,6 +22,8 @@ function World(game,worldSize) {
     this.map = {}; // Grid-based map to hold world tiles
     this.walkable = {}; // Grid-based map to hold walkable surfaces
     
+    geometry.generateClosestGrids(this.worldSize);
+    
     testCanvas.clear();
     
     var noiseBig = geometry.buildNoiseMap(this.worldRadius/3 + 1, this.worldRadius/3 + 1);
@@ -278,7 +280,7 @@ World.prototype.updateWalkable = function(x, y, objects) {
     }
     var zKeys = Object.keys(objects).sort(function(a, b) { return a - b; });
     var topObject = objects[zKeys[zKeys.length-1]];
-    if(topObject.invalid) delete this.walkable[x+':'+y];
+    if(topObject.unWalkable) delete this.walkable[x+':'+y];
     else this.walkable[x+':'+y] = topObject.position.z + topObject.height;
 };
 

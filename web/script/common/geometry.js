@@ -1,6 +1,18 @@
 'use strict';
 var util = require('./util.js');
+
+var closestGrids = [];
+
 module.exports = {
+    generateClosestGrids: function(size) {
+        for(var sx = size*-1; sx <= size; sx++) { for(var sy = size*-1; sy <= size; sy++) {
+            closestGrids.push([sx,sy]);
+        }}
+        closestGrids.sort(function(a,b) {
+            return (Math.abs(a[0]) + Math.abs(a[1])) - (Math.abs(b[0]) + Math.abs(b[1]))
+        });
+    },
+    closestGrids: closestGrids,
     DIRECTIONS: {
         north: { x: 0, y: -1 },
         east: { x: 1, y: 0 },
@@ -20,6 +32,9 @@ module.exports = {
             n: x+':'+(y-1), e: (x+1)+':'+y, s: x+':'+(y+1), w: (x-1)+':'+y,
             nw: (x-1)+':'+(y-1), ne: (x+1)+':'+(y-1), sw: (x-1)+':'+(y+1), se: (x+1)+':'+(y+1)
         }
+    },
+    getDistance: function(a,b) {
+        return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     },
     intervalOverlaps: function(a1,a2,b1,b2) {
         return a1 >= b1 && a1 < b2 || b1 >= a1 && b1 < a2;

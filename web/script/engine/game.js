@@ -69,10 +69,10 @@ Game.prototype.update = function() {
                 var ticks = this.ticks - task.start;
                 task.cb({ ticks: ticks, percent: ticks / task.count });
             }
-        } else {
+        } else if(task.type == 'once') {
             endTick = task.tick;
         }
-        if(endTick <= this.ticks) {
+        if(task.type == 'deleted' || endTick <= this.ticks) {
             if(task.type == 'once') task.cb();
             this.schedule.splice(i,1);
             i--;

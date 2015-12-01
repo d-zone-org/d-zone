@@ -20,10 +20,6 @@ Entity.prototype.addToGame = function(game) {
     this.exists = true;
 };
 
-Entity.prototype.onUpdate = function() {
-    
-};
-
 Entity.prototype.remove = function() {
     this.exists = false;
     if(this.hasOwnProperty('position')) {
@@ -36,17 +32,18 @@ Entity.prototype.remove = function() {
 };
 
 Entity.prototype.tickDelay = function(cb, ticks) { // Execute callback after X ticks
-    this.game.schedule.push({ type: 'once', tick: this.game.ticks+ticks, cb: cb });
+    this.game.schedule.push({ type: 'once', tick: this.game.ticks+ticks, cb: cb, entity: this });
 };
 
 Entity.prototype.tickRepeat = function(cb, ticks) { // Execute callback every tick for X ticks
-    this.game.schedule.push({ type: 'repeat', start: this.game.ticks, count: ticks, cb: cb });
+    this.game.schedule.push({ type: 'repeat', start: this.game.ticks, count: ticks, cb: cb, entity: this });
 };
 
+// TODO: Why does this seem to be removing scheduled events that it shouldn't be?
 Entity.prototype.removeFromSchedule = function(cb) {
     for(var i = 0; i < this.game.schedule.length; i++) {
-        if(this.game.schedule[i].cb === cb) {
-            this.game.schedule.splice(i,1);
+        if(this.game.schedule[i].entity === this && this.game.schedule[i].cb === cb) {
+            this.game.schedule[i].type = 'deleted';
             break;
         }
     }

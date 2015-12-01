@@ -73,7 +73,7 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
     var lineChars = self.textMetrics.lines[lineNumber].chars.length;
     var nextLine = self.textMetrics.lines[lineNumber + 1];
     if(nextLine) lineChars += nextLine.chars.length;
-    console.log('Saying:',this.text);
+    console.log(this.parent.username,'says:',this.text);
     var addLetter = function() {
         lineChar++;
         self.blotText({ 

@@ -6,13 +6,13 @@ module.exports = {
     loadMap: function(m) { map = m; },
     findPath: function(options) {
         var start = options.start, end = options.end;
+        if(start.x == end.x && start.y == end.y || !map[end.x+':'+end.y]) return [];
         var startH = calcH(end,start);
         var current = { x: start.x, y: start.y, grid: start.x+':'+start.y, g: 0, h: startH, f: startH };
         var openCount = 0, open = {}, closed = {};
         // Add starting grid to open list
         open[current.grid] = current; openCount++;
         while(openCount > 0) {
-            console.log('pp');
             closed[current.grid] = current;
             delete open[current.grid]; openCount--;
             // Check if ending reached
@@ -20,15 +20,15 @@ module.exports = {
             // Add neighbors
             for(var nx = -1; nx <= 1; nx++) { for(var ny = -1; ny <= 1; ny++) {
                 // Skip self and diagonals
-                if((nx == 0 && ny == 0) || Math.abs(nx)+Math.abs(ny) > 1) continue; 
+                if((nx == 0 && ny == 0) || Math.abs(nx)+Math.abs(ny) > 1) continue;
                 var neighbor = {
                     parent: current.grid, x: +current.x + nx, y: +current.y + ny,
                     grid: (+current.x + nx) +':'+ (+current.y + ny)
                 };
                 // If grid is walkable and not closed
-                if(map[neighbor.grid] && !closed[neighbor.grid]) { 
-                    var currentZ = current.x == start.x && current.y == start.y ? 
-                        map[current.grid] - 0.5 : map[current.grid]; // Subtract own height from Z
+                if(map[neighbor.grid] && !closed[neighbor.grid]) {
+                    var currentZ = current.x == start.x && current.y == start.y ?
+                    map[current.grid] - 0.5 : map[current.grid]; // Subtract own height from Z
                     if(Math.abs(currentZ - map[neighbor.grid]) > 0.5) continue;
                     neighbor.g = current.g + 10;
                     neighbor.h = calcH(end,neighbor); neighbor.f = neighbor.g + neighbor.h;

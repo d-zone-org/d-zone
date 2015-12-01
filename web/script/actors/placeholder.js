@@ -13,6 +13,6 @@ function Placeholder(parent,options) {
         pixelSize: { x: 0, y: 0, z: 0 },
         height: 0.5
     });
-    this.invalid = true;
+    this.unWalkable = true;
     this.addToGame(this.parent.game);
 }

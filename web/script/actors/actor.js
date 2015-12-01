@@ -18,6 +18,7 @@ function Actor(options) {
         pixelSize: { x: 7, y: 7, z: 8 },
         height: 0.5
     });
+    this.setMaxListeners(250);
     this.uid = options.uid;
     this.username = options.username;
     this.nametag = new TextBox(this, this.username);
@@ -71,7 +72,7 @@ Actor.prototype.updatePresence = function(presence) {
         }
         this.behaviors = [];
     } else if(this.behaviors.length == 0) { // If coming online and have no behaviors already
-        //this.behaviors.push(new Wander(this));
+        this.behaviors.push(new Wander(this));
     }
 };
 
@@ -150,12 +151,13 @@ Actor.prototype.startMove = function() {
     this.movePlaceholder = new Placeholder(this, {
         x: this.destination.x, y: this.destination.y, z: this.destination.z
     });
+    this.unWalkable = true; // Prevent others from jumping on me
     this.destDelta = {
         x: this.destination.x - this.position.x,
         y: this.destination.y - this.position.y,
         z: this.destination.z - this.position.z
     };
-    this.facing = this.destDelta.x < 0 ? 'west' : this.destDelta.x > 0 ? 'east' 
+    this.facing = this.destDelta.x < 0 ? 'west' : this.destDelta.x > 0 ? 'east'
         : this.destDelta.y < 0 ? 'north' : 'south';
     this.frame = 0;
     var self = this;
@@ -174,12 +176,13 @@ Actor.prototype.startMove = function() {
             self.move(self.destination.x, self.destination.y, self.destination.z, true);
             self.destination = false;
             delete self.frame;
+            this.unWalkable = false;
             self.emit('movecomplete');
-        } else if(halfZDepthFrame && newFrame && self.frame == 4) { // Move zDepth half-way between tiles
+        } else if(halfZDepthFrame && newFrame && self.frame == 3) { // Move zDepth half-way between tiles
             var previousZDepth1 = self.zDepth;
             self.zDepth = (self.position.x + self.position.y + (self.destDelta.x + self.destDelta.y)/2);
             self.game.renderer.updateZBuffer(previousZDepth1, self);
-        } else if(newFrame && self.frame == 8) { // Move zDepth all the way
+        } else if(newFrame && self.frame == 7) { // Move zDepth all the way
             var previousZDepth2 = self.zDepth;
             self.zDepth = self.destination.x + self.destination.y;
             if(self.destDelta.z) self.fakeZ = self.destDelta.z;
@@ -219,25 +222,26 @@ Actor.prototype.startTalking = function(message, channel, onStop) {
 };
 
 Actor.prototype.onMessage = function(message) { // Move this to the GoTo behavior
-    if(message.channel != this.lastChannel || message.user === this) return;
-    console.log(this.talking,'hey! I am on that channel!');
-    var notTalking = true, notMoving = true;
+    if(message.channel != this.lastChannel || message.user === this || this.presence != 'online') return;
     var self = this;
     function readyToMove() {
-        if(notTalking && notMoving) {
-            for(var i = 0; i < self.behaviors.length; i++) {
-                self.behaviors[i].detach();
-            }
-            self.behaviors = [new GoTo(self, message.user.position)];
+        for(var i = 0; i < self.behaviors.length; i++) {
+            self.behaviors[i].detach();
         }
+        self.behaviors = [new GoTo(self, message.user)];
     }
-    if(this.talking) {
-        notTalking = false;
-        this.once('donetalking', readyToMove);
-    }
-    if(this.destination) {
-        notMoving = false;
-        this.once('movecomplete', readyToMove);
-    }
-    readyToMove();
+    this.tickDelay(function() {
+        if(Geometry.getDistance(self.position, message.user.position) < 3) return; // If already nearby
+        if(self.destination) {
+            self.once('movecomplete', readyToMove);
+        } else {
+            readyToMove();
+        }
+    }, util.randomIntRange(0,60)); // To prevent everyone pathfinding on the same tick
+};
+
+Actor.prototype.stopGoTo = function(gotoBehavior) {
+    gotoBehavior.detach();
+    this.behaviors = [];
+    this.updatePresence(this.presence);
 };

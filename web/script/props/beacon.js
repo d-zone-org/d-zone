@@ -13,7 +13,7 @@ function Beacon(x,y,z) {
         pixelSize: { x: 15, y: 16, z: 45 },
         height: 2.5
     });
-    this.invalid = true;
+    this.unWalkable = true;
     var self = this;
     this.on('draw',function(canvas) {
         if(self.exists) canvas.drawEntity(self);
