@@ -1,25 +1,20 @@
 'use strict';
-var EventEmitter = require('events').EventEmitter;
-var inherits = require('inherits');
 var util = require('./../common/util.js');
 var Sheet = require('./sheet2.js');
+
 module.exports = Tile;
-inherits(Tile, EventEmitter);
 
 function Tile(options) {
     this.game = options.game;
     this.grid = options.grid;
     this.tileCode = options.tileCode;
     this.position = options.position;
+    this.position.fakeZ = -0.5;
     this.zDepth = options.zDepth;
-    //this.position.x -= this.position.z*0.5;
-    //this.position.y -= this.position.z*0.5;
-    this.fakeZ = -0.5;
     this.screen = {
         x: (this.position.x - this.position.y) * 16 - 16,
         y: (this.position.x + this.position.y) * 8 - (this.position.z) * 16 - 8
     };
-    this.height = 0;
     this.imageName = 'environment2';
     this.sheet = new Sheet('tile');
     //if(Math.random() < 0.1) {
@@ -27,19 +22,28 @@ function Tile(options) {
     //} else {
     //    this.variation = util.randomIntRange(0,1);
     //}
-    this.sprite = {
-        metrics: {
-            x: this.sheet.map[this.tileCode].x, y: this.sheet.map[this.tileCode].y,
-            w: this.sheet.map[this.tileCode].w, h: this.sheet.map[this.tileCode].h,
-            ox: this.sheet.map[this.tileCode].ox, oy: this.sheet.map[this.tileCode].oy
-        },
-        image: this.imageName
-    };
-    this.game.renderer.addToZBuffer(this, this.zDepth);
-    var self = this;
-    this.on('draw',function(canvas) { canvas.drawEntity(self); });
+    
+    // TODO: For all objects, just add their sprite property (which is an object) to the zBuffer
+    // The sprite image and metrics can be updated in the object, 
+    // and the zBuffer will be updated since it holds a reference to that object
+    // This will make it easier to have multi-sprite objects, such as these special tiles
+    // Store screen coordinates in this object as well
+    // No more "getSprite" necessary
+    
+    var spriteMap = this.sheet.map[this.tileCode];
+    var zDepth = this.zDepth;
+    if(spriteMap.constructor !== Array) {
+        spriteMap = [spriteMap];
+        zDepth = [zDepth]
+    }
+    for(var i = 0; i < spriteMap.length; i++) {
+        this.game.renderer.addToZBuffer({
+            metrics: {
+                x: spriteMap[i].x, y: spriteMap[i].y,
+                w: spriteMap[i].w, h: spriteMap[i].h,
+                ox: spriteMap[i].ox, oy: spriteMap[i].oy
+            },
+            image: this.imageName, position: this.position, screen: this.screen
+        }, zDepth[i]);
+    }
 }
-
-Tile.prototype.getSprite = function() {
-    return this.sprite
-};

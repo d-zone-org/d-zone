@@ -26,6 +26,7 @@ function Game(options) {
     this.centerMouseY = -999;
     this.entities = [];
     this.schedule = [];
+    this.mouseOver = false;
     
     var self = this;
     this.interval = setInterval(function() {

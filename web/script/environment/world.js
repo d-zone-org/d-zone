@@ -4,6 +4,7 @@ var geometry = require('./../common/geometry.js');
 var Pathfinder = require('./../actors/pathfinder.js');
 var Slab = require('./slab.js');
 var Tile = require('./tile.js');
+var TileSheet = require('./sheet2.js');
 
 module.exports = World;
 
@@ -237,18 +238,21 @@ World.prototype.marchSquares = function() {
     
     function generateTile(oGrid, nGrids, position, grid, game) {
         var minZDepth = 9999, maxZDepth = -9999;
+        var tileCode = getTileCode(oGrid,nGrids[0])+'-'+getTileCode(oGrid,nGrids[1])
+            +'-'+getTileCode(oGrid,nGrids[2])+'-'+getTileCode(oGrid,nGrids[3]);
         for(var i = 0; i < nGrids.length; i++) {
             var nGrid = self.map[nGrids[i]];
             if(nGrid && nGrid.position.z >= position.z) {
                 minZDepth = Math.min(minZDepth, nGrid.zDepth);
-                maxZDepth = Math.max(minZDepth, nGrid.zDepth);
+                maxZDepth = Math.max(maxZDepth, nGrid.zDepth);
             }
         }
-        var tileZDepth = minZDepth == maxZDepth ? [minZDepth] : [minZDepth,maxZDepth];
+        var tileZDepth = minZDepth;
+        var tileSprite = (new TileSheet('tile')).map[tileCode];
+        //tileSprite = tileSprite;
+        if(tileSprite.length == 2) tileZDepth = [minZDepth,maxZDepth];
         return {
-            tileCode: getTileCode(oGrid,nGrids[0])+'-'+getTileCode(oGrid,nGrids[1])
-            +'-'+getTileCode(oGrid,nGrids[2])+'-'+getTileCode(oGrid,nGrids[3]),
-            position: position, grid: grid, game: game, zDepth: minZDepth
+            tileCode: tileCode, position: position, grid: grid, game: game, zDepth: tileZDepth
         };
     }
     

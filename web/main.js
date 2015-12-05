@@ -23,7 +23,7 @@ function initGame(images) {
     game.bindCanvas(canvas);
     game.ui = new UI(game);
     //game.showGrid = true;
-    //game.timeRenders = true;
+    game.timeRenders = true;
     
     //game.on('update', function () {
     //    // Update

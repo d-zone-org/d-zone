@@ -127,32 +127,30 @@ Canvas.prototype.drawBG = function(bgCanvas) {
     this.canvas.context.drawImage(bgCanvas.image, x, y);
 };
 
-Canvas.prototype.drawEntity = function(obj) {
-    if(obj.hidden) return;
-    var sprite = obj.getSprite();
+Canvas.prototype.drawEntity = function(sprite) {
     if(!sprite || !sprite.image) return;
-    var screen = { x: obj.screen.x, y: obj.screen.y };
+    var screen = { x: sprite.screen.x, y: sprite.screen.y };
     if(this.autosize) { screen.x += this.halfWidth; screen.y += this.halfHeight; }
     screen.x += this.panning.panned.x;
     screen.y += this.panning.panned.y;
     screen.x += sprite.metrics.ox || 0;
     screen.y += sprite.metrics.oy || 0;
-    if(obj.keepOnScreen) {
+    if(sprite.keepOnScreen) {
         screen.x = Math.min(this.width - sprite.metrics.w, Math.max(0, screen.x));
         screen.y = Math.min(this.height - sprite.metrics.h, Math.max(0, screen.y));
     }
     if(screen.x >= this.width || screen.y >= this.height
         || screen.x + sprite.metrics.w <= 0 || screen.y + sprite.metrics.h <= 0) return;
-    var image = obj.roleColor ? this.images[obj.roleColor][sprite.image]
+    var image = sprite.roleColor ? this.images[sprite.roleColor][sprite.image]
         : (this.images[sprite.image] || sprite.image);
-    var highlight = obj === this.game.mouseOver;
+    var highlight = sprite === this.game.mouseOver.sprite;
     if(highlight) {
         this.canvas.context.save();
         this.canvas.context.shadowColor = 'rgba(255,255,255,1)';
         this.canvas.context.shadowBlur = 3;
     }
-    if(obj.parent && obj.parent !== this.game.mouseOver && obj.parent.nametag === obj) {
-        if(!obj.parent.mouseOver) return;
+    if(sprite.parent && sprite.parent !== this.game.mouseOver && sprite.parent.nametag === sprite) {
+        if(!sprite.parent.mouseOver) return;
     }
     this.canvas.drawImage(
         image, sprite.metrics.x, sprite.metrics.y, sprite.metrics.w, sprite.metrics.h,
@@ -161,9 +159,9 @@ Canvas.prototype.drawEntity = function(obj) {
     if(highlight) {
         this.canvas.context.restore();
     }
-    if(this.game.showGrid && obj.grid) { // Show tile grid
+    if(this.game.showGrid && sprite.grid) { // Show tile grid
         this.canvas.context.fillStyle = '#bbbbbb';
         this.canvas.context.font="9px Arial";
-        this.canvas.context.fillText(obj.grid,Math.round(screen.x)+5, Math.round(screen.y)+9);
+        this.canvas.context.fillText(sprite.grid,Math.round(screen.x)+5, Math.round(screen.y)+9);
     }
 };

@@ -21,14 +21,8 @@ function Beacon(x,y,z) {
     });
     this.imageName = 'props';
     this.sheet = new Sheet('beacon');
+    this.sprite.metrics = this.sheet.map.main;
 }
-
-Beacon.prototype.getSprite = function() {
-    return {
-        metrics: this.sheet.map.main,
-        image: this.sprite.canvas
-    }
-};
 
 Beacon.prototype.addToGame = function(game) {
     WorldObject.prototype.addToGame.call(this, game);
@@ -37,15 +31,16 @@ Beacon.prototype.addToGame = function(game) {
 };
 
 Beacon.prototype.drawSprite = function() {
-    this.sprite = new BetterCanvas(this.sheet.map.main.w,this.sheet.map.main.h);
-    this.sprite.drawImage(this.game.renderer.images[this.imageName],
+    var canvas = new BetterCanvas(this.sheet.map.main.w,this.sheet.map.main.h);
+    canvas.drawImage(this.game.renderer.images[this.imageName],
         this.sheet.map.main.x, this.sheet.map.main.y, this.sheet.map.main.w, this.sheet.map.main.h,
         0, 0, this.sheet.map.main.w, this.sheet.map.main.h);
     if(this.pinging) {
-        this.sprite.drawImage(this.game.renderer.images[this.imageName],
+        canvas.drawImage(this.game.renderer.images[this.imageName],
             this.sheet.map.light.x, this.sheet.map.light.y, this.sheet.map.light.w, this.sheet.map.light.h,
             this.sheet.map.light.ox, 0, this.sheet.map.light.w, this.sheet.map.light.h,this.pinging/100);
     }
+    this.sprite.image = canvas.canvas;
 };
 
 Beacon.prototype.onUpdate = function() {

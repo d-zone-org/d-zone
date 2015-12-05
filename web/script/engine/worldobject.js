@@ -10,9 +10,9 @@ function WorldObject(options) {
     this.position = {
         x: options.position.x,
         y: options.position.y,
-        z: options.position.z
+        z: options.position.z,
+        fakeZ: 0
     };
-    this.fakeZ = 0;
     this.height = options.height;
     this.zDepth = this.calcZDepth();
     this.pixelSize = {
@@ -20,7 +20,12 @@ function WorldObject(options) {
         y: options.pixelSize.y,
         z: options.pixelSize.z
     };
-    this.screen = this.toScreen();
+    this.screen = {};
+    this.updateScreen();
+    this.sprite = {
+        screen: this.screen,
+        position: this.position
+    }
 }
 
 WorldObject.prototype.move = function(x,y,z) {
@@ -28,8 +33,7 @@ WorldObject.prototype.move = function(x,y,z) {
     var newY = this.position.y + y;
     var newZ = this.position.z + z;
     this.game.world.moveObject(this,newX,newY,newZ);
-    this.screen = this.toScreen();
-    //var oldZDepth = this.zDepth;
+    this.updateScreen();
     this.game.renderer.updateZBuffer(this.zDepth, this, this.calcZDepth());
     this.zDepth = this.calcZDepth();
 };
@@ -38,13 +42,7 @@ WorldObject.prototype.calcZDepth = function() {
     return this.position.x + this.position.y;
 };
 
-WorldObject.prototype.toScreen = function() {
-    return {
-        x: (this.position.x - this.position.y) * 16 - this.pixelSize.x,
-        y: (this.position.x + this.position.y) * 8 - (this.position.z + this.height) * 16
-    };
-};
-
-WorldObject.prototype.getSprite = function() {
-    // Return generic sprite
+WorldObject.prototype.updateScreen = function() {
+    this.screen.x = (this.position.x - this.position.y) * 16 - this.pixelSize.x;
+    this.screen.y = (this.position.x + this.position.y) * 8 - (this.position.z + this.height) * 16;
 };

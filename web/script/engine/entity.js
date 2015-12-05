@@ -13,7 +13,7 @@ Entity.prototype.addToGame = function(game) {
     this.game.entities.push(this);
     if(this.hasOwnProperty('position')) {
         this.game.world.addToWorld(this);
-        if(!this.invisible) this.game.renderer.addToZBuffer(this, this.zDepth);
+        if(!this.invisible) this.game.renderer.addToZBuffer(this.sprite, this.zDepth);
     } else {
         this.game.renderer.overlay.push(this);
     }

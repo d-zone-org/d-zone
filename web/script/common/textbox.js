@@ -33,14 +33,14 @@ function TextBox(parent, text) {
 
 TextBox.prototype.getSprite = function() {
     if(!this.canvas) return;
-    this.screen = this.toScreen();
+    this.screen = this.updateScreen();
     return {
         metrics: { x: 0, y: 0, w: this.canvas.width, h: this.canvas.height },
         image: this.canvas
     };
 };
 
-TextBox.prototype.toScreen = function() {
+TextBox.prototype.updateScreen = function() {
     var parent = this.parent.preciseScreen;
     return {
         x: parent.x - this.canvas.width/2 + this.parent.pixelSize.x,

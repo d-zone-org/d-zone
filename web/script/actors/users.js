@@ -21,12 +21,13 @@ Users.prototype.addActor = function(data) {
     var actor = new Actor({
         x: grid.position.x, y: grid.position.y, z: grid.position.z + grid.height, 
         uid: data.user.id,
-        username: data.user.username
+        username: data.user.username,
+        roleColor: data.roleColor,
+        maxListeners: this._maxListeners+3
     });
     this.actors[actor.uid] = actor;
     actor.addToGame(this.game);
     actor.updatePresence(data.status);
-    actor.setRoleColor(data.roleColor);
 };
 
 Users.prototype.removeActor = function(actor) {

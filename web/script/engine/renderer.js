@@ -30,19 +30,21 @@ function Renderer(options) {
                 //if(timeThis) console.log(self.zBuffer);
                 //if(timeThis) var renderStart = performance.now();
                 for(var c = 0; c < self.canvases.length; c++) {
-                    self.canvases[c].draw();
-                    if(self.bgCanvas) self.canvases[c].drawBG(self.bgCanvas);
+                    var canvas = self.canvases[c];
+                    canvas.draw();
+                    if(self.bgCanvas) canvas.drawBG(self.bgCanvas);
                     //self.emit('draw', self.canvases[c]);
                     for(var z = 0; z < self.zBufferKeys.length; z++) {
                         var zBufferDepth = self.zBuffer[self.zBufferKeys[z]];
                         for(var zz = 0; zz < zBufferDepth.length; zz++) {
-                            zBufferDepth[zz].emit('draw',self.canvases[c]);
+                            canvas.drawEntity(zBufferDepth[zz]);
+                            //zBufferDepth[zz].emit('draw',self.canvases[c],self.zBufferKeys[z]);
                         }
                     }
                     for(var o = 0; o < self.overlay.length; o++) {
-                        self.overlay[o].emit('draw',self.canvases[c])
+                        self.overlay[o].emit('draw',canvas)
                     }
-                    if(self.game.ui) self.game.ui.emit('draw',self.canvases[c]);
+                    if(self.game.ui) self.game.ui.emit('draw',canvas);
                 }
                 if(timeThis) console.timeEnd('render');
                 //if(timeThis) var thisRenderTime = performance.now() - renderStart;
@@ -69,15 +71,15 @@ Renderer.prototype.addCanvas = function(canvas) {
     this.canvases.push(canvas);
 };
 
-Renderer.prototype.addToZBuffer = function(obj, newZDepth) {
+Renderer.prototype.addToZBuffer = function(sprite, newZDepth) {
     var zBufferDepth = this.zBuffer[newZDepth];
     if(zBufferDepth) {
-        zBufferDepth.push(obj);
+        zBufferDepth.push(sprite);
         zBufferDepth.sort(function(a, b) {
-            return (a.position.z + a.fakeZ) - (b.position.z + b.fakeZ); 
+            return (a.position.z + a.position.fakeZ) - (b.position.z + b.position.fakeZ); 
         });
     } else {
-        this.zBuffer[newZDepth] = [obj];
+        this.zBuffer[newZDepth] = [sprite];
     }
     this.zBufferKeys = Object.keys(this.zBuffer);
     this.zBufferKeys.sort(function(a, b) { return a - b; });

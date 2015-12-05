@@ -18,23 +18,21 @@ function Actor(options) {
         pixelSize: { x: 7, y: 7, z: 8 },
         height: 0.5
     });
-    this.setMaxListeners(250);
+    this.setMaxListeners(options.maxListeners);
     this.uid = options.uid;
     this.username = options.username;
     this.nametag = new TextBox(this, this.username);
     this.nametag.blotText();
     this.sheet = new Sheet('actor');
     this.preciseScreen = this.toScreenPrecise();
-    var self = this;
-    this.on('draw',function(canvas) {
-        if(self.exists) canvas.drawEntity(self);
-    });
     this.presence = 'offline';
     this.talking = false;
     this.destination = false;
     this.facing = util.pickInObject(Geometry.DIRECTIONS);
     this.behaviors = [];
     this.boundOnMessage = this.onMessage.bind(this);
+    this.roleColor = options.roleColor;
+    this.updateSprite();
 }
 
 Actor.prototype.onUpdate = function() {
@@ -59,6 +57,10 @@ Actor.prototype.onUpdate = function() {
 
 Actor.prototype.addToGame = function(game) {
     WorldObject.prototype.addToGame.call(this, game);
+    if(this.roleColor) this.game.renderer.addColorSheet({ // Less colorizing for offline sprites
+        sheet: 'actors', color: this.roleColor, alpha: 0.8,
+        regions: [{ alpha: 0.4, x: 70, y: 0, w: 28, h: 14 }]
+    });
     this.nametag.addToGame(game);
     this.game.on('update', this.onUpdate.bind(this));
     this.game.users.on('message', this.boundOnMessage);
@@ -97,7 +99,7 @@ Actor.prototype.toScreenPrecise = function() {
     } else return this.screen;
 };
 
-Actor.prototype.getSprite = function() {
+Actor.prototype.updateSprite = function() {
     var facing = this.facing, state = this.destination ? 'hopping' : this.presence;
     if(!this.destination && this.talking) {
         state = 'online';
@@ -121,6 +123,7 @@ Actor.prototype.getSprite = function() {
             }
         }
     }
+    this.sprite.metrics = metrics;
     return { metrics: metrics, image: 'actors' };
 };
 
@@ -195,7 +198,7 @@ Actor.prototype.move = function(x, y, z, absolute) {
     var newY = (absolute ? 0 : this.position.y) + y;
     var newZ = (absolute ? 0 : this.position.z) + z;
     this.game.world.moveObject(this,newX,newY,newZ);
-    this.screen = this.toScreen();
+    this.updateScreen();
     this.preciseScreen = this.toScreenPrecise();
     //var previousZDepth = this.zDepth;
     this.game.renderer.updateZBuffer(this.zDepth, this, this.calcZDepth());
