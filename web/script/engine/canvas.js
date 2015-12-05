@@ -129,6 +129,7 @@ Canvas.prototype.drawBG = function(bgCanvas) {
 
 Canvas.prototype.drawEntity = function(sprite) {
     if(!sprite || !sprite.image || sprite.hidden) return;
+    if(sprite.position && sprite.position.z > this.game.hideZ) return;
     var screen = { x: sprite.screen.x, y: sprite.screen.y };
     if(this.autosize) { screen.x += this.halfWidth; screen.y += this.halfHeight; }
     screen.x += this.panning.panned.x;

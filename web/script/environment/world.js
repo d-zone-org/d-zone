@@ -54,16 +54,15 @@ function World(game,worldSize) {
     }
     this.staticMap = [];
     this.crawlMap(); // Examine map to determine islands, border tiles, fix elevation, etc
-    this.marchSquares(); // Examine neighbors to determine march bits
+    this.createTiles(); // Create map tiles from grid intersections
     
     var lowestScreenX = 0, lowestScreenY = 0, highestScreenX = 0, highestScreenY = 0;
     for(var i = 0; i < this.staticMap.length; i++) {
         var preTile = this.staticMap[i];
-        if(!preTile.exists) { this.staticMap.splice(i,1); i--; continue; }
-        var preSprite = preTile.getSprite();
+        //var preSprite = preTile.sprite;
         var preScreen = { x: preTile.screen.x, y: preTile.screen.y };
-        preScreen.x += preSprite.metrics.ox || 0;
-        preScreen.y += preSprite.metrics.oy || 0;
+        //preScreen.x += preSprite.metrics.ox || 0;
+        //preScreen.y += preSprite.metrics.oy || 0;
         lowestScreenX = lowestScreenX < preScreen.x ? lowestScreenX : preScreen.x;
         lowestScreenY = lowestScreenY < preScreen.y ? lowestScreenY : preScreen.y;
         highestScreenX = highestScreenX > preScreen.x ? highestScreenX : preScreen.x;
@@ -75,24 +74,23 @@ function World(game,worldSize) {
     );
     for(var j = 0; j < this.staticMap.length; j++) {
         var tile = this.staticMap[j];
-        this.game.renderer.removeFromZBuffer(tile, tile.zDepth);
-        var sprite = tile.getSprite();
+        this.game.renderer.removeFromZBuffer(tile.sprite, tile.zDepth);
+        //var sprite = tile.getSprite();
         var screen = { x: tile.screen.x, y: tile.screen.y };
-        screen.x += sprite.metrics.ox || 0;
-        screen.y += sprite.metrics.oy || 0;
+        //screen.x += sprite.metrics.ox || 0;
+        //screen.y += sprite.metrics.oy || 0;
         screen.x -= lowestScreenX;
         screen.y -= lowestScreenY;
-        //bgCanvas.drawImage(
-        //    this.game.renderer.images[sprite.image], sprite.metrics.x, sprite.metrics.y,
-        //    sprite.metrics.w, sprite.metrics.h,
-        //    Math.round(screen.x), Math.round(screen.y), sprite.metrics.w, sprite.metrics.h
-        //);
+        bgCanvas.drawImage(
+            this.game.renderer.images[tile.sprite.image], tile.sprite.metrics.x, tile.sprite.metrics.y,
+            tile.sprite.metrics.w, tile.sprite.metrics.h,
+            Math.round(screen.x), Math.round(screen.y), tile.sprite.metrics.w, tile.sprite.metrics.h
+        );
     }
     //bgCanvas.context.globalCompositeOperation = 'color';
-    //bgCanvas.fill('#321118');
+    //bgCanvas.fill('rgba(30,30,50,0.7)');
     this.game.renderer.bgCanvas = {
-        x: lowestScreenX, y: lowestScreenY,
-        image: bgCanvas.canvas
+        x: lowestScreenX, y: lowestScreenY, image: bgCanvas.canvas
     };
     Pathfinder.loadMap(this.walkable);
     //for(var wx = this.mapBounds.xl; wx < this.mapBounds.xh + 1; wx++) {
@@ -189,26 +187,26 @@ World.prototype.crawlMap = function() {
         if(finalTile.border) finalTile.setStyle('plain');
         
         // Determine if this tile can be put into the static map image
-        finalTile.static = true;
-        x = finalTile.position.x; y = finalTile.position.y;
-        var nwTiles = [this.map[x+':'+(y-1)],this.map[(x-1)+':'+y],this.map[(x-1)+':'+(y-1)]];
-        for(var s = 0; s < nwTiles.length; s++) { if(!nwTiles[s]) { finalTile.static = false; continue; }
-            if(nwTiles[s].position.z < finalTile.position.z
-                || nwTiles[s].border 
-                || (nwTiles[s].style == 'plain' && finalTile.style == 'grass')) {
-                finalTile.static = false;
-            }
-        }
-        var staticMapIndex = this.staticMap.indexOf(finalTile);
-        if(finalTile.static) {
-            if(staticMapIndex < 0) this.staticMap.push(finalTile);
-        } else if(staticMapIndex >= 0) {
-            this.staticMap.splice(staticMapIndex,1);
-        }
+        //finalTile.static = true;
+        //x = finalTile.position.x; y = finalTile.position.y;
+        //var nwTiles = [this.map[x+':'+(y-1)],this.map[(x-1)+':'+y],this.map[(x-1)+':'+(y-1)]];
+        //for(var s = 0; s < nwTiles.length; s++) { if(!nwTiles[s]) { finalTile.static = false; continue; }
+        //    if(nwTiles[s].position.z < finalTile.position.z
+        //        || nwTiles[s].border 
+        //        || (nwTiles[s].style == 'plain' && finalTile.style == 'grass')) {
+        //        finalTile.static = false;
+        //    }
+        //}
+        //var staticMapIndex = this.staticMap.indexOf(finalTile);
+        //if(finalTile.static) {
+        //    if(staticMapIndex < 0) this.staticMap.push(finalTile);
+        //} else if(staticMapIndex >= 0) {
+        //    this.staticMap.splice(staticMapIndex,1);
+        //}
     }
 };
 
-World.prototype.marchSquares = function() {
+World.prototype.createTiles = function() {
     // Tile types:
     //   Grass     G       LowerGrass     LG
     //   Slab      S       LowerSlab      LS
@@ -226,50 +224,61 @@ World.prototype.marchSquares = function() {
         if(!neighbor) return 'E';
         var originZ = self.map[oGrid].position.z;
         if(neighbor.position.z == originZ) return tileType(nGrid);
-        if(neighbor.position.z > originZ) return 'S';
+        if(neighbor.position.z == originZ + 0.5 || neighbor.position.z == originZ + 1) return 'S';
         return 'E';
     }
     
-    function generateTile(oGrid, nGrids, position, grid, game) {
+    function generateTile(oGrid, tile, grid, game) {
+        var nGrids = tile.grids;
         var minZDepth = 9999, maxZDepth = -9999;
         var tileCode = getTileCode(oGrid,nGrids[0])+'-'+getTileCode(oGrid,nGrids[1])
             +'-'+getTileCode(oGrid,nGrids[2])+'-'+getTileCode(oGrid,nGrids[3]);
         for(var i = 0; i < nGrids.length; i++) {
             var nGrid = self.map[nGrids[i]];
-            if(nGrid && nGrid.position.z >= position.z) {
+            if(nGrid && (nGrid.position.z == tile.z 
+                || nGrid.position.z == tile.z + 0.5 
+                || nGrid.position.z == tile.z + 1)) {
                 minZDepth = Math.min(minZDepth, nGrid.zDepth);
                 maxZDepth = Math.max(maxZDepth, nGrid.zDepth);
             }
         }
         var tileZDepth = minZDepth;
         var tileSprite = (new TileSheet('tile')).map[tileCode];
-        //tileSprite = tileSprite;
+        if(!tileSprite) console.error('unknown tile code',tileCode,nGrids);
         if(tileSprite.length == 2) tileZDepth = [minZDepth,maxZDepth];
         return {
-            tileCode: tileCode, position: position, grid: grid, game: game, zDepth: tileZDepth
+            tileCode: tileCode, position: tile, grid: grid, game: game, zDepth: tileZDepth
         };
     }
     
     for(var key in this.map) { if(!this.map.hasOwnProperty(key)) continue;
         var x = +key.split(':')[0], y = +key.split(':')[1], z = this.map[key].position.z;
-        var posNW = { x: x-0.5, y: y-0.5, z: z}, posNE = { x: x+0.5, y: y-0.5, z: z},
-            posSE = { x: x+0.5, y: y+0.5, z: z}, posSW = { x: x-0.5, y: y+0.5, z: z};
-        var tileNW = z+':'+posNW.x+':'+posNW.y, tileNE = z+':'+posNE.x+':'+posNE.y,
-            tileSE = z+':'+posSE.x+':'+posSE.y, tileSW = z+':'+posSW.x+':'+posSW.y;
         var neighbors = geometry.get8Neighbors(key);
-        if(!this.tileMap[tileNW]) this.tileMap[tileNW] = new Tile(generateTile(
-            key, [neighbors.nw, neighbors.n, key, neighbors.w], posNW, tileNW, this.game
-        ));
-        if(!this.tileMap[tileNE]) this.tileMap[tileNE] = new Tile(generateTile(
-            key, [neighbors.n, neighbors.ne, neighbors.e, key], posNE, tileNE, this.game
-        ));
-        if(!this.tileMap[tileSE]) this.tileMap[tileSE] = new Tile(generateTile(
-            key, [key, neighbors.e, neighbors.se, neighbors.s], posSE, tileSE, this.game
-        ));
-        if(!this.tileMap[tileSW]) this.tileMap[tileSW] = new Tile(generateTile(
-            key, [neighbors.w, key, neighbors.s, neighbors.sw], posSW, tileSW, this.game
-        ));
+        var nw = { x: x-0.5, y: y-0.5, z: z, grids: [neighbors.nw, neighbors.n, key, neighbors.w] }, 
+            ne = { x: x+0.5, y: y-0.5, z: z, grids: [neighbors.n, neighbors.ne, neighbors.e, key] },
+            se = { x: x+0.5, y: y+0.5, z: z, grids: [key, neighbors.e, neighbors.se, neighbors.s] }, 
+            sw = { x: x-0.5, y: y+0.5, z: z, grids: [neighbors.w, key, neighbors.s, neighbors.sw] };
+        var tiles = [nw,ne,se,sw];
+        for(var i = 0; i < tiles.length; i++) {
+            var tileGrid = z+':'+tiles[i].x+':'+tiles[i].y;
+            if(this.tileMap[tileGrid]) continue;
+            this.tileMap[tileGrid] = new Tile(generateTile(key, tiles[i], tileGrid, this.game));
+            var tileCode = this.tileMap[tileGrid].tileCode.split('-');
+            var nearEdge = false;
+            for(var nKey in neighbors) { if(!neighbors.hasOwnProperty(nKey)) continue;
+                if(!this.map[neighbors[nKey]] || this.map[neighbors[nKey]].border) {
+                    nearEdge = true;
+                    break;
+                }
+            }
+            if(!nearEdge && tileCode[0] != 'E' && this.tileMap[tileGrid].zDepth.constructor !== Array) {
+                this.staticMap.push(this.tileMap[tileGrid]);
+            }
+        }
     }
+    this.staticMap.sort(function(a,b) { 
+        return (a.zDepth * 10 + a.position.z) - (b.zDepth * 10 + b.position.z); 
+    });
     
     //console.log(this.tileMap);
     

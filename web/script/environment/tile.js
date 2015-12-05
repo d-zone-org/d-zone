@@ -37,13 +37,15 @@ function Tile(options) {
         zDepth = [zDepth]
     }
     for(var i = 0; i < spriteMap.length; i++) {
-        this.game.renderer.addToZBuffer({
+        var sprite = {
             metrics: {
                 x: spriteMap[i].x, y: spriteMap[i].y,
                 w: spriteMap[i].w, h: spriteMap[i].h,
                 ox: spriteMap[i].ox, oy: spriteMap[i].oy
             },
             image: this.imageName, position: this.position, screen: this.screen
-        }, zDepth[i]);
+        };
+        this.sprite = sprite;
+        this.game.renderer.addToZBuffer(sprite, zDepth[i]);
     }
 }
