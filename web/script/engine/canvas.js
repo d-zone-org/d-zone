@@ -149,9 +149,7 @@ Canvas.prototype.drawEntity = function(sprite) {
         this.canvas.context.shadowColor = 'rgba(255,255,255,1)';
         this.canvas.context.shadowBlur = 3;
     }
-    if(sprite.parent && sprite.parent !== this.game.mouseOver && sprite.parent.nametag === sprite) {
-        if(!sprite.parent.mouseOver) return;
-    }
+    if(!sprite.stay && sprite.parent && this.game.mouseOver !== sprite.parent) return;
     this.canvas.drawImage(
         image, sprite.metrics.x, sprite.metrics.y, sprite.metrics.w, sprite.metrics.h,
         Math.round(screen.x), Math.round(screen.y), sprite.metrics.w, sprite.metrics.h

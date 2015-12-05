@@ -337,9 +337,9 @@ World.prototype.removeFromWorld = function(obj) {
     this.updateWalkable(obj.position.x, obj.position.y, this.objects[obj.position.x][obj.position.y]);
 };
 
-World.prototype.moveObject = function(obj,x2,y2,z2) {
+World.prototype.moveObject = function(obj,x,y,z) {
     this.removeFromWorld(obj);
-    obj.position.x = x2; obj.position.y = y2; obj.position.z = z2;
+    obj.position.x = x; obj.position.y = y; obj.position.z = z;
     this.addToWorld(obj)
 };
 

@@ -14,7 +14,7 @@ var preloader = new Preloader(initGame);
 var game, ws;
 
 function initGame(images) {
-    game = new Game({ step: 1000 / 40 });
+    game = new Game({ step: 1000 / 60 });
     game.renderer = new Renderer({ game: game, images: images });
     var canvas = new Canvas({
         id: 'main', game: game, scale: 3, backgroundColor: '#181213'
@@ -168,9 +168,9 @@ function initWebsocket() {
     ws.on('error', function(err) { console.log('error',err); });
     
     window.testMessage = function(message) {
-        var msg = (message && message.length ? message : message.text) || 'hello, test message yo!';
-        var uid = message.uid || users.actors[Object.keys(users.actors)[0]].uid;
-        var channel = message.channel || '1';
+        var msg = message ? message : 'hello, test message yo!';
+        var uid = message ? message.uid : users.actors[Object.keys(users.actors)[0]].uid;
+        var channel = message ? message.channel : '1';
         ws.emit('data',JSON.stringify({ type: 'message', data: {
             uid: uid, message: msg, channel: channel
         }}));

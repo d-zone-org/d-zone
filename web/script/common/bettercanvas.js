@@ -15,8 +15,8 @@ function BetterCanvas(width, height) {
 }
 
 BetterCanvas.prototype.drawImage = function(img,sx,sy,sw,sh,dx,dy,dw,dh,opacity) {
-    if(!img || !(sx >= 0) || !(sy >= 0) || !(sw >= 1) || !(sh >= 1)
-        || !isNumeric(dx) || !isNumeric(dy) || !(dw >= 1) || !(dh >= 1)) {
+    if(!img || !(sx >= 0) || !(sy >= 0) || !(sw >= 0) || !(sh >= 0)
+        || !isNumeric(dx) || !isNumeric(dy) || !(dw >= 0) || !(dh >= 0)) {
         console.error('bad drawImage params!',img,sx,sy,sw,sh,dx,dy,dw,dh);
         window.pause();
     }

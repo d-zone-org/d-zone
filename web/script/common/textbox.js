@@ -21,31 +21,25 @@ function cleanString(text) {
     return text;
 }
 
-function TextBox(parent, text) {
+function TextBox(parent, text, stay) {
     this.parent = parent;
     this.text = text;
     this.keepOnScreen = true;
-    var self = this;
-    this.on('draw',function(canvas) {
-        canvas.drawEntity(self);
-    });
+    this.screen = { x: 0, y: 0 };
+    this.sprite = { 
+        screen: this.screen, parent: this.parent, stay: stay, metrics: { x: 0, y: 0, w: 0, h: 0 }
+    };
 }
 
-TextBox.prototype.getSprite = function() {
-    if(!this.canvas) return;
-    this.screen = this.updateScreen();
-    return {
-        metrics: { x: 0, y: 0, w: this.canvas.width, h: this.canvas.height },
-        image: this.canvas
-    };
+TextBox.prototype.updateScreen = function() {
+    this.screen.x = this.parent.preciseScreen.x - this.canvas.width/2 + this.parent.pixelSize.x;
+    this.screen.y = this.parent.preciseScreen.y - this.canvas.height + 2;
 };
 
-TextBox.prototype.updateScreen = function() {
-    var parent = this.parent.preciseScreen;
-    return {
-        x: parent.x - this.canvas.width/2 + this.parent.pixelSize.x,
-        y: parent.y - this.canvas.height + 2
-    }
+TextBox.prototype.updateSprite = function() {
+    this.sprite.image = this.canvas;
+    this.sprite.metrics.w = this.sprite.image.width;
+    this.sprite.metrics.h = this.sprite.image.height;
 };
 
 TextBox.prototype.blotText = function(options) {
@@ -54,6 +48,8 @@ TextBox.prototype.blotText = function(options) {
     options.text = options.text || this.text;
     if(!options.text) return;
     this.canvas = TextBlotter.blot(options);
+    this.updateScreen();
+    this.updateSprite();
 };
 
 TextBox.prototype.scrollMessage = function(speed,cb) {
@@ -89,6 +85,8 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
                             bg: bg, metrics: self.textMetrics, progress: 1 - progress.percent, 
                             lineCount : Math.min(self.textMetrics.lines.length, 2)
                         });
+                        self.updateScreen();
+                        self.updateSprite();
                         if(progress.percent == 1) complete();
                     }, 16);
                 }, 70); // Last line complete
@@ -108,6 +106,8 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
             bg: bg, metrics: self.textMetrics, progress: progress.percent,
             lineCount : Math.min(self.textMetrics.lines.length, 2)
         });
+        self.updateScreen();
+        self.updateSprite();
         if(progress.percent == 1) self.tickDelay(addLetter, speed);
     }, 20);
 };

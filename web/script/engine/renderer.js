@@ -42,7 +42,7 @@ function Renderer(options) {
                         }
                     }
                     for(var o = 0; o < self.overlay.length; o++) {
-                        self.overlay[o].emit('draw',canvas)
+                        canvas.drawEntity(self.overlay[o]);
                     }
                     if(self.game.ui) self.game.ui.emit('draw',canvas);
                 }

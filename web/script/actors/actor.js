@@ -18,13 +18,14 @@ function Actor(options) {
         pixelSize: { x: 7, y: 7, z: 8 },
         height: 0.5
     });
+    this.preciseScreen = this.toScreenPrecise();
     this.setMaxListeners(options.maxListeners);
     this.uid = options.uid;
     this.username = options.username;
     this.nametag = new TextBox(this, this.username);
     this.nametag.blotText();
     this.sheet = new Sheet('actor');
-    this.preciseScreen = this.toScreenPrecise();
+    this.sprite.image = 'actors';
     this.presence = 'offline';
     this.talking = false;
     this.destination = false;
@@ -76,6 +77,7 @@ Actor.prototype.updatePresence = function(presence) {
     } else if(this.behaviors.length == 0) { // If coming online and have no behaviors already
         this.behaviors.push(new Wander(this));
     }
+    this.updateSprite();
 };
 
 Actor.prototype.toScreenPrecise = function() {
@@ -125,14 +127,6 @@ Actor.prototype.updateSprite = function() {
     }
     this.sprite.metrics = metrics;
     return { metrics: metrics, image: 'actors' };
-};
-
-Actor.prototype.setRoleColor = function(color) {
-    if(!color) return;
-    this.roleColor = color;
-    this.game.renderer.addColorSheet({ // Less colorizing for offline sprites
-        sheet: 'actors', color: color, alpha: 0.8, regions: [{ alpha: 0.4, x: 70, y: 0, w: 28, h: 14 }] 
-    });
 };
 
 Actor.prototype.tryMove = function(x,y) {
@@ -185,23 +179,26 @@ Actor.prototype.startMove = function() {
             //self.zDepth = (self.position.x + self.position.y + (self.destDelta.x + self.destDelta.y)/2);
             //self.game.renderer.updateZBuffer(previousZDepth1, self);
         } else if(newFrame && self.frame == 8) { // Move zDepth all the way
-            self.game.renderer.updateZBuffer(self.zDepth, self, self.destination.x + self.destination.y);
+            self.game.renderer.updateZBuffer(
+                self.zDepth, self.sprite, self.destination.x + self.destination.y
+            );
         }
         self.preciseScreen = self.toScreenPrecise();
+        self.nametag.updateScreen();
+        self.updateSprite();
     }, 3*(animation.frames));
 };
 
 Actor.prototype.move = function(x, y, z, absolute) {
     if(x == 0 && y == 0 && z == 0) return;
-    var prevX = this.position.x + this.fakeX, prevY = this.position.y + this.fakeY;
     var newX = (absolute ? 0 : this.position.x) + x;
     var newY = (absolute ? 0 : this.position.y) + y;
     var newZ = (absolute ? 0 : this.position.z) + z;
     this.game.world.moveObject(this,newX,newY,newZ);
     this.updateScreen();
+    this.nametag.updateScreen();
     this.preciseScreen = this.toScreenPrecise();
-    //var previousZDepth = this.zDepth;
-    this.game.renderer.updateZBuffer(this.zDepth, this, this.calcZDepth());
+    this.game.renderer.updateZBuffer(this.zDepth, this.sprite, this.calcZDepth());
     this.zDepth = this.calcZDepth();
 };
 
@@ -209,7 +206,7 @@ Actor.prototype.startTalking = function(message, channel, onStop) {
     this.talking = true;
     this.lastChannel = channel;
     this.nametag.hidden = true;
-    this.messageBox = new TextBox(this, message);
+    this.messageBox = new TextBox(this, message, true);
     this.messageBox.addToGame(this.game);
     var self = this;
     this.messageBox.scrollMessage(3, function() {

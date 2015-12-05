@@ -6,7 +6,9 @@ var util = require('./../common/util.js');
 module.exports = Entity;
 inherits(Entity, EventEmitter);
 
-function Entity() {}
+function Entity() {
+    this.sprite = {};
+}
 
 Entity.prototype.addToGame = function(game) {
     this.game = game;
@@ -15,7 +17,7 @@ Entity.prototype.addToGame = function(game) {
         this.game.world.addToWorld(this);
         if(!this.invisible) this.game.renderer.addToZBuffer(this.sprite, this.zDepth);
     } else {
-        this.game.renderer.overlay.push(this);
+        this.game.renderer.overlay.push(this.sprite);
     }
     this.exists = true;
 };
@@ -39,7 +41,6 @@ Entity.prototype.tickRepeat = function(cb, ticks) { // Execute callback every ti
     this.game.schedule.push({ type: 'repeat', start: this.game.ticks, count: ticks, cb: cb, entity: this });
 };
 
-// TODO: Why does this seem to be removing scheduled events that it shouldn't be?
 Entity.prototype.removeFromSchedule = function(cb) {
     for(var i = 0; i < this.game.schedule.length; i++) {
         if(this.game.schedule[i].entity === this && this.game.schedule[i].cb === cb) {

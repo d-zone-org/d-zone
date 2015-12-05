@@ -19,6 +19,10 @@ module.exports = {
     },
     right: function(text, length) { return text.substring(text.length-length,text.length); },
     clamp: function(val, min, max) { return Math.min(max,Math.max(min,val)); },
+    clampWrap: function(val, min, max) { // Clamp to range by wrapping value
+        var wrap = (val-min) % (max+1-min);
+        return wrap >= 0 ? min + wrap : max + 1 + wrap;
+    },
     fractionalArrayIndex: function(arr, index) {
         var floorX = Math.floor(index);
         var lower = arr[floorX];

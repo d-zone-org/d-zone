@@ -7,6 +7,7 @@ module.exports = WorldObject;
 inherits(WorldObject, Entity);
 
 function WorldObject(options) {
+    Entity.call(this);
     this.position = {
         x: options.position.x,
         y: options.position.y,
@@ -22,10 +23,8 @@ function WorldObject(options) {
     };
     this.screen = {};
     this.updateScreen();
-    this.sprite = {
-        screen: this.screen,
-        position: this.position
-    }
+    this.sprite.screen = this.screen;
+    this.sprite.position = this.position;
 }
 
 WorldObject.prototype.move = function(x,y,z) {
