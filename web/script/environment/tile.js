@@ -1,46 +1,45 @@
 'use strict';
+var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
 var util = require('./../common/util.js');
-var WorldObject = require('./../engine/worldobject.js');
-var Sheet = require('./sheet.js');
-
+var Sheet = require('./sheet2.js');
 module.exports = Tile;
-inherits(Tile, WorldObject);
+inherits(Tile, EventEmitter);
 
-function Tile(style,x,y,z) {
-    WorldObject.call(this, {position:{x:x,y:y,z:z},pixelSize:{x:16,y:16,z:1},height:0.5});
-    this.imageName = 'environment';
-    this.setStyle(style);
+function Tile(options) {
+    this.game = options.game;
+    this.grid = options.grid;
+    this.tileCode = options.tileCode;
+    this.position = options.position;
+    this.zDepth = options.zDepth;
+    //this.position.x -= this.position.z*0.5;
+    //this.position.y -= this.position.z*0.5;
+    this.fakeZ = -0.5;
+    this.screen = {
+        x: (this.position.x - this.position.y) * 16 - 16,
+        y: (this.position.x + this.position.y) * 8 - (this.position.z) * 16 - 8
+    };
+    this.height = 0;
+    this.imageName = 'environment2';
     this.sheet = new Sheet('tile');
-    this.march = 0;
     //if(Math.random() < 0.1) {
     //    this.variation = util.randomIntRange(2,3);
     //} else {
     //    this.variation = util.randomIntRange(0,1);
     //}
+    this.sprite = {
+        metrics: {
+            x: this.sheet.map[this.tileCode].x, y: this.sheet.map[this.tileCode].y,
+            w: this.sheet.map[this.tileCode].w, h: this.sheet.map[this.tileCode].h,
+            ox: this.sheet.map[this.tileCode].ox, oy: this.sheet.map[this.tileCode].oy
+        },
+        image: this.imageName
+    };
+    this.game.renderer.addToZBuffer(this, this.zDepth);
     var self = this;
-    this.on('draw',function(canvas) { if(self.exists) canvas.drawEntity(self); });
+    this.on('draw',function(canvas) { canvas.drawEntity(self); });
 }
 
-Tile.prototype.setStyle = function(style) {
-    this.style = style;
-    this.variation = 0;
-    if(this.style == 'grass') {
-        if(Math.random() < 0.1) {
-            this.variation = util.randomIntRange(2,3);
-        } else {
-            this.variation = util.randomIntRange(0,1);
-        }
-    }
-};
-
 Tile.prototype.getSprite = function() {
-    if(!this.sheet.map[this.style][this.march]) console.log(this.march);
-    var metrics = { 
-        x: this.sheet.map[this.style][this.march].x, y: this.sheet.map[this.style][this.march].y,
-        w: this.sheet.map[this.style][this.march].w, h: this.sheet.map[this.style][this.march].h,
-        ox: this.sheet.map[this.style][this.march].ox, oy: this.sheet.map[this.style][this.march].oy
-    };
-    metrics.x += metrics.w * this.variation;
-    return { metrics: metrics, image: this.imageName }
+    return this.sprite
 };

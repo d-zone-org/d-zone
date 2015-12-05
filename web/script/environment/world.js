@@ -2,10 +2,8 @@
 var util = require('./../common/util.js');
 var geometry = require('./../common/geometry.js');
 var Pathfinder = require('./../actors/pathfinder.js');
-
+var Slab = require('./slab.js');
 var Tile = require('./tile.js');
-var Block = require('./block.js');
-var HalfBlock = require('./halfblock.js');
 
 module.exports = World;
 
@@ -17,6 +15,7 @@ function World(game,worldSize) {
     this.game = game;
     this.game.world = this;
     this.worldSize = Math.max(24,Math.floor(worldSize/2)*2); // Must be an even number >= 24
+    //this.worldSize = Math.max(12,Math.floor(worldSize/2)*2); // Must be an even number >= 24
     this.worldRadius = Math.floor(this.worldSize/2);
     this.objects = {};
     this.map = {}; // Grid-based map to hold world tiles
@@ -46,7 +45,7 @@ function World(game,worldSize) {
             this.mapBounds.xh = x > this.mapBounds.xh ? x : this.mapBounds.xh;
             this.mapBounds.yh = y > this.mapBounds.yh ? y : this.mapBounds.yh;
             var height = Math.round(noiseValue * (1/farness) * 6);
-            grid = new Tile('grass', x, y, height/2);
+            grid = new Slab('grass', x, y, height/2);
             grid.grid = x+':'+y;
             this.map[x+':'+y] = grid;
             grid.addToGame(game);
@@ -75,18 +74,18 @@ function World(game,worldSize) {
     );
     for(var j = 0; j < this.staticMap.length; j++) {
         var tile = this.staticMap[j];
-        this.game.renderer.removeFromZBuffer(tile);
+        this.game.renderer.removeFromZBuffer(tile, tile.zDepth);
         var sprite = tile.getSprite();
         var screen = { x: tile.screen.x, y: tile.screen.y };
         screen.x += sprite.metrics.ox || 0;
         screen.y += sprite.metrics.oy || 0;
         screen.x -= lowestScreenX;
         screen.y -= lowestScreenY;
-        bgCanvas.drawImage(
-            this.game.renderer.images[sprite.image], sprite.metrics.x, sprite.metrics.y,
-            sprite.metrics.w, sprite.metrics.h,
-            Math.round(screen.x), Math.round(screen.y), sprite.metrics.w, sprite.metrics.h
-        );
+        //bgCanvas.drawImage(
+        //    this.game.renderer.images[sprite.image], sprite.metrics.x, sprite.metrics.y,
+        //    sprite.metrics.w, sprite.metrics.h,
+        //    Math.round(screen.x), Math.round(screen.y), sprite.metrics.w, sprite.metrics.h
+        //);
     }
     //bgCanvas.context.globalCompositeOperation = 'color';
     //bgCanvas.fill('#321118');
@@ -209,6 +208,73 @@ World.prototype.crawlMap = function() {
 };
 
 World.prototype.marchSquares = function() {
+    
+    // Bitwise doesn't seem like the best solution since not all possible tile combinations will exist
+    
+    // Possible tile types:
+    //   Grass          G
+    //   Slab           S
+    //   LowerGrass     LG
+    //   LowerSlab      LS
+    //   Empty          E
+    
+    // Tile code constructed as NW-NE-SE-SW (eg. "S-LS-LS-LG")
+
+    this.tileMap = {};
+    var self = this;
+    
+    function tileType(grid) { return self.map[grid].style[0].replace(/p/,'s').toUpperCase(); }
+    
+    function getTileCode(oGrid, nGrid) {
+        if(oGrid == nGrid) return tileType(oGrid);
+        var neighbor = self.map[nGrid];
+        if(!neighbor) return 'E';
+        var originZ = self.map[oGrid].position.z;
+        if(neighbor.position.z == originZ) return tileType(nGrid);
+        if(neighbor.position.z > originZ) return 'S';
+        return 'E';
+    }
+    
+    function generateTile(oGrid, nGrids, position, grid, game) {
+        var minZDepth = 9999, maxZDepth = -9999;
+        for(var i = 0; i < nGrids.length; i++) {
+            var nGrid = self.map[nGrids[i]];
+            if(nGrid && nGrid.position.z >= position.z) {
+                minZDepth = Math.min(minZDepth, nGrid.zDepth);
+                maxZDepth = Math.max(minZDepth, nGrid.zDepth);
+            }
+        }
+        var tileZDepth = minZDepth == maxZDepth ? [minZDepth] : [minZDepth,maxZDepth];
+        return {
+            tileCode: getTileCode(oGrid,nGrids[0])+'-'+getTileCode(oGrid,nGrids[1])
+            +'-'+getTileCode(oGrid,nGrids[2])+'-'+getTileCode(oGrid,nGrids[3]),
+            position: position, grid: grid, game: game, zDepth: minZDepth
+        };
+    }
+    
+    for(var key in this.map) { if(!this.map.hasOwnProperty(key)) continue;
+        var x = +key.split(':')[0], y = +key.split(':')[1], z = this.map[key].position.z;
+        var posNW = { x: x-0.5, y: y-0.5, z: z}, posNE = { x: x+0.5, y: y-0.5, z: z},
+            posSE = { x: x+0.5, y: y+0.5, z: z}, posSW = { x: x-0.5, y: y+0.5, z: z};
+        var tileNW = z+':'+posNW.x+':'+posNW.y, tileNE = z+':'+posNE.x+':'+posNE.y,
+            tileSE = z+':'+posSE.x+':'+posSE.y, tileSW = z+':'+posSW.x+':'+posSW.y;
+        var neighbors = geometry.get8Neighbors(key);
+        if(!this.tileMap[tileNW]) this.tileMap[tileNW] = new Tile(generateTile(
+            key, [neighbors.nw, neighbors.n, key, neighbors.w], posNW, tileNW, this.game
+        ));
+        if(!this.tileMap[tileNE]) this.tileMap[tileNE] = new Tile(generateTile(
+            key, [neighbors.n, neighbors.ne, neighbors.e, key], posNE, tileNE, this.game
+        ));
+        if(!this.tileMap[tileSE]) this.tileMap[tileSE] = new Tile(generateTile(
+            key, [key, neighbors.e, neighbors.se, neighbors.s], posSE, tileSE, this.game
+        ));
+        if(!this.tileMap[tileSW]) this.tileMap[tileSW] = new Tile(generateTile(
+            key, [neighbors.w, key, neighbors.s, neighbors.sw], posSW, tileSW, this.game
+        ));
+    }
+    
+    //console.log(this.tileMap);
+    
     for(var key in this.map) { if(!this.map.hasOwnProperty(key)) continue;
         var neighbors = geometry.getNeighbors(key);
         var wt = this.map[neighbors.w], nt = this.map[neighbors.n],

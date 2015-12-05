@@ -9,17 +9,14 @@ function GoTo(actor, target) {
     this.actor = actor;
     this.target = target;
     this.attempt = util.randomIntRange(1,4);
+    this.boundResetAttempt = this.resetAttempt.bind(this);
+    this.target.on('movecomplete', this.boundResetAttempt); // Reset adjacent attempts if target moves
     this.boundStartGoTo = this.startGoTo.bind(this);
     if(this.actor.destination) {
         this.actor.once('movecomplete', this.boundStartGoTo);
     } else {
         this.startGoTo();
     }
-    var self = this;
-    this.resetAttempt = function() {
-        self.attempt = util.randomIntRange(1,4);
-    };
-    this.target.on('movecomplete', this.resetAttempt); // Reset adjacent attempts if target moves
 }
 
 GoTo.prototype.startGoTo = function() {
@@ -45,9 +42,13 @@ GoTo.prototype.startGoTo = function() {
     }
 };
 
+GoTo.prototype.resetAttempt = function() {
+    this.attempt = util.randomIntRange(1,4);
+};
+
 GoTo.prototype.detach = function() { // Detach behavior from actor
-    this.actor.removeListener('movecomplete',this.boundStartGoTo);
-    this.target.removeListener('movecomplete',this.resetAttempt);
+    if(this.actor) this.actor.removeListener('movecomplete',this.boundStartGoTo);
+    if(this.target) this.target.removeListener('movecomplete',this.boundResetAttempt);
     delete this.actor;
     delete this.target;
 };

@@ -7,7 +7,7 @@ module.exports = Users;
 inherits(Users, EventEmitter);
 
 function Users(game,world) {
-    this.setMaxListeners(3000);
+    this.setMaxListeners(0);
     this.game = game;
     this.game.once('destroy', this.destroy.bind(this));
     this.game.users = this;

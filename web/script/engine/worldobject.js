@@ -12,6 +12,7 @@ function WorldObject(options) {
         y: options.position.y,
         z: options.position.z
     };
+    this.fakeZ = 0;
     this.height = options.height;
     this.zDepth = this.calcZDepth();
     this.pixelSize = {
@@ -28,13 +29,13 @@ WorldObject.prototype.move = function(x,y,z) {
     var newZ = this.position.z + z;
     this.game.world.moveObject(this,newX,newY,newZ);
     this.screen = this.toScreen();
-    var oldZDepth = this.zDepth;
+    //var oldZDepth = this.zDepth;
+    this.game.renderer.updateZBuffer(this.zDepth, this, this.calcZDepth());
     this.zDepth = this.calcZDepth();
-    this.game.renderer.updateZBuffer(oldZDepth, this);
 };
 
 WorldObject.prototype.calcZDepth = function() {
-    return this.position.x + this.position.y/* + this.position.z/10 - (this.height || 0)*/;
+    return this.position.x + this.position.y;
 };
 
 WorldObject.prototype.toScreen = function() {

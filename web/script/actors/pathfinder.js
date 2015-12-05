@@ -9,6 +9,7 @@ module.exports = {
         if(start.x == end.x && start.y == end.y || !map[end.x+':'+end.y]) return [];
         var startH = calcH(end,start);
         var current = { x: start.x, y: start.y, grid: start.x+':'+start.y, g: 0, h: startH, f: startH };
+        var startIsCurrent = true;
         var openCount = 0, open = {}, closed = {};
         // Add starting grid to open list
         open[current.grid] = current; openCount++;
@@ -27,8 +28,8 @@ module.exports = {
                 };
                 // If grid is walkable and not closed
                 if(map[neighbor.grid] && !closed[neighbor.grid]) {
-                    var currentZ = current.x == start.x && current.y == start.y ?
-                    map[current.grid] - 0.5 : map[current.grid]; // Subtract own height from Z
+                    // Subtract own height from Z if on starting grid
+                    var currentZ = startIsCurrent ? map[current.grid] - 0.5 : map[current.grid];
                     if(Math.abs(currentZ - map[neighbor.grid]) > 0.5) continue;
                     neighbor.g = current.g + 10;
                     neighbor.h = calcH(end,neighbor); neighbor.f = neighbor.g + neighbor.h;
@@ -44,6 +45,7 @@ module.exports = {
                 }
             }}
             current = getBest(open);
+            startIsCurrent = false;
         }
         return [];
     }

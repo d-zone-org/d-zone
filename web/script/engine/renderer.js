@@ -27,6 +27,7 @@ function Renderer(options) {
             if(self.canvases) {
                 var timeThis = game.timeRenders && (self.game.ticks & 511) == 0;
                 if(timeThis) console.time('render');
+                //if(timeThis) console.log(self.zBuffer);
                 //if(timeThis) var renderStart = performance.now();
                 for(var c = 0; c < self.canvases.length; c++) {
                     self.canvases[c].draw();
@@ -68,21 +69,21 @@ Renderer.prototype.addCanvas = function(canvas) {
     this.canvases.push(canvas);
 };
 
-Renderer.prototype.addToZBuffer = function(obj) {
-    var zBufferDepth = this.zBuffer[obj.zDepth];
+Renderer.prototype.addToZBuffer = function(obj, newZDepth) {
+    var zBufferDepth = this.zBuffer[newZDepth];
     if(zBufferDepth) {
         zBufferDepth.push(obj);
         zBufferDepth.sort(function(a, b) {
-            return (a.position.z + (a.fakeZ || 0)) - (b.position.z + (b.fakeZ || 0)); 
+            return (a.position.z + a.fakeZ) - (b.position.z + b.fakeZ); 
         });
     } else {
-        this.zBuffer[obj.zDepth] = [obj];
+        this.zBuffer[newZDepth] = [obj];
     }
     this.zBufferKeys = Object.keys(this.zBuffer);
     this.zBufferKeys.sort(function(a, b) { return a - b; });
 };
 
-Renderer.prototype.updateZBuffer = function(oldZDepth, obj) {
+Renderer.prototype.updateZBuffer = function(oldZDepth, obj, newZDepth) {
     var zBufferDepth = this.zBuffer[oldZDepth];
     for(var i = 0; i < zBufferDepth.length; i++) {
         if(zBufferDepth[i] === obj) {
@@ -90,19 +91,17 @@ Renderer.prototype.updateZBuffer = function(oldZDepth, obj) {
             break;
         }
     }
-    this.addToZBuffer(obj);
+    this.addToZBuffer(obj, newZDepth);
 };
 
-Renderer.prototype.removeFromZBuffer = function(obj) {
-    var zBufferDepth = this.zBuffer[obj.zDepth];
+Renderer.prototype.removeFromZBuffer = function(obj, zDepth) {
+    var zBufferDepth = this.zBuffer[zDepth];
     for(var i = 0; i < zBufferDepth.length; i++) {
         if(zBufferDepth[i] === obj) {
             zBufferDepth.splice(i,1);
             break;
         }
     }
-    this.zBufferKeys = Object.keys(this.zBuffer);
-    this.zBufferKeys.sort(function(a, b) { return a - b; });
 };
 
 Renderer.prototype.addColorSheet = function(options) {

@@ -56,6 +56,7 @@ function Inbox(config) {
     });
     bot.on("disconnected", function() {
         console.log("Bot disconnected, reconnecting");
+        // TODO: Fix error when bot reconnects
         bot.connect(); //Auto reconnect
     });
     this.msgQueue = [];
@@ -64,7 +65,7 @@ function Inbox(config) {
 
 Inbox.prototype.getUsers = function(connectRequest) {
     var server = this.servers[connectRequest.server];
-    if(!server) return 'unknown-server';
+    if(!server || !this.bot.servers[server.id]) return 'unknown-server';
     if(server.password && server.password !== connectRequest.password) return 'bad-password';
     var discordServer = this.bot.servers[server.id], users = {};
     for(var uid in discordServer.members) { if(!discordServer.members.hasOwnProperty(uid)) continue;

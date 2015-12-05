@@ -8,7 +8,7 @@ function Wander(actor) {
     this.actor = actor;
     this.state = 'idle';
     this.impulseCompleteBound = this.impulseComplete.bind(this);
-    this.impulseInterval = 300;
+    this.impulseInterval = 0;
     this.impulseBound = this.impulse.bind(this);
     this.wait();
 }
@@ -24,6 +24,7 @@ Wander.prototype.impulse = function() {
         this.wait();
     } else {
         var direction = util.pickInObject(Geometry.DIRECTIONS);
+        direction = util.pickInArray(['east','south']);
         var moveXY = Geometry.DIRECTIONS[direction];
         var canMove = this.actor.tryMove(moveXY.x, moveXY.y);
         if(canMove) {

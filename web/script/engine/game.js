@@ -12,7 +12,7 @@ module.exports = Game;
 inherits(Game, EventEmitter);
 
 function Game(options) {
-    this.setMaxListeners(5000);
+    this.setMaxListeners(0);
     this.step = options.step || 1000/60;
     this.lastUpdate = 0;
     this.dt = 0;

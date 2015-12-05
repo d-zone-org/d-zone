@@ -172,21 +172,17 @@ Actor.prototype.startMove = function() {
         if(self.frame == animation.frames) {
             self.movePlaceholder.remove();
             delete self.movePlaceholder;
-            delete self.fakeZ;
             self.move(self.destination.x, self.destination.y, self.destination.z, true);
             self.destination = false;
             delete self.frame;
-            this.unWalkable = false;
+            self.unWalkable = false;
             self.emit('movecomplete');
-        } else if(halfZDepthFrame && newFrame && self.frame == 3) { // Move zDepth half-way between tiles
-            var previousZDepth1 = self.zDepth;
-            self.zDepth = (self.position.x + self.position.y + (self.destDelta.x + self.destDelta.y)/2);
-            self.game.renderer.updateZBuffer(previousZDepth1, self);
-        } else if(newFrame && self.frame == 7) { // Move zDepth all the way
-            var previousZDepth2 = self.zDepth;
-            self.zDepth = self.destination.x + self.destination.y;
-            if(self.destDelta.z) self.fakeZ = self.destDelta.z;
-            self.game.renderer.updateZBuffer(previousZDepth2, self);
+        } else if(halfZDepthFrame && newFrame && self.frame == 6) { // Move zDepth half-way between tiles
+            //var previousZDepth1 = self.zDepth;
+            //self.zDepth = (self.position.x + self.position.y + (self.destDelta.x + self.destDelta.y)/2);
+            //self.game.renderer.updateZBuffer(previousZDepth1, self);
+        } else if(newFrame && self.frame == 8) { // Move zDepth all the way
+            self.game.renderer.updateZBuffer(self.zDepth, self, self.destination.x + self.destination.y);
         }
         self.preciseScreen = self.toScreenPrecise();
     }, 3*(animation.frames));
@@ -194,15 +190,16 @@ Actor.prototype.startMove = function() {
 
 Actor.prototype.move = function(x, y, z, absolute) {
     if(x == 0 && y == 0 && z == 0) return;
+    var prevX = this.position.x + this.fakeX, prevY = this.position.y + this.fakeY;
     var newX = (absolute ? 0 : this.position.x) + x;
     var newY = (absolute ? 0 : this.position.y) + y;
     var newZ = (absolute ? 0 : this.position.z) + z;
     this.game.world.moveObject(this,newX,newY,newZ);
     this.screen = this.toScreen();
     this.preciseScreen = this.toScreenPrecise();
-    var previousZDepth = this.zDepth;
+    //var previousZDepth = this.zDepth;
+    this.game.renderer.updateZBuffer(this.zDepth, this, this.calcZDepth());
     this.zDepth = this.calcZDepth();
-    this.game.renderer.updateZBuffer(previousZDepth, this);
 };
 
 Actor.prototype.startTalking = function(message, channel, onStop) {

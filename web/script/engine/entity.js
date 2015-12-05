@@ -13,7 +13,7 @@ Entity.prototype.addToGame = function(game) {
     this.game.entities.push(this);
     if(this.hasOwnProperty('position')) {
         this.game.world.addToWorld(this);
-        if(!this.invisible) this.game.renderer.addToZBuffer(this);
+        if(!this.invisible) this.game.renderer.addToZBuffer(this, this.zDepth);
     } else {
         this.game.renderer.overlay.push(this);
     }
@@ -23,7 +23,7 @@ Entity.prototype.addToGame = function(game) {
 Entity.prototype.remove = function() {
     this.exists = false;
     if(this.hasOwnProperty('position')) {
-        if(!this.invisible) this.game.renderer.removeFromZBuffer(this);
+        if(!this.invisible) this.game.renderer.removeFromZBuffer(this, this.zDepth);
         this.game.world.removeFromWorld(this);
     } else {
         util.findAndRemove(this, this.game.renderer.overlay);

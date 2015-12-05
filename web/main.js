@@ -14,7 +14,7 @@ var preloader = new Preloader(initGame);
 var game, ws;
 
 function initGame(images) {
-    game = new Game({ step: 1000 / 60 });
+    game = new Game({ step: 1000 / 40 });
     game.renderer = new Renderer({ game: game, images: images });
     var canvas = new Canvas({
         id: 'main', game: game, scale: 3, backgroundColor: '#181213'
@@ -140,6 +140,8 @@ function initWebsocket() {
             users = new Users(game, world);
             //return;
             //console.log('Initializing actors',data.data);
+            game.setMaxListeners(Object.keys(data.data).length + 50);
+            users.setMaxListeners(Object.keys(data.data).length);
             for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
                 //if(uid == '114588180144979972') continue;
                 //if(data.data[uid].status != 'online') continue;

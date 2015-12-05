@@ -1,7 +1,7 @@
 'use strict';
 
 var map = {
-    tile: {
+    slab: {
         plain: {
             0: {x: 165, y: 0, w: 33, h: 24, ox: -1, oy: -1},
             16: {x: 165, y: 24, w: 33, h: 24, ox: -1, oy: -1},
@@ -27,12 +27,6 @@ var map = {
             144: {x: 0, y: 0, w: 33, h: 18, ox: -1, oy: -2},
             160: {x: 0, y: 0, w: 33, h: 18, ox: -1, oy: -2}
         }
-    },
-    halfBlock: {
-        plain: {x: 165, y: 0, w: 33, h: 26, ox: -1, oy: -1}
-    },
-    block: {
-        plain: {x: 198, y: 0, w: 33, h: 34, ox: -1, oy: -1}
     }
 };
 
