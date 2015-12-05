@@ -37,6 +37,7 @@ function Actor(options) {
 }
 
 Actor.prototype.onUpdate = function() {
+    if(this.talking) this.updateSprite();
     if(this.game.mouseOut || (this.game.mouseOver 
         && (this.game.mouseOver.zDepth > this.zDepth // Don't override closer objects
         || this.game.mouseOver.position.z > this.position.z)) // Don't override higher objects
@@ -131,6 +132,7 @@ Actor.prototype.updateSprite = function() {
 
 Actor.prototype.tryMove = function(x,y) {
     this.facing = x < 0 ? 'west' : x > 0 ? 'east' : y < 0 ? 'north' : 'south';
+    this.updateSprite();
     if(this.game.world.objectAtXYZ(this.position.x,this.position.y,this.position.z+this.height)) {
         this.emit('getoffme');
         return; // Can't move with object on top
@@ -205,14 +207,15 @@ Actor.prototype.move = function(x, y, z, absolute) {
 Actor.prototype.startTalking = function(message, channel, onStop) {
     this.talking = true;
     this.lastChannel = channel;
-    this.nametag.hidden = true;
+    this.nametag.sprite.hidden = true;
     this.messageBox = new TextBox(this, message, true);
     this.messageBox.addToGame(this.game);
     var self = this;
     this.messageBox.scrollMessage(3, function() {
         delete self.messageBox;
         self.talking = false;
-        self.nametag.hidden = false;
+        self.nametag.sprite.hidden = false;
+        self.updateSprite();
         self.emit('donetalking');
         onStop();
     });

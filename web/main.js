@@ -135,6 +135,7 @@ function initWebsocket() {
             joinServer(startupServer);
         } else if(data.type == 'server-join') { // Initial server status
             game.reset();
+            game.renderer.clear();
             world = new World(game, Math.round(3 * Math.sqrt(Object.keys(data.data).length)));
             decorator = new Decorator(game, world);
             users = new Users(game, world);

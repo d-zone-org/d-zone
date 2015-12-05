@@ -128,7 +128,7 @@ Canvas.prototype.drawBG = function(bgCanvas) {
 };
 
 Canvas.prototype.drawEntity = function(sprite) {
-    if(!sprite || !sprite.image) return;
+    if(!sprite || !sprite.image || sprite.hidden) return;
     var screen = { x: sprite.screen.x, y: sprite.screen.y };
     if(this.autosize) { screen.x += this.halfWidth; screen.y += this.halfHeight; }
     screen.x += this.panning.panned.x;

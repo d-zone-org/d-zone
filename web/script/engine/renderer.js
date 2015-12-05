@@ -112,3 +112,9 @@ Renderer.prototype.addColorSheet = function(options) {
     options.image = this.images[options.sheet];
     this.images[options.color][options.sheet] = ColorUtil.colorize(options);
 };
+
+Renderer.prototype.clear = function() {
+    this.zBuffer = {};
+    this.zBufferKeys = [];
+    this.overlay = [];
+};

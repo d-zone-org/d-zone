@@ -209,16 +209,10 @@ World.prototype.crawlMap = function() {
 };
 
 World.prototype.marchSquares = function() {
-    
-    // Bitwise doesn't seem like the best solution since not all possible tile combinations will exist
-    
-    // Possible tile types:
-    //   Grass          G
-    //   Slab           S
-    //   LowerGrass     LG
-    //   LowerSlab      LS
-    //   Empty          E
-    
+    // Tile types:
+    //   Grass     G       LowerGrass     LG
+    //   Slab      S       LowerSlab      LS
+    //   Empty     E
     // Tile code constructed as NW-NE-SE-SW (eg. "S-LS-LS-LG")
 
     this.tileMap = {};
@@ -279,38 +273,38 @@ World.prototype.marchSquares = function() {
     
     //console.log(this.tileMap);
     
-    for(var key in this.map) { if(!this.map.hasOwnProperty(key)) continue;
-        var neighbors = geometry.getNeighbors(key);
-        var wt = this.map[neighbors.w], nt = this.map[neighbors.n],
-            et = this.map[neighbors.e], st = this.map[neighbors.s],
-            w = 0, n = 0, e = 0, s = 0;
-        w = 0;
-        n = 0;
-        
-        if(this.map[key].style == 'grass') {
-            if(wt) {
-                if(wt.style != 'grass') w = 1;
-            }
-            if(nt) {
-                if(nt.style != 'grass') n = 1;
-            }
-        }
-        if(et) {
-            if(this.map[key].position.z == et.position.z + 0.5) e = 1;
-            else if(this.map[key].position.z != et.position.z
-                && this.map[key].position.z != et.position.z - 0.5) e = 2;
-        } else {
-            e = 2;
-        }
-        if(st) {
-            if(this.map[key].position.z == st.position.z + 0.5) s = 1;
-            else if(this.map[key].position.z != st.position.z
-                && this.map[key].position.z != st.position.z - 0.5) s = 2;
-        } else {
-            s = 2;
-        }
-        this.map[key].march = w | (n << 2) | (e << 4) | (s << 6);
-    }
+    //for(var key in this.map) { if(!this.map.hasOwnProperty(key)) continue;
+    //    var neighbors = geometry.getNeighbors(key);
+    //    var wt = this.map[neighbors.w], nt = this.map[neighbors.n],
+    //        et = this.map[neighbors.e], st = this.map[neighbors.s],
+    //        w = 0, n = 0, e = 0, s = 0;
+    //    w = 0;
+    //    n = 0;
+    //    
+    //    if(this.map[key].style == 'grass') {
+    //        if(wt) {
+    //            if(wt.style != 'grass') w = 1;
+    //        }
+    //        if(nt) {
+    //            if(nt.style != 'grass') n = 1;
+    //        }
+    //    }
+    //    if(et) {
+    //        if(this.map[key].position.z == et.position.z + 0.5) e = 1;
+    //        else if(this.map[key].position.z != et.position.z
+    //            && this.map[key].position.z != et.position.z - 0.5) e = 2;
+    //    } else {
+    //        e = 2;
+    //    }
+    //    if(st) {
+    //        if(this.map[key].position.z == st.position.z + 0.5) s = 1;
+    //        else if(this.map[key].position.z != st.position.z
+    //            && this.map[key].position.z != st.position.z - 0.5) s = 2;
+    //    } else {
+    //        s = 2;
+    //    }
+    //    this.map[key].march = w | (n << 2) | (e << 4) | (s << 6);
+    //}
 };
 
 World.prototype.addToWorld = function(obj) {
