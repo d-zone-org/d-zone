@@ -22,6 +22,8 @@ function World(game,worldSize) {
     this.map = {}; // Grid-based map to hold world tiles
     this.walkable = {}; // Grid-based map to hold walkable surfaces
     
+    // TODO: Move world generation into a new module
+    
     geometry.generateClosestGrids(this.worldSize);
     
     testCanvas.clear();
@@ -41,12 +43,12 @@ function World(game,worldSize) {
         var x = (tx-this.worldRadius), y = (ty-this.worldRadius);
         var farness = (this.worldRadius - (Math.abs(x)+Math.abs(y))/2)/this.worldRadius;
         if(noiseValue/1.1 < farness) {
-            this.mapBounds.xl = x < this.mapBounds.xl ? x : this.mapBounds.xl;
-            this.mapBounds.yl = y < this.mapBounds.yl ? y : this.mapBounds.yl;
-            this.mapBounds.xh = x > this.mapBounds.xh ? x : this.mapBounds.xh;
-            this.mapBounds.yh = y > this.mapBounds.yh ? y : this.mapBounds.yh;
-            var height = Math.round(noiseValue * (1/farness) * 6);
-            grid = new Slab('grass', x, y, height/2);
+            this.mapBounds.xl = Math.min(x,this.mapBounds.xl);
+            this.mapBounds.yl = Math.min(y,this.mapBounds.yl);
+            this.mapBounds.xh = Math.max(x,this.mapBounds.xh);
+            this.mapBounds.yh = Math.max(y,this.mapBounds.yh);
+            var height = noiseValue > 0.7 ? 0.5 : 0;
+            grid = new Slab('grass', x, y, 0);
             grid.grid = x+':'+y;
             this.map[x+':'+y] = grid;
             grid.addToGame(game);
@@ -59,26 +61,22 @@ function World(game,worldSize) {
     var lowestScreenX = 0, lowestScreenY = 0, highestScreenX = 0, highestScreenY = 0;
     for(var i = 0; i < this.staticMap.length; i++) {
         var preTile = this.staticMap[i];
-        //var preSprite = preTile.sprite;
         var preScreen = { x: preTile.screen.x, y: preTile.screen.y };
-        //preScreen.x += preSprite.metrics.ox || 0;
-        //preScreen.y += preSprite.metrics.oy || 0;
+        preScreen.x += preTile.sprite.metrics.ox || 0;
+        preScreen.y += preTile.sprite.metrics.oy || 0;
         lowestScreenX = lowestScreenX < preScreen.x ? lowestScreenX : preScreen.x;
         lowestScreenY = lowestScreenY < preScreen.y ? lowestScreenY : preScreen.y;
         highestScreenX = highestScreenX > preScreen.x ? highestScreenX : preScreen.x;
         highestScreenY = highestScreenY > preScreen.y ? highestScreenY : preScreen.y;
     }
     var bgCanvas = new Canvas(
-        (highestScreenX - lowestScreenX) + 32 + 1,
-        (highestScreenY - lowestScreenY) + 32 + 9
+        (highestScreenX - lowestScreenX) + 32 + 1, (highestScreenY - lowestScreenY) + 32 + 9
     );
     for(var j = 0; j < this.staticMap.length; j++) {
         var tile = this.staticMap[j];
-        this.game.renderer.removeFromZBuffer(tile.sprite, tile.zDepth);
-        //var sprite = tile.getSprite();
         var screen = { x: tile.screen.x, y: tile.screen.y };
-        //screen.x += sprite.metrics.ox || 0;
-        //screen.y += sprite.metrics.oy || 0;
+        screen.x += tile.sprite.metrics.ox || 0;
+        screen.y += tile.sprite.metrics.oy || 0;
         screen.x -= lowestScreenX;
         screen.y -= lowestScreenY;
         bgCanvas.drawImage(
@@ -93,16 +91,6 @@ function World(game,worldSize) {
         x: lowestScreenX, y: lowestScreenY, image: bgCanvas.canvas
     };
     Pathfinder.loadMap(this.walkable);
-    //for(var wx = this.mapBounds.xl; wx < this.mapBounds.xh + 1; wx++) {
-    //    var row = '';
-    //    for(var wy = this.mapBounds.yh; wy >= this.mapBounds.yl; wy--) {
-    //        row += !this.walkable[wx+':'+wy] ? '   ' 
-    //            : this.walkable[wx+':'+wy] < 1.5 ? ' . ' 
-    //            : this.walkable[wx+':'+wy] < 2 ? ' : '
-    //            : this.walkable[wx+':'+wy] < 2.5 ? ' + ' : ' # ';
-    //    }
-    //    console.log(row);
-    //}
     console.log('Created world with',Object.keys(this.map).length,'tiles');
     // TODO: Retry if tile count is too high/low
 }
@@ -114,27 +102,6 @@ World.prototype.crawlMap = function() {
     for(var x = this.mapBounds.xl; x <= this.mapBounds.xh; x++) {
         for(var y = this.mapBounds.yl; y <= this.mapBounds.yh; y++) {
             var currentTile = this.map[x+':'+y]; if(!currentTile) continue;
-            // First ensure this tile is equal or lower than the neighbors behind it
-            var lowestZ = 100;
-            var nw = [this.map[x+':'+(y-1)],this.map[(x-1)+':'+y]];
-            var goBack = false;
-            for(var n = 0; n < nw.length; n++) { if(!nw[n]) continue;
-                var allowance = Math.random() > 0.8 ? 0.5 : 0; // Chance of allowing a higher tile
-                lowestZ = nw[n].position.z + allowance < lowestZ ?
-                    nw[n].position.z + allowance : lowestZ;
-            }
-            var zDelta = lowestZ - currentTile.position.z;
-            if(zDelta < 0) currentTile.move(0, 0, zDelta);
-            // Check if the neighbors behind are too high
-            for(var n2 = 0; n2 < nw.length; n2++) { if(!nw[n2]) continue;
-                if(nw[n2].position.z > currentTile.position.z + 0.5) {
-                    zDelta = currentTile.position.z + 0.5 - nw[n2].position.z;
-                    nw[n2].move(0, 0, zDelta);
-                    goBack = { x: +(nw[n2].grid.split(':')[0]), y: +(nw[n2].grid.split(':')[1]) };
-                }
-            }
-            // If we adjusted a previous tile's height, we need to go back to it
-            if(goBack) { x = goBack.x; y = goBack.y - 1; continue; }
             if(crawled[currentTile.grid]) continue; // Skip already-crawled tiles
             var neighborsToCrawl = [];
             while(true) { // Keep crawling outward until no neighbors are left
@@ -148,10 +115,6 @@ World.prototype.crawlMap = function() {
                     if(!neighbor) { currentTile.border = true; continue; }
                     if(!crawled[neighbor.grid]) neighborsToCrawl.push(neighbor);
                 }
-                //var color = currentTile.border ? 'white' : // Draw debug map
-                //    ['red','blue','green','yellow','orange','purple','teal'][thisIsland];
-                //testCanvas.fillRect(color, +currentTile.grid.split(':')[0]*2+this.worldSize*3+2,
-                //    +currentTile.grid.split(':')[1]*2+this.worldSize+2, 2, 2);
                 if(neighborsToCrawl.length > 0) {
                     currentTile = neighborsToCrawl.pop();
                 } else { thisIsland++; break; } // No more neighbors, this island is done
@@ -185,33 +148,15 @@ World.prototype.crawlMap = function() {
             }
         }
         if(finalTile.border) finalTile.setStyle('plain');
-        
-        // Determine if this tile can be put into the static map image
-        //finalTile.static = true;
-        //x = finalTile.position.x; y = finalTile.position.y;
-        //var nwTiles = [this.map[x+':'+(y-1)],this.map[(x-1)+':'+y],this.map[(x-1)+':'+(y-1)]];
-        //for(var s = 0; s < nwTiles.length; s++) { if(!nwTiles[s]) { finalTile.static = false; continue; }
-        //    if(nwTiles[s].position.z < finalTile.position.z
-        //        || nwTiles[s].border 
-        //        || (nwTiles[s].style == 'plain' && finalTile.style == 'grass')) {
-        //        finalTile.static = false;
-        //    }
-        //}
-        //var staticMapIndex = this.staticMap.indexOf(finalTile);
-        //if(finalTile.static) {
-        //    if(staticMapIndex < 0) this.staticMap.push(finalTile);
-        //} else if(staticMapIndex >= 0) {
-        //    this.staticMap.splice(staticMapIndex,1);
-        //}
     }
 };
 
 World.prototype.createTiles = function() {
     // Tile types:
-    //   Grass     G       LowerGrass     LG
-    //   Slab      S       LowerSlab      LS
+    //   Grass     G
+    //   Slab      S
     //   Empty     E
-    // Tile code constructed as NW-NE-SE-SW (eg. "S-LS-LS-LG")
+    // Tile code constructed as NW-NE-SE-SW (eg. "S-X-X-B")
 
     this.tileMap = {};
     var self = this;
@@ -263,57 +208,12 @@ World.prototype.createTiles = function() {
             var tileGrid = z+':'+tiles[i].x+':'+tiles[i].y;
             if(this.tileMap[tileGrid]) continue;
             this.tileMap[tileGrid] = new Tile(generateTile(key, tiles[i], tileGrid, this.game));
-            var tileCode = this.tileMap[tileGrid].tileCode.split('-');
-            var nearEdge = false;
-            for(var nKey in neighbors) { if(!neighbors.hasOwnProperty(nKey)) continue;
-                if(!this.map[neighbors[nKey]] || this.map[neighbors[nKey]].border) {
-                    nearEdge = true;
-                    break;
-                }
-            }
-            if(!nearEdge && tileCode[0] != 'E' && this.tileMap[tileGrid].zDepth.constructor !== Array) {
-                this.staticMap.push(this.tileMap[tileGrid]);
-            }
+            this.staticMap.push(this.tileMap[tileGrid]);
         }
     }
     this.staticMap.sort(function(a,b) { 
         return (a.zDepth * 10 + a.position.z) - (b.zDepth * 10 + b.position.z); 
     });
-    
-    //console.log(this.tileMap);
-    
-    //for(var key in this.map) { if(!this.map.hasOwnProperty(key)) continue;
-    //    var neighbors = geometry.getNeighbors(key);
-    //    var wt = this.map[neighbors.w], nt = this.map[neighbors.n],
-    //        et = this.map[neighbors.e], st = this.map[neighbors.s],
-    //        w = 0, n = 0, e = 0, s = 0;
-    //    w = 0;
-    //    n = 0;
-    //    
-    //    if(this.map[key].style == 'grass') {
-    //        if(wt) {
-    //            if(wt.style != 'grass') w = 1;
-    //        }
-    //        if(nt) {
-    //            if(nt.style != 'grass') n = 1;
-    //        }
-    //    }
-    //    if(et) {
-    //        if(this.map[key].position.z == et.position.z + 0.5) e = 1;
-    //        else if(this.map[key].position.z != et.position.z
-    //            && this.map[key].position.z != et.position.z - 0.5) e = 2;
-    //    } else {
-    //        e = 2;
-    //    }
-    //    if(st) {
-    //        if(this.map[key].position.z == st.position.z + 0.5) s = 1;
-    //        else if(this.map[key].position.z != st.position.z
-    //            && this.map[key].position.z != st.position.z - 0.5) s = 2;
-    //    } else {
-    //        s = 2;
-    //    }
-    //    this.map[key].march = w | (n << 2) | (e << 4) | (s << 6);
-    //}
 };
 
 World.prototype.addToWorld = function(obj) {

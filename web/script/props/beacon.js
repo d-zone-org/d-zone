@@ -13,7 +13,7 @@ function Beacon(x,y,z) {
         pixelSize: { x: 15, y: 16, z: 45 },
         height: 2.5
     });
-    console.log('beacon:',this.position);
+    //console.log('beacon:',this.position);
     this.unWalkable = true;
     var self = this;
     this.on('draw',function(canvas) {
