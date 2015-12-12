@@ -59,9 +59,9 @@ Actor.prototype.onUpdate = function() {
 
 Actor.prototype.addToGame = function(game) {
     WorldObject.prototype.addToGame.call(this, game);
-    if(this.roleColor) this.game.renderer.addColorSheet({ // Less colorizing for offline sprites
+    if(this.roleColor) this.game.renderer.addColorSheet({
         sheet: 'actors', color: this.roleColor, alpha: 0.8,
-        regions: [{ alpha: 0.4, x: 70, y: 0, w: 28, h: 14 }]
+        regions: [{ alpha: 0.4, x: 70, y: 0, w: 28, h: 14 }] // Less colorizing for offline sprites
     });
     this.nametag.addToGame(game);
     this.game.on('update', this.onUpdate.bind(this));
@@ -127,7 +127,7 @@ Actor.prototype.updateSprite = function() {
         }
     }
     this.sprite.metrics = metrics;
-    return { metrics: metrics, image: 'actors' };
+    this.sprite.image = this.roleColor ? [this.roleColor,'actors'] : 'actors';
 };
 
 Actor.prototype.tryMove = function(x,y) {

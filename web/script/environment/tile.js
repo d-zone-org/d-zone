@@ -16,12 +16,7 @@ function Tile(options) {
     };
     this.imageName = 'static-tiles';
     this.sheet = new Sheet('tile');
-    //if(Math.random() < 0.1) {
-    //    this.variation = util.randomIntRange(2,3);
-    //} else {
-    //    this.variation = util.randomIntRange(0,1);
-    //}
-
+    
     var spriteMap = this.sheet.map[this.tileCode];
     this.sprite = {
         metrics: {
@@ -31,4 +26,11 @@ function Tile(options) {
         },
         image: this.imageName, position: this.position, screen: this.screen
     };
+    if(this.tileCode == 'G-G-G-G') {
+        var variation = util.randomIntRange(0,2);
+        var random = Math.random();
+        if(Math.random() > 0.95) variation = util.randomIntRange(4,6);
+        else if(random > 0.7) variation = 3;
+        this.sprite.metrics.x += variation * this.sprite.metrics.w;
+    }
 }

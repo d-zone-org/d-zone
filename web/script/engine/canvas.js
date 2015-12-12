@@ -120,11 +120,11 @@ Canvas.prototype.drawStatic = function(staticCanvas) {
 };
 
 Canvas.prototype.drawBG = function(bgCanvas) {
-    var x = bgCanvas.x, y = bgCanvas.y;
-    if(this.autosize) { x += this.halfWidth; y += this.halfHeight; }
-    x += this.panning.panned.x;
-    y += this.panning.panned.y;
-    this.canvas.context.drawImage(bgCanvas.image, x, y);
+    var x = bgCanvas.x*-1, y = bgCanvas.y*-1;
+    if(this.autosize) { x -= this.halfWidth; y -= this.halfHeight; }
+    x -= this.panning.panned.x;
+    y -= this.panning.panned.y;
+    this.canvas.context.drawImage(bgCanvas.image, x, y, this.width, this.height, 0, 0, this.width, this.height);
 };
 
 Canvas.prototype.drawEntity = function(sprite) {
@@ -142,7 +142,7 @@ Canvas.prototype.drawEntity = function(sprite) {
     }
     if(screen.x >= this.width || screen.y >= this.height
         || screen.x + sprite.metrics.w <= 0 || screen.y + sprite.metrics.h <= 0) return;
-    var image = sprite.roleColor ? this.images[sprite.roleColor][sprite.image]
+    var image = sprite.image.constructor === Array ? this.images[sprite.image[0]][sprite.image[1]]
         : (this.images[sprite.image] || sprite.image);
     var highlight = sprite === this.game.mouseOver.sprite;
     if(highlight) {

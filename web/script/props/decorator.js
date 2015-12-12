@@ -36,6 +36,7 @@ Decorator.prototype.createBeacon = function() {
         return (xa + ya) - (xb + yb);
     });
     var beaconLocation = beaconLocations[beaconLocationKeys[0]];
+    beaconLocation.position = { x: 0, y: 0, z: 0 };
     this.beacon = new Beacon(
         beaconLocation.position.x, beaconLocation.position.y, beaconLocation.position.z + 0.5
     );

@@ -31,7 +31,11 @@ inbox.on('connected',function() {
                 socket.discordServer = inbox.servers[connectRequest.server].id;
                 // Send list of current online users to set up initial client state
                 console.log('Client joined server', inbox.servers[connectRequest.server].name);
-                socket.send(JSON.stringify({ type: 'server-join', data: userList }));
+                socket.send(JSON.stringify({ 
+                    type: 'server-join', data: {
+                        users: userList, request: connectRequest
+                    }
+                }));
             }
         }
     );

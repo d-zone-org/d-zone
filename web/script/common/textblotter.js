@@ -23,6 +23,8 @@ for(var m = 0; m < metrics.length; m++) {
 }
 fontMap[':icon-npm:'] = { x: 0, y: 27, w: 12, h: 12, text: ':icon-npm:' };
 fontMap[':icon-github:'] = { x: 12, y: 27, w: 12, h: 12, text: ':icon-github:' };
+fontMap[':icon-lock:'] = { x: 24, y: 27, w: 12, h: 12, text: ':icon-lock:' };
+fontMap[':icon-lock-small:'] = { x: 36, y: 27, w: 12, h: 12, text: ':icon-lock-small:' };
 var padding = { x: 4, y: 3 };
 var vertOffset = 1;
 var image;

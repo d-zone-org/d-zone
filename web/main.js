@@ -66,15 +66,21 @@ function initWebsocket() {
                     return;
                 }
                 game.serverListPanel = game.ui.addPanel({
-                    left: 'auto', top: 'auto', w: 130, h: 28 + 21 * (Object.keys(game.servers).length - 2)
+                    left: 'auto', top: 'auto', w: 146, h: 28 + 21 * (Object.keys(game.servers).length - 2)
                 });
                 var joinThisServer = function(server) { return function() {
+                    var params = '?s=' + server.id;
+                    if(server.password) params += '&p=' + server.password;
                     if(server.passworded) {
                         var submitPassword = function(pass) {
                             bs.setItem('dzone-default-server',JSON.stringify({ 
                                 id: server.id, password: pass
                             }));
                             server.password = pass;
+                            window.history.pushState(
+                                {server: server.id, password: server.password}, 
+                                server.id, window.location.pathname + params
+                            );
                             joinServer(server);
                             game.passwordPromptPanel.remove();
                             delete game.passwordPromptPanel;
@@ -93,6 +99,10 @@ function initWebsocket() {
                         });
                     } else {
                         bs.setItem('dzone-default-server',JSON.stringify({ id: server.id }));
+                        window.history.pushState(
+                            {server: server.id, password: server.password}, 
+                            server.id, window.location.pathname + params
+                        );
                         joinServer(server);
                     }
                     game.serverListPanel.remove();
@@ -102,9 +112,10 @@ function initWebsocket() {
                 for(var sKey in game.servers) { if(!game.servers.hasOwnProperty(sKey)) continue;
                     if(sKey == 'default') continue;
                     var server = game.servers[sKey];
+                    var serverLock = game.servers[sKey].passworded ? ':icon-lock-small: ' : '';
                     game.ui.addButton({
-                        text: game.servers[sKey].name, left: 5, top: 5 + serverButtonY * 21, 
-                        w: 120, h: 18, parent: game.serverListPanel, onPress: new joinThisServer(server)
+                        text: serverLock+game.servers[sKey].name, left: 5, top: 5 + serverButtonY * 21, 
+                        w: 136, h: 18, parent: game.serverListPanel, onPress: new joinThisServer(server)
                     });
                     serverButtonY++;
                 }
@@ -136,18 +147,24 @@ function initWebsocket() {
         } else if(data.type == 'server-join') { // Initial server status
             game.reset();
             game.renderer.clear();
-            world = new World(game, Math.round(3 * Math.sqrt(Object.keys(data.data).length)));
+            var userList = data.data.users;
+            world = new World(game, Math.round(3 * Math.sqrt(Object.keys(userList).length)));
             decorator = new Decorator(game, world);
             users = new Users(game, world);
+            var params = '?s=' + data.data.request.server;
+            if(data.data.request.password) params += '&p=' + data.data.request.password;
+            window.history.replaceState(
+                data.data.request, data.data.request.server, window.location.pathname + params
+            );
             //return;
             //console.log('Initializing actors',data.data);
-            game.setMaxListeners(Object.keys(data.data).length + 50);
-            users.setMaxListeners(Object.keys(data.data).length);
-            for(var uid in data.data) { if(!data.data.hasOwnProperty(uid)) continue;
+            game.setMaxListeners(Object.keys(userList).length + 50);
+            users.setMaxListeners(Object.keys(userList).length);
+            for(var uid in userList) { if(!userList.hasOwnProperty(uid)) continue;
                 //if(uid == '114588180144979972') continue;
                 //if(data.data[uid].status != 'online') continue;
-                if(!data.data[uid].user.username) continue;
-                users.addActor(data.data[uid]);
+                if(!userList[uid].user.username) continue;
+                users.addActor(userList[uid]);
                 //break;
             }
             console.log((Object.keys(users.actors).length).toString()+' actors created');
@@ -177,6 +194,12 @@ function initWebsocket() {
         }}));
     };
 }
+
+window.onpopstate = function(event) {
+    var server = { id: event.state.server };
+    if(event.state.password) server.password = event.state.password;
+    joinServer(server);
+};
 
 function joinServer(server) {
     var connectionMessage = { type: 'connect', data: { server: server.id } };
