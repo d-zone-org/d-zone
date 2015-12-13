@@ -1,7 +1,6 @@
 'use strict';
 var inherits = require('inherits');
 var Entity = require('./entity.js');
-var Geometry = require('./../common/geometry.js');
 
 module.exports = WorldObject;
 inherits(WorldObject, Entity);

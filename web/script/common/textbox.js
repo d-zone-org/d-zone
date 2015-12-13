@@ -32,6 +32,7 @@ function TextBox(parent, text, stay) {
 }
 
 TextBox.prototype.updateScreen = function() {
+    if(!this.canvas) return;
     this.screen.x = this.parent.preciseScreen.x - this.canvas.width/2 + this.parent.pixelSize.x;
     this.screen.y = this.parent.preciseScreen.y - this.canvas.height + 2;
 };

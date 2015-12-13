@@ -45,7 +45,6 @@ Users.prototype.queueMessage = function(data) {
     this.onMessageAdded(data.channel);
 };
 
-// TODO: If user in the middle of jumping, delay message until jump complete
 Users.prototype.onMessageAdded = function(channel) {
     if(this.messageQueue[channel].busy || this.messageQueue[channel].messages.length < 1) return;
     this.messageQueue[channel].busy = true;

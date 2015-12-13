@@ -126,6 +126,7 @@ Actor.prototype.updateSprite = function() {
             }
         }
     }
+    if(this.talking) this.messageBox.updateScreen();
     this.sprite.metrics = metrics;
     this.sprite.image = this.roleColor ? [this.roleColor,'actors'] : 'actors';
 };
@@ -140,7 +141,7 @@ Actor.prototype.tryMove = function(x,y) {
     var newX = this.position.x + x;
     var newY = this.position.y + y;
     var walkable = this.game.world.walkable[newX+':'+newY];
-    if(walkable && Math.abs(this.position.z - walkable) <= 0.5) {
+    if(walkable >= 0 && Math.abs(this.position.z - walkable) <= 0.5) {
         return { x: newX, y: newY, z: walkable };
     }
 };
@@ -171,10 +172,10 @@ Actor.prototype.startMove = function() {
         if(self.frame == animation.frames) {
             self.movePlaceholder.remove();
             delete self.movePlaceholder;
+            self.unWalkable = false;
             self.move(self.destination.x, self.destination.y, self.destination.z, true);
             self.destination = false;
             delete self.frame;
-            self.unWalkable = false;
             self.emit('movecomplete');
         } else if(halfZDepthFrame && newFrame && self.frame == 6) { // Move zDepth half-way between tiles
             //var previousZDepth1 = self.zDepth;
@@ -217,6 +218,10 @@ Actor.prototype.startTalking = function(message, channel, onStop) {
         self.nametag.sprite.hidden = false;
         self.updateSprite();
         self.emit('donetalking');
+        //if(!self.lastSeed || self.game.ticks - self.lastSeed > 60*60) {
+        //    self.lastSeed = self.game.ticks;
+        //    self.game.decorator.sewSeed({ origin: self.position });
+        //}
         onStop();
     });
 };

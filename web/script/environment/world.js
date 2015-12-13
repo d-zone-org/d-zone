@@ -48,7 +48,7 @@ function World(game,worldSize) {
             this.mapBounds.xh = Math.max(x,this.mapBounds.xh);
             this.mapBounds.yh = Math.max(y,this.mapBounds.yh);
             var height = noiseValue > 0.7 ? 0.5 : 0;
-            grid = new Slab('grass', x, y, 0);
+            grid = new Slab('grass', x, y, -0.5);
             grid.grid = x+':'+y;
             this.map[x+':'+y] = grid;
             grid.addToGame(game);
@@ -213,24 +213,12 @@ World.prototype.createTiles = function() {
     
     function generateTile(oGrid, tile, grid, game) {
         var nGrids = tile.grids;
-        var minZDepth = 9999, maxZDepth = -9999;
         var tileCode = getTileCode(oGrid,nGrids[0])+'-'+getTileCode(oGrid,nGrids[1])
             +'-'+getTileCode(oGrid,nGrids[2])+'-'+getTileCode(oGrid,nGrids[3]);
-        for(var i = 0; i < nGrids.length; i++) {
-            var nGrid = self.map[nGrids[i]];
-            if(nGrid && (nGrid.position.z == tile.z 
-                || nGrid.position.z == tile.z + 0.5 
-                || nGrid.position.z == tile.z + 1)) {
-                minZDepth = Math.min(minZDepth, nGrid.zDepth);
-                maxZDepth = Math.max(maxZDepth, nGrid.zDepth);
-            }
-        }
-        var tileZDepth = minZDepth;
         var tileSprite = (new TileSheet('tile')).map[tileCode];
         if(!tileSprite) console.error('unknown tile code',tileCode,nGrids);
-        if(tileSprite.length == 2) tileZDepth = [minZDepth,maxZDepth];
         return {
-            tileCode: tileCode, position: tile, grid: grid, game: game, zDepth: tileZDepth
+            tileCode: tileCode, position: tile, grid: grid, game: game
         };
     }
     
@@ -249,9 +237,7 @@ World.prototype.createTiles = function() {
             this.staticMap.push(this.tileMap[tileGrid]);
         }
     }
-    this.staticMap.sort(function(a,b) { 
-        return (a.zDepth * 10 + a.position.z) - (b.zDepth * 10 + b.position.z); 
-    });
+    this.staticMap.sort(function(a,b) { return a.zDepth - b.zDepth; });
 };
 
 World.prototype.addToWorld = function(obj) {

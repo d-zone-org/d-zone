@@ -22,10 +22,10 @@ var map = {
         },
         hopping: {
             animation: { frames: 13, zStartFrame: 3 },
-            north: { x: 0, y: 81, w: 35, h: 27, ox: -2, oy: -6 },
-            south: { x: 0, y: 135, w: 35, h: 25, ox: -19, oy: 3 },
-            east: { x: 0, y: 56, w: 35, h: 25, ox: -2, oy: 3 },
-            west: { x: 0, y: 108, w: 35, h: 27, ox: -19, oy: -6 }
+            north: { x: 0, y: 83, w: 35, h: 27, ox: -2, oy: -6 },
+            south: { x: 0, y: 137, w: 35, h: 27, ox: -19, oy: 3 },
+            east: { x: 0, y: 56, w: 35, h: 27, ox: -2, oy: 3 },
+            west: { x: 0, y: 110, w: 35, h: 27, ox: -19, oy: -6 }
         }
     }
 };

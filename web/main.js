@@ -150,6 +150,7 @@ function initWebsocket() {
             var userList = data.data.users;
             world = new World(game, Math.round(3 * Math.sqrt(Object.keys(userList).length)));
             decorator = new Decorator(game, world);
+            game.decorator = decorator;
             users = new Users(game, world);
             var params = '?s=' + data.data.request.server;
             if(data.data.request.password) params += '&p=' + data.data.request.password;

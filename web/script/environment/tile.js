@@ -9,7 +9,7 @@ function Tile(options) {
     this.grid = options.grid;
     this.tileCode = options.tileCode;
     this.position = options.position;
-    this.zDepth = options.zDepth;
+    this.zDepth = this.position.x + this.position.y;
     this.screen = {
         x: (this.position.x - this.position.y) * 16 - 16,
         y: (this.position.x + this.position.y) * 8 - (this.position.z) * 16 - 8

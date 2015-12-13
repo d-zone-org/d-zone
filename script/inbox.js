@@ -21,7 +21,8 @@ function Inbox(config) {
         var isPM = bot.servers[serverID] === undefined;
         if(isPM) return;
         var messageObject = { 
-            type: 'message', servers: [serverID], data: { uid: userID, message: message, channel: channelID }
+            type: 'message', servers: [serverID], 
+            data: { uid: userID, message: bot.fixMessage(message), channel: channelID }
         };
         self.emit('message',messageObject);
     });
