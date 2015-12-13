@@ -6,7 +6,7 @@ module.exports = {
     loadMap: function(m) { map = m; },
     findPath: function(options) {
         var start = options.start, end = options.end;
-        if(start.x == end.x && start.y == end.y || !map[end.x+':'+end.y]) return [];
+        if(start.x == end.x && start.y == end.y || !(map[end.x+':'+end.y] >= 0)) return [];
         var startH = calcH(end,start);
         var current = { x: start.x, y: start.y, grid: start.x+':'+start.y, g: 0, h: startH, f: startH };
         var startIsCurrent = true;
@@ -27,7 +27,7 @@ module.exports = {
                     grid: (+current.x + nx) +':'+ (+current.y + ny)
                 };
                 // If grid is walkable and not closed
-                if(map[neighbor.grid] && !closed[neighbor.grid]) {
+                if(map[neighbor.grid] >= 0 && !closed[neighbor.grid]) {
                     // Subtract own height from Z if on starting grid
                     var currentZ = startIsCurrent ? map[current.grid] - 0.5 : map[current.grid];
                     if(Math.abs(currentZ - map[neighbor.grid]) > 0.5) continue;

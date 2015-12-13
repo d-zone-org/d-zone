@@ -187,7 +187,7 @@ function initWebsocket() {
     ws.on('error', function(err) { console.log('error',err); });
     
     window.testMessage = function(message) {
-        var msg = message ? message : 'hello, test message yo!';
+        var msg = message ? message.text : 'hello, test message yo!';
         var uid = message ? message.uid : users.actors[Object.keys(users.actors)[0]].uid;
         var channel = message ? message.channel : '1';
         ws.emit('data',JSON.stringify({ type: 'message', data: {

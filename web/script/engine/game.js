@@ -118,7 +118,10 @@ Game.prototype.mousemove = function(mouseEvent) {
 };
 
 Game.prototype.mousedown = function(mouseEvent) {
-    if(this.mouseOver) console.log(this.mouseOver);
+    if(this.mouseOver) {
+        console.log(this.mouseOver);
+        window.actor = this.mouseOver;
+    }
     this.mouseButtons.push(mouseEvent.button);
     this.emit('mousedown',mouseEvent);
 };

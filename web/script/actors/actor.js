@@ -227,7 +227,8 @@ Actor.prototype.startTalking = function(message, channel, onStop) {
 };
 
 Actor.prototype.onMessage = function(message) { // Move this to the GoTo behavior
-    if(message.channel != this.lastChannel || message.user === this || this.presence != 'online') return;
+    if(!message.channel || message.channel != this.lastChannel || message.user === this 
+        || this.presence != 'online') return;
     var self = this;
     function readyToMove() {
         for(var i = 0; i < self.behaviors.length; i++) {
@@ -243,6 +244,23 @@ Actor.prototype.onMessage = function(message) { // Move this to the GoTo behavio
             readyToMove();
         }
     }, util.randomIntRange(0,60)); // To prevent everyone pathfinding on the same tick
+};
+
+Actor.prototype.goto = function(x,y) {
+    var self = this;
+    function readyToMove() {
+        for(var i = 0; i < self.behaviors.length; i++) {
+            self.behaviors[i].detach();
+        }
+        self.behaviors = [new GoTo(self, {
+            position:{x:x,y:y,z:0},on:function(){},removeListener:function(){}
+        })];
+    }
+    if(this.destination) {
+        this.once('movecomplete', readyToMove);
+    } else {
+        readyToMove();
+    }
 };
 
 Actor.prototype.stopGoTo = function(gotoBehavior) {
