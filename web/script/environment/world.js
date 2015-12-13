@@ -110,8 +110,8 @@ World.prototype.crawlMap = function() {
                     else this.islands.push([currentTile]);
                 var currentNeighbors = geometry.getNeighbors(currentTile.grid);
                 currentNeighbors = geometry.getNeighbors(currentTile.grid);
-                for(nKey in currentNeighbors) { if (!currentNeighbors.hasOwnProperty(nKey)) continue;
-                    var neighbor = this.map[currentNeighbors[nKey]];
+                for(var iKey in currentNeighbors) { if (!currentNeighbors.hasOwnProperty(iKey)) continue;
+                    var neighbor = this.map[currentNeighbors[iKey]];
                     if(!neighbor) { currentTile.border = true; continue; }
                     if(!crawled[neighbor.grid]) neighborsToCrawl.push(neighbor);
                 }
@@ -133,21 +133,61 @@ World.prototype.crawlMap = function() {
             this.islands[i2][it].remove();
         }
     }
-    // Iterate over finalized map
+    // Set border tiles to slab
     for(var gKey in this.map) { if(!this.map.hasOwnProperty(gKey)) continue;
         var finalTile = this.map[gKey];
-        
-        // Set tile style based on neighbors
-        if(finalTile.border) finalTile.setStyle('grass');
-        var finalNeighbors = geometry.get8Neighbors(finalTile.grid);
-        for(var nKey in finalNeighbors) { if (!finalNeighbors.hasOwnProperty(nKey)) continue;
-            if(!this.map[finalNeighbors[nKey]]
-                || this.map[finalNeighbors[nKey]].position.z < finalTile.position.z) {
-                finalTile.setStyle('plain');
-                break;
+        if(finalTile.border) {
+            finalTile.setStyle('plain');
+        } else {
+            var finalNeighbors = geometry.get8Neighbors(finalTile.grid);
+            for(var nKey in finalNeighbors) { if (!finalNeighbors.hasOwnProperty(nKey)) continue;
+                if(!this.map[finalNeighbors[nKey]]) {
+                    finalTile.setStyle('plain');
+                    break;
+                }
             }
         }
-        if(finalTile.border) finalTile.setStyle('plain');
+    }
+    this.map['0:0'].setStyle('plain'); // Slab around beacon
+    this.map['1:0'].setStyle('plain');
+    this.map['-1:0'].setStyle('plain');
+    this.map['0:1'].setStyle('plain');
+    this.map['0:-1'].setStyle('plain');
+    
+    // Create flower patches
+    for(var fp = 0; fp < Math.ceil(Math.pow(this.worldRadius,2) / 80); fp++) {
+        var safety = 0;
+        do {
+            var valid = true;
+            var grid = this.map[util.pickInObject(this.map)];
+            var flowerNeighbors = geometry.get8Neighbors(grid.grid);
+            for(var fKey in flowerNeighbors) { if (!flowerNeighbors.hasOwnProperty(fKey)) continue;
+                var fNeighbor = this.map[flowerNeighbors[fKey]];
+                if(!fNeighbor || fNeighbor.style != 'grass') {
+                    valid = false;
+                    break;
+                }
+            }
+            safety++;
+        } while(safety < 1000 && (grid.style != 'grass' || !valid));
+        if(safety == 1000) continue;
+        grid.setStyle('flowers');
+        var spread = util.randomIntRange(1,4);
+        for(var s = 0; s < spread; s++) {
+            var canSpread = true;
+            var spreadX = grid.position.x+util.randomIntRange(-1,1), 
+                spreadY = grid.position.y+util.randomIntRange(-1,1);
+            var spreadGrid = this.map[spreadX+':'+spreadY];
+            var spreadNeighbors = geometry.get8Neighbors(spreadGrid.grid);
+            for(var sKey in spreadNeighbors) { if (!spreadNeighbors.hasOwnProperty(sKey)) continue;
+                var sNeighbor = this.map[spreadNeighbors[sKey]];
+                if(!sNeighbor || (sNeighbor.style != 'grass' && sNeighbor.style != 'flowers')) {
+                    canSpread = false;
+                    break;
+                }
+            }
+            if(canSpread) spreadGrid.setStyle('flowers');
+        }
     }
 };
 
@@ -155,6 +195,7 @@ World.prototype.createTiles = function() {
     // Tile types:
     //   Grass     G
     //   Slab      S
+    //   Flowers   F
     //   Empty     E
     // Tile code constructed as NW-NE-SE-SW (eg. "S-X-X-B")
 
@@ -167,10 +208,7 @@ World.prototype.createTiles = function() {
         if(oGrid == nGrid) return tileType(oGrid);
         var neighbor = self.map[nGrid];
         if(!neighbor) return 'E';
-        var originZ = self.map[oGrid].position.z;
-        if(neighbor.position.z == originZ) return tileType(nGrid);
-        if(neighbor.position.z == originZ + 0.5 || neighbor.position.z == originZ + 1) return 'S';
-        return 'E';
+        return tileType(nGrid);
     }
     
     function generateTile(oGrid, tile, grid, game) {

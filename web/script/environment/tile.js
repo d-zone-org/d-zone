@@ -29,8 +29,9 @@ function Tile(options) {
     if(this.tileCode == 'G-G-G-G') {
         var variation = util.randomIntRange(0,2);
         var random = Math.random();
-        if(Math.random() > 0.95) variation = util.randomIntRange(4,6);
-        else if(random > 0.7) variation = 3;
+        if(Math.random() > 0.98) variation = 8;
+        else if(Math.random() > 0.95) variation = util.randomIntRange(5,7);
+        else if(random > 0.6) variation = util.randomIntRange(3,4);
         this.sprite.metrics.x += variation * this.sprite.metrics.w;
     }
 }

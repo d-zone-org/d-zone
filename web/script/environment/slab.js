@@ -24,23 +24,23 @@ function Slab(style, x, y, z) {
 
 Slab.prototype.setStyle = function(style) {
     this.style = style;
-    this.variation = 0;
-    if(this.style == 'grass') {
-        if(Math.random() < 0.1) {
-            this.variation = util.randomIntRange(2,3);
-        } else {
-            this.variation = util.randomIntRange(0,1);
-        }
-    }
+    //this.variation = 0;
+    //if(this.style == 'grass') {
+    //    if(Math.random() < 0.1) {
+    //        this.variation = util.randomIntRange(2,3);
+    //    } else {
+    //        this.variation = util.randomIntRange(0,1);
+    //    }
+    //}
 };
 
-Slab.prototype.getSprite = function() {
-    if(!this.sheet.map[this.style][this.march]) console.log(this.march);
-    var metrics = { 
-        x: this.sheet.map[this.style][this.march].x, y: this.sheet.map[this.style][this.march].y,
-        w: this.sheet.map[this.style][this.march].w, h: this.sheet.map[this.style][this.march].h,
-        ox: this.sheet.map[this.style][this.march].ox, oy: this.sheet.map[this.style][this.march].oy
-    };
-    metrics.x += metrics.w * this.variation;
-    return { metrics: metrics, image: this.imageName }
-};
+//Slab.prototype.getSprite = function() {
+//    if(!this.sheet.map[this.style][this.march]) console.log(this.march);
+//    var metrics = { 
+//        x: this.sheet.map[this.style][this.march].x, y: this.sheet.map[this.style][this.march].y,
+//        w: this.sheet.map[this.style][this.march].w, h: this.sheet.map[this.style][this.march].h,
+//        ox: this.sheet.map[this.style][this.march].ox, oy: this.sheet.map[this.style][this.march].oy
+//    };
+//    metrics.x += metrics.w * this.variation;
+//    return { metrics: metrics, image: this.imageName }
+//};
