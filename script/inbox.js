@@ -36,6 +36,7 @@ function Inbox(config) {
         self.emit('presence',presence);
     });
     bot.on("ready", function(rawEvent) {
+        if(self.servers) return; // Don't re-initialize if reconnecting
         console.log(new Date(),"Logged in as: "+bot.username + " - (" + bot.id + ")");
         var serverList = config.get('servers');
         self.servers = {};
@@ -56,7 +57,6 @@ function Inbox(config) {
     });
     bot.on("disconnected", function() {
         console.log("Bot disconnected, reconnecting");
-        // TODO: Fix error when bot reconnects
         bot.connect(); //Auto reconnect
     });
     this.msgQueue = [];

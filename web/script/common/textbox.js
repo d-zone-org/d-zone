@@ -24,9 +24,9 @@ function cleanString(text) {
 function TextBox(parent, text, stay) {
     this.parent = parent;
     this.text = text;
-    this.keepOnScreen = true;
     this.screen = { x: 0, y: 0 };
     this.sprite = { 
+        keepOnScreen: true,
         screen: this.screen, parent: this.parent, stay: stay, metrics: { x: 0, y: 0, w: 0, h: 0 }
     };
 }
@@ -88,8 +88,8 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
                         self.updateScreen();
                         self.updateSprite();
                         if(progress.percent == 1) complete();
-                    }, 16);
-                }, 70); // Last line complete
+                    }, 8);
+                }, 60); // Last line complete
             } else {
                 lineChar = 0;
                 lineChars = self.textMetrics.lines[lineNumber].chars.length;
@@ -109,5 +109,5 @@ TextBox.prototype.scrollMessage = function(speed,cb) {
         self.updateScreen();
         self.updateSprite();
         if(progress.percent == 1) self.tickDelay(addLetter, speed);
-    }, 20);
+    }, 10);
 };
