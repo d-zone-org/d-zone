@@ -137,22 +137,22 @@ World.prototype.crawlMap = function() {
     for(var gKey in this.map) { if(!this.map.hasOwnProperty(gKey)) continue;
         var finalTile = this.map[gKey];
         if(finalTile.border) {
-            finalTile.setStyle('plain');
+            finalTile.style = 'plain';
         } else {
             var finalNeighbors = geometry.get8Neighbors(finalTile.grid);
             for(var nKey in finalNeighbors) { if (!finalNeighbors.hasOwnProperty(nKey)) continue;
                 if(!this.map[finalNeighbors[nKey]]) {
-                    finalTile.setStyle('plain');
+                    finalTile.style = 'plain';
                     break;
                 }
             }
         }
     }
-    this.map['0:0'].setStyle('plain'); // Slab around beacon
-    this.map['1:0'].setStyle('plain');
-    this.map['-1:0'].setStyle('plain');
-    this.map['0:1'].setStyle('plain');
-    this.map['0:-1'].setStyle('plain');
+    this.map['0:0'].style = 'plain'; // Slab around beacon
+    this.map['1:0'].style = 'plain';
+    this.map['-1:0'].style = 'plain';
+    this.map['0:1'].style = 'plain';
+    this.map['0:-1'].style = 'plain';
     
     // Create flower patches
     for(var fp = 0; fp < Math.ceil(Math.pow(this.worldRadius,2) / 80); fp++) {
@@ -171,7 +171,7 @@ World.prototype.crawlMap = function() {
             safety++;
         } while(safety < 1000 && (grid.style != 'grass' || !valid));
         if(safety == 1000) continue;
-        grid.setStyle('flowers');
+        grid.style = 'flowers';
         var spread = util.randomIntRange(1,4);
         for(var s = 0; s < spread; s++) {
             var canSpread = true;
@@ -186,7 +186,7 @@ World.prototype.crawlMap = function() {
                     break;
                 }
             }
-            if(canSpread) spreadGrid.setStyle('flowers');
+            if(canSpread) spreadGrid.style = 'flowers';
         }
     }
 };

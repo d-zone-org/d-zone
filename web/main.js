@@ -162,7 +162,7 @@ function initWebsocket() {
             game.setMaxListeners(Object.keys(userList).length + 50);
             users.setMaxListeners(Object.keys(userList).length);
             for(var uid in userList) { if(!userList.hasOwnProperty(uid)) continue;
-                //if(uid == '114588180144979972') continue;
+                //if(uid != '86913608335773696') continue;
                 //if(data.data[uid].status != 'online') continue;
                 if(!userList[uid].user.username) continue;
                 users.addActor(userList[uid]);

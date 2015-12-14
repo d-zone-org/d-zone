@@ -86,13 +86,7 @@ Renderer.prototype.addToZBuffer = function(sprite, newZDepth) {
 };
 
 Renderer.prototype.updateZBuffer = function(oldZDepth, obj, newZDepth) {
-    var zBufferDepth = this.zBuffer[oldZDepth];
-    for(var i = 0; i < zBufferDepth.length; i++) {
-        if(zBufferDepth[i] === obj) {
-            zBufferDepth.splice(i,1);
-            break;
-        }
-    }
+    this.removeFromZBuffer(obj,oldZDepth);
     this.addToZBuffer(obj, newZDepth);
 };
 
