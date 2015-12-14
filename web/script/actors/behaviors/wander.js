@@ -19,7 +19,7 @@ Wander.prototype.wait = function() {
 };
 
 Wander.prototype.impulse = function() {
-    if(!this.actor) return;
+    if(!this.actor || this.actor.presence != 'online') return;
     if(this.actor.destination) { // Busy
         this.wait();
     } else {

@@ -113,6 +113,11 @@ Canvas.prototype.onResize = function() {
 
 Canvas.prototype.draw = function() {
     this.canvas.fill(this.backgroundColor);
+    if(this.game.servers) return;
+    this.canvas.context.fillStyle = '#bbbbbb';
+    this.canvas.context.font='14px Arial';
+    this.canvas.context.textAlign = 'center';
+    this.canvas.context.fillText('connecting...',Math.round(this.width/2),Math.round(this.height/2-4));
 };
 
 Canvas.prototype.drawStatic = function(staticCanvas) {
@@ -124,7 +129,10 @@ Canvas.prototype.drawBG = function(bgCanvas) {
     if(this.autosize) { x -= this.halfWidth; y -= this.halfHeight; }
     x -= this.panning.panned.x;
     y -= this.panning.panned.y;
-    this.canvas.context.drawImage(bgCanvas.image, x, y, this.width, this.height, 0, 0, this.width, this.height);
+    this.canvas.context.drawImage(
+        bgCanvas.image, x, y, this.width, this.height, 
+        0, 0, this.width, this.height
+    );
 };
 
 Canvas.prototype.drawEntity = function(sprite) {
@@ -160,7 +168,7 @@ Canvas.prototype.drawEntity = function(sprite) {
     }
     if(this.game.showGrid && sprite.grid) { // Show tile grid
         this.canvas.context.fillStyle = '#bbbbbb';
-        this.canvas.context.font="9px Arial";
+        this.canvas.context.font='9px Arial';
         this.canvas.context.fillText(sprite.grid,Math.round(screen.x)+5, Math.round(screen.y)+9);
     }
 };

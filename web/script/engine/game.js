@@ -58,6 +58,7 @@ Game.prototype.update = function() {
     //if(timeThis) var updateStart = now();
     //if(timeThis) console.log('entities:', this.entities.length);
     this.emit('update');
+    // TODO: Move scheduling to entity?
     for(var i = 0; i < this.schedule.length; i++) {
         var task = this.schedule[i];
         var endTick;

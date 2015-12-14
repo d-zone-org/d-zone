@@ -20,7 +20,7 @@ function GoTo(actor, target) {
 }
 
 GoTo.prototype.startGoTo = function() {
-    if(!this.actor) return;
+    if(!this.actor || this.actor.presence != 'online' || this.actor.underneath()) return;
     var adjacent = Geometry.closestGrids[this.attempt]; // Pick grid next to target
     var targetDistance = Geometry.getDistance(this.actor.position,this.target.position);
     if(targetDistance <= Math.abs(adjacent[0])+Math.abs(adjacent[1])) {

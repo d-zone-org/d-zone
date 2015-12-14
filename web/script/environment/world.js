@@ -47,7 +47,6 @@ function World(game,worldSize) {
             this.mapBounds.yl = Math.min(y,this.mapBounds.yl);
             this.mapBounds.xh = Math.max(x,this.mapBounds.xh);
             this.mapBounds.yh = Math.max(y,this.mapBounds.yh);
-            var height = noiseValue > 0.7 ? 0.5 : 0;
             grid = new Slab('grass', x, y, -0.5);
             grid.grid = x+':'+y;
             this.map[x+':'+y] = grid;
@@ -55,7 +54,7 @@ function World(game,worldSize) {
         }
     }
     this.staticMap = [];
-    this.crawlMap(); // Examine map to determine islands, border tiles, fix elevation, etc
+    this.crawlMap(); // Examine map to determine islands, borders, etc
     this.createTiles(); // Create map tiles from grid intersections
     
     var lowestScreenX = 0, lowestScreenY = 0, highestScreenX = 0, highestScreenY = 0;
@@ -241,6 +240,7 @@ World.prototype.createTiles = function() {
 };
 
 World.prototype.addToWorld = function(obj) {
+    //console.log('world: adding object at',obj.position.x,obj.position.y,obj.position.z);
     if(this.objects[obj.position.x]) {
         if(this.objects[obj.position.x][obj.position.y]) {
             if(this.objects[obj.position.x][obj.position.y][obj.position.z]) {
@@ -249,36 +249,46 @@ World.prototype.addToWorld = function(obj) {
                 return false;
             }
         } else {
-            this.objects[obj.position.x][obj.position.y] = {}
+            this.objects[obj.position.x][obj.position.y] = {};
         }
     } else {
         this.objects[obj.position.x] = {};
-        this.objects[obj.position.x][obj.position.y] = {}
+        this.objects[obj.position.x][obj.position.y] = {};
     }
     this.objects[obj.position.x][obj.position.y][obj.position.z] = obj;
-    this.updateWalkable(obj.position.x, obj.position.y, this.objects[obj.position.x][obj.position.y]);
+    this.updateWalkable(obj.position.x, obj.position.y);
 };
 
 World.prototype.removeFromWorld = function(obj) {
+    //console.log('world: removing object at',obj.position.x,obj.position.y,obj.position.z);
     delete this.objects[obj.position.x][obj.position.y][obj.position.z];
-    this.updateWalkable(obj.position.x, obj.position.y, this.objects[obj.position.x][obj.position.y]);
+    this.updateWalkable(obj.position.x, obj.position.y);
 };
 
 World.prototype.moveObject = function(obj,x,y,z) {
+    //console.log('world: moving object from',obj.position.x,obj.position.y,obj.position.z,'to',x,y,z);
     this.removeFromWorld(obj);
     obj.position.x = x; obj.position.y = y; obj.position.z = z;
     this.addToWorld(obj)
 };
 
-World.prototype.updateWalkable = function(x, y, objects) {
+World.prototype.updateWalkable = function(x, y) {
+    //console.log('world: updating walkable at',x,y);
+    var objects = this.objects[x][y];
     if(!objects || Object.keys(objects).length == 0) {
         delete this.walkable[x+':'+y];
+        //console.log('world: ',x,y,'is now unwalkable');
         return;
     }
     var zKeys = Object.keys(objects).sort(function(a, b) { return a - b; });
     var topObject = objects[zKeys[zKeys.length-1]];
-    if(topObject.unWalkable) delete this.walkable[x+':'+y];
-    else this.walkable[x+':'+y] = topObject.position.z + topObject.height;
+    if(topObject.unWalkable) {
+        delete this.walkable[x+':'+y];
+        //console.log('world: ',x,y,'is now unwalkable');
+    } else {
+        this.walkable[x+':'+y] = topObject.position.z + topObject.height;
+        //console.log('world: ',x,y,'is now walkable',this.walkable[x+':'+y]);
+    }
 };
 
 World.prototype.randomEmptyGrid = function() {

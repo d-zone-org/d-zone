@@ -12,19 +12,19 @@ function TestSocket(userCount,updateInterval) {
     setTimeout(this.connect.bind(this),200);
 }
 
-// TODO: Update this to the new multi-server format
-
 TestSocket.prototype.connect = function() {
     this.emit('connect');
-    var userList = {};
+    this.users = {};
     for(var i = 0; i < this.userCount; i++) {
         var user = this.newUser();
-        userList[user.user.id] = user;
+        this.users[user.user.id] = user;
     }
     var self = this;
-    setTimeout(function() { self.sendData('init', userList); },50);
+    setTimeout(function() { 
+        self.sendData('server-join', { users: self.users, request: { server: 'test' } }); 
+    },50);
     setInterval(function() {
-        var uid = util.pickInObject(userList);
+        var uid = util.pickInObject(self.users);
         var nonsense = ['lol','omg','discord','haha','...','yeah','no','wow','indeed','right','memes'];
         function sentenceBuilder() {
             var sentence = '';
@@ -34,11 +34,14 @@ TestSocket.prototype.connect = function() {
             }
             return sentence;
         }
-        if(Math.random() > 0.9) {
+        if(Math.random() > 0.8) {
+            var status = util.pickInArray(['online','online','online','idle','offline']);
+            self.users[uid].status = status;
             self.sendData('presence', {
-                uid: uid, status: util.pickInArray(['online','online','online','idle','offline'])
+                uid: uid, status: status
             });
         } else {
+            uid = self.randomUser({status:'online'}).user.id;
             self.sendData('message', {
                 uid: uid, message: sentenceBuilder(), channel: '10000000000'
             });
@@ -68,10 +71,22 @@ TestSocket.prototype.newUser = function() {
         mute: Math.random() > 0.9,
         joined_at: '2015-0'+util.randomIntRange(1,9)+'-'+util.randomIntRange(10,28)+'T0'+
         util.randomIntRange(1,9)+':'+util.randomIntRange(10,59)+'.000000+00:00',
-        deaf: this.mute,
-        game_id: null
+        deaf: this.mute, game_id: null
     };
-    if(Math.random() > 0.2)  user.status = util.pickInArray(['online','online','idle','offline']);
+    if(Math.random() > 0.2)  user.status = util.pickInArray(['online','online','online','idle','offline']);
     if(Math.random() > 0.9) user.game_id = util.randomIntRange(0,585);
     return user;
+};
+
+TestSocket.prototype.randomUser = function(options) {
+    var safety = 0, validChoice = false;
+    do {
+        var picked = this.users[util.pickInObject(this.users)];
+        validChoice = true;
+        if(options.status) {
+            validChoice = picked.status == options.status;
+        }
+        safety++;
+    } while(safety < 100 && !validChoice);
+    return picked;
 };

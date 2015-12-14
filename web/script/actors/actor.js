@@ -132,9 +132,11 @@ Actor.prototype.updateSprite = function() {
 };
 
 Actor.prototype.tryMove = function(x,y) {
+    //console.log('actor: tryMove');
     this.facing = x < 0 ? 'west' : x > 0 ? 'east' : y < 0 ? 'north' : 'south';
     this.updateSprite();
-    if(this.game.world.objectAtXYZ(this.position.x,this.position.y,this.position.z+this.height)) {
+    if(this.underneath()) {
+        //console.log('actor: object on top');
         this.emit('getoffme');
         return; // Can't move with object on top
     }
@@ -142,16 +144,21 @@ Actor.prototype.tryMove = function(x,y) {
     var newY = this.position.y + y;
     var walkable = this.game.world.walkable[newX+':'+newY];
     if(walkable >= 0 && Math.abs(this.position.z - walkable) <= 0.5) {
+        //console.log('actor: destination walkable at height',walkable);
         return { x: newX, y: newY, z: walkable };
     }
 };
 
 Actor.prototype.startMove = function() {
+    //console.log('actor: startMove');
     this.moveStart = this.game.ticks;
+    //console.log('actor: creating placeholder at',this.destination.x,this.destination.y,this.destination.z);
     this.movePlaceholder = new Placeholder(this, {
         x: this.destination.x, y: this.destination.y, z: this.destination.z
     });
     this.unWalkable = true; // Prevent others from jumping on me
+    delete this.game.world.walkable[this.position.x+':'+this.position.y];
+    //console.log('actor: deleting walkable at',this.position.x,this.position.y);
     this.destDelta = {
         x: this.destination.x - this.position.x,
         y: this.destination.y - this.position.y,
@@ -166,21 +173,26 @@ Actor.prototype.startMove = function() {
     this.tickRepeat(function(progress) {
         var newFrame = false;
         if(progress.ticks > 0 && progress.ticks % 3 == 0) {
-            self.frame++;
-            newFrame = true;
+            self.frame++; newFrame = true;
+            //console.log('actor: new move frame');
         }
         if(self.frame == animation.frames) {
+            //console.log('actor: move complete');
+            //console.log('actor: removing placeholder');
             self.movePlaceholder.remove();
             delete self.movePlaceholder;
             self.unWalkable = false;
+            //console.log('actor: moving to',self.destination.x,self.destination.y,self.destination.z);
             self.move(self.destination.x, self.destination.y, self.destination.z, true);
             self.destination = false;
             delete self.frame;
             self.emit('movecomplete');
-        } else if(newFrame && self.frame == 3) { // Move zDepth half-way between tiles
+        } else if(newFrame && self.frame == 6) { // Move zDepth half-way between tiles
+            //console.log('actor: half zdepth');
             self.game.renderer.updateZBuffer(self.zDepth, self.sprite, halfZDepth);
             self.zDepth = halfZDepth;
         } else if(newFrame && self.frame == 8) { // Move zDepth all the way
+            //console.log('actor: full zdepth');
             self.game.renderer.updateZBuffer(
                 halfZDepth, self.sprite, self.destination.x + self.destination.y
             );
@@ -193,18 +205,20 @@ Actor.prototype.startMove = function() {
 };
 
 Actor.prototype.move = function(x, y, z, absolute) {
-    if(x == 0 && y == 0 && z == 0) return;
+    if(!absolute && x == 0 && y == 0 && z == 0) return;
     var newX = (absolute ? 0 : this.position.x) + x;
     var newY = (absolute ? 0 : this.position.y) + y;
     var newZ = (absolute ? 0 : this.position.z) + z;
+    //console.log('actor: moving to',newX,newY,newZ);
     this.game.world.moveObject(this,newX,newY,newZ);
     this.updateScreen();
     this.nametag.updateScreen();
     this.preciseScreen = this.toScreenPrecise();
     var newZDepth = this.calcZDepth();
     if(newZDepth != this.zDepth) {
-        this.game.renderer.updateZBuffer(this.zDepth, this.sprite, this.calcZDepth());
-        this.zDepth = this.calcZDepth();
+        //console.log('actor: updating zbuffer after move');
+        this.game.renderer.updateZBuffer(this.zDepth, this.sprite, newZDepth);
+        this.zDepth = newZDepth;
     }
 };
 
@@ -240,7 +254,8 @@ Actor.prototype.onMessage = function(message) { // Move this to the GoTo behavio
         self.behaviors = [new GoTo(self, message.user)];
     }
     this.tickDelay(function() {
-        if(Geometry.getDistance(self.position, message.user.position) < 3) return; // If already nearby
+        if(Geometry.getDistance(self.position, message.user.position) < 3 // If already nearby
+            || this.underneath()) return; // Or if something on top of actor
         if(self.destination) {
             self.once('movecomplete', readyToMove);
         } else {

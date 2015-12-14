@@ -45,13 +45,12 @@ function initWebsocket() {
     console.log('Initializing websocket on port',socketConfig.port);
     
     // Swap the comments on the next 4 lines to switch between your websocket server and a virtual one
-    // NOTE: Virtual server currently incompatible with new format, pester me to update it
     
     // TODO: We don't need websocket-stream, we can use the native browser websocket api
     var WebSocket = require('websocket-stream');
     ws = WebSocket('ws://'+socketConfig.address+':'+socketConfig.port);
     //var TestSocket = require('./script/engine/tester.js'),
-    //    ws = new TestSocket(12,2000);
+    //    ws = new TestSocket(50,3000);
     ws.on('data',function(data) {
         data = JSON.parse(data);
         if(decorator) decorator.beacon.ping();
@@ -148,7 +147,7 @@ function initWebsocket() {
             game.reset();
             game.renderer.clear();
             var userList = data.data.users;
-            world = new World(game, Math.round(3 * Math.sqrt(Object.keys(userList).length)));
+            world = new World(game, Math.round(3.3 * Math.sqrt(Object.keys(userList).length)));
             decorator = new Decorator(game, world);
             game.decorator = decorator;
             users = new Users(game, world);
