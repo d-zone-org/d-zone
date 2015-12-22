@@ -71,7 +71,9 @@ Inbox.prototype.getUsers = function(connectRequest) {
     var discordServer = this.bot.servers[server.id], users = {};
     for(var uid in discordServer.members) { if(!discordServer.members.hasOwnProperty(uid)) continue;
         users[uid] = discordServer.members[uid];
+        users[uid].roleColor = '#000000';
         for(var i = 0; i < discordServer.members[uid].roles.length; i++) {
+            if(!discordServer.roles[discordServer.members[uid].roles[i]].color) continue;
             users[uid].roleColor = 
                 '#'+discordServer.roles[discordServer.members[uid].roles[i]].color.toString(16);
         }
