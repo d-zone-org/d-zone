@@ -255,7 +255,7 @@ Actor.prototype.onMessage = function(message) { // Move this to the GoTo behavio
     }
     this.tickDelay(function() {
         if(Geometry.getDistance(self.position, message.user.position) < 3 // If already nearby
-            || this.underneath()) return; // Or if something on top of actor
+            || self.underneath()) return; // Or if something on top of actor
         if(self.destination) {
             self.once('movecomplete', readyToMove);
         } else {
