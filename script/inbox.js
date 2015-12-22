@@ -1,7 +1,7 @@
 'use strict';
 var Discord = require("discord.io");
 var EventEmitter = require("events").EventEmitter;
-const util = require('util');
+var util = require('util');
 
 module.exports = Inbox;
 util.inherits(Inbox, EventEmitter);

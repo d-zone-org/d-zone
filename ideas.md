@@ -7,6 +7,7 @@
 * Some large perpetual project that is constructed/destroyed by the actors over time
   * Progress controlled/stored on server
   * Influenced by activity in chat
+* **Users can play games with each other that are shown in the web view**
 
 ## Misc
 *  ~~Radio tower that represents connection to server, with a small light that blinks whenever any data is received~~
