@@ -11,6 +11,9 @@ This is not meant for any actual monitoring or diagnostics, only an experiment i
 Hopefully the simulation is interesting to watch. You can see the current (uninteresting) client version simulating the [discord.io server](https://discord.gg/0MvHMfHcTKVVmIGP) here: [pixelatomy.com/dzone](http://pixelatomy.com/dzone/)
 
 ## Installation
+
+If you're an absolute beginner and have never used Node, I have written a more [beginner-friendly guide](https://github.com/vegeta897/d-zone/wiki/Beginner's-Setup-Guide)
+
 This project is still **very early in development**, so there isn't much point in running it yet. But in case you're curious, here's what you need to do:
 
 `npm install d-zone`
