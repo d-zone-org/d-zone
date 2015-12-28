@@ -1,0 +1,14 @@
+{
+  "email": "test@example.com",
+  "password": "password",
+  "servers": [
+    {
+      "id": "1234567891234567",
+      "default": true
+    },
+    {
+      "id": "3213213213213213",
+      "password": "rosebud"
+    }
+  ]
+}
