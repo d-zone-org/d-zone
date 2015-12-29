@@ -15,6 +15,26 @@ function Inbox(config) {
     EventEmitter.call(this);
     this.bot = bot;
     var self = this;
+    bot.on('ready', function(rawEvent) {
+        if(self.servers) return; // Don't re-initialize if reconnecting
+        console.log(new Date(),"Logged in as: "+bot.username + " - (" + bot.id + ")");
+        var serverList = config.get('servers');
+        self.servers = {};
+        for(var i = 0; i < serverList.length; i++) {
+            if(!bot.servers[serverList[i].id]) { // Skip unknown servers
+                console.log('Unknown server ID:',serverList[i].id);
+                continue;
+            }
+            self.servers[serverList[i].id] = {
+                id: serverList[i].id, name: bot.servers[serverList[i].id].name
+            };
+            if(serverList[i].password) self.servers[serverList[i].id].password = serverList[i].password;
+            if(serverList[i].default) self.servers.default = self.servers[serverList[i].id];
+        }
+        console.log('Connected to',Object.keys(self.servers).length-1, 'server(s)');
+        self.emit('connected');
+        require('fs').writeFileSync('./bot.json', JSON.stringify(bot, null, '\t'));
+    });
     bot.on('message', function(user, userID, channelID, message, rawEvent) {
         var serverID = bot.serverFromChannel(channelID);
         if(!self.servers[serverID]) return;
@@ -35,26 +55,6 @@ function Inbox(config) {
             type: 'presence', servers: userInServers, data: { uid: userID, status: status }
         };
         self.emit('presence',presence);
-    });
-    bot.on("ready", function(rawEvent) {
-        if(self.servers) return; // Don't re-initialize if reconnecting
-        console.log(new Date(),"Logged in as: "+bot.username + " - (" + bot.id + ")");
-        var serverList = config.get('servers');
-        self.servers = {};
-        for(var i = 0; i < serverList.length; i++) {
-            if(!bot.servers[serverList[i].id]) { // Skip unknown servers
-                console.log('Unknown server ID:',serverList[i].id);
-                continue;
-            }
-            self.servers[serverList[i].id] = { 
-                id: serverList[i].id, name: bot.servers[serverList[i].id].name 
-            };
-            if(serverList[i].password) self.servers[serverList[i].id].password = serverList[i].password;
-            if(serverList[i].default) self.servers.default = self.servers[serverList[i].id];
-        }
-        console.log('Connected to',Object.keys(self.servers).length-1, 'server(s)');
-        self.emit('connected');
-        require('fs').writeFileSync('./bot.json', JSON.stringify(bot, null, '\t'));
     });
     bot.on("disconnected", function() {
         console.log("Bot disconnected, reconnecting");

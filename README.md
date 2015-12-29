@@ -44,3 +44,5 @@ The client (also designed with node via browserify) runs a graphical simulation 
 Core client modules such as the renderer and input controller are loosely based on implementations found in [playground.js](http://playgroundjs.com/).
 
 _Disclaimer: I cannot be held responsible for anything that happens to your computer, your server, your bot, or anything else as a result of using this package._
+
+_Please consider the privacy of the users on your server. D-Zone will allow anyone with the URL (and password, if used) to monitor the chat of anyone in any channel that your bot has permission to see._
