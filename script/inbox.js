@@ -71,7 +71,7 @@ Inbox.prototype.getUsers = function(connectRequest) {
     var discordServer = this.bot.servers[server.id], users = {};
     for(var uid in discordServer.members) { if(!discordServer.members.hasOwnProperty(uid)) continue;
         users[uid] = discordServer.members[uid];
-        users[uid].roleColor = '#000000';
+        users[uid].roleColor = false;
         var rolePosition = -1;
         for(var i = 0; i < discordServer.members[uid].roles.length; i++) {
             var role = discordServer.roles[discordServer.members[uid].roles[i]];
