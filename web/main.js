@@ -9,7 +9,8 @@ var bs = require('browser-storage');
 
 // TODO: Loading screen while preloading images, connecting to websocket, and generating world
 console.log('Loading...');
-var version = JSON.parse(require('fs').readFileSync('./package.json')).version;
+var packageInfo = JSON.parse(require('fs').readFileSync('./package.json'));
+var version = packageInfo.version;
 var preloader = new Preloader(initGame);
 var game, ws;
 
@@ -129,8 +130,7 @@ function initWebsocket() {
                 game.helpPanel = game.ui.addPanel({ left: 'auto', top: 'auto', w: 200, h: 75 });
                 game.ui.addLabel({ text: 'D-Zone '+version, top: 5, left: 'auto', parent: game.helpPanel });
                 game.ui.addLabel({
-                    text: 'An ambient life simulation driven by the user activity within a Discord server',
-                    top: 20, left: 2, maxWidth: 196, parent: game.helpPanel
+                    text: packageInfo.description, top: 20, left: 2, maxWidth: 196, parent: game.helpPanel
                 });
                 game.ui.addLabel({ 
                     text: ':icon-npm: View on npm', hyperlink: 'https://www.npmjs.com/package/d-zone',
