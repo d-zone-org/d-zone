@@ -114,7 +114,7 @@ Canvas.prototype.onResize = function() {
 Canvas.prototype.draw = function() {
     this.canvas.fill(this.backgroundColor);
     if(this.game.servers) return;
-    this.canvas.context.fillStyle = '#bbbbbb';
+    this.canvas.context.fillStyle = '#d4cfb6';
     this.canvas.context.font='14px Arial';
     this.canvas.context.textAlign = 'center';
     this.canvas.context.fillText('connecting...',Math.round(this.width/2),Math.round(this.height/2-4));
@@ -125,13 +125,32 @@ Canvas.prototype.drawStatic = function(staticCanvas) {
 };
 
 Canvas.prototype.drawBG = function(bgCanvas) {
-    var x = bgCanvas.x*-1, y = bgCanvas.y*-1;
-    if(this.autosize) { x -= this.halfWidth; y -= this.halfHeight; }
-    x -= this.panning.panned.x;
-    y -= this.panning.panned.y;
+    var x = bgCanvas.x + this.panning.panned.x, y = bgCanvas.y + this.panning.panned.y;
+    if(this.autosize) { x += this.halfWidth; y += this.halfHeight; }
+    if(x >= this.width || y >= this.height 
+        || x*-1 >= bgCanvas.image.width || y*-1 >= bgCanvas.image.height) {
+        return; // BG canvas is out of frame
+    }
+    var canvasStart = {
+        x: Math.max(0,x), y: Math.max(0,y)
+    };
+    var canvasClipped = {
+        w: Math.min(bgCanvas.image.width,this.width,this.width - x),
+        h: Math.min(bgCanvas.image.height,this.height,this.height - y)
+    };
+    var bgStart = {
+        x: Math.max(0,x*-1), y: Math.max(0,y*-1)
+    };
+    var bgEnd = {
+        x: Math.min(bgCanvas.image.width,bgStart.x + canvasClipped.w), 
+        y: Math.min(bgCanvas.image.height,bgStart.y + canvasClipped.h)
+    };
+    var clipped = {
+        x: bgEnd.x - bgStart.x, y: bgEnd.y - bgStart.y
+    };
     this.canvas.context.drawImage(
-        bgCanvas.image, x, y, this.width, this.height, 
-        0, 0, this.width, this.height
+        bgCanvas.image, bgStart.x, bgStart.y, clipped.x, clipped.y,
+        canvasStart.x, canvasStart.y, clipped.x, clipped.y
     );
 };
 
