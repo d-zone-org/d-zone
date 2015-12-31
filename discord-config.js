@@ -26,6 +26,10 @@ var config = module.exports = convict({
             password: {
                 doc: "Optional, clients will be required to enter this password to connect to this server.",
                 format: String
+            },
+            ignoreChannels: {
+                doc: "Optional, list of text channel names you want to be ignored (case-sensitive).",
+                format: Array
             }
         }
     ]

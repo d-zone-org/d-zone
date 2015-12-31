@@ -4,7 +4,8 @@
   "servers": [
     {
       "id": "1234567891234567",
-      "default": true
+      "default": true,
+      "ignoreChannels": ["Members-Only","Testing"]
     },
     {
       "id": "3213213213213213",

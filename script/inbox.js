@@ -25,11 +25,11 @@ function Inbox(config) {
                 console.log('Unknown server ID:',serverList[i].id);
                 continue;
             }
-            self.servers[serverList[i].id] = {
-                id: serverList[i].id, name: bot.servers[serverList[i].id].name
-            };
-            if(serverList[i].password) self.servers[serverList[i].id].password = serverList[i].password;
-            if(serverList[i].default) self.servers.default = self.servers[serverList[i].id];
+            var newServer = { id: serverList[i].id, name: bot.servers[serverList[i].id].name };
+            if(serverList[i].password) newServer.password = serverList[i].password;
+            if(serverList[i].ignoreChannels) newServer.ignoreChannels = serverList[i].ignoreChannels;
+            if(serverList[i].default) self.servers.default = newServer;
+            self.servers[serverList[i].id] = newServer;
         }
         console.log('Connected to',Object.keys(self.servers).length-1, 'server(s)');
         self.emit('connected');
@@ -40,6 +40,9 @@ function Inbox(config) {
         if(!self.servers[serverID]) return;
         var isPM = bot.servers[serverID] === undefined;
         if(isPM) return;
+        var channelName = bot.servers[serverID].channels[channelID].name;
+        if(self.servers[serverID].ignoreChannels // Check if this channel is ignored
+            && self.servers[serverID].ignoreChannels.indexOf(channelName) >= 0) return;
         var messageObject = { 
             type: 'message', servers: [serverID], 
             data: { uid: userID, message: bot.fixMessage(message), channel: channelID }
