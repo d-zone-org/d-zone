@@ -204,7 +204,7 @@ window.onpopstate = function(event) {
 function joinServer(server) {
     var connectionMessage = { type: 'connect', data: { server: server.id } };
     if(server.password) connectionMessage.data.password = server.password;
-    console.log('Requesting to join server', game.servers[server.id].name);
+    console.log('Requesting to join server', server.id);
     ws.write(new Buffer(JSON.stringify(connectionMessage)));
 }
 
@@ -215,7 +215,7 @@ function getStartupServer() {
         startupServer = bs.getItem('dzone-default-server'); // Check localstorage
         if(startupServer) startupServer = JSON.parse(startupServer);
     }
-    if(!startupServer || !game.servers[startupServer.id]) startupServer = { id: 'default' };
+    if(!startupServer/* || !game.servers[startupServer.id]*/) startupServer = { id: 'default' };
     if(util.getURLParameter('p')) startupServer.password = util.getURLParameter('p');
     return startupServer;
 }

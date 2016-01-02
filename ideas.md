@@ -7,6 +7,8 @@
 * Some large perpetual project that is constructed/destroyed by the actors over time
   * Progress controlled/stored on server
   * Influenced by activity in chat
+* When a user sends a message, a special item appears above them
+  * When another user in that channel sends a message, they get another item which combines with the first item when the two meet up
 * **Users can play games with each other that are shown in the web view**
 
 ## Misc
@@ -15,3 +17,4 @@
 * Commands that can be sent via chat (list of commands shown in browser app)
   * Change color of actor
 * Headphones on users that are in voice
+* Show server title on connect, large text top center, fades out after a few seconds

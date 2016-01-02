@@ -36,6 +36,28 @@ module.exports = {
                 (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)')
                     .exec(location.search)||[,""])[1].replace(/\+/g, '%20')) || null
     },
+    abbreviate: function(text,blacklist) {
+        var split = text.split(' ');
+        var alpha = /[a-z0-9]/i;
+        var result = '';
+        for(var w = 0; w < split.length; w++) {
+            for(var l = 0; l < split[w].length; l++) {
+                if(alpha.test(split[w][l])) {
+                    result += split[w][l];
+                    break;
+                }
+            }
+        }
+        if(blacklist && blacklist.indexOf(result) >= 0) {
+            var variation = 1;
+            result += variation;
+            do {
+                variation++;
+                result = result.substring(0,result.length-1) + variation;
+            } while (blacklist.indexOf(result) >= 0)
+        }
+        return result;
+    },
     alphabet: ['a','b','c','d','e','f','g','h','i','j','k','l','m',
         'n','o','p','q','r','s','t','u','v','w','x','y','z'],
     vowels: ['a','e','i','o','u'],

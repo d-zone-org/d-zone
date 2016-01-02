@@ -1,10 +1,11 @@
 'use strict';
 var Discord = require("discord.io");
 var EventEmitter = require("events").EventEmitter;
-var util = require('util');
+var inherits = require('inherits');
+var util = require('./../web/script/common/util');
 
 module.exports = Inbox;
-util.inherits(Inbox, EventEmitter);
+inherits(Inbox, EventEmitter);
 
 function Inbox(config) {
     var bot = new Discord({
@@ -19,13 +20,16 @@ function Inbox(config) {
         if(self.servers) return; // Don't re-initialize if reconnecting
         console.log(new Date(),"Logged in as: "+bot.username + " - (" + bot.id + ")");
         var serverList = config.get('servers');
+        var serverIDs = [];
         self.servers = {};
         for(var i = 0; i < serverList.length; i++) {
             if(!bot.servers[serverList[i].id]) { // Skip unknown servers
                 console.log('Unknown server ID:',serverList[i].id);
                 continue;
             }
-            var newServer = { id: serverList[i].id, name: bot.servers[serverList[i].id].name };
+            var newServer = { discordID: serverList[i].id, name: bot.servers[serverList[i].id].name };
+            newServer.id = util.abbreviate(newServer.name, serverIDs);
+            serverIDs.push(newServer.id);
             if(serverList[i].password) newServer.password = serverList[i].password;
             if(serverList[i].ignoreChannels) newServer.ignoreChannels = serverList[i].ignoreChannels;
             if(serverList[i].default) self.servers.default = newServer;
@@ -60,8 +64,10 @@ function Inbox(config) {
         self.emit('presence',presence);
     });
     bot.on("disconnected", function() {
-        console.log("Bot disconnected, reconnecting");
-        bot.connect(); //Auto reconnect
+        console.log("Bot disconnected, reconnecting...");
+        setTimeout(function(){
+            bot.connect(); //Auto reconnect after 3 seconds
+        },3000);
     });
     this.msgQueue = [];
     this.sending = false;
@@ -69,9 +75,17 @@ function Inbox(config) {
 
 Inbox.prototype.getUsers = function(connectRequest) {
     var server = this.servers[connectRequest.server];
-    if(!server || !this.bot.servers[server.id]) return 'unknown-server';
+    if(!server) { // If requested server ID is not a Discord ID, check abbreviated IDs
+        for(var sKey in this.servers) { if(!this.servers.hasOwnProperty(sKey)) continue;
+            if(this.servers[sKey].id == connectRequest.server) {
+                server = this.servers[sKey];
+                break;
+            }
+        }
+    }
+    if(!server) return 'unknown-server';
     if(server.password && server.password !== connectRequest.password) return 'bad-password';
-    var discordServer = this.bot.servers[server.id], users = {};
+    var discordServer = this.bot.servers[server.discordID], users = {};
     for(var uid in discordServer.members) { if(!discordServer.members.hasOwnProperty(uid)) continue;
         users[uid] = discordServer.members[uid];
         users[uid].roleColor = false;
@@ -83,14 +97,15 @@ Inbox.prototype.getUsers = function(connectRequest) {
             rolePosition = role.position;
         }
     }
-    return users;
+    return { server: server, userList: users };
 };
 
 Inbox.prototype.getServers = function() {
     var serverList = {};
     for(var sKey in this.servers) { if(!this.servers.hasOwnProperty(sKey)) continue;
-        serverList[sKey] = { id: this.servers[sKey].id, name: this.servers[sKey].name };
-        if(this.servers[sKey].password) serverList[sKey].passworded = true;
+        var key = sKey == 'default' ? sKey : this.servers[sKey].id;
+        serverList[key] = { id: this.servers[sKey].id, name: this.servers[sKey].name };
+        if(this.servers[sKey].password) serverList[key].passworded = true;
     }
     return serverList;
 };
