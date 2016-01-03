@@ -1,4 +1,4 @@
-# d-Zone
+# D-Zone
 An _ambient life simulation_ driven by the user activity within a [Discord](https://discordapp.com) server
 
 [![D-Zone](http://i.imgur.com/PLh059j.gif "Hippity hop!")](http://pixelatomy.com/dzone/)
