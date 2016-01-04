@@ -77,7 +77,7 @@ function initWebsocket() {
                                 id: server.id, password: pass
                             }));
                             server.password = pass;
-                            window.history.pushState(
+                            if(window.location.protocol != 'file:') window.history.pushState(
                                 {server: server.id, password: server.password}, 
                                 server.id, window.location.pathname + params
                             );
@@ -99,7 +99,7 @@ function initWebsocket() {
                         });
                     } else {
                         bs.setItem('dzone-default-server',JSON.stringify({ id: server.id }));
-                        window.history.pushState(
+                        if(window.location.protocol != 'file:') window.history.pushState(
                             {server: server.id, password: server.password}, 
                             server.id, window.location.pathname + params
                         );
@@ -153,7 +153,7 @@ function initWebsocket() {
             users = new Users(game, world);
             var params = '?s=' + data.data.request.server;
             if(data.data.request.password) params += '&p=' + data.data.request.password;
-            window.history.replaceState(
+            if(window.location.protocol != 'file:') window.history.replaceState(
                 data.data.request, data.data.request.server, window.location.pathname + params
             );
             //return;
