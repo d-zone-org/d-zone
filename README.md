@@ -30,7 +30,7 @@ The client files are all contained within the `web` folder, and need to be built
 
 If everything works, the client should connect to the default server, generate a world, and receive live updates via websocket from the server.
 
-Remember, this project is still being developed, so keep your D-Zone up to date with `npm update`
+Remember, this project is still being developed (as is discord.io), so keep your D-Zone up to date with `npm update`
 
 Don't forget to rebuild `bundle.js` and re-upload the web files after updating!
 
