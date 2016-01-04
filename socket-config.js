@@ -16,7 +16,7 @@ var config = module.exports = convict({
 });
 
 // Load configuration
-config.loadFile(path.resolve('__dirname') + './socket-config.json');
+config.loadFile(path.resolve(__dirname,'socket-config.json'));
 
 // Perform validation
 config.validate({strict: true});

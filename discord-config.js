@@ -37,7 +37,7 @@ var config = module.exports = convict({
 });
 
 // Load configuration
-config.loadFile(path.resolve('__dirname') + '/discord-config.json');
+config.loadFile(path.resolve(__dirname,'discord-config.json'));
 
 // Perform validation
 config.validate({strict: true});
