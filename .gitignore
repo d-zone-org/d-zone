@@ -53,6 +53,7 @@ bot.json
 reference/*
 web/static/bundle.js
 web/index-down.html
+tenc
 
 # Config
 discord-config.json
