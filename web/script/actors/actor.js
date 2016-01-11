@@ -132,7 +132,7 @@ Actor.prototype.updateSprite = function() {
 };
 
 Actor.prototype.tryMove = function(x,y) {
-    //console.log('actor: tryMove');
+    if(x == 0 && y == 0) return;
     this.facing = x < 0 ? 'west' : x > 0 ? 'east' : y < 0 ? 'north' : 'south';
     this.updateSprite();
     if(this.underneath()) {
