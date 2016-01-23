@@ -18,3 +18,4 @@
   * Change color of actor
 * Headphones on users that are in voice
 * Show server title on connect, large text top center, fades out after a few seconds
+* Allow user-defined server name with optional `alias` property in config

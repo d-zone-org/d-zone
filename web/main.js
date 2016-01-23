@@ -17,9 +17,7 @@ var game, ws;
 function initGame(images) {
     game = new Game({ step: 1000 / 60 });
     game.renderer = new Renderer({ game: game, images: images });
-    var canvas = new Canvas({
-        id: 'main', game: game, scale: 3, backgroundColor: '#181213'
-    });
+    var canvas = new Canvas({ id: 'main', game: game, initialScale: 2, backgroundColor: '#181213' });
     game.renderer.addCanvas(canvas);
     game.bindCanvas(canvas);
     game.ui = new UI(game);

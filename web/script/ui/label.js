@@ -43,7 +43,7 @@ Label.prototype.draw = function() {
 Label.prototype.onMouseOn = function(mouseEvent) {
     if(this.mouseOn) return;
     this.mouseOn = true;
-    if(this.hyperlink) document.getElementById('main').style.cursor = 'pointer';
+    if(this.hyperlink) document.body.style.cursor = 'pointer';
     this.emit('mouse-on-element', this);
     this.draw();
 };
@@ -51,7 +51,7 @@ Label.prototype.onMouseOn = function(mouseEvent) {
 Label.prototype.onMouseOff = function(mouseEvent) {
     if(!this.mouseOn) return;
     this.mouseOn = false;
-    if(this.hyperlink) document.getElementById('main').style.cursor = 'default';
+    if(this.hyperlink) document.body.style.cursor = 'default';
     this.pressed = false;
     this.emit('mouse-off-element', this);
     this.draw();

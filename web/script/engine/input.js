@@ -19,13 +19,13 @@ function Input() {
 Input.prototype.bindCanvas = function(canvas) {
     this.canvas = canvas.canvas.canvas; // Canvas element
     this.mouseScale = canvas.scale;
-    this.canvas.addEventListener('mousemove', this.mousemove.bind(this));
-    this.canvas.addEventListener('mousedown', this.mousedown.bind(this));
-    this.canvas.addEventListener('mouseup', this.mouseup.bind(this));
+    window.addEventListener('mousemove', this.mousemove.bind(this));
+    window.addEventListener('mousedown', this.mousedown.bind(this));
+    window.addEventListener('mouseup', this.mouseup.bind(this));
     document.addEventListener('mouseout', this.mouseout.bind(this));
     document.addEventListener('mouseover', this.mouseover.bind(this));
     var wheelSupport = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
-    this.canvas.addEventListener(wheelSupport, this.mousewheel.bind(this))
+    window.addEventListener(wheelSupport, this.mousewheel.bind(this))
 };
 
 Input.prototype.mousemove = function(e) {

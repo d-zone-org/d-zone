@@ -10,39 +10,24 @@ inherits(Canvas, EventEmitter);
 function Canvas(options) {
     this.id = options.id;
     this.game = options.game;
-    this.canvas = new BetterCanvas(1,1);
-    this.canvas.canvas.id = this.id;
-    document.body.appendChild(this.canvas.canvas);
-    this.context = this.canvas.context;
-    this.scale = options.scale || 1;
-    this.autosize = !options.hasOwnProperty('width');
-    this.scrollZoom = 3;
-    if(this.autosize) {
-        this.onResize();
-        window.addEventListener('resize',this.onResize.bind(this));
-    } else {
-        this.width = this.canvas.canvas.width = options.width;
-        this.height = this.canvas.canvas.height = options.height;
-        if(options.hasOwnProperty('left')) {
-            this.canvas.canvas.style.left = options.left + 'px';
-        } else if(options.hasOwnProperty('right')) {
-            this.canvas.canvas.style.right = (options.right + options.width) + 'px';
-        }
-        if(options.hasOwnProperty('top')) {
-            this.canvas.canvas.style.top = options.top + 'px';
-        } else if(options.hasOwnProperty('bottom')) {
-            this.canvas.canvas.style.bottom = (options.bottom + options.height) + 'px';
-        }
-    }
-    if(this.scale > 1) {
-        this.canvas.canvas.style.transform = 'scale(' + this.scale + ', ' + this.scale + ')';
-    }
-    this.canvas.context.mozImageSmoothingEnabled = false;
-    this.canvas.context.imageSmoothingEnabled = false;
     this.backgroundColor = options.backgroundColor;
-    this.canvas.canvas.addEventListener("contextmenu", function(e) {
-        e.preventDefault();
-    });
+    this.scale = options.initialScale;
+    this.canvases = [];
+    for(var s = 1; s < 5; s++) {
+        var newCanvas = new BetterCanvas(1,1);
+        newCanvas.canvas.id = this.id + s;
+        document.body.appendChild(newCanvas.canvas);
+        newCanvas.canvas.style.transform = 'scale(' + s + ', ' + s + ')';
+        newCanvas.context.mozImageSmoothingEnabled = false;
+        newCanvas.context.imageSmoothingEnabled = false;
+        newCanvas.canvas.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+        });
+        this.canvases.push(newCanvas);
+    }
+    this.onZoom();
+    this.onResize();
+    window.addEventListener('resize',this.onResize.bind(this));
     this.panning = {
         buttons: [],
         origin: { x: 0, y: 0 }, 
@@ -79,8 +64,9 @@ function Canvas(options) {
         if(!mouseEvent.button) self.panning.buttons = [];
     });
     this.game.on('mousewheel', function(mouseEvent) {
-        //self.scrollZoom = util.clamp(self.scrollZoom + (mouseEvent.direction == 'up' ? 1 : -1), 0, 6);
-        //self.onResize();
+        self.scale = util.clamp(self.scale + (mouseEvent.direction == 'up' ? 1 : -1), 1, 4);
+        self.onZoom();
+        self.onResize();
     });
 }
 
@@ -88,45 +74,42 @@ Canvas.prototype.setRenderer = function(renderer) {
     this.images = renderer.images;
 };
 
-// TODO: Create 4 different canvases to swap between when changing zoom level
-// TODO: to prevent canvas occasionally flashing and blurring on chrome
-
 Canvas.prototype.onResize = function() {
-    //var oldScale = this.scale;
-    //var nativeScale;
-    //if(window.innerWidth < 835 || window.innerHeight < 455) {
-    //    nativeScale = 1;
-    //} else if(window.innerWidth < 1255 || window.innerHeight < 680) {
-    //    nativeScale = 2;
-    //} else {
-    //    nativeScale = 3;
-    //}
-    this.scale = 2;/*util.clamp(nativeScale + this.scrollZoom - 3, 1,4);*/
     this.width = this.canvas.canvas.width = Math.ceil(window.innerWidth / this.scale);
     this.height = this.canvas.canvas.height = Math.ceil(window.innerHeight / this.scale);
     this.halfWidth = Math.round(this.width/2);
     this.halfHeight = Math.round(this.height/2);
     this.emit('resize',{ scale: this.scale, width: this.width, height: this.height });
-    //if(this.scale == oldScale) return;
-    //this.canvas.canvas.style.transform = 'scale(' + this.scale + ', ' + this.scale + ')';
+};
+
+Canvas.prototype.onZoom = function() {
+    for(var s = 0; s < this.canvases.length; s++) {
+        if(s+1 == this.scale) {
+            this.canvases[s].canvas.style.display = 'inherit';
+            this.canvas = this.canvases[s];
+            this.context = this.canvas.context;
+        } else {
+            this.canvases[s].canvas.style.display = 'none';
+        }
+    }
 };
 
 Canvas.prototype.draw = function() {
     this.canvas.fill(this.backgroundColor);
     if(this.game.servers) return;
-    this.canvas.context.fillStyle = '#d4cfb6';
-    this.canvas.context.font='14px Arial';
-    this.canvas.context.textAlign = 'center';
-    this.canvas.context.fillText('connecting...',Math.round(this.width/2),Math.round(this.height/2-4));
+    this.context.fillStyle = '#d4cfb6';
+    this.context.font='14px Arial';
+    this.context.textAlign = 'center';
+    this.context.fillText('connecting...',Math.round(this.width/2),Math.round(this.height/2-4));
 };
 
 Canvas.prototype.drawStatic = function(staticCanvas) {
-    this.canvas.context.drawImage(staticCanvas, 0, 0);
+    this.context.drawImage(staticCanvas, 0, 0);
 };
 
 Canvas.prototype.drawBG = function(bgCanvas) {
-    var x = bgCanvas.x + this.panning.panned.x, y = bgCanvas.y + this.panning.panned.y;
-    if(this.autosize) { x += this.halfWidth; y += this.halfHeight; }
+    var x = bgCanvas.x + this.halfWidth + this.panning.panned.x, 
+        y = bgCanvas.y + this.halfHeight + this.panning.panned.y;
     if(x >= this.width || y >= this.height 
         || x*-1 >= bgCanvas.image.width || y*-1 >= bgCanvas.image.height) {
         return; // BG canvas is out of frame
@@ -148,7 +131,7 @@ Canvas.prototype.drawBG = function(bgCanvas) {
     var clipped = {
         x: bgEnd.x - bgStart.x, y: bgEnd.y - bgStart.y
     };
-    this.canvas.context.drawImage(
+    this.context.drawImage(
         bgCanvas.image, bgStart.x, bgStart.y, clipped.x, clipped.y,
         canvasStart.x, canvasStart.y, clipped.x, clipped.y
     );
@@ -157,12 +140,10 @@ Canvas.prototype.drawBG = function(bgCanvas) {
 Canvas.prototype.drawEntity = function(sprite) {
     if(!sprite || !sprite.image || sprite.hidden) return;
     if(sprite.position && sprite.position.z > this.game.hideZ) return;
-    var screen = { x: sprite.screen.x, y: sprite.screen.y };
-    if(this.autosize) { screen.x += this.halfWidth; screen.y += this.halfHeight; }
-    screen.x += this.panning.panned.x;
-    screen.y += this.panning.panned.y;
-    screen.x += sprite.metrics.ox || 0;
-    screen.y += sprite.metrics.oy || 0;
+    var screen = { 
+        x: sprite.screen.x + this.halfWidth + this.panning.panned.x + (sprite.metrics.ox || 0), 
+        y: sprite.screen.y + this.halfHeight + this.panning.panned.y + (sprite.metrics.oy || 0)
+    };
     if(sprite.keepOnScreen) {
         screen.x = Math.min(this.width - sprite.metrics.w, Math.max(0, screen.x));
         screen.y = Math.min(this.height - sprite.metrics.h, Math.max(0, screen.y));
@@ -173,9 +154,9 @@ Canvas.prototype.drawEntity = function(sprite) {
         : (this.images[sprite.image] || sprite.image);
     var highlight = sprite === this.game.mouseOver.sprite;
     if(highlight) {
-        this.canvas.context.save();
-        this.canvas.context.shadowColor = 'rgba(255,255,255,1)';
-        this.canvas.context.shadowBlur = 3;
+        this.context.save();
+        this.context.shadowColor = 'rgba(255,255,255,1)';
+        this.context.shadowBlur = 3;
     }
     if(!sprite.stay && sprite.parent && this.game.mouseOver !== sprite.parent) return;
     this.canvas.drawImage(
@@ -183,11 +164,11 @@ Canvas.prototype.drawEntity = function(sprite) {
         Math.round(screen.x), Math.round(screen.y), sprite.metrics.w, sprite.metrics.h
     );
     if(highlight) {
-        this.canvas.context.restore();
+        this.context.restore();
     }
     if(this.game.showGrid && sprite.grid) { // Show tile grid
-        this.canvas.context.fillStyle = '#bbbbbb';
-        this.canvas.context.font='9px Arial';
-        this.canvas.context.fillText(sprite.grid,Math.round(screen.x)+5, Math.round(screen.y)+9);
+        this.context.fillStyle = '#bbbbbb';
+        this.context.font='9px Arial';
+        this.context.fillText(sprite.grid,Math.round(screen.x)+5, Math.round(screen.y)+9);
     }
 };
