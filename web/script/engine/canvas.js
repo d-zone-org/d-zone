@@ -64,7 +64,9 @@ function Canvas(options) {
         if(!mouseEvent.button) self.panning.buttons = [];
     });
     this.game.on('mousewheel', function(mouseEvent) {
-        self.scale = util.clamp(self.scale + (mouseEvent.direction == 'up' ? 1 : -1), 1, 4);
+        var newScale = util.clamp(self.scale + (mouseEvent.direction == 'up' ? 1 : -1), 1, 4);
+        if(newScale == self.scale) return;
+        self.scale = newScale;
         self.onZoom();
         self.onResize();
     });
@@ -85,11 +87,11 @@ Canvas.prototype.onResize = function() {
 Canvas.prototype.onZoom = function() {
     for(var s = 0; s < this.canvases.length; s++) {
         if(s+1 == this.scale) {
-            this.canvases[s].canvas.style.display = 'inherit';
+            this.canvases[s].canvas.style.zIndex = 5;
             this.canvas = this.canvases[s];
             this.context = this.canvas.context;
         } else {
-            this.canvases[s].canvas.style.display = 'none';
+            this.canvases[s].canvas.style.zIndex = 1;
         }
     }
 };
