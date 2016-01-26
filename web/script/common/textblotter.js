@@ -1,30 +1,41 @@
 'use strict';
 var BetterCanvas = require('./../common/bettercanvas.js');
 
-var metrics = [
-    ['A',5], ['B',5], ['C',5], ['D',5], ['E',4], ['F',4], ['G',5], ['H',5], ['I',3], ['J',5],
-    ['K',5], ['L',4], ['M',5], ['N',5], ['O',5], ['P',5], ['Q',5], ['R',5], ['S',5], ['T',5],
-    ['U',5], ['V',5], ['W',5], ['X',5], ['Y',5], ['Z',5],
-    ['a',5], ['b',4], ['c',4], ['d',4], ['e',4], ['f',4], ['g',4], ['h',4], ['i',1], ['j',2],
-    ['k',4], ['l',1], ['m',5], ['n',4], ['o',4], ['p',4], ['q',4], ['r',4], ['s',4], ['t',4],
-    ['u',4], ['v',5], ['w',5], ['x',4], ['y',4], ['z',4], [' ',4],
-    ['0',4], ['1',3], ['2',4], ['3',4], ['4',4], ['5',4], ['6',4], ['7',4], ['8',4], ['9',4],
-    ['`',2],['~',6],['!',1],['@',7],['#',7],['$',4],['%',5],['^',5],['&',6],['*',3],['(',2],
-    [')',2],['_',5],['=',5],['-',5],['+',5],['|',1],[',',2],['.',1],['<',5],['>',5],['?',4],
-    ['/',3],['\\',3],[';',1],[':',1],["'",1],['"',3],['[',2],[']',2],['{',3],['}',3]
-];
+var charSets = {
+    upper: { y: 0, height: 8, chars: [
+        ['A',5], ['B',5], ['C',5], ['D',5], ['E',4], ['F',4], ['G',5], ['H',5], ['I',3], ['J',5],
+        ['K',5], ['L',4], ['M',5], ['N',5], ['O',5], ['P',5], ['Q',5], ['R',5], ['S',5], ['T',5],
+        ['U',5], ['V',5], ['W',5], ['X',5], ['Y',5], ['Z',5]
+    ] },
+    lower: { y: 8, height: 11, chars: [
+        ['a',5], ['b',4], ['c',4], ['d',4], ['e',4], ['f',4], ['g',4], ['h',4], ['i',1], ['j',2],
+        ['k',4], ['l',1], ['m',5], ['n',4], ['o',4], ['p',4], ['q',4], ['r',4], ['s',4], ['t',4],
+        ['u',4], ['v',5], ['w',5], ['x',4], ['y',4], ['z',4], [' ',4]
+    ] },
+    numsAndSymbols: { y: 19, height: 8, chars: [
+        ['0',4], ['1',3], ['2',4], ['3',4], ['4',4], ['5',4], ['6',4], ['7',4], ['8',4], ['9',4],
+        ['`',2],['~',6],['!',1],['@',7],['#',7],['$',4],['%',5],['^',5],['&',6],['*',3],['(',2],
+        [')',2],['_',5],['=',5],['-',5],['+',5],['|',1],[',',2],['.',1],['<',5],['>',5],['?',4],
+        ['/',3],['\\',3],[';',1],[':',1],["'",1],['"',3],['[',2],[']',2],['{',3],['}',3]
+    ] },
+    icons: { count: 4, y: 27, height: 12, chars: [
+        [':icon-npm:',12],[':icon-github:',12],[':icon-lock:',12],[':icon-lock-small:',12]
+    ] },
+    swedish: { count: 6, y: 39, height: 10, oy: -2, chars: [
+        ['Å',5],['Ä',5],['Ö',5],['å',5],['ä',5],['ö',4]
+    ] }
+};
 
-var fontMap = {}, rx = 0;
-for(var m = 0; m < metrics.length; m++) {
-    fontMap[metrics[m][0]] = { x: rx, y: (m < 26 ? 0 : m > 52 ? 19 : 8),
-        w: metrics[m][1]+1, h: m < 26 ? 8 : m > 52 ? 8 : 11, text: metrics[m][0] };
-    rx += metrics[m][1]+1;
-    if(m == 25 || m == 52) rx = 0;
+var fontMap = {};
+
+for(var csKey in charSets) { if(!charSets.hasOwnProperty(csKey)) continue;
+    var charSet = charSets[csKey], rx = 0;
+    for(var c = 0; c < charSet.chars.length; c++) {
+        var char = charSet.chars[c][0], width = charSet.chars[c][1]+1;
+        fontMap[char] = { x: rx, y: charSet.y, w: width, h: charSet.height, char: char, oy: charSet.oy };
+        rx += width;
+    }
 }
-fontMap[':icon-npm:'] = { x: 0, y: 27, w: 12, h: 12, text: ':icon-npm:' };
-fontMap[':icon-github:'] = { x: 12, y: 27, w: 12, h: 12, text: ':icon-github:' };
-fontMap[':icon-lock:'] = { x: 24, y: 27, w: 12, h: 12, text: ':icon-lock:' };
-fontMap[':icon-lock-small:'] = { x: 36, y: 27, w: 12, h: 12, text: ':icon-lock-small:' };
 var padding = { x: 4, y: 3 };
 var vertOffset = 1;
 var image;
@@ -85,13 +96,17 @@ module.exports = {
                 wordChars.push({ x: lineWidth, char: space, w: space.w });
                 wordWidth += space.w;
             }
-            if(word.length > 1 && fontMap[word]) {
-                wordChars.push({ x: lineWidth + wordWidth, char: fontMap[word], w: fontMap[word].w, oy: -2 });
+            if(word.length > 1 && fontMap[word]) { // Icon codes
+                wordChars.push({ 
+                    x: lineWidth + wordWidth, char: fontMap[word], w: fontMap[word].w, oy: -2 
+                });
                 wordWidth += fontMap[word].w;
             } else {
                 for(var a = 0; a < word.length; a++) {
                     var ltr = fontMap[word[a]] || space;
-                    wordChars.push({ x: lineWidth + wordWidth, char: ltr, w: ltr.w });
+                    wordChars.push({ 
+                        x: lineWidth + wordWidth, char: ltr, w: ltr.w, oy: ltr.oy 
+                    });
                     wordWidth += ltr.w;
                 }
             }
@@ -107,11 +122,15 @@ module.exports = {
                     for(var b = 0; b < word.length; b++) {
                         var ltrB = fontMap[word[b]] || space;
                         if(lineWidth + wordWidth + ltrB.w < options.maxWidth) {
-                            wordChars.push({ x: lineWidth + wordWidth, char: ltrB, w: ltrB.w });
+                            wordChars.push({ 
+                                x: lineWidth + wordWidth, char: ltrB, w: ltrB.w, oy: ltrB.oy 
+                            });
                             wordWidth += ltrB.w;
                         } else {
                             var trimWidth = (lineWidth + wordWidth + ltrB.w) - options.maxWidth;
-                            wordChars.push({ x: lineWidth + wordWidth, char: ltrB, w: ltrB.w - trimWidth });
+                            wordChars.push({ 
+                                x: lineWidth + wordWidth, char: ltrB, w: ltrB.w - trimWidth, oy: ltrB.oy 
+                            });
                             wordWidth += ltrB.w - trimWidth;
                             break;
                         }

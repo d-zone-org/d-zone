@@ -10,6 +10,7 @@
 * When a user sends a message, a special item appears above them
   * When another user in that channel sends a message, they get another item which combines with the first item when the two meet up
 * **Users can play games with each other that are shown in the web view**
+* Colored towers to represent roles?
 
 ## Misc
 *  ~~Radio tower that represents connection to server, with a small light that blinks whenever any data is received~~
