@@ -2,17 +2,17 @@
 var BetterCanvas = require('./../common/bettercanvas.js');
 
 var charSets = {
-    upper: { y: 0, height: 8, chars: [
+    upper: { y: 0, height: 8, xSpacing: 1, chars: [
         ['A',5], ['B',5], ['C',5], ['D',5], ['E',4], ['F',4], ['G',5], ['H',5], ['I',3], ['J',5],
         ['K',5], ['L',4], ['M',5], ['N',5], ['O',5], ['P',5], ['Q',5], ['R',5], ['S',5], ['T',5],
         ['U',5], ['V',5], ['W',5], ['X',5], ['Y',5], ['Z',5]
     ] },
-    lower: { y: 8, height: 11, chars: [
+    lower: { y: 8, height: 11, xSpacing: 1, chars: [
         ['a',5], ['b',4], ['c',4], ['d',4], ['e',4], ['f',4], ['g',4], ['h',4], ['i',1], ['j',2],
         ['k',4], ['l',1], ['m',5], ['n',4], ['o',4], ['p',4], ['q',4], ['r',4], ['s',4], ['t',4],
         ['u',4], ['v',5], ['w',5], ['x',4], ['y',4], ['z',4], [' ',4]
     ] },
-    numsAndSymbols: { y: 19, height: 8, chars: [
+    numsAndSymbols: { y: 19, xSpacing: 1, height: 8, chars: [
         ['0',4], ['1',3], ['2',4], ['3',4], ['4',4], ['5',4], ['6',4], ['7',4], ['8',4], ['9',4],
         ['`',2],['~',6],['!',1],['@',7],['#',7],['$',4],['%',5],['^',5],['&',6],['*',3],['(',2],
         [')',2],['_',5],['=',5],['-',5],['+',5],['|',1],[',',2],['.',1],['<',5],['>',5],['?',4],
@@ -21,7 +21,7 @@ var charSets = {
     icons: { count: 4, y: 27, height: 12, chars: [
         [':icon-npm:',12],[':icon-github:',12],[':icon-lock:',12],[':icon-lock-small:',12]
     ] },
-    swedish: { count: 6, y: 39, height: 10, oy: -2, chars: [
+    swedish: { count: 6, y: 39, xSpacing: 1, height: 10, oy: -2, chars: [
         ['Å',5],['Ä',5],['Ö',5],['å',5],['ä',5],['ö',4]
     ] }
 };
@@ -31,7 +31,7 @@ var fontMap = {};
 for(var csKey in charSets) { if(!charSets.hasOwnProperty(csKey)) continue;
     var charSet = charSets[csKey], rx = 0;
     for(var c = 0; c < charSet.chars.length; c++) {
-        var char = charSet.chars[c][0], width = charSet.chars[c][1]+1;
+        var char = charSet.chars[c][0], width = charSet.chars[c][1]+(charSet.xSpacing || 0);
         fontMap[char] = { x: rx, y: charSet.y, w: width, h: charSet.height, char: char, oy: charSet.oy };
         rx += width;
     }
