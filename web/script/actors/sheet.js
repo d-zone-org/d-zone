@@ -22,12 +22,14 @@ var map = {
         },
         hopping: {
             animation: { frames: 13, zStartFrame: 3 },
+            heights: [-1,-3,-4,-2,0,4,5,6,4,1,-2,-2,-1],
             north: { x: 0, y: 83, w: 35, h: 27, ox: -2, oy: -6 },
             south: { x: 0, y: 137, w: 35, h: 27, ox: -19, oy: 3 },
             east: { x: 0, y: 56, w: 35, h: 27, ox: -2, oy: 3 },
             west: { x: 0, y: 110, w: 35, h: 27, ox: -19, oy: -6 }
         }
-    }
+    },
+    bubble: { x: 98, y: 0, w: 6, h: 6, ox: -3, oy: 0 }
 };
 
 module.exports = Sheet;

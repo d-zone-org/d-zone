@@ -13,8 +13,8 @@ function Entity() {
 Entity.prototype.addToGame = function(game) {
     this.game = game;
     this.game.entities.push(this);
-    if(this.hasOwnProperty('position')) {
-        this.game.world.addToWorld(this);
+    if(this.hasOwnProperty('position') && !this.bubble) {
+        if(!this.clip) this.game.world.addToWorld(this);
         if(!this.invisible) this.game.renderer.addToZBuffer(this.sprite, this.zDepth);
     } else {
         this.game.renderer.overlay.push(this.sprite);

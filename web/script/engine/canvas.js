@@ -31,7 +31,7 @@ function Canvas(options) {
     this.panning = {
         buttons: [],
         origin: { x: 0, y: 0 }, 
-        panned: { x: 0, y: 32 }
+        panned: { x: 0, y: -16 }
     };
     var self = this;
     this.game.on('mousedown', function(mouseEvent) {

@@ -8,6 +8,7 @@ var Placeholder = require('./placeholder.js');
 var Wander = require('./behaviors/wander.js');
 var GoTo = require('./behaviors/goto.js');
 var TextBox = require('./../common/textbox.js');
+var Bubble = require('./bubble.js');
 
 module.exports = Actor;
 inherits(Actor, WorldObject);
@@ -19,6 +20,7 @@ function Actor(options) {
         height: 0.5
     });
     this.preciseScreen = this.toScreenPrecise();
+    this.precisePosition = this.positionPrecise();
     this.setMaxListeners(options.maxListeners);
     this.uid = options.uid;
     this.username = options.username;
@@ -38,6 +40,7 @@ function Actor(options) {
 
 Actor.prototype.onUpdate = function() {
     if(this.talking) this.updateSprite();
+    if(this.bubble) this.bubble.update();
     if(this.game.mouseOut || (this.game.mouseOver 
         && (this.game.mouseOver.zDepth > this.zDepth // Don't override closer objects
         || this.game.mouseOver.position.z > this.position.z)) // Don't override higher objects
@@ -82,15 +85,13 @@ Actor.prototype.updatePresence = function(presence) {
 };
 
 Actor.prototype.toScreenPrecise = function() {
-    if(this.destination) {
+    if(this.destination && this.moveProgress) {
         var xDelta = this.destination.x - this.position.x,
             yDelta = this.destination.y - this.position.y,
             zDelta = this.destination.z - this.position.z;
-        var tick = this.game.ticks - this.moveStart;
-        var progress = tick / 40;
-        xDelta *= progress;
-        yDelta *= progress;
-        zDelta *= progress;
+        xDelta *= this.moveProgress;
+        yDelta *= this.moveProgress;
+        zDelta *= this.moveProgress;
         var deltaScreen = {
             x: (xDelta - yDelta) * 16,
             y: (xDelta + yDelta) * 8 - zDelta * 16
@@ -100,6 +101,24 @@ Actor.prototype.toScreenPrecise = function() {
             y: this.screen.y + deltaScreen.y
         };
     } else return this.screen;
+};
+
+Actor.prototype.positionPrecise = function() {
+    if(this.destination && this.moveProgress) {
+        var xDelta = this.destination.x - this.position.x,
+            yDelta = this.destination.y - this.position.y,
+            zDelta = this.destination.z - this.position.z;
+        xDelta *= this.moveProgress;
+        yDelta *= this.moveProgress;
+        zDelta *= this.moveProgress;
+        var moveHeights = this.sheet.map.hopping.heights;
+        var moveHeightIndex = Math.floor((this.moveProgress-0.01)*moveHeights.length);
+        return {
+            x: this.position.x + xDelta,
+            y: this.position.y + yDelta,
+            z: this.position.z + zDelta + moveHeights[moveHeightIndex]/24
+        };
+    } else return this.position;
 };
 
 Actor.prototype.updateSprite = function() {
@@ -171,6 +190,7 @@ Actor.prototype.startMove = function() {
     var halfZDepth = (this.position.x + this.position.y + (this.destDelta.x + this.destDelta.y)/2);
     var self = this;
     this.tickRepeat(function(progress) {
+        self.moveProgress = progress.percent;
         var newFrame = false;
         if(progress.ticks > 0 && progress.ticks % 3 == 0) {
             self.frame++; newFrame = true;
@@ -199,6 +219,7 @@ Actor.prototype.startMove = function() {
             self.zDepth = self.destination.x + self.destination.y;
         }
         self.preciseScreen = self.toScreenPrecise();
+        self.precisePosition = self.positionPrecise();
         self.nametag.updateScreen();
         self.updateSprite();
     }, 3*(animation.frames));
@@ -212,8 +233,9 @@ Actor.prototype.move = function(x, y, z, absolute) {
     //console.log('actor: moving to',newX,newY,newZ);
     this.game.world.moveObject(this,newX,newY,newZ);
     this.updateScreen();
-    this.nametag.updateScreen();
     this.preciseScreen = this.toScreenPrecise();
+    this.precisePosition = this.positionPrecise();
+    this.nametag.updateScreen();
     var newZDepth = this.calcZDepth();
     if(newZDepth != this.zDepth) {
         //console.log('actor: updating zbuffer after move');
@@ -236,6 +258,11 @@ Actor.prototype.startTalking = function(message, channel, onStop) {
         self.nametag.sprite.hidden = false;
         self.updateSprite();
         self.emit('donetalking');
+        if(!self.bubble) {
+            self.bubble = new Bubble({parent:self});
+            self.bubble.addToGame(self.game);
+            self.bubble.update();
+        }
         //if(!self.lastSeed || self.game.ticks - self.lastSeed > 60*60) {
         //    self.lastSeed = self.game.ticks;
         //    self.game.decorator.sewSeed({ origin: self.position });

@@ -8,19 +8,6 @@ var bg = 'rgba(0,0,0,0.7)';
 module.exports = TextBox;
 inherits(TextBox, Entity);
 
-function cleanString(text) {
-    if(!text) return text;
-    for(var i = 0; i < text.length; i++) {
-        if(!TextBlotter.fontMap[text[i]]) {
-            var charArray = text.split('');
-            charArray.splice(i,1);
-            text = charArray.join('');
-            i--;
-        }
-    }
-    return text;
-}
-
 function TextBox(parent, text, stay) {
     this.parent = parent;
     this.text = text;
