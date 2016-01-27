@@ -4,10 +4,11 @@ var Geometry = require('./../common/geometry.js');
 var util = require('./../common/util.js');
 var WorldObject = require('./../engine/worldobject.js');
 var Sheet = require('./sheet.js');
+var TextBox = require('./../common/textbox.js');
 var Placeholder = require('./placeholder.js');
 var Wander = require('./behaviors/wander.js');
 var GoTo = require('./behaviors/goto.js');
-var TextBox = require('./../common/textbox.js');
+var Collect = require('./behaviors/collect.js');
 var Bubble = require('./bubble.js');
 
 module.exports = Actor;
@@ -33,6 +34,7 @@ function Actor(options) {
     this.destination = false;
     this.facing = util.pickInObject(Geometry.DIRECTIONS);
     this.behaviors = [];
+    this.boundOnUpdate = this.onUpdate.bind(this);
     this.boundOnMessage = this.onMessage.bind(this);
     this.roleColor = options.roleColor;
     this.updateSprite();
@@ -67,8 +69,20 @@ Actor.prototype.addToGame = function(game) {
         regions: [{ alpha: 0.4, x: 70, y: 0, w: 28, h: 14 }] // Less colorizing for offline sprites
     });
     this.nametag.addToGame(game);
-    this.game.on('update', this.onUpdate.bind(this));
+    this.game.on('update', this.boundOnUpdate);
     this.game.users.on('message', this.boundOnMessage);
+    
+    //this.addBubble();
+};
+
+Actor.prototype.remove = function() {
+    WorldObject.prototype.remove.bind(this)();
+    this.game.removeListener('update', this.boundOnUpdate);
+    this.game.users.removeListener('message', this.boundOnMessage);
+    if(this.game.mouseOver === this) {
+        this.game.mouseOver = false;
+    }
+    if(this.bubble) this.bubble.remove();
 };
 
 Actor.prototype.updatePresence = function(presence) {
@@ -201,7 +215,7 @@ Actor.prototype.startMove = function() {
             //console.log('actor: removing placeholder');
             self.movePlaceholder.remove();
             delete self.movePlaceholder;
-            self.unWalkable = false;
+            if(!self.bubble) self.unWalkable = false;
             //console.log('actor: moving to',self.destination.x,self.destination.y,self.destination.z);
             self.move(self.destination.x, self.destination.y, self.destination.z, true);
             self.destination = false;
@@ -258,11 +272,7 @@ Actor.prototype.startTalking = function(message, channel, onStop) {
         self.nametag.sprite.hidden = false;
         self.updateSprite();
         self.emit('donetalking');
-        if(!self.bubble) {
-            self.bubble = new Bubble({parent:self});
-            self.bubble.addToGame(self.game);
-            self.bubble.update();
-        }
+        self.addBubble();
         //if(!self.lastSeed || self.game.ticks - self.lastSeed > 60*60) {
         //    self.lastSeed = self.game.ticks;
         //    self.game.decorator.sewSeed({ origin: self.position });
@@ -313,4 +323,14 @@ Actor.prototype.stopGoTo = function(gotoBehavior) {
     gotoBehavior.detach();
     this.behaviors = [];
     this.updatePresence(this.presence);
+};
+
+Actor.prototype.addBubble = function() {
+    if(this.bubble) return;
+    this.bubble = new Bubble({parent:this});
+    this.bubble.addToGame(this.game);
+    this.bubble.update();
+    this.unWalkable = true;
+    this.game.world.updateWalkable(this.position.x,this.position.y);
+    this.collect = new Collect(this,'actor');
 };

@@ -58,6 +58,17 @@ module.exports = {
         }
         return result;
     },
+    shuffleArray: function(arr) {
+        var currentIndex = arr.length, temporaryValue, randomIndex;
+        while (0 !== currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            temporaryValue = arr[currentIndex];
+            arr[currentIndex] = arr[randomIndex];
+            arr[randomIndex] = temporaryValue;
+        }
+        return arr;
+    },
     alphabet: ['a','b','c','d','e','f','g','h','i','j','k','l','m',
         'n','o','p','q','r','s','t','u','v','w','x','y','z'],
     vowels: ['a','e','i','o','u'],

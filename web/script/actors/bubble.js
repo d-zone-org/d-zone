@@ -8,7 +8,6 @@ module.exports = Bubble;
 inherits(Bubble, Entity);
 
 function Bubble(options) {
-    console.log('creating bubble for',options.parent.username);
     this.clip = true;
     this.parent = options.parent;
     this.position = {
@@ -20,12 +19,17 @@ function Bubble(options) {
     this.sheet = new Sheet('bubble');
     this.screen = { x: 0, y: 0 };
     this.sprite = {
-        screen: this.screen, metrics: this.sheet.map, image: 'actors', 
+        screen: this.screen, metrics: this.sheet.map.empty, image: 'actors', 
         position: this.position, parent: this.parent, stay: true
     };
     this.velocity = { x: 0, y: 0, z: 0 };
     this.update();
 }
+
+Bubble.prototype.addItem = function(item) {
+    this.item = item;
+    this.sprite.metrics = this.sheet.map.actor;
+};
 
 Bubble.prototype.update = function() {
     if(!this.game) return;

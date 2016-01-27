@@ -29,7 +29,10 @@ var map = {
             west: { x: 0, y: 110, w: 35, h: 27, ox: -19, oy: -6 }
         }
     },
-    bubble: { x: 98, y: 0, w: 6, h: 6, ox: -3, oy: 0 }
+    bubble: {
+        empty: { x: 98, y: 0, w: 6, h: 6, ox: -3, oy: 0 },
+        actor: { x: 104, y: 0, w: 11, h: 11, ox: -5, oy: -2 }
+    }
 };
 
 module.exports = Sheet;
