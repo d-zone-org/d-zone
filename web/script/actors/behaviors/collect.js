@@ -23,9 +23,10 @@ Collect.prototype.checkSurroundings = function() {
         };
         var object = this.actor.game.world.objectAtXYZ(adj.x,adj.y,adj.z);
         if(object && object.presence == 'offline') { // If offline actor found
-            console.log(this.actor.username,'is next to offline actor',object.username);
             this.actor.bubble.addItem(object);
             object.remove();
+            this.actor.removeListener('movecomplete', this.boundCheckSurroundings);
+            delete this.actor.collect; // Remove behavior
             break;
         }
     }
