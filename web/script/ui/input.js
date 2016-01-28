@@ -36,11 +36,11 @@ Input.prototype.changeText = function(text) {
 
 Input.prototype.draw = function() {
     this.canvas.clear();
-    var borderColor = this.mouseOn ? 'rgba(220,220,220,0.8)' : 'rgba(255,255,255,0.8)';
+    var borderColor = this.mouseOn ? 'rgba(220,220,220,0.8)' : 'rgba(245,240,214,0.8)';
     borderColor = this.focused ? 'rgba(115,138,215,0.8)' : borderColor;
     this.canvas.fillRect(borderColor,0,0,this.w,this.h);
     this.canvas.clearRect(1,1,this.w-2,this.h-2);
-    this.canvas.fillRect('rgba(0,0,0,0.8)',1,1,this.w-2,this.h-2);
+    this.canvas.fillRect('rgba(41,32,43,0.8)',1,1,this.w-2,this.h-2);
     this.canvas.drawImage(this.textCanvas,0,0,this.textCanvas.width,this.textCanvas.height,
         1,1,this.textCanvas.width,this.textCanvas.height);
     this.emit('redraw');

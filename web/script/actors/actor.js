@@ -71,8 +71,6 @@ Actor.prototype.addToGame = function(game) {
     this.nametag.addToGame(game);
     this.game.on('update', this.boundOnUpdate);
     this.game.users.on('message', this.boundOnMessage);
-    
-    //this.addBubble();
 };
 
 Actor.prototype.remove = function() {
@@ -94,6 +92,7 @@ Actor.prototype.updatePresence = function(presence) {
         }
         this.behaviors = [];
     } else if(this.behaviors.length == 0) { // If coming online and have no behaviors already
+        //this.addBubble();
         this.behaviors.push(new Wander(this));
     }
     this.updateSprite();

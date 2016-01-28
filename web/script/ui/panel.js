@@ -12,8 +12,8 @@ function Panel(options) {
 
 Panel.prototype.draw = function() {
     this.canvas.clear();
-    this.canvas.fillRect('rgba(255,255,255,0.8)',0,0,this.w,this.h);
+    this.canvas.fillRect('rgba(245,240,214,0.8)',0,0,this.w,this.h);
     this.canvas.clearRect(1,1,this.w-2,this.h-2);
-    this.canvas.fillRect('rgba(0,0,0,0.8)',1,1,this.w-2,this.h-2);
+    this.canvas.fillRect('rgba(41,32,43,0.85)',1,1,this.w-2,this.h-2);
     this.emit('redraw');
 };

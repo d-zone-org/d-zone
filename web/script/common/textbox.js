@@ -3,7 +3,7 @@ var inherits = require('inherits');
 var Entity = require('./../engine/entity.js');
 var TextBlotter = require('./../common/textblotter.js');
 
-var bg = 'rgba(0,0,0,0.7)';
+var bg = 'rgba(41,32,43,0.8)';
 
 module.exports = TextBox;
 inherits(TextBox, Entity);

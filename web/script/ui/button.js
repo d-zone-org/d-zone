@@ -32,9 +32,9 @@ Button.prototype.changeText = function(text) {
 
 Button.prototype.draw = function() {
     this.canvas.clear();
-    this.canvas.fillRect('rgba(255,255,255,0.8)',0,0,this.w,this.h);
+    this.canvas.fillRect('rgba(245,240,214,0.8)',0,0,this.w,this.h);
     this.canvas.clearRect(1,1,this.w-2,this.h-2);
-    var buttonColor = this.mouseOn ? 'rgba(77,102,184,0.9)' : 'rgba(0,0,0,0.8)';
+    var buttonColor = this.mouseOn ? 'rgba(77,102,184,0.9)' : 'rgba(41,32,43,0.8)';
     this.canvas.fillRect(buttonColor,1,1,this.w-2,this.h-2);
     var textOffset = Math.floor((this.canvas.canvas.width - this.textCanvas.width) / 2);
     this.canvas.drawImage(this.textCanvas,0,0,this.textCanvas.width,this.textCanvas.height,

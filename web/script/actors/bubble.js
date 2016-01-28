@@ -38,6 +38,7 @@ Bubble.prototype.addItem = function(item) {
     };
     this.item.on('presence',onPresence);
     this.sprite.metrics = this.sheet.map.actor;
+    this.sprite.image = this.item.sprite.image;
 };
 
 Bubble.prototype.releaseItem = function(x,y,z) {

@@ -99,7 +99,7 @@ Canvas.prototype.onZoom = function() {
 Canvas.prototype.draw = function() {
     this.canvas.fill(this.backgroundColor);
     if(this.game.servers) return;
-    this.context.fillStyle = '#d4cfb6';
+    this.context.fillStyle = '#d4d0b9';
     this.context.font='14px Arial';
     this.context.textAlign = 'center';
     this.context.fillText('connecting...',Math.round(this.width/2),Math.round(this.height/2-4));
