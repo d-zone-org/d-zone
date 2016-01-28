@@ -87,6 +87,7 @@ Actor.prototype.remove = function() {
 
 Actor.prototype.updatePresence = function(presence) {
     this.presence = presence ? presence : 'offline';
+    this.emit('presence',this.presence);
     if(this.presence == 'offline' || this.presence == 'idle') {
         for(var i = 0; i < this.behaviors.length; i++) {
             this.behaviors[i].detach();
@@ -333,4 +334,12 @@ Actor.prototype.addBubble = function() {
     this.unWalkable = true;
     this.game.world.updateWalkable(this.position.x,this.position.y);
     this.collect = new Collect(this,'actor');
+};
+
+Actor.prototype.removeBubble = function() {
+    if(!this.bubble) return;
+    this.bubble.remove();
+    delete this.bubble;
+    this.unWalkable = false;
+    this.game.world.updateWalkable(this.position.x,this.position.y);
 };

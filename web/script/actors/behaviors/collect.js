@@ -22,12 +22,16 @@ Collect.prototype.checkSurroundings = function() {
             z: this.actor.position.z
         };
         var object = this.actor.game.world.objectAtXYZ(adj.x,adj.y,adj.z);
-        if(object && object.presence == 'offline') { // If offline actor found
+        if(object && object.presence == 'offline' && !object.bubble) { // Found offline actor with no bubble
             this.actor.bubble.addItem(object);
             object.remove();
-            this.actor.removeListener('movecomplete', this.boundCheckSurroundings);
-            delete this.actor.collect; // Remove behavior
+            this.detach();
             break;
         }
     }
+};
+
+Collect.prototype.detach = function() {
+    this.actor.removeListener('movecomplete', this.boundCheckSurroundings);
+    delete this.actor.collect; // Remove behavior
 };
