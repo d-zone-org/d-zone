@@ -2,7 +2,7 @@
 
 var map = {
     beacon: { 
-        main: {x: 0, y: 0, w: 31, h: 56, ox: -1, oy: -1},
+        main: {x: 0, y: 0, w: 31, h: 56, ox: -16, oy: -1},
         light: {x: 31, y: 0, w: 5, h: 4, ox: 13, oy: 0}
     },
     seed: {

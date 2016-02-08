@@ -20,16 +20,16 @@ Wander.prototype.wait = function() {
 
 Wander.prototype.impulse = function() {
     if(!this.actor || this.actor.presence != 'online') return;
-    if(this.actor.destination) { // Busy
+    if(this.actor.move.destination) { // Busy
         this.wait();
     } else {
         var direction = util.pickInObject(Geometry.DIRECTIONS);
         //direction = util.pickInArray(['east','south']);
         var moveXY = Geometry.DIRECTIONS[direction];
-        var canMove = this.actor.tryMove(moveXY.x, moveXY.y);
+        var canMove = this.actor.move.tryMove(this.actor.position.x+moveXY.x, this.actor.position.y+moveXY.y);
         if(canMove) {
-            this.actor.destination = canMove;
-            this.actor.startMove();
+            this.actor.move.destination = canMove;
+            this.actor.move.startMove();
             this.actor.once('movecomplete', this.impulseCompleteBound)
         } else {
             this.wait();

@@ -15,22 +15,18 @@ function WorldObject(options) {
     };
     this.height = options.height;
     this.zDepth = this.calcZDepth();
-    this.pixelSize = {
-        x: options.pixelSize.x,
-        y: options.pixelSize.y,
-        z: options.pixelSize.z
-    };
     this.screen = {};
     this.updateScreen();
     this.sprite.screen = this.screen;
     this.sprite.position = this.position;
 }
 
-WorldObject.prototype.move = function(x,y,z) {
-    var newX = this.position.x + x;
-    var newY = this.position.y + y;
-    var newZ = this.position.z + z;
-    this.game.world.moveObject(this,newX,newY,newZ);
+WorldObject.prototype.moveTo = function(x,y,z) {
+    var deltaX = x - this.position.x,
+        deltaY = y - this.position.y,
+        deltaZ = z - this.position.z;
+    if(deltaX == 0 && deltaY == 0 && deltaZ == 0) return;
+    this.game.world.moveObject(this,x,y,z);
     this.updateScreen();
     var newZDepth = this.calcZDepth();
     if(newZDepth != this.zDepth) {
@@ -48,6 +44,6 @@ WorldObject.prototype.calcZDepth = function() {
 };
 
 WorldObject.prototype.updateScreen = function() {
-    this.screen.x = (this.position.x - this.position.y) * 16 - this.pixelSize.x;
+    this.screen.x = (this.position.x - this.position.y) * 16;
     this.screen.y = (this.position.x + this.position.y) * 8 - (this.position.z + this.height) * 16;
 };

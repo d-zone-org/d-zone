@@ -14,14 +14,16 @@ function TextBox(parent, text, stay) {
     this.screen = { x: 0, y: 0 };
     this.sprite = { 
         keepOnScreen: true,
-        screen: this.screen, parent: this.parent, stay: stay, metrics: { x: 0, y: 0, w: 0, h: 0 }
+        screen: this.screen, parent: this.parent, stay: stay, 
+        metrics: { x: 0, y: 0, w: 0, h: 0 }
     };
 }
 
 TextBox.prototype.updateScreen = function() {
     if(!this.canvas) return;
-    this.screen.x = this.parent.preciseScreen.x - this.canvas.width/2 + this.parent.pixelSize.x;
-    this.screen.y = this.parent.preciseScreen.y - this.canvas.height + 2;
+    var parentPreciseScreen = this.parent.render.getPreciseScreen();
+    this.screen.x = parentPreciseScreen.x - this.canvas.width/2;
+    this.screen.y = parentPreciseScreen.y - this.canvas.height + 2;
 };
 
 TextBox.prototype.updateSprite = function() {
