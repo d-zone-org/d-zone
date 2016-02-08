@@ -17,8 +17,7 @@ function Actor(options) {
         position: { x: options.x, y: options.y, z: options.z },
         height: 0.5
     });
-    this.physics = new (require('./components/physics.js'))(this);
-    this.move = new (require('./components/move.js'))(this);
+    this.transform = new (require('./components/transform.js'))(this);
     this.setMaxListeners(options.maxListeners);
     this.uid = options.uid;
     this.username = options.username;
@@ -56,7 +55,9 @@ Actor.prototype.onUpdate = function() {
 };
 
 Actor.prototype.addToGame = function(game) {
-    WorldObject.prototype.addToGame.call(this, game);
+    this.game = game;
+    this.game.entities.push(this);
+    this.game.world.addToWorld(this.transform);
     this.render.show();
     if(this.roleColor) this.game.renderer.addColorSheet({
         sheet: 'actors', color: this.roleColor, alpha: 0.8,
@@ -67,10 +68,13 @@ Actor.prototype.addToGame = function(game) {
     this.nametag.addToGame(game);
     this.game.on('update', this.boundOnUpdate);
     this.game.users.on('message', this.boundOnMessage);
+    this.exists = true;
 };
 
 Actor.prototype.remove = function() {
-    WorldObject.prototype.remove.bind(this)();
+    this.exists = false;
+    this.game.world.removeFromWorld(this.transform);
+    util.findAndRemove(this, this.game.entities);
     this.render.hide();
     this.game.removeListener('update', this.boundOnUpdate);
     this.game.users.removeListener('message', this.boundOnMessage);
@@ -103,12 +107,13 @@ Actor.prototype.startTalking = function(message, channel, onStop) {
     this.messageBox.addToGame(this.game);
     var self = this;
     var scrollSpeed = message.length > 150 ? 1 : message.length > 75 ? 2 : 3;
+    self.emit('talk-start');
     this.messageBox.scrollMessage(scrollSpeed, 4, function() {
         delete self.messageBox;
         self.talking = false;
         self.nametag.sprite.hidden = false;
         self.render.updateSprite();
-        self.emit('donetalking');
+        self.emit('talk-complete');
         self.addBubble();
         //if(!self.lastSeed || self.game.ticks - self.lastSeed > 60*60) {
         //    self.lastSeed = self.game.ticks;
@@ -132,7 +137,7 @@ Actor.prototype.onMessage = function(message) { // Move this to the GoTo behavio
         if(Geometry.getDistance(self.position, message.user.position) < 3 // If already nearby
             || self.underneath()) return; // Or if something on top of actor
         if(self.move.destination) {
-            self.once('movecomplete', readyToMove);
+            self.once('move-complete', readyToMove);
         } else {
             readyToMove();
         }
@@ -142,7 +147,7 @@ Actor.prototype.onMessage = function(message) { // Move this to the GoTo behavio
 Actor.prototype.addBubble = function() {
     if(this.bubble) return;
     this.bubble = new Bubble({parent:this});
-    this.unWalkable = true;
+    this.transform.unWalkable = true;
     this.game.world.updateWalkable(this.position.x,this.position.y);
     this.collect = new Collect(this,'actor');
 };
@@ -151,6 +156,29 @@ Actor.prototype.removeBubble = function() {
     if(!this.bubble) return;
     this.bubble.remove();
     delete this.bubble;
-    this.unWalkable = false;
+    this.transform.unWalkable = false;
     this.game.world.updateWalkable(this.position.x,this.position.y);
+};
+
+Actor.prototype.goto = function(x,y) {
+    var self = this;
+    function readyToMove() {
+        for(var i = 0; i < self.behaviors.length; i++) {
+            self.behaviors[i].detach();
+        }
+        self.behaviors = [new GoTo(self, {
+            position:{x:x,y:y,z:0},on:function(){},removeListener:function(){}
+        })];
+    }
+    if(this.transform.move.destination) {
+        this.once('move-complete', readyToMove);
+    } else {
+        readyToMove();
+    }
+};
+
+Actor.prototype.stopGoTo = function(gotoBehavior) {
+    gotoBehavior.detach();
+    this.behaviors = [];
+    this.updatePresence(this.presence);
 };

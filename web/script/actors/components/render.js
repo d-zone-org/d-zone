@@ -1,6 +1,7 @@
 'use strict';
 var inherits = require('inherits');
 var CommonRender = require('./../../components/render.js');
+var Animation = require('./animation.js');
 var Sheet = require('./../sheet.js');
 
 module.exports = Render;
@@ -15,6 +16,7 @@ function Render(actor) {
         position: actor.position,
         zDepth: 0
     };
+    this.animation = new Animation(this);
 }
 
 Render.prototype.show = function() {
@@ -28,12 +30,13 @@ Render.prototype.hide = function() {
 };
 
 Render.prototype.onUpdate = function() {
-    if(this.actor.talking) this.updateSprite();
+    if(this.actor.talking || this.actor.transform.move.destination) this.updateSprite();
 };
 
 Render.prototype.updateSprite = function() {
-    var facing = this.actor.facing, state = this.actor.move.destination ? 'hopping' : this.actor.presence;
-    if(!this.actor.move.destination && this.actor.talking) {
+    var facing = this.actor.facing, 
+        state = this.actor.transform.move.destination ? 'hopping' : this.actor.presence;
+    if(!this.actor.transform.move.destination && this.actor.talking) {
         state = 'online';
         facing = facing == 'north' ? 'east' : facing == 'west' ? 'south' : facing;
     }
@@ -42,18 +45,9 @@ Render.prototype.updateSprite = function() {
         w: this.sheet.map[state][facing].w, h: this.sheet.map[state][facing].h,
         ox: this.sheet.map[state][facing].ox, oy: this.sheet.map[state][facing].oy
     };
-    if(!this.actor.move.destination && this.actor.talking) {
+    this.animation.onUpdate(metrics);
+    if(!this.actor.transform.move.destination && this.actor.talking) {
         metrics.y += (Math.floor(this.actor.game.ticks / 4) % 4) * metrics.h;
-    } else if(this.actor.move.destination) {
-        metrics.x += (this.actor.frame) * metrics.w;
-        var animation = this.sheet.map['hopping'].animation;
-        if(this.actor.frame >= animation.zStartFrame) {
-            if(this.actor.move.destination.z > this.actor.position.z) {
-                metrics.oy -= Math.min(8,this.actor.frame - animation.zStartFrame);
-            } else if(this.actor.move.destination.z < this.actor.position.z) {
-                metrics.oy += Math.min(8, this.actor.frame - animation.zStartFrame);
-            }
-        }
     }
     if(this.actor.talking) this.actor.messageBox.updateScreen();
     this.sprite.metrics = metrics;
@@ -68,13 +62,13 @@ Render.prototype.updateScreen = function() {
 };
 
 Render.prototype.getPreciseScreen = function() {
-    if(this.actor.move.destination && this.actor.move.moveProgress) {
-        var xDelta = this.actor.move.destination.x - this.actor.position.x,
-            yDelta = this.actor.move.destination.y - this.actor.position.y,
-            zDelta = this.actor.move.destination.z - this.actor.position.z;
-        xDelta *= this.actor.move.moveProgress;
-        yDelta *= this.actor.move.moveProgress;
-        zDelta *= this.actor.move.moveProgress;
+    if(this.actor.transform.move.destination && this.actor.transform.move.moveProgress) {
+        var xDelta = this.actor.transform.move.destination.x - this.actor.position.x,
+            yDelta = this.actor.transform.move.destination.y - this.actor.position.y,
+            zDelta = this.actor.transform.move.destination.z - this.actor.position.z;
+        xDelta *= this.actor.transform.move.moveProgress;
+        yDelta *= this.actor.transform.move.moveProgress;
+        zDelta *= this.actor.transform.move.moveProgress;
         var deltaScreen = {
             x: (xDelta - yDelta) * 16,
             y: (xDelta + yDelta) * 8 - zDelta * 16

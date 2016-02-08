@@ -10,10 +10,10 @@ function GoTo(actor, target) {
     this.target = target;
     this.attempt = util.randomIntRange(1,4);
     this.boundResetAttempt = this.resetAttempt.bind(this);
-    this.target.on('movecomplete', this.boundResetAttempt); // Reset adjacent attempts if target moves
+    this.target.on('move-complete', this.boundResetAttempt); // Reset adjacent attempts if target moves
     this.boundStartGoTo = this.startGoTo.bind(this);
     if(this.actor.destination) {
-        this.actor.once('movecomplete', this.boundStartGoTo);
+        this.actor.once('move-complete', this.boundStartGoTo);
     } else {
         this.startGoTo();
     }
@@ -38,20 +38,20 @@ GoTo.prototype.startGoTo = function() {
         x: Math.abs(destDelta.x) > Math.abs(destDelta.y) ? Math.max(-1,Math.min(1,destDelta.x)) : 0,
         y: Math.abs(destDelta.y) >= Math.abs(destDelta.x) ? Math.max(-1,Math.min(1,destDelta.y)) : 0
     };
-    var moveAttempt = this.actor.move.tryMove(
+    var moveAttempt = this.actor.transform.move.tryMove(
         this.actor.position.x+moveDir.x, this.actor.position.y+moveDir.y
     );
     if(moveAttempt) { // Try to move in the general direction of our target
-        this.actor.move.destination = moveAttempt;
-        this.actor.move.startMove();
-        this.actor.once('movecomplete', this.boundStartGoTo);
+        this.actor.transform.move.destination = moveAttempt;
+        this.actor.transform.move.startMove();
+        this.actor.once('move-complete', this.boundStartGoTo);
     } else { // If moving toward target is blocked, find a path
         this.path = Pathfinder.findPath({ start: this.actor.position, end: this.destination });
         if(this.path[0]) { // If there is a path
             //this.attempt = util.randomIntRange(1,4); // Reset adjacent attempts
-            this.actor.move.destination = { x: this.path[0].x, y: this.path[0].y, z: this.path[0].z };
+            this.actor.transform.move.destination = { x: this.path[0].x, y: this.path[0].y, z: this.path[0].z };
             this.actor.startMove();
-            this.actor.once('movecomplete', this.boundStartGoTo);
+            this.actor.once('move-complete', this.boundStartGoTo);
         } else { // If no path, try next closest tile
             this.attempt++;
             this.startGoTo();
@@ -64,8 +64,8 @@ GoTo.prototype.resetAttempt = function() {
 };
 
 GoTo.prototype.detach = function() { // Detach behavior from actor
-    if(this.actor) this.actor.removeListener('movecomplete',this.boundStartGoTo);
-    if(this.target) this.target.removeListener('movecomplete',this.boundResetAttempt);
+    if(this.actor) this.actor.removeListener('move-complete',this.boundStartGoTo);
+    if(this.target) this.target.removeListener('move-complete',this.boundResetAttempt);
     delete this.actor;
     delete this.target;
 };

@@ -8,7 +8,7 @@ function Collect(actor,types) {
     this.actor = actor;
     this.types = types;
     this.boundCheckSurroundings = this.checkSurroundings.bind(this);
-    this.actor.on('movecomplete', this.boundCheckSurroundings);
+    this.actor.on('move-complete', this.boundCheckSurroundings);
 }
 
 Collect.prototype.checkSurroundings = function() {
@@ -22,9 +22,12 @@ Collect.prototype.checkSurroundings = function() {
             z: this.actor.position.z
         };
         var object = this.actor.game.world.objectAtXYZ(adj.x,adj.y,adj.z);
-        if(object && object.presence == 'offline' && !object.bubble) { // Found offline actor with no bubble
-            this.actor.bubble.addItem(object);
-            object.remove();
+        if(!object) continue;
+        // Check if found offline actor with no bubble
+        if(object.actor && object.actor.presence == 'offline' && !object.actor.bubble 
+            && !object.actor.underneath()) { 
+            this.actor.bubble.addItem(object.actor);
+            object.actor.remove();
             this.detach();
             break;
         }
@@ -32,6 +35,6 @@ Collect.prototype.checkSurroundings = function() {
 };
 
 Collect.prototype.detach = function() {
-    this.actor.removeListener('movecomplete', this.boundCheckSurroundings);
+    this.actor.removeListener('move-complete', this.boundCheckSurroundings);
     delete this.actor.collect; // Remove behavior
 };

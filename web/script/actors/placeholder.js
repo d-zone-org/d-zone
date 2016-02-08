@@ -5,14 +5,12 @@ var WorldObject = require('./../engine/worldobject.js');
 module.exports = Placeholder;
 inherits(Placeholder, WorldObject);
 
-function Placeholder(parent,options) {
-    this.parent = parent;
-    this.invisible = true;
+function Placeholder(parentTransform,options) {
+    this.parentTransform = parentTransform;
     WorldObject.call(this, {
         position: { x: options.x, y: options.y, z: options.z },
-        pixelSize: { x: 0, y: 0, z: 0 },
         height: 0.5
     });
     this.unWalkable = true;
-    this.addToGame(this.parent.game);
+    this.addToGame(this.parentTransform.actor.game);
 }

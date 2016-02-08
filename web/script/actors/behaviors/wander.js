@@ -20,17 +20,17 @@ Wander.prototype.wait = function() {
 
 Wander.prototype.impulse = function() {
     if(!this.actor || this.actor.presence != 'online') return;
-    if(this.actor.move.destination) { // Busy
+    if(this.actor.transform.move.destination) { // Busy
         this.wait();
     } else {
         var direction = util.pickInObject(Geometry.DIRECTIONS);
         //direction = util.pickInArray(['east','south']);
         var moveXY = Geometry.DIRECTIONS[direction];
-        var canMove = this.actor.move.tryMove(this.actor.position.x+moveXY.x, this.actor.position.y+moveXY.y);
+        var canMove = this.actor.transform.move.tryMove(this.actor.position.x+moveXY.x, this.actor.position.y+moveXY.y);
         if(canMove) {
-            this.actor.move.destination = canMove;
-            this.actor.move.startMove();
-            this.actor.once('movecomplete', this.impulseCompleteBound)
+            this.actor.transform.move.destination = canMove;
+            this.actor.transform.move.startMove();
+            this.actor.once('move-complete', this.impulseCompleteBound)
         } else {
             this.wait();
         }
@@ -42,7 +42,7 @@ Wander.prototype.impulseComplete = function() {
 };
 
 Wander.prototype.detach = function() { // Detach behavior from actor
-    this.actor.removeListener('movecomplete',this.impulseCompleteBound);
+    this.actor.removeListener('move-complete',this.impulseCompleteBound);
     this.actor.removeFromSchedule(this.impulseBound);
     delete this.actor;
 };

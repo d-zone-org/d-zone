@@ -21,7 +21,8 @@ var map = {
             west: { x: 70, y: 0, w: 14, h: 14, ox: -7, oy: 5 }
         },
         hopping: {
-            animation: { frames: 13, zStartFrame: 3 },
+            frames: 13,
+            zStartFrame: 3,
             heights: [-1,-3,-4,-2,0,4,5,6,4,1,-2,-2,-1],
             north: { x: 0, y: 83, w: 35, h: 27, ox: -9, oy: -6 },
             south: { x: 0, y: 137, w: 35, h: 27, ox: -26, oy: 3 },

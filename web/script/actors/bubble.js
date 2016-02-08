@@ -30,7 +30,7 @@ Bubble.prototype.addItem = function(item) {
         if(presence == 'online') {
             self.item.removeListener('presence',onPresence);
             if(self.parent.move.destination) { // If parent is moving
-                self.parent.once('movecomplete',function(){ // Wait until move is complete
+                self.parent.once('move-complete',function(){ // Wait until move is complete
                     self.releaseItem(self.parent.position.x,self.parent.position.y,self.parent.position.z+0.5);
                 })
             } else { // Otherwise release it now
@@ -50,7 +50,7 @@ Bubble.prototype.releaseItem = function(x,y,z) {
 };
 
 Bubble.prototype.update = function() {
-    var precisePosition = this.parent.physics.getPrecisePosition();
+    var precisePosition = this.parent.transform.getPrecisePosition();
     // Springy follow
     var lag = {
         x: precisePosition.x - this.position.x,
@@ -75,7 +75,7 @@ Bubble.prototype.update = function() {
 };
 
 Bubble.prototype.initPosition = function() {
-    var precisePosition = this.parent.physics.getPrecisePosition();
+    var precisePosition = this.parent.transform.getPrecisePosition();
     this.position = {
         x: precisePosition.x,
         y: precisePosition.y,
