@@ -53,7 +53,7 @@ function Inbox(config) {
         };
         self.emit('message',messageObject);
     });
-    bot.on('presence', function(user, userID, status, rawEvent) {
+    bot.on('presence', function(user, userID, status, gameName, rawEvent) {
         var userInServers = [];
         for(var sKey in bot.servers) { if(!bot.servers.hasOwnProperty(sKey)) continue;
             if(bot.servers[sKey].members[userID]) userInServers.push(sKey);

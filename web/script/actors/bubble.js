@@ -7,6 +7,8 @@ var Sheet = require('./sheet.js');
 module.exports = Bubble;
 inherits(Bubble, Entity);
 
+var bubbleHeight = 0.8;
+
 function Bubble(options) {
     this.clip = true;
     this.parent = options.parent;
@@ -18,6 +20,8 @@ function Bubble(options) {
         screen: this.screen, metrics: this.sheet.map.empty, image: 'actors', 
         position: this.position, parent: this.parent, stay: true
     };
+    // TODO: Create child sprite system, inherits z-index and is drawn with parent (not own position in zBuffer)
+    this.position.fakeZ = 3; // This doesn't work when actor moves to new z-index, bubble should be drawn as a child
     this.update();
 }
 
@@ -53,7 +57,7 @@ Bubble.prototype.update = function() {
     var lag = {
         x: this.parent.precisePosition.x - this.position.x,
         y: this.parent.precisePosition.y - this.position.y,
-        z: this.parent.precisePosition.z + 1 - this.position.z
+        z: this.parent.precisePosition.z + bubbleHeight - this.position.z
     };
     if(Math.abs(lag.x) > 0.5 || Math.abs(lag.y) > 0.5 || Math.abs(lag.z) > 0.4) {
         this.initPosition(); // Movement too rapid, re-initialize position and velocity
@@ -76,7 +80,7 @@ Bubble.prototype.initPosition = function() {
     this.position = {
         x: this.parent.precisePosition.x,
         y: this.parent.precisePosition.y,
-        z: this.parent.precisePosition.z + 1
+        z: this.parent.precisePosition.z + bubbleHeight
     };
     this.velocity = { x: 0, y: 0, z: 0 };
 };

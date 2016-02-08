@@ -22,10 +22,12 @@ function Beacon(x,y,z) {
     this.imageName = 'props';
     this.sheet = new Sheet('beacon');
     this.sprite.metrics = this.sheet.map.main;
+    this.render = new (require('./../components/render.js'))(this);
 }
 
 Beacon.prototype.addToGame = function(game) {
     WorldObject.prototype.addToGame.call(this, game);
+    this.render.show();
     this.game.on('update', this.onUpdate.bind(this));
     this.drawSprite();
 };

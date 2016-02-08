@@ -17,6 +17,8 @@
 * Animated star field in background
 * Commands that can be sent via chat (list of commands shown in browser app)
   * Change color of actor
+  * Bytecode behavior definitions
 * Headphones on users that are in voice
 * Show server title on connect, large text top center, fades out after a few seconds
 * Allow user-defined server name with optional `alias` property in config
+* Parameterize values into a config file for easily-customizable game behavior

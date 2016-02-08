@@ -38,6 +38,7 @@ function Actor(options) {
     this.boundOnMessage = this.onMessage.bind(this);
     this.roleColor = options.roleColor;
     this.updateSprite();
+    this.render = new (require('./../components/render.js'))(this);
 }
 
 Actor.prototype.onUpdate = function() {
@@ -64,6 +65,7 @@ Actor.prototype.onUpdate = function() {
 
 Actor.prototype.addToGame = function(game) {
     WorldObject.prototype.addToGame.call(this, game);
+    this.render.show();
     if(this.roleColor) this.game.renderer.addColorSheet({
         sheet: 'actors', color: this.roleColor, alpha: 0.8,
         regions: [{ alpha: 0.4, x: 70, y: 0, w: 28, h: 14 }] // Less colorizing for offline sprites
@@ -75,6 +77,7 @@ Actor.prototype.addToGame = function(game) {
 
 Actor.prototype.remove = function() {
     WorldObject.prototype.remove.bind(this)();
+    this.render.hide();
     this.game.removeListener('update', this.boundOnUpdate);
     this.game.users.removeListener('message', this.boundOnMessage);
     if(this.game.mouseOver === this) {
