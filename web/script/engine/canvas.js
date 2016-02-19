@@ -30,7 +30,7 @@ function Canvas(options) {
     window.addEventListener('resize',this.onResize.bind(this));
     this.panning = {
         buttons: [],
-        origin: { x: 0, y: 0 }, 
+        origin: { x: 0, y: 0 },
         panned: { x: 0, y: 32 }
     };
     var self = this;
@@ -55,8 +55,34 @@ function Canvas(options) {
         self.panning.origin.x = mouseEvent.x;
         self.panning.origin.y = mouseEvent.y;
     });
+
+    //touch handling
+    this.game.on('touchstart', function(mouseEvent) {
+        if(self.game.ui.mouseOnElement) return;
+        if(self.panning.buttons.length == 0) {
+            self.panning.origin.x = mouseEvent.x;
+            self.panning.origin.y = mouseEvent.y;
+        }
+        self.panning.buttons.push(mouseEvent.button);
+    });
+
+    this.game.on('touchend', function(mouseEvent) {
+        util.findAndRemove(mouseEvent.button, self.panning.buttons);
+    });
+
+    this.game.on('touchmove', function(mouseEvent) {
+        var dx = mouseEvent.x - self.panning.origin.x,
+            dy = mouseEvent.y - self.panning.origin.y;
+        if(self.panning.buttons.length > 0) {
+            self.panning.panned.x += dx;
+            self.panning.panned.y += dy;
+        }
+        self.panning.origin.x = mouseEvent.x;
+        self.panning.origin.y = mouseEvent.y;
+    });
+
     this.game.on('mouseout', function(mouseEvent) {
-        
+
     });
     this.game.on('mouseover', function(mouseEvent) {
         self.panning.origin.x = mouseEvent.x;
@@ -110,9 +136,9 @@ Canvas.prototype.drawStatic = function(staticCanvas) {
 };
 
 Canvas.prototype.drawBG = function(bgCanvas) {
-    var x = bgCanvas.x + this.halfWidth + this.panning.panned.x, 
+    var x = bgCanvas.x + this.halfWidth + this.panning.panned.x,
         y = bgCanvas.y + this.halfHeight + this.panning.panned.y;
-    if(x >= this.width || y >= this.height 
+    if(x >= this.width || y >= this.height
         || x*-1 >= bgCanvas.image.width || y*-1 >= bgCanvas.image.height) {
         return; // BG canvas is out of frame
     }
@@ -127,7 +153,7 @@ Canvas.prototype.drawBG = function(bgCanvas) {
         x: Math.max(0,x*-1), y: Math.max(0,y*-1)
     };
     var bgEnd = {
-        x: Math.min(bgCanvas.image.width,bgStart.x + canvasClipped.w), 
+        x: Math.min(bgCanvas.image.width,bgStart.x + canvasClipped.w),
         y: Math.min(bgCanvas.image.height,bgStart.y + canvasClipped.h)
     };
     var clipped = {
@@ -142,8 +168,8 @@ Canvas.prototype.drawBG = function(bgCanvas) {
 Canvas.prototype.drawEntity = function(sprite) {
     if(!sprite || !sprite.image || sprite.hidden) return;
     if(sprite.position && sprite.position.z > this.game.hideZ) return;
-    var screen = { 
-        x: sprite.screen.x + this.halfWidth + this.panning.panned.x + (sprite.metrics.ox || 0), 
+    var screen = {
+        x: sprite.screen.x + this.halfWidth + this.panning.panned.x + (sprite.metrics.ox || 0),
         y: sprite.screen.y + this.halfHeight + this.panning.panned.y + (sprite.metrics.oy || 0)
     };
     if(sprite.keepOnScreen) {
