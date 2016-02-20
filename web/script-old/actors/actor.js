@@ -14,8 +14,7 @@ inherits(Actor, WorldObject);
 
 function Actor(options) {
     WorldObject.call(this, {
-        position: { x: options.x, y: options.y, z: options.z },
-        height: 0.5
+        position: { x: options.x, y: options.y, z: options.z }, height: 0.5
     });
     this.transform = new (require('./components/transform.js'))(this);
     this.setMaxListeners(options.maxListeners);
@@ -136,7 +135,7 @@ Actor.prototype.onMessage = function(message) { // Move this to the GoTo behavio
     this.tickDelay(function() {
         if(Geometry.getDistance(self.position, message.user.position) < 3 // If already nearby
             || self.underneath()) return; // Or if something on top of actor
-        if(self.move.destination) {
+        if(self.transform.move.destination) {
             self.once('move-complete', readyToMove);
         } else {
             readyToMove();

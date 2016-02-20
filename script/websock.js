@@ -7,6 +7,9 @@ function WebSock(config, onConnect, onJoinServer) {
     var WSServer = require('ws').Server;
     var wss = new WSServer({port:config.get('port')});
     this.wss = wss;
+    wss.on('error', function(error) {
+        console.error(error);
+    });
     wss.on('connection', function (socket) {
         console.log(DateFormat(new Date(),
             "m/d h:MM:ss TT"),'client connected to server, total:', wss.clients.length);

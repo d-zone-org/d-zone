@@ -1,10 +1,10 @@
 'use strict';
-var util = require('./script/common/util.js');
-var Preloader = require('./script/engine/preloader.js');
-var Game = require('./script/engine/game.js');
-var Renderer = require('./script/engine/renderer.js');
-var Canvas = require('./script/engine/canvas.js');
-var UI = require('./script/ui/ui.js');
+var util = require('./script-old/common/util.js');
+var Preloader = require('./script-old/engine/preloader.js');
+var Game = require('./script-old/engine/game.js');
+var Renderer = require('./script-old/engine/renderer.js');
+var Canvas = require('./script-old/engine/canvas.js');
+var UI = require('./script-old/ui/ui.js');
 var bs = require('browser-storage');
 
 // TODO: Loading screen while preloading images, connecting to websocket, and generating world
@@ -35,9 +35,9 @@ function initGame(images) {
 }
 
 function initWebsocket() {
-    var World = require('./script/environment/world.js');
-    var Users = require('./script/actors/users.js');
-    var Decorator = require('./script/props/decorator.js');
+    var World = require('./script-old/environment/world.js');
+    var Users = require('./script-old/actors/users.js');
+    var Decorator = require('./script-old/props/decorator.js');
     var users, world, decorator;
     var socketConfig = JSON.parse(require('fs').readFileSync('./socket-config.json'));
     

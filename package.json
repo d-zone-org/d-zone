@@ -14,12 +14,13 @@
     "ws": "^0.8.0",
     "brfs": "^1.4.1",
     "browserify": "latest",
-    "watchify": "latest"
+    "watchify": "latest",
+    "uglifyify": "^3.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify web/main.js -t brfs -o web/static/bundle.js",
-    "watch": "watchify web/main.js -t brfs -d -o web/static/bundle.js -v",
+    "build": "browserify web/script/main.js -t brfs -g uglifyify -o web/static/bundle.js",
+    "watch": "watchify web/script/main.js -t brfs -d -o web/static/bundle.js -v",
     "start": "node index.js"
   },
   "repository": {

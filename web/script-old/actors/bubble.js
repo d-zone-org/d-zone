@@ -29,7 +29,7 @@ Bubble.prototype.addItem = function(item) {
     var onPresence = function(presence) {
         if(presence == 'online') {
             self.item.removeListener('presence',onPresence);
-            if(self.parent.move.destination) { // If parent is moving
+            if(self.parent.transform.move.destination) { // If parent is moving
                 self.parent.once('move-complete',function(){ // Wait until move is complete
                     self.releaseItem(self.parent.position.x,self.parent.position.y,self.parent.position.z+0.5);
                 })
@@ -45,7 +45,7 @@ Bubble.prototype.addItem = function(item) {
 
 Bubble.prototype.releaseItem = function(x,y,z) {
     this.item.addToGame(this.item.game);
-    this.item.move.moveTo(x,y,z);
+    this.item.transform.move.moveTo(x,y,z);
     this.parent.removeBubble();
 };
 

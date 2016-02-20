@@ -33,7 +33,7 @@ Move.prototype.moveTo = function(x,y,z) {
         deltaZ = z - this.transform.position.z;
     if(deltaX == 0 && deltaY == 0 && deltaZ == 0) return;
     //console.log('actor: moving to',newX,newY,newZ);
-    this.transform.actor.game.world.moveObject(this.transform.actor,x,y,z);
+    this.transform.actor.game.world.moveObject(this.transform,x,y,z);
     this.transform.actor.render.updateScreen();
     this.transform.actor.nametag.updateScreen();
     var newZDepth = this.transform.actor.calcZDepth();
@@ -80,6 +80,6 @@ Move.prototype.startMove = function() {
             self.transform.actor.emit('move-complete');
             self.transform.actor.render.updateSprite();
         }
-        self.nametag.updateScreen();
+        self.transform.actor.nametag.updateScreen();
     }, moveDuration);
 };

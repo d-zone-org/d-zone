@@ -46,9 +46,6 @@ Render.prototype.updateSprite = function() {
         ox: this.sheet.map[state][facing].ox, oy: this.sheet.map[state][facing].oy
     };
     this.animation.onUpdate(metrics);
-    if(!this.actor.transform.move.destination && this.actor.talking) {
-        metrics.y += (Math.floor(this.actor.game.ticks / 4) % 4) * metrics.h;
-    }
     if(this.actor.talking) this.actor.messageBox.updateScreen();
     this.sprite.metrics = metrics;
     this.sprite.image = this.actor.roleColor ? [this.actor.roleColor,'actors'] : 'actors';
@@ -59,6 +56,11 @@ Render.prototype.updateScreen = function() {
     this.sprite.screen.x = (this.actor.position.x - this.actor.position.y) * 16;
     this.sprite.screen.y = (this.actor.position.x + this.actor.position.y) * 8 
         - (this.actor.position.z + this.actor.height) * 16;
+};
+
+Render.prototype.setZDepth = function(zDepth) {
+    this.actor.game.renderer.updateZBuffer(this.sprite.zDepth,this.sprite,zDepth);
+    this.sprite.zDepth = zDepth;
 };
 
 Render.prototype.getPreciseScreen = function() {

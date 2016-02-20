@@ -2,7 +2,7 @@
 var Discord = require("discord.io");
 var EventEmitter = require("events").EventEmitter;
 var inherits = require('inherits');
-var util = require('./../web/script/common/util');
+var util = require('./../web/script-old/common/util');
 
 module.exports = Inbox;
 inherits(Inbox, EventEmitter);

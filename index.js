@@ -14,9 +14,11 @@ var webSock;
 inbox.on('connected',function() {
     webSock = new WebSock(socketConfig, 
         function onConnect(socket) {
+            if(socket.readyState != 1) return;
             socket.send(JSON.stringify({ type: 'server-list', data: inbox.getServers() }));
         },
         function onJoinServer(socket, connectRequest) {
+            if(socket.readyState != 1) return;
             var users = inbox.getUsers(connectRequest);
             if(users == 'unknown-server') {
                 socket.send(JSON.stringify({
