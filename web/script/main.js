@@ -56,9 +56,6 @@ console.timeEnd('addEntities');
 
 console.time('addComponents');
 var c;
-//for(var c = 0; c < 10; c++) {
-//    EntityManager.addComponent(0,componentList[c].id);
-//}
 for(e = 0; e < 1000; e++) {
     for(c = 0; c < componentList.length; c++) {
         EntityManager.addComponent(e,componentList[c].name);
@@ -68,9 +65,6 @@ console.timeEnd('addComponents');
 // Wow, ~90ms for 1000 entities x 30 components x 8 systems, linear growth
 
 console.time('removeComponents');
-//for(var c = 0; c < 10; c++) {
-//    EntityManager.addComponent(0,componentList[c].id);
-//}
 for(e = 0; e < 1000; e++) {
     for(c = 0; c < componentList.length; c++) {
         EntityManager.removeComponent(e,componentList[c].name);
@@ -81,3 +75,5 @@ console.timeEnd('removeComponents'); // About the same as adding components
 console.log('Systems:',systems);
 console.log('Component Entities:',EntityManager.componentEntities);
 console.log('Entity Components:',EntityManager.entityComponents);
+console.log('Entity Component Families:',EntityManager.entityComponentFamilies);
+console.log('Component Family Entities:',EntityManager.componentFamilyEntities);
