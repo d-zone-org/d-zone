@@ -1,4 +1,7 @@
 'use strict';
+// Maintains list of all entities and which components and component families they belong to
+
+var ComponentManager = require('./manager-component');
 
 var initialPoolSize = 1024;
 var nextEntityID = 1;
@@ -13,13 +16,14 @@ module.exports = {
     init: function(systems) {
         systems.forEach(function(system) {
             if(system.components) {
-                var componentFamily = system.components.sort().join(':');
+                var componentFamily = JSON.parse(JSON.stringify(system.components)).sort().join(':');
                 if(!componentFamilyEntities[componentFamily]) {
                     componentFamilyEntities[componentFamily] = [];
                 }
-                system.entities = componentFamilyEntities[componentFamily];
+                var componentData = ComponentManager.getComponentData(system.components);
+                system.init(componentFamilyEntities[componentFamily],componentData);
             } else {
-                system.entities = entities;
+                system.init(entities);
             }
         });
         // Create initial entity pool
@@ -47,33 +51,18 @@ module.exports = {
     },
     removeEntity: function(entity) {
         entities[entity].active = false;
-        var e;
-        var removedComponents = entityComponents[entity];
-        for(var rc = 0; rc < removedComponents.length; rc++) {
-            for(e = 0; e < componentEntities[removedComponents[rc]].length; e++) {
-                if(entity === componentEntities[removedComponents[rc]][e]) {
-                    componentEntities[removedComponents[rc]].splice(e,1);
-                    break;
-                }
-            }
-        }
-        var removedComponentFamilies = entityComponentFamilies[entity];
-        for(var rf = 0; rf < removedComponentFamilies.length; rf++) {
-            for(e = 0; e < componentFamilyEntities[removedComponentFamilies[rf]].length; e++) {
-                if(entity === componentFamilyEntities[removedComponentFamilies[rf]][e]) {
-                    componentFamilyEntities[removedComponentFamilies[rf]].splice(e,1);
-                    break;
-                }
-            }
-        }
+        removeEntityFromTagCollection(entity,entityComponents,componentEntities);
+        removeEntityFromTagCollection(entity,entityComponentFamilies,componentFamilyEntities);
         entityComponents[entity] = []; // Clear components
         entityComponentFamilies[entity] = [];
         inactiveEntities.push(entity); // Add to inactive entity list for re-use
     },
-    addComponent: function(entity,component) {
+    addComponent: function(entity,component,data) {
         if(entityComponents[entity].indexOf(component) >= 0) { // Entity already has component
             console.error('Entity',entity,'already has component',component);
+            return;
         }
+        ComponentManager.addComponent(entity,component,data);
         //console.log('adding component',component,'to entity',entity);
         if(!componentEntities[component]) {
             componentEntities[component] = [];
@@ -137,3 +126,15 @@ module.exports = {
     entityComponentFamilies: entityComponentFamilies,
     componentFamilyEntities: componentFamilyEntities
 };
+
+function removeEntityFromTagCollection(entity,entityTags,tagCollection) {
+    var removedTags = entityTags[entity];
+    for(var rc = 0; rc < removedTags.length; rc++) {
+        for(var e = 0; e < tagCollection[removedTags[rc]].length; e++) {
+            if(entity === tagCollection[removedTags[rc]][e]) {
+                tagCollection[removedTags[rc]].splice(e,1);
+                break;
+            }
+        }
+    }
+}
