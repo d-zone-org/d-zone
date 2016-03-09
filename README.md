@@ -35,9 +35,9 @@ Remember, this project is still being developed (as is discord.io), so keep your
 Don't forget to rebuild `bundle.js` and re-upload the web files after updating!
 
 ## Design
-The game engine architecture is currently loosely based on [crtrdg](http://crtrdg.com/).
+The game engine uses a self-designed Entity-Component-System architecture. This project is largely a learning experience for me, so no game libraries are used.
 
-It consists of both a server and client component:
+The project consists of both a server and client component:
 
 ### Server Component
 The server runs a [Discord bot](https://www.npmjs.com/package/discord.io) which monitors the activity and user statuses in the server(s) of your choice. This data is sent to clients in real time via websockets.

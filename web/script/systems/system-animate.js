@@ -1,26 +1,24 @@
 'use strict';
+var System = require('./system');
 
-var components = ['sprite','animation']; // Components used by this system
-var entities, componentData;
+var animate = new System('animate',['sprite','animation']);
 
-function updateEntity(sprite,animation) {
-    
-}
-
-module.exports = {
-    init: function(e,c) {
-        entities = e;
-        componentData = c;
-    },
-    name: 'animate',
-    components: components,
-    update: function() {
-        if(!entities) {
-            console.error('System trying to update before initialization');
+animate.updateEntity = function(entity) {
+    var sprite = this.componentData[0][entity];
+    var animation = this.componentData[1][entity];
+    if(animation.state == 'expand') {
+        sprite.w++;
+        sprite.h++;
+        if(sprite.w == 20 || sprite.h == 20) {
+            animation.state = 'shrink';
         }
-        for(var e = 0; e < entities.length; e++) {
-            var entityID = entities[e];
-            updateEntity(componentData[0][entityID],componentData[1][entityID]);
+    } else {
+        sprite.w--;
+        sprite.h--;
+        if(sprite.w == 1 || sprite.h == 1) {
+            animation.state = 'expand';
         }
     }
 };
+
+module.exports = animate;

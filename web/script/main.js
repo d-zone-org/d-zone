@@ -1,17 +1,21 @@
 'use strict';
+var util = require('./common/util');
 
 var GameManager = require('./managers/manager-game');
 var EntityManager = require('./managers/manager-entity');
+var CanvasManager = require('./managers/manager-canvas');
 var RenderSystem = require('./systems/system-render');
 var AnimateSystem = require('./systems/system-animate');
 
+// Configure systems
+RenderSystem.configure({ backgroundColor: '#181213' });
+
 var systems = [AnimateSystem,RenderSystem];
 
+// Initialize managers
 GameManager.init(systems);
 EntityManager.init(systems);
-
-//EntityManager.addEntity();
-//EntityManager.addComponent(0,'sprite',{ spriteX: 5 });
+CanvasManager.init({ id: 'main', initialScale: 2, renderSystem: RenderSystem });
 
 //benchmark();
 
@@ -26,8 +30,14 @@ function benchmark() {
 
     console.time('addComponents'); // Add components to every entity
     for(e = 0; e < 1000; e++) {
-        EntityManager.addComponent(e,'sprite', { prop1: 123, prop2: 'test', prop3: true });
-        EntityManager.addComponent(e,'animation', { prop1: 123, prop2: 'test', prop3: true });
+        EntityManager.addComponent(e,'sprite', { 
+            x: util.randomIntRange(0,400),
+            y: util.randomIntRange(0,400),
+            w: util.randomIntRange(5,15),
+            h: util.randomIntRange(5,15),
+            color: '#' + util.randomIntRange(0,256*256*256).toString(16)
+        });
+        EntityManager.addComponent(e,'animation', { state: util.pickInArray(['expand','shrink']) });
     }
     console.timeEnd('addComponents');
     // Wow, ~90ms for 1000 entities x 30 components x 8 systems, linear growth
