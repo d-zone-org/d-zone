@@ -8,6 +8,8 @@ function isNumeric(n) {
 
 function Canvas(width, height) {
     if(!isNumeric(width) || !isNumeric(height)) console.error('Bad canvas size!',width,height);
+    this.width = width;
+    this.height = height;
     this.canvas = document.createElement('canvas');
     this.canvas.width = width;
     this.canvas.height = height;

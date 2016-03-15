@@ -22,3 +22,5 @@
 * Show server title on connect, large text top center, fades out after a few seconds
 * Allow user-defined server name with optional `alias` property in config
 * Parameterize values into a config file for easily-customizable game behavior
+* Special robot sprite for bots
+  * Speaker attachment if in voice

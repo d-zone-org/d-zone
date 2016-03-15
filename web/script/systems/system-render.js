@@ -4,7 +4,7 @@ var requestAnimationFrame = require('raf');
 
 var render = new System('render',['sprite']);
 var currentFrame, previousFrame, canvas, ctx;
-var backgroundColor;
+var width, height, backgroundColor;
 
 render.update = function() { // Overrides update method to wait for browser animation frame
     requestAnimationFrame.cancel(currentFrame); // Cancel previous frame request
@@ -15,7 +15,7 @@ function onFrameReady() {
     //var framesSkipped = currentFrame - previousFrame - 1;
     //if(framesSkipped) console.log('Skipped',framesSkipped,'frames');
     ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillRect(0,0,width,height);
     System.prototype.update.call(render);
     //previousFrame = currentFrame;
 }
@@ -29,6 +29,8 @@ render.updateEntity = function(entity) {
 render.setCanvas = function(c) {
     canvas = c.canvas;
     ctx = c.context;
+    width = c.width;
+    height = c.height;
 };
 
 render.configure = function(options) {

@@ -1,0 +1,124 @@
+'use strict';
+var util = require('./../../common/util');
+var geometry = require('./../../common/geometry');
+var Map2D = require('./../../common/map2d');
+
+const TILES = {
+    'EMPTY':   0,
+    'SLAB':    1,
+    'GRASS':   2,
+    'FLOWERS': 3
+};
+
+function generateTileMap(size) {
+    var worldSize = Math.max(24,Math.floor(size/2)*2); // Must be an even number >= 24
+    var worldRadius = Math.floor(worldSize/2);
+    var tileMap = new Map2D(worldSize,worldSize);
+    
+    var noiseBig = geometry.buildNoiseMap(worldRadius/3 + 1, worldRadius/3 + 1);
+    var noiseSmall = geometry.buildNoiseMap(worldRadius/1.5 + 1,worldRadius/1.5 + 1);
+    var bigBlur = (noiseBig.width - 1) / worldSize;
+    var smallBlur = (noiseSmall.width - 1) / worldSize;
+    var mapBounds = { xl: 0, yl: 0, xh: 0, yh: 0 };
+    var tileValues = []; // Store tile likelihood values to determine median
+    
+    for(var tx = 0; tx < worldSize; tx++) for(var ty = 0; ty < worldSize; ty++) {
+        var bigNoiseValue = geometry.getNoiseMapPoint(noiseBig, tx * bigBlur, ty * bigBlur);
+        var smallNoiseValue = geometry.getNoiseMapPoint(noiseSmall, tx * smallBlur, ty * smallBlur);
+        var noiseValue = (bigNoiseValue + smallNoiseValue*2) / 3;
+        var cx = Math.abs(tx - worldRadius),
+            cy = Math.abs(ty - worldRadius);
+        var nearness = (worldRadius - Math.max(cx,cy))/worldRadius;
+        tileValues.push(noiseValue/256 - nearness); // Tile likelihood
+    }
+    var sortedTileValues = tileValues.slice().sort();
+    var median = sortedTileValues[tileValues.length/2]; // Median of likelihood
+    for(var ft = 0; ft < tileValues.length; ft++) {
+        if(tileValues[ft] < median) { // 50% of the map will be tiles (before island removal)
+            tileMap.setIndex(ft,TILES.GRASS);
+            var coords = tileMap.XYFromIndex(ft);
+            mapBounds.xl = Math.min(coords.x,mapBounds.xl);
+            mapBounds.yl = Math.min(coords.y,mapBounds.yl);
+            mapBounds.xh = Math.max(coords.x,mapBounds.xh);
+            mapBounds.yh = Math.max(coords.y,mapBounds.yh);
+        }
+    }
+    return { tiles: tileMap, bounds: mapBounds, radius: worldRadius };
+}
+
+function crawlMap(map) {
+    var islands = [], tilesCrawled = [], neighborsToCrawl, thisIsland = 0;
+    map.tiles.forEachTile(function(val,index,arr) {
+        if(!val || tilesCrawled[index]) return; // Skip blank or already crawled
+        neighborsToCrawl = [index];
+        while(true) { // Keep crawling outward until no neighbors are left
+            var currentIndex = neighborsToCrawl.pop();
+            var currentVal = map.tiles.getIndex(currentIndex);
+            tilesCrawled[currentIndex] = true;
+            if(islands[thisIsland]) islands[thisIsland].push(currentIndex);
+            else islands.push([currentIndex]);
+            var coords = map.tiles.XYFromIndex(currentIndex);
+            map.tiles.forEachNeighborExtended(coords.x,coords.y,function(nx,ny,nVal,nTileIndex,nIndex) {
+                if(!nVal) { // If neighbor doesn't exist, set current tile to slab and move on
+                    if(currentVal != TILES.SLAB) map.tiles.setIndex(currentIndex,TILES.SLAB);
+                    return;
+                }
+                // If tile is immediate neighbor and not already crawled, add it to crawl list
+                if(nIndex < 4 && !tilesCrawled[nTileIndex]) neighborsToCrawl.push(nTileIndex);
+            });
+            if(neighborsToCrawl.length == 0) { // No more neighbors, this island is done
+                thisIsland++; 
+                break; 
+            }
+        }
+    });
+    var mainIsland = 0, i;
+    // Determine largest island
+    for(i = 1; i < islands.length; i++) {
+        mainIsland = islands[i].length > islands[mainIsland].length ? i : mainIsland;
+    }
+    // Delete tiles in all other islands
+    for(i = 0; i < islands.length; i++) { 
+        if(i == mainIsland) continue;
+        for(var it = 0; it < islands[i].length; it++) {
+            map.tiles.setIndex(islands[i][it],0);
+        }
+    }
+    map.tiles.setXY(map.radius,map.radius,TILES.SLAB); // Slabs around beacon
+    map.tiles.forEachNeighbor(map.radius,map.radius,function(nx,ny,nVal,nIndex) {
+        map.tiles.setIndex(nIndex,TILES.SLAB);
+    });
+}
+
+function createFlowerPatches(map) {
+    var numPatches = Math.ceil(Math.pow(map.radius,2) / 80);
+    for(var fp = 0; fp < numPatches; fp++) {
+        var attempt = 0, limit = Math.pow(map.radius,2);
+        do {
+            var valid = false;
+            var tile = map.tiles.getRandomTile(TILES.GRASS);
+            valid = map.tiles.checkNeighborsExtended(tile.x,tile.y,[TILES.GRASS,TILES.FLOWERS]);
+            attempt++;
+        } while(attempt < limit && !valid);
+        if(attempt == limit) continue;
+        map.tiles.setIndex(tile.index,TILES.FLOWERS);
+        var spread = util.randomIntRange(2,5);
+        for(var s = 0; s < spread; s++) {
+            var spreadX = tile.x + util.randomIntRange(-1,1),
+                spreadY = tile.y + util.randomIntRange(-1,1);
+            if(map.tiles.getXY(spreadX,spreadY) == TILES.FLOWERS) continue;
+            if(map.tiles.checkNeighborsExtended(spreadX,spreadY,[TILES.GRASS,TILES.FLOWERS])) {
+                map.tiles.setXY(spreadX,spreadY,TILES.FLOWERS);
+            }
+        }
+    }
+}
+
+module.exports = {
+    generate: function(size) {
+        var map = generateTileMap(size); // Generate 2d map of tiles using perlin noise
+        crawlMap(map); // Examine map to detect islands, borders, etc
+        createFlowerPatches(map);
+        map.tiles.print('world');
+    }
+};
