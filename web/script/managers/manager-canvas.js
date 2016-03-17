@@ -51,6 +51,7 @@ function onResize() {
     height = canvas.canvas.height = Math.ceil(window.innerHeight / scale);
     halfWidth = Math.round(width/2);
     halfHeight = Math.round(height/2);
+    renderSystem.updateCanvasSize(width,height);
     events.emit('resize',{ scale: scale, width: width, height: height });
 }
 

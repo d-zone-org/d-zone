@@ -1,9 +1,12 @@
 'use strict';
 var WorldGeneration = require('./world/world-generation');
 
-var collisionMap;
+var world, collisionMap;
 
 module.exports = {
-    generateWorld: WorldGeneration.generate,
+    generateWorld: function(size) {
+        world = WorldGeneration.generateMap(size);
+    },
+    world: world,
     collisionMap: collisionMap
 };

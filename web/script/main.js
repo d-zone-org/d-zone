@@ -6,13 +6,14 @@ var EntityManager = require('./managers/manager-entity');
 var WorldManager = require('./managers/manager-world');
 var CanvasManager = require('./managers/manager-canvas');
 
-var RenderSystem = require('./systems/system-render');
+var MoveSystem = require('./systems/system-move');
 var AnimateSystem = require('./systems/system-animate');
+var RenderSystem = require('./systems/system-render');
 
 // Configure systems
 RenderSystem.configure({ backgroundColor: '#181213' });
 
-var systems = [AnimateSystem,RenderSystem];
+var systems = [MoveSystem,AnimateSystem,RenderSystem];
 
 // Initialize managers
 GameManager.init(systems);
@@ -24,13 +25,12 @@ CanvasManager.init({ id: 'main', initialScale: 2, renderSystem: RenderSystem });
 
 function benchmark() {
     var e;
-    
     console.time('addEntities'); // Add 1000 entities
     for(e = 0; e < 1000; e++) {
         EntityManager.addEntity();
     }
     console.timeEnd('addEntities');
-
+    
     console.time('addComponents'); // Add components to every entity
     for(e = 0; e < 1000; e++) {
         EntityManager.addComponent(e,'sprite', { 

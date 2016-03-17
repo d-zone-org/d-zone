@@ -2,6 +2,7 @@
 var util = require('./../../common/util');
 var geometry = require('./../../common/geometry');
 var Map2D = require('./../../common/map2d');
+var Map3D = require('./../../common/map3d');
 
 const TILES = {
     'EMPTY':   0,
@@ -13,7 +14,8 @@ const TILES = {
 function generateTileMap(size) {
     var worldSize = Math.max(24,Math.floor(size/2)*2); // Must be an even number >= 24
     var worldRadius = Math.floor(worldSize/2);
-    var tileMap = new Map2D(worldSize,worldSize);
+    // Tile data is stored in a flattened, 2D, 8-bit unsigned integer array
+    var tileMap = new Map2D(Uint8Array,worldSize,worldSize);
     
     var noiseBig = geometry.buildNoiseMap(worldRadius/3 + 1, worldRadius/3 + 1);
     var noiseSmall = geometry.buildNoiseMap(worldRadius/1.5 + 1,worldRadius/1.5 + 1);
@@ -31,7 +33,7 @@ function generateTileMap(size) {
         var nearness = (worldRadius - Math.max(cx,cy))/worldRadius;
         tileValues.push(noiseValue/256 - nearness); // Tile likelihood
     }
-    var sortedTileValues = tileValues.slice().sort();
+    var sortedTileValues = tileValues.slice(0).sort();
     var median = sortedTileValues[tileValues.length/2]; // Median of likelihood
     for(var ft = 0; ft < tileValues.length; ft++) {
         if(tileValues[ft] < median) { // 50% of the map will be tiles (before island removal)
@@ -43,7 +45,7 @@ function generateTileMap(size) {
             mapBounds.yh = Math.max(coords.y,mapBounds.yh);
         }
     }
-    return { tiles: tileMap, bounds: mapBounds, radius: worldRadius };
+    return { tiles: tileMap, bounds: mapBounds, radius: worldRadius, size: worldSize };
 }
 
 function crawlMap(map) {
@@ -115,10 +117,13 @@ function createFlowerPatches(map) {
 }
 
 module.exports = {
-    generate: function(size) {
+    generateMap: function(size) {
         var map = generateTileMap(size); // Generate 2d map of tiles using perlin noise
         crawlMap(map); // Examine map to detect islands, borders, etc
         createFlowerPatches(map);
         map.tiles.print('world');
+        map.entityMap = new Map3D(map.size,map.size);
+        console.log(map.entityMap);
+        return map;
     }
 };

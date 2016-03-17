@@ -11,12 +11,14 @@ var entityComponents = []; // Entity > Component list
 var componentEntities = {}; // Component > Entity list
 var entityComponentFamilies = []; // Entity > Component Family list
 var componentFamilyEntities = {}; // Component family > Entity list
+var systems;
 
 module.exports = {
-    init: function(systems) {
+    init: function(s) {
+        systems = s;
         systems.forEach(function(system) {
             if(system.components) {
-                var componentFamily = JSON.parse(JSON.stringify(system.components)).sort().join(':');
+                var componentFamily = system.components.slice(0).sort().join(':');
                 if(!componentFamilyEntities[componentFamily]) {
                     componentFamilyEntities[componentFamily] = [];
                 }
@@ -84,6 +86,12 @@ module.exports = {
             if(matchesFamily) { // Entity has all required components, add to family entity list
                 componentFamilyEntities[cf].push(entity);
                 entityComponentFamilies[entity].push(cf);
+                var componentData = ComponentManager.getComponentData([components]);
+                systems.forEach(function(system) { // Notify systems of new entity
+                    if(system.components.slice(0).sort().join(':') == cf) {
+                        system.onEntityAdded(componentData);
+                    }
+                });
             }
         }
     },
@@ -118,6 +126,11 @@ module.exports = {
                     break;
                 }
             }
+            systems.forEach(function(system) { // Notify systems of removed entity
+                if(system.components.slice(0).sort().join(':') == cf) {
+                    system.onEntityRemoved();
+                }
+            });
         }
     },
     entities: entities,

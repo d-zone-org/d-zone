@@ -3,11 +3,14 @@ var util = require('./util');
 
 module.exports = Map2D;
 
-function Map2D(width,height) {
+function Map2D(arrayType,width,height) {
     this.width = width;
     this.height = height;
-    // Grid data is stored in a flattened, 2D, 8-bit unsigned integer array
-    this.dataArray = new Uint8Array(width * height);
+    this.arrayType = arrayType;
+    switch(this.arrayType) {
+        case Array: this.dataArray = new Array(width * height); break;
+        case Uint8Array: this.dataArray = new Uint8Array(width * height); break;
+    }
 }
 
 Map2D.prototype.setXY = function(x, y, value) {
@@ -39,10 +42,12 @@ Map2D.prototype.indexFromXY = function(x,y) {
     return x * this.width + y;
 };
 
-Map2D.prototype.forEachTile = function(cb) {
-    this.dataArray.forEach(function(val,index,arr) {
-        cb(val,index,arr);
-    });
+Map2D.prototype.forEachTile = function(cb,includeUndefined) {
+    for (var i = 0; i < this.dataArray.length; i++) {
+        if (includeUndefined || i in this.dataArray) {
+            cb(this.dataArray[i], i, this.dataArray);
+        }
+    }
 };
 
 Map2D.prototype.iterateRelativeTileList = function(x,y,list,cb) {
@@ -74,7 +79,7 @@ Map2D.prototype.getRandomTile = function() {
 };
 
 Map2D.prototype.checkNeighborsExtended = function(x,y,validTypes) {
-    if(typeof validTypes === 'number') validTypes = [validTypes];
+    if(validTypes.constructor !== Array) validTypes = [validTypes];
     var valid = true;
     this.iterateRelativeTileList(x,y,neighborsExtended,function(nx,ny,nVal) {
         if(validTypes.indexOf(nVal) < 0) {
@@ -89,7 +94,6 @@ Map2D.prototype.print = function() {
     var tileRow, colorRow;
     for(var y = -1; y < this.height; y++) {
         tileRow = y >= 0 ? ('   ' + y).substr(-3,3) + ' ' : '   ';
-        
         colorRow = [];
         for(var x = 0; x < this.width; x++) {
             if(y == -1) {
@@ -97,8 +101,9 @@ Map2D.prototype.print = function() {
                 continue;
             }
             var tileValue = this.getXY(x,y);
-            tileRow += tileValue ? '%c  %c ' : '%c[]%c ';
-            colorRow.push('color: #ddd; background:rgb(' + getTileColor(arguments[0],this.getXY(x,y)) + ')');
+            var emptyTile = x % 2 || y % 2 ? '[]' : '  ';
+            tileRow += tileValue ? '%c  %c ' : '%c'+emptyTile+'%c ';
+            colorRow.push('color: #ddd; background:rgb(' + getTileColor(arguments[0],tileValue) + ')');
             colorRow.push('background:white');
         }
         colorRow.unshift(tileRow);

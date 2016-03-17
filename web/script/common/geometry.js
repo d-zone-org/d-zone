@@ -43,7 +43,7 @@ module.exports = {
     buildNoiseMap: function(width, height) {
         width = Math.round(width);
         height = Math.round(height);
-        var map = new Map2D(width,height);
+        var map = new Map2D(Uint8Array,width,height);
         for(var g = 0; g < width*height; g++) {
             map.setIndex(g,util.randomIntRange(0,255));
         }

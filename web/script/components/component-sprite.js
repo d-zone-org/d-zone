@@ -10,6 +10,7 @@ module.exports = function() {
         sheetH: 0, // Must be more than 0
         x: 0,
         y: 0,
+        zDepth: 0,
         w: 10,
         h: 10,
         color: '#ffffff'
