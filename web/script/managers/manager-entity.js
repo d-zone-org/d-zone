@@ -60,10 +60,8 @@ module.exports = {
         inactiveEntities.push(entity); // Add to inactive entity list for re-use
     },
     addComponent: function(entity,component,data) {
-        if(entityComponents[entity].indexOf(component) >= 0) { // Entity already has component
-            console.error('Entity',entity,'already has component',component);
-            return;
-        }
+        console.assert(entityComponents[entity].indexOf(component) < 0,
+            'Entity',entity,'already has component',component);
         ComponentManager.addComponent(entity,component,data);
         //console.log('adding component',component,'to entity',entity);
         if(!componentEntities[component]) {
@@ -96,9 +94,8 @@ module.exports = {
         }
     },
     removeComponent: function(entity,component) {
-        if(entityComponents[entity].indexOf(component) < 0) { // Entity doesn't have this component
-            console.error('Entity',entity,'does not have component',component);
-        }
+        console.assert(entityComponents[entity].indexOf(component) >= 0,
+            'Entity',entity,'does not have component',component);
         //console.log('removing component',component,'from entity',entity);
         for(var c = 0; c < entityComponents[entity].length; c++) {
             if(entityComponents[entity][c] === component) {

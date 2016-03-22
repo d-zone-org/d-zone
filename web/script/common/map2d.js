@@ -18,12 +18,12 @@ Map2D.prototype.setXY = function(x, y, value) {
 };
 
 Map2D.prototype.getXY = function(x, y) {
-    return this.dataArray[x * this.width + y];
+    return this.dataArray[x * this.width + y] || 0;
 };
 
 Map2D.prototype.setIndex = function(index,value) {
     this.dataArray[index] = value;
-    this.maxValue = Math.max(this.maxValue || 0,value);
+    // this.maxValue = Math.max(this.maxValue || 0,value);
 };
 
 Map2D.prototype.getIndex = function(index) {
@@ -32,6 +32,15 @@ Map2D.prototype.getIndex = function(index) {
 
 Map2D.prototype.getColumn = function(x) {
     return this.dataArray.slice(x * this.width, x * this.width + this.width);
+};
+
+Map2D.prototype.getRow = function(y) {
+    var row = [], col;
+    for(var x = 0; x < this.width; x++) {
+        col = this.getColumn(x);
+        row.push(col[y]);
+    }
+    return row;
 };
 
 Map2D.prototype.XYFromIndex = function(index) {
@@ -47,6 +56,12 @@ Map2D.prototype.forEachTile = function(cb,includeUndefined) {
         if (includeUndefined || i in this.dataArray) {
             cb(this.dataArray[i], i, this.dataArray);
         }
+    }
+};
+
+Map2D.prototype.forEachTileIntersection = function(cb) {
+    for(var ix = 0; ix < this.width + 1; ix++) for(var iy = 0; iy < this.height + 1; iy++) {
+        cb(this.getXY(ix-1,iy-1),this.getXY(ix,iy-1),this.getXY(ix,iy),this.getXY(ix-1,iy),ix,iy);
     }
 };
 
@@ -89,15 +104,22 @@ Map2D.prototype.checkNeighborsExtended = function(x,y,validTypes) {
     return valid;
 };
 
+Map2D.prototype.getBoundingBox = function() {
+    return { 
+        x: getBounds(this.width,this.getColumn.bind(this)), 
+        y: getBounds(this.height,this.getRow.bind(this)) 
+    }
+};
+
 Map2D.prototype.print = function() {
     console.log('Printing ' + (arguments[0] || '') + ' map',this.width,'x',this.height);
     var tileRow, colorRow;
     for(var y = -1; y < this.height; y++) {
-        tileRow = y >= 0 ? ('   ' + y).substr(-3,3) + ' ' : '   ';
+        tileRow = y >= 0 ? ('   ' + y).slice(-3) + ' ' : '   ';
         colorRow = [];
         for(var x = 0; x < this.width; x++) {
             if(y == -1) {
-                tileRow += ('   ' + x).substr(-3,3);
+                tileRow += ('   ' + x).slice(-3);
                 continue;
             }
             var tileValue = this.getXY(x,y);
@@ -110,6 +132,24 @@ Map2D.prototype.print = function() {
         console.log.apply(console,colorRow);
     }
 };
+
+function getBounds(size,getRange) { // Lowest and highest non-zero X or Y, to define a bounding box
+    var bounds = {}, dir = 1, range;
+    for(var p = 0; p < size && p >= 0; p += dir) {
+        range = getRange(p);
+        for(var rp = 0; rp < range.length; rp++) {
+            if(range[rp] > 0) {
+                if(dir == 1) bounds.min = p; else bounds.max = p;
+                break;
+            }
+        }
+        if(dir == 1 && bounds.min >= 0) {
+            dir = -1;
+            p = size;
+        } else if(dir == -1 && bounds.max >= 0) break;
+    }
+    return bounds;
+}
 
 function getTileColor(type,value) { // For printing in console
     if(!type) return 255-value;

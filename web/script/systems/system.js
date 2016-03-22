@@ -13,10 +13,7 @@ System.prototype.init = function(entities, componentData) {
 };
 
 System.prototype.update = function() {
-    if(!this.entities) {
-        console.error('System',this.name,'trying to update before initialization');
-        return;
-    }
+    console.assert(this.entities,'System',this.name,'trying to update before initialization');
     for(var e = 0; e < this.entities.length; e++) {
         this.updateEntity(this.entities[e]);
     }

@@ -21,7 +21,6 @@ function generateTileMap(size) {
     var noiseSmall = geometry.buildNoiseMap(worldRadius/1.5 + 1,worldRadius/1.5 + 1);
     var bigBlur = (noiseBig.width - 1) / worldSize;
     var smallBlur = (noiseSmall.width - 1) / worldSize;
-    var mapBounds = { xl: 0, yl: 0, xh: 0, yh: 0 };
     var tileValues = []; // Store tile likelihood values to determine median
     
     for(var tx = 0; tx < worldSize; tx++) for(var ty = 0; ty < worldSize; ty++) {
@@ -38,14 +37,9 @@ function generateTileMap(size) {
     for(var ft = 0; ft < tileValues.length; ft++) {
         if(tileValues[ft] < median) { // 50% of the map will be tiles (before island removal)
             tileMap.setIndex(ft,TILES.GRASS);
-            var coords = tileMap.XYFromIndex(ft);
-            mapBounds.xl = Math.min(coords.x,mapBounds.xl);
-            mapBounds.yl = Math.min(coords.y,mapBounds.yl);
-            mapBounds.xh = Math.max(coords.x,mapBounds.xh);
-            mapBounds.yh = Math.max(coords.y,mapBounds.yh);
         }
     }
-    return { tiles: tileMap, bounds: mapBounds, radius: worldRadius, size: worldSize };
+    return { tiles: tileMap, radius: worldRadius, size: worldSize };
 }
 
 function crawlMap(map) {

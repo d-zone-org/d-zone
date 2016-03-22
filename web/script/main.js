@@ -3,8 +3,8 @@ var util = require('./common/util');
 
 var GameManager = require('./managers/manager-game');
 var EntityManager = require('./managers/manager-entity');
-var WorldManager = require('./managers/manager-world');
 var CanvasManager = require('./managers/manager-canvas');
+var WorldManager = require('./managers/manager-world');
 
 var MoveSystem = require('./systems/system-move');
 var AnimateSystem = require('./systems/system-animate');
@@ -18,8 +18,8 @@ var systems = [MoveSystem,AnimateSystem,RenderSystem];
 // Initialize managers
 GameManager.init(systems);
 EntityManager.init(systems);
+CanvasManager.init({ id: 'main', initialScale: 2 });
 WorldManager.generateWorld(30);
-CanvasManager.init({ id: 'main', initialScale: 2, renderSystem: RenderSystem });
 
 //benchmark();
 

@@ -7,21 +7,23 @@ function isNumeric(n) {
 }
 
 function Canvas(width, height) {
-    if(!isNumeric(width) || !isNumeric(height)) console.error('Bad canvas size!',width,height);
-    this.width = width;
-    this.height = height;
+    console.assert(isNumeric(width) && isNumeric(height),'Bad canvas params!',width,height);
     this.canvas = document.createElement('canvas');
-    this.canvas.width = width;
-    this.canvas.height = height;
     this.context = this.canvas.getContext('2d');
+    this.setSize(width,height);
 }
 
+Canvas.prototype.setSize = function(w,h) {
+    this.width = w;
+    this.height = h;
+    this.canvas.width = w;
+    this.canvas.height = h;
+};
+
 Canvas.prototype.drawImage = function(img, sx, sy, sw, sh, dx, dy, dw, dh, opacity) {
-    if(!img || !(sx >= 0) || !(sy >= 0) || !(sw >= 0) || !(sh >= 0)
-        || !isNumeric(dx) || !isNumeric(dy) || !(dw >= 0) || !(dh >= 0)) {
-        console.error('Bad drawImage params!',img,sx,sy,sw,sh,dx,dy,dw,dh);
-        window.pause();
-    }
+    console.assert(img && sx >= 0 && sy >= 0 && sw >= 0 && sh >= 0
+        && isNumeric(dx) && isNumeric(dy) && dw >= 0 && dh >= 0,
+        'Bad drawImage params!',img,sx,sy,sw,sh,dx,dy,dw,dh);
     if(opacity) {
         this.context.save();
         this.context.globalAlpha = opacity;
@@ -42,18 +44,14 @@ Canvas.prototype.clear = function() {
 };
 
 Canvas.prototype.fillRect = function(color, x, y, w, h) {
-    if(!isNumeric(x) || !isNumeric(y) || !isNumeric(w) || !isNumeric(h)) {
-        console.error('Bad fillRect params!',color,x,y,w,h);
-        window.pause();
-    }
+    console.assert(isNumeric(x) && isNumeric(y) && isNumeric(w) && isNumeric(h),
+        'Bad fillRect params!',color,x,y,w,h);
     this.context.fillStyle = color;
     this.context.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
 };
 
 Canvas.prototype.clearRect = function(x, y, w, h) {
-    if(!isNumeric(x) || !isNumeric(y) || !isNumeric(w) || !isNumeric(h)) {
-        console.error('Bad clearRect params!',x,y,w,h);
-        window.pause();
-    }
+    console.assert(isNumeric(x) && isNumeric(y) && isNumeric(w) && isNumeric(h),
+        'Bad clearRect params!',color,x,y,w,h);
     this.context.clearRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
 };
