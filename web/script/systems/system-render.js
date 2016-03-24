@@ -5,16 +5,16 @@ var RenderManager = require('./../managers/manager-render');
 var SpriteManager = require('./../managers/manager-sprite');
 var requestAnimationFrame = require('raf');
 
+var render = new System('render',['sprite']);
+var zBuffer, currentFrame, previousFrame, canvas, ctx;
+var width, height, backgroundColor, bgImage;
+
 CanvasManager.events.on('canvas-update', function(c) {
     canvas = c.canvas;
     ctx = c.context;
     width = c.width;
     height = c.height;
 });
-
-var render = new System('render',['sprite']);
-var zBuffer, currentFrame, previousFrame, canvas, ctx;
-var width, height, backgroundColor;
 
 render.update = function() { // Overrides update method to wait for browser animation frame
     zBuffer = RenderManager.getZBuffer();
@@ -28,6 +28,7 @@ function onFrameReady() {
     //if(framesSkipped) console.log('Skipped',framesSkipped,'frames');
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0,0,width,height);
+    if(bgImage) ctx.drawImage(bgImage,0,0);
     for(var s = 0; s < zBuffer.length; s++) {
         renderSprite(zBuffer[s]);
     }
@@ -51,6 +52,10 @@ render.onEntityRemoved = function() {
 
 render.configure = function(options) {
     backgroundColor = options.backgroundColor;
+};
+
+render.setBackgroundImage = function(img) {
+    bgImage = img;
 };
 
 module.exports = render;

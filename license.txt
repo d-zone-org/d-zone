@@ -1,4 +1,4 @@
 D-Zone
-Copyright 2015 Devin Spikowski
+Copyright 2016 Devin Spikowski
 Distributed under the ISC License
 http://opensource.org/licenses/ISC

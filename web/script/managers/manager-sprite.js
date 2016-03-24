@@ -1,8 +1,12 @@
 'use strict';
 var Canvas = require('./../common/canvas');
+var EventEmitter = require('events').EventEmitter;
+
+var events = new EventEmitter();
 
 var spriteManager = {
-    sprites: {}
+    sprites: {},
+    events: events
 };
 
 var imageList = ['actors','environment','static-tiles','props','font'];
@@ -20,6 +24,7 @@ function onImageLoad(image, imageName) {
     canvas.drawImage(image,0,0,image.width,image.height,0,0,image.width,image.height);
     imagesLoaded++;
     spriteManager.loaded = imagesLoaded == imageList.length;
+    if(spriteManager.loaded) events.emit('loaded');
 }
 
 module.exports = spriteManager;

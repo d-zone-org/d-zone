@@ -18,7 +18,8 @@ Map2D.prototype.setXY = function(x, y, value) {
 };
 
 Map2D.prototype.getXY = function(x, y) {
-    return this.dataArray[x * this.width + y] || 0;
+    if(x < 0 || y < 0 || x > this.width-1 || y > this.height - 1) return 0;
+    return this.dataArray[x * this.width + y];
 };
 
 Map2D.prototype.setIndex = function(index,value) {

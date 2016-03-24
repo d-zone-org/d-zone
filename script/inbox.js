@@ -23,8 +23,8 @@ function Inbox(config) {
         var serverIDs = [];
         self.servers = {};
         for(var i = 0; i < serverList.length; i++) {
-            if(!bot.servers[serverList[i].id]) { // Skip unknown servers
-                console.log('Unknown server ID:',serverList[i].id);
+            if(!bot.servers[serverList[i].id] || bot.servers[serverList[i].id].unavailable) { // Skip unavailable servers
+                console.log('Server unavailable:',serverList[i].id);
                 continue;
             }
             var newServer = { discordID: serverList[i].id, name: bot.servers[serverList[i].id].name };
@@ -56,7 +56,7 @@ function Inbox(config) {
     bot.on('presence', function(user, userID, status, gameName, rawEvent) {
         var userInServers = [];
         for(var sKey in bot.servers) { if(!bot.servers.hasOwnProperty(sKey)) continue;
-            if(bot.servers[sKey].members[userID]) userInServers.push(sKey);
+            if(!bot.servers[sKey].unavailable && bot.servers[sKey].members[userID]) userInServers.push(sKey);
         }
         var presence = { 
             type: 'presence', servers: userInServers, data: { uid: userID, status: status }
