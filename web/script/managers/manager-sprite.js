@@ -6,7 +6,11 @@ var events = new EventEmitter();
 
 var spriteManager = {
     sprites: {},
-    events: events
+    events: events,
+    waitForLoaded: function(cb) {
+        if(spriteManager.loaded) cb();
+        else events.once('loaded',cb);
+    }
 };
 
 var imageList = ['actors','environment','static-tiles','props','font'];

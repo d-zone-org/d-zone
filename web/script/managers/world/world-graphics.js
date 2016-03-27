@@ -2,6 +2,8 @@
 var util = require('./../../common/util');
 var Canvas = require('./../../common/canvas');
 
+var tileWidth = 32, tileHeight = 18;
+
 function getTileSheetXY(ring,shape) {
     if(ring & 1) { // Reverse shape for odd ring numbers
         shape = shape ^ 15;
@@ -20,21 +22,28 @@ function getTileSheetXY(ring,shape) {
 module.exports = {
     drawWorld: function(world, sprites) {
         var tileSheet = sprites['static-tiles'];
-        var worldBounds = world.tiles.getBoundingBox();
-        var worldWidth = worldBounds.x.max - worldBounds.x.min,
-            worldHeight = worldBounds.y.max-worldBounds.y.min;
-        // TODO: Tweak canvas size
-        var worldCanvas = new Canvas(worldWidth*32, worldHeight*18);
+        var canvasMaxWidth = world.size * 32 + tileWidth,
+            canvasMaxHeight = world.size * 16 + tileHeight;
+        var drawXMin = canvasMaxWidth, drawXMax = 0,
+            drawYMin = canvasMaxHeight, drawYMax = 0;
+        var tempCanvas = new Canvas(canvasMaxWidth, canvasMaxHeight);
         world.tiles.forEachTileIntersection(function(nw,ne,se,sw,ix,iy){
             var shape = (nw & 1) | (ne & 1) << 1 | (se & 1) << 2 | (sw & 1) << 3, // 0-15
                 ring = (nw + ne + se + sw) >> 2; // 0:ES, 1:SG, 2:GF, 3:F
             if(shape == 0 && ring == 0) return;
-            var tileSheetXY = getTileSheetXY(ring,shape);
-            var drawX = (ix - iy) * 16 + 320,
-                drawY = (ix + iy) * 8 - 48;
+            var sheetXY = getTileSheetXY(ring,shape);
+            var drawX = (ix - iy) * 16 + world.size * 16,
+                drawY = (ix + iy) * 8;
+            drawXMin = Math.min(drawX,drawXMin);
+            drawXMax = Math.max(drawX+tileWidth,drawXMax);
+            drawYMin = Math.min(drawY,drawYMin);
+            drawYMax = Math.max(drawY+tileHeight,drawYMax);
             // console.log(nw,ne,se,sw,ring,shape,tileSheetXY);
-            worldCanvas.drawImage(tileSheet,tileSheetXY.x,tileSheetXY.y,32,18,drawX,drawY,32,18);
+            tempCanvas.drawImage(tileSheet,sheetXY.x,sheetXY.y,tileWidth,tileHeight,drawX,drawY);
         });
-        return worldCanvas.canvas;
+        var worldCanvas = new Canvas(drawXMax-drawXMin, drawYMax-drawYMin);
+        worldCanvas.context.drawImage(tempCanvas.canvas,-drawXMin,-drawYMin);
+        world.image = worldCanvas.canvas;
+        world.imageCenter = { x: canvasMaxWidth/2 - drawXMin, y: canvasMaxHeight/2 - drawYMin };
     }
 };

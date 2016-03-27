@@ -2,11 +2,11 @@
 var EventEmitter = require('events').EventEmitter;
 var Canvas = require('./../common/canvas');
 
-var canvases, backgroundColor, scale;
+var canvas, canvases, backgroundColor, scale;
 
 var events = new EventEmitter();
 
-var canvasManager = {
+module.exports = {
     init: function(options) {
         backgroundColor = options.backgroundColor;
         canvases = [];
@@ -24,6 +24,7 @@ var canvasManager = {
         }
         setScale(options.initialScale);
     },
+    panX: 0, panY: 0,
     events: events
 };
 
@@ -32,7 +33,7 @@ function setScale(sc) {
     for(var s = 0; s < canvases.length; s++) {
         if(s+1 == scale) {
             canvases[s].canvas.style.zIndex = 5;
-            canvasManager.canvas = canvases[s];
+            canvas = canvases[s];
         } else {
             canvases[s].canvas.style.zIndex = 1;
         }
@@ -41,8 +42,6 @@ function setScale(sc) {
 }
 
 function resize() {
-    canvasManager.canvas.setSize(Math.ceil(window.innerWidth / scale), Math.ceil(window.innerHeight / scale));
-    events.emit('canvas-update',canvasManager.canvas);
+    canvas.setSize(Math.ceil(window.innerWidth / scale), Math.ceil(window.innerHeight / scale));
+    events.emit('canvas-update',canvas);
 }
-
-module.exports = canvasManager;

@@ -13,6 +13,13 @@ var entityComponentFamilies = []; // Entity > Component Family list
 var componentFamilyEntities = {}; // Component family > Entity list
 var systems;
 
+// TODO: Use uint32 component masks (if more components are needed, use 2+ masks in an array)
+//       Destroying an entity simply sets its component mask to 0
+//       No more inactiveEntities array, creating new entity loops through entities until empty found
+//       Component data can stay dormant until an entity is assigned to it again (memory friendly)
+
+
+
 module.exports = {
     init: function(s) {
         systems = s;

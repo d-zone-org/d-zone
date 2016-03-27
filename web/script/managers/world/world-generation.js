@@ -12,7 +12,7 @@ const TILES = {
 };
 
 function generateTileMap(size) {
-    var worldSize = Math.max(24,Math.floor(size/2)*2); // Must be an even number >= 24
+    var worldSize = Math.max(4,Math.floor(size/2)*2); // Must be an even number >= 24
     var worldRadius = Math.floor(worldSize/2);
     // Tile data is stored in a flattened, 2D, 8-bit unsigned integer array
     var tileMap = new Map2D(Uint8Array,worldSize,worldSize);
@@ -115,9 +115,8 @@ module.exports = {
         var map = generateTileMap(size); // Generate 2d map of tiles using perlin noise
         crawlMap(map); // Examine map to detect islands, borders, etc
         createFlowerPatches(map);
-        map.tiles.print('world');
+        // map.tiles.print('world');
         map.entityMap = new Map3D(map.size,map.size);
-        console.log(map.entityMap);
         return map;
     }
 };

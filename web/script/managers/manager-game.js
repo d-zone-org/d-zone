@@ -45,6 +45,8 @@ function interval() {
     lastUpdate = now();
 }
 
+window.pause = function() { paused = !paused; };
+
 module.exports = {
     init: function(s) {
         systems = s;

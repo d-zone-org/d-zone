@@ -16,10 +16,10 @@ RenderSystem.configure({ backgroundColor: '#181213' });
 var systems = [MoveSystem,AnimateSystem,RenderSystem];
 
 // Initialize managers
+CanvasManager.init({ id: 'main', initialScale: 2 });
 GameManager.init(systems);
 EntityManager.init(systems);
-CanvasManager.init({ id: 'main', initialScale: 2 });
-WorldManager.generateWorld(30);
+WorldManager.generateWorld(20);
 
 //benchmark();
 

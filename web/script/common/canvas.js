@@ -20,15 +20,26 @@ Canvas.prototype.setSize = function(w,h) {
     this.canvas.height = h;
 };
 
-Canvas.prototype.drawImage = function(img, sx, sy, sw, sh, dx, dy, dw, dh, opacity) {
-    console.assert(img && sx >= 0 && sy >= 0 && sw >= 0 && sh >= 0
-        && isNumeric(dx) && isNumeric(dy) && dw >= 0 && dh >= 0,
-        'Bad drawImage params!',img,sx,sy,sw,sh,dx,dy,dw,dh);
+Canvas.prototype.drawImage = function(img, sx, sy, sw, sh, dx, dy, opacity) {
+    console.assert(img && sx >= 0 && sy >= 0 && sw >= 0 && sh >= 0 && isNumeric(dx) && isNumeric(dy), 
+        'Bad drawImage params!',img,dx,dy);
     if(opacity) {
         this.context.save();
         this.context.globalAlpha = opacity;
     }
-    this.context.drawImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
+    sw = Math.min(this.width - dx, sw);
+    sh = Math.min(this.height - dy, sh);
+    if(dx < 0) {
+        sw += dx;
+        sx -= dx;
+        dx = 0;
+    }
+    if(dy < 0) {
+        sh += dy;
+        sy -= dy;
+        dy = 0;
+    }
+    this.context.drawImage(img,sx,sy,sw,sh,dx,dy,sw,sh);
     if(opacity) {
         this.context.restore();
     }

@@ -9,8 +9,10 @@ var world, collisionMap;
 module.exports = {
     generateWorld: function(size) {
         world = WorldGeneration.generateMap(size);
-        SpriteManager.events.once('loaded',function() {
-            RenderSystem.setBackgroundImage(WorldGraphics.drawWorld(world,SpriteManager.sprites));
+        // console.log(world);
+        SpriteManager.waitForLoaded(function() {
+            WorldGraphics.drawWorld(world,SpriteManager.sprites);
+            RenderSystem.setWorld(world);
         });
     },
     collisionMap: collisionMap

@@ -6,14 +6,12 @@ var SpriteManager = require('./../managers/manager-sprite');
 var requestAnimationFrame = require('raf');
 
 var render = new System('render',['sprite']);
-var zBuffer, currentFrame, previousFrame, canvas, ctx;
-var width, height, backgroundColor, bgImage;
+var zBuffer, currentFrame, previousFrame;
+var canvas;
+var backgroundColor, bgImage;
 
 CanvasManager.events.on('canvas-update', function(c) {
-    canvas = c.canvas;
-    ctx = c.context;
-    width = c.width;
-    height = c.height;
+    canvas = c;
 });
 
 render.update = function() { // Overrides update method to wait for browser animation frame
@@ -23,21 +21,27 @@ render.update = function() { // Overrides update method to wait for browser anim
     currentFrame = requestAnimationFrame(onFrameReady);
 };
 
+// var fiveSecRenderTime = 0;
+// var frameCount = 0;
+
 function onFrameReady() {
     //var framesSkipped = currentFrame - previousFrame - 1;
     //if(framesSkipped) console.log('Skipped',framesSkipped,'frames');
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0,0,width,height);
-    if(bgImage) ctx.drawImage(bgImage,0,0);
+    // frameCount++;
+    var renderStart = performance.now();
+    canvas.fill(backgroundColor);
+    if(bgImage) canvas.drawImage(bgImage,0,0,bgImage.width,bgImage.height,
+        CanvasManager.panX,CanvasManager.panY); // Make separate bg canvas?
     for(var s = 0; s < zBuffer.length; s++) {
         renderSprite(zBuffer[s]);
     }
+    // fiveSecRenderTime += performance.now() - renderStart;
+    // if(frameCount == 3000) { frameCount = 0; console.log(fiveSecRenderTime/3000); fiveSecRenderTime = 0; }
     //previousFrame = currentFrame;
 }
 
 function renderSprite(sprite) {
-    ctx.fillStyle = sprite.color;
-    ctx.fillRect(sprite.x,sprite.y,sprite.w,sprite.h);
+    canvas.fillRect(sprite.color,sprite.x,sprite.y,sprite.w,sprite.h);
 }
 
 render.onEntityAdded = function(componentData) {
@@ -54,8 +58,10 @@ render.configure = function(options) {
     backgroundColor = options.backgroundColor;
 };
 
-render.setBackgroundImage = function(img) {
-    bgImage = img;
+render.setWorld = function(world) {
+    bgImage = world.image;
+    CanvasManager.panX = Math.round(canvas.width / 2 - world.imageCenter.x);
+    CanvasManager.panY = Math.round(canvas.height / 2 - world.imageCenter.y - 8);
 };
 
 module.exports = render;
