@@ -1,11 +1,12 @@
 'use strict';
 var System = require('./system');
 
-var animate = new System('animate',['sprite','animation']);
+var animate = new System('animate',[
+    require('./../components/component-sprite'),
+    require('./../components/component-animation')
+]);
 
-animate.updateEntity = function(entity) {
-    var sprite = this.componentData[0][entity];
-    var animation = this.componentData[1][entity];
+animate.updateEntity = function(entity, sprite, animation) {
     if(animation.state == 'expand') {
         sprite.w++;
         sprite.h++;

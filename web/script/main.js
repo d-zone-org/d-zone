@@ -1,48 +1,47 @@
 'use strict';
 var util = require('./common/util');
 
+var components = [
+    require('./components/component-sprite'),
+    require('./components/component-animation')
+];
+var systems = [
+    require('./systems/system-move'),
+    require('./systems/system-animate'),
+    require('./systems/system-render')
+];
+
 var GameManager = require('./managers/manager-game');
 var EntityManager = require('./managers/manager-entity');
+var ComponentManager = require('./managers/manager-component');
 var CanvasManager = require('./managers/manager-canvas');
 var WorldManager = require('./managers/manager-world');
-
-var MoveSystem = require('./systems/system-move');
-var AnimateSystem = require('./systems/system-animate');
-var RenderSystem = require('./systems/system-render');
-
-// Configure systems
-RenderSystem.configure({ backgroundColor: '#181213' });
-
-var systems = [MoveSystem,AnimateSystem,RenderSystem];
 
 // Initialize managers
 CanvasManager.init({ id: 'main', initialScale: 2 });
 GameManager.init(systems);
-EntityManager.init(systems);
+ComponentManager.init(components,systems);
 WorldManager.generateWorld(20);
 
 //benchmark();
 
 function benchmark() {
+    var SPRITE = require('./components/component-sprite');
+    var ANIMATION = require('./components/component-animation');
     var e;
     console.time('addEntities'); // Add 1000 entities
     for(e = 0; e < 1000; e++) {
-        EntityManager.addEntity();
-    }
-    console.timeEnd('addEntities');
-    
-    console.time('addComponents'); // Add components to every entity
-    for(e = 0; e < 1000; e++) {
-        EntityManager.addComponent(e,'sprite', { 
-            x: util.randomIntRange(0,400),
-            y: util.randomIntRange(0,400),
+        var entity = EntityManager.addEntity();
+        EntityManager.addComponent(entity,SPRITE, {
+            x: util.randomIntRange(0,300),
+            y: util.randomIntRange(0,300),
             w: util.randomIntRange(5,15),
             h: util.randomIntRange(5,15),
             color: '#' + util.randomIntRange(0,256*256*256).toString(16)
         });
-        EntityManager.addComponent(e,'animation', { state: util.pickInArray(['expand','shrink']) });
+        EntityManager.addComponent(entity,ANIMATION, { state: util.pickInArray(['expand','shrink']) });
     }
-    console.timeEnd('addComponents');
+    console.timeEnd('addEntities');
     // Wow, ~90ms for 1000 entities x 30 components x 8 systems, linear growth
     
     //console.time('removeComponents'); // Remove components from all entities

@@ -35,17 +35,17 @@ Remember, this project is still being developed (as is discord.io), so keep your
 Don't forget to rebuild `bundle.js` and re-upload the web files after updating!
 
 ## Design
-The game engine uses a self-designed Entity-Component-System architecture. This project is largely a learning experience for me, so no game libraries are used.
-
 The project consists of both a server and client component:
 
 ### Server Component
 The server runs a [Discord bot](https://www.npmjs.com/package/discord.io) which monitors the activity and user statuses in the server(s) of your choice. This data is sent to clients in real time via websockets.
 
 ### Client Component
-The client (also designed with node via browserify) runs a graphical simulation in a canvas depicting an isometric scene populated by objects and autonomous characters. The activity in the scene is dictated and influenced by the data received from the server component. Clients are able to change which Discord server they are viewing with in-game UI.
+The client (also designed with node via browserify) runs a graphical simulation in a canvas depicting an isometric scene populated by objects and autonomous characters. The activity in the scene is dictated and influenced by the data received from the server component. Users are able to change which Discord server they are viewing with in-game UI.
 
-Core client modules such as the renderer and input controller are loosely based on implementations found in [playground.js](http://playgroundjs.com/).
+The game engine uses a self-designed Entity-Component-System architecture, partially inspired by [makr](https://github.com/makrjs/makr). This project is largely a learning experience for me, so no game libraries are used.
+
+Other modules such as the renderer and input controller are loosely based on implementations found in [playground.js](http://playgroundjs.com/).
 
 _Disclaimer: I cannot be held responsible for anything that happens to your computer, your server, your bot, or anything else as a result of using this package._
 

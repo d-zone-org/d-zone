@@ -3,19 +3,24 @@
 module.exports = System;
 
 function System(name, components) {
-    this.name = name;
+    this.systemName = name;
     this.components = components;
 }
 
 System.prototype.init = function(entities, componentData) {
     this.entities = entities;
-    if(componentData) this.componentData = componentData;
+    this.componentData = componentData;
 };
 
 System.prototype.update = function() {
-    console.assert(this.entities,'System',this.name,'trying to update before initialization');
-    for(var e = 0; e < this.entities.length; e++) {
-        this.updateEntity(this.entities[e]);
+    var e, c, entity, dataArgs;
+    for(e = 0; e < this.entities.length; e++) {
+        entity = this.entities[e];
+        dataArgs = [entity];
+        for(c = 0; c < this.components.length; c++) {
+            dataArgs.push(this.componentData[c][entity]);
+        }
+        this.updateEntity.apply(this,dataArgs);
     }
 };
 

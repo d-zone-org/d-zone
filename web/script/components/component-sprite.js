@@ -1,7 +1,8 @@
 'use strict';
 
-module.exports = function() {
-    this.name = 'sprite';
+module.exports = Sprite;
+
+function Sprite() {
     this.data = {
         sheet: null, // Must be defined
         sheetX: 0,
@@ -15,4 +16,4 @@ module.exports = function() {
         h: 10,
         color: '#ffffff'
     };
-};
+}

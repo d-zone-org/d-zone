@@ -5,10 +5,12 @@ var RenderManager = require('./../managers/manager-render');
 var SpriteManager = require('./../managers/manager-sprite');
 var requestAnimationFrame = require('raf');
 
-var render = new System('render',['sprite']);
+var render = new System('render',[
+    require('./../components/component-sprite')
+]);
 var zBuffer, currentFrame, previousFrame;
 var canvas;
-var backgroundColor, bgImage;
+var backgroundColor = '#181213', bgImage;
 
 CanvasManager.events.on('canvas-update', function(c) {
     canvas = c;
@@ -21,22 +23,22 @@ render.update = function() { // Overrides update method to wait for browser anim
     currentFrame = requestAnimationFrame(onFrameReady);
 };
 
-// var fiveSecRenderTime = 0;
+// var renderTime = 0;
 // var frameCount = 0;
 
 function onFrameReady() {
     //var framesSkipped = currentFrame - previousFrame - 1;
     //if(framesSkipped) console.log('Skipped',framesSkipped,'frames');
     // frameCount++;
-    var renderStart = performance.now();
+    // var renderStart = performance.now();
     canvas.fill(backgroundColor);
     if(bgImage) canvas.drawImage(bgImage,0,0,bgImage.width,bgImage.height,
         CanvasManager.panX,CanvasManager.panY); // Make separate bg canvas?
     for(var s = 0; s < zBuffer.length; s++) {
         renderSprite(zBuffer[s]);
     }
-    // fiveSecRenderTime += performance.now() - renderStart;
-    // if(frameCount == 3000) { frameCount = 0; console.log(fiveSecRenderTime/3000); fiveSecRenderTime = 0; }
+    // renderTime += performance.now() - renderStart;
+    // if(frameCount == 500) { frameCount = 0; console.log(renderTime/500); renderTime = 0; }
     //previousFrame = currentFrame;
 }
 
@@ -44,18 +46,14 @@ function renderSprite(sprite) {
     canvas.fillRect(sprite.color,sprite.x,sprite.y,sprite.w,sprite.h);
 }
 
-render.onEntityAdded = function(componentData) {
-    var sprite = componentData[0].slice(-1)[0];
-    sprite.zDepth = sprite.y;
+render.onEntityAdded = function(entity) {
+    var sprite = this.componentData[0][entity];
+    sprite.zDepth = sprite.x + sprite.y;
     RenderManager.setZBuffer(render.componentData[0].slice(0));
 };
 
 render.onEntityRemoved = function() {
     RenderManager.setZBuffer(render.componentData[0].slice(0));
-};
-
-render.configure = function(options) {
-    backgroundColor = options.backgroundColor;
 };
 
 render.setWorld = function(world) {

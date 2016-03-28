@@ -1,9 +1,10 @@
 'use strict';
 
-module.exports = function() {
-    this.name = 'animation';
+module.exports = Animation;
+
+function Animation() {
     this.data = {
         frames: 12,
         frame: 0
     };
-};
+}

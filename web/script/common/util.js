@@ -9,10 +9,11 @@ module.exports = {
     pickInObject: function(obj) { // Return random property name from object
         return this.pickInArray(Object.keys(obj));
     },
-    findAndRemove: function(elem,arr) {
+    removeFromArray: function(elem, arr, full) {
         for(var i = 0; i < arr.length; i++) {
             if(arr[i] === elem) { 
                 arr.splice(i, 1);
+                if(!full) return;
                 i--;
             }
         }
