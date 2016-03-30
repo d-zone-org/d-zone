@@ -3,6 +3,7 @@ var System = require('./system');
 var CanvasManager = require('./../managers/manager-canvas');
 var RenderManager = require('./../managers/manager-render');
 var SpriteManager = require('./../managers/manager-sprite');
+var UIManager = require('./../managers/manager-ui');
 var requestAnimationFrame = require('raf');
 
 var render = new System('render',[
@@ -14,6 +15,7 @@ var backgroundColor = '#181213', bgImage;
 
 CanvasManager.events.on('canvas-update', function(c) {
     canvas = c;
+    UIManager.resize(c.width,c.height);
 });
 
 render.update = function() { // Overrides update method to wait for browser animation frame
@@ -37,6 +39,7 @@ function onFrameReady() {
     for(var s = 0; s < zBuffer.length; s++) {
         renderSprite(zBuffer[s]);
     }
+    UIManager.draw(canvas); // Draw UI
     // renderTime += performance.now() - renderStart;
     // if(frameCount == 500) { frameCount = 0; console.log(renderTime/500); renderTime = 0; }
     //previousFrame = currentFrame;

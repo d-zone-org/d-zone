@@ -2,9 +2,9 @@
 
 module.exports = System;
 
-function System(name, components) {
+function System(name/*, components*/) {
     this.systemName = name;
-    this.components = components;
+    if(arguments[1]) this.components = arguments[1];
 }
 
 System.prototype.init = function(entities, componentData) {
@@ -24,14 +24,8 @@ System.prototype.update = function() {
     }
 };
 
-System.prototype.updateEntity = function(entity) {
-    // Virtual
-};
+System.prototype.updateEntity = function(entity) { }; // Virtual
 
-System.prototype.onEntityAdded = function() {
-    // Virtual
-};
+System.prototype.onEntityAdded = function() { }; // Virtual
 
-System.prototype.onEntityRemoved = function() {
-    // Virtual
-};
+System.prototype.onEntityRemoved = function() { }; // Virtual

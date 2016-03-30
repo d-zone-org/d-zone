@@ -14,6 +14,7 @@ module.exports = {
         }
         systems = s;
         systems.forEach(function(system) {
+            if(!system.components) return;
             var familyMask = getComponentMask(system.components);
             var componentFamily;
             for(var cf = 0; cf < componentFamilies.length; cf++) {

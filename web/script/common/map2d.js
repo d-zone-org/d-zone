@@ -112,7 +112,7 @@ Map2D.prototype.getBoundingBox = function() {
     }
 };
 
-Map2D.prototype.print = function() {
+Map2D.prototype.print = function(/*type*/) {
     console.log('Printing ' + (arguments[0] || '') + ' map',this.width,'x',this.height);
     var tileRow, colorRow;
     for(var y = -1; y < this.height; y++) {

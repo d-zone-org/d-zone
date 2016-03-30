@@ -1,5 +1,8 @@
 # Ideas
 
+## For real though
+* Users logging into their own discord accounts on the web client and viewing their own servers.
+
 ## Meta
 * When a user sends a message, "gems" burst out of it and fall in the world which are collected by everyone
   * Gem count per message is based on message length
