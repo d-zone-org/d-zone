@@ -4,14 +4,16 @@ var path = require('path');
 // Define a schema
 var config = module.exports = convict({
     email: {
-        doc: "The email for your Discord login.",
-        format: "email",
-        default: "test@example.com"
+        doc: "The email for your Discord account. Ignored if token provided.",
+        format: "email"
     },
     password: {
-        doc: "The password for your Discord login.",
-        format: String,
-        default: "password"
+        doc: "The password for your Discord account. Ignored if token provided.",
+        format: String
+    },
+    token: {
+        doc: "The token for your Discord account. Only required for bot accounts.",
+        format: String
     },
     servers: [
         {
@@ -40,4 +42,4 @@ var config = module.exports = convict({
 config.loadFile(path.resolve(__dirname,'discord-config.json'));
 
 // Perform validation
-config.validate({strict: true});
+config.validate();

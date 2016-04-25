@@ -54,6 +54,8 @@ reference/*
 web/static/bundle.js
 web/index-down.html
 tenc
+restart bot.bat
+start bot.bat
 
 # Config
 discord-config.json

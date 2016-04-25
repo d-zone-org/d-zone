@@ -8,11 +8,15 @@ module.exports = Inbox;
 inherits(Inbox, EventEmitter);
 
 function Inbox(config) {
-    var bot = new Discord({
-        email: config.get('email'),
-        password: config.get('password'),
-        autorun: true
-    });
+    var login = { autorun: true };
+    var token = config.get('token');
+    if(token && token != '') {
+        login.token = token;
+    } else {
+        login.email = config.get('email');
+        login.password = config.get('password');
+    }
+    var bot = new Discord(login);
     EventEmitter.call(this);
     this.bot = bot;
     var self = this;
