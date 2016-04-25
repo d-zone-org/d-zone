@@ -14,10 +14,12 @@ var systems = [
 var GameManager = require('./managers/manager-game');
 var EntityManager = require('./managers/manager-entity');
 var ComponentManager = require('./managers/manager-component');
+var SpriteManager = require('./managers/manager-sprite');
 var CanvasManager = require('./managers/manager-canvas');
 var WorldManager = require('./managers/manager-world');
 
 // Initialize managers
+SpriteManager.init(['actors','environment','static-tiles','props','font']);
 CanvasManager.init({ id: 'main', initialScale: 2 });
 GameManager.init(systems);
 ComponentManager.init(components,systems);

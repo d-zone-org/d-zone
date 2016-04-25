@@ -3,8 +3,17 @@ var Canvas = require('./../common/canvas');
 var EventEmitter = require('events').EventEmitter;
 
 var events = new EventEmitter();
+var imageList, imagesLoaded = 0, loaded = false;
 
 var spriteManager = {
+    init: function(imgList) {
+        imageList = imgList;
+        imageList.forEach(function(imgName) {
+            var image = new Image;
+            image.addEventListener('load', onImageLoad.bind(this, image, imgName));
+            image.src = './img/' + imgName + '.png';
+        });
+    },
     sprites: {},
     events: events,
     waitForLoaded: function(cb) {
@@ -12,15 +21,6 @@ var spriteManager = {
         else events.once('loaded',cb);
     }
 };
-
-var imageList = ['actors','environment','static-tiles','props','font'];
-var imagesLoaded = 0, loaded = false;
-
-imageList.forEach(function(imgName) {
-    var image = new Image;
-    image.addEventListener('load', onImageLoad.bind(this, image, imgName));
-    image.src = './img/' + imgName + '.png';
-});
 
 function onImageLoad(image, imageName) {
     var canvas = new Canvas(image.width,image.height);

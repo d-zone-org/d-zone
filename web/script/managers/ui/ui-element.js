@@ -32,6 +32,18 @@ UIElement.prototype.onMouseMove = function(x,y) {
     })
 };
 
+UIElement.prototype.onMouseDown = function(x,y,button) {
+    
+};
+
+UIElement.prototype.onMouseUp = function(x,y,button) {
+
+};
+
+UIElement.prototype.onMouseWheel = function(x,y,direction) {
+
+};
+
 UIElement.prototype.getAbsolutePosition = function() { // Position on screen
     var parentAbsolute = { x: 0, y: 0 };
     if(this.parentElement) {

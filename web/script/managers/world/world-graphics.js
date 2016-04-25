@@ -16,7 +16,7 @@ function getTileSheetXY(ring,shape) {
         else if(random > 0.95) shape = util.randomIntRange(5,7);
         else if(random > 0.6) shape = util.randomIntRange(3,4);
     }
-    return { x: shape * 32, y: ring * 18 };
+    return { x: shape * tileWidth, y: ring * tileHeight };
 }
 
 module.exports = {
