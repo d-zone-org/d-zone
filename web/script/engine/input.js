@@ -22,6 +22,12 @@ Input.prototype.bindCanvas = function(canvas) {
     window.addEventListener('mousemove', this.mousemove.bind(this));
     window.addEventListener('mousedown', this.mousedown.bind(this));
     window.addEventListener('mouseup', this.mouseup.bind(this));
+
+    window.addEventListener('touchmove', this.touchmove.bind(this));
+    window.addEventListener('touchstart', this.touchstart.bind(this));
+    window.addEventListener('touchend', this.touchend.bind(this));
+    window.addEventListener('touchcancel', this.touchend.bind(this)); // this is when someone cuts off your finger midtouch
+
     document.addEventListener('mouseout', this.mouseout.bind(this));
     document.addEventListener('mouseover', this.mouseover.bind(this));
     var wheelSupport = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
@@ -36,6 +42,25 @@ Input.prototype.mousemove = function(e) {
 };
 
 var buttons = ['left','middle','right'];
+
+Input.prototype.touchstart = function(e) {
+  var touch = e.changedTouches[0];
+  this.mouseX = Math.floor(touch.pageX / this.mouseScale);
+  this.mouseY = Math.floor(touch.pageY / this.mouseScale);
+  this.emit('touchstart', { button: 'touch', x: this.mouseX, y: this.mouseY });
+};
+
+Input.prototype.touchend = function(e) {
+  var touch = e.changedTouches[0];
+  this.emit('touchend', { button: 'touch', x: touch.pageX, y: touch.pageY });
+};
+
+Input.prototype.touchmove = function(e) {
+    var touch = e.changedTouches[0];
+    this.mouseX = Math.floor(touch.pageX / this.mouseScale);
+    this.mouseY = Math.floor(touch.pageY / this.mouseScale);
+    this.emit('touchmove', { button: 'touch', x: this.mouseX, y: this.mouseY });
+};
 
 Input.prototype.mousedown = function(e) {
     var button = buttons[e.button];
@@ -79,7 +104,7 @@ Input.prototype.mousewheel = function(e) {
 };
 
 Input.prototype.keydown = function(e) {
-    var key = e.keyCode >= 48 && e.keyCode <= 90 ? 
+    var key = e.keyCode >= 48 && e.keyCode <= 90 ?
         String.fromCharCode(parseInt(e.keyCode)).toLowerCase() : keyCodes[e.keyCode];
     if(key == 'backspace') e.preventDefault();
     if(this.keys[key]) return; // Ignore if key already held
