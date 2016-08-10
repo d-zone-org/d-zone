@@ -48,8 +48,9 @@ module.exports = {
                 }
             }
         }
+        if(result.trim() == '') result = '1';
         if(blacklist && blacklist.indexOf(result) >= 0) {
-            var variation = 1;
+            var variation = 0;
             result += variation;
             do {
                 variation++;
