@@ -1,11 +1,12 @@
 'use strict';
 var System = require('./system');
-var CM = require('./../managers/manager-canvas');
 var RenderManager = require('./../managers/manager-render');
 var SpriteManager = require('./../managers/manager-sprite');
 var ViewManager = require('./../managers/manager-view.js');
 var UIManager = require('./../managers/manager-ui');
 var requestAnimationFrame = require('raf');
+
+var view = ViewManager.view;
 
 var render = new System('render',[
     require('./../components/component-sprite')
@@ -36,13 +37,13 @@ function onFrameReady() {
     //if(framesSkipped) console.log('Skipped',framesSkipped,'frames');
     // frameCount++;
     // var renderStart = performance.now();
-    CM.canvas.fill(backgroundColor);
-    if(bgImage) CM.canvas.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height,
-        ViewManager.view.panX, ViewManager.view.panY); // Make separate bg CM.canvas?
+    view.canvas.fill(backgroundColor);
+    // Make separate bg canvas?
+    if(bgImage) view.canvas.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height, view.panX, view.panY); 
     for(var s = 0; s < zBuffer.length; s++) {
         renderSprite(zBuffer[s]);
     }
-    UIManager.draw(CM.canvas); // Draw UI
+    UIManager.draw(view.canvas); // Draw UI
     // renderTime += performance.now() - renderStart;
     // if(frameCount == 500) { frameCount = 0; console.log(renderTime/500); renderTime = 0; }
     if(onNewCanvas) {
@@ -53,7 +54,7 @@ function onFrameReady() {
 }
 
 function renderSprite(sprite) {
-    CM.canvas.fillRect(sprite.color,sprite.x,sprite.y,sprite.w,sprite.h);
+    view.canvas.fillRect(sprite.color,sprite.x,sprite.y,sprite.w,sprite.h);
 }
 
 render.onEntityAdded = function(entity) {
@@ -68,11 +69,11 @@ render.onEntityRemoved = function() {
 
 render.setWorld = function(world) {
     bgImage = world.image;
-    ViewManager.view.panX = Math.round(CM.canvas.width / 2 - world.imageCenter.x);
-    ViewManager.view.panY = Math.round(CM.canvas.height / 2 - world.imageCenter.y - 8);
+    ViewManager.view.panX = Math.round(view.canvas.width / 2 - world.imageCenter.x);
+    ViewManager.view.panY = Math.round(view.canvas.height / 2 - world.imageCenter.y - 8);
 };
 
-CM.bindCanvasChange(function(onc) {
+ViewManager.bindCanvasChange(function(onc) {
     onNewCanvas = onc;
 });
 
