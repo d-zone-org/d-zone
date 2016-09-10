@@ -2,7 +2,7 @@
 
 module.exports = Canvas;
 
-function isNumeric(n) {
+function isNumeric(n) { // TODO: Check performance impact for this
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 

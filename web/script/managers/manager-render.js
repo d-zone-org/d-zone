@@ -15,7 +15,7 @@ module.exports = {
     },
     getZBuffer: function() {
         if(dirty) { // If sprites need to be re-sorted
-            insertionSort(zBuffer,depthSort);
+            insertionSort(zBuffer, depthSort);
             dirty = false; // All sprites are sorted
         }
         return zBuffer;

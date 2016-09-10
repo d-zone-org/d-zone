@@ -3,6 +3,7 @@ var System = require('./system');
 var CM = require('./../managers/manager-canvas');
 var RenderManager = require('./../managers/manager-render');
 var SpriteManager = require('./../managers/manager-sprite');
+var ViewManager = require('./../managers/manager-view.js');
 var UIManager = require('./../managers/manager-ui');
 var requestAnimationFrame = require('raf');
 
@@ -10,7 +11,7 @@ var render = new System('render',[
     require('./../components/component-sprite')
 ]);
 var zBuffer, currentFrame, previousFrame;
-var backgroundColor = '#1d171f', bgImage;
+var backgroundColor = '#1d171f', bgImage, onNewCanvas;
 
 render.update = function() { // Overrides update method to wait for browser animation frame
     zBuffer = RenderManager.getZBuffer();
@@ -23,8 +24,8 @@ SpriteManager.waitForLoaded(function() { // Wait for sprites to load
 
 function update() { // Real update method once sprites are loaded
     zBuffer = RenderManager.getZBuffer();
-    requestAnimationFrame.cancel(currentFrame); // Cancel previous frame request
-    currentFrame = requestAnimationFrame(onFrameReady);
+    requestAnimationFrame.cancel(currentFrame); // Cancel current frame request
+    currentFrame = requestAnimationFrame(onFrameReady); // Request new frame
 }
 
 // var renderTime = 0;
@@ -36,14 +37,18 @@ function onFrameReady() {
     // frameCount++;
     // var renderStart = performance.now();
     CM.canvas.fill(backgroundColor);
-    if(bgImage) CM.canvas.drawImage(bgImage,0,0,bgImage.width,bgImage.height,
-        CM.pan.x,CM.pan.y); // Make separate bg CM.CM.canvas?
+    if(bgImage) CM.canvas.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height,
+        ViewManager.view.panX, ViewManager.view.panY); // Make separate bg CM.canvas?
     for(var s = 0; s < zBuffer.length; s++) {
         renderSprite(zBuffer[s]);
     }
     UIManager.draw(CM.canvas); // Draw UI
     // renderTime += performance.now() - renderStart;
     // if(frameCount == 500) { frameCount = 0; console.log(renderTime/500); renderTime = 0; }
+    if(onNewCanvas) {
+        onNewCanvas();
+        onNewCanvas = false;
+    }
     //previousFrame = currentFrame;
 }
 
@@ -63,8 +68,12 @@ render.onEntityRemoved = function() {
 
 render.setWorld = function(world) {
     bgImage = world.image;
-    CM.pan.x = Math.round(CM.canvas.width / 2 - world.imageCenter.x);
-    CM.pan.y = Math.round(CM.canvas.height / 2 - world.imageCenter.y - 8);
+    ViewManager.view.panX = Math.round(CM.canvas.width / 2 - world.imageCenter.x);
+    ViewManager.view.panY = Math.round(CM.canvas.height / 2 - world.imageCenter.y - 8);
 };
+
+CM.bindCanvasChange(function(onc) {
+    onNewCanvas = onc;
+});
 
 module.exports = render;

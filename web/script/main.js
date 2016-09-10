@@ -15,12 +15,12 @@ var GameManager = require('./managers/manager-game');
 var EntityManager = require('./managers/manager-entity');
 var ComponentManager = require('./managers/manager-component');
 var SpriteManager = require('./managers/manager-sprite');
-var CanvasManager = require('./managers/manager-canvas');
+var ViewManager = require('./managers/manager-view');
 var WorldManager = require('./managers/manager-world');
 
 // Initialize managers
 SpriteManager.init(['actors','environment','static-tiles','props','font']);
-CanvasManager.init({ id: 'main', initialScale: 2 });
+ViewManager.init({ id: 'main', initialScale: 2, maxScale: 4 });
 GameManager.init(systems);
 ComponentManager.init(components,systems);
 WorldManager.generateWorld(20);

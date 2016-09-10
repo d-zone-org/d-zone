@@ -5,9 +5,9 @@ var UIElement = require('./ui-element');
 module.exports = Screen;
 inherits(Screen,UIElement);
 
-function Screen(size/*, background*/) {
+function Screen(view/*, background*/) {
     UIElement.call(this,{});
-    this.size = size;
+    this.view = view;
     if(arguments[1]) this.background = arguments[1];
 }
 
