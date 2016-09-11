@@ -1,8 +1,8 @@
 'use strict';
-var util = require('./../../common/util');
-var geometry = require('./../../common/geometry');
-var Map2D = require('./../../common/map2d');
-var Map3D = require('./../../common/map3d');
+var util = require('dz-util');
+var geometry = require('geometry');
+var Map2D = require('map2d');
+var Map3D = require('map3d');
 
 const TILES = {
     'EMPTY':   0,

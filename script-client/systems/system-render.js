@@ -1,15 +1,15 @@
 'use strict';
-var System = require('./system');
-var RenderManager = require('./../managers/manager-render');
-var SpriteManager = require('./../managers/manager-sprite');
-var ViewManager = require('./../managers/manager-view.js');
-var UIManager = require('./../managers/manager-ui');
+var System = require('system');
+var RenderManager = require('manager-render');
+var SpriteManager = require('manager-sprite');
+var ViewManager = require('manager-view.js');
+var UIManager = require('manager-ui');
 var requestAnimationFrame = require('raf');
 
 var view = ViewManager.view;
 
 var render = new System('render',[
-    require('./../components/component-sprite')
+    require('component-sprite')
 ]);
 var zBuffer, currentFrame, previousFrame;
 var backgroundColor = '#1d171f', bgImage, onNewCanvas;

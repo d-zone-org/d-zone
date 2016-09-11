@@ -1,5 +1,5 @@
 'use strict';
-var ComponentManager = require('./manager-component');
+var ComponentManager = require('manager-component');
 
 var entities = new Uint32Array(64); // Component bit masks
 

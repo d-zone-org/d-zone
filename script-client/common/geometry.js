@@ -1,6 +1,6 @@
 'use strict';
-var util = require('./util');
-var Map2D = require('./map2d');
+var util = require('dz-util');
+var Map2D = require('map2d');
 
 var closestGrids = [];
 

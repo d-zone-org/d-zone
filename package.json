@@ -3,24 +3,24 @@
   "version": "0.1.35",
   "description": "An ambient life simulation driven by the user activity within a Discord server",
   "main": "index.js",
+  "devDependencies": {
+    "json-loader": "^0.5.4",
+    "webpack": "^1.13.2"
+  },
   "dependencies": {
     "browser-storage": "0.0.2",
     "convict": "^1.0.1",
     "dateformat": "^1.0.11",
-    "discord.io": "^1.4.6",
+    "discord.io": "^2.1.3",
     "inherits": "^2.0.1",
     "raf": "^3.1.0",
     "websocket-stream": "^2.1.0",
-    "ws": "^0.8.0",
-    "brfs": "^1.4.1",
-    "browserify": "latest",
-    "watchify": "latest",
-    "uglifyify": "^3.0.1"
+    "ws": "^0.8.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify web/script/main.js -t brfs -g uglifyify -o web/static/bundle.js",
-    "watch": "watchify web/script/main.js -t brfs -d -o web/static/bundle.js -v",
+    "build": "webpack --config webpack-build.config.js",
+    "watch": "webpack --config webpack-watch.config.js --watch",
     "start": "node index.js"
   },
   "repository": {

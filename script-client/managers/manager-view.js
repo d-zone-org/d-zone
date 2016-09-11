@@ -1,8 +1,8 @@
 'use strict';
-var InputManager = require('./manager-input');
-var UIManager = require('./manager-ui');
-var canvases = require('./view/canvases');
-var util = require('./../common/util.js');
+var InputManager = require('manager-input');
+var UIManager = require('manager-ui');
+var canvases = require('view-canvases');
+var util = require('dz-util.js');
 
 var view = {
     scale: 1,
@@ -80,8 +80,12 @@ function zoom(change) {
 }
 
 function resize() {
-    view.width = Math.ceil(window.innerWidth / (view.scale));
-    view.height = Math.ceil(window.innerHeight / (view.scale));
+    var newWidth = Math.ceil(window.innerWidth / (view.scale)),
+        newHeight = Math.ceil(window.innerHeight / (view.scale));
+    view.panX += Math.round((newWidth - view.width) / 2);
+    view.panY += Math.round((newHeight - view.height) / 2);
+    view.width = newWidth;
+    view.height = newHeight;
 }
 
 window.addEventListener('resize', function() {

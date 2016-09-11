@@ -1,22 +1,22 @@
 'use strict';
-var util = require('./common/util');
+var util = require('dz-util');
 
 var components = [
-    require('./components/component-sprite'),
-    require('./components/component-animation')
+    require('component-sprite'),
+    require('component-animation')
 ];
 var systems = [
-    require('./systems/system-move'),
-    require('./systems/system-animate'),
-    require('./systems/system-render')
+    require('system-move'),
+    require('system-animate'),
+    require('system-render')
 ];
 
-var GameManager = require('./managers/manager-game');
-var EntityManager = require('./managers/manager-entity');
-var ComponentManager = require('./managers/manager-component');
-var SpriteManager = require('./managers/manager-sprite');
-var ViewManager = require('./managers/manager-view');
-var WorldManager = require('./managers/manager-world');
+var GameManager = require('manager-game');
+var EntityManager = require('manager-entity');
+var ComponentManager = require('manager-component');
+var SpriteManager = require('manager-sprite');
+var ViewManager = require('manager-view');
+var WorldManager = require('manager-world');
 
 // Initialize managers
 SpriteManager.init(['actors','environment','static-tiles','props','font']);
@@ -28,8 +28,8 @@ WorldManager.generateWorld(20);
 //benchmark();
 
 function benchmark() {
-    var SPRITE = require('./components/component-sprite');
-    var ANIMATION = require('./components/component-animation');
+    var SPRITE = require('component-sprite');
+    var ANIMATION = require('component-animation');
     var e;
     console.time('addEntities'); // Add 1000 entities
     for(e = 0; e < 1000; e++) {

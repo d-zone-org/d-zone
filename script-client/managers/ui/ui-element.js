@@ -1,5 +1,5 @@
 'use strict';
-var Canvas = require('./../../common/canvas');
+var Canvas = require('canvas');
 
 module.exports = UIElement;
 

@@ -1,5 +1,5 @@
 'use strict';
-var Canvas = require('./../common/canvas');
+var Canvas = require('canvas');
 var EventEmitter = require('events').EventEmitter;
 
 var events = new EventEmitter();

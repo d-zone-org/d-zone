@@ -1,5 +1,5 @@
 'use strict';
-var util = require('./util');
+var util = require('dz-util');
 
 module.exports = Map2D;
 

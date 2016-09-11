@@ -1,5 +1,5 @@
 'use strict';
-var util = require('./../common/util');
+var util = require('dz-util');
 // Manages component families and data for all entities
 
 var components, systems;

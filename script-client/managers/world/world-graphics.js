@@ -1,6 +1,6 @@
 'use strict';
-var util = require('./../../common/util');
-var Canvas = require('./../../common/canvas');
+var util = require('dz-util');
+var Canvas = require('canvas');
 
 var tileWidth = 32, tileHeight = 18;
 

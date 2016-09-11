@@ -51,7 +51,8 @@ db.class.php
 db-live.class.php
 bot.json
 reference/*
-web/static/bundle.js
+web/bundle.js
+web/bundle.js.map
 web/index-down.html
 tenc
 restart bot.bat

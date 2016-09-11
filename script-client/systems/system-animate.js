@@ -1,9 +1,9 @@
 'use strict';
-var System = require('./system');
+var System = require('system');
 
 var animate = new System('animate',[
-    require('./../components/component-sprite'),
-    require('./../components/component-animation')
+    require('component-sprite'),
+    require('component-animation')
 ]);
 
 animate.updateEntity = function(entity, sprite, animation) {

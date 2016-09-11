@@ -1,8 +1,8 @@
 'use strict';
-var WorldGeneration = require('./world/world-generation');
-var WorldGraphics = require('./world/world-graphics');
-var RenderSystem = require('./../systems/system-render');
-var SpriteManager = require('./../managers/manager-sprite');
+var WorldGeneration = require('world-generation');
+var WorldGraphics = require('world-graphics');
+var RenderSystem = require('system-render');
+var SpriteManager = require('manager-sprite');
 
 var world, collisionMap;
 

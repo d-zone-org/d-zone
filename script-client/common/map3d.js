@@ -1,5 +1,5 @@
 'use strict';
-var Map2D = require('./map2d');
+var Map2D = require('map2d');
 var inherits = require('inherits');
 
 module.exports = Map3D;
