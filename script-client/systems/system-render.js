@@ -12,7 +12,7 @@ var render = new System('render',[
     require('component-sprite')
 ]);
 var zBuffer, currentFrame, previousFrame;
-var backgroundColor = '#1d171f', bgImage, onNewCanvas;
+var backgroundColor = '#1d171f', bgImage;
 
 render.update = function() { // Overrides update method to wait for browser animation frame
     zBuffer = RenderManager.getZBuffer();
@@ -37,6 +37,7 @@ function onFrameReady() {
     //if(framesSkipped) console.log('Skipped',framesSkipped,'frames');
     // frameCount++;
     // var renderStart = performance.now();
+    if(ViewManager.onFrameReady) ViewManager.onFrameReady(); // If view manager is waiting on a new frame
     view.canvas.fill(backgroundColor);
     // Make separate bg canvas?
     if(bgImage) view.canvas.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height, view.panX, view.panY); 
@@ -46,10 +47,6 @@ function onFrameReady() {
     UIManager.draw(view.canvas); // Draw UI
     // renderTime += performance.now() - renderStart;
     // if(frameCount == 500) { frameCount = 0; console.log(renderTime/500); renderTime = 0; }
-    if(onNewCanvas) {
-        onNewCanvas();
-        onNewCanvas = false;
-    }
     //previousFrame = currentFrame;
 }
 
@@ -72,9 +69,5 @@ render.setWorld = function(world) {
     ViewManager.view.panX = Math.round(view.canvas.width / 2 - world.imageCenter.x);
     ViewManager.view.panY = Math.round(view.canvas.height / 2 - world.imageCenter.y - 8);
 };
-
-ViewManager.bindCanvasChange(function(onc) {
-    onNewCanvas = onc;
-});
 
 module.exports = render;

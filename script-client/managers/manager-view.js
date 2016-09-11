@@ -11,7 +11,7 @@ var view = {
     panX: 0, panY: 0
 };
 
-var panFrom = false, waitForFrame;
+var panFrom = false;
 
 var viewManager = {
     init: function(options) {
@@ -22,9 +22,7 @@ var viewManager = {
         canvases.setSize(window.innerWidth, window.innerHeight);
     },
     view: view,
-    bindCanvasChange: function(wff) {
-        waitForFrame = wff;
-    }
+    onFrameReady: false
 };
 
 InputManager.events.on('mouse-move',function (event) {
@@ -72,7 +70,9 @@ function zoom(change) {
     view.scale += change;
     view.canvas = canvases.getCanvas(view.scale);
     resize();
-    if(waitForFrame) waitForFrame(canvases.showCanvas.bind(canvases, view.scale));
+    waitForFrame(function() { // Don't switch canvases until new frame is ready to be drawn
+        canvases.showCanvas(view.scale);
+    });
     // console.log('panning',Math.round(x - (canvas.width / 2)) * levelChange,
     //     Math.round(y - (canvas.height / 2)) * levelChange);
     // pan.x -= Math.round(x - (canvas.width / 2)) * change;
@@ -90,7 +90,16 @@ function resize() {
 
 window.addEventListener('resize', function() {
     resize();
-    canvases.setSize(window.innerWidth, window.innerHeight);
+    waitForFrame(function() { // Don't resize canvas until new frame is ready to be drawn
+        canvases.setSize(window.innerWidth, window.innerHeight);
+    });
 });
+
+function waitForFrame(callback) {
+    viewManager.onFrameReady = function() { // Called by render system
+        callback();
+        viewManager.onFrameReady = false;
+    };
+}
 
 module.exports = viewManager;

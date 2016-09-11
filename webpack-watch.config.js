@@ -13,7 +13,14 @@ module.exports = {
         extensions: ['.js',''],
         root: path.resolve('./script-client'),
         modulesDirectories: [
-            'node_modules', 'common', 'components', 'managers', 'ui', 'view', 'world', 'systems'
+            'node_modules',
+            'common',
+            'components',
+            'managers',
+            'managers/ui',
+            'managers/view',
+            'managers/world',
+            'systems'
         ]
     }
 };
