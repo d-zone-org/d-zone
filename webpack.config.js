@@ -24,7 +24,14 @@ var common = {
             'managers/world',
             'systems'
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: 'webpack/index.ejs',
+            inject: 'body'
+        })
+    ]
 };
 
 if(TARGET === 'build') {
@@ -57,13 +64,6 @@ if(TARGET === 'dev') {
             contentBase: './web',
             host: '0.0.0.0',
             port: 7778
-        },
-        plugins: [
-            new HtmlWebpackPlugin({
-                filename: 'index.html',
-                template: 'webpack/index.ejs',
-                inject: 'body'
-            })
-        ]
+        }
     });
 }

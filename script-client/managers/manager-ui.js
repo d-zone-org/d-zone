@@ -8,13 +8,16 @@ var uiCanvas = new Canvas(1,1);
 
 var screens = [new Screen(ViewManager.view)];
 
-// CanvasManager.events.on('canvas-update', function(c,s) {
-//     scale = s;
-//     screenSize.width = c.width;
-//     screenSize.height = c.height;
-//     uiCanvas.setSize(c.width, c.height);
-//     redraw();
-// });
+/* TODO: Implement UI building like this:
+var testWindow = UIManager.addWindow()
+    .setPosition(20,20)
+    .setSize(100,200);
+var testButton = testWindow.addButton()
+    .setPosition(10,10)
+    .setSize(30,10)
+    .setText('Click!')
+    .onClick(someFunction);
+*/
 
 function redraw() {
     uiCanvas.clear();
