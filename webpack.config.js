@@ -43,28 +43,17 @@ if(TARGET === 'build') {
 
 if(TARGET === 'watch') {
     module.exports = merge(common, {
-        devtool: 'source-map',
-        output: {
-            path: './web',
-            filename: 'bundle.js',
-            sourceMapFilename: '[file].map'
-        }
+        devtool: 'inline-source-map'
     });
 }
 
 if(TARGET === 'dev') {
     module.exports = merge(common, {
-        devtool: 'source-map',
-        output: {
-            path: './web',
-            filename: 'bundle.js',
-            sourceMapFilename: '[file].map'
-        },
+        devtool: 'eval',
         devServer: {
+            stats: 'minimal',
             historyApiFallback: true,
-            hot: false,
             inline: true,
-            progress: true,
             contentBase: './web',
             host: '0.0.0.0',
             port: 7778
