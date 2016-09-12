@@ -11,7 +11,7 @@ var view = ViewManager.view;
 var render = new System('render',[
     require('component-sprite')
 ]);
-var zBuffer, currentFrame, previousFrame;
+var zBuffer, currentFrame;
 var backgroundColor = '#1d171f', bgImage;
 
 render.update = function() { // Overrides update method to wait for browser animation frame
@@ -29,8 +29,7 @@ function update() { // Real update method once sprites are loaded
     currentFrame = requestAnimationFrame(onFrameReady); // Request new frame
 }
 
-// var renderTime = 0;
-// var frameCount = 0;
+// var renderTime = 0, frameCount = 0, previousFrame;
 
 function onFrameReady() {
     //var framesSkipped = currentFrame - previousFrame - 1;

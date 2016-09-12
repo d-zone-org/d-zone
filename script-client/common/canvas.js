@@ -2,7 +2,7 @@
 
 module.exports = Canvas;
 
-function isNumeric(n) { // TODO: Check performance impact for this
+function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
@@ -21,8 +21,8 @@ Canvas.prototype.setSize = function(w,h) {
 };
 
 Canvas.prototype.drawImage = function(img, sx, sy, sw, sh, dx, dy, opacity) {
-    console.assert(img && sx >= 0 && sy >= 0 && sw >= 0 && sh >= 0 && isNumeric(dx) && isNumeric(dy), 
-        'Bad drawImage params!',img,dx,dy);
+    // console.assert(img && sx >= 0 && sy >= 0 && sw >= 0 && sh >= 0 && isNumeric(dx) && isNumeric(dy), 
+    //     'Bad drawImage params!',img,dx,dy);
     if(opacity) {
         this.context.save();
         this.context.globalAlpha = opacity;
@@ -55,14 +55,14 @@ Canvas.prototype.clear = function() {
 };
 
 Canvas.prototype.fillRect = function(color, x, y, w, h) {
-    console.assert(isNumeric(x) && isNumeric(y) && isNumeric(w) && isNumeric(h),
-        'Bad fillRect params!',color,x,y,w,h);
+    // console.assert(isNumeric(x) && isNumeric(y) && isNumeric(w) && isNumeric(h),
+    //     'Bad fillRect params!',color,x,y,w,h);
     this.context.fillStyle = color;
     this.context.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
 };
 
 Canvas.prototype.clearRect = function(x, y, w, h) {
-    console.assert(isNumeric(x) && isNumeric(y) && isNumeric(w) && isNumeric(h),
-        'Bad clearRect params!',color,x,y,w,h);
+    // console.assert(isNumeric(x) && isNumeric(y) && isNumeric(w) && isNumeric(h),
+    //     'Bad clearRect params!',color,x,y,w,h);
     this.context.clearRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
 };
