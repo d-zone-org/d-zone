@@ -40,7 +40,7 @@ function onFrameReady() {
     if(ViewManager.onFrameReady) ViewManager.onFrameReady(); // If view manager is waiting on a new frame
     view.canvas.fill(backgroundColor);
     // Make separate bg canvas?
-    if(bgImage) view.canvas.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height, view.panX, view.panY); 
+    if(bgImage) view.canvas.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height, -view.panX, -view.panY); 
     for(var s = 0; s < zBuffer.length; s++) {
         renderSprite(zBuffer[s]);
     }
@@ -66,8 +66,7 @@ render.onEntityRemoved = function() {
 
 render.setWorld = function(world) {
     bgImage = world.image;
-    ViewManager.view.panX = Math.round(view.canvas.width / 2 - world.imageCenter.x);
-    ViewManager.view.panY = Math.round(view.canvas.height / 2 - world.imageCenter.y - 8);
+    ViewManager.setCenter(world.imageCenter.x, world.imageCenter.y + 8);
 };
 
 module.exports = render;
