@@ -7,7 +7,8 @@
     "html-webpack-plugin": "^2.22.0",
     "json-loader": "^0.5.4",
     "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.15.1"
+    "webpack-dev-server": "^1.15.1",
+    "webpack-merge": "^0.14.1"
   },
   "dependencies": {
     "browser-storage": "0.0.2",
@@ -21,9 +22,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack/build.config.js",
-    "watch": "webpack --config webpack/watch.config.js --watch",
-    "dev": "webpack-dev-server --config webpack/dev.config.js",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "dev": "webpack-dev-server",
     "start": "node index.js"
   },
   "repository": {

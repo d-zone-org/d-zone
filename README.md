@@ -26,7 +26,7 @@ Rename `socket-config-example.json` to `socket-config.json` and insert the IP an
 
 Start the server with `npm start` or just `node index.js`
 
-The client scripts need to be built into `/web/bundle.js` with `npm run-script build` or `npm run-script watch`. Upload everything in the `web` folder to your web host or HTTP server.
+The client scripts need to be built into `/web/bundle.js` with `npm run-script build`. Upload everything in the `web` folder to your web host or HTTP server.
 
 If everything works, the client should connect to the default server, generate a world, and receive live updates via websocket from the server.
 
