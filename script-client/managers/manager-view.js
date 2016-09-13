@@ -1,7 +1,7 @@
 'use strict';
 var InputManager = require('manager-input');
 var UIManager = require('manager-ui');
-var canvases = require('view-canvases');
+var Canvas = require('canvas');
 var util = require('dz-util.js');
 
 var view = {
@@ -18,9 +18,13 @@ var viewManager = {
     init: function(options) {
         view.maxScale = options.maxScale;
         view.id = options.id;
-        canvases.init(view);
-        zoom(options.initialScale - view.scale);
-        canvases.setSize(window.innerWidth, window.innerHeight);
+        view.canvas = new Canvas(1, 1);
+        view.canvas.canvas.id = view.id;
+        document.body.appendChild(view.canvas.canvas);
+        view.canvas.context.mozImageSmoothingEnabled = false;
+        view.canvas.context.imageSmoothingEnabled = false;
+        view.canvas.canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        zoom(options.initialScale);
     },
     view: view,
     onFrameReady: false,
@@ -50,7 +54,7 @@ InputManager.events.on('mouse-up',function (event) {
 });
 InputManager.events.on('mouse-wheel',function (event) {
     if(!UIManager.mouseWheel(view.cursorX, view.cursorY, event.direction)) {
-        zoom(event.direction == 'up' ? 1 : -1);
+        zoom(view.scale + (event.direction == 'up' ? 1 : -1));
     }
 });
 
@@ -67,22 +71,19 @@ function calcPan() {
     view.panY = Math.round(view.centerY - view.height / 2);
 }
 
-function zoom(change) {
-    if(view.scale + change < 1 || view.scale + change > view.maxScale) return;
-    view.scale += change;
-    view.canvas = canvases.getCanvas(view.scale);
+function zoom(newScale) {
+    if(newScale < 1 || newScale > view.maxScale) return;
+    view.scale = newScale;
     var cursorWorldX = view.panX + view.cursorX,
         cursorWorldY = view.panY + view.cursorY;
-    resize();
+    fitWindow();
     view.centerX += cursorWorldX - (view.panX + view.cursorX); // Consistent cursor-world location
     view.centerY += cursorWorldY - (view.panY + view.cursorY);
     calcPan();
-    waitForFrame(function() { // Don't switch canvases until new frame is ready to be drawn
-        canvases.showCanvas(view.scale);
-    });
+    resizeCanvas();
 }
 
-function resize() {
+function fitWindow() {
     var newWidth = Math.ceil(window.innerWidth / (view.scale)),
         newHeight = Math.ceil(window.innerHeight / (view.scale));
     view.cursorX = Math.round(newWidth * (view.cursorX / view.width));
@@ -93,15 +94,14 @@ function resize() {
 }
 
 window.addEventListener('resize', function() {
-    resize();
-    waitForFrame(function() { // Don't resize canvas until new frame is ready to be drawn
-        canvases.setSize(window.innerWidth, window.innerHeight);
-    });
+    fitWindow();
+    resizeCanvas();
 });
 
-function waitForFrame(callback) {
-    viewManager.onFrameReady = function() { // Called by render system
-        callback();
+function resizeCanvas() {
+    viewManager.onFrameReady = function() { // Wait until new frame is ready to be drawn
+        view.canvas.canvas.style.transform = 'scale(' + view.scale + ', ' + view.scale + ')';
+        view.canvas.setSize(view.width, view.height);
         viewManager.onFrameReady = false;
     };
 }
