@@ -1,16 +1,10 @@
 {
-  "email": "test@example.com",
-  "password": "password",
   "token": "aT4SfVx09_44i9obsw34gJ.45zxjg_JEDOR_n-mgROER-IEri9obsw3",
   "servers": [
     {
       "id": "1234567891234567",
       "default": true,
       "ignoreChannels": ["Members-Only","Testing"]
-    },
-    {
-      "id": "3213213213213213",
-      "password": "rosebud"
     }
   ]
 }

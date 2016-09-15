@@ -145,6 +145,7 @@ function initWebsocket() {
             game.reset();
             game.renderer.clear();
             var userList = data.data.users;
+            console.log(userList);
             world = new World(game, Math.round(3.3 * Math.sqrt(Object.keys(userList).length)));
             decorator = new Decorator(game, world);
             game.decorator = decorator;
@@ -161,7 +162,7 @@ function initWebsocket() {
             for(var uid in userList) { if(!userList.hasOwnProperty(uid)) continue;
                 //if(uid != '86913608335773696') continue;
                 //if(data.data[uid].status != 'online') continue;
-                if(!userList[uid].user.username) continue;
+                if(!userList[uid].username) continue;
                 users.addActor(userList[uid]);
                 //break;
             }

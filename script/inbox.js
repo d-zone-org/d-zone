@@ -8,21 +8,14 @@ module.exports = Inbox;
 inherits(Inbox, EventEmitter);
 
 function Inbox(config) {
-    var login = { autorun: true };
-    var token = config.get('token');
-    if(token && token != '') {
-        login.token = token;
-    } else {
-        login.email = config.get('email');
-        login.password = config.get('password');
-    }
-    var bot = new Discord(login);
+    var bot = new Discord.Client({ autorun: true, token: config.get('token') });
     EventEmitter.call(this);
     this.bot = bot;
     var self = this;
-    bot.on('ready', function(rawEvent) {
+    bot.on('ready', bot.getAllUsers);
+    bot.on('allUsers', function() {
         if(self.servers) return; // Don't re-initialize if reconnecting
-        console.log(new Date(),"Logged in as: "+bot.username + " - (" + bot.id + ")");
+        console.log(new Date(), 'Logged in as: ' + bot.username + ' - (' + bot.id + ')');
         var serverList = config.get('servers');
         var serverIDs = [];
         self.servers = {};
@@ -44,13 +37,11 @@ function Inbox(config) {
         require('fs').writeFileSync('./bot.json', JSON.stringify(bot, null, '\t'));
     });
     bot.on('message', function(user, userID, channelID, message, rawEvent) {
-        var serverID = bot.serverFromChannel(channelID);
+        if(bot.directMessages[channelID]) return;
+        var serverID = bot.channels[channelID].guild_id;
         if(!self.servers[serverID]) return;
-        var isPM = bot.servers[serverID] === undefined;
-        if(isPM) return;
-        var channelName = bot.servers[serverID].channels[channelID].name;
         if(self.servers[serverID].ignoreChannels // Check if this channel is ignored
-            && self.servers[serverID].ignoreChannels.indexOf(channelName) >= 0) return;
+            && self.servers[serverID].ignoreChannels.indexOf(bot.channels[channelID].name) >= 0) return;
         var messageObject = { 
             type: 'message', servers: [serverID], 
             data: { uid: userID, message: bot.fixMessage(message), channel: channelID }
@@ -67,14 +58,12 @@ function Inbox(config) {
         };
         self.emit('presence',presence);
     });
-    bot.on("disconnected", function() {
+    bot.on('disconnect', function() {
         console.log("Bot disconnected, reconnecting...");
         setTimeout(function(){
-            bot.connect(); //Auto reconnect after 3 seconds
-        },3000);
+            bot.connect(); //Auto reconnect after 5 seconds
+        },5000);
     });
-    this.msgQueue = [];
-    this.sending = false;
 }
 
 Inbox.prototype.getUsers = function(connectRequest) {
@@ -91,7 +80,12 @@ Inbox.prototype.getUsers = function(connectRequest) {
     if(server.password && server.password !== connectRequest.password) return 'bad-password';
     var discordServer = this.bot.servers[server.discordID], users = {};
     for(var uid in discordServer.members) { if(!discordServer.members.hasOwnProperty(uid)) continue;
-        users[uid] = discordServer.members[uid];
+        var member = discordServer.members[uid];
+        users[uid] = {
+            id: member.id,
+            username: member.nick || member.username,
+            status: member.status
+        };
         users[uid].roleColor = false;
         var rolePosition = -1;
         for(var i = 0; i < discordServer.members[uid].roles.length; i++) {
@@ -112,30 +106,4 @@ Inbox.prototype.getServers = function() {
         if(this.servers[sKey].password) serverList[key].passworded = true;
     }
     return serverList;
-};
-
-Inbox.prototype.sendMessages = function(ID, messageArr, callback) {
-    for(var i = 0; i < messageArr.length; i++) { // Add messages to buffer
-        this.msgQueue.push({
-            ID: ID, msg: messageArr[i],
-            callback: i == messageArr.length-1 ? callback : false // If callback specified, only add to last message
-        })
-    }
-    var self = this;
-    function _sendMessage() {
-        self.sending = true; // We're busy
-        self.bot.sendMessage({
-            to: self.msgQueue[0].ID,
-            message: self.msgQueue[0].msg
-        }, function(res) {
-            var sent = self.msgQueue.shift(); // Remove message from buffer
-            if(sent.callback) sent.callback(); // Activate callback if exists
-            if(self.msgQueue.length < 1) { // Stop when message buffer is empty
-                self.sending = false; // We're free
-            } else {
-                _sendMessage();
-            }
-        })
-    }
-    if(!this.sending) _sendMessage(); // If not busy with a message, send now
 };
