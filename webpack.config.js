@@ -18,6 +18,7 @@ var common = {
             'node_modules',
             'common',
             'components',
+            'entities',
             'managers',
             'managers/ui',
             'managers/view',

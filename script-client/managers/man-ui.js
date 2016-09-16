@@ -1,6 +1,6 @@
 'use strict';
-var InputManager = require('manager-input');
-var ViewManager = require('manager-view');
+var InputManager = require('man-input');
+var ViewManager = require('man-view');
 var Canvas = require('canvas');
 var Screen = require('ui-screen');
 

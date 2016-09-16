@@ -1,18 +1,18 @@
 'use strict';
 var System = require('system');
-var RenderManager = require('manager-render');
-var SpriteManager = require('manager-sprite');
-var ViewManager = require('manager-view.js');
-var UIManager = require('manager-ui');
+var RenderManager = require('man-render');
+var SpriteManager = require('man-sprite');
+var ViewManager = require('man-view.js');
+var UIManager = require('man-ui');
 var requestAnimationFrame = require('raf');
 
 var view = ViewManager.view;
 
 var render = new System('render',[
-    require('component-sprite')
+    require('com-sprite3d')
 ]);
 var zBuffer, currentFrame;
-var backgroundColor = '#1d171f', bgImage;
+var backgroundColor = '#1d171f', bgImage, wox, woy;
 
 render.update = function() { // Overrides update method to wait for browser animation frame
     zBuffer = RenderManager.getZBuffer();
@@ -50,12 +50,15 @@ function onFrameReady() {
 }
 
 function renderSprite(sprite) {
-    view.canvas.fillRect(sprite.color,sprite.x,sprite.y,sprite.w,sprite.h);
+    view.canvas.drawSprite(SpriteManager, sprite, view.panX - wox, view.panY - woy);
 }
 
 render.onEntityAdded = function(entity) {
     var sprite = this.componentData[0][entity];
-    sprite.zDepth = sprite.x + sprite.y;
+    sprite.zDepth = RenderManager.getZDepth(sprite.x, sprite.y);
+    var dxy = RenderManager.getDrawXY(sprite.x, sprite.y, sprite.z);
+    sprite.dx = dxy.x + sprite.dox;
+    sprite.dy = dxy.y + sprite.doy;
     RenderManager.setZBuffer(render.componentData[0].slice(0));
 };
 
@@ -65,6 +68,8 @@ render.onEntityRemoved = function() {
 
 render.setWorld = function(world) {
     bgImage = world.image;
+    wox = world.imageCenter.x;
+    woy = world.imageCenter.y;
     ViewManager.setCenter(world.imageCenter.x, world.imageCenter.y + 8);
 };
 

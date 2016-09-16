@@ -7,7 +7,7 @@ function isNumeric(n) {
 }
 
 function Canvas(width, height) {
-    console.assert(isNumeric(width) && isNumeric(height),'Bad canvas params!',width,height);
+    console.assert(isNumeric(width) && isNumeric(height), 'Bad canvas params!', width, height);
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
     this.setSize(width,height);
@@ -23,6 +23,7 @@ Canvas.prototype.setSize = function(w,h) {
 Canvas.prototype.drawImage = function(img, sx, sy, sw, sh, dx, dy, opacity) {
     // console.assert(img && sx >= 0 && sy >= 0 && sw >= 0 && sh >= 0 && isNumeric(dx) && isNumeric(dy), 
     //     'Bad drawImage params!',img,dx,dy);
+    if(dx > this.width || dy > this.height || dx + sw < 1 || dy + sh < 1) return;
     if(opacity) {
         this.context.save();
         this.context.globalAlpha = opacity;
@@ -39,10 +40,14 @@ Canvas.prototype.drawImage = function(img, sx, sy, sw, sh, dx, dy, opacity) {
         sy -= dy;
         dy = 0;
     }
-    this.context.drawImage(img,sx,sy,sw,sh,dx,dy,sw,sh);
+    this.context.drawImage(img, sx, sy, sw, sh, dx, dy, sw, sh);
     if(opacity) {
         this.context.restore();
     }
+};
+
+Canvas.prototype.drawSprite = function(sm, s, ox, oy) {
+    this.drawImage(sm.sprites[s.sheet], s.sheetX, s.sheetY, s.sheetW, s.sheetH, s.dx - ox, s.dy - oy);
 };
 
 Canvas.prototype.fill = function(color) {
@@ -58,11 +63,11 @@ Canvas.prototype.fillRect = function(color, x, y, w, h) {
     // console.assert(isNumeric(x) && isNumeric(y) && isNumeric(w) && isNumeric(h),
     //     'Bad fillRect params!',color,x,y,w,h);
     this.context.fillStyle = color;
-    this.context.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
+    this.context.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
 };
 
 Canvas.prototype.clearRect = function(x, y, w, h) {
     // console.assert(isNumeric(x) && isNumeric(y) && isNumeric(w) && isNumeric(h),
     //     'Bad clearRect params!',color,x,y,w,h);
-    this.context.clearRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
+    this.context.clearRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
 };

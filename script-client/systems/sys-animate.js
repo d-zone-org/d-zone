@@ -2,8 +2,8 @@
 var System = require('system');
 
 var animate = new System('animate',[
-    require('component-sprite'),
-    require('component-animation')
+    require('com-sprite3d'),
+    require('com-animation')
 ]);
 
 animate.updateEntity = function(entity, sprite, animation) {

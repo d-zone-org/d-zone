@@ -10,6 +10,7 @@ module.exports = {
         dirty = true;
     },
     getZDepth: getZDepth,
+    getDrawXY: getDrawXY,
     makeDirty: function() {
         dirty = true;
     },
@@ -28,6 +29,13 @@ function depthSort(a,b) {
 
 function getZDepth(x,y) {
     return (x + y) * 2;
+}
+
+function getDrawXY(x,y,z) {
+    return {
+        x: (x - y) * 16,
+        y: (x + y) * 8 - z * 16
+    }
 }
 
 // Faster sorting for nearly-sorted arrays (like the z-buffer)

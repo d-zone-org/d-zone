@@ -80,7 +80,7 @@ ComponentFamily.prototype.addSystem = function(system) {
 };
 
 ComponentFamily.prototype.removeEntity = function(entity, entityMask) {
-    if(this.mask !== this.mask & entityMask) return; // Ignore if entity doesn't match family
+    if(this.mask !== (this.mask & entityMask)) return; // Ignore if entity doesn't match family
     util.removeFromArray(entity, this.entities);
     this.systems.forEach(function(sys) {
         sys.onEntityRemoved(); // Notify system of removal
@@ -88,7 +88,7 @@ ComponentFamily.prototype.removeEntity = function(entity, entityMask) {
 };
 
 ComponentFamily.prototype.addEntity = function(entity, entityMask) {
-    if(this.mask !== this.mask & entityMask) return; // Ignore if entity doesn't match family
+    if(this.mask !== (this.mask & entityMask)) return; // Ignore if entity doesn't match family
     this.entities.push(entity);
     this.systems.forEach(function(sys) {
         sys.onEntityAdded(entity); // Notify system of new entity
