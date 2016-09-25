@@ -4,8 +4,8 @@ var path = require('path');
 // Define a schema
 var config = module.exports = convict({
     address: {
-        doc: "The address of your websocket server.",
-        format: "ipaddress",
+        doc: "The address/URL of your websocket server.",
+        format: String,
         default: "192.168.0.1"
     },
     port: {
