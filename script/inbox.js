@@ -39,7 +39,7 @@ function Inbox(config) {
     bot.on('message', function(user, userID, channelID, message, rawEvent) {
         if(bot.directMessages[channelID]) return;
         var serverID = bot.channels[channelID].guild_id;
-        if(!self.servers[serverID]) return;
+        if(!self.servers || !self.servers[serverID]) return;
         if(self.servers[serverID].ignoreChannels // Check if this channel is ignored
             && self.servers[serverID].ignoreChannels.indexOf(bot.channels[channelID].name) >= 0) return;
         var messageObject = { 
@@ -51,7 +51,7 @@ function Inbox(config) {
     bot.on('presence', function(user, userID, status, rawEvent) {
         var userInServers = [];
         for(var sKey in bot.servers) { if(!bot.servers.hasOwnProperty(sKey)) continue;
-            if(bot.servers[sKey].members[userID]) userInServers.push(sKey);
+            if(bot.servers[sKey].members && bot.servers[sKey].members[userID]) userInServers.push(sKey);
         }
         var presence = { 
             type: 'presence', servers: userInServers, data: { uid: userID, status: status }
