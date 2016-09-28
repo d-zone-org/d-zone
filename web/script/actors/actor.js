@@ -70,6 +70,7 @@ Actor.prototype.addToGame = function(game) {
 
 Actor.prototype.updatePresence = function(presence) {
     this.presence = presence || 'offline';
+    if(presence == 'dnd') this.presence = 'online';
     if(this.presence == 'offline' || this.presence == 'idle') {
         for(var i = 0; i < this.behaviors.length; i++) {
             this.behaviors[i].detach();
