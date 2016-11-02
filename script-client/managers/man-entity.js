@@ -18,11 +18,11 @@ module.exports = {
 
 function addComponent(e, component, data) {
     entities[e] |= ComponentManager.getComponentMask([component]); // Update component mask
-    ComponentManager.newComponent(e,entities[e],component,data);
+    ComponentManager.newComponent(e, entities[e], component, data);
 }
 
 function removeComponent(e, component) {
-    ComponentManager.removeEntity(e,entities[e]);
+    ComponentManager.removeEntity(e, entities[e]);
     entities[e] ^= ComponentManager.getComponentMask([component]); // Update component mask
 }
 
@@ -42,3 +42,19 @@ function expandEntityPool() {
     newPool.set(entities);
     entities = newPool;
 }
+
+// Debug
+window.dz.events.on('key-a', function() {
+    addComponent(0, require('com-animation'), {
+        loop: true,
+        rate: 2,
+        frames: 13,
+        frame: 0,
+        originX: 0,
+        originY: 56,
+        frameW: 35,
+        frameH: 27,
+        deltaX: 1,
+        deltaY: 0
+    });
+});

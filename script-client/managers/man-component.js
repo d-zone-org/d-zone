@@ -3,7 +3,7 @@ var util = require('dz-util');
 // Manages component families and data for all entities
 
 var components, systems;
-var componentData = [];
+var componentData = []; // Array of arrays, indexed by component then entity
 var componentFamilies = [];
 
 module.exports = {
@@ -89,8 +89,16 @@ ComponentFamily.prototype.removeEntity = function(entity, entityMask) {
 
 ComponentFamily.prototype.addEntity = function(entity, entityMask) {
     if(this.mask !== (this.mask & entityMask)) return; // Ignore if entity doesn't match family
+    if(this.entities.indexOf(entity) >= 0) return; // Ignore if entity already in this family
     this.entities.push(entity);
     this.systems.forEach(function(sys) {
         sys.onEntityAdded(entity); // Notify system of new entity
     },this);
 };
+
+// Debug
+window.dz.events.on('key-s', function() {
+    // Example of accessing component data --data[component][entity]
+    console.log(componentData[0][0]);
+    componentData[0][0].sheet = 'font'; 
+});
