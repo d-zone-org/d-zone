@@ -27,4 +27,4 @@ ComponentManager.init(components,systems);
 WorldManager.generateWorld(20);
 
 var ACTOR = require('ent-actor');
-ACTOR.create(EntityManager);
+EntityManager.addEntity(ACTOR);
