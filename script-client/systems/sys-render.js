@@ -56,9 +56,10 @@ function renderSprite(sprite) {
 render.onEntityAdded = function(entity) {
     var sprite = this.componentData[0][entity];
     sprite.zDepth = RenderManager.getZDepth(sprite.x, sprite.y);
-    var dxy = RenderManager.getDrawXY(sprite.x, sprite.y, sprite.z);
-    sprite.dx = dxy.x + sprite.dox;
-    sprite.dy = dxy.y + sprite.doy;
+    sprite.dx = RenderManager.getDrawX(sprite.x, sprite.y);
+    sprite.dy = RenderManager.getDrawY(sprite.x, sprite.y, sprite.z);
+    sprite.fdx = sprite.dx + sprite.dox;
+    sprite.fdy = sprite.dy + sprite.doy;
     RenderManager.setZBuffer(render.componentData[0].slice(0));
 };
 

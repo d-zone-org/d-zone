@@ -11,18 +11,16 @@ animate.updateEntity = function(entity, sprite, animation) {
     if(animation.init) {
         // First frame initialization
         animation.tick = 0; // Sub-frame tick
-        animation.original = {
+        sprite.prev = { // Preserve original sprite params before animating
             sheetX: sprite.sheetX,
             sheetY: sprite.sheetY,
             sheetW: sprite.sheetW,
-            sheetH: sprite.sheetH,
-            dx: sprite.dx,
-            dy: sprite.dy
+            sheetH: sprite.sheetH
         };
         sprite.sheetW = animation.frameW;
         sprite.sheetH = animation.frameH;
-        sprite.dx -= sprite.dox - animation.offsetX; // Undo sprite offset and apply animation offset
-        sprite.dy -= sprite.doy - animation.offsetY;
+        sprite.fdx = sprite.dx + animation.offsetX;
+        sprite.fdy = sprite.dy + animation.offsetY;
         animation.init = false;
     }
     if(animation.rate > 1) { // If not changing frame on every tick
@@ -37,12 +35,12 @@ animate.updateEntity = function(entity, sprite, animation) {
         if(animation.loop) animation.frame = 0;
         else {
             // Restore original sprite properties
-            sprite.sheetX = animation.original.sheetX;
-            sprite.sheetY = animation.original.sheetY;
-            sprite.sheetW = animation.original.sheetW;
-            sprite.sheetH = animation.original.sheetH;
-            sprite.dx = animation.original.dx;
-            sprite.dy = animation.original.dy;
+            sprite.sheetX = sprite.prev.sheetX;
+            sprite.sheetY = sprite.prev.sheetY;
+            sprite.sheetW = sprite.prev.sheetW;
+            sprite.sheetH = sprite.prev.sheetH;
+            sprite.fdx = sprite.dx + sprite.dox;
+            sprite.fdy = sprite.dy + sprite.doy;
             EntityManager.removeComponent(entity, animate.components[1]); // Remove animation component
         }
     }

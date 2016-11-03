@@ -9,13 +9,15 @@ function Sprite3D() {
         sheetY: 0,
         sheetW: 0, // Must be more than 0
         sheetH: 0, // Must be more than 0
-        dox: 0,
+        dox: 0, // Canvas draw offset
         doy: 0,
-        x: 0,
+        x: 0, // 3D game grid coordinates
         y: 0,
         z: 0,
-        dx: 0,
+        dx: 0, // Base canvas draw position
         dy: 0,
+        fdx: 0, // Final canvas draw position (dx + dox)
+        fdy: 0,
         zDepth: 0
     };
 }

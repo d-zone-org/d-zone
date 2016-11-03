@@ -39,7 +39,7 @@ function newEntityID() {
 }
 
 function expandEntityPool() {
-    var newPool = new Uint32Array(entities.length*2); // Double the array length
+    var newPool = new Uint32Array(entities.length * 2); // Double the array length
     newPool.set(entities);
     entities = newPool;
 }
