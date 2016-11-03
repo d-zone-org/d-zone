@@ -14,6 +14,8 @@ function Animation() {
         frameW: 20,
         frameH: 20,
         deltaX: 1,
-        deltaY: 0
+        deltaY: 0,
+        offsetX: 0,
+        offsetY: 0
     };
 }

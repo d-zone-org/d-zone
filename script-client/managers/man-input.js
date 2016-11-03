@@ -89,7 +89,6 @@ module.exports = {
 };
 
 // Debug
-window.dz.events = new EventEmitter();
 document.addEventListener('keydown', function(e) {
     var key = e.keyCode >= 48 && e.keyCode <= 90 ?
         String.fromCharCode(parseInt(e.keyCode)).toLowerCase() : KEYCODES[e.keyCode];

@@ -13,7 +13,8 @@ module.exports = {
     removeEntity: function(e) {
         ComponentManager.removeEntity(e,entities[e]);
         entities[e] = 0; // Clear component mask
-    }
+    },
+    removeComponent: removeComponent
 };
 
 function addComponent(e, component, data) {
@@ -46,7 +47,7 @@ function expandEntityPool() {
 // Debug
 window.dz.events.on('key-a', function() {
     addComponent(0, require('com-animation'), {
-        loop: true,
+        loop: false,
         rate: 2,
         frames: 13,
         frame: 0,
@@ -55,6 +56,8 @@ window.dz.events.on('key-a', function() {
         frameW: 35,
         frameH: 27,
         deltaX: 1,
-        deltaY: 0
+        deltaY: 0,
+        offsetX: -7,
+        offsetY: -4
     });
 });
