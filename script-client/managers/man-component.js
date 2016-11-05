@@ -30,9 +30,12 @@ module.exports = {
             componentFamily.addSystem(system);
         });
     },
-    removeEntity: function(entity, mask) {
+    removeEntity: function(entity) {
+        componentData.forEach(function(cd) { // Delete all component data
+            delete cd[entity];
+        });
         componentFamilies.forEach(function(family) {
-            family.removeEntity(entity, mask); // Notify component families
+            family.removeEntity(entity, 0); // Notify all families
         });
     },
     newComponent: function(entity, mask, component, data) {
@@ -43,7 +46,13 @@ module.exports = {
             thisComponentData[entity][prop] = data[prop];
         }
         componentFamilies.forEach(function(family) {
-            family.addEntity(entity, mask); // Notify component families
+            family.addEntity(entity, mask); // Notify families that match new mask
+        });
+    },
+    removeComponent: function(entity, component) {
+        delete componentData[components.indexOf(component)][entity]; // Delete component data
+        componentFamilies.forEach(function(family) {
+            family.removeEntity(entity, getComponentMask([component])); // Notify families that require component
         });
     },
     getComponentData: getComponentData,
@@ -58,20 +67,24 @@ function getComponentData(family) {
     return familyData;
 }
 
-function getComponentMask(family) {
+function getComponentMask(componentList) {
     var mask = 0;
-    for(var i = 0; i < family.length; i++) {
-        mask |= 1 << components.indexOf(family[i]);
+    for(var i = 0; i < componentList.length; i++) {
+        mask |= 1 << components.indexOf(componentList[i]);
     }
     return mask;
 }
 
 // Component family prototype
-function ComponentFamily(components) {
-    this.mask = getComponentMask(components);
+function ComponentFamily(componentList) {
+    this.componentNames = '';
+    componentList.forEach(function(c, i) {
+        this.componentNames += (i == 0 ? '' : '-') + c.name;
+    }, this);
+    this.mask = getComponentMask(componentList);
     this.entities = [];
     this.systems = [];
-    this.componentData = getComponentData(components);
+    this.componentData = getComponentData(componentList);
 }
 
 ComponentFamily.prototype.addSystem = function(system) {
@@ -79,8 +92,8 @@ ComponentFamily.prototype.addSystem = function(system) {
     system.init(this.entities, this.componentData);
 };
 
-ComponentFamily.prototype.removeEntity = function(entity, entityMask) {
-    if(this.mask !== (this.mask & entityMask)) return; // Ignore if entity doesn't match family
+ComponentFamily.prototype.removeEntity = function(entity, removeMask) {
+    if(removeMask > 0 && removeMask !== (removeMask & this.mask)) return; // Ignore if family doesn't match removal
     util.removeFromArray(entity, this.entities);
     this.systems.forEach(function(sys) {
         sys.onEntityRemoved(); // Notify system of removal
@@ -97,8 +110,12 @@ ComponentFamily.prototype.addEntity = function(entity, entityMask) {
 };
 
 // Debug
-window.dz.events.on('key-s', function() {
+global.dz.events.on('key-s', function() {
     // Example of accessing component data --data[component][entity]
     console.log(componentData[0][0]);
     componentData[0][0].sheet = 'font'; 
+});
+global.dz.events.on('key-d', function() {
+    console.log(componentData);
+    console.log(componentFamilies);
 });

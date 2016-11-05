@@ -60,11 +60,11 @@ render.onEntityAdded = function(entity) {
     sprite.dy = RenderManager.getDrawY(sprite.x, sprite.y, sprite.z);
     sprite.fdx = sprite.dx + sprite.dox;
     sprite.fdy = sprite.dy + sprite.doy;
-    RenderManager.setZBuffer(render.componentData[0].slice(0));
+    RenderManager.setZBuffer(render.componentData[0]); // Send sprite data to zBuffer
 };
 
 render.onEntityRemoved = function() {
-    RenderManager.setZBuffer(render.componentData[0].slice(0));
+    RenderManager.setZBuffer(render.componentData[0]); // Send sprite data to zBuffer
 };
 
 render.setWorld = function(world) {

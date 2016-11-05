@@ -2,16 +2,18 @@
 var EntityManager = require('man-entity');
 var System = require('system');
 
+const COM_ANIMATION = require('com-animation');
+
 var animate = new System('animate',[
     require('com-sprite3d'),
-    require('com-animation')
+    COM_ANIMATION
 ]);
 
 animate.updateEntity = function(entity, sprite, animation) {
     if(animation.init) {
         // First frame initialization
         animation.tick = 0; // Sub-frame tick
-        sprite.prev = { // Preserve original sprite params before animating
+        if(!sprite.prev) sprite.prev = { // Preserve original sprite params before animating
             sheetX: sprite.sheetX,
             sheetY: sprite.sheetY,
             sheetW: sprite.sheetW,
@@ -39,9 +41,10 @@ animate.updateEntity = function(entity, sprite, animation) {
             sprite.sheetY = sprite.prev.sheetY;
             sprite.sheetW = sprite.prev.sheetW;
             sprite.sheetH = sprite.prev.sheetH;
+            delete sprite.prev;
             sprite.fdx = sprite.dx + sprite.dox;
             sprite.fdy = sprite.dy + sprite.doy;
-            EntityManager.removeComponent(entity, animate.components[1]); // Remove animation component
+            EntityManager.removeComponent(entity, COM_ANIMATION); // Remove animation component
         }
     }
 };

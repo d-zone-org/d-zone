@@ -1,9 +1,8 @@
 'use strict';
 var System = require('system');
-var RenderManager = require('man-render');
 
 var move = new System('move',[
-    require('com-sprite3d')
+    require('com-movement')
 ]);
 
 move.updateEntity = function(entity, sprite) {

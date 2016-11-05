@@ -26,6 +26,6 @@ System.prototype.update = function() {
 
 System.prototype.updateEntity = function(entity) { }; // Virtual
 
-System.prototype.onEntityAdded = function() { }; // Virtual
+System.prototype.onEntityAdded = function(entity) { }; // Virtual
 
 System.prototype.onEntityRemoved = function() { }; // Virtual

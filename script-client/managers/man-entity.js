@@ -7,12 +7,12 @@ module.exports = {
     addEntity: function(components) {
         var id = newEntityID();
         for(var i = 0; i < components.length; i++) {
-            addComponent(id, components[i][0], components[i][1]);
+            addComponent(id, components[i][0], components[i][1]); // Entity ID, component object, component data
         }
     },
     removeEntity: function(e) {
-        ComponentManager.removeEntity(e,entities[e]);
         entities[e] = 0; // Clear component mask
+        ComponentManager.removeEntity(e);
     },
     removeComponent: removeComponent
 };
@@ -23,8 +23,8 @@ function addComponent(e, component, data) {
 }
 
 function removeComponent(e, component) {
-    ComponentManager.removeEntity(e, entities[e]);
     entities[e] ^= ComponentManager.getComponentMask([component]); // Update component mask
+    ComponentManager.removeComponent(e, component);
 }
 
 function newEntityID() {
@@ -45,7 +45,7 @@ function expandEntityPool() {
 }
 
 // Debug
-window.dz.events.on('key-a', function() {
+global.dz.events.on('key-a', function() {
     addComponent(0, require('com-animation'), {
         loop: false,
         rate: 2,

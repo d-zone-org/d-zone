@@ -92,7 +92,7 @@ module.exports = {
 document.addEventListener('keydown', function(e) {
     var key = e.keyCode >= 48 && e.keyCode <= 90 ?
         String.fromCharCode(parseInt(e.keyCode)).toLowerCase() : KEYCODES[e.keyCode];
-    window.dz.events.emit('key-' + key);
+    global.dz.events.emit('key-' + key);
 });
 
 const KEYCODES = {

@@ -6,7 +6,7 @@ var dirty = false; // Indicates whether Z-buffer needs sorting
 module.exports = {
     setZBuffer: function(sprites) {
         //if(sprites.constructor !== Array) sprites = [sprites];
-        zBuffer = sprites;
+        zBuffer = sprites.slice(0); // Shallow copy
         dirty = true;
     },
     getZDepth: getZDepth,

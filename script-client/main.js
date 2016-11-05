@@ -1,13 +1,15 @@
 'use strict';
+console.log(`###### D-ZONE ${require('json!./../package.json').version} ######`);
 var EventEmitter = require('events').EventEmitter;
-window.dz = { events: new EventEmitter() }; // D-Zone globals
+global.dz = { events: new EventEmitter() }; // D-Zone globals
 
 var util = require('dz-util');
 
 var components = [
     require('com-sprite3d'),
-    require('com-collider'),
-    require('com-animation')
+    require('com-animation'),
+    require('com-movement'),
+    require('com-collider')
 ];
 var systems = [
     require('sys-move'),
