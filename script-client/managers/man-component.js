@@ -56,7 +56,9 @@ module.exports = {
         });
     },
     getComponentData: getComponentData,
-    getComponentMask: getComponentMask
+    getComponentMask: getComponentMask,
+    componentData: componentData,
+    componentFamilies: componentFamilies
 };
 
 function getComponentData(family) {
@@ -108,14 +110,3 @@ ComponentFamily.prototype.addEntity = function(entity, entityMask) {
         sys.onEntityAdded(entity); // Notify system of new entity
     },this);
 };
-
-// Debug
-global.dz.events.on('key-s', function() {
-    // Example of accessing component data --data[component][entity]
-    console.log(componentData[0][0]);
-    componentData[0][0].sheet = 'font'; 
-});
-global.dz.events.on('key-d', function() {
-    console.log(componentData);
-    console.log(componentFamilies);
-});

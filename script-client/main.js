@@ -20,6 +20,7 @@ var systems = [
 var GameManager = require('man-game');
 var EntityManager = require('man-entity');
 var ComponentManager = require('man-component');
+var RenderManager = require('man-render');
 var SpriteManager = require('man-sprite');
 var ViewManager = require('man-view');
 var WorldManager = require('man-world');
@@ -29,7 +30,49 @@ SpriteManager.init(['actors', 'environment', 'static-tiles', 'props', 'font']);
 ViewManager.init({ id: 'main', initialScale: 2, maxScale: 4 });
 GameManager.init(systems);
 ComponentManager.init(components, systems);
+RenderManager.init(ComponentManager.getComponentData([require('com-sprite3d')])[0]);
 WorldManager.generateWorld(20);
+
+// Debug/Testing
 
 var ACTOR = require('ent-actor');
 EntityManager.addEntity(ACTOR);
+EntityManager.addEntity(ACTOR);
+ComponentManager.componentData[0][1].y = -1;
+RenderManager.updateSprite(1);
+global.dz.events.on('key-s', function() {
+    // Example of accessing component data --data[component][entity]
+    console.log(ComponentManager.componentData[0][0]);
+    ComponentManager.componentData[0][0].sheet = 'font';
+});
+global.dz.events.on('key-d', function() { // Log component data
+    console.log(ComponentManager.componentData);
+    console.log(ComponentManager.componentFamilies);
+});
+global.dz.events.on('key-f', function() { // Move test
+    EntityManager.addComponent(0, require('com-movement'), {
+        dx: 1,
+        ticks: 26
+    });
+    EntityManager.addComponent(0, require('com-animation'), {
+        loop: false,
+        rate: 2,
+        frames: 13,
+        frame: 0,
+        originX: 0,
+        originY: 56,
+        frameW: 35,
+        frameH: 27,
+        deltaX: 1,
+        deltaY: 0,
+        offsetX: -7,
+        offsetY: -4
+    });
+});
+// Game speed modifiers
+global.dz.events.on('key-1', function() { GameManager.setStep(60); });
+global.dz.events.on('key-2', function() { GameManager.setStep(30); });
+global.dz.events.on('key-3', function() { GameManager.setStep(10); });
+global.dz.events.on('key-4', function() { GameManager.setStep(5); });
+global.dz.events.on('key-5', function() { GameManager.setStep(2); });
+global.dz.events.on('key-6', function() { GameManager.setStep(1); });

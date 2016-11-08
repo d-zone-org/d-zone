@@ -17,7 +17,6 @@ function Sprite3D() {
         dx: 0, // Base canvas draw position
         dy: 0,
         fdx: 0, // Final canvas draw position (dx + dox)
-        fdy: 0,
-        zDepth: 0
+        fdy: 0
     };
 }

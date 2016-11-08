@@ -19,6 +19,14 @@ module.exports = {
             }
         }
     },
+    removeEmptyIndexes: function(arr) {
+        for(var i = 0; i < arr.length; i++) {
+            if(arr[i] === undefined) {
+                arr.splice(i, 1);
+                i--;
+            }
+        }
+    },
     right: function(text, length) { return text.substring(text.length-length,text.length); },
     clamp: function(val, min, max) { return Math.min(max,Math.max(min,val)); },
     clampWrap: function(val, min, max) { // Clamp to range by wrapping value

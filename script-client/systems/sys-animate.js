@@ -1,17 +1,18 @@
 'use strict';
-var EntityManager = require('man-entity');
 var System = require('system');
+var EntityManager = require('man-entity');
 
-const COM_ANIMATION = require('com-animation');
+var ANIMATION = require('com-animation');
 
 var animate = new System('animate',[
     require('com-sprite3d'),
-    COM_ANIMATION
+    ANIMATION
 ]);
 
 animate.updateEntity = function(entity, sprite, animation) {
-    if(animation.init) {
+    if(!animation.frame) {
         // First frame initialization
+        animation.frame = 0;
         animation.tick = 0; // Sub-frame tick
         if(!sprite.prev) sprite.prev = { // Preserve original sprite params before animating
             sheetX: sprite.sheetX,
@@ -23,7 +24,6 @@ animate.updateEntity = function(entity, sprite, animation) {
         sprite.sheetH = animation.frameH;
         sprite.fdx = sprite.dx + animation.offsetX;
         sprite.fdy = sprite.dy + animation.offsetY;
-        animation.init = false;
     }
     if(animation.rate > 1) { // If not changing frame on every tick
         animation.tick = animation.tick < animation.rate ? animation.tick + 1 : 1;
@@ -32,8 +32,9 @@ animate.updateEntity = function(entity, sprite, animation) {
     // Advance animation frame
     sprite.sheetX = animation.originX + animation.frame * animation.frameW * animation.deltaX;
     sprite.sheetY = animation.originY + animation.frame * animation.frameH * animation.deltaY;
-    animation.frame++;
-    if(animation.frame === animation.frames) { // If final frame reached
+    if(animation.frame < animation.frames) { // If animation not completed
+        animation.frame++;
+    } else { // If final frame reached
         if(animation.loop) animation.frame = 0;
         else {
             // Restore original sprite properties
@@ -44,7 +45,7 @@ animate.updateEntity = function(entity, sprite, animation) {
             delete sprite.prev;
             sprite.fdx = sprite.dx + sprite.dox;
             sprite.fdy = sprite.dy + sprite.doy;
-            EntityManager.removeComponent(entity, COM_ANIMATION); // Remove animation component
+            EntityManager.removeComponent(entity, ANIMATION); // Remove animation component
         }
     }
 };

@@ -1,27 +1,40 @@
 'use strict';
+var util = require('dz-util');
 
-var zBuffer = []; // Holds depth-sorted sprites
+var spriteData; // Reference to sprite data
+var zBuffer; // Depth-sorted sprites
 var dirty = false; // Indicates whether Z-buffer needs sorting
 
 module.exports = {
-    setZBuffer: function(sprites) {
+    init: function(s) {
+        spriteData = s;
+    },
+    refreshZBuffer: function() {
         //if(sprites.constructor !== Array) sprites = [sprites];
-        zBuffer = sprites.slice(0); // Shallow copy
+        zBuffer = spriteData.slice(0); // Shallow copy
         dirty = true;
     },
     getZDepth: getZDepth,
     getDrawX: getDrawX,
     getDrawY: getDrawY,
     getDrawXY: getDrawXY,
-    makeDirty: function() {
-        dirty = true;
-    },
     getZBuffer: function() {
         if(dirty) { // If sprites need to be re-sorted
+            util.removeEmptyIndexes(zBuffer); // Compress array
             insertionSort(zBuffer, depthSort);
             dirty = false; // All sprites are sorted
         }
         return zBuffer;
+    },
+    updateSprite: function(entity) {
+        var sprite = spriteData[entity];
+        var oldZDepth = sprite.zDepth;
+        sprite.dx = getDrawX(sprite.x, sprite.y);
+        sprite.dy = getDrawY(sprite.x, sprite.y, sprite.z);
+        sprite.fdx = sprite.dx + sprite.dox;
+        sprite.fdy = sprite.dy + sprite.doy;
+        sprite.zDepth = getZDepth(sprite.x, sprite.y);
+        if(oldZDepth !== sprite.zDepth) dirty = true;
     }
 };
 
@@ -45,8 +58,7 @@ function getDrawXY(x, y, z) {
     return [getDrawX(x, y), getDrawY(x, y, z)];
 }
 
-// Faster sorting for nearly-sorted arrays (like the z-buffer)
-// https://jsperf.com/smv-insertion-sort/2
+// Faster sorting for nearly-sorted arrays (like the z-buffer) - https://jsperf.com/smv-insertion-sort/2
 function insertionSort(array, comp) {
     var n = array.length;
     for (var i = 1; i < n; ++i) {

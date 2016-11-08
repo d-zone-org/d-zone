@@ -14,6 +14,7 @@ module.exports = {
         entities[e] = 0; // Clear component mask
         ComponentManager.removeEntity(e);
     },
+    addComponent: addComponent,
     removeComponent: removeComponent
 };
 
@@ -43,21 +44,3 @@ function expandEntityPool() {
     newPool.set(entities);
     entities = newPool;
 }
-
-// Debug
-global.dz.events.on('key-a', function() {
-    addComponent(0, require('com-animation'), {
-        loop: false,
-        rate: 2,
-        frames: 13,
-        frame: 0,
-        originX: 0,
-        originY: 56,
-        frameW: 35,
-        frameH: 27,
-        deltaX: 1,
-        deltaY: 0,
-        offsetX: -7,
-        offsetY: -4
-    });
-});

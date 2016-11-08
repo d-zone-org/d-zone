@@ -18,7 +18,6 @@ var crashed = false;
 var systems, s;
 
 function updateSystems() {
-    if(!systems) return;
     //var timeThis = (ticks & 255) == 0;
     //if(timeThis) console.time('update');
     for(s = 0; s < systems.length; s++) {
@@ -51,5 +50,8 @@ module.exports = {
     init: function(s) {
         systems = s;
         gameLoop = setInterval(interval, step);
-    }
+    },
+    setStep: function(s) {
+        step = 1000/s;
+    } 
 };

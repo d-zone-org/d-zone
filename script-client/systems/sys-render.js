@@ -54,17 +54,12 @@ function renderSprite(sprite) {
 }
 
 render.onEntityAdded = function(entity) {
-    var sprite = this.componentData[0][entity];
-    sprite.zDepth = RenderManager.getZDepth(sprite.x, sprite.y);
-    sprite.dx = RenderManager.getDrawX(sprite.x, sprite.y);
-    sprite.dy = RenderManager.getDrawY(sprite.x, sprite.y, sprite.z);
-    sprite.fdx = sprite.dx + sprite.dox;
-    sprite.fdy = sprite.dy + sprite.doy;
-    RenderManager.setZBuffer(render.componentData[0]); // Send sprite data to zBuffer
+    RenderManager.updateSprite(entity);
+    RenderManager.refreshZBuffer();
 };
 
 render.onEntityRemoved = function() {
-    RenderManager.setZBuffer(render.componentData[0]); // Send sprite data to zBuffer
+    RenderManager.refreshZBuffer();
 };
 
 render.setWorld = function(world) {

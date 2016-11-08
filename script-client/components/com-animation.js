@@ -4,7 +4,6 @@ module.exports = Animation;
 
 function Animation() {
     this.data = {
-        init: true,
         loop: true,
         rate: 2, // Game ticks per frame
         frames: 12,
