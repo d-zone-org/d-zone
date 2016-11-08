@@ -27,6 +27,12 @@ module.exports = {
             }
         }
     },
+    mergeObjects: function(a, b) { // Merge/overwrite object B into object A
+        for(var prop in b) { // Apply custom data
+            if(!b.hasOwnProperty(prop)) continue;
+            a[prop] = b[prop];
+        }
+    },
     right: function(text, length) { return text.substring(text.length-length,text.length); },
     clamp: function(val, min, max) { return Math.min(max,Math.max(min,val)); },
     clampWrap: function(val, min, max) { // Clamp to range by wrapping value

@@ -40,11 +40,8 @@ module.exports = {
     },
     newComponent: function(entity, mask, component, data) {
         var thisComponentData = componentData[components.indexOf(component)];
-        thisComponentData[entity] = (new component()).data; // Get default data
-        for(var prop in data) { // Apply custom data
-            if(!data.hasOwnProperty(prop)) continue;
-            thisComponentData[entity][prop] = data[prop];
-        }
+        thisComponentData[entity] = (new component()).data; // New instance of default data
+        util.mergeObjects(thisComponentData[entity], data); // Apply custom data
         componentFamilies.forEach(function(family) {
             family.addEntity(entity, mask); // Notify families that match new mask
         });

@@ -1,9 +1,8 @@
 'use strict';
 console.log(`###### D-ZONE ${require('json!./../package.json').version} ######`);
 var EventEmitter = require('events').EventEmitter;
-global.dz = { events: new EventEmitter() }; // D-Zone globals
-
 var util = require('dz-util');
+global.dz = { events: new EventEmitter() }; // D-Zone globals
 
 var components = [
     require('com-sprite3d'),
@@ -35,14 +34,18 @@ WorldManager.generateWorld(20);
 
 // Debug/Testing
 
-var ACTOR = require('ent-actor');
-EntityManager.addEntity(ACTOR);
-EntityManager.addEntity(ACTOR);
-ComponentManager.componentData[0][1].y = -1;
-RenderManager.updateSprite(1);
+var Actor = require('ent-actor');
+var actor1 = EntityManager.addEntity(Actor({
+    x: -2,
+    y: 1
+}));
+var actor2 = EntityManager.addEntity(Actor({
+    x: 1
+}));
+
 global.dz.events.on('key-s', function() {
     // Example of accessing component data --data[component][entity]
-    console.log(ComponentManager.componentData[0][0]);
+    console.log(ComponentManager.componentData[0][actor1]);
     ComponentManager.componentData[0][0].sheet = 'font';
 });
 global.dz.events.on('key-d', function() { // Log component data
@@ -50,11 +53,11 @@ global.dz.events.on('key-d', function() { // Log component data
     console.log(ComponentManager.componentFamilies);
 });
 global.dz.events.on('key-f', function() { // Move test
-    EntityManager.addComponent(0, require('com-movement'), {
+    EntityManager.addComponent(actor1, require('com-movement'), {
         dx: 1,
         ticks: 26
     });
-    EntityManager.addComponent(0, require('com-animation'), {
+    EntityManager.addComponent(actor1, require('com-animation'), {
         loop: false,
         rate: 2,
         frames: 13,
@@ -65,8 +68,8 @@ global.dz.events.on('key-f', function() { // Move test
         frameH: 27,
         deltaX: 1,
         deltaY: 0,
-        offsetX: -7,
-        offsetY: -4
+        offsetX: -9,
+        offsetY: -6
     });
 });
 // Game speed modifiers

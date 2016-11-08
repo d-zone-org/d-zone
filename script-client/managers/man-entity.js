@@ -9,6 +9,7 @@ module.exports = {
         for(var i = 0; i < components.length; i++) {
             addComponent(id, components[i][0], components[i][1]); // Entity ID, component object, component data
         }
+        return id;
     },
     removeEntity: function(e) {
         entities[e] = 0; // Clear component mask
