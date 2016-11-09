@@ -7,7 +7,7 @@ function isLeafNode(node) {
         // It's a leaf if it has a non-object as a property
         return typeof node[key] !== 'object' || node[key] instanceof Array;
     }
-    return true; // If node has no properties, it's an leaf
+    return true; // If node has no properties, it's a leaf
 }
 
 module.exports = function(config) {

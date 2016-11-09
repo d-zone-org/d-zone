@@ -34,32 +34,21 @@ WorldManager.generateWorld(20);
 
 // Debug/Testing
 
-var actorConfig = require('actor-cfg');
 var Actor = require('actor-ent');
-var actor1 = EntityManager.addEntity(Actor({
+var actor1 = EntityManager.addEntity(Actor.create({
     x: -2,
     y: 1
 }));
-var actor2 = EntityManager.addEntity(Actor({
-    x: 1
-}));
 
-global.dz.events.on('key-s', function() {
-    // Example of accessing component data --data[component][entity]
-    console.log(ComponentManager.componentData[0][actor1]);
-    ComponentManager.componentData[0][0].sheet = 'font';
-});
-global.dz.events.on('key-d', function() { // Log component data
+global.dz.events.on('key-q', function() { // Log component data
     console.log(ComponentManager.componentData);
     console.log(ComponentManager.componentFamilies);
 });
-global.dz.events.on('key-f', function() { // Move test
-    EntityManager.addComponent(actor1, require('com-movement'), {
-        dx: 1,
-        ticks: 26
-    });
-    EntityManager.addComponent(actor1, require('com-animation'), actorConfig().animations.hop.east);
-});
+// WASD movement
+global.dz.events.on('key-w', function() { Actor.hop(actor1, 'north') });
+global.dz.events.on('key-a', function() { Actor.hop(actor1, 'west') });
+global.dz.events.on('key-s', function() { Actor.hop(actor1, 'south') });
+global.dz.events.on('key-d', function() { Actor.hop(actor1, 'east') });
 // Game speed modifiers
 global.dz.events.on('key-1', function() { GameManager.setStep(60); });
 global.dz.events.on('key-2', function() { GameManager.setStep(30); });
