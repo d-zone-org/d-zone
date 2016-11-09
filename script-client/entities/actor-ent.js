@@ -1,12 +1,10 @@
 'use strict';
 var util = require('dz-util');
-var configLoader = require('ent-configloader');
-var SPRITE3D = require('com-sprite3d');
+var actorConfig = require('actor-cfg');
 
 function Actor(sprite) {
-    var actorConfig = configLoader(require('cfg-actor'));
     var data = [
-        [SPRITE3D, actorConfig.sprites.idle.east]
+        [require('com-sprite3d'), actorConfig().sprites.idle.east]
     ];
     if(sprite) util.mergeObjects(data[0][1], sprite); // Apply custom data
     return data;

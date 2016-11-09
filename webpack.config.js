@@ -19,7 +19,6 @@ var common = {
             'common',
             'components',
             'entities',
-            'entities/configs',
             'managers',
             'managers/ui',
             'managers/view',

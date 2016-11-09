@@ -1,6 +1,7 @@
 'use strict';
+var configLoader = require('configloader');
 
-module.exports = {
+module.exports = new configLoader({
     common: {
         sheet: 'actors'
     },
@@ -47,4 +48,4 @@ module.exports = {
             }
         }
     }
-};
+});

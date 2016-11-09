@@ -26,5 +26,7 @@ module.exports = function(config) {
         }
         delete node.common;
     }
-    return config;
+    return function() {
+        return JSON.parse(JSON.stringify(config));
+    }
 };
