@@ -1,6 +1,7 @@
 'use strict';
 var System = require('system');
 var EntityManager = require('man-entity');
+var RenderManager = require('man-render');
 
 var ANIMATION = require('com-animation');
 
@@ -34,6 +35,11 @@ animate.updateEntity = function(entity, sprite, animation) {
     sprite.sheetY = animation.originY + animation.frame * animation.frameH * animation.deltaY;
     if(animation.frame < animation.frames) { // If animation not completed
         animation.frame++;
+        var zDepthChange = animation.zDepthValues[animation.zDepthFrames.indexOf(animation.frame)];
+        if(zDepthChange) {
+            sprite.zDepth += zDepthChange;
+            RenderManager.refreshZBuffer();
+        }
     } else { // If final frame reached
         if(animation.loop) animation.frame = 0;
         else {

@@ -69,7 +69,9 @@ global.dz.events.on('key-f', function() { // Move test
         deltaX: 1,
         deltaY: 0,
         offsetX: -9,
-        offsetY: -6
+        offsetY: -6,
+        zDepthFrames: [6],
+        zDepthValues: [1]
     });
 });
 // Game speed modifiers
