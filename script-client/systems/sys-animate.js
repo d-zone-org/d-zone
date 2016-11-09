@@ -31,8 +31,8 @@ animate.updateEntity = function(entity, sprite, animation) {
         if(animation.tick > 1) return; // Only animate on first tick
     }
     // Advance animation frame
-    sprite.sheetX = animation.originX + animation.frame * animation.frameW * animation.deltaX;
-    sprite.sheetY = animation.originY + animation.frame * animation.frameH * animation.deltaY;
+    sprite.sheetX = animation.sheetX + animation.frame * animation.frameW * animation.deltaX;
+    sprite.sheetY = animation.sheetY + animation.frame * animation.frameH * animation.deltaY;
     if(animation.frame < animation.frames) { // If animation not completed
         animation.frame++;
         var zDepthChange = animation.zDepthValues[animation.zDepthFrames.indexOf(animation.frame)];

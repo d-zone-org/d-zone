@@ -27,11 +27,19 @@ module.exports = {
             }
         }
     },
-    mergeObjects: function(a, b) { // Merge/overwrite object B into object A
-        for(var prop in b) { // Apply custom data
-            if(!b.hasOwnProperty(prop)) continue;
-            a[prop] = b[prop];
+    mergeObjects: function(a, b, newObject) { // Merge/overwrite object B into object A
+        var returnObj = newObject ? {} : a;
+        if(newObject) {
+            for(var aKey in a) { // Apply custom data
+                if(!a.hasOwnProperty(aKey)) continue;
+                returnObj[aKey] = a[aKey];
+            }
         }
+        for(var bKey in b) { // Apply custom data
+            if(!b.hasOwnProperty(bKey)) continue;
+            returnObj[bKey] = b[bKey];
+        }
+        return returnObj;
     },
     right: function(text, length) { return text.substring(text.length-length,text.length); },
     clamp: function(val, min, max) { return Math.min(max,Math.max(min,val)); },

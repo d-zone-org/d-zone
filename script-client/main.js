@@ -2,6 +2,7 @@
 console.log(`###### D-ZONE ${require('json!./../package.json').version} ######`);
 var EventEmitter = require('events').EventEmitter;
 var util = require('dz-util');
+var configLoader = require('ent-configloader');
 global.dz = { events: new EventEmitter() }; // D-Zone globals
 
 var components = [
@@ -57,22 +58,7 @@ global.dz.events.on('key-f', function() { // Move test
         dx: 1,
         ticks: 26
     });
-    EntityManager.addComponent(actor1, require('com-animation'), {
-        loop: false,
-        rate: 2,
-        frames: 13,
-        frame: 0,
-        originX: 0,
-        originY: 56,
-        frameW: 35,
-        frameH: 27,
-        deltaX: 1,
-        deltaY: 0,
-        offsetX: -9,
-        offsetY: -6,
-        zDepthFrames: [6],
-        zDepthValues: [1]
-    });
+    EntityManager.addComponent(actor1, require('com-animation'), configLoader(require('cfg-actor')).animations.hop.east);
 });
 // Game speed modifiers
 global.dz.events.on('key-1', function() { GameManager.setStep(60); });

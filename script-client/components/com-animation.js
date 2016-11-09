@@ -8,8 +8,8 @@ function Animation() {
         rate: 2, // Game ticks per frame
         frames: 12,
         frame: 0,
-        originX: 0,
-        originY: 0,
+        sheetX: 0,
+        sheetY: 0,
         frameW: 20,
         frameH: 20,
         deltaX: 1,
