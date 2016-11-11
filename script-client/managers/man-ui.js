@@ -2,7 +2,7 @@
 var InputManager = require('man-input');
 var ViewManager = require('man-view');
 var Canvas = require('canvas');
-var Screen = require('ui-screen');
+var Screen = require('ui/screen');
 
 var uiCanvas = new Canvas(1,1);
 

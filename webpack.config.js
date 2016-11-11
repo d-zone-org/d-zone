@@ -20,9 +20,6 @@ var common = {
             'components',
             'entities',
             'managers',
-            'managers/ui',
-            'managers/view',
-            'managers/world',
             'systems'
         ]
     },

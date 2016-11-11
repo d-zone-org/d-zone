@@ -1,6 +1,6 @@
 'use strict';
 var inherits = require('inherits');
-var UIElement = require('ui-element');
+var UIElement = require('ui/element');
 
 module.exports = Screen;
 inherits(Screen,UIElement);

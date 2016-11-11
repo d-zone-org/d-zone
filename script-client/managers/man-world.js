@@ -1,6 +1,6 @@
 'use strict';
-var WorldGeneration = require('world-generation');
-var WorldGraphics = require('world-graphics');
+var WorldGeneration = require('world/generation');
+var WorldGraphics = require('world/graphics');
 var RenderSystem = require('sys-render');
 var EntityManager = require('man-entity');
 var SpriteManager = require('man-sprite');

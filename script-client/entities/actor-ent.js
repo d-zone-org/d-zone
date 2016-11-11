@@ -4,7 +4,7 @@ var actorConfig = require('actor-cfg');
 var util = require('dz-util');
 
 var SPRITE3D = require('com-sprite3d');
-var MOVEMENT = require('com-movement');
+var MOVEMENT = require('actor/com-movement');
 var ANIMATION = require('com-animation');
 
 module.exports = {
@@ -26,5 +26,7 @@ module.exports = {
         moveData.ticks = 26;
         EntityManager.addComponent(entity, MOVEMENT, moveData);
         EntityManager.addComponent(entity, ANIMATION, actorConfig().animations.hop[direction]);
+        
+        // TODO: Actor movement component/system, might replace current movement entirely?
     }
 };

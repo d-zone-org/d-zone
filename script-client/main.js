@@ -7,7 +7,7 @@ global.dz = { events: new EventEmitter() }; // D-Zone globals
 var components = [
     require('com-sprite3d'),
     require('com-animation'),
-    require('com-movement'),
+    require('actor/com-movement'),
     require('com-collider')
 ];
 var systems = [
@@ -45,10 +45,10 @@ global.dz.events.on('key-q', function() { // Log component data
     console.log(ComponentManager.componentFamilies);
 });
 // WASD movement
-global.dz.events.on('key-w', function() { Actor.hop(actor1, 'north') });
-global.dz.events.on('key-a', function() { Actor.hop(actor1, 'west') });
-global.dz.events.on('key-s', function() { Actor.hop(actor1, 'south') });
-global.dz.events.on('key-d', function() { Actor.hop(actor1, 'east') });
+global.dz.events.on('key-w', function() { Actor.hop(actor1, 'north'); });
+global.dz.events.on('key-a', function() { Actor.hop(actor1, 'west'); });
+global.dz.events.on('key-s', function() { Actor.hop(actor1, 'south'); });
+global.dz.events.on('key-d', function() { Actor.hop(actor1, 'east'); });
 // Game speed modifiers
 global.dz.events.on('key-1', function() { GameManager.setStep(60); });
 global.dz.events.on('key-2', function() { GameManager.setStep(30); });

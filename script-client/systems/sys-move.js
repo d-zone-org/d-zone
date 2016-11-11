@@ -3,7 +3,7 @@ var System = require('system');
 var EntityManager = require('man-entity');
 var RenderManager = require('man-render');
 
-var MOVEMENT = require('com-movement');
+var MOVEMENT = require('actor/com-movement');
 
 var move = new System('move',[
     require('com-sprite3d'),
