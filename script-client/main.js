@@ -11,8 +11,8 @@ var components = [
     require('com-collider')
 ];
 var systems = [
-    require('sys-move'),
     require('sys-animate'),
+    require('actor/sys-move'),
     require('sys-render')
 ];
 

@@ -16,17 +16,8 @@ module.exports = {
         return data;
     },
     hop: function(entity, direction) {
-        var moveData;
-        switch(direction) {
-            case 'north': moveData = { dx: 0, dy: -1 }; break;
-            case 'west': moveData = { dx: -1, dy: 0 }; break;
-            case 'south': moveData = { dx: 0, dy: 1 }; break;
-            case 'east': moveData = { dx: 1, dy: 0 }; break;
-        }
-        moveData.ticks = 26;
-        EntityManager.addComponent(entity, MOVEMENT, moveData);
+        if(EntityManager.hasComponent(entity, MOVEMENT)) return;
+        EntityManager.addComponent(entity, MOVEMENT, { direction: direction });
         EntityManager.addComponent(entity, ANIMATION, actorConfig().animations.hop[direction]);
-        
-        // TODO: Actor movement component/system, might replace current movement entirely?
     }
 };

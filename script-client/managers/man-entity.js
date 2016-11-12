@@ -16,7 +16,10 @@ module.exports = {
         ComponentManager.removeEntity(e);
     },
     addComponent: addComponent,
-    removeComponent: removeComponent
+    removeComponent: removeComponent,
+    hasComponent: function(e, component) {
+        return (entities[e] & ComponentManager.getComponentMask([component])) !== 0;
+    }
 };
 
 function addComponent(e, component, data) {
@@ -25,7 +28,7 @@ function addComponent(e, component, data) {
 }
 
 function removeComponent(e, component) {
-    entities[e] ^= ComponentManager.getComponentMask([component]); // Update component mask
+    entities[e] &= ~ComponentManager.getComponentMask([component]); // Update component mask
     ComponentManager.removeComponent(e, component);
 }
 
