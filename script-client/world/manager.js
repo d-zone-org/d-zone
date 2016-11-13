@@ -5,7 +5,7 @@ var RenderSystem = require('sys-render');
 var EntityManager = require('man-entity');
 var SpriteManager = require('man-sprite');
 
-var world, collisionMap;
+var world, entityMap;
 
 module.exports = {
     generateWorld: function(size) {
@@ -19,11 +19,12 @@ module.exports = {
             doy: -42
         }]]);
         world = WorldGeneration.generateMap(size);
+        
         // console.log(world);
         SpriteManager.waitForLoaded(function() {
-            WorldGraphics.drawWorld(world,SpriteManager.sprites);
+            WorldGraphics.drawWorld(world, SpriteManager.sprites);
             RenderSystem.setWorld(world);
         });
     },
-    collisionMap: collisionMap
+    entityMap: entityMap
 };

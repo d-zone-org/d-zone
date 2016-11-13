@@ -2,10 +2,10 @@
 var System = require('system');
 var EntityManager = require('man-entity');
 var RenderManager = require('man-render');
-var actorConfig = require('actor-cfg');
+var actorConfig = require('actor/config');
 var util = require('dz-util');
 
-var MOVEMENT = require('actor/com-movement');
+var MOVEMENT = require('actor/components/movement');
 
 var move = new System('move',[
     require('com-sprite3d'),

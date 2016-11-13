@@ -3,7 +3,7 @@ var System = require('system');
 var RenderManager = require('man-render');
 var SpriteManager = require('man-sprite');
 var ViewManager = require('man-view.js');
-var UIManager = require('man-ui');
+var UIManager = require('ui/manager');
 var requestAnimationFrame = require('raf');
 
 var view = ViewManager.view;

@@ -18,7 +18,6 @@ var common = {
             'node_modules',
             'common',
             'components',
-            'entities',
             'managers',
             'systems'
         ]

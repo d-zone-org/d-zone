@@ -7,12 +7,12 @@ global.dz = { events: new EventEmitter() }; // D-Zone globals
 var components = [
     require('com-sprite3d'),
     require('com-animation'),
-    require('actor/com-movement'),
+    require('./actor/components/movement'),
     require('com-collider')
 ];
 var systems = [
     require('sys-animate'),
-    require('actor/sys-move'),
+    require('./actor/systems/move'),
     require('sys-render')
 ];
 
@@ -22,7 +22,7 @@ var ComponentManager = require('man-component');
 var RenderManager = require('man-render');
 var SpriteManager = require('man-sprite');
 var ViewManager = require('man-view');
-var WorldManager = require('man-world');
+var WorldManager = require('./world/manager');
 
 // Initialize managers
 SpriteManager.init(['actors', 'environment', 'static-tiles', 'props', 'font']);
@@ -34,21 +34,21 @@ WorldManager.generateWorld(20);
 
 // Debug/Testing
 
-var Actor = require('actor-ent');
-var actor1 = EntityManager.addEntity(Actor.create({
+var ActorManager = require('./actor/manager');
+var actor1 = ActorManager.create({
     x: -2,
     y: 1
-}));
+});
 
 global.dz.events.on('key-q', function() { // Log component data
     console.log(ComponentManager.componentData);
     console.log(ComponentManager.componentFamilies);
 });
 // WASD movement
-global.dz.events.on('key-w', function() { Actor.hop(actor1, 'north'); });
-global.dz.events.on('key-a', function() { Actor.hop(actor1, 'west'); });
-global.dz.events.on('key-s', function() { Actor.hop(actor1, 'south'); });
-global.dz.events.on('key-d', function() { Actor.hop(actor1, 'east'); });
+global.dz.events.on('key-w', function() { ActorManager.hop(actor1, 'north'); });
+global.dz.events.on('key-a', function() { ActorManager.hop(actor1, 'west'); });
+global.dz.events.on('key-s', function() { ActorManager.hop(actor1, 'south'); });
+global.dz.events.on('key-d', function() { ActorManager.hop(actor1, 'east'); });
 // Game speed modifiers
 global.dz.events.on('key-1', function() { GameManager.setStep(60); });
 global.dz.events.on('key-2', function() { GameManager.setStep(30); });

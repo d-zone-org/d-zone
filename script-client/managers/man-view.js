@@ -1,6 +1,6 @@
 'use strict';
 var InputManager = require('man-input');
-var UIManager = require('man-ui');
+var UIManager = require('ui/manager');
 var Canvas = require('canvas');
 var util = require('dz-util.js');
 
