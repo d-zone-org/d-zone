@@ -4,7 +4,7 @@ var ViewManager = require('man-view');
 var Canvas = require('canvas');
 var Screen = require('ui/screen');
 
-var uiCanvas = new Canvas(1,1);
+var uiCanvas = new Canvas(1, 1);
 
 var screens = [new Screen(ViewManager.view)];
 
@@ -30,7 +30,7 @@ module.exports = {
     draw: function(canvas) {
         // Draw internal UI canvas to main canvas, UI itself is only redrawn when it needs to be
         // Possible enhancement: separate the UI canvas in the html
-        canvas.context.drawImage(uiCanvas.canvas,0,0);
+        canvas.context.drawImage(uiCanvas.canvas, 0, 0);
     },
     mouseMove: function(x, y) {
         

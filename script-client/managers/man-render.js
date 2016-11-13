@@ -1,4 +1,5 @@
 'use strict';
+var ComponentManager = require('man-component');
 var util = require('dz-util');
 
 var spriteData; // Reference to sprite data
@@ -6,8 +7,8 @@ var zBuffer; // Depth-sorted sprites
 var dirty = false; // Indicates whether Z-buffer needs sorting
 
 module.exports = {
-    init: function(s) {
-        spriteData = s;
+    init: function() {
+        spriteData = ComponentManager.getComponentData([require('com-sprite3d')])[0];
     },
     refreshZBuffer: function() {
         //if(sprites.constructor !== Array) sprites = [sprites];

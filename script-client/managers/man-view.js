@@ -24,7 +24,16 @@ var viewManager = {
         view.canvas.context.mozImageSmoothingEnabled = false;
         view.canvas.context.imageSmoothingEnabled = false;
         view.canvas.canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        view.cursorX = Math.floor(window.innerWidth / 2 / options.initialScale);
+        view.cursorY = Math.floor(window.innerHeight / 2 / options.initialScale);
+        view.width = Math.ceil(window.innerWidth / options.initialScale);
+        view.height = Math.floor(window.innerHeight / options.initialScale);
         zoom(options.initialScale);
+        require('sys-render').onViewReady();
+        window.addEventListener('resize', function() {
+            fitWindow();
+            resizeCanvas();
+        });
     },
     view: view,
     onFrameReady: false,
@@ -35,24 +44,24 @@ var viewManager = {
     }
 };
 
-InputManager.events.on('mouse-move',function (event) {
+InputManager.events.on('mouse-move', function (event) {
     view.cursorX = Math.floor(event.x / view.scale);
     view.cursorY = Math.floor(event.y / view.scale);
     if(!UIManager.mouseMove(view.cursorX, view.cursorY)) {
         panMove();
     }
 });
-InputManager.events.on('mouse-down',function (event) {
+InputManager.events.on('mouse-down', function (event) {
     if(!UIManager.mouseDown(view.cursorX, view.cursorY, event.button)) {
         panFrom = panFrom || { x: view.cursorX, y: view.cursorY };
     }
 });
-InputManager.events.on('mouse-up',function (event) {
+InputManager.events.on('mouse-up', function (event) {
     if(!UIManager.mouseUp(view.cursorX, view.cursorY, event.button)) {
         panFrom = false;
     }
 });
-InputManager.events.on('mouse-wheel',function (event) {
+InputManager.events.on('mouse-wheel', function (event) {
     if(!UIManager.mouseWheel(view.cursorX, view.cursorY, event.direction)) {
         zoom(view.scale + (event.direction == 'up' ? 1 : -1));
     }
@@ -84,19 +93,14 @@ function zoom(newScale) {
 }
 
 function fitWindow() {
-    var newWidth = Math.ceil(window.innerWidth / (view.scale)),
-        newHeight = Math.ceil(window.innerHeight / (view.scale));
+    var newWidth = Math.ceil(window.innerWidth / view.scale),
+        newHeight = Math.ceil(window.innerHeight / view.scale);
     view.cursorX = Math.round(newWidth * (view.cursorX / view.width));
     view.cursorY = Math.round(newHeight * (view.cursorY / view.height));
     view.width = newWidth;
     view.height = newHeight;
     calcPan();
 }
-
-window.addEventListener('resize', function() {
-    fitWindow();
-    resizeCanvas();
-});
 
 function resizeCanvas() {
     viewManager.onFrameReady = function() { // Wait until new frame is ready to be drawn

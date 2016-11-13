@@ -4,6 +4,7 @@ var configLoader = require('configloader');
 
 module.exports = new configLoader({
     worldSizeFactor: 1,
+    removeIslands: true,
     flowerPatchesFactor: 1,
     beacon: {
         sheet: 'props',

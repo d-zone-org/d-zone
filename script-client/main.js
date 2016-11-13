@@ -27,11 +27,15 @@ var WorldManager = require('./world/manager');
 
 // Initialize managers
 SpriteManager.init(['actors', 'environment', 'static-tiles', 'props', 'font']);
-ViewManager.init({ id: 'main', initialScale: 2, maxScale: 4 });
 GameManager.init(systems);
 ComponentManager.init(components, systems);
-RenderManager.init(ComponentManager.getComponentData([require('com-sprite3d')])[0]);
+RenderManager.init();
 WorldManager.generateWorld(20);
+
+window.addEventListener('resize', function onWindowReady() {
+    window.removeEventListener('resize', onWindowReady);
+    ViewManager.init({ id: 'main', initialScale: 2, maxScale: 4 });
+});
 
 // Debug/Testing
 

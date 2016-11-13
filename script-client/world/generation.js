@@ -75,7 +75,7 @@ function crawlMap(map) {
         mainIsland = islands[i].length > islands[mainIsland].length ? i : mainIsland;
     }
     // Delete tiles in all other islands
-    for(i = 0; i < islands.length; i++) { 
+    if(config().removeIslands) for(i = 0; i < islands.length; i++) { 
         if(i == mainIsland) continue;
         for(var it = 0; it < islands[i].length; it++) {
             map.tiles.setIndex(islands[i][it], 0);

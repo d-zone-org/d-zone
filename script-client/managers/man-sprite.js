@@ -14,18 +14,18 @@ var spriteManager = {
             image.src = './img/' + imgName + '.png';
         });
     },
-    sprites: {},
+    sheets: {},
     events: events,
     waitForLoaded: function(cb) {
         if(spriteManager.loaded) cb();
-        else events.once('loaded',cb);
+        else events.once('loaded', cb);
     }
 };
 
 function onImageLoad(image, imageName) {
-    var canvas = new Canvas(image.width,image.height);
-    spriteManager.sprites[imageName] = canvas.canvas;
-    canvas.drawImage(image,0,0,image.width,image.height,0,0,image.width,image.height);
+    var canvas = new Canvas(image.width, image.height);
+    spriteManager.sheets[imageName] = canvas.canvas;
+    canvas.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width, image.height);
     imagesLoaded++;
     spriteManager.loaded = imagesLoaded == imageList.length;
     if(spriteManager.loaded) events.emit('loaded');

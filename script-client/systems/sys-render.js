@@ -12,16 +12,18 @@ var render = new System([
     require('com-sprite3d')
 ]);
 var zBuffer, currentFrame;
-var backgroundColor = '#1d171f', bgImage, wox, woy;
+var spriteSheets, backgroundColor = '#1d171f', bgImage, wox, woy;
 
-render.update = function() { // Overrides update method to wait for browser animation frame
-    zBuffer = RenderManager.getZBuffer();
-    // Insert loading screen here
+render.onViewReady = function() {
+    ViewManager.setCenter(wox, woy + 8);
+    render.update = function() { // Overrides update method to wait for browser animation frame
+        // Insert loading screen here
+    };
+    SpriteManager.waitForLoaded(function() { // Wait for sprite sheets to load
+        spriteSheets = SpriteManager.sheets;
+        render.update = update; // Change update method to start drawing game
+    });
 };
-
-SpriteManager.waitForLoaded(function() { // Wait for sprites to load
-    render.update = update; // Change update method
-});
 
 function update() { // Real update method once sprites are loaded
     zBuffer = RenderManager.getZBuffer();
@@ -50,7 +52,7 @@ function onFrameReady() {
 }
 
 function renderSprite(sprite) {
-    view.canvas.drawSprite(SpriteManager, sprite, view.panX - wox, view.panY - woy);
+    view.canvas.drawSprite(spriteSheets, sprite, view.panX - wox, view.panY - woy);
 }
 
 render.onEntityAdded = function(entity) {
@@ -66,7 +68,6 @@ render.setWorld = function(world) {
     bgImage = world.image;
     wox = world.imageCenter.x;
     woy = world.imageCenter.y;
-    ViewManager.setCenter(world.imageCenter.x, world.imageCenter.y + 8);
 };
 
 module.exports = render;

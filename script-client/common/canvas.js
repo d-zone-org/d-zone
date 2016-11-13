@@ -46,8 +46,8 @@ Canvas.prototype.drawImage = function(img, sx, sy, sw, sh, dx, dy, opacity) {
     }
 };
 
-Canvas.prototype.drawSprite = function(sm, s, ox, oy) {
-    this.drawImage(sm.sprites[s.sheet], s.sheetX, s.sheetY, s.sheetW, s.sheetH, s.fdx - ox, s.fdy - oy);
+Canvas.prototype.drawSprite = function(sheets, s, ox, oy) {
+    this.drawImage(sheets[s.sheet], s.sheetX, s.sheetY, s.sheetW, s.sheetH, s.fdx - ox, s.fdy - oy);
 };
 
 Canvas.prototype.fill = function(color) {
