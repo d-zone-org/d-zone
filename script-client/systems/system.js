@@ -2,9 +2,8 @@
 
 module.exports = System;
 
-function System(name/*, components*/) {
-    this.systemName = name;
-    if(arguments[1]) this.components = arguments[1];
+function System(/*components*/) {
+    if(arguments[0]) this.components = arguments[0];
 }
 
 System.prototype.init = function(entities, componentData) {

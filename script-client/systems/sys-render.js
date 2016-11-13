@@ -8,7 +8,7 @@ var requestAnimationFrame = require('raf');
 
 var view = ViewManager.view;
 
-var render = new System('render',[
+var render = new System([
     require('com-sprite3d')
 ]);
 var zBuffer, currentFrame;

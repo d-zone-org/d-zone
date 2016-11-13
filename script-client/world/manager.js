@@ -4,20 +4,13 @@ var WorldGraphics = require('world/graphics');
 var RenderSystem = require('sys-render');
 var EntityManager = require('man-entity');
 var SpriteManager = require('man-sprite');
+var worldConfig = require('./config');
 
 var world, entityMap;
 
 module.exports = {
     generateWorld: function(size) {
-        EntityManager.addEntity([[require('com-sprite3d'), { // Beacon
-            sheet: 'props',
-            sheetX: 0,
-            sheetY: 0,
-            sheetW: 31,
-            sheetH: 56,
-            dox: -16,
-            doy: -42
-        }]]);
+        EntityManager.addEntity([[require('com-sprite3d'), worldConfig().beacon]]);
         world = WorldGeneration.generateMap(size);
         
         // console.log(world);

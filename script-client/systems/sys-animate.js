@@ -5,7 +5,7 @@ var RenderManager = require('man-render');
 
 var ANIMATION = require('com-animation');
 
-var animate = new System('animate',[
+var animate = new System([
     require('com-sprite3d'),
     ANIMATION
 ]);

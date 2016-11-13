@@ -4,16 +4,18 @@ var WorldManager = require('world/manager');
 var actorConfig = require('./config');
 var util = require('dz-util');
 
-var SPRITE3D = require('com-sprite3d');
+var ACTOR = require('./components/actor');
 var MOVEMENT = require('./components/movement');
+var SPRITE3D = require('com-sprite3d');
 var ANIMATION = require('com-animation');
 
 module.exports = {
     create: function(sprite) {
         var data = [
+            [ACTOR],
             [SPRITE3D, actorConfig().sprites.idle.east]
         ];
-        if(sprite) util.mergeObjects(data[0][1], sprite); // Apply custom data
+        if(sprite) util.mergeObjects(data[1][1], sprite); // Apply custom data
         return EntityManager.addEntity(data);
     },
     hop: function(entity, direction) {

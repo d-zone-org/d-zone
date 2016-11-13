@@ -8,6 +8,7 @@ var components = [
     require('com-sprite3d'),
     require('com-animation'),
     require('./actor/components/movement'),
+    require('./actor/components/actor'),
     require('com-collider')
 ];
 var systems = [

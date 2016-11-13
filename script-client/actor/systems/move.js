@@ -7,12 +7,13 @@ var util = require('dz-util');
 
 var MOVEMENT = require('actor/components/movement');
 
-var move = new System('move',[
+var move = new System([
+    require('actor/components/actor'),
     require('com-sprite3d'),
     MOVEMENT
 ]);
 
-move.updateEntity = function(entity, sprite, movement) {
+move.updateEntity = function(entity, actor, sprite, movement) {
     if(!movement.tick) {
         movement.tick = 0;
         util.mergeObjects(movement, actorConfig().movement[movement.direction]);
@@ -26,6 +27,7 @@ move.updateEntity = function(entity, sprite, movement) {
         sprite.z += movement.dz || 0;
         RenderManager.updateSprite(entity);
         util.mergeObjects(sprite, actorConfig().sprites.idle[movement.direction]); // Set actor direction
+        actor.facing = movement.direction;
     }
 };
 
