@@ -4,7 +4,9 @@ var configLoader = require('configloader');
 module.exports = new configLoader({
     movement: {
         common: {
-            ticks: 26
+            ticks: 26,
+            dx: 0,
+            dy: 0
         },
         north: {
             dy: -1
@@ -45,7 +47,6 @@ module.exports = new configLoader({
     animations: {
         hop: {
             common: {
-                sheet: 'actors',
                 sheetX: 28,
                 loop: false,
                 rate: 2,

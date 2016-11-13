@@ -5,6 +5,7 @@ module.exports = Animation;
 function Animation() {
     this.data = {
         loop: true,
+        restoreSprite: true, // Indicates whether to restore sprite properties upon completion
         rate: 2, // Game ticks per frame
         frames: 12,
         frame: 0,

@@ -2,7 +2,6 @@
 var util = require('dz-util');
 var geometry = require('geometry');
 var Map2D = require('map2d');
-var Map3D = require('map3d');
 var config = require('./config');
 
 const TILES = {
@@ -114,11 +113,14 @@ function createFlowerPatches(map) {
 
 module.exports = {
     generateMap: function(size) {
-        var map = generateTileMap(size); // Generate 2d map of tiles using perlin noise
-        crawlMap(map); // Examine map to detect islands, borders, etc
-        createFlowerPatches(map);
+        var world = generateTileMap(size); // Generate 2d map of tiles using perlin noise
+        crawlMap(world); // Examine map to detect islands, borders, etc
+        createFlowerPatches(world);
         // map.tiles.print('world');
-        map.entityMap = new Map3D(map.size, map.size);
-        return map;
+        world.entityMap = new Map2D(Array, world.size, world.size, world.radius, world.radius);
+        world.entityMap.forEachTile(function(val, index, arr) {
+            arr[index] = [];
+        }, true);
+        return world;
     }
 };

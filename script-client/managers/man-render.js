@@ -4,7 +4,8 @@ var util = require('dz-util');
 
 var spriteData; // Reference to sprite data
 var zBuffer; // Depth-sorted sprites
-var dirty = false; // Indicates whether Z-buffer needs sorting
+var dirtyBuffer = false; // Indicates whether Z-buffer needs sorting
+var dirtySprites = []; // List of entities that need their sprites recalculated
 
 module.exports = {
     init: function() {
@@ -13,31 +14,44 @@ module.exports = {
     refreshZBuffer: function() {
         //if(sprites.constructor !== Array) sprites = [sprites];
         zBuffer = spriteData.slice(0); // Shallow copy
-        dirty = true;
+        dirtyBuffer = true;
     },
     getZDepth: getZDepth,
     getDrawX: getDrawX,
     getDrawY: getDrawY,
     getDrawXY: getDrawXY,
     getZBuffer: function() {
-        if(dirty) { // If sprites need to be re-sorted
+        if(dirtySprites.length > 0) { // If there are sprites that need to be recalculated
+            for(var i = 0; i < dirtySprites.length; i++) {
+                updateSprite(dirtySprites[i]);
+            }
+            dirtySprites = [];
+        }
+        if(dirtyBuffer) { // If sprites need to be re-sorted
             util.removeEmptyIndexes(zBuffer); // Compress array
             insertionSort(zBuffer, depthSort);
-            dirty = false; // All sprites are sorted
+            dirtyBuffer = false; // All sprites are sorted
         }
         return zBuffer;
     },
     updateSprite: function(entity) {
-        var sprite = spriteData[entity];
-        var oldZDepth = sprite.zDepth;
-        sprite.dx = getDrawX(sprite.x, sprite.y);
-        sprite.dy = getDrawY(sprite.x, sprite.y, sprite.z);
-        sprite.fdx = sprite.dx + sprite.dox;
-        sprite.fdy = sprite.dy + sprite.doy;
-        sprite.zDepth = getZDepth(sprite.x, sprite.y);
-        if(oldZDepth !== sprite.zDepth) dirty = true;
+        if(spriteData[entity].dirty) return; // Sprite already marked dirty
+        dirtySprites.push(entity);
+        spriteData[entity].dirty = true;
     }
 };
+
+function updateSprite(entity) {
+    var sprite = spriteData[entity];
+    sprite.dirty = false;
+    var oldZDepth = sprite.zDepth;
+    sprite.dx = getDrawX(sprite.x, sprite.y);
+    sprite.dy = getDrawY(sprite.x, sprite.y, sprite.z);
+    sprite.fdx = sprite.dx + sprite.dox;
+    sprite.fdy = sprite.dy + sprite.doy;
+    sprite.zDepth = getZDepth(sprite.x, sprite.y);
+    if(oldZDepth !== sprite.zDepth) dirtyBuffer = true;
+}
 
 function depthSort(a, b) {
     return a.zDepth - b.zDepth;
