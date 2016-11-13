@@ -9,7 +9,7 @@ var components = [
     require('com-animation'),
     require('./actor/components/movement'),
     require('./actor/components/actor'),
-    require('com-collider')
+    require('com-transform')
 ];
 var systems = [
     require('./actor/systems/move'),

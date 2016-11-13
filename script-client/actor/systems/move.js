@@ -12,15 +12,16 @@ var ANIMATION = require('com-animation');
 var move = new System([
     require('actor/components/actor'),
     require('com-sprite3d'),
+    require('com-transform'),
     MOVEMENT
 ]);
 
-move.updateEntity = function(entity, actor, sprite, movement) {
+move.updateEntity = function(entity, actor, sprite, transform, movement) {
     if(!movement.tick) {
         actor.facing = movement.direction;
         util.mergeObjects(sprite, actorConfig().sprites.idle[actor.facing]); // Set actor facing direction
         var moveDelta = actorConfig().movement[movement.direction];
-        if(WorldManager.getEntityAt(sprite.x + moveDelta.dx, sprite.y + moveDelta.dy, sprite.z) >= 0) {
+        if(WorldManager.getEntityAt(transform.x + moveDelta.dx, transform.y + moveDelta.dy, transform.z) >= 0) {
             EntityManager.removeComponent(entity, MOVEMENT);
             return;
         }
@@ -32,9 +33,8 @@ move.updateEntity = function(entity, actor, sprite, movement) {
     if(movement.tick < movement.ticks) {
         movement.tick++;
     } else {
-        sprite.x += movement.dx;
-        sprite.y += movement.dy;
-        sprite.z += movement.dz;
+        WorldManager.moveEntity(entity, movement.dx, movement.dy, movement.dz);
+        RenderManager.updateTransform(entity);
         EntityManager.removeComponent(entity, MOVEMENT);
     }
 };

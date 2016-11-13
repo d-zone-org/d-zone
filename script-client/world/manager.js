@@ -1,4 +1,5 @@
 'use strict';
+var util = require('dz-util');
 var WorldGeneration = require('./generation');
 var WorldGraphics = require('world/graphics');
 var EntityManager = require('man-entity');
@@ -6,23 +7,22 @@ var ComponentManager = require('man-component');
 var SpriteManager = require('man-sprite');
 var worldConfig = require('./config');
 
-var world, entityMap, colliderData, spriteData;
+var world, entityMap, transformData;
 
 module.exports = {
     generateWorld: function(size) {
+        transformData = ComponentManager.getComponentData([require('com-transform')])[0];
         world = WorldGeneration.generateMap(size);
         entityMap = world.entityMap;
         // console.log(world);
         addEntity(EntityManager.addEntity([
             [require('com-sprite3d'), worldConfig().beacon],
-            [require('com-collider'), { platform: false }]
+            [require('com-transform'), { platform: false }]
         ]), 0, 0);
         SpriteManager.waitForLoaded(function() {
             WorldGraphics.drawWorld(world, SpriteManager.sheets);
             require('sys-render').setWorld(world);
         });
-        colliderData = ComponentManager.getComponentData([require('com-collider')])[0];
-        spriteData = ComponentManager.getComponentData([require('com-sprite3d')])[0];
     },
     addEntity: addEntity,
     getEntityAt: function(x, y, z) {
@@ -30,7 +30,7 @@ module.exports = {
         y = center(y);
         var xy = entityMap.getXY(x, y);
         for(var i = 0; i < xy.length; i++) {
-            if(getEntityZ(xy[i]) === z) return xy[i];
+            if(getTransform(xy[i]).z === z) return xy[i];
         }
         return -1;
     },
@@ -42,19 +42,32 @@ module.exports = {
             
         }
     },
-    entityMap: entityMap
+    moveEntity: function(e, x, y, z) {
+        var transform = removeEntity(e);
+        transform.x += x;
+        transform.y += y;
+        transform.z += z;
+        addEntity(e, transform.x, transform.y);
+    }
 };
 
 function addEntity(e, x, y) {
     x = center(x);
     y = center(y);
-    world.entityMap.getXY(x || 0, y || 0).push(e);
+    var transform = getTransform(e);
+    transform.mapIndex = entityMap.indexFromXY(x, y);
+    entityMap.getIndex(transform.mapIndex).push(e);
+    return transform;
 }
 
-function getEntityZ(e) {
-    if(colliderData[e]) return colliderData[e].z;
-    else if(spriteData[e]) return spriteData[e].z;
-    else return false;
+function removeEntity(e) {
+    var transform = getTransform(e);
+    util.removeFromArray(e, entityMap.getIndex(transform.mapIndex));
+    return transform;
+}
+
+function getTransform(e) {
+    return transformData[e] || {};
 }
 
 function center(n) {

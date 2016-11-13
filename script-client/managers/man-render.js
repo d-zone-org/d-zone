@@ -2,14 +2,16 @@
 var ComponentManager = require('man-component');
 var util = require('dz-util');
 
-var spriteData; // Reference to sprite data
+var spriteData, transformData; // Reference to sprite and transform data
 var zBuffer; // Depth-sorted sprites
 var dirtyBuffer = false; // Indicates whether Z-buffer needs sorting
-var dirtySprites = []; // List of entities that need their sprites recalculated
+var dirtySprites = []; // List of entities that had non-transformative sprite changes
+var dirtyTransforms = []; // List of entities that had transformative sprite changes
 
 module.exports = {
     init: function() {
         spriteData = ComponentManager.getComponentData([require('com-sprite3d')])[0];
+        transformData = ComponentManager.getComponentData([require('com-transform')])[0];
     },
     refreshZBuffer: function() {
         //if(sprites.constructor !== Array) sprites = [sprites];
@@ -21,12 +23,18 @@ module.exports = {
     getDrawY: getDrawY,
     getDrawXY: getDrawXY,
     getZBuffer: function() {
-        if(dirtySprites.length > 0) { // If there are sprites that need to be recalculated
-            for(var i = 0; i < dirtySprites.length; i++) {
-                updateSprite(dirtySprites[i]);
-            }
-            dirtySprites = [];
+        // Update entities with non-transformative sprite changes
+        for(var s = 0; s < dirtySprites.length; s++) {
+            updateSprite(dirtySprites[s]);
         }
+        dirtySprites = [];
+        // Update entities with transformative sprite changes
+        for(var t = 0; t < dirtyTransforms.length; t++) {
+            updateTransform(dirtyTransforms[t]);
+        }
+        dirtyTransforms = [];
+        dirtySprites.length = 0;
+        dirtyTransforms.length = 0;
         if(dirtyBuffer) { // If sprites need to be re-sorted
             util.removeEmptyIndexes(zBuffer); // Compress array
             insertionSort(zBuffer, depthSort);
@@ -35,22 +43,38 @@ module.exports = {
         return zBuffer;
     },
     updateSprite: function(entity) {
+        var transform = transformData[entity];
+        if(transform && transform.dirty) return; // Transform already dirty, no need to dirty sprite
         if(spriteData[entity].dirty) return; // Sprite already marked dirty
         dirtySprites.push(entity);
         spriteData[entity].dirty = true;
+    },
+    updateTransform: function(entity) {
+        if(transformData[entity].dirty) return; // Transform already marked dirty
+        dirtyTransforms.push(entity);
+        transformData[entity].dirty = true;
     }
 };
 
 function updateSprite(entity) {
     var sprite = spriteData[entity];
     sprite.dirty = false;
-    var oldZDepth = sprite.zDepth;
-    sprite.dx = getDrawX(sprite.x, sprite.y);
-    sprite.dy = getDrawY(sprite.x, sprite.y, sprite.z);
     sprite.fdx = sprite.dx + sprite.dox;
     sprite.fdy = sprite.dy + sprite.doy;
-    sprite.zDepth = getZDepth(sprite.x, sprite.y);
+}
+
+function updateTransform(entity) {
+    var transform = transformData[entity];
+    var sprite = spriteData[entity];
+    transform.dirty = false;
+    var oldZDepth = sprite.zDepth;
+    sprite.dx = getDrawX(transform.x, transform.y);
+    sprite.dy = getDrawY(transform.x, transform.y, transform.z);
+    sprite.fdx = sprite.dx + sprite.dox;
+    sprite.fdy = sprite.dy + sprite.doy;
+    sprite.zDepth = getZDepth(transform.x, transform.y);
     if(oldZDepth !== sprite.zDepth) dirtyBuffer = true;
+    
 }
 
 function depthSort(a, b) {
