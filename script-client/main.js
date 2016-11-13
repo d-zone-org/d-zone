@@ -32,10 +32,12 @@ ComponentManager.init(components, systems);
 RenderManager.init();
 WorldManager.generateWorld(20);
 
-window.addEventListener('resize', function onWindowReady() {
+if(window.innerWidth) onWindowReady();
+else window.addEventListener('resize', onWindowReady );
+function onWindowReady() {
     window.removeEventListener('resize', onWindowReady);
     ViewManager.init({ id: 'main', initialScale: 2, maxScale: 4 });
-});
+}
 
 // Debug/Testing
 
