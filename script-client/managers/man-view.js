@@ -28,7 +28,7 @@ var viewManager = {
         view.cursorY = Math.floor(window.innerHeight / 2 / options.initialScale);
         view.width = Math.ceil(window.innerWidth / options.initialScale);
         view.height = Math.floor(window.innerHeight / options.initialScale);
-        zoom(options.initialScale);
+        zoom(options.initialScale, true); // Initial zoom
         require('sys-render').onViewReady();
         window.addEventListener('resize', function() {
             fitWindow();
@@ -40,7 +40,7 @@ var viewManager = {
     setCenter: function(x, y) {
         view.centerX = Math.round(x);
         view.centerY = Math.round(y);
-        calcPan();
+        if(view.id) calcPan(); // Only pan if view is initialized
     }
 };
 
@@ -80,14 +80,16 @@ function calcPan() {
     view.panY = Math.round(view.centerY - view.height / 2);
 }
 
-function zoom(newScale) {
+function zoom(newScale, init) {
     if(newScale < 1 || newScale > view.maxScale) return;
     view.scale = newScale;
     var cursorWorldX = view.panX + view.cursorX,
         cursorWorldY = view.panY + view.cursorY;
     fitWindow();
-    view.centerX += cursorWorldX - (view.panX + view.cursorX); // Consistent cursor-world location
-    view.centerY += cursorWorldY - (view.panY + view.cursorY);
+    if(!init) { // If not initial zoom
+        view.centerX += cursorWorldX - (view.panX + view.cursorX); // Consistent cursor-world location
+        view.centerY += cursorWorldY - (view.panY + view.cursorY);
+    }
     calcPan();
     resizeCanvas();
 }

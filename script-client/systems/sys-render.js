@@ -15,7 +15,6 @@ var zBuffer, currentFrame;
 var spriteSheets, backgroundColor = '#1d171f', bgImage, wox, woy;
 
 render.onViewReady = function() {
-    ViewManager.setCenter(wox, woy + 8);
     render.update = function() { // Overrides update method to wait for browser animation frame
         // Insert loading screen here
     };
@@ -68,6 +67,7 @@ render.setWorld = function(world) {
     bgImage = world.image;
     wox = world.imageCenter.x;
     woy = world.imageCenter.y;
+    ViewManager.setCenter(wox, woy + 8);
 };
 
 module.exports = render;

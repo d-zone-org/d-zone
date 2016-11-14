@@ -4,7 +4,7 @@ var EventEmitter = require('events').EventEmitter;
 var util = require('dz-util');
 global.dz = { events: new EventEmitter() }; // D-Zone globals
 
-var components = [,
+var components = [
     require('com-transform'),
     require('com-sprite3d'),
     require('com-animation'),
@@ -32,7 +32,6 @@ ComponentManager.init(components, systems);
 RenderManager.init();
 WorldManager.generateWorld(20);
 
-// TODO: Screen is occasionally blank on rebuild
 if(window.innerWidth) onWindowReady();
 else window.addEventListener('resize', onWindowReady );
 function onWindowReady() {
