@@ -55,32 +55,40 @@ module.exports = new configLoader({
                 frameH: 27,
                 deltaX: 1,
                 deltaY: 0,
-                zDepthFrames: [6]
+                zDepthFrames: [6,9]
             },
             north: {
                 sheetY: 27,
                 offsetX: -9,
                 offsetY: -15,
-                zDepthValues: [-1]
+                zDepthValues: [-1,0]
             },
             west: {
                 sheetY: 54,
                 offsetX: -26,
                 offsetY: -15,
-                zDepthValues: [-1]
+                zDepthValues: [-1,0]
             },
             south: {
                 sheetY: 81,
                 offsetX: -26,
                 offsetY: -6,
-                zDepthValues: [1]
+                zDepthValues: [1,1]
             },
             east: {
                 sheetY: 0,
                 offsetX: -9,
                 offsetY: -6,
-                zDepthValues: [1]
+                zDepthValues: [1,1]
             }
+        },
+        hopUp: {
+            offsetYFrames: [4,5,6,7,8,9],
+            offsetYValues: [-1,-2,-2,-1,-1,-1],
+        },
+        hopDown: {
+            offsetYFrames: [5,6,7,8,9],
+            offsetYValues: [1,1,1,2,3],
         }
     }
 });

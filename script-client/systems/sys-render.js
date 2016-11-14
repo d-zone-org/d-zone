@@ -56,7 +56,7 @@ function renderSprite(sprite) {
 }
 
 render.onEntityAdded = function(entity) {
-    RenderManager.updateSprite(entity);
+    RenderManager.updateTransform(entity);
     RenderManager.refreshZBuffer();
 };
 

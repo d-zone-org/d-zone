@@ -4,12 +4,12 @@ var EventEmitter = require('events').EventEmitter;
 var util = require('dz-util');
 global.dz = { events: new EventEmitter() }; // D-Zone globals
 
-var components = [
+var components = [,
+    require('com-transform'),
     require('com-sprite3d'),
     require('com-animation'),
     require('./actor/components/movement'),
-    require('./actor/components/actor'),
-    require('com-transform')
+    require('./actor/components/actor')
 ];
 var systems = [
     require('./actor/systems/move'),
@@ -32,6 +32,7 @@ ComponentManager.init(components, systems);
 RenderManager.init();
 WorldManager.generateWorld(20);
 
+// TODO: Screen is occasionally blank on rebuild
 if(window.innerWidth) onWindowReady();
 else window.addEventListener('resize', onWindowReady );
 function onWindowReady() {
@@ -43,8 +44,12 @@ function onWindowReady() {
 
 var ActorManager = require('./actor/manager');
 var actor1 = ActorManager.create({
-    x: -2,
-    y: 1
+    x: -1,
+    y: 2
+});
+var actor2 = ActorManager.create({
+    x: 0,
+    y: 2
 });
 
 global.dz.events.on('key-q', function() { // Log component data

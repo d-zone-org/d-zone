@@ -50,7 +50,8 @@ module.exports = {
         spriteData[entity].dirty = true;
     },
     updateTransform: function(entity) {
-        if(transformData[entity].dirty) return; // Transform already marked dirty
+        var transform = transformData[entity];
+        if(!transform || transformData[entity].dirty) return; // Transform already marked dirty
         dirtyTransforms.push(entity);
         transformData[entity].dirty = true;
     }
@@ -78,7 +79,7 @@ function updateTransform(entity) {
 }
 
 function depthSort(a, b) {
-    return a.zDepth - b.zDepth;
+    return a.zDepth - b.zDepth || b.dy - a.dy;
 }
 
 function getZDepth(x, y) {
@@ -90,7 +91,7 @@ function getDrawX(x, y) {
 }
 
 function getDrawY(x, y, z) {
-    return (x + y) * 8 - z * 16;
+    return (x + y) * 8 - z * 8;
 }
 
 function getDrawXY(x, y, z) {

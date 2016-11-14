@@ -45,6 +45,11 @@ animate.updateEntity = function(entity, sprite, animation) {
                 sprite.zDepth += zDepthChange;
                 RenderManager.refreshZBuffer();
             }
+            var offsetYChange = animation.offsetYValues[animation.offsetYFrames.indexOf(animation.frame)];
+            if(offsetYChange) {
+                sprite.doy += offsetYChange;
+                RenderManager.updateSprite(entity);
+            }
         } else { // If final frame reached
             if(animation.loop) animation.frame = 0;
             else {

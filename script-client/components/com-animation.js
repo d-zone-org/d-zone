@@ -18,6 +18,8 @@ function Animation() {
         offsetX: 0,
         offsetY: 0,
         zDepthFrames: [], // Frames at which zDepth of sprite is manually changed
-        zDepthValues: [] // Relative values to change zDepth, corresponding to zDepthFrames
+        zDepthValues: [], // Relative values to change zDepth, corresponding to zDepthFrames
+        offsetYFrames: [], // Frames at which offsetY of sprite is manually changed
+        offsetYValues: [] // Relative values to change offsetY, corresponding to offsetYFrames
     };
 }

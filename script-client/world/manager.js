@@ -16,8 +16,8 @@ module.exports = {
         entityMap = world.entityMap;
         // console.log(world);
         addEntity(EntityManager.addEntity([
-            [require('com-sprite3d'), worldConfig().beacon],
-            [require('com-transform'), { platform: false }]
+            [require('com-transform'), { platform: false }],
+            [require('com-sprite3d'), worldConfig().beacon]
         ]), 0, 0);
         SpriteManager.waitForLoaded(function() {
             WorldGraphics.drawWorld(world, SpriteManager.sheets);
@@ -34,12 +34,29 @@ module.exports = {
         }
         return -1;
     },
-    getSurface: function(x, y, z, maxDown, maxUp) {
+    getSurfaceZ: function(x, y, z, maxDown, maxUp) {
         x = center(x);
         y = center(y);
-        var xy = entityMap.getXY(x, y);
-        for(var i = 0; i < xy.length; i++) {
-            
+        var entXY = entityMap.getXY(x, y);
+        var tileXY = world.tiles.getXY(x, y);
+        if(entXY.length === 0) { // No entities
+            if(!tileXY || z - maxDown > 0) return -1; // No tile or tile too far down
+            return 0; // Tile in reach
+        }
+        var column = {}; // Possible obstacles and platforms in range, indexed by Z
+        for(var i = 0; i < entXY.length; i++) {
+            var t = getTransform(entXY[i]);
+            if(!t.solid) continue; // Non-solid entities don't matter
+            if(t.z < z - maxDown - 1 || t.z > z + maxUp) continue; // Out of range (1 lower included for platforms)
+            column[t.z] = t.platform;
+        }
+        for(var u = z; u <= z + maxUp; u++) { // Look up
+            if(column[u] !== undefined) continue; // This Z is blocked
+            if(column[u-1] || (u == 0 && tileXY)) return u; // There is a platform or tile to sit on
+        }
+        for(var d = z - 1; d >= z - maxDown; d--) { // Look down
+            if(column[d] !== undefined) continue; // This Z is blocked
+            if(column[d-1] || tileXY) return d; // There is a platform or tile to sit on
         }
     },
     moveEntity: function(e, x, y, z) {
