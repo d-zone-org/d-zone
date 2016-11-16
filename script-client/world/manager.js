@@ -40,7 +40,7 @@ var worldManager = {
         y = center(y);
         var collisionColumn = collisionMap.getXY(x, y);
         var closest = -100;
-        for(var i = Math.max(0, z - maxDown); i <= Math.min(16, z + maxUp); i++) {
+        for(var i = Math.max(0, z - maxDown); i <= Math.min(15, z + maxUp); i++) {
             if((collisionColumn >> (i*2) & 3) == 1) { // Does this Z have a platform and no solid block?
                 if(i === z) return z; // Same Z preferred
                 if(Math.abs(i - closest) >= Math.abs(i - z)) closest = i; // Get closest Z
