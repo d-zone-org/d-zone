@@ -59,6 +59,7 @@ module.exports = {
 
 function updateSprite(entity) {
     var sprite = spriteData[entity];
+    if(!sprite) return;
     sprite.dirty = false;
     sprite.fdx = sprite.dx + sprite.dox;
     sprite.fdy = sprite.dy + sprite.doy;
@@ -66,6 +67,7 @@ function updateSprite(entity) {
 
 function updateTransform(entity) {
     var transform = transformData[entity];
+    if(!transform) return;
     var sprite = spriteData[entity];
     transform.dirty = false;
     var oldZDepth = sprite.zDepth;

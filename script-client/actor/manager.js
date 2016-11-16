@@ -18,7 +18,7 @@ module.exports = {
             [SPRITE3D, util.mergeObjects(actorConfig().sprites.idle.east)]
         ];
         var e = EntityManager.addEntity(data);
-        WorldManager.addEntity(e, params.x, params.y);
+        WorldManager.addEntity(e);
         return e;
     },
     hop: function(entity, direction) {

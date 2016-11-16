@@ -48,12 +48,13 @@ var actor1 = ActorManager.create({
 });
 var actor2 = ActorManager.create({
     x: 0,
-    y: 2
+    y: 1
 });
 
 global.dz.events.on('key-q', function() { // Log component data
     console.log(ComponentManager.componentData);
     console.log(ComponentManager.componentFamilies);
+    console.log(WorldManager.world);
 });
 // WASD movement
 global.dz.events.on('key-w', function() { ActorManager.hop(actor1, 'north'); });

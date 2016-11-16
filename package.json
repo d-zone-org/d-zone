@@ -4,15 +4,15 @@
   "description": "An ambient life simulation driven by the user activity within a Discord server",
   "main": "index.js",
   "devDependencies": {
+    "webpack-dev-server": "^1.15.1"
+  },
+  "dependencies": {
     "html-webpack-plugin": "^2.22.0",
     "json-loader": "^0.5.4",
     "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.15.1",
-    "webpack-merge": "^0.14.1"
-  },
-  "dependencies": {
+    "webpack-merge": "^0.14.1",
+    "worker-loader": "^0.7.1",
     "browser-storage": "0.0.2",
-    "convict": "^1.0.1",
     "dateformat": "^1.0.11",
     "discord.io": "^2.1.3",
     "inherits": "^2.0.1",

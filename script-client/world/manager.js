@@ -7,80 +7,106 @@ var ComponentManager = require('man-component');
 var SpriteManager = require('man-sprite');
 var worldConfig = require('./config');
 
-var world, entityMap, transformData;
+var world, entityMap, collisionMap, transformData;
 
-module.exports = {
+var pathWorker = require('worker!./pathfind.js'); // Pathfinding webworker
+var pathing = new pathWorker(); // One worker instance will handle all pathfinding
+pathing.addEventListener('message', function(event) {
+    console.log('pathing message', event.data);
+});
+
+var worldManager = {
     generateWorld: function(size) {
         transformData = ComponentManager.getComponentData([require('com-transform')])[0];
         world = WorldGeneration.generateMap(size);
+        worldManager.world = world;
         entityMap = world.entityMap;
+        collisionMap = world.collisionMap;
         // console.log(world);
         addEntity(EntityManager.addEntity([
             [require('com-transform'), { platform: false }],
             [require('com-sprite3d'), worldConfig().beacon]
-        ]), 0, 0);
+        ]));
         SpriteManager.waitForLoaded(function() {
             WorldGraphics.drawWorld(world, SpriteManager.sheets);
             require('sys-render').setWorld(world);
         });
     },
     addEntity: addEntity,
-    getEntityAt: function(x, y, z) {
-        x = center(x);
-        y = center(y);
-        var xy = entityMap.getXY(x, y);
-        for(var i = 0; i < xy.length; i++) {
-            if(getTransform(xy[i]).z === z) return xy[i];
-        }
-        return -1;
-    },
+    removeEntity: removeEntity,
+    getEntitiesAt: getEntitiesAt,
     getSurfaceZ: function(x, y, z, maxDown, maxUp) {
         x = center(x);
         y = center(y);
-        var entXY = entityMap.getXY(x, y);
-        var tileXY = world.tiles.getXY(x, y);
-        if(entXY.length === 0) { // No entities
-            if(!tileXY || z - maxDown > 0) return -1; // No tile or tile too far down
-            return 0; // Tile in reach
+        var collisionColumn = collisionMap.getXY(x, y);
+        var closest = -100;
+        for(var i = Math.max(0, z - maxDown); i <= Math.min(16, z + maxUp); i++) {
+            if((collisionColumn >> (i*2) & 3) == 1) { // Does this Z have a platform and no solid block?
+                if(i === z) return z; // Same Z preferred
+                if(Math.abs(i - closest) >= Math.abs(i - z)) closest = i; // Get closest Z
+            }
         }
-        var column = {}; // Possible obstacles and platforms in range, indexed by Z
-        for(var i = 0; i < entXY.length; i++) {
-            var t = getTransform(entXY[i]);
-            if(!t.solid) continue; // Non-solid entities don't matter
-            if(t.z < z - maxDown - 1 || t.z > z + maxUp) continue; // Out of range (1 lower included for platforms)
-            column[t.z] = t.platform;
-        }
-        for(var u = z; u <= z + maxUp; u++) { // Look up
-            if(column[u] !== undefined) continue; // This Z is blocked
-            if(column[u-1] || (u == 0 && tileXY)) return u; // There is a platform or tile to sit on
-        }
-        for(var d = z - 1; d >= z - maxDown; d--) { // Look down
-            if(column[d] !== undefined) continue; // This Z is blocked
-            if(column[d-1] || tileXY) return d; // There is a platform or tile to sit on
-        }
+        return closest;
     },
     moveEntity: function(e, x, y, z) {
         var transform = removeEntity(e);
         transform.x += x;
         transform.y += y;
         transform.z += z;
-        addEntity(e, transform.x, transform.y);
+        addEntity(e);
+    },
+    pathfind: function() {
+        //worker.postMessage('find a path!');
     }
 };
 
-function addEntity(e, x, y) {
-    x = center(x);
-    y = center(y);
+function addEntity(e) {
     var transform = getTransform(e);
-    transform.mapIndex = entityMap.indexFromXY(x, y);
+    var centeredX = center(transform.x),
+        centeredY = center(transform.y);
+    transform.mapIndex = entityMap.indexFromXY(centeredX, centeredY);
     entityMap.getIndex(transform.mapIndex).push(e);
+    if(transform.solid || transform.platform) { // Update collision map
+        var entityCollision = transform.solid ? 1 : 0;
+        if(transform.platform) entityCollision += 2;
+        entityCollision <<= transform.z * 2 + 1; // Shift up 2 bits per Z, plus 1 bit for terrain
+        collisionMap.setIndex(transform.mapIndex, collisionMap.getIndex(transform.mapIndex) | entityCollision);
+        var collisionColumn = collisionMap.getIndex(transform.mapIndex);
+        collisionMap.setIndex(transform.mapIndex, collisionColumn | entityCollision);
+    }
     return transform;
 }
 
 function removeEntity(e) {
     var transform = getTransform(e);
     util.removeFromArray(e, entityMap.getIndex(transform.mapIndex));
+    if(transform.solid || transform.platform) { // Update collision map
+        var entityCollision = transform.solid ? 1 : 0;
+        if(transform.platform) {
+            entityCollision += 2;
+            var remainingEntities = getEntitiesAt(transform.x, transform.y, transform.z);
+            for(var i = 0; i < remainingEntities.length; i++) {
+                if(getTransform(remainingEntities[i]).platform) { // If a remaining entity is a platform
+                    entityCollision -= 2; // Don't remove platform bit from collision map
+                    break;
+                }
+            }
+        }
+        entityCollision <<= transform.z * 2 + 1;
+        collisionMap.setIndex(transform.mapIndex, collisionMap.getIndex(transform.mapIndex) & ~entityCollision);
+    }
     return transform;
+}
+
+function getEntitiesAt(x, y, z) {
+    x = center(x);
+    y = center(y);
+    var xy = entityMap.getXY(x, y);
+    var entities = [];
+    for(var i = 0; i < xy.length; i++) {
+        if(getTransform(xy[i]).z === z) entities.push(xy[i]);
+    }
+    return entities;
 }
 
 function getTransform(e) {
@@ -90,3 +116,9 @@ function getTransform(e) {
 function center(n) {
     return (n || 0) + world.radius;
 }
+
+function unCenter(n) {
+    return (n || 0) - world.radius;
+}
+
+module.exports = worldManager;
