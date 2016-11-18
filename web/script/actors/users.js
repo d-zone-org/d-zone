@@ -19,7 +19,7 @@ function Users(game,world) {
 Users.prototype.addActor = function(data) {
     var grid = this.world.randomEmptyGrid();
     var actor = new Actor({
-        x: grid.position.x, y: grid.position.y, z: grid.position.z + grid.height, 
+        x: +grid.split(':')[0], y: +grid.split(':')[1], z: 0, 
         uid: data.id,
         username: data.username,
         roleColor: data.roleColor,

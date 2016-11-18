@@ -10,6 +10,7 @@ module.exports = World;
 
 var Canvas = require('./../common/bettercanvas.js');
 var testCanvas = new Canvas(200,100);
+var unoccupiedGrids; // For faster actor placement on init
 //document.body.appendChild(testCanvas.canvas);
 
 function World(game,worldSize) {
@@ -90,6 +91,7 @@ function World(game,worldSize) {
         x: lowestScreenX, y: lowestScreenY, image: bgCanvas.canvas
     };
     Pathfinder.loadMap(this.walkable);
+    unoccupiedGrids = Object.keys(this.map);
     console.log('Created world with',Object.keys(this.map).length,'tiles');
     // TODO: Retry if tile count is too high/low
 }
@@ -292,14 +294,7 @@ World.prototype.updateWalkable = function(x, y) {
 };
 
 World.prototype.randomEmptyGrid = function() {
-    var safety = 0;
-    do {
-        var grid = this.map[util.pickInObject(this.map)];
-        var unoccupied = !this.objectAtXYZ(grid.position.x,grid.position.y,grid.position.z+grid.height);
-        safety++;
-    }
-    while(safety < 1000 && !unoccupied);
-    return grid;
+    return unoccupiedGrids.splice(util.randomIntRange(0, unoccupiedGrids.length - 1), 1)[0];
 };
 
 World.prototype.objectAtXYZ = function(x,y,z) {
