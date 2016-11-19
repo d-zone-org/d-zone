@@ -92,6 +92,7 @@ function World(game,worldSize) {
     };
     Pathfinder.loadMap(this.walkable);
     unoccupiedGrids = Object.keys(this.map);
+    unoccupiedGrids.splice(unoccupiedGrids.indexOf('0:0'), 1); // 0,0 is taken by beacon
     console.log('Created world with',Object.keys(this.map).length,'tiles');
     // TODO: Retry if tile count is too high/low
 }
