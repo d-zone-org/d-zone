@@ -91,7 +91,7 @@ Inbox.prototype.getUsers = function(connectRequest) {
         for(var i = 0; i < discordServer.members[uid].roles.length; i++) {
             var role = discordServer.roles[discordServer.members[uid].roles[i]];
             if(!role || !role.color || role.position < rolePosition) continue;
-            users[uid].roleColor = '#'+role.color.toString(16);
+            users[uid].roleColor = '#'+('00000'+role.color.toString(16)).substr(-6);
             rolePosition = role.position;
         }
     }
