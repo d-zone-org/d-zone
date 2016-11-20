@@ -47,11 +47,11 @@ function interval() {
 window.pause = function() { paused = !paused; };
 
 module.exports = {
-    init: function(s) {
+    init(s) {
         systems = s;
         gameLoop = setInterval(interval, step);
     },
-    setStep: function(s) {
+    setStep(s) {
         step = 1000/s;
     } 
 };

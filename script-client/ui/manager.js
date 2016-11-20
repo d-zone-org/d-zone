@@ -27,21 +27,21 @@ function redraw() {
 }
 
 module.exports = {
-    draw: function(canvas) {
+    draw(canvas) {
         // Draw internal UI canvas to main canvas, UI itself is only redrawn when it needs to be
         // Possible enhancement: separate the UI canvas in the html
         canvas.context.drawImage(uiCanvas.canvas, 0, 0);
     },
-    mouseMove: function(x, y) {
+    mouseMove(x, y) {
         
     },
-    mouseDown: function(x, y, button) {
+    mouseDown(x, y, button) {
         
     },
-    mouseUp: function(x, y, button) {
+    mouseUp(x, y, button) {
 
     },
-    mouseWheel: function(x, y, dir) {
+    mouseWheel(x, y, dir) {
 
     }
 };

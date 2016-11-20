@@ -7,7 +7,7 @@ var componentData = []; // Array of arrays, indexed by component then entity
 var componentFamilies = [];
 
 module.exports = {
-    init: function(c,s) {
+    init(c,s) {
         components = c;
         for(var i = 0; i < components.length; i++) {
             componentData[i] = [];
@@ -30,7 +30,7 @@ module.exports = {
             componentFamily.addSystem(system);
         });
     },
-    removeEntity: function(entity) {
+    removeEntity(entity) {
         componentData.forEach(function(cd) { // Delete all component data
             delete cd[entity];
         });
@@ -38,7 +38,7 @@ module.exports = {
             family.removeEntity(entity, 0); // Notify all families
         });
     },
-    newComponent: function(entity, mask, component, data) {
+    newComponent(entity, mask, component, data) {
         var thisComponentData = componentData[components.indexOf(component)];
         thisComponentData[entity] = (new component()).data; // New instance of default data
         util.mergeObjects(thisComponentData[entity], data); // Apply custom data
@@ -46,7 +46,7 @@ module.exports = {
             family.addEntity(entity, mask); // Notify families that match new mask
         });
     },
-    removeComponent: function(entity, component) {
+    removeComponent(entity, component) {
         delete componentData[components.indexOf(component)][entity]; // Delete component data
         componentFamilies.forEach(function(family) {
             family.removeEntity(entity, getComponentMask([component])); // Notify families that require component

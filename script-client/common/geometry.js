@@ -5,7 +5,7 @@ var Map2D = require('map2d');
 var closestGrids = [];
 
 module.exports = {
-    generateClosestGrids: function(size) {
+    generateClosestGrids(size) {
         for(var sx = size*-1; sx <= size; sx++) { for(var sy = size*-1; sy <= size; sy++) {
             closestGrids.push([sx,sy]);
         }}
@@ -20,27 +20,27 @@ module.exports = {
         south: { x: 0, y: 1 },
         west: { x: -1, y: 0 }
     },
-    randomDirection: function() {
+    randomDirection() {
         return this.DIRECTIONS[util.pickInObject(this.DIRECTIONS)];
     },
-    getNeighbors: function(grid) {
+    getNeighbors(grid) {
         var x = +grid.split(':')[0], y = +grid.split(':')[1];
         return { n: x+':'+(y-1), e: (x+1)+':'+y, s: x+':'+(y+1), w: (x-1)+':'+y }
     },
-    get8Neighbors: function(grid) {
+    get8Neighbors(grid) {
         var x = +grid.split(':')[0], y = +grid.split(':')[1];
         return { 
             n: x+':'+(y-1), e: (x+1)+':'+y, s: x+':'+(y+1), w: (x-1)+':'+y,
             nw: (x-1)+':'+(y-1), ne: (x+1)+':'+(y-1), sw: (x-1)+':'+(y+1), se: (x+1)+':'+(y+1)
         }
     },
-    getDistance: function(a,b) {
+    getDistance(a,b) {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     },
-    intervalOverlaps: function(a1,a2,b1,b2) {
+    intervalOverlaps(a1,a2,b1,b2) {
         return a1 >= b1 && a1 < b2 || b1 >= a1 && b1 < a2;
     },
-    buildNoiseMap: function(width, height) {
+    buildNoiseMap(width, height) {
         width = Math.round(width);
         height = Math.round(height);
         var map = new Map2D(Uint8Array,width,height);
@@ -49,7 +49,7 @@ module.exports = {
         }
         return map;
     },
-    getNoiseMapPoint: function(map, x, y) {
+    getNoiseMapPoint(map, x, y) {
         //console.log('getNoiseMapPoint:',x,y);
         var floorX = Math.floor(x);
         var lowerXArray = map.getColumn(floorX);

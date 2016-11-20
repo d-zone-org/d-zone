@@ -9,11 +9,11 @@ var dirtySprites = []; // List of entities that had non-transformative sprite ch
 var dirtyTransforms = []; // List of entities that had transformative sprite changes
 
 module.exports = {
-    init: function() {
+    init() {
         spriteData = ComponentManager.getComponentData([require('com-sprite3d')])[0];
         transformData = ComponentManager.getComponentData([require('com-transform')])[0];
     },
-    refreshZBuffer: function() {
+    refreshZBuffer() {
         //if(sprites.constructor !== Array) sprites = [sprites];
         zBuffer = spriteData.slice(0); // Shallow copy
         dirtyBuffer = true;
@@ -22,7 +22,7 @@ module.exports = {
     getDrawX: getDrawX,
     getDrawY: getDrawY,
     getDrawXY: getDrawXY,
-    getZBuffer: function() {
+    getZBuffer() {
         // Update entities with non-transformative sprite changes
         for(var s = 0; s < dirtySprites.length; s++) {
             updateSprite(dirtySprites[s]);
@@ -42,14 +42,14 @@ module.exports = {
         }
         return zBuffer;
     },
-    updateSprite: function(entity) {
+    updateSprite(entity) {
         var transform = transformData[entity];
         if(transform && transform.dirty) return; // Transform already dirty, no need to dirty sprite
         if(spriteData[entity].dirty) return; // Sprite already marked dirty
         dirtySprites.push(entity);
         spriteData[entity].dirty = true;
     },
-    updateTransform: function(entity) {
+    updateTransform(entity) {
         var transform = transformData[entity];
         if(!transform || transformData[entity].dirty) return; // Transform already marked dirty
         dirtyTransforms.push(entity);

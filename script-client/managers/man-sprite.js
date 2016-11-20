@@ -6,7 +6,7 @@ var events = new EventEmitter();
 var imageList, imagesLoaded = 0, loaded = false;
 
 var spriteManager = {
-    init: function(imgList) {
+    init(imgList) {
         imageList = imgList;
         imageList.forEach(function(imgName) {
             var image = new Image;
@@ -16,7 +16,7 @@ var spriteManager = {
     },
     sheets: {},
     events: events,
-    waitForLoaded: function(cb) {
+    waitForLoaded(cb) {
         if(spriteManager.loaded) cb();
         else events.once('loaded', cb);
     }

@@ -112,18 +112,18 @@ function createFlowerPatches(map) {
 }
 
 module.exports = {
-    generateMap: function(size) {
+    generateMap(size) {
         var world = generateTileMap(size); // Generate 2d map of tiles using perlin noise
         crawlMap(world); // Examine map to detect islands, borders, etc
         createFlowerPatches(world);
         // map.tiles.print('world');
-        world.entityMap = new Map2D(Array, world.size, world.size, world.radius, world.radius);
+        world.entityMap = new Map2D(Array, world.size, world.size);
         world.entityMap.forEachTile(function(tile, index, tileArray) {
             tileArray[index] = [];
         }, true);
         // 32 bit collision map supporting 16 height, 2 bits per Z for "solid" and "platform" booleans
         // First bit is platform bit for terrain tiles, then solid bit for Z = 0, then platform bit for Z = 1, etc.
-        world.collisionMap = new Map2D(Uint32Array, world.size, world.size, world.radius, world.radius);
+        world.collisionMap = new Map2D(Uint32Array, world.size, world.size);
         world.collisionMap.forEachTile(function(tile, index, tileArray){
             tileArray[index] = world.tiles.getIndex(index) ? 1 : 0;
         }, true);

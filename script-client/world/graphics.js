@@ -20,7 +20,7 @@ function getTileSheetXY(ring,shape) {
 }
 
 module.exports = {
-    drawWorld: function(world, sheets) {
+    drawWorld(world, sheets) {
         var tileSheet = sheets['static-tiles'];
         var canvasMaxWidth = world.size * 32 + tileWidth,
             canvasMaxHeight = world.size * 16 + tileHeight;

@@ -15,7 +15,7 @@ var view = {
 var panFrom = false;
 
 var viewManager = {
-    init: function(options) {
+    init(options) {
         view.maxScale = options.maxScale;
         view.id = options.id;
         view.canvas = new Canvas(1, 1);
@@ -37,7 +37,7 @@ var viewManager = {
     },
     view: view,
     onFrameReady: false,
-    setCenter: function(x, y) {
+    setCenter(x, y) {
         view.centerX = Math.round(x);
         view.centerY = Math.round(y);
         if(view.id) calcPan(); // Only pan if view is initialized

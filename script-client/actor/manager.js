@@ -11,7 +11,7 @@ var TRANSFORM = require('com-transform');
 var MOVEMENT = require('./components/movement');
 
 module.exports = {
-    create: function(params) {
+    create(params) {
         var data = [
             [ACTOR],
             [TRANSFORM, params], // Transform must be before sprite so render manager sees it when sprite is added
@@ -21,7 +21,7 @@ module.exports = {
         WorldManager.addEntity(e);
         return e;
     },
-    hop: function(entity, direction) {
+    hop(entity, direction) {
         if(EntityManager.hasComponent(entity, MOVEMENT)) return;
         EntityManager.addComponent(entity, MOVEMENT, { direction: direction });
     }
