@@ -3,10 +3,11 @@ var util = require('dz-util');
 
 module.exports = Map2D;
 
-function Map2D(arrayType, width, height) {
+function Map2D(arrayType, width, height, buffer) {
     this.width = width;
     this.height = height;
-    this.dataArray = new arrayType(width * height);
+    this.dataArray = buffer ? new arrayType(buffer) : new arrayType(width * height);
+    this.buffer = this.dataArray.buffer;
 }
 
 Map2D.prototype.setIndex = function(index, value) {

@@ -61,6 +61,11 @@ global.dz.events.on('key-w', function() { ActorManager.hop(actor1, 'north'); });
 global.dz.events.on('key-a', function() { ActorManager.hop(actor1, 'west'); });
 global.dz.events.on('key-s', function() { ActorManager.hop(actor1, 'south'); });
 global.dz.events.on('key-d', function() { ActorManager.hop(actor1, 'east'); });
+global.dz.events.on('key-e', function() { 
+    WorldManager.getPath(0, 1, 2, 3, 4, 5, 6, 7, 8, function(path) {
+        console.log('Got path!',path);
+    });
+});
 // Game speed modifiers
 global.dz.events.on('key-1', function() { GameManager.setStep(60); });
 global.dz.events.on('key-2', function() { GameManager.setStep(30); });

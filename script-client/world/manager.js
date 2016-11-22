@@ -6,23 +6,18 @@ var EntityManager = require('man-entity');
 var ComponentManager = require('man-component');
 var SpriteManager = require('man-sprite');
 var worldConfig = require('./config');
+var PathManager = require('./path/pathmanager');
 
 var world, entityMap, collisionMap, transformData;
 
-var pathWorker = require('worker!./pathfind.js'); // Pathfinding webworker
-var pathing = new pathWorker(); // One worker instance will handle all pathfinding
-pathing.addEventListener('message', function(event) {
-    console.log('pathing message', event.data);
-});
-
 var worldManager = {
-    generateWorld: function(size) {
+    generateWorld(size) {
         transformData = ComponentManager.getComponentData([require('com-transform')])[0];
         world = WorldGeneration.generateMap(size);
         worldManager.world = world;
         entityMap = world.entityMap;
         collisionMap = world.collisionMap;
-        // console.log(world);
+        PathManager.init(collisionMap);
         addEntity(EntityManager.addEntity([
             [require('com-transform'), { platform: false }],
             [require('com-sprite3d'), worldConfig().beacon]
@@ -35,29 +30,27 @@ var worldManager = {
     addEntity: addEntity,
     removeEntity: removeEntity,
     getEntitiesAt: getEntitiesAt,
-    getSurfaceZ: function(x, y, z, maxDown, maxUp) {
+    getSurfaceZ(x, y, z, maxDown, maxUp) {
         x = center(x);
         y = center(y);
         var collisionColumn = collisionMap.getXY(x, y);
         var closest = -100;
         for(var i = Math.max(0, z - maxDown); i <= Math.min(15, z + maxUp); i++) {
-            if((collisionColumn >> (i*2) & 3) == 1) { // Does this Z have a platform and no solid block?
+            if((collisionColumn >> (i * 2) & 3) == 1) { // Does this Z have a platform and no solid block?
                 if(i === z) return z; // Same Z preferred
                 if(Math.abs(i - closest) >= Math.abs(i - z)) closest = i; // Get closest Z
             }
         }
         return closest;
     },
-    moveEntity: function(e, x, y, z) {
+    moveEntity(e, x, y, z) {
         var transform = removeEntity(e);
         transform.x += x;
         transform.y += y;
         transform.z += z;
         addEntity(e);
     },
-    pathfind: function() {
-        //worker.postMessage('find a path!');
-    }
+    getPath: PathManager.getPath
 };
 
 function addEntity(e) {
