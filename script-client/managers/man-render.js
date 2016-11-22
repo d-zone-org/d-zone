@@ -14,7 +14,6 @@ module.exports = {
         transformData = ComponentManager.getComponentData([require('com-transform')])[0];
     },
     refreshZBuffer() {
-        //if(sprites.constructor !== Array) sprites = [sprites];
         zBuffer = spriteData.slice(0); // Shallow copy
         dirtyBuffer = true;
     },

@@ -33,7 +33,7 @@ function removeComponent(e, component) {
 }
 
 function newEntityID() {
-    for(var i = 0; i < entities.length; i++) {
+    for(var i = 1; i < entities.length; i++) {
         if(!entities[i]) return i;
     }
     // If no empty entities found, expand entity pool

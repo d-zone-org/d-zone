@@ -1,6 +1,6 @@
 'use strict';
 
-var collisionMap, width, height;
+var collisionMap, width, height, depth;
 var pathJobs = [], jobID = 0; // Track current pathfinding jobs, indexed by entity ID
 
 var pathWorker = require('worker!./pathworker.js'); // Pathfinding webworker
@@ -17,7 +17,8 @@ module.exports = {
         collisionMap = c;
         width = collisionMap.width;
         height = collisionMap.height;
-        pathing.postMessage([width, height]);
+        depth = collisionMap.depth;
+        pathing.postMessage([width, height, depth]);
     },
     getPath(e, sx, sy, sz, dx, dy, dz, maxDown, maxUp, cb) {
         var job = {

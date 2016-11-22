@@ -2,6 +2,8 @@
 var util = require('dz-util');
 var geometry = require('geometry');
 var Map2D = require('map2d');
+var Map3D = require('map3d');
+var EntityMap = require('./entitymap');
 var config = require('./config');
 
 const TILES = {
@@ -12,7 +14,8 @@ const TILES = {
 };
 
 function generateTileMap(size) {
-    var worldSize = Math.max(10, Math.floor(size * config().worldSizeFactor / 2) * 2); // Must be an even number >= 10
+    // World size must be an even number between 10 and 1024
+    var worldSize = Math.max(10, Math.min(1024, Math.floor(size * config().worldSizeFactor / 2) * 2)); 
     var worldRadius = Math.floor(worldSize / 2);
     // Tile data is stored in a flattened, 2D, 8-bit unsigned integer array
     var tileMap = new Map2D(Uint8Array, worldSize, worldSize);
@@ -117,14 +120,9 @@ module.exports = {
         crawlMap(world); // Examine map to detect islands, borders, etc
         createFlowerPatches(world);
         // map.tiles.print('world');
-        world.entityMap = new Map2D(Array, world.size, world.size);
-        world.entityMap.forEachTile(function(tile, index, tileArray) {
-            tileArray[index] = [];
-        }, true);
-        // 32 bit collision map supporting 16 height, 2 bits per Z for "solid" and "platform" booleans
-        // First bit is platform bit for terrain tiles, then solid bit for Z = 0, then platform bit for Z = 1, etc.
-        world.collisionMap = new Map2D(Uint32Array, world.size, world.size);
-        world.collisionMap.forEachTile(function(tile, index, tileArray){
+        EntityMap.init(world.size, world.size, 64);
+        world.collisionMap = new Map3D(Uint8Array, world.size, world.size, 64);
+        world.collisionMap.forEachTileAtZ(0, function(tile, index, tileArray){
             tileArray[index] = world.tiles.getIndex(index) ? 1 : 0;
         }, true);
         return world;
