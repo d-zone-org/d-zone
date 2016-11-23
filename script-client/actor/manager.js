@@ -18,11 +18,11 @@ module.exports = {
         params = params || {};
         var dir = util.pickInObject(actorConfig().sprites.idle); // Random facing direction
         if(isNaN(params.x) && isNaN(params.y) && isNaN(params.z)) {
-            var random = WorldManager.world.tiles.getRandomTile([1,2,3], placedIndexes);
+            var random = WorldManager.world.tiles.getRandomTile([2,3], placedIndexes);
             if(!random) {
                 placeZ++;
                 placedIndexes = placedIndexes.slice(0,1);
-                random = WorldManager.world.tiles.getRandomTile([1,2,3], placedIndexes);
+                random = WorldManager.world.tiles.getRandomTile([2,3], placedIndexes);
             }
             params.x = WorldManager.unCenter(random.xy.x);
             params.y = WorldManager.unCenter(random.xy.y);

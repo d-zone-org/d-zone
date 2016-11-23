@@ -29,6 +29,13 @@ var worldManager = {
     },
     addEntity: addEntity,
     removeEntity: removeEntity,
+    moveEntity(e, x, y, z) {
+        var transform = removeEntity(e);
+        transform.x += x;
+        transform.y += y;
+        transform.z += z;
+        addEntity(e);
+    },
     getSurfaceZ(x, y, z, maxDown, maxUp) {
         x = center(x);
         y = center(y);
@@ -41,12 +48,28 @@ var worldManager = {
         }
         return closest;
     },
-    moveEntity(e, x, y, z) {
-        var transform = removeEntity(e);
-        transform.x += x;
-        transform.y += y;
-        transform.z += z;
-        addEntity(e);
+    makeSolid(x, y, z) {
+        x = center(x);
+        y = center(y);
+        var index = collisionMap.indexFromXYZ(x, y, z);
+        collisionMap.setIndex(index, collisionMap.getIndex(index) | 2);
+    },
+    removeSolid(x, y, z) {
+        x = center(x);
+        y = center(y);
+        var index = collisionMap.indexFromXYZ(x, y, z);
+        collisionMap.setIndex(index, collisionMap.getIndex(index) & ~2);
+    },
+    removePlatform(x, y, z) {
+        x = center(x);
+        y = center(y);
+        var index = collisionMap.indexFromXYZ(x, y, z);
+        collisionMap.setIndex(index, collisionMap.getIndex(index) & ~1);
+    },
+    isSolid(x, y, z) {
+        x = center(x);
+        y = center(y);
+        return (collisionMap.getXYZ(x, y, z) & 2) === 2;
     },
     getPath(e, sx, sy, sz, dx, dy, dz, maxDown, maxUp, cb) {
         removeEntity(e); // Remove entity from map so it doesn't interfere with its own pathing
@@ -57,6 +80,8 @@ var worldManager = {
     },
     center, unCenter
 };
+
+// TODO: Bitwise operation functions for Map3D
 
 function addEntity(e) {
     var transform = getTransform(e);

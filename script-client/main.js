@@ -46,6 +46,10 @@ var actor1 = ActorManager.create({
     x: -1,
     y: 2
 });
+var actor2 = ActorManager.create({
+    x: 1,
+    y: 2
+});
 
 require('./debug/actorSpawn')();
 
@@ -59,6 +63,10 @@ global.dz.events.on('key-w', function() { ActorManager.hop(actor1, 'north'); });
 global.dz.events.on('key-a', function() { ActorManager.hop(actor1, 'west'); });
 global.dz.events.on('key-s', function() { ActorManager.hop(actor1, 'south'); });
 global.dz.events.on('key-d', function() { ActorManager.hop(actor1, 'east'); });
+global.dz.events.on('key-t', function() { ActorManager.hop(actor2, 'north'); });
+global.dz.events.on('key-f', function() { ActorManager.hop(actor2, 'west'); });
+global.dz.events.on('key-g', function() { ActorManager.hop(actor2, 'south'); });
+global.dz.events.on('key-h', function() { ActorManager.hop(actor2, 'east'); });
 global.dz.events.on('key-e', function() { 
     WorldManager.getPath(0, 1, 2, 3, 4, 5, 6, 7, 8, function(path) {
         console.log('Got path!',path);

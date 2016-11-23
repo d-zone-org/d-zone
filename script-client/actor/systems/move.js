@@ -21,10 +21,13 @@ move.updateEntity = function(entity, actor, sprite, transform, movement) {
         actor.facing = movement.direction;
         util.mergeObjects(sprite, actorConfig().sprites.idle[actor.facing]); // Set actor facing direction
         var moveDelta = actorConfig().movement[movement.direction];
+        if(WorldManager.isSolid(transform.x, transform.y, transform.z + 1)) return cancelMove(entity); // Solid above
         var targetX = transform.x + moveDelta.dx,
             targetY = transform.y + moveDelta.dy;
         var surfaceZ = WorldManager.getSurfaceZ(targetX, targetY, transform.z, 1, 1);
         if(surfaceZ < 0) return cancelMove(entity); // No valid surface
+        WorldManager.makeSolid(targetX, targetY, surfaceZ);
+        WorldManager.removePlatform(transform.x, transform.y, transform.z + 1);
         var hopAnimation = actorConfig().animations.hop[movement.direction];
         movement.dz = surfaceZ - transform.z;
         if(movement.dz > 0) util.mergeObjects(hopAnimation, actorConfig().animations.hopUp);
@@ -34,6 +37,7 @@ move.updateEntity = function(entity, actor, sprite, transform, movement) {
         EntityManager.addComponent(entity, ANIMATION, hopAnimation);
     }
     if(movement.tick < movement.ticks) {
+        if(movement.tick === 8) WorldManager.removeSolid(transform.x, transform.y, transform.z); // Space is free now
         movement.tick++;
     } else {
         WorldManager.moveEntity(entity, movement.dx, movement.dy, movement.dz);
