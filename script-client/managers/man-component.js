@@ -101,7 +101,7 @@ ComponentFamily.prototype.removeEntity = function(entity, removeMask) {
 
 ComponentFamily.prototype.addEntity = function(entity, entityMask) {
     if(this.mask !== (this.mask & entityMask)) return; // Ignore if entity doesn't match family
-    if(this.entities.indexOf(entity) >= 0) return; // Ignore if entity already in this family
+    if(this.entities.includes(entity)) return; // Ignore if entity already in this family
     this.entities.push(entity);
     this.systems.forEach(function(sys) {
         sys.onEntityAdded(entity); // Notify system of new entity

@@ -54,7 +54,8 @@ var worldManager = {
             addEntity(e); // Add entity back to map before callback
             cb(path);
         });
-    }
+    },
+    center, unCenter
 };
 
 function addEntity(e) {

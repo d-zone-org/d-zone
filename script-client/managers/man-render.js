@@ -14,7 +14,7 @@ module.exports = {
         transformData = ComponentManager.getComponentData([require('com-transform')])[0];
     },
     refreshZBuffer() {
-        zBuffer = spriteData.slice(0); // Shallow copy
+        zBuffer = spriteData.slice(1); // Shallow copy (index 0 is empty)
         dirtyBuffer = true;
     },
     getZDepth: getZDepth,

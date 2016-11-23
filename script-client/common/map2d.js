@@ -6,7 +6,8 @@ module.exports = Map2D;
 function Map2D(arrayType, width, height, buffer) {
     this.width = width;
     this.height = height;
-    this.dataArray = buffer ? new arrayType(buffer) : new arrayType(width * height);
+    this.area = width * height;
+    this.dataArray = buffer ? new arrayType(buffer) : new arrayType(this.area);
     this.buffer = this.dataArray.buffer;
 }
 
@@ -48,11 +49,9 @@ Map2D.prototype.indexFromXY = function(x, y) {
     return x * this.width + y;
 };
 
-Map2D.prototype.forEachTile = function(cb, includeUndefined) {
+Map2D.prototype.forEachTile = function(cb) {
     for (var i = 0; i < this.dataArray.length; i++) {
-        if (includeUndefined || i in this.dataArray) {
-            cb(this.dataArray[i], i, this.dataArray);
-        }
+        cb(this.dataArray[i], i, this.dataArray);
     }
 };
 
@@ -77,24 +76,33 @@ Map2D.prototype.forEachNeighborExtended = function(x, y, cb) {
     this.iterateRelativeTileList(x, y, neighborsExtended, cb);
 };
 
-Map2D.prototype.getRandomTile = function() {
-    var target = arguments[0],
-        attempt = 0,
-        limit = this.width * this.height * 2;
-    do {
-        var picked = util.randomIntRange(0, this.dataArray.length - 1),
-            pickedValue = this.dataArray[picked],
-            pickedXY = this.XYFromIndex(picked);
-        attempt++;
-    } while(attempt < limit && (pickedValue !== target || (target === undefined && pickedValue === 0)));
-    return { index: picked, value: pickedValue, x: pickedXY.x, y: pickedXY.y };
+Map2D.prototype.getRandomTile = function(values, notIndexes) {
+    notIndexes = notIndexes || [];
+    var picked = { index: util.randomIntRange(0, this.dataArray.length - 1) };
+    picked.value = this.dataArray[picked.index];
+    picked.xy = this.XYFromIndex(picked.index);
+    if((!values || values.includes(picked.value)) && !notIndexes.includes(picked.index)) {
+        return picked;
+    }
+    var indexPool = [];
+    if(values || notIndexes.length > 0) {
+        for(var i = 0; i < this.dataArray.length; i++) {
+            if(!notIndexes.includes(i) && (!values || values.includes(this.dataArray[i]))) indexPool.push(i)
+        }
+    }
+    if(indexPool.length > 0) {
+        picked.index = util.pickInArray(indexPool);
+        picked.value = this.dataArray[picked.index];
+        picked.xy = this.XYFromIndex(picked.index);
+        return picked;
+    }
 };
 
 Map2D.prototype.checkNeighborsExtended = function(x, y, validTypes) {
     if(validTypes.constructor !== Array) validTypes = [validTypes];
     var valid = true;
     this.iterateRelativeTileList(x, y, neighborsExtended, function(nx, ny, nVal) {
-        if(validTypes.indexOf(nVal) < 0) {
+        if(!validTypes.includes(nVal)) {
             valid = false;
         }
     });

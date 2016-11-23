@@ -3,8 +3,8 @@ var util = require('dz-util');
 var Map3D = require('map3d');
 
 var map = new Map3D(Uint32Array, 0, 0, 0);
-var multiFlag = 1 << 31 >>> 0;
-var multiMap;
+var multiFlag = 1 << 31 >>> 0; // Value to store in map if more than 1 entity occupies a space
+var multiMap; // Store instances of multiple entities in one space
 
 module.exports = {
     init(w, h, d) {

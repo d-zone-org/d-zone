@@ -96,17 +96,21 @@ function createFlowerPatches(map) {
         var attempt = 0, limit = Math.pow(map.radius, 2);
         do {
             var valid = false;
-            var tile = map.tiles.getRandomTile(TILES.GRASS);
-            valid = map.tiles.checkNeighborsExtended(tile.x, tile.y, [TILES.GRASS, TILES.FLOWERS]);
+            var tile = map.tiles.getRandomTile([TILES.GRASS]);
+            if(!tile) { // No valid tiles left to grow flowers
+                attempt = limit;
+                break;
+            }
+            valid = map.tiles.checkNeighborsExtended(tile.xy.x, tile.xy.y, [TILES.GRASS, TILES.FLOWERS]);
             attempt++;
         } while(attempt < limit && !valid);
         if(attempt == limit) continue;
         map.tiles.setIndex(tile.index, TILES.FLOWERS);
         var spread = util.randomIntRange(2, 5);
         for(var s = 0; s < spread; s++) {
-            var spreadX = tile.x + util.randomIntRange(-1, 1),
-                spreadY = tile.y + util.randomIntRange(-1, 1);
-            if(map.tiles.getXY(spreadX, spreadY) == TILES.FLOWERS) continue;
+            var spreadX = tile.xy.x + util.randomIntRange(-1, 1),
+                spreadY = tile.xy.y + util.randomIntRange(-1, 1);
+            if(map.tiles.getXY(spreadX, spreadY) === TILES.FLOWERS) continue;
             if(map.tiles.checkNeighborsExtended(spreadX, spreadY, [TILES.GRASS, TILES.FLOWERS])) {
                 map.tiles.setXY(spreadX, spreadY, TILES.FLOWERS);
             }
@@ -119,7 +123,7 @@ module.exports = {
         var world = generateTileMap(size); // Generate 2d map of tiles using perlin noise
         crawlMap(world); // Examine map to detect islands, borders, etc
         createFlowerPatches(world);
-        // map.tiles.print('world');
+        //world.tiles.print('world');
         EntityMap.init(world.size, world.size, 64);
         world.collisionMap = new Map3D(Uint8Array, world.size, world.size, 64);
         world.collisionMap.forEachTileAtZ(0, function(tile, index, tileArray){

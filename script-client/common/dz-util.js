@@ -60,7 +60,7 @@ module.exports = {
                 (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)')
                     .exec(location.search)||[,""])[1].replace(/\+/g, '%20')) || null
     },
-    abbreviate(text,blacklist) {
+    abbreviate(text, blacklist) {
         var split = text.split(' ');
         var alpha = /[a-z0-9]/i;
         var result = '';
@@ -72,13 +72,13 @@ module.exports = {
                 }
             }
         }
-        if(blacklist && blacklist.indexOf(result) >= 0) {
+        if(blacklist && blacklist.includes(result)) {
             var variation = 1;
             result += variation;
             do {
                 variation++;
-                result = result.substring(0,result.length-1) + variation;
-            } while (blacklist.indexOf(result) >= 0)
+                result = result.substring(0, result.length - 1) + variation;
+            } while (blacklist.includes(result))
         }
         return result;
     },
@@ -99,3 +99,31 @@ module.exports = {
     consonants: ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z'],
     hex: ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
 };
+
+if (!Array.prototype.includes) {
+    Array.prototype.includes = function(searchElement /*, fromIndex*/) {
+        'use strict';
+        if (this == null) throw new TypeError('Array.prototype.includes called on null or undefined');
+        var O = Object(this);
+        var len = parseInt(O.length, 10) || 0;
+        if (len === 0) return false;
+        var n = parseInt(arguments[1], 10) || 0;
+        var k;
+        if (n >= 0) {
+            k = n;
+        } else {
+            k = len + n;
+            if (k < 0) {k = 0;}
+        }
+        var currentElement;
+        while (k < len) {
+            currentElement = O[k];
+            if (searchElement === currentElement ||
+                (searchElement !== searchElement && currentElement !== currentElement)) { // NaN !== NaN
+                return true;
+            }
+            k++;
+        }
+        return false;
+    };
+}

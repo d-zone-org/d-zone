@@ -46,10 +46,8 @@ var actor1 = ActorManager.create({
     x: -1,
     y: 2
 });
-var actor2 = ActorManager.create({
-    x: 0,
-    y: 1
-});
+
+require('./debug/actorSpawn')();
 
 global.dz.events.on('key-q', function() { // Log component data
     console.log(ComponentManager.componentData);
