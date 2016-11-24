@@ -16,31 +16,31 @@ function UIElement(options) {
 
 UIElement.prototype.draw = function(canvas) {
     canvas.context.drawImage(this.elementCanvas.canvas,this.relX,this.relY);
-    this.childElements.forEach(function(child) {
-        child.draw(canvas);
-    })
+    for(var i = 0; i < this.childElements.length; i++) {
+        this.childElements[i].draw(canvas);
+    }
 };
 
-UIElement.prototype.onMouseMove = function(x,y) {
+UIElement.prototype.onMouseMove = function(x, y) {
     var absPos = this.getAbsolutePosition();
     this.hover = x >= absPos.x - this.hoverMargin.left
         && x < absPos.x + this.size.width + this.hoverMargin.right
         && y >= absPos.y - this.hoverMargin.top
         && y < absPos.y + this.size.height + this.hoverMargin.bottom;
-    this.childElements.forEach(function(child) {
-        child.onMouseMove(x,y);
-    })
+    for(var i = 0; i < this.childElements.length; i++) {
+        this.childElements[i].onMouseMove(x, y);
+    }
 };
 
-UIElement.prototype.onMouseDown = function(x,y,button) {
+UIElement.prototype.onMouseDown = function(x, y, button) {
     
 };
 
-UIElement.prototype.onMouseUp = function(x,y,button) {
+UIElement.prototype.onMouseUp = function(x, y, button) {
 
 };
 
-UIElement.prototype.onMouseWheel = function(x,y,direction) {
+UIElement.prototype.onMouseWheel = function(x, y, direction) {
 
 };
 

@@ -21,9 +21,9 @@ var testButton = testWindow.addButton()
 
 function redraw() {
     uiCanvas.clear();
-    screens.forEach(function(scr) {
-        scr.draw(uiCanvas);
-    });
+    for(var i = 0; i < screens.length; i++) {
+        screens[i].draw(uiCanvas);
+    }
 }
 
 module.exports = {

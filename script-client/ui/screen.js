@@ -12,9 +12,9 @@ function Screen(view/*, background*/) {
 }
 
 Screen.prototype.draw = function(uiCanvas) {
-    this.childElements.forEach(function(child) {
-        child.draw(this.elementCanvas);
-    }, this);
+    for(var i = 0; i < this.childElements.length; i++) {
+        this.childElements[i].draw(this.elementCanvas);
+    }
     uiCanvas.context.drawImage(this.elementCanvas.canvas,0,0);
 };
 

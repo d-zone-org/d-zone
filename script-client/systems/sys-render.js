@@ -40,7 +40,7 @@ function onFrameReady() {
     if(ViewManager.onFrameReady) ViewManager.onFrameReady(); // If view manager is waiting on a new frame
     view.canvas.fill(backgroundColor);
     // Make separate bg canvas?
-    if(bgImage) view.canvas.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height, -view.panX, -view.panY); 
+    if(bgImage) view.canvas.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height, -view.panX, -view.panY);
     for(var s = 0; s < zBuffer.length; s++) {
         renderSprite(zBuffer[s]);
     }
@@ -56,10 +56,6 @@ function renderSprite(sprite) {
 
 render.onEntityAdded = function(entity) {
     RenderManager.updateTransform(entity);
-    RenderManager.refreshZBuffer();
-};
-
-render.onEntityRemoved = function() {
     RenderManager.refreshZBuffer();
 };
 

@@ -51,7 +51,7 @@ var actor2 = ActorManager.create({
     y: 2
 });
 
-require('./debug/actorSpawn')();
+require('./debug/dummyactors')();
 
 global.dz.events.on('key-q', function() { // Log component data
     console.log(ComponentManager.componentData);

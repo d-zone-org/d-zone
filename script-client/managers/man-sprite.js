@@ -8,11 +8,11 @@ var imageList, imagesLoaded = 0, loaded = false;
 var spriteManager = {
     init(imgList) {
         imageList = imgList;
-        imageList.forEach(function(imgName) {
+        for(var i = 0; i < imageList.length; i++) {
             var image = new Image;
-            image.addEventListener('load', onImageLoad.bind(this, image, imgName));
-            image.src = './img/' + imgName + '.png';
-        });
+            image.addEventListener('load', onImageLoad.bind(this, image, imageList[i]));
+            image.src = './img/' + imageList[i] + '.png';
+        }
     },
     sheets: {},
     events: events,

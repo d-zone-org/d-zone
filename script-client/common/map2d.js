@@ -63,9 +63,10 @@ Map2D.prototype.forEachTileIntersection = function(cb) {
 
 Map2D.prototype.iterateRelativeTileList = function(x, y, list, cb) {
     var self = this;
-    list.forEach(function(val, index) {
-        cb(val.x, val.y, self.getXY(x + val.x, y + val.y), self.indexFromXY(x + val.x, y + val.y), index);
-    });
+    for(var i = 0; i < list.length; i++) {
+        var val = list[i];
+        cb(val.x, val.y, self.getXY(x + val.x, y + val.y), self.indexFromXY(x + val.x, y + val.y), i);
+    }
 };
 
 Map2D.prototype.forEachNeighbor = function(x, y, cb) {

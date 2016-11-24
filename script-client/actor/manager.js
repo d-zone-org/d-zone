@@ -1,9 +1,10 @@
 'use strict';
+var util = require('dz-util');
+var Geometry = require('geometry');
 var EntityManager = require('man-entity');
 var WorldManager = require('world/manager');
 var RenderManager = require('man-render');
 var actorConfig = require('./config');
-var util = require('dz-util');
 
 var ACTOR = require('./components/actor');
 var SPRITE3D = require('com-sprite3d');
@@ -16,7 +17,6 @@ var placeZ = 0;
 module.exports = {
     create(params) {
         params = params || {};
-        var dir = util.pickInObject(actorConfig().sprites.idle); // Random facing direction
         if(isNaN(params.x) && isNaN(params.y) && isNaN(params.z)) {
             var random = WorldManager.world.tiles.getRandomTile([2,3], placedIndexes);
             if(!random) {
@@ -31,7 +31,7 @@ module.exports = {
         var data = [
             [ACTOR],
             [TRANSFORM, params], // Transform must be before sprite so render manager sees it when sprite is added
-            [SPRITE3D, util.mergeObjects(actorConfig().sprites.idle[dir])]
+            [SPRITE3D, actorConfig().sprites.idle[util.pickInObject(Geometry.DIRECTIONS)]] // Face random direction
         ];
         var e = EntityManager.addEntity(data);
         var transform = WorldManager.addEntity(e);

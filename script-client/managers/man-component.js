@@ -7,16 +7,16 @@ var componentData = []; // Array of arrays, indexed by component then entity
 var componentFamilies = [];
 
 module.exports = {
-    init(c,s) {
-        components = c;
-        for(var i = 0; i < components.length; i++) {
-            componentData[i] = [];
+    init(com, sys) {
+        components = com;
+        for(var c = 0; c < components.length; c++) {
+            componentData[c] = [];
         }
-        systems = s;
-        systems.forEach(function(system) {
-            if(!system.components) return;
-            var familyMask = getComponentMask(system.components);
-            var componentFamily;
+        systems = sys;
+        for(var s = 0; s < systems.length; s++) {
+            if(!systems[s].components) continue;
+            var familyMask = getComponentMask(systems[s].components);
+            var componentFamily = false;
             for(var cf = 0; cf < componentFamilies.length; cf++) {
                 if(componentFamilies[cf].mask === familyMask) {
                     componentFamily = componentFamilies[cf];
@@ -24,33 +24,33 @@ module.exports = {
                 }
             }
             if(!componentFamily) {
-                componentFamily = new ComponentFamily(system.components);
+                componentFamily = new ComponentFamily(systems[s].components);
                 componentFamilies.push(componentFamily);
             }
-            componentFamily.addSystem(system);
-        });
+            componentFamily.addSystem(systems[s]);
+        }
     },
     removeEntity(entity) {
-        componentData.forEach(function(cd) { // Delete all component data
-            delete cd[entity];
-        });
-        componentFamilies.forEach(function(family) {
-            family.removeEntity(entity, 0); // Notify all families
-        });
+        for(var d = 0; d < componentData.length; d++) {
+            delete componentData[d][entity];
+        }
+        for(var f = 0; f < componentFamilies.length; f++) {
+            componentFamilies[f].removeEntity(entity, 0); // Notify all families
+        }
     },
     newComponent(entity, mask, component, data) {
         var thisComponentData = componentData[components.indexOf(component)];
         thisComponentData[entity] = (new component()).data; // New instance of default data
         util.mergeObjects(thisComponentData[entity], data); // Apply custom data
-        componentFamilies.forEach(function(family) {
-            family.addEntity(entity, mask); // Notify families that match new mask
-        });
+        for(var f = 0; f < componentFamilies.length; f++) { // Notify families that require component
+            componentFamilies[f].addEntity(entity, mask); // Notify families that match new mask
+        }
     },
     removeComponent(entity, component) {
         delete componentData[components.indexOf(component)][entity]; // Delete component data
-        componentFamilies.forEach(function(family) {
-            family.removeEntity(entity, getComponentMask([component])); // Notify families that require component
-        });
+        for(var f = 0; f < componentFamilies.length; f++) { // Notify families that require component
+            componentFamilies[f].removeEntity(entity, getComponentMask([component])); 
+        }
     },
     getComponentData: getComponentData,
     getComponentMask: getComponentMask,
@@ -60,9 +60,9 @@ module.exports = {
 
 function getComponentData(family) {
     var familyData = [];
-    family.forEach(function(component) {
-        familyData.push(componentData[components.indexOf(component)]);
-    });
+    for(var c = 0; c < family.length; c++) {
+        familyData.push(componentData[components.indexOf(family[c])]);
+    }
     return familyData;
 }
 
@@ -77,9 +77,9 @@ function getComponentMask(componentList) {
 // Component family prototype
 function ComponentFamily(componentList) {
     this.componentNames = '';
-    componentList.forEach(function(c, i) {
-        this.componentNames += (i == 0 ? '' : '-') + c.name;
-    }, this);
+    for(var c = 0; c < componentList.length; c++) {
+        this.componentNames += (c == 0 ? '' : '-') + componentList[c].name;
+    }
     this.mask = getComponentMask(componentList);
     this.entities = [];
     this.systems = [];
@@ -93,17 +93,16 @@ ComponentFamily.prototype.addSystem = function(system) {
 
 ComponentFamily.prototype.removeEntity = function(entity, removeMask) {
     if(removeMask > 0 && removeMask !== (removeMask & this.mask)) return; // Ignore if family doesn't match removal
-    util.removeFromArray(entity, this.entities);
-    this.systems.forEach(function(sys) {
-        sys.onEntityRemoved(); // Notify system of removal
-    });
+    for(var s = 0; s < this.systems.length; s++) {
+        this.systems[s].onEntityRemoved(entity); // Notify system of removal
+    }
 };
 
 ComponentFamily.prototype.addEntity = function(entity, entityMask) {
     if(this.mask !== (this.mask & entityMask)) return; // Ignore if entity doesn't match family
     if(this.entities.includes(entity)) return; // Ignore if entity already in this family
     this.entities.push(entity);
-    this.systems.forEach(function(sys) {
-        sys.onEntityAdded(entity); // Notify system of new entity
-    },this);
+    for(var s = 0; s < this.systems.length; s++) {
+        this.systems[s].onEntityAdded(entity); // Notify system of new entity
+    }
 };
