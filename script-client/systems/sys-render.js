@@ -59,6 +59,10 @@ render.onEntityAdded = function(entity) {
     RenderManager.refreshZBuffer();
 };
 
+render.onEntityRemoved = function() {
+    RenderManager.refreshZBuffer();
+};
+
 render.setWorld = function(world) {
     bgImage = world.image;
     wox = world.imageCenter.x;

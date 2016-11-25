@@ -3,14 +3,14 @@ var util = require('dz-util');
 // Manages component families and data for all entities
 
 var components, systems;
-var componentData = []; // Array of arrays, indexed by component then entity
 var componentFamilies = [];
+var componentData = new Map(); // Component-key map containing entity-indexed arrays of data
 
 module.exports = {
     init(com, sys) {
         components = com;
         for(var c = 0; c < components.length; c++) {
-            componentData[c] = [];
+            componentData[components[c]] = [];
         }
         systems = sys;
         for(var s = 0; s < systems.length; s++) {
@@ -31,15 +31,15 @@ module.exports = {
         }
     },
     removeEntity(entity) {
-        for(var d = 0; d < componentData.length; d++) {
-            delete componentData[d][entity];
-        }
+        componentData.forEach(function(component) {
+            delete component[entity];
+        });
         for(var f = 0; f < componentFamilies.length; f++) {
             componentFamilies[f].removeEntity(entity, 0); // Notify all families
         }
     },
-    newComponent(entity, mask, component, data) {
-        var thisComponentData = componentData[components.indexOf(component)];
+    addComponent(entity, mask, component, data) {
+        var thisComponentData = componentData[component];
         thisComponentData[entity] = (new component()).data; // New instance of default data
         util.mergeObjects(thisComponentData[entity], data); // Apply custom data
         for(var f = 0; f < componentFamilies.length; f++) { // Notify families that require component
@@ -47,9 +47,14 @@ module.exports = {
         }
     },
     removeComponent(entity, component) {
-        delete componentData[components.indexOf(component)][entity]; // Delete component data
+        delete componentData[component][entity]; // Delete component data
         for(var f = 0; f < componentFamilies.length; f++) { // Notify families that require component
-            componentFamilies[f].removeEntity(entity, getComponentMask([component])); 
+            componentFamilies[f].removeEntity(entity, getComponentMask([component]));
+        }
+    },
+    afterUpdates() {
+        for(var f = 0; f < componentFamilies.length; f++) {
+            componentFamilies[f].afterUpdates();
         }
     },
     getComponentData: getComponentData,
@@ -61,7 +66,7 @@ module.exports = {
 function getComponentData(family) {
     var familyData = [];
     for(var c = 0; c < family.length; c++) {
-        familyData.push(componentData[components.indexOf(family[c])]);
+        familyData.push(componentData[family[c]]);
     }
     return familyData;
 }
@@ -82,6 +87,7 @@ function ComponentFamily(componentList) {
     }
     this.mask = getComponentMask(componentList);
     this.entities = [];
+    this.removeEntities = [];
     this.systems = [];
     this.componentData = getComponentData(componentList);
 }
@@ -93,9 +99,7 @@ ComponentFamily.prototype.addSystem = function(system) {
 
 ComponentFamily.prototype.removeEntity = function(entity, removeMask) {
     if(removeMask > 0 && removeMask !== (removeMask & this.mask)) return; // Ignore if family doesn't match removal
-    for(var s = 0; s < this.systems.length; s++) {
-        this.systems[s].onEntityRemoved(entity); // Notify system of removal
-    }
+    this.removeEntities.push(entity);
 };
 
 ComponentFamily.prototype.addEntity = function(entity, entityMask) {
@@ -104,5 +108,15 @@ ComponentFamily.prototype.addEntity = function(entity, entityMask) {
     this.entities.push(entity);
     for(var s = 0; s < this.systems.length; s++) {
         this.systems[s].onEntityAdded(entity); // Notify system of new entity
+    }
+};
+
+ComponentFamily.prototype.afterUpdates = function() {
+    for(var e = 0; e < this.removeEntities.length; e++) {
+        util.removeFromArray(this.removeEntities[e], this.entities);
+    }
+    this.removeEntities.length = 0;
+    for(var s = 0; s < this.systems.length; s++) {
+        this.systems[s].onEntityRemoved(); // Notify system of removal
     }
 };

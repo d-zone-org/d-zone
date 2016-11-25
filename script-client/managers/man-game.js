@@ -1,5 +1,5 @@
 'use strict';
-// Runs the game loop which calls systems to update
+var EntityManager = require('./man-entity');
 
 var now = global.performance && global.performance.now ? function() {
     return performance.now()
@@ -23,6 +23,7 @@ function updateSystems() {
     for(s = 0; s < systems.length; s++) {
         systems[s].update();
     }
+    EntityManager.afterUpdates();
     //if(timeThis) console.timeEnd('update');
 }
 
@@ -44,11 +45,9 @@ function interval() {
     lastUpdate = now();
 }
 
-window.pause = function() { paused = !paused; };
-
 module.exports = {
-    init(s) {
-        systems = s;
+    init(sys) {
+        systems = sys;
         gameLoop = setInterval(interval, step);
     },
     setStep(s) {

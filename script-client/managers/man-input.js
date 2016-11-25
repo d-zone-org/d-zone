@@ -139,6 +139,6 @@ const KEYCODES = {
     192: "graveaccent",
     219: "openbracket",
     220: "backslash",
-    221: "closebraket",
+    221: "closebracket",
     222: "singlequote"
 };

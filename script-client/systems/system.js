@@ -9,7 +9,6 @@ function System(components) {
 
 System.prototype.init = function(entities, componentData) {
     this.entities = entities;
-    this.removeEntities = [];
     this.componentData = componentData;
 };
 
@@ -23,16 +22,10 @@ System.prototype.update = function() {
         }
         this.updateEntity.apply(this, dataArgs);
     }
-    for(r = 0; r < this.removeEntities.length; r++) {
-        util.removeFromArray(this.removeEntities[r], this.entities);
-    }
-    this.removeEntities.length = 0;
-};
-
-System.prototype.onEntityRemoved = function(entity) {
-    this.removeEntities.push(entity);
 };
 
 System.prototype.updateEntity = function(entity) { }; // Virtual
 
 System.prototype.onEntityAdded = function(entity) { }; // Virtual
+
+System.prototype.onEntityRemoved = function() { }; // Virtual

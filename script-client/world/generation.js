@@ -51,8 +51,8 @@ function crawlMap(map) {
         if(!val || tilesCrawled[index]) return; // Skip blank or already crawled
         neighborsToCrawl = [index];
         while(true) { // Keep crawling outward until no neighbors are left
-            var currentIndex = neighborsToCrawl.pop();
-            var currentVal = map.tiles.getIndex(currentIndex);
+            let currentIndex = neighborsToCrawl.pop();
+            let currentVal = map.tiles.getIndex(currentIndex);
             tilesCrawled[currentIndex] = true;
             if(islands[thisIsland]) islands[thisIsland].push(currentIndex);
             else islands.push([currentIndex]);
