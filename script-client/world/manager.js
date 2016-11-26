@@ -37,11 +37,9 @@ var worldManager = {
         addEntity(e);
     },
     getSurfaceZ(x, y, z, maxDown, maxUp) {
-        x = center(x);
-        y = center(y);
         var closest = -100;
         for(var i = Math.max(0, z - maxDown); i <= Math.min(63, z + maxUp); i++) {
-            if((collisionMap.getXYZ(x, y, i) & 3) == 1) { // Does this Z have a platform and no solid block?
+            if((collisionMap.getXYZ(center(x), center(y), i) & 3) == 1) { // Does this Z have a platform and no solid block?
                 if(i === z) return z; // Same Z preferred
                 if(Math.abs(i - closest) >= Math.abs(i - z)) closest = i; // Get closest Z
             }
@@ -49,27 +47,19 @@ var worldManager = {
         return closest;
     },
     makeSolid(x, y, z) {
-        x = center(x);
-        y = center(y);
-        var index = collisionMap.indexFromXYZ(x, y, z);
+        var index = collisionMap.indexFromXYZ(center(x), center(y), z);
         collisionMap.setIndex(index, collisionMap.getIndex(index) | 2);
     },
     removeSolid(x, y, z) {
-        x = center(x);
-        y = center(y);
-        var index = collisionMap.indexFromXYZ(x, y, z);
+        var index = collisionMap.indexFromXYZ(center(x), center(y), z);
         collisionMap.setIndex(index, collisionMap.getIndex(index) & ~2);
     },
     removePlatform(x, y, z) {
-        x = center(x);
-        y = center(y);
-        var index = collisionMap.indexFromXYZ(x, y, z);
+        var index = collisionMap.indexFromXYZ(center(x), center(y), z);
         collisionMap.setIndex(index, collisionMap.getIndex(index) & ~1);
     },
     isSolid(x, y, z) {
-        x = center(x);
-        y = center(y);
-        return (collisionMap.getXYZ(x, y, z) & 2) === 2;
+        return (collisionMap.getXYZ(center(x), center(y), z) & 2) === 2;
     },
     getPath(e, sx, sy, sz, dx, dy, dz, maxDown, maxUp, cb) {
         removeEntity(e); // Remove entity from map so it doesn't interfere with its own pathing
