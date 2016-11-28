@@ -54,6 +54,10 @@ var worldManager = {
         var index = collisionMap.indexFromXYZ(center(x), center(y), z);
         collisionMap.setIndex(index, collisionMap.getIndex(index) & ~2);
     },
+    makePlatform(x, y, z) {
+        var index = collisionMap.indexFromXYZ(center(x), center(y), z);
+        collisionMap.setIndex(index, collisionMap.getIndex(index) | 1);
+    },
     removePlatform(x, y, z) {
         var index = collisionMap.indexFromXYZ(center(x), center(y), z);
         collisionMap.setIndex(index, collisionMap.getIndex(index) & ~1);
@@ -62,9 +66,9 @@ var worldManager = {
         return (collisionMap.getXYZ(center(x), center(y), z) & 2) === 2;
     },
     getPath(e, sx, sy, sz, dx, dy, dz, maxDown, maxUp, cb) {
-        removeEntity(e); // Remove entity from map so it doesn't interfere with its own pathing
-        PathManager.getPath(e, sx, sy, sz, dx, dy, dz, maxDown, maxUp, function(path) {
-            addEntity(e); // Add entity back to map before callback
+        removePlatform(sx, sy, sz + 1); // Can't use self as platform
+        PathManager.getPath(e, center(sx), center(sy), sz, center(dx), center(dy), dz, maxDown, maxUp, function(path) {
+            if(!path) makePlatform(sx, sy, sz + 1);
             cb(path);
         });
     },

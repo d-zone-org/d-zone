@@ -38,7 +38,7 @@ move.updateEntity = function(entity, actor, sprite, transform, movement) {
         EntityManager.addComponent(entity, ANIMATION, hopAnimation);
     }
     if(movement.tick < movement.ticks) {
-        if(movement.tick === 8) WorldManager.removeEntity(entity); // Space is free now
+        if(movement.tick === 4) WorldManager.removeEntity(entity); // Space is free now
         movement.tick++;
     } else {
         transform.x += movement.dx;

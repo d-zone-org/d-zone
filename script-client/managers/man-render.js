@@ -101,11 +101,12 @@ function getDrawXY(x, y, z) {
 
 // Faster sorting for nearly-sorted arrays (like the z-buffer) - https://jsperf.com/smv-insertion-sort/2
 function insertionSort(array, comp) {
-    var n = array.length;
-    for (var i = 1; i < n; ++i) {
-        var tmp = array[i];
+    var n = array.length,
+        tmp, i, j;
+    for (i = 1; i < n; ++i) {
+        tmp = array[i];
         if (comp(array[i - 1], tmp) > 0) {
-            var j = i;
+            j = i;
             do {
                 array[j] = array[j - 1];
                 --j;

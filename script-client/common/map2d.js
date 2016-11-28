@@ -16,7 +16,7 @@ Map2D.prototype.setIndex = function(index, value) {
 };
 
 Map2D.prototype.setXY = function(x, y, value) {
-    this.setIndex(x * this.width + y, value);
+    this.setIndex(x * this.height + y, value);
 };
 
 Map2D.prototype.getIndex = function(index) {
@@ -25,28 +25,25 @@ Map2D.prototype.getIndex = function(index) {
 
 Map2D.prototype.getXY = function(x, y) {
     if(x < 0 || y < 0 || x >= this.width || y >= this.height) return 0;
-    return this.dataArray[x * this.width + y];
+    return this.dataArray[x * this.height + y];
 };
 
 Map2D.prototype.getColumn = function(x) {
-    return this.dataArray.slice(x * this.width, x * this.width + this.width);
+    return this.dataArray.slice(x * this.height, x * this.height + this.width);
 };
 
 Map2D.prototype.getRow = function(y) {
-    var row = [], col;
-    for(var x = 0; x < this.width; x++) {
-        col = this.getColumn(x);
-        row.push(col[y]);
-    }
+    var row = [];
+    for(var i = y; i < this.area; i += this.height) row.push(this.dataArray[i]);
     return row;
 };
 
 Map2D.prototype.XYFromIndex = function(index) {
-    return { x: Math.floor(index / this.width), y: index % this.width };
+    return { x: Math.floor(index / this.height), y: index % this.height };
 };
 
 Map2D.prototype.indexFromXY = function(x, y) {
-    return x * this.width + y;
+    return x * this.height + y;
 };
 
 Map2D.prototype.forEachTile = function(cb) {

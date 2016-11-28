@@ -21,6 +21,7 @@ module.exports = {
         pathing.postMessage([width, height, depth]);
     },
     getPath(e, sx, sy, sz, dx, dy, dz, maxDown, maxUp, cb) {
+        if(sx === dx && sy === dy && sz === dz) return false;
         var job = {
             e, id: ++jobID, collision: collisionMap.buffer,
             sx, sy, sz, dx, dy, dz, maxDown, maxUp

@@ -17,7 +17,7 @@ Map3D.prototype.setIndex = function(index, value, zOffset) {
 };
 
 Map3D.prototype.setXYZ = function(x, y, z, value) {
-    this.setIndex(z * this.area + x * this.width + y, value);
+    this.setIndex(z * this.area + x * this.height + y, value);
 };
 
 Map3D.prototype.getIndex = function(index, zOffset) {
@@ -26,15 +26,15 @@ Map3D.prototype.getIndex = function(index, zOffset) {
 
 Map3D.prototype.getXYZ = function(x, y, z) {
     if(x < 0 || y < 0 || z < 0 || x >= this.width || y >= this.height || z >= this.depth) return 0;
-    return this.dataArray[z * this.area + x * this.width + y];
+    return this.dataArray[z * this.area + x * this.height + y];
 };
 
 Map3D.prototype.XYZFromIndex = function(index) {
-    return { x: Math.floor(index / this.width), y: index % this.width, z: Math.floor(index / this.area) };
+    return { x: Math.floor(index / this.height), y: index % this.height, z: Math.floor(index / this.area) };
 };
 
 Map3D.prototype.indexFromXYZ = function(x, y, z) {
-    return z * this.area + x * this.width + y;
+    return z * this.area + x * this.height + y;
 };
 
 Map3D.prototype.forEachTile = function(cb, includeUndefined) {

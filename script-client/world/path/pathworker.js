@@ -5,16 +5,18 @@ var Map3D = require('map3d');
 var width, height, depth;
 
 addEventListener('message', function(event) {
+    var data = event.data;
     if(!width) { // Map size not yet defined, so this must be the init message
-        width = event.data[0];
-        height = event.data[1];
-        depth = event.data[2];
+        width = data[0];
+        height = data[1];
+        depth = data[2];
         return;
     }
     console.log('Path worker received job',event.data);
-    event.data.collision = new Map2D(Uint8Array, width, height, depth, event.data.collision);
-    var path = getPath(event.data);
-    postMessage([event.data.id, event.data.e, path]);
+    data.collision = new Map2D(Uint8Array, width, height, depth, data.collision);
+    data.startIndex = event.data.collision.indexFromXYZ(data.sx, data.sy, data.sz);
+    data.destIndex = event.data.collision.indexFromXYZ(data.dx, data.dy, data.dz);
+    postMessage([data.id, data.e, getPath(data)]);
 });
 
 // Path data stored in Uint16Array
@@ -28,6 +30,8 @@ function getPath(job) {
     var path = new Path();
     var parentMap = new Map3D(Uint32Array, width, height);
     var ghMap = new Map3D(Uint32Array, width, height);
+    ghMap.setIndex(job.start, calcH(job.sx, job.sy, job.dx, job.dy));
+    var current = { x: job.sx, y: job.sy, z: job.sz, index: job.startIndex };
     
     return path.trim();
 }
