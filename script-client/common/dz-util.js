@@ -1,11 +1,15 @@
 'use strict';
 
 module.exports = {
-    randomIntRange(min,max) {
+    random(min, max) {
+        if(isNaN(max)) {
+            max = min < 0 ? 0 : min;
+            min = min < 0 ? min : 0;
+        }
         return Math.floor(Math.random() * (+max - +min + 1)) + +min ;
     },
     pickInArray(arr) {
-        return arr[this.randomIntRange(0,arr.length-1)];
+        return arr[this.random(arr.length-1)];
     },
     pickInObject(obj) { // Return random property name from object
         return this.pickInArray(Object.keys(obj));

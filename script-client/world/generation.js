@@ -106,10 +106,10 @@ function createFlowerPatches(map) {
         } while(attempt < limit && !valid);
         if(attempt == limit) continue;
         map.tiles.setIndex(tile.index, TILES.FLOWERS);
-        var spread = util.randomIntRange(2, 5);
+        var spread = util.random(2, 5);
         for(var s = 0; s < spread; s++) {
-            var spreadX = tile.xy.x + util.randomIntRange(-1, 1),
-                spreadY = tile.xy.y + util.randomIntRange(-1, 1);
+            var spreadX = tile.xy.x + util.random(-1, 1),
+                spreadY = tile.xy.y + util.random(-1, 1);
             if(map.tiles.getXY(spreadX, spreadY) === TILES.FLOWERS) continue;
             if(map.tiles.checkNeighborsExtended(spreadX, spreadY, [TILES.GRASS, TILES.FLOWERS])) {
                 map.tiles.setXY(spreadX, spreadY, TILES.FLOWERS);

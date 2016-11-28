@@ -5,10 +5,14 @@ var ActorManager = require('actor/manager');
 var WorldManager = require('world/manager');
 
 var actors = [];
+var colors = [];
+for(var c = 0; c < 10; c++) {
+    colors.push(util.random(80, 255) << 16 | util.random(80, 255) << 8 | util.random(80, 255));
+}
 
 module.exports = function() {
     for(var i = 0; i < 100; i++) {
-        actors.push(ActorManager.create());
+        actors.push(ActorManager.create({ color: util.pickInArray(colors) }));
     }
     setInterval(function() {
         ActorManager.hop(util.pickInArray(actors), util.pickInObject(Geometry.DIRECTIONS));

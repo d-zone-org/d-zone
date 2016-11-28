@@ -6,7 +6,7 @@ var closestGrids = [];
 
 module.exports = {
     generateClosestGrids(size) {
-        for(var sx = size*-1; sx <= size; sx++) { for(var sy = size*-1; sy <= size; sy++) {
+        for(var sx = size * -1; sx <= size; sx++) { for(var sy = size * -1; sy <= size; sy++) {
             closestGrids.push([sx,sy]);
         }}
         closestGrids.sort(function(a,b) {
@@ -43,9 +43,9 @@ module.exports = {
     buildNoiseMap(width, height) {
         width = Math.round(width);
         height = Math.round(height);
-        var map = new Map2D(Uint8Array,width,height);
-        for(var g = 0; g < width*height; g++) {
-            map.setIndex(g,util.randomIntRange(0,255));
+        var map = new Map2D(Uint8Array, width, height);
+        for(var g = 0; g < width * height; g++) {
+            map.setIndex(g, util.random(255));
         }
         return map;
     },

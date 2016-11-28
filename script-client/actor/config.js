@@ -23,7 +23,6 @@ module.exports = new configLoader({
     },
     sprites: {
         common: {
-            sheet: 'actors',
             sheetX: 0,
             sheetY: 0,
             sheetW: 14,

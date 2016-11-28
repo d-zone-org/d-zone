@@ -10,11 +10,11 @@ function getTileSheetXY(ring,shape) {
     }
     if(ring == 2 && shape == 0) { // Grass variation
         ring = 4;
-        shape = util.randomIntRange(0,2);
+        shape = util.random(2);
         var random = Math.random();
         if(random > 0.98) shape = 8;
-        else if(random > 0.95) shape = util.randomIntRange(5,7);
-        else if(random > 0.6) shape = util.randomIntRange(3,4);
+        else if(random > 0.95) shape = util.random(5,7);
+        else if(random > 0.6) shape = util.random(3,4);
     }
     return { x: shape * tileWidth, y: ring * tileHeight };
 }

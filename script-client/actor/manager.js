@@ -2,6 +2,7 @@
 var util = require('dz-util');
 var Geometry = require('geometry');
 var EntityManager = require('man-entity');
+var SpriteManager = require('man-sprite');
 var WorldManager = require('world/manager');
 var RenderManager = require('man-render');
 var actorConfig = require('./config');
@@ -17,24 +18,36 @@ var placeZ = 0;
 module.exports = {
     create(params) {
         params = params || {};
-        if(isNaN(params.x) && isNaN(params.y) && isNaN(params.z)) {
+        var transform = {};
+        if(params.x) transform.x = params.x;
+        if(params.y) transform.y = params.y;
+        if(params.z) transform.z = params.z;
+        if(isNaN(transform.x) && isNaN(transform.y) && isNaN(transform.z)) {
             var random = WorldManager.world.tiles.getRandomTile([2,3], placedIndexes);
             if(!random) {
                 placeZ++;
                 placedIndexes = placedIndexes.slice(0,1);
                 random = WorldManager.world.tiles.getRandomTile([2,3], placedIndexes);
             }
-            params.x = WorldManager.unCenter(random.xy.x);
-            params.y = WorldManager.unCenter(random.xy.y);
-            params.z = placeZ;
+            transform.x = WorldManager.unCenter(random.xy.x);
+            transform.y = WorldManager.unCenter(random.xy.y);
+            transform.z = placeZ;
+        }
+        var sprite = actorConfig().sprites.idle[util.pickInObject(Geometry.DIRECTIONS)]; // Face random direction
+        sprite.sheet = 'actors';
+        var actor = {};
+        if(!isNaN(params.color)) {
+            actor.color = params.color;
+            sprite.sheet = SpriteManager.getColorSheet('actors', params.color, 0.8,
+                [{ alpha: 0.4, x: 14, y: 42, w: 14, h: 28 }]);
         }
         var data = [
-            [ACTOR],
-            [TRANSFORM, params], // Transform must be before sprite so render manager sees it when sprite is added
-            [SPRITE3D, actorConfig().sprites.idle[util.pickInObject(Geometry.DIRECTIONS)]] // Face random direction
+            [ACTOR, actor],
+            [TRANSFORM, transform], // Transform must be before sprite so render manager sees it when sprite is added
+            [SPRITE3D, sprite] 
         ];
         var e = EntityManager.addEntity(data);
-        var transform = WorldManager.addEntity(e);
+        transform = WorldManager.addEntity(e);
         placedIndexes.push(transform.mapIndex % WorldManager.world.tiles.area);
         return e;
     },

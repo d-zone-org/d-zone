@@ -59,10 +59,9 @@ Map2D.prototype.forEachTileIntersection = function(cb) {
 };
 
 Map2D.prototype.iterateRelativeTileList = function(x, y, list, cb) {
-    var self = this;
     for(var i = 0; i < list.length; i++) {
         var val = list[i];
-        cb(val.x, val.y, self.getXY(x + val.x, y + val.y), self.indexFromXY(x + val.x, y + val.y), i);
+        cb(val.x, val.y, this.getXY(x + val.x, y + val.y), this.indexFromXY(x + val.x, y + val.y), i);
     }
 };
 
@@ -76,7 +75,7 @@ Map2D.prototype.forEachNeighborExtended = function(x, y, cb) {
 
 Map2D.prototype.getRandomTile = function(values, notIndexes) {
     notIndexes = notIndexes || [];
-    var picked = { index: util.randomIntRange(0, this.dataArray.length - 1) };
+    var picked = { index: util.random(this.dataArray.length - 1) };
     picked.value = this.dataArray[picked.index];
     picked.xy = this.XYFromIndex(picked.index);
     if((!values || values.includes(picked.value)) && !notIndexes.includes(picked.index)) {
