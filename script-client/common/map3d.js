@@ -12,16 +12,16 @@ function Map3D(arrayType, width, height, depth, buffer) {
     this.buffer = this.dataArray.buffer;
 }
 
-Map3D.prototype.setIndex = function(index, value, zOffset) {
-    this.dataArray[index + (zOffset || 0) * this.area] = value;
+Map3D.prototype.setIndex = function(index, value) {
+    this.dataArray[index] = value;
 };
 
 Map3D.prototype.setXYZ = function(x, y, z, value) {
     this.setIndex(z * this.area + x * this.height + y, value);
 };
 
-Map3D.prototype.getIndex = function(index, zOffset) {
-    return this.dataArray[index + (zOffset || 0) * this.area];
+Map3D.prototype.getIndex = function(index) {
+    return this.dataArray[index];
 };
 
 Map3D.prototype.getXYZ = function(x, y, z) {

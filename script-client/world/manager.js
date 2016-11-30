@@ -3,21 +3,23 @@ var util = require('dz-util');
 var WorldGeneration = require('./generation');
 var WorldGraphics = require('world/graphics');
 var EntityMap = require('./entitymap');
+var CollisionMap = require('./collisionmap');
 var EntityManager = require('man-entity');
 var ComponentManager = require('man-component');
 var SpriteManager = require('man-sprite');
 var worldConfig = require('./config');
 var PathManager = require('./path/pathmanager');
 
-var world, collisionMap, transformData;
+var world, transformData;
 
 var worldManager = {
     generateWorld(size) {
         transformData = ComponentManager.getComponentData([require('com-transform')])[0];
         world = WorldGeneration.generateMap(size);
         worldManager.world = world;
-        collisionMap = world.collisionMap;
-        PathManager.init(collisionMap);
+        EntityMap.init(world.size, world.size, 64);
+        CollisionMap.init(world.size, world.size, 64, world.tiles);
+        PathManager.init(CollisionMap.map);
         addEntity(EntityManager.addEntity([
             [require('com-transform'), { platform: false }],
             [require('com-sprite3d'), worldConfig().beacon]
@@ -37,34 +39,13 @@ var worldManager = {
         addEntity(e);
     },
     getSurfaceZ(x, y, z, maxDown, maxUp) {
-        var closest = -100;
-        for(var i = Math.max(0, z - maxDown); i <= Math.min(63, z + maxUp); i++) {
-            if((collisionMap.getXYZ(center(x), center(y), i) & 3) == 1) { // Does this Z have a platform and no solid block?
-                if(i === z) return z; // Same Z preferred
-                if(Math.abs(i - closest) >= Math.abs(i - z)) closest = i; // Get closest Z
-            }
-        }
-        return closest;
+        return CollisionMap.getFreePlatform(center(x), center(y), z, maxDown, maxUp);
     },
-    makeSolid(x, y, z) {
-        var index = collisionMap.indexFromXYZ(center(x), center(y), z);
-        collisionMap.setIndex(index, collisionMap.getIndex(index) | 2);
-    },
-    removeSolid(x, y, z) {
-        var index = collisionMap.indexFromXYZ(center(x), center(y), z);
-        collisionMap.setIndex(index, collisionMap.getIndex(index) & ~2);
-    },
-    makePlatform(x, y, z) {
-        var index = collisionMap.indexFromXYZ(center(x), center(y), z);
-        collisionMap.setIndex(index, collisionMap.getIndex(index) | 1);
-    },
-    removePlatform(x, y, z) {
-        var index = collisionMap.indexFromXYZ(center(x), center(y), z);
-        collisionMap.setIndex(index, collisionMap.getIndex(index) & ~1);
-    },
-    isSolid(x, y, z) {
-        return (collisionMap.getXYZ(center(x), center(y), z) & 2) === 2;
-    },
+    makeSolid(x, y, z) { CollisionMap.makeSolid(center(x), center(y), z); },
+    removeSolid(x, y, z) { CollisionMap.removeSolid(center(x), center(y), z); },
+    makePlatform(x, y, z) { CollisionMap.makePlatform(center(x), center(y), z); },
+    removePlatform(x, y, z) { CollisionMap.removePlatform(center(x), center(y), z); },
+    isSolid(x, y, z) { return CollisionMap.isSolid(center(x), center(y), z); },
     getPath(e, sx, sy, sz, dx, dy, dz, maxDown, maxUp, cb) {
         removePlatform(sx, sy, sz + 1); // Can't use self as platform
         PathManager.getPath(e, center(sx), center(sy), sz, center(dx), center(dy), dz, maxDown, maxUp, function(path) {
@@ -75,16 +56,14 @@ var worldManager = {
     center, unCenter
 };
 
-// TODO: Bitwise operation functions for Map3D
-
 function addEntity(e) {
     var transform = getTransform(e);
     var centeredX = center(transform.x),
         centeredY = center(transform.y);
     transform.mapIndex = EntityMap.map.indexFromXYZ(centeredX, centeredY, transform.z);
     EntityMap.addEntity(transform.mapIndex, e);
-    if(transform.solid) collisionMap.setIndex(transform.mapIndex, collisionMap.getIndex(transform.mapIndex) | 2);
-    if(transform.platform) collisionMap.setIndex(transform.mapIndex, collisionMap.getIndex(transform.mapIndex, 1) | 1, 1);
+    if(transform.solid) CollisionMap.makeSolid(centeredX, centeredY, transform.z);
+    if(transform.platform) CollisionMap.makePlatform(centeredX, centeredY, transform.z + 1);
     return transform;
 }
 
@@ -100,8 +79,8 @@ function removeEntity(e) {
             if(remainingTransform.platform) removePlatform = false;
         }
     }
-    if(removeSolid) collisionMap.setIndex(transform.mapIndex, collisionMap.getIndex(transform.mapIndex) & ~2);
-    if(removePlatform) collisionMap.setIndex(transform.mapIndex, collisionMap.getIndex(transform.mapIndex, 1) & ~1, 1);
+    if(removeSolid) CollisionMap.removeSolid(center(transform.x), center(transform.y), transform.z);
+    if(removePlatform) CollisionMap.removePlatform(center(transform.x), center(transform.y), transform.z + 1);
     return transform;
 }
 

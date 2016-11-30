@@ -2,8 +2,6 @@
 var util = require('dz-util');
 var geometry = require('geometry');
 var Map2D = require('map2d');
-var Map3D = require('map3d');
-var EntityMap = require('./entitymap');
 var config = require('./config');
 
 const TILES = {
@@ -124,11 +122,6 @@ module.exports = {
         crawlMap(world); // Examine map to detect islands, borders, etc
         createFlowerPatches(world);
         //world.tiles.print('world');
-        EntityMap.init(world.size, world.size, 64);
-        world.collisionMap = new Map3D(Uint8Array, world.size, world.size, 64);
-        world.collisionMap.forEachTileAtZ(0, function(tile, index, tileArray){
-            tileArray[index] = world.tiles.getIndex(index) ? 1 : 0;
-        }, true);
         return world;
     }
 };
