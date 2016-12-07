@@ -3,7 +3,6 @@ var System = require('system');
 var RenderManager = require('man-render');
 var SpriteManager = require('man-sprite');
 var ViewManager = require('man-view.js');
-var UIManager = require('ui/manager');
 var requestAnimationFrame = require('raf');
 
 var view = ViewManager.view;
@@ -44,7 +43,6 @@ function onFrameReady() {
     for(var s = 0; s < zBuffer.length; s++) {
         renderSprite(zBuffer[s]);
     }
-    UIManager.draw(view.canvas); // Draw UI
     // renderTime += performance.now() - renderStart;
     // if(frameCount == 500) { frameCount = 0; console.log(renderTime/500); renderTime = 0; }
     //previousFrame = currentFrame;

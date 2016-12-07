@@ -1,11 +1,9 @@
 'use strict';
-var InputManager = require('man-input');
-var UIManager = require('ui/manager');
 var Canvas = require('canvas');
 var util = require('dz-util.js');
 
 var view = {
-    scale: 1,
+    canvas: new Canvas(1, 1), scale: 1,
     width: 1, height: 1, // In game pixels
     cursorX: 0, cursorY: 0, // In game pixels
     centerX: 0, centerY: 0, // World image coords in the center of the window
@@ -18,12 +16,8 @@ var viewManager = {
     init(options) {
         view.maxScale = options.maxScale;
         view.id = options.id;
-        view.canvas = new Canvas(1, 1);
         view.canvas.canvas.id = view.id;
-        document.body.appendChild(view.canvas.canvas);
-        view.canvas.context.mozImageSmoothingEnabled = false;
-        view.canvas.context.imageSmoothingEnabled = false;
-        view.canvas.canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        view.canvas.addToPage(true); // Under UI canvas
         view.cursorX = Math.floor(window.innerWidth / 2 / options.initialScale);
         view.cursorY = Math.floor(window.innerHeight / 2 / options.initialScale);
         view.width = Math.ceil(window.innerWidth / options.initialScale);
@@ -41,31 +35,22 @@ var viewManager = {
         view.centerX = Math.round(x);
         view.centerY = Math.round(y);
         if(view.id) calcPan(); // Only pan if view is initialized
-    }
-};
-
-InputManager.events.on('mouse-move', function (event) {
-    view.cursorX = Math.floor(event.x / view.scale);
-    view.cursorY = Math.floor(event.y / view.scale);
-    if(!UIManager.mouseMove(view.cursorX, view.cursorY)) {
+    },
+    mouseMove(event) {
+        view.cursorX = Math.floor(event.x / view.scale);
+        view.cursorY = Math.floor(event.y / view.scale);
         panMove();
-    }
-});
-InputManager.events.on('mouse-down', function (event) {
-    if(!UIManager.mouseDown(view.cursorX, view.cursorY, event.button)) {
+    },
+    mouseDown(event) {
         panFrom = panFrom || { x: view.cursorX, y: view.cursorY };
-    }
-});
-InputManager.events.on('mouse-up', function (event) {
-    if(!UIManager.mouseUp(view.cursorX, view.cursorY, event.button)) {
+    },
+    mouseUp(event) {
         panFrom = false;
-    }
-});
-InputManager.events.on('mouse-wheel', function (event) {
-    if(!UIManager.mouseWheel(view.cursorX, view.cursorY, event.direction)) {
+    },
+    mouseWheel(event) {
         zoom(view.scale + (event.direction == 'up' ? 1 : -1));
     }
-});
+};
 
 function panMove() {
     if(!panFrom) return;

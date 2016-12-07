@@ -22,6 +22,7 @@ var EntityManager = require('man-entity');
 var ComponentManager = require('man-component');
 var RenderManager = require('man-render');
 var SpriteManager = require('man-sprite');
+var UIManager = require('./ui/manager');
 var ViewManager = require('man-view');
 var WorldManager = require('./world/manager');
 
@@ -36,6 +37,7 @@ if(window.innerWidth) onWindowReady();
 else window.addEventListener('resize', onWindowReady );
 function onWindowReady() {
     window.removeEventListener('resize', onWindowReady);
+    UIManager.init({ initialScale: 2, maxScale: 3 });
     ViewManager.init({ id: 'main', initialScale: 2, maxScale: 4 });
 }
 

@@ -71,3 +71,11 @@ Canvas.prototype.clearRect = function(x, y, w, h) {
     //     'Bad clearRect params!',color,x,y,w,h);
     this.context.clearRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
 };
+
+Canvas.prototype.addToPage = function(first) {
+    if(first) document.body.insertBefore(this.canvas, document.body.firstChild);
+    else document.body.appendChild(this.canvas);
+    this.context.mozImageSmoothingEnabled = false;
+    this.context.imageSmoothingEnabled = false;
+    this.canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+};
