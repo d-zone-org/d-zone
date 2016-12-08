@@ -10,7 +10,7 @@ function Canvas(width, height) {
     console.assert(isNumeric(width) && isNumeric(height), 'Bad canvas params!', width, height);
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
-    this.setSize(width,height);
+    this.setSize(width, height);
 }
 
 Canvas.prototype.setSize = function(w,h) {
@@ -52,11 +52,11 @@ Canvas.prototype.drawSprite = function(sheets, s, ox, oy) {
 
 Canvas.prototype.fill = function(color) {
     this.context.fillStyle = color;
-    this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 };
 
 Canvas.prototype.clear = function() {
-    this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 };
 
 Canvas.prototype.fillRect = function(color, x, y, w, h) {
