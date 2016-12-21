@@ -22,23 +22,32 @@ var common = {
             'systems'
         ]
     },
+    module: {
+        noParse: [
+            /[\/\\]node_modules[\/\\]localforage[\/\\]dist[\/\\]localforage\.js$/,
+            /[\/\\]node_modules[\/\\]discord\.io[\/\\]lib[\/\\]index\.js$/
+        ]
+    },
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'webpack/index.ejs',
             inject: 'body'
         })
-    ],
-    module: {
-        noParse: [
-            /[\/\\]node_modules[\/\\]localforage[\/\\]dist[\/\\]localforage\.js$/, 
-            /[\/\\]node_modules[\/\\]discord\.io[\/\\]lib[\/\\]index\.js$/
-        ]
-    }
+    ]
 };
 
 if(TARGET === 'build') {
     module.exports = merge(common, {
+        module: {
+            loaders: [
+                {
+                    test   : /\.js$/,
+                    exclude: /(node_modules|bower_components)/,
+                    loader : 'babel-loader?presets[]=es2015'
+                }
+            ]
+        },
         plugins: [
             new webpack.optimize.UglifyJsPlugin({
                 mangle: false,

@@ -53,6 +53,7 @@ bot.json
 reference/*
 web/index.html
 web/bundle.js
+web/*.worker.js
 web/index-down.html
 tenc
 restart bot.bat
