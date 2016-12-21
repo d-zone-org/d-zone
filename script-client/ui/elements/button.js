@@ -6,7 +6,7 @@ module.exports = Button;
 inherits(Button,Element);
 
 function Button(x, y, width, height, text) {
-    Element.call(this,{ x, y, width, height, hoverState: true });
+    Element.call(this, { x, y, width, height, hoverState: true });
     this.text = text;
 }
 

@@ -28,7 +28,13 @@ var common = {
             template: 'webpack/index.ejs',
             inject: 'body'
         })
-    ]
+    ],
+    module: {
+        noParse: [
+            /[\/\\]node_modules[\/\\]localforage[\/\\]dist[\/\\]localforage\.js$/, 
+            /[\/\\]node_modules[\/\\]discord\.io[\/\\]lib[\/\\]index\.js$/
+        ]
+    }
 };
 
 if(TARGET === 'build') {

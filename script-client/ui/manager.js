@@ -85,12 +85,14 @@ module.exports = {
         ui.maxScale = options.maxScale;
         ui.htmlCanvas.canvas.id = 'ui';
         ui.htmlCanvas.addToPage();
-        ui.cursorX = Math.floor(window.innerWidth / 2 / options.initialScale);
-        ui.cursorY = Math.floor(window.innerHeight / 2 / options.initialScale);
-        ui.width = Math.ceil(window.innerWidth / options.initialScale);
-        ui.height = Math.floor(window.innerHeight / options.initialScale);
+        var windowSize = Math.min(window.innerWidth, window.innerHeight);
+        var scale = windowSize < 400 ? 1 : windowSize < 800 ? 2 : 3;
+        ui.cursorX = Math.floor(window.innerWidth / 2 / scale);
+        ui.cursorY = Math.floor(window.innerHeight / 2 / scale);
+        ui.width = Math.ceil(window.innerWidth / scale);
+        ui.height = Math.floor(window.innerHeight / scale);
         addScreen().addElement(new Button(5, 5, 50, 20, 'button'));
-        zoom(options.initialScale); // Initial zoom
+        zoom(scale); // Initial zoom
         window.addEventListener('resize', resizeCanvas);
     },
     mouseMove(x, y) {

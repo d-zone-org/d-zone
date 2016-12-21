@@ -18,11 +18,13 @@ var viewManager = {
         view.id = options.id;
         view.canvas.canvas.id = view.id;
         view.canvas.addToPage(true); // Under UI canvas
-        view.cursorX = Math.floor(window.innerWidth / 2 / options.initialScale);
-        view.cursorY = Math.floor(window.innerHeight / 2 / options.initialScale);
-        view.width = Math.ceil(window.innerWidth / options.initialScale);
-        view.height = Math.floor(window.innerHeight / options.initialScale);
-        zoom(options.initialScale, true); // Initial zoom
+        var windowSize = Math.min(window.innerWidth, window.innerHeight);
+        var scale = windowSize < 400 ? 1 : windowSize < 800 ? 2 : windowSize < 1200 ? 3 : 4;
+        view.cursorX = Math.floor(window.innerWidth / 2 / scale);
+        view.cursorY = Math.floor(window.innerHeight / 2 / scale);
+        view.width = Math.ceil(window.innerWidth / scale);
+        view.height = Math.floor(window.innerHeight / scale);
+        zoom(scale, true); // Initial zoom
         require('sys-render').onViewReady();
         window.addEventListener('resize', function() {
             fitWindow();
@@ -34,7 +36,7 @@ var viewManager = {
     setCenter(x, y) {
         view.centerX = Math.round(x);
         view.centerY = Math.round(y);
-        if(view.id) calcPan(); // Only pan if view is initialized
+        if(view.id) calcPan(); // Only pan if view is initialize
     },
     mouseMove(event) {
         view.cursorX = Math.floor(event.x / view.scale);

@@ -4,6 +4,8 @@ var EventEmitter = require('events').EventEmitter;
 var util = require('dz-util');
 global.dz = { events: new EventEmitter() }; // D-Zone globals
 
+var Discord = require('./discord/discord');
+
 var components = [
     require('com-transform'),
     require('com-sprite3d'),
@@ -37,8 +39,8 @@ if(window.innerWidth) onWindowReady();
 else window.addEventListener('resize', onWindowReady );
 function onWindowReady() {
     window.removeEventListener('resize', onWindowReady);
-    UIManager.init({ initialScale: 2, maxScale: 3 });
-    ViewManager.init({ id: 'main', initialScale: 2, maxScale: 4 });
+    UIManager.init({ maxScale: 3 });
+    ViewManager.init({ id: 'main', maxScale: 4 });
 }
 
 // Debug/Testing
