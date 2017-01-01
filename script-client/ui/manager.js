@@ -3,7 +3,6 @@ var InputManager = require('man-input');
 var ViewManager = require('man-view');
 var Canvas = require('canvas');
 var Screen = require('./elements/screen');
-var Button = require('./elements/button');
 
 /* TODO: Implement UI building like this:
 var testWindow = UIManager.addWindow()
@@ -25,23 +24,23 @@ var ui = {
     screens: []
 };
 
-InputManager.events.on('mouse-move', function (event) {
+function mouseEvent(eventType, event) {
     ui.cursorX = Math.floor(event.x / ui.scale);
     ui.cursorY = Math.floor(event.y / ui.scale);
+    var args = [ui.cursorX, ui.cursorY];
+    if(eventType === 'mouseWheel') args.push(event.direction);
+    else if(eventType === 'mouseMove') args.push(event.buttons);
+    else args.push(event.button);
     for(var s = 0; s < ui.screens.length; s++) {
-        ui.screens[s].mouseMove(ui.cursorX, ui.cursorY);
+        ui.screens[s].mouseEvent(eventType, args);
     }
-    ViewManager.mouseMove(event);
-});
-InputManager.events.on('mouse-down', function (event) {
-    ViewManager.mouseDown(event);
-});
-InputManager.events.on('mouse-up', function (event) {
-    ViewManager.mouseUp(event);
-});
-InputManager.events.on('mouse-wheel', function (event) {
-    ViewManager.mouseWheel(event);
-});
+    ViewManager[eventType](event);
+}
+
+InputManager.events.on('mouse-move', function (event) { mouseEvent('mouseMove', event); });
+InputManager.events.on('mouse-down', function (event) { mouseEvent('mouseDown', event); });
+InputManager.events.on('mouse-up', function (event) { mouseEvent('mouseUp', event); });
+InputManager.events.on('mouse-wheel', function (event) { mouseEvent('mouseWheel', event); });
 
 function draw() { // Draw internal UI canvas to HTML canvas, UI itself is only redrawn when it needs to be
     ui.internalCanvas.clear();
@@ -85,15 +84,17 @@ module.exports = {
         ui.maxScale = options.maxScale;
         ui.htmlCanvas.canvas.id = 'ui';
         ui.htmlCanvas.addToPage();
-        var windowSize = Math.min(window.innerWidth, window.innerHeight);
-        var scale = windowSize < 400 ? 1 : windowSize < 800 ? 2 : 3;
+        var scale = calcScale(window.innerWidth, window.innerHeight);
         ui.cursorX = Math.floor(window.innerWidth / 2 / scale);
         ui.cursorY = Math.floor(window.innerHeight / 2 / scale);
         ui.width = Math.ceil(window.innerWidth / scale);
         ui.height = Math.floor(window.innerHeight / scale);
-        addScreen().addElement(new Button(5, 5, 50, 20, 'button'));
         zoom(scale); // Initial zoom
-        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('resize', function() {
+            var newScale = calcScale(window.innerWidth, window.innerHeight);
+            if(newScale !== ui.scale) zoom(newScale);
+            else resizeCanvas();
+        });
     },
     mouseMove(x, y) {
 
@@ -107,5 +108,11 @@ module.exports = {
     mouseWheel(x, y, dir) {
 
     },
+    addScreen,
     htmlCanvas: ui.htmlCanvas
 };
+
+function calcScale(width, height) {
+    var size = Math.min(width, height);
+    return size < 400 ? 1 : size < 800 ? 2 : 3;
+}

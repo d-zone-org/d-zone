@@ -10,15 +10,21 @@ localforage.config({
 });
 
 var accounts;
-localforage.getItem('accounts', function(err, val) {
-    accounts = val;
-    login(accounts ? accounts[0].token : prompt('Please enter your token'));
-});
+
+module.exports = {
+    login() {
+        localforage.getItem('accounts', function(err, val) {
+            accounts = val;
+            login(accounts ? accounts[0].token : prompt('Please enter your token'));
+        });
+    }
+};
 
 function login(token) {
     bot = new Discord.Client({ token: token, autorun: true });
 
-    bot.on('ready', function(){
+    bot.on('ready', function() {
+        // This runs on every re-connect, so check if already initialized
         console.log(bot.username + " - (" + bot.id + ")");
         var accountInfo = {
             token,
@@ -43,11 +49,11 @@ function login(token) {
                 localforage.setItem('accounts', accounts);
             }
         }
+        bot.once('allUsers', function() {
+            // This is emitting 3 times on my account for some reason, so I use .once ; TODO: wait for izy's response
+            console.log('Total users:', Object.keys(bot.users).length);
+        });
         bot.getAllUsers(); // Gather all info to build server list
-    });
-
-    bot.on('allUsers', function() {
-        console.log(bot.servers);
     });
 
     bot.on('message', function(user, userID, channelID, message, event) {

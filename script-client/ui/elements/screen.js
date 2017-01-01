@@ -1,6 +1,7 @@
 'use strict';
 var inherits = require('inherits');
 var Element = require('./../element');
+var Button = require('./button');
 
 module.exports = Screen;
 inherits(Screen,Element);
@@ -15,10 +16,8 @@ Screen.prototype.drawSelf = function() {
     if(this.background) this.elementCanvas.fill(this.background);
 };
 
-Screen.prototype.mouseMove = function(x, y) {
-    for(var i = 0; i < this.childElements.length; i++) {
-        this.childElements[i].mouseMove(x, y);
-    }
+Screen.prototype.mouseEvent = function(eventType, args) {
+    this.toChildren(eventType, args);
     if(this.dirty) this.uiDraw();
     this.dirty = false;
 };
@@ -35,4 +34,8 @@ Screen.prototype.resize = function(width, height) {
     this.width = width;
     this.height = height;
     this.elementCanvas.setSize(width, height);
+};
+
+Screen.prototype.addButton = function(x, y, w, h, text, onClick) {
+    this.addElement(new Button(x, y, w, h, text, onClick));
 };

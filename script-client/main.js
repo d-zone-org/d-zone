@@ -1,10 +1,8 @@
 'use strict';
-console.log(`###### D-ZONE ${require('json!./../package.json').version} ######`);
+console.log(`###### D-ZONE ${require('json-loader!./../package.json').version} ######`);
 var EventEmitter = require('events').EventEmitter;
 var util = require('dz-util');
 global.dz = { events: new EventEmitter() }; // D-Zone globals
-
-var Discord = require('./discord/discord');
 
 var components = [
     require('com-transform'),
@@ -27,6 +25,7 @@ var SpriteManager = require('man-sprite');
 var UIManager = require('./ui/manager');
 var ViewManager = require('man-view');
 var WorldManager = require('./world/manager');
+var Discord = require('./discord/discord');
 
 // Initialize managers
 SpriteManager.init(['actors', 'environment', 'static-tiles', 'props', 'font']);
@@ -40,6 +39,9 @@ else window.addEventListener('resize', onWindowReady );
 function onWindowReady() {
     window.removeEventListener('resize', onWindowReady);
     UIManager.init({ maxScale: 3 });
+    UIManager.addScreen().addButton(5, 5, 50, 20, 'Log In', function() {
+        //Discord.login();
+    });
     ViewManager.init({ id: 'main', maxScale: 4 });
 }
 
