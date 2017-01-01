@@ -20,7 +20,7 @@ function Element(options) {
 Element.prototype.addElement = function(element) {
     element.parentElement = this;
     this.childElements.push(element);
-    if(this.uiDraw) this.uiDraw();
+    this.makeDirty();
     return element;
 };
 
@@ -38,10 +38,14 @@ Element.prototype.mouseMove = function(x, y, buttons) {
         && x < absPos.x + this.width + this.hoverMargin.right
         && y >= absPos.y - this.hoverMargin.top
         && y < absPos.y + this.height + this.hoverMargin.bottom;
-    if(this.hoverable && this.hover !== this.lastHover) this.makeDirty();
+    if(this.hoverable) {
+        if(this.hover !== this.lastHover) this.makeDirty();
+        if(this.hover) this.focusUI();
+    }
     if(this.hover && !this.lastHover) this.mouseIn(x, y, buttons);
     if(!this.hover && this.lastHover) this.mouseOut(x, y, buttons);
     this.lastHover = this.hover;
+    if(this.clicking) this.focusUI();
     this.toChildren('mouseMove', [x, y, buttons]);
 };
 
@@ -50,13 +54,17 @@ Element.prototype.mouseDown = function(x, y, button) {
         this.clicking = true;
         this.startClick(button);
         this.makeDirty();
+        this.focusUI();
     }
     this.toChildren('mouseDown', [x, y, button]);
 };
 
 Element.prototype.mouseUp = function(x, y, button) {
-    if(this.clicking && this.hover) this.click(button);
-    this.clicking = false;
+    if(this.clicking) {
+        this.makeDirty();
+        if(this.hover) this.click(button);
+        this.clicking = false;
+    }
     this.toChildren('mouseUp', [x, y, button]);
 };
 
@@ -82,6 +90,10 @@ Element.prototype.mouseOut = function(x, y, buttons) {
 
 Element.prototype.makeDirty = function() {
     this.parentElement.makeDirty();
+};
+
+Element.prototype.focusUI = function() {
+    this.parentElement.focusUI();
 };
 
 Element.prototype.getAbsolutePosition = function() { // Position on screen

@@ -2,6 +2,7 @@
 var inherits = require('inherits');
 var Element = require('./../element');
 var Styles = require('./../styles').button;
+var Text = require('./../text');
 
 module.exports = Button;
 inherits(Button,Element);

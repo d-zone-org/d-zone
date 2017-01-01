@@ -39,7 +39,7 @@ else window.addEventListener('resize', onWindowReady );
 function onWindowReady() {
     window.removeEventListener('resize', onWindowReady);
     UIManager.init({ maxScale: 3 });
-    UIManager.addScreen().addButton(5, 5, 50, 20, 'Log In', function() {
+    UIManager.addButton(UIManager.addScreen(), 5, 5, 50, 20, 'Log In', function() {
         //Discord.login();
     });
     ViewManager.init({ id: 'main', maxScale: 4 });

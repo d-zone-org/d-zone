@@ -3,6 +3,7 @@ var InputManager = require('man-input');
 var ViewManager = require('man-view');
 var Canvas = require('canvas');
 var Screen = require('./elements/screen');
+var Button = require('./elements/button');
 
 /* TODO: Implement UI building like this:
 var testWindow = UIManager.addWindow()
@@ -33,8 +34,15 @@ function mouseEvent(eventType, event) {
     else args.push(event.button);
     for(var s = 0; s < ui.screens.length; s++) {
         ui.screens[s].mouseEvent(eventType, args);
+        ui.dirty = ui.dirty || ui.screens[s].dirty;
+        ui.focus = ui.focus || ui.screens[s].focus;
+        ui.screens[s].dirty = false;
+        ui.screens[s].focus = false;
     }
-    ViewManager[eventType](event);
+    if(ui.dirty) draw();
+    if(!ui.focus) ViewManager[eventType](event);
+    ui.dirty = false;
+    ui.focus = false;
 }
 
 InputManager.events.on('mouse-move', function (event) { mouseEvent('mouseMove', event); });
@@ -74,9 +82,14 @@ function resizeCanvas() {
 }
 
 function addScreen() {
-    var screen = new Screen(draw);
+    var screen = new Screen();
     ui.screens.push(screen);
-    return screen;
+    return ui.screens.length - 1;
+}
+
+function addElement(screen, element, args) {
+    ui.screens[screen].addElement(new (element.bind.apply(element, args))());
+    draw();
 }
 
 module.exports = {
@@ -96,19 +109,10 @@ module.exports = {
             else resizeCanvas();
         });
     },
-    mouseMove(x, y) {
-
-    },
-    mouseDown(x, y, button) {
-
-    },
-    mouseUp(x, y, button) {
-
-    },
-    mouseWheel(x, y, dir) {
-
-    },
     addScreen,
+    addButton(screen, x, y, w, h, text, onClick) {
+        addElement(screen, Button, arguments);
+    },
     htmlCanvas: ui.htmlCanvas
 };
 

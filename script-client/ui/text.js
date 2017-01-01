@@ -3,7 +3,7 @@ var SpriteManager = require('man-sprite');
 var Canvas = require('canvas');
 
 const padX = 4, padY = 3;
-const CHARS = {
+const CHARMAP = {
     upper: { y: 0, height: 8, xSpacing: 1, chars: [
         ['A',5], ['B',5], ['C',5], ['D',5], ['E',4], ['F',4], ['G',5], ['H',5], ['I',3], ['J',5],
         ['K',5], ['L',4], ['M',5], ['N',5], ['O',5], ['P',5], ['Q',5], ['R',5], ['S',5], ['T',5],
@@ -35,21 +35,18 @@ const CHARS = {
     ] }
 };
 
-var fontMap = {};
+var chars = [], wArr = [], hArr = [], xArr = [], yArr = [], oyArr = [];
 
-/*
- TODO: Store each component in its own array
- Key is array of chars, used to get index for other arrays
- */
-
-for(var csKey in CHARS) {
-    if(!CHARS.hasOwnProperty(csKey)) continue;
-    var charSet = CHARS[csKey], 
-        cx = 0, cy = charSet.y;
+for(var csKey in CHARMAP) {
+    if(!CHARMAP.hasOwnProperty(csKey)) continue;
+    var charSet = CHARMAP[csKey], cx = 0;
     for(var c = 0; c < charSet.chars.length; c++) {
-        var char = charSet.chars[c][0], 
-            width = charSet.chars[c][1] + (charSet.xSpacing || 0);
-        fontMap[char] = { x: cx, y: cy, w: width, h: charSet.height, char: char, oy: charSet.oy };
-        cx += width;
+        chars.push(charSet.chars[c][0]);
+        wArr.push(charSet.chars[c][1] + (charSet.xSpacing || 0));
+        hArr.push(charSet.height);
+        xArr.push(cx);
+        yArr.push(charSet.y);
+        oyArr.push(charSet.oy || 0);
+        cx += wArr[wArr.length - 1];
     }
 }
