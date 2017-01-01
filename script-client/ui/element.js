@@ -20,6 +20,7 @@ function Element(options) {
 Element.prototype.addElement = function(element) {
     element.parentElement = this;
     this.childElements.push(element);
+    if(this.uiDraw) this.uiDraw();
     return element;
 };
 
@@ -48,6 +49,7 @@ Element.prototype.mouseDown = function(x, y, button) {
     if(this.hover && this.clickable) {
         this.clicking = true;
         this.startClick(button);
+        this.makeDirty();
     }
     this.toChildren('mouseDown', [x, y, button]);
 };
