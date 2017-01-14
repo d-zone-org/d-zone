@@ -23,7 +23,7 @@ Button.prototype.drawSelf = function() {
     this.elementCanvas.context.fillRect(1, 1, this.width - 2, this.height - 2);
     this.elementCanvas.context.fillStyle = style.text;
     this.elementCanvas.context.textAlign = 'center';
-    this.elementCanvas.context.fillText(this.text, Math.floor(this.width / 2), Math.floor(this.height / 2) + 3, this.width);
+    Text.blotText({ text: this.text, maxWidth: this.width, y: Math.floor(this.height / 2) - 4, canvas: this.elementCanvas, align: 'center' });
     this.elementCanvas.context.globalAlpha = 1;
 };
 
