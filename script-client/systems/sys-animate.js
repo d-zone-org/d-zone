@@ -41,10 +41,7 @@ animate.updateEntity = function(entity, sprite, animation) {
             sprite.sheetX = animation.sheetX + animation.frame * animation.frameW * animation.deltaX;
             sprite.sheetY = animation.sheetY + animation.frame * animation.frameH * animation.deltaY;
             var zDepthChange = animation.zDepthValues[animation.zDepthFrames.indexOf(animation.frame)];
-            if(zDepthChange) {
-                sprite.zDepth += zDepthChange;
-                RenderManager.refreshZBuffer();
-            }
+            if(zDepthChange) RenderManager.adjustZDepth(entity, sprite, zDepthChange);
             var offsetYChange = animation.offsetYValues[animation.offsetYFrames.indexOf(animation.frame)];
             if(offsetYChange) {
                 sprite.doy += offsetYChange;

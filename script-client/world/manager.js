@@ -16,6 +16,7 @@ var worldManager = {
     generateWorld(size) {
         transformData = ComponentManager.getComponentData([require('com-transform')])[0];
         world = WorldGeneration.generateMap(size);
+        require('man-render').setWorldSize(world.size);
         worldManager.world = world;
         EntityMap.init(world.size, world.size, 64);
         CollisionMap.init(world.size, world.size, 64, world.tiles);

@@ -105,6 +105,6 @@ Element.prototype.drawSelf = function() { }; // Virtual
 
 Element.prototype.toChildren = function(event, args) {
     for(var i = 0; i < this.childElements.length; i++) {
-        this.childElements[i][event].apply(this.childElements[i], args);
+        this.childElements[i][event](...args);
     }
 };

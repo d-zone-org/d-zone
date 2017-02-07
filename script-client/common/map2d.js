@@ -131,7 +131,7 @@ Map2D.prototype.print = function(/*type*/) {
             colorRow.push('background:white');
         }
         colorRow.unshift(tileRow);
-        console.log.apply(console, colorRow);
+        console.log(...colorRow);
     }
 };
 

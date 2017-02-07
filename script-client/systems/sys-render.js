@@ -54,11 +54,12 @@ function renderSprite(sprite) {
 
 render.onEntityAdded = function(entity) {
     RenderManager.updateTransform(entity);
-    RenderManager.refreshZBuffer();
 };
 
-render.onEntityRemoved = function() {
-    RenderManager.refreshZBuffer();
+render.onEntityRemoved = function(removedEntities) {
+    for(var i = 0; i < removedEntities.length; i++) {
+        RenderManager.removeSprite(removedEntities[i]);
+    }
 };
 
 render.setWorld = function(world) {

@@ -112,11 +112,12 @@ ComponentFamily.prototype.addEntity = function(entity, entityMask) {
 };
 
 ComponentFamily.prototype.afterUpdates = function() {
+    if(this.removeEntities.length === 0) return;
     for(var e = 0; e < this.removeEntities.length; e++) {
         util.removeFromArray(this.removeEntities[e], this.entities);
     }
-    this.removeEntities.length = 0;
     for(var s = 0; s < this.systems.length; s++) {
-        this.systems[s].onEntityRemoved(); // Notify system of removal
+        this.systems[s].onEntityRemoved(this.removeEntities); // Notify system of removal
     }
+    this.removeEntities.length = 0;
 };

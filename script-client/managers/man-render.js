@@ -1,90 +1,97 @@
 'use strict';
-var ComponentManager = require('man-component');
-var util = require('dz-util');
 
 var spriteData, transformData; // Reference to sprite and transform data
-var zBuffer; // Depth-sorted sprites
-var dirtyBuffer = false; // Indicates whether Z-buffer needs sorting
-var dirtySprites = []; // List of entities that had non-transformative sprite changes
-var dirtyTransforms = []; // List of entities that had transformative sprite changes
+var zBuffer = []; // Array of Z-depths, each containing depth-sorted sprites
+var flatZBuffer = []; // Flat list of depth-sorted sprites
+var entityZDepths = []; // Z-depths indexed by entity
+var dirtyBuffer; // Indicates whether Z-buffer needs rebuilding
+var minZDepth; // Lowest possible entity Z-depth
 
 module.exports = {
-    init() {
-        spriteData = ComponentManager.getComponentData([require('com-sprite3d')])[0];
-        transformData = ComponentManager.getComponentData([require('com-transform')])[0];
+    setComponentData(getComponentData) {
+        spriteData = getComponentData([require('com-sprite3d')])[0];
+        transformData = getComponentData([require('com-transform')])[0];
     },
-    refreshZBuffer() {
-        zBuffer = spriteData.slice(1); // Shallow copy (index 0 is empty)
-        dirtyBuffer = true;
+    setWorldSize(worldSize) {
+        minZDepth = worldSize * -2;
+        for(var i = 0; i < minZDepth * -2; i++) {
+            zBuffer.push([]);
+        }
     },
     getZDepth: getZDepth,
     getDrawX: getDrawX,
     getDrawY: getDrawY,
     getDrawXY: getDrawXY,
     getZBuffer() {
-        // Update entities with non-transformative sprite changes
-        for(var s = 0; s < dirtySprites.length; s++) {
-            updateSprite(dirtySprites[s]);
+        if(dirtyBuffer) {
+            flatZBuffer.length = 0;
+            for(var i = 0; i < zBuffer.length; i++) {
+                if(zBuffer[i].length) {
+                    flatZBuffer.push(...zBuffer[i]);
+                }
+            }
+            dirtyBuffer = false;
         }
-        dirtySprites = [];
-        // Update entities with transformative sprite changes
-        for(var t = 0; t < dirtyTransforms.length; t++) {
-            updateTransform(dirtyTransforms[t]);
-        }
-        dirtyTransforms = [];
-        dirtySprites.length = 0;
-        dirtyTransforms.length = 0;
-        if(dirtyBuffer) { // If sprites need to be re-sorted
-            util.removeEmptyIndexes(zBuffer); // Compress array
-            insertionSort(zBuffer, depthSort);
-            dirtyBuffer = false; // All sprites are sorted
-        }
-        return zBuffer;
+        return flatZBuffer;
     },
     updateSprite(entity) {
-        var transform = transformData[entity];
-        if(transform && transform.dirty) return; // Transform already dirty, no need to dirty sprite
-        if(spriteData[entity].dirty) return; // Sprite already marked dirty
-        dirtySprites.push(entity);
-        spriteData[entity].dirty = true;
+        var sprite = spriteData[entity];
+        if(!sprite) return;
+        sprite.fdx = sprite.dx + sprite.dox;
+        sprite.fdy = sprite.dy + sprite.doy;
     },
     updateTransform(entity) {
         var transform = transformData[entity];
-        if(!transform || transformData[entity].dirty) return; // Transform already marked dirty
-        dirtyTransforms.push(entity);
-        transformData[entity].dirty = true;
-    }
+        if(!transform) return;
+        var sprite = spriteData[entity];
+        if(!sprite) return;
+        var oldZDepth = sprite.zDepth;
+        var oldDY = sprite.dy;
+        sprite.dx = getDrawX(transform.x, transform.y);
+        sprite.dy = getDrawY(transform.x, transform.y, transform.z);
+        sprite.fdx = sprite.dx + sprite.dox;
+        sprite.fdy = sprite.dy + sprite.doy;
+        sprite.zDepth = getZDepth(transform.x, transform.y);
+        if(sprite.zDepth !== oldZDepth || sprite.dy !== oldDY) updateZBuffer(entity, sprite);
+    },
+    adjustZDepth(entity, sprite, delta) {
+        sprite.zDepth += delta;
+        updateZBuffer(entity, sprite);
+    },
+    removeSprite
 };
 
-function updateSprite(entity) {
-    var sprite = spriteData[entity];
-    if(!sprite) return;
-    sprite.dirty = false;
-    sprite.fdx = sprite.dx + sprite.dox;
-    sprite.fdy = sprite.dy + sprite.doy;
+function updateZBuffer(entity, sprite) {
+    dirtyBuffer = true;
+    sprite.entity = entity;
+    if(entityZDepths[entity]) removeSprite(entity);
+    entityZDepths[entity] = sprite.zDepth;
+    var zBufferDepth = zBuffer[sprite.zDepth];
+    var spriteAdded = false;
+    for(var i = 0; i < zBufferDepth.length; i++) {
+        if(sprite.dy >= zBufferDepth[i].dy) {
+            zBufferDepth.splice(i, 0, sprite);
+            spriteAdded = true;
+            break;
+        }
+    }
+    if(!spriteAdded) zBufferDepth.push(sprite);
 }
 
-function updateTransform(entity) {
-    var transform = transformData[entity];
-    if(!transform) return;
-    var sprite = spriteData[entity];
-    transform.dirty = false;
-    var oldZDepth = sprite.zDepth;
-    sprite.dx = getDrawX(transform.x, transform.y);
-    sprite.dy = getDrawY(transform.x, transform.y, transform.z);
-    sprite.fdx = sprite.dx + sprite.dox;
-    sprite.fdy = sprite.dy + sprite.doy;
-    sprite.zDepth = getZDepth(transform.x, transform.y);
-    if(oldZDepth !== sprite.zDepth) dirtyBuffer = true;
-    
-}
-
-function depthSort(a, b) {
-    return a.zDepth - b.zDepth || b.dy - a.dy;
+function removeSprite(entity) {
+    var oldZBufferDepth = zBuffer[entityZDepths[entity]];
+    for(var i = 0; i < oldZBufferDepth.length; i++) {
+        if(oldZBufferDepth[i].entity === entity) {
+            oldZBufferDepth.splice(i, 1);
+            break;
+        }
+    }
+    entityZDepths[entity] = undefined;
+    dirtyBuffer = true;
 }
 
 function getZDepth(x, y) {
-    return (x + y) * 2;
+    return (x + y) * 2 - minZDepth;
 }
 
 function getDrawX(x, y) {
@@ -97,21 +104,4 @@ function getDrawY(x, y, z) {
 
 function getDrawXY(x, y, z) {
     return [getDrawX(x, y), getDrawY(x, y, z)];
-}
-
-// Faster sorting for nearly-sorted arrays (like the z-buffer) - https://jsperf.com/smv-insertion-sort/2
-function insertionSort(array, comp) {
-    var n = array.length,
-        tmp, i, j;
-    for (i = 1; i < n; ++i) {
-        tmp = array[i];
-        if (comp(array[i - 1], tmp) > 0) {
-            j = i;
-            do {
-                array[j] = array[j - 1];
-                --j;
-            } while (j > 0 && comp(array[j - 1], tmp) > 0);
-            array[j] = tmp;
-        }
-    }
 }

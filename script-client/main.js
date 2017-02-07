@@ -31,8 +31,8 @@ var Discord = require('./discord/discord');
 SpriteManager.init(['actors', 'environment', 'static-tiles', 'props', 'font']);
 GameManager.init(systems);
 ComponentManager.init(components, systems);
-RenderManager.init();
-WorldManager.generateWorld(20);
+RenderManager.setComponentData(ComponentManager.getComponentData);
+WorldManager.generateWorld(50);
 
 if(window.innerWidth) onWindowReady();
 else window.addEventListener('resize', onWindowReady );

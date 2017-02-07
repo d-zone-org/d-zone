@@ -1,5 +1,4 @@
 'use strict';
-var util = require('dz-util');
 
 module.exports = System;
 
@@ -20,7 +19,7 @@ System.prototype.update = function() {
         for(c = 0; c < this.components.length; c++) {
             dataArgs.push(this.componentData[c][entity]);
         }
-        this.updateEntity.apply(this, dataArgs);
+        this.updateEntity(...dataArgs);
     }
 };
 
