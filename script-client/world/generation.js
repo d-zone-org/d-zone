@@ -22,7 +22,8 @@ function generateTileMap(size) {
     var noiseSmall = geometry.buildNoiseMap(worldRadius / 1.5 + 1, worldRadius / 1.5 + 1);
     var bigBlur = (noiseBig.width - 1) / worldSize;
     var smallBlur = (noiseSmall.width - 1) / worldSize;
-    var tileValues = []; // Store tile likelihood values to determine median
+    var tileValues = []; // Store tile likelihood values
+    var tileValueSamples = []; // For faster sorting when determining median
     
     for(var tx = 0; tx < worldSize; tx++) for(var ty = 0; ty < worldSize; ty++) {
         var bigNoiseValue = geometry.getNoiseMapPoint(noiseBig, tx * bigBlur, ty * bigBlur);
@@ -31,10 +32,11 @@ function generateTileMap(size) {
         var cx = Math.abs(tx - worldRadius),
             cy = Math.abs(ty - worldRadius);
         var nearness = (worldRadius - Math.max(cx, cy)) / worldRadius;
-        tileValues.push(noiseValue / 256 - nearness); // Tile likelihood
+        var tileLikelihood = noiseValue - nearness;
+        tileValues.push(tileLikelihood);
+        if(!(tx % 5 && ty % 5)) tileValueSamples.push(tileLikelihood);
     }
-    var sortedTileValues = tileValues.slice(0).sort();
-    var median = sortedTileValues[tileValues.length / 2]; // Median of likelihood
+    var median = tileValueSamples.sort()[tileValueSamples.length / 2]; // Median of likelihood
     for(var ft = 0; ft < tileValues.length; ft++) {
         if(tileValues[ft] < median) { // 50% of the map will be tiles (before island removal)
             tileMap.setIndex(ft, TILES.GRASS);

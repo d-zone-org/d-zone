@@ -24,12 +24,12 @@ module.exports = {
         return wrap >= 0 ? min + wrap : max + 1 + wrap;
     },
     fractionalArrayIndex: function(arr, index) {
-        var floorX = Math.floor(index);
-        var lower = arr[floorX];
-        if(floorX == index) return lower;
+        var floorIndex = Math.floor(index);
+        var lower = arr[floorIndex];
+        if(floorIndex == index) return lower;
         var upper = arr[Math.ceil(index)];
         var fraction = index - Math.floor(index);
-        return (lower + ((upper - lower) * fraction)); 
+        return lower + ((upper - lower) * fraction); 
     },
     getURLParameter: function(name) {
         return decodeURIComponent(

@@ -43,24 +43,22 @@ module.exports = {
     buildNoiseMap(width, height) {
         width = Math.round(width);
         height = Math.round(height);
-        var map = new Map2D(Uint8Array, width, height);
+        var map = new Map2D(Array, width, height);
         for(var g = 0; g < width * height; g++) {
-            map.setIndex(g, util.random(255));
+            map.setIndex(g, Math.random());
         }
         return map;
     },
     getNoiseMapPoint(map, x, y) {
-        //console.log('getNoiseMapPoint:',x,y);
         var floorX = Math.floor(x);
         var lowerXArray = map.getColumn(floorX);
-        //console.log(lowerXArray);
-        if(floorX == x) return Math.round(util.fractionalArrayIndex(lowerXArray, y));
+        if(floorX == x) return util.fractionalArrayIndex(lowerXArray, y);
         var ceilX = Math.ceil(x);
         var upperXArray = map.getColumn(ceilX);
         var floorY = Math.floor(y);
-        if(floorY == y) return Math.round(util.fractionalArrayIndex([lowerXArray[floorY], upperXArray[floorY]], x - floorX));
+        if(floorY == y) return util.fractionalArrayIndex([lowerXArray[floorY], upperXArray[floorY]], x - floorX);
         var lowerXY = util.fractionalArrayIndex(lowerXArray, y);
         var upperXY = util.fractionalArrayIndex(upperXArray, y);
-        return Math.round(util.fractionalArrayIndex([lowerXY,upperXY], x - floorX));
+        return util.fractionalArrayIndex([lowerXY,upperXY], x - floorX);
     }
 };
