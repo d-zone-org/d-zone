@@ -32,7 +32,9 @@ SpriteManager.init(['actors', 'environment', 'static-tiles', 'props', 'font']);
 GameManager.init(systems);
 ComponentManager.init(components, systems);
 RenderManager.setComponentData(ComponentManager.getComponentData);
-WorldManager.generateWorld(50);
+WorldManager.generateWorld(30);
+
+// TODO: Consider using a chunk system, like minecraft, at least for world BG image
 
 if(window.innerWidth) onWindowReady();
 else window.addEventListener('resize', onWindowReady );

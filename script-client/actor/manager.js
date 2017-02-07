@@ -4,7 +4,6 @@ var Geometry = require('geometry');
 var EntityManager = require('man-entity');
 var SpriteManager = require('man-sprite');
 var WorldManager = require('world/manager');
-var RenderManager = require('man-render');
 var actorConfig = require('./config');
 
 var ACTOR = require('./components/actor');
@@ -12,7 +11,8 @@ var SPRITE3D = require('com-sprite3d');
 var TRANSFORM = require('com-transform');
 var MOVEMENT = require('./components/movement');
 
-var placedIndexes = [WorldManager.world.tiles.indexFromXY(WorldManager.world.radius, WorldManager.world.radius)];
+var freeMapIndexes = WorldManager.world.tiles.getTiles([2,3], [WorldManager.world.tiles.indexFromXY(WorldManager.world.radius, WorldManager.world.radius)]);
+var currentFreeMapIndexes = freeMapIndexes.slice(0);
 var placeZ = 0;
 
 module.exports = {
@@ -23,14 +23,9 @@ module.exports = {
         if(params.y) transform.y = params.y;
         if(params.z) transform.z = params.z;
         if(isNaN(transform.x) && isNaN(transform.y) && isNaN(transform.z)) {
-            var random = WorldManager.world.tiles.getRandomTile([2,3], placedIndexes);
-            if(!random) {
-                placeZ++;
-                placedIndexes = placedIndexes.slice(0,1);
-                random = WorldManager.world.tiles.getRandomTile([2,3], placedIndexes);
-            }
-            transform.x = WorldManager.unCenter(random.xy.x);
-            transform.y = WorldManager.unCenter(random.xy.y);
+            var randomTile = getRandomFreeTile();
+            transform.x = WorldManager.unCenter(randomTile.xy.x);
+            transform.y = WorldManager.unCenter(randomTile.xy.y);
             transform.z = placeZ;
         }
         var sprite = actorConfig().sprites.idle[util.pickInObject(Geometry.DIRECTIONS)]; // Face random direction
@@ -48,7 +43,11 @@ module.exports = {
         ];
         var e = EntityManager.addEntity(data);
         transform = WorldManager.addEntity(e);
-        placedIndexes.push(transform.mapIndex % WorldManager.world.tiles.area);
+        util.removeFromArray(transform.mapIndex % WorldManager.world.tiles.area, currentFreeMapIndexes);
+        if(!currentFreeMapIndexes.length) {
+            placeZ++;
+            currentFreeMapIndexes = freeMapIndexes.slice(0);
+        }
         return e;
     },
     hop(entity, direction) {
@@ -56,3 +55,10 @@ module.exports = {
         EntityManager.addComponent(entity, MOVEMENT, { direction: direction });
     }
 };
+
+function getRandomFreeTile() {
+    var picked = { index: util.pickInArray(currentFreeMapIndexes) };
+    picked.value = WorldManager.world.tiles.getIndex(picked.index);
+    picked.xy = WorldManager.world.tiles.XYFromIndex(picked.index);
+    return picked;
+}

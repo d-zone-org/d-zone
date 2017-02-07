@@ -90,11 +90,14 @@ function crawlMap(map) {
 
 function createFlowerPatches(map) {
     var numPatches = Math.ceil(Math.pow(map.radius, 2) / 80 * config().flowerPatchesFactor);
+    var validTiles = map.tiles.getTiles([TILES.GRASS]);
     for(var fp = 0; fp < numPatches; fp++) {
         var attempt = 0, limit = Math.pow(map.radius, 2);
         do {
             var valid = false;
-            var tile = map.tiles.getRandomTile([TILES.GRASS]);
+            var tile = { index: util.pickInArray(validTiles) };
+            tile.value = map.tiles.getIndex(tile.index);
+            tile.xy = map.tiles.XYFromIndex(tile.index);
             if(!tile) { // No valid tiles left to grow flowers
                 attempt = limit;
                 break;
@@ -108,6 +111,8 @@ function createFlowerPatches(map) {
         for(var s = 0; s < spread; s++) {
             var spreadX = tile.xy.x + util.random(-1, 1),
                 spreadY = tile.xy.y + util.random(-1, 1);
+            var spreadIndex = map.tiles.indexFromXY(spreadX, spreadY);
+            util.removeFromArray(spreadIndex, validTiles);
             if(map.tiles.getXY(spreadX, spreadY) === TILES.FLOWERS) continue;
             if(map.tiles.checkNeighborsExtended(spreadX, spreadY, [TILES.GRASS, TILES.FLOWERS])) {
                 map.tiles.setXY(spreadX, spreadY, TILES.FLOWERS);

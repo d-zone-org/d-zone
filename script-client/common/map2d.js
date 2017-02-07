@@ -73,7 +73,16 @@ Map2D.prototype.forEachNeighborExtended = function(x, y, cb) {
     this.iterateRelativeTileList(x, y, neighborsExtended, cb);
 };
 
-Map2D.prototype.getRandomTile = function(values, notIndexes) {
+Map2D.prototype.getTiles = function(values, notIndexes) {
+    notIndexes = notIndexes || [];
+    var indexPool = [];
+    for(var i = 0; i < this.dataArray.length; i++) {
+        if(!notIndexes.includes(i) && (!values || values.includes(this.dataArray[i]))) indexPool.push(i)
+    }
+    return indexPool;
+};
+
+Map2D.prototype.getRandomTile = function(values, notIndexes) { // Avoid using, make a cache with getTiles
     notIndexes = notIndexes || [];
     var picked = { index: util.random(this.dataArray.length - 1) };
     picked.value = this.dataArray[picked.index];
@@ -81,12 +90,7 @@ Map2D.prototype.getRandomTile = function(values, notIndexes) {
     if((!values || values.includes(picked.value)) && !notIndexes.includes(picked.index)) {
         return picked;
     }
-    var indexPool = [];
-    if(values || notIndexes.length > 0) {
-        for(var i = 0; i < this.dataArray.length; i++) {
-            if(!notIndexes.includes(i) && (!values || values.includes(this.dataArray[i]))) indexPool.push(i)
-        }
-    }
+    var indexPool = this.getTiles(values, notIndexes);
     if(indexPool.length > 0) {
         picked.index = util.pickInArray(indexPool);
         picked.value = this.dataArray[picked.index];
