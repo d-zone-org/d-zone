@@ -118,5 +118,5 @@ module.exports = {
 
 function calcScale(width, height) {
     var size = Math.min(width, height);
-    return size < 400 ? 1 : size < 800 ? 2 : 3;
+    return size < 400 ? 1 : size < 1000 ? 2 : 3;
 }

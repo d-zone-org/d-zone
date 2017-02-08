@@ -57,25 +57,25 @@ module.exports = new configLoader({
                 zDepthFrames: [6,9]
             },
             north: {
-                sheetY: 27,
+                sheetY: 54,
                 offsetX: -9,
                 offsetY: -15,
                 zDepthValues: [-1,0]
             },
             west: {
-                sheetY: 54,
+                sheetY: 81,
                 offsetX: -26,
                 offsetY: -15,
                 zDepthValues: [-1,0]
             },
             south: {
-                sheetY: 81,
+                sheetY: 0,
                 offsetX: -26,
                 offsetY: -6,
                 zDepthValues: [1,1]
             },
             east: {
-                sheetY: 0,
+                sheetY: 27,
                 offsetX: -9,
                 offsetY: -6,
                 zDepthValues: [1,1]
