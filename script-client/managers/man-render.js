@@ -12,7 +12,7 @@ module.exports = {
         spriteData = getComponentData([require('com-sprite3d')])[0];
         transformData = getComponentData([require('com-transform')])[0];
     },
-    setWorldSize(worldSize) {
+    setWorldSize(worldSize) { // World size determines range of Z-depths
         minZDepth = worldSize * -2;
         for(var i = 0; i < minZDepth * -2; i++) {
             zBuffer.push([]);
