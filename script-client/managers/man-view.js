@@ -7,7 +7,8 @@ var view = {
     width: 1, height: 1, // In game pixels
     cursorX: 0, cursorY: 0, // In game pixels
     centerX: 0, centerY: 0, // World image coords in the center of the window
-    panX: 0, panY: 0 // Offset of world image in view
+    panX: 0, panY: 0, // Offset of world image in view
+    events: new (require('events').EventEmitter)()
 };
 
 var panFrom = false;
@@ -25,7 +26,7 @@ var viewManager = {
         view.width = Math.ceil(window.innerWidth / scale);
         view.height = Math.floor(window.innerHeight / scale);
         zoom(scale, true); // Initial zoom
-        require('sys-render').onViewReady();
+        view.events.emit('ready');
         window.addEventListener('resize', function() {
             fitWindow();
             resizeCanvas();
@@ -36,7 +37,7 @@ var viewManager = {
     setCenter(x, y) {
         view.centerX = Math.round(x);
         view.centerY = Math.round(y);
-        if(view.id) calcPan(); // Only pan if view is initialize
+        if(view.id) calcPan(); // Only pan if view is initialized
     },
     mouseMove(event) {
         view.cursorX = Math.floor(event.x / view.scale);
@@ -65,6 +66,7 @@ function panMove() {
 function calcPan() {
     view.panX = Math.round(view.centerX - view.width / 2);
     view.panY = Math.round(view.centerY - view.height / 2);
+    view.events.emit('view-change');
 }
 
 function zoom(newScale, init) {

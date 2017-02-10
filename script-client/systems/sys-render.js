@@ -1,4 +1,5 @@
 'use strict';
+var util = require('dz-util');
 var System = require('system');
 var RenderManager = require('man-render');
 var SpriteManager = require('man-sprite');
@@ -11,9 +12,10 @@ var render = new System([
     require('com-sprite3d')
 ]);
 var zBuffer, currentFrame;
-var spriteSheets, backgroundColor = '#1d171f', bgImage, wox, woy;
+var spriteSheets, backgroundColor = '#1d171f', wox, woy;
+var bgSegments, bgSegmentWidth, bgSegmentHeight;
 
-render.onViewReady = function() {
+view.events.once('ready', function() {
     render.update = function() { // Overrides update method to wait for browser animation frame
         // Insert loading screen here
     };
@@ -21,7 +23,7 @@ render.onViewReady = function() {
         spriteSheets = SpriteManager.sheets;
         render.update = update; // Change update method to start drawing game
     });
-};
+});
 
 function update() { // Real update method once sprites are loaded
     zBuffer = RenderManager.getZBuffer();
@@ -39,13 +41,20 @@ function onFrameReady() {
     if(ViewManager.onFrameReady) ViewManager.onFrameReady(); // If view manager is waiting on a new frame
     view.canvas.fill(backgroundColor);
     // Make separate bg canvas?
-    if(bgImage) view.canvas.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height, -view.panX, -view.panY);
+    if(bgSegments) for(var sx = 0; sx < bgSegments.length; sx++) {
+        for(var sy = 0; sy < bgSegments[sx].length; sy++) {
+            if(!bgSegments[sx][sy]) continue;
+            view.canvas.drawImage(bgSegments[sx][sy], 0, 0, bgSegmentWidth, bgSegmentHeight,
+                sx * bgSegmentWidth - util.clampWrap(view.panX, 0, bgSegmentWidth),
+                sy * bgSegmentHeight - util.clampWrap(view.panY, 0, bgSegmentHeight));
+        }
+    }
     for(var s = 0; s < zBuffer.length; s++) {
         renderSprite(zBuffer[s]);
     }
     // renderTime += performance.now() - renderStart;
-    // if(frameCount == 500) { frameCount = 0; console.log(renderTime/500); renderTime = 0; }
-    //previousFrame = currentFrame;
+    // if(frameCount == 500) { frameCount = 0; console.log('avg frame render time',renderTime/500); renderTime = 0; }
+    // previousFrame = currentFrame;
 }
 
 function renderSprite(sprite) {
@@ -62,10 +71,15 @@ render.onEntityRemoved = function(removedEntities) {
     }
 };
 
+render.setBGSegments = function(segments) {
+    bgSegments = segments;
+};
+
 render.setWorld = function(world) {
-    bgImage = world.image;
     wox = world.imageCenter.x;
     woy = world.imageCenter.y;
+    bgSegmentWidth = world.segmentImageSize.w;
+    bgSegmentHeight = world.segmentImageSize.h;
     ViewManager.setCenter(wox, woy + 8);
 };
 

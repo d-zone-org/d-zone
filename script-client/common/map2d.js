@@ -5,8 +5,8 @@ module.exports = Map2D;
 
 function Map2D(arrayType, width, height, buffer) {
     this.width = width;
-    this.height = height;
-    this.area = width * height;
+    this.height = height || width;
+    this.area = this.width * this.height;
     this.dataArray = buffer ? new arrayType(buffer) : new arrayType(this.area);
     this.buffer = this.dataArray.buffer;
 }
@@ -29,13 +29,22 @@ Map2D.prototype.getXY = function(x, y) {
 };
 
 Map2D.prototype.getColumn = function(x) {
-    return this.dataArray.slice(x * this.height, x * this.height + this.width);
+    return this.dataArray.slice(x * this.height, x * this.height + this.height);
 };
 
 Map2D.prototype.getRow = function(y) {
     var row = [];
     for(var i = y; i < this.area; i += this.height) row.push(this.dataArray[i]);
     return row;
+};
+
+Map2D.prototype.getBox = function(x, y, w, h) {
+    var values = [];
+    for(var ix = x; ix < x + w; ix++) {
+        var column = this.getColumn(ix);
+        values.push(...column.slice(y, y + h));
+    }
+    return values;
 };
 
 Map2D.prototype.XYFromIndex = function(index) {
@@ -117,8 +126,8 @@ Map2D.prototype.getBoundingBox = function() {
     }
 };
 
-Map2D.prototype.print = function(/*type*/) {
-    console.log('Printing ' + (arguments[0] || '') + ' map', this.width, 'x', this.height);
+Map2D.prototype.print = function(type) {
+    console.log('Printing ' + (type || 'value') + ' map', this.width, 'x', this.height);
     var tileRow, colorRow;
     for(var y = -1; y < this.height; y++) {
         tileRow = y >= 0 ? ('   ' + y).slice(-3) + ' ' : '   ';
@@ -128,10 +137,11 @@ Map2D.prototype.print = function(/*type*/) {
                 tileRow += ('   ' + x).slice(-3);
                 continue;
             }
-            var tileValue = this.getXY(x, y);
+            var value = this.getXY(x, y);
             var emptyTile = x % 2 || y % 2 ? '[]' : '  ';
-            tileRow += tileValue ? '%c  %c ' : '%c' + emptyTile + '%c ';
-            colorRow.push('color: #ddd; background:rgb(' + getTileColor(arguments[0], tileValue) + ')');
+            var valueTile = type === 'numeric' ? ('  ' + value.toString(16).toUpperCase()).slice(-2) : '  ';
+            tileRow += value ? `%c${valueTile}%c ` : '%c' + emptyTile + '%c ';
+            colorRow.push(`color: #${value ? '000' : 'ddd'}; background:rgb(${getTileColor(type, value)}`);
             colorRow.push('background:white');
         }
         colorRow.unshift(tileRow);

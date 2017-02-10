@@ -11,6 +11,9 @@ localforage.config({
 
 var accounts;
 
+// TODO: Make D-Zone a public bot that people can invite to their server, and they can view their server's D-Zone with a special URL hash
+// At this point, look into a VPS to host it
+
 module.exports = {
     login() {
         localforage.getItem('accounts', function(err, val) {

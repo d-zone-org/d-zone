@@ -17,14 +17,17 @@ var crashed = false;
 
 var systems, s;
 
+// var updateTime = 0, tickCount = 0;
+
 function updateSystems() {
-    //var timeThis = (ticks & 255) == 0;
-    //if(timeThis) console.time('update');
+    // tickCount++;
+    // var updateStart = performance.now();
     for(s = 0; s < systems.length; s++) {
         systems[s].update();
     }
     EntityManager.afterUpdates();
-    //if(timeThis) console.timeEnd('update');
+    // updateTime += performance.now() - updateStart;
+    // if(tickCount == 500) { tickCount = 0; console.log('avg tick update time',updateTime/500); updateTime = 0; }
 }
 
 function interval() {

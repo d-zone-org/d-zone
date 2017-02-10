@@ -6,7 +6,6 @@ var EntityMap = require('./entitymap');
 var CollisionMap = require('./collisionmap');
 var EntityManager = require('man-entity');
 var ComponentManager = require('man-component');
-var SpriteManager = require('man-sprite');
 var worldConfig = require('./config');
 var PathManager = require('./path/pathmanager');
 
@@ -25,10 +24,7 @@ var worldManager = {
             [require('com-transform'), { platform: false }],
             [require('com-sprite3d'), worldConfig().beacon]
         ]));
-        SpriteManager.waitForLoaded(function() {
-            WorldGraphics.drawWorld(world, SpriteManager.sheets);
-            require('sys-render').setWorld(world);
-        });
+        WorldGraphics.createSegments(world);
     },
     addEntity: addEntity,
     removeEntity: removeEntity,

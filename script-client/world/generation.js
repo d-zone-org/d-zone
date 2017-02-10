@@ -12,11 +12,11 @@ const TILES = {
 };
 
 function generateTileMap(size) {
-    // World size must be an even number between 10 and 1024
-    var worldSize = Math.max(10, Math.min(1024, Math.floor(size * config().worldSizeFactor / 2) * 2)); 
+    // World size must be an even number between 10 and 2048
+    var worldSize = Math.max(10, Math.min(2048, Math.floor(size * config().sizeFactor / 2) * 2)); 
     var worldRadius = Math.floor(worldSize / 2);
     // Tile data is stored in a flattened, 2D, 8-bit unsigned integer array
-    var tileMap = new Map2D(Uint8Array, worldSize, worldSize);
+    var tileMap = new Map2D(Uint8Array, worldSize);
     
     var noiseBig = geometry.buildNoiseMap(worldRadius / 3 + 1, worldRadius / 3 + 1);
     var noiseSmall = geometry.buildNoiseMap(worldRadius / 1.5 + 1, worldRadius / 1.5 + 1);
@@ -36,7 +36,7 @@ function generateTileMap(size) {
         tileValues.push(tileLikelihood);
         if(!(tx % 5 && ty % 5)) tileValueSamples.push(tileLikelihood);
     }
-    var median = tileValueSamples.sort()[tileValueSamples.length / 2]; // Median of likelihood
+    var median = tileValueSamples.sort()[Math.floor(tileValueSamples.length * config().density)];
     for(var ft = 0; ft < tileValues.length; ft++) {
         if(tileValues[ft] < median) { // 50% of the map will be tiles (before island removal)
             tileMap.setIndex(ft, TILES.GRASS);

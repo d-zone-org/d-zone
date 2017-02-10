@@ -3,7 +3,8 @@
 var configLoader = require('configloader');
 
 module.exports = new configLoader({
-    worldSizeFactor: 1,
+    sizeFactor: 1,
+    density: 0.5,
     removeIslands: true,
     flowerPatchesFactor: 1,
     beacon: {

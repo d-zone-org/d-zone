@@ -48,8 +48,8 @@ module.exports = {
     right(text, length) { return text.substring(text.length-length,text.length); },
     clamp(val, min, max) { return Math.min(max,Math.max(min,val)); },
     clampWrap(val, min, max) { // Clamp to range by wrapping value
-        var wrap = (val-min) % (max+1-min);
-        return wrap >= 0 ? min + wrap : max + 1 + wrap;
+        var wrap = (val-min) % (max-min);
+        return wrap >= 0 ? min + wrap : max + wrap;
     },
     fractionalArrayIndex(arr, index) {
         var floorX = Math.floor(index);

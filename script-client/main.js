@@ -34,7 +34,7 @@ ComponentManager.init(components, systems);
 RenderManager.setComponentData(ComponentManager.getComponentData);
 WorldManager.generateWorld(30);
 
-// TODO: Consider using a chunk system, like minecraft, at least for world BG image
+// TODO: Consider using a chunk system, like minecraft
 
 if(window.innerWidth) onWindowReady();
 else window.addEventListener('resize', onWindowReady );
