@@ -80,7 +80,7 @@ render.setWorld = function(world) {
     woy = world.imageCenter.y;
     bgSegmentWidth = world.segmentImageSize.w;
     bgSegmentHeight = world.segmentImageSize.h;
-    ViewManager.setCenter(wox, woy + 8);
+    ViewManager.setOrigin(wox, woy + 8);
 };
 
 module.exports = render;

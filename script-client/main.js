@@ -47,6 +47,7 @@ function onWindowReady() {
         });
     });
     ViewManager.init({ id: 'main', maxScale: 4 });
+    require('sys-render').setWorld(WorldManager.world);
 }
 
 // Debug/Testing

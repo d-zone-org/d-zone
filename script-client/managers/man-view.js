@@ -34,10 +34,12 @@ var viewManager = {
     },
     view: view,
     onFrameReady: false,
-    setCenter(x, y) {
-        view.centerX = Math.round(x);
-        view.centerY = Math.round(y);
-        if(view.id) calcPan(); // Only pan if view is initialized
+    setOrigin(x, y) {
+        view.originX = Math.round(x);
+        view.originY = Math.round(y);
+        view.centerX = view.originX;
+        view.centerY = view.originY;
+        calcPan();
     },
     mouseMove(event) {
         view.cursorX = Math.floor(event.x / view.scale);
@@ -64,6 +66,8 @@ function panMove() {
 }
 
 function calcPan() {
+    view.centerX = Math.max(-view.width / 2, Math.min(view.originX * 2 + view.width / 2, view.centerX));
+    view.centerY = Math.max(-view.height / 2, Math.min(view.originY * 2 + view.height / 2, view.centerY));
     view.panX = Math.round(view.centerX - view.width / 2);
     view.panY = Math.round(view.centerY - view.height / 2);
     view.events.emit('view-change');

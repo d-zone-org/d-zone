@@ -97,10 +97,9 @@ module.exports = {
         }}
         world.segmentImageSize = { w: segmentImageWidth, h: segmentImageHeight };
         world.imageCenter = {
-            x: world.size * tileHeight/* + tileHeight*/,
-            y: world.size * halfTileHeight/* + halfTileHeight*/
+            x: world.size * tileHeight,
+            y: world.size * halfTileHeight
         };
-        RenderSystem.setWorld(world);
         SpriteManager.waitForLoaded(function() {
             tileSheet = SpriteManager.sheets['static-tiles'];
             onViewChange();
