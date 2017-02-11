@@ -119,8 +119,9 @@ Map2D.prototype.checkNeighborsExtended = function(x, y, validTypes) {
     return valid;
 };
 
-Map2D.prototype.traverseSpiral = function(x, y, cb) {
-    // Travel in an outward spiral and send to callback, break on return value and return coordinates
+Map2D.prototype.traverseSquareSpiral = function(x, y, cb) {
+    // Travel in an outward square spiral and send to callback, break on return value and return coordinates
+    if(cb(this.getXY(x, y))) return { x, y };
     var lastXDist = 0, lastYDist = 0,
         tx = 0, ty = 0, dir = 1, finished;
     while(!finished) {
@@ -138,6 +139,31 @@ Map2D.prototype.traverseSpiral = function(x, y, cb) {
         } else { // Traverse Y
             y += dir;
             ty++;
+        }
+        finished = cb(this.getXY(x, y));
+    }
+    return { x, y };
+};
+
+Map2D.prototype.traverseSpiral = function(x, y, cb) {
+    // Travel in an outward spiral and send to callback, break on return value and return coordinates
+    if(cb(this.getXY(x, y))) return { x, y };
+    var oy = y, dist = -1, targetDist = 0, dir = 3, finished;
+    x--;
+    while(!finished) {
+        x += dir > 1 ? 1 : -1;
+        y += dir % 3 ? -1 : 1;
+        if(dir === 3 && dist === targetDist - 1) {
+            x++;
+            y = oy;
+        }
+        dist++;
+        if(dist === targetDist) {
+            dist = 0;
+            if(dir === 3) {
+                targetDist++;
+            }
+            dir = ++dir % 4;
         }
         finished = cb(this.getXY(x, y));
     }
