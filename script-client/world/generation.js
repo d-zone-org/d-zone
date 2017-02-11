@@ -32,13 +32,13 @@ function generateTileMap(size) {
         var cx = Math.abs(tx - worldRadius),
             cy = Math.abs(ty - worldRadius);
         var nearness = (worldRadius - Math.max(cx, cy)) / worldRadius;
-        var tileLikelihood = noiseValue - nearness;
+        var tileLikelihood = noiseValue - nearness * config().centeredness;
         tileValues.push(tileLikelihood);
-        if(!(tx % 5 && ty % 5)) tileValueSamples.push(tileLikelihood);
+        if(!(tx % 4 && ty % 4)) tileValueSamples.push(tileLikelihood);
     }
-    var median = tileValueSamples.sort()[Math.floor(tileValueSamples.length * config().density)];
+    var median = tileValueSamples.sort()[Math.ceil(tileValueSamples.length * config().density) - 1];
     for(var ft = 0; ft < tileValues.length; ft++) {
-        if(tileValues[ft] < median) { // 50% of the map will be tiles (before island removal)
+        if(tileValues[ft] <= median) { // 50% of the map will be tiles (before island removal)
             tileMap.setIndex(ft, TILES.GRASS);
         }
     }
@@ -83,11 +83,17 @@ function crawlMap(map) {
             map.tiles.setIndex(islands[i][it], 0);
         }
     }
-    // Slabs around beacon
-    map.tiles.setXY(map.radius, map.radius, TILES.SLAB);
-    map.tiles.forEachNeighbor(map.radius, map.radius, function(nx, ny, nVal, nIndex) {
+    // Find land tile closest to center to place beacon
+    var beacon = { x: map.radius, y: map.radius };
+    geometry.traverseSpiral(map.radius, map.radius, function(x, y) {
+        if(map.tiles.getXY(x, y)) return beacon = { x, y };
+        if(x > map.size) return true;
+    });
+    map.tiles.setXY(beacon.x, beacon.y, TILES.SLAB);
+    map.tiles.forEachNeighbor(beacon.x, beacon.y, function(nx, ny, nVal, nIndex) {
         map.tiles.setIndex(nIndex, TILES.SLAB);
     });
+    map.beacon = { x: beacon.x - map.radius, y: beacon.y - map.radius };
 }
 
 function createFlowerPatches(map) {

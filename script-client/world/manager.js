@@ -21,7 +21,7 @@ var worldManager = {
         CollisionMap.init(world.size, world.size, 64, world.tiles);
         PathManager.init(CollisionMap.map);
         addEntity(EntityManager.addEntity([
-            [require('com-transform'), { platform: false }],
+            [require('com-transform'), { x: world.beacon.x, y: world.beacon.y, platform: false }],
             [require('com-sprite3d'), worldConfig().beacon]
         ]));
         WorldGraphics.createSegments(world);
