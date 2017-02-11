@@ -3,28 +3,6 @@ var util = require('dz-util');
 var Map2D = require('map2d');
 
 module.exports = {
-    traverseSpiral(x, y, cb) { // Travel grids in an outward spiral and send to callback, break on return value
-        var lastXDist = 0, lastYDist = 0,
-            tx = 0, ty = 0,
-            dir = 1;
-        while(!cb(x, y)) {
-            if(tx > lastXDist) { // Done traversing X
-                lastXDist = tx;
-                tx = 0;
-            } else if(ty > lastYDist) { // Done traversing Y
-                lastYDist = ty;
-                ty = 0;
-                dir *= -1;
-            }
-            if(tx > 0 || lastXDist === lastYDist) { // Traverse X
-                x += dir;
-                tx++;
-            } else { // Traverse Y
-                y += dir;
-                ty++;
-            }
-        } 
-    },
     DIRECTIONS: {
         north: { x: 0, y: -1 },
         east: { x: 1, y: 0 },

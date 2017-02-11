@@ -84,11 +84,7 @@ function crawlMap(map) {
         }
     }
     // Find land tile closest to center to place beacon
-    var beacon = { x: map.radius, y: map.radius };
-    geometry.traverseSpiral(map.radius, map.radius, function(x, y) {
-        if(map.tiles.getXY(x, y)) return beacon = { x, y };
-        if(x > map.size) return true;
-    });
+    var beacon = map.tiles.traverseSpiral(map.radius, map.radius, (val) => { return val; });
     map.tiles.setXY(beacon.x, beacon.y, TILES.SLAB);
     map.tiles.forEachNeighbor(beacon.x, beacon.y, function(nx, ny, nVal, nIndex) {
         map.tiles.setIndex(nIndex, TILES.SLAB);

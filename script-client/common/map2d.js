@@ -119,6 +119,31 @@ Map2D.prototype.checkNeighborsExtended = function(x, y, validTypes) {
     return valid;
 };
 
+Map2D.prototype.traverseSpiral = function(x, y, cb) {
+    // Travel in an outward spiral and send to callback, break on return value and return coordinates
+    var lastXDist = 0, lastYDist = 0,
+        tx = 0, ty = 0, dir = 1, finished;
+    while(!finished) {
+        if(tx > lastXDist) { // Done traversing X
+            lastXDist++;
+            tx = 0;
+        } else if(ty > lastYDist) { // Done traversing Y
+            lastYDist++;
+            ty = 0;
+            dir *= -1;
+        }
+        if(tx > 0 || lastXDist === lastYDist) { // Traverse X
+            x += dir;
+            tx++;
+        } else { // Traverse Y
+            y += dir;
+            ty++;
+        }
+        finished = cb(this.getXY(x, y));
+    }
+    return { x, y };
+};
+
 Map2D.prototype.getBoundingBox = function() {
     return { 
         x: getBounds(this.width, this.getColumn.bind(this)), 
