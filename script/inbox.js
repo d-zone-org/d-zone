@@ -37,7 +37,7 @@ function Inbox(config) {
         require('fs').writeFileSync('./bot.json', JSON.stringify(bot, null, '\t'));
     });
     bot.on('message', function(user, userID, channelID, message, rawEvent) {
-        if(bot.directMessages[channelID]) return;
+        if(!bot.channels[channelID]) return;
         var serverID = bot.channels[channelID].guild_id;
         if(!self.servers || !self.servers[serverID]) return;
         if(self.servers[serverID].ignoreChannels // Check if this channel is ignored
