@@ -11,9 +11,11 @@ var PathManager = require('./path/pathmanager');
 
 var world, transformData;
 
+// TODO: Consider using a chunk system, like minecraft
+
 var worldManager = {
     generateWorld(size) {
-        transformData = ComponentManager.getComponentData([require('com-transform')])[0];
+        transformData = ComponentManager.getComponentData(require('com-transform'));
         world = WorldGeneration.generateMap(size);
         require('man-render').setWorldSize(world.size);
         worldManager.world = world;

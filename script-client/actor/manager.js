@@ -10,12 +10,21 @@ var ACTOR = require('./components/actor');
 var SPRITE3D = require('com-sprite3d');
 var TRANSFORM = require('com-transform');
 var MOVEMENT = require('./components/movement');
+var MESSAGE = require('./components/message');
+var actorData, spriteData, transformData, movementData, messageData;
 
-var freeMapIndexes = WorldManager.world.tiles.getTiles([2,3], [WorldManager.world.tiles.indexFromXY(WorldManager.world.radius, WorldManager.world.radius)]);
-var currentFreeMapIndexes = freeMapIndexes.slice(0);
-var placeZ = 0;
+var freeMapIndexes, currentFreeMapIndexes, placeZ = 0;
 
 module.exports = {
+    init(getComponentData) {
+        actorData = getComponentData(ACTOR);
+        spriteData = getComponentData(SPRITE3D);
+        transformData = getComponentData(TRANSFORM);
+        movementData = getComponentData(MOVEMENT);
+        messageData = getComponentData(MESSAGE);
+        freeMapIndexes = WorldManager.world.tiles.getTiles([2,3], [WorldManager.world.tiles.indexFromXY(WorldManager.world.radius, WorldManager.world.radius)]);
+        currentFreeMapIndexes = freeMapIndexes.slice(0);
+    },
     create(params) {
         params = params || {};
         var transform = {};
@@ -51,8 +60,15 @@ module.exports = {
         return e;
     },
     hop(entity, direction) {
-        if(EntityManager.hasComponent(entity, MOVEMENT)) return;
-        EntityManager.addComponent(entity, MOVEMENT, { direction: direction });
+        if(movementData[entity]) return;
+        EntityManager.addComponent(entity, MOVEMENT, { direction });
+    },
+    message(entity, message) {
+        if(messageData[entity]) {
+            messageData[entity].message += '\n' + message;
+        } else {
+            EntityManager.addComponent(entity, MESSAGE, { message });
+        }
     }
 };
 

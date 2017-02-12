@@ -18,7 +18,7 @@ module.exports = {
     addComponent: addComponent,
     removeComponent: removeComponent,
     hasComponent(e, component) {
-        return (entities[e] & ComponentManager.getComponentMask([component])) !== 0;
+        return (entities[e] & component._mask) !== 0;
     },
     afterUpdates() {
         ComponentManager.afterUpdates();
@@ -26,12 +26,12 @@ module.exports = {
 };
 
 function addComponent(e, component, data) {
-    entities[e] |= ComponentManager.getComponentMask([component]); // Update component mask
+    entities[e] |= component._mask; // Update component mask
     ComponentManager.addComponent(e, entities[e], component, data);
 }
 
 function removeComponent(e, component) {
-    entities[e] &= ~ComponentManager.getComponentMask([component]); // Update component mask
+    entities[e] &= ~component._mask; // Update component mask
     ComponentManager.removeComponent(e, component);
 }
 

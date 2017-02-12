@@ -2,7 +2,6 @@
 var util = require('dz-util');
 var Geometry = require('geometry');
 var ActorManager = require('actor/manager');
-var WorldManager = require('world/manager');
 
 var actors = [];
 var colors = [];
@@ -17,4 +16,7 @@ module.exports = function() {
     setInterval(function() {
         ActorManager.hop(util.pickInArray(actors), util.pickInObject(Geometry.DIRECTIONS));
     }, 30);
+    setInterval(function() {
+        ActorManager.message(util.pickInArray(actors), 'Hello, this is a message!');
+    }, 2000);
 };

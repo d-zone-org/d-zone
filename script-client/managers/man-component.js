@@ -11,6 +11,7 @@ module.exports = {
         components = com;
         for(var c = 0; c < components.length; c++) {
             componentData[components[c]] = [];
+            components[c]._mask = 1 << c;
         }
         systems = sys;
         for(var s = 0; s < systems.length; s++) {
@@ -64,17 +65,21 @@ module.exports = {
 };
 
 function getComponentData(family) {
-    var familyData = [];
-    for(var c = 0; c < family.length; c++) {
-        familyData.push(componentData[family[c]]);
+    if(family.length) {
+        var familyData = [];
+        for(var c = 0; c < family.length; c++) {
+            familyData.push(componentData[family[c]]);
+        }
+        return familyData;
+    } else {
+        return componentData[family];
     }
-    return familyData;
 }
 
 function getComponentMask(componentList) {
     var mask = 0;
     for(var i = 0; i < componentList.length; i++) {
-        mask |= 1 << components.indexOf(componentList[i]);
+        mask |= componentList[i]._mask;
     }
     return mask;
 }

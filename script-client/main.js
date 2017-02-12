@@ -9,7 +9,8 @@ var components = [
     require('com-sprite3d'),
     require('com-animation'),
     require('./actor/components/movement'),
-    require('./actor/components/actor')
+    require('./actor/components/actor'),
+    require('./actor/components/message')
 ];
 var systems = [
     require('./actor/systems/move'),
@@ -25,16 +26,16 @@ var SpriteManager = require('man-sprite');
 var UIManager = require('./ui/manager');
 var ViewManager = require('man-view');
 var WorldManager = require('./world/manager');
+var ActorManager = require('./actor/manager');
 var Discord = require('./discord/discord');
 
 // Initialize managers
 SpriteManager.init(['actors', 'environment', 'static-tiles', 'props', 'font']);
 GameManager.init(systems);
 ComponentManager.init(components, systems);
-RenderManager.setComponentData(ComponentManager.getComponentData);
+RenderManager.init(ComponentManager.getComponentData);
 WorldManager.generateWorld(30);
-
-// TODO: Consider using a chunk system, like minecraft
+ActorManager.init(ComponentManager.getComponentData);
 
 if(window.innerWidth) onWindowReady();
 else window.addEventListener('resize', onWindowReady );
@@ -42,7 +43,7 @@ function onWindowReady() {
     window.removeEventListener('resize', onWindowReady);
     SpriteManager.waitForLoaded(function() {
         UIManager.init({ maxScale: 3 });
-        UIManager.addButton(UIManager.addScreen(), 5, 5, 50, 20, 'Log In', function() {
+        UIManager.addButton(UIManager.addScreen(), 5, 5, 50, 20, 'Reset', function() {
             //Discord.login();
         });
     });
@@ -52,7 +53,6 @@ function onWindowReady() {
 
 // Debug/Testing
 
-var ActorManager = require('./actor/manager');
 var actor1 = ActorManager.create({
     x: -1,
     y: 2

@@ -8,9 +8,9 @@ var dirtyBuffer; // Indicates whether Z-buffer needs rebuilding
 var minZDepth; // Lowest possible entity Z-depth
 
 module.exports = {
-    setComponentData(getComponentData) {
-        spriteData = getComponentData([require('com-sprite3d')])[0];
-        transformData = getComponentData([require('com-transform')])[0];
+    init(getComponentData) {
+        spriteData = getComponentData(require('com-sprite3d'));
+        transformData = getComponentData(require('com-transform'));
     },
     setWorldSize(worldSize) { // World size determines range of Z-depths
         minZDepth = worldSize * -2;
