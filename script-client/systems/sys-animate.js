@@ -36,6 +36,10 @@ animate.updateEntity = function(entity, sprite, animation) {
     }
     if(newFrame) {
         animation.frame = Math.floor(animation.tick / animation.rate);
+        if(animation.loop && animation.frame === animation.frames) {
+            animation.tick = 0;
+            animation.frame = 0;
+        }
         if(animation.frame < animation.frames) { // If animation not completed
             // Draw new frame
             sprite.sheetX = animation.sheetX + animation.frame * animation.frameW * animation.deltaX;
@@ -48,21 +52,17 @@ animate.updateEntity = function(entity, sprite, animation) {
                 RenderManager.updateSprite(entity);
             }
         } else { // If final frame reached
-            if(animation.loop) animation.frame = 0;
-            else {
-                // Restore original sprite properties
-                if(animation.restoreSprite) {
-                    sprite.sheetX = sprite.prev.sheetX;
-                    sprite.sheetY = sprite.prev.sheetY;
-                    sprite.sheetW = sprite.prev.sheetW;
-                    sprite.sheetH = sprite.prev.sheetH;
-                    sprite.dox = sprite.prev.dox;
-                    sprite.doy = sprite.prev.doy;
-                    delete sprite.prev;
-                    RenderManager.updateSprite(entity);
-                }
-                EntityManager.removeComponent(entity, ANIMATION); // Remove animation component
+            if(animation.restoreSprite) { // Restore original sprite properties
+                sprite.sheetX = sprite.prev.sheetX;
+                sprite.sheetY = sprite.prev.sheetY;
+                sprite.sheetW = sprite.prev.sheetW;
+                sprite.sheetH = sprite.prev.sheetH;
+                sprite.dox = sprite.prev.dox;
+                sprite.doy = sprite.prev.doy;
+                delete sprite.prev;
+                RenderManager.updateSprite(entity);
             }
+            EntityManager.removeComponent(entity, ANIMATION); // Remove animation component
         }
     }
     animation.tick++;
