@@ -31,20 +31,6 @@ module.exports = {
             }
         }
     },
-    mergeObjects(a, b, newObject) { // Merge/overwrite object B into object A
-        var returnObj = newObject ? {} : a;
-        if(newObject) {
-            for(var aKey in a) { // Apply custom data
-                if(!a.hasOwnProperty(aKey)) continue;
-                returnObj[aKey] = a[aKey];
-            }
-        }
-        for(var bKey in b) { // Apply custom data
-            if(!b.hasOwnProperty(bKey)) continue;
-            returnObj[bKey] = b[bKey];
-        }
-        return returnObj;
-    },
     right(text, length) { return text.substring(text.length-length,text.length); },
     clamp(val, min, max) { return Math.min(max,Math.max(min,val)); },
     clampWrap(val, min, max) { // Clamp to range by wrapping value

@@ -42,7 +42,7 @@ module.exports = {
     addComponent(entity, mask, component, data) {
         var thisComponentData = componentData[component];
         thisComponentData[entity] = (new component()).data; // New instance of default data
-        util.mergeObjects(thisComponentData[entity], data); // Apply custom data
+        Object.assign(thisComponentData[entity], data); // Apply custom data
         for(var f = 0; f < componentFamilies.length; f++) { // Notify families that require component
             componentFamilies[f].addEntity(entity, mask); // Notify families that match new mask
         }

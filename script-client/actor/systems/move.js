@@ -5,7 +5,6 @@ var WorldManager = require('world/manager');
 var RenderManager = require('man-render');
 var ActorManager = require('actor/manager');
 var actorConfig = require('../config');
-var util = require('dz-util');
 
 var MOVEMENT = require('../components/movement');
 var ANIMATION = require('com-animation');
@@ -31,10 +30,10 @@ move.updateEntity = function(entity, actor, sprite, transform, movement) {
         WorldManager.removePlatform(transform.x, transform.y, transform.z + 1); // Not platform when moving
         var hopAnimation = actorConfig().animations.hop[movement.direction];
         movement.dz = surfaceZ - transform.z;
-        if(movement.dz > 0) util.mergeObjects(hopAnimation, actorConfig().animations.hopUp);
-        else if (movement.dz < 0) util.mergeObjects(hopAnimation, actorConfig().animations.hopDown);
+        if(movement.dz > 0) Object.assign(hopAnimation, actorConfig().animations.hopUp);
+        else if (movement.dz < 0) Object.assign(hopAnimation, actorConfig().animations.hopDown);
         movement.tick = 0;
-        util.mergeObjects(movement, moveDelta);
+        Object.assign(movement, moveDelta);
         EntityManager.addComponent(entity, ANIMATION, hopAnimation);
     }
     if(movement.tick < movement.ticks) {

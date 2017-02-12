@@ -1,5 +1,4 @@
 'use strict';
-var util = require('dz-util');
 
 function isLeafNode(node) {
     for(var key in node) {
@@ -16,10 +15,10 @@ module.exports = function(config) {
     traverseNode(config, {});
     function traverseNode(node, common) {
         if(isLeafNode(node)) {
-            util.mergeObjects(node, util.mergeObjects(common, node, true));
+            Object.assign(node, Object.assign({}, common, node));
             return;
         }
-        node.common = util.mergeObjects(node.common || {}, common, true);
+        node.common = Object.assign({}, node.common, common);
         for(var nodeKey in node) {
             if(!node.hasOwnProperty(nodeKey) || nodeKey == 'common') continue;
             traverseNode(node[nodeKey], node.common);
