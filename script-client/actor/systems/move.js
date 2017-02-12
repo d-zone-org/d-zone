@@ -27,8 +27,8 @@ move.updateEntity = function(entity, actor, sprite, transform, movement) {
         var surfaceZ = WorldManager.getSurfaceZ(targetX, targetY, transform.z, 1, 1);
         if(surfaceZ < 0) return stopMove(entity); // No valid surface
         // All clear to move
-        WorldManager.makeSolid(targetX, targetY, surfaceZ); // Reserve the place I'm hopping to
-        WorldManager.removePlatform(transform.x, transform.y, transform.z + 1); // Don't jump on me while I'm hopping
+        WorldManager.makeSolid(targetX, targetY, surfaceZ); // Reserve the place I'm moving to
+        WorldManager.removePlatform(transform.x, transform.y, transform.z + 1); // Not platform when moving
         var hopAnimation = actorConfig().animations.hop[movement.direction];
         movement.dz = surfaceZ - transform.z;
         if(movement.dz > 0) util.mergeObjects(hopAnimation, actorConfig().animations.hopUp);
@@ -38,7 +38,7 @@ move.updateEntity = function(entity, actor, sprite, transform, movement) {
         EntityManager.addComponent(entity, ANIMATION, hopAnimation);
     }
     if(movement.tick < movement.ticks) {
-        if(movement.tick === 4) WorldManager.removeEntity(entity); // Space is free now
+        if(movement.tick === 4) WorldManager.removeEntity(entity); // Origin is free now
         movement.tick++;
     } else {
         transform.x += movement.dx;

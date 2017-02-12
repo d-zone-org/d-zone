@@ -61,7 +61,7 @@ module.exports = {
         return e;
     },
     hop(entity, direction) {
-        if(movementData[entity]) return;
+        if(movementData[entity] || messageData[entity]) return;
         EntityManager.addComponent(entity, MOVEMENT, { direction });
     },
     message(entity, message) {

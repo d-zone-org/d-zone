@@ -17,6 +17,7 @@ var speak = new System([
 
 speak.updateEntity = function(entity, actor, sprite, message) {
     if(!message.init) {
+        if(EntityManager.hasComponent(entity, ANIMATION)) return;
         message.init = true;
         message.tick = 0;
         if(actor.facing === 'north') ActorManager.turn(entity, 'east');
