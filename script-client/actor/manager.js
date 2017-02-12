@@ -37,9 +37,10 @@ module.exports = {
             transform.y = WorldManager.unCenter(randomTile.xy.y);
             transform.z = placeZ;
         }
-        var sprite = actorConfig().sprites.idle[util.pickInObject(Geometry.DIRECTIONS)]; // Face random direction
+        var facing = util.pickInObject(Geometry.DIRECTIONS); // Face random direction
+        var sprite = actorConfig().sprites.idle[facing]; 
         sprite.sheet = 'actors';
-        var actor = {};
+        var actor = { facing };
         if(!isNaN(params.color)) {
             actor.color = params.color;
             sprite.sheet = SpriteManager.getColorSheet('actors', params.color, 0.8,
@@ -69,6 +70,10 @@ module.exports = {
         } else {
             EntityManager.addComponent(entity, MESSAGE, { message });
         }
+    },
+    turn(entity, direction) {
+        actorData[entity].facing = direction;
+        util.mergeObjects(spriteData[entity], actorConfig().sprites.idle[direction]);
     }
 };
 

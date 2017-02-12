@@ -11,10 +11,10 @@ var animate = new System([
 ]);
 
 animate.updateEntity = function(entity, sprite, animation) {
+    if(animation.stop) return stopAnimate(entity, sprite, animation);
     if(!animation.init) {
         // First frame initialization
         animation.init = true;
-        animation.frame = 0;
         animation.tick = 0; // Sub-frame tick
         if(animation.restoreSprite && !sprite.prev) sprite.prev = { // Preserve original sprite params before animating
             sheetX: sprite.sheetX,
@@ -51,21 +51,23 @@ animate.updateEntity = function(entity, sprite, animation) {
                 sprite.doy += offsetYChange;
                 RenderManager.updateSprite(entity);
             }
-        } else { // If final frame reached
-            if(animation.restoreSprite) { // Restore original sprite properties
-                sprite.sheetX = sprite.prev.sheetX;
-                sprite.sheetY = sprite.prev.sheetY;
-                sprite.sheetW = sprite.prev.sheetW;
-                sprite.sheetH = sprite.prev.sheetH;
-                sprite.dox = sprite.prev.dox;
-                sprite.doy = sprite.prev.doy;
-                delete sprite.prev;
-                RenderManager.updateSprite(entity);
-            }
-            EntityManager.removeComponent(entity, ANIMATION); // Remove animation component
-        }
+        } else stopAnimate(entity, sprite, animation); // If final frame reached
     }
     animation.tick++;
 };
+
+function stopAnimate(entity, sprite, animation) {
+    if(animation.restoreSprite) { // Restore original sprite properties
+        sprite.sheetX = sprite.prev.sheetX;
+        sprite.sheetY = sprite.prev.sheetY;
+        sprite.sheetW = sprite.prev.sheetW;
+        sprite.sheetH = sprite.prev.sheetH;
+        sprite.dox = sprite.prev.dox;
+        sprite.doy = sprite.prev.doy;
+        delete sprite.prev;
+        RenderManager.updateSprite(entity);
+    }
+    EntityManager.removeComponent(entity, ANIMATION);
+}
 
 module.exports = animate;

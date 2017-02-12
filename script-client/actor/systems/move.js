@@ -3,14 +3,15 @@ var System = require('system');
 var EntityManager = require('man-entity');
 var WorldManager = require('world/manager');
 var RenderManager = require('man-render');
-var actorConfig = require('actor/config');
+var ActorManager = require('actor/manager');
+var actorConfig = require('../config');
 var util = require('dz-util');
 
-var MOVEMENT = require('actor/components/movement');
+var MOVEMENT = require('../components/movement');
 var ANIMATION = require('com-animation');
 
 var move = new System([
-    require('actor/components/actor'),
+    require('../components/actor'),
     require('com-sprite3d'),
     require('com-transform'),
     MOVEMENT
@@ -18,14 +19,13 @@ var move = new System([
 
 move.updateEntity = function(entity, actor, sprite, transform, movement) {
     if(!movement.tick) { // Initialize movement
-        actor.facing = movement.direction;
-        util.mergeObjects(sprite, actorConfig().sprites.idle[actor.facing]); // Set actor facing direction
+        ActorManager.turn(entity, movement.direction);
         var moveDelta = actorConfig().movement[movement.direction];
-        if(WorldManager.isSolid(transform.x, transform.y, transform.z + 1)) return cancelMove(entity); // Solid above
+        if(WorldManager.isSolid(transform.x, transform.y, transform.z + 1)) return stopMove(entity); // Solid above
         var targetX = transform.x + moveDelta.dx,
             targetY = transform.y + moveDelta.dy;
         var surfaceZ = WorldManager.getSurfaceZ(targetX, targetY, transform.z, 1, 1);
-        if(surfaceZ < 0) return cancelMove(entity); // No valid surface
+        if(surfaceZ < 0) return stopMove(entity); // No valid surface
         // All clear to move
         WorldManager.makeSolid(targetX, targetY, surfaceZ); // Reserve the place I'm hopping to
         WorldManager.removePlatform(transform.x, transform.y, transform.z + 1); // Don't jump on me while I'm hopping
@@ -46,11 +46,11 @@ move.updateEntity = function(entity, actor, sprite, transform, movement) {
         transform.z += movement.dz;
         WorldManager.addEntity(entity);
         RenderManager.updateTransform(entity);
-        cancelMove(entity);
+        stopMove(entity);
     }
 };
 
-function cancelMove(entity) {
+function stopMove(entity) {
     EntityManager.removeComponent(entity, MOVEMENT);
 }
 

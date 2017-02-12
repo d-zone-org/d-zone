@@ -14,6 +14,7 @@ var components = [
 ];
 var systems = [
     require('./actor/systems/move'),
+    require('./actor/systems/speak'),
     require('sys-animate'),
     require('sys-render')
 ];

@@ -88,6 +88,26 @@ module.exports = new configLoader({
         hopDown: {
             offsetYFrames: [5,6,7,8,9],
             offsetYValues: [1,1,1,2,3],
+        },
+        speak: {
+            common: {
+                sheetX: 0,
+                loop: true,
+                rate: 5,
+                frames: 4,
+                frameW: 14,
+                frameH: 14,
+                deltaX: 0,
+                deltaY: 1,
+                offsetX: -7,
+                offsetY: -4
+            },
+            south: {
+                sheetY: 0
+            },
+            east: {
+                sheetY: 56
+            }
         }
     }
 });
