@@ -1,9 +1,13 @@
 'use strict';
+var util = require('dz-util');
 var InputManager = require('man-input');
 var ViewManager = require('man-view');
 var Canvas = require('canvas');
 var Screen = require('./elements/screen');
 var Button = require('./elements/button');
+var Bubble = require('./elements/bubble');
+
+var gameView = ViewManager.view;
 
 /* TODO: Implement UI building like this:
 var testWindow = UIManager.addWindow()
@@ -88,8 +92,20 @@ function addScreen() {
 }
 
 function addElement(screen, element, args) {
-    ui.screens[screen].addElement(new (element.bind.apply(element, args))());
+    var newElement = ui.screens[screen].addElement(new (element.bind.apply(element, args))());
     draw();
+    return newElement;
+}
+
+function removeElement(element) {
+    util.removeFromArray(element, element.parentElement.childElements);
+    draw();
+}
+
+function gameToUIXY(gx, gy) {
+    var x = Math.floor(gameView.scale / ui.scale * (gx - gameView.panX + gameView.originX)),
+        y = Math.floor(gameView.scale / ui.scale * (gy - gameView.panY + gameView.originY));
+    return { x, y };
 }
 
 module.exports = {
@@ -111,8 +127,15 @@ module.exports = {
     },
     addScreen,
     addButton(screen, x, y, w, h, text, onClick) {
-        addElement(screen, Button, arguments);
+        return addElement(screen, Button, arguments);
     },
+    addBubble(screen, x, y, text) {
+        var xy = gameToUIXY(x, y);
+        arguments[1] = xy.x + 1;
+        arguments[2] = xy.y - Math.floor(gameView.scale / ui.scale * 13) - 16;
+        return addElement(screen, Bubble, arguments);
+    },
+    removeElement,
     htmlCanvas: ui.htmlCanvas
 };
 

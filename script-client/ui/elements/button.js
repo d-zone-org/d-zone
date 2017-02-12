@@ -5,7 +5,7 @@ var Styles = require('./../styles').button;
 var Text = require('./../text');
 
 module.exports = Button;
-inherits(Button,Element);
+inherits(Button, Element);
 
 function Button(x, y, width, height, text, onClick) {
     Element.call(this, { x, y, width, height, hoverable: true, clickable: true });
@@ -21,8 +21,6 @@ Button.prototype.drawSelf = function() {
     this.elementCanvas.context.fillRect(0, 0, this.width, this.height);
     this.elementCanvas.context.fillStyle = style.fill;
     this.elementCanvas.context.fillRect(1, 1, this.width - 2, this.height - 2);
-    this.elementCanvas.context.fillStyle = style.text;
-    this.elementCanvas.context.textAlign = 'center';
     Text.blotText({ text: this.text, maxWidth: this.width, y: Math.floor(this.height / 2) - 4, canvas: this.elementCanvas, align: 'center' });
     this.elementCanvas.context.globalAlpha = 1;
 };

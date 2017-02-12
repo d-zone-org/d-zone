@@ -15,6 +15,8 @@ var speak = new System([
     MESSAGE
 ]);
 
+var speechBubbles = [];
+
 speak.updateEntity = function(entity, actor, sprite, message) {
     if(!message.init) {
         if(EntityManager.hasComponent(entity, ANIMATION)) return;
@@ -23,6 +25,7 @@ speak.updateEntity = function(entity, actor, sprite, message) {
         if(actor.facing === 'north') ActorManager.turn(entity, 'east');
         if(actor.facing === 'west') ActorManager.turn(entity, 'south');
         EntityManager.addComponent(entity, ANIMATION, actorConfig().animations.speak[actor.facing]);
+        speechBubbles[entity] = UIManager.addBubble(0, sprite.dx, sprite.dy, message.message);
     }
     var newChar = true;
     if(message.rate > 1) { // If not adding char on every tick
@@ -33,6 +36,8 @@ speak.updateEntity = function(entity, actor, sprite, message) {
         if(message.charIndex < message.message.length) {
             // New char
         } else {
+            UIManager.removeElement(speechBubbles[entity]);
+            speechBubbles[entity] = undefined;
             ComponentManager.getComponentData(ANIMATION)[entity].stop = true;
             EntityManager.removeComponent(entity, MESSAGE);
         }

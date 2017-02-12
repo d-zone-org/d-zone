@@ -32,5 +32,11 @@ module.exports = {
             fill: black,
             text: grey
         }
+    },
+    bubble: {
+        fillAlpha: 0.75,
+        textAlpha: 0.95,
+        fill: black,
+        text: white
     }
 };

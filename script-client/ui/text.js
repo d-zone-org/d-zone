@@ -86,6 +86,7 @@ function getWordMetrics(text) {
 }
 
 function getBlotMetrics(wordMetrics, maxWidth, maxHeight) {
+    if(!wordMetrics.wordWidths) wordMetrics = getWordMetrics(wordMetrics);
     var wordLines = [];
     var lineWidth = 0;
     var line = [];
@@ -124,10 +125,7 @@ function blotText(params) {
     if(!fontSheet) return;
     var blotMetrics;
     if(params.charLines) blotMetrics = params;
-    else {
-        var wordMetrics = params.text ? getWordMetrics(params.text) : params;
-        blotMetrics = getBlotMetrics(wordMetrics, params.maxWidth, params.maxHeight);
-    }
+    else blotMetrics = getBlotMetrics(params.text || params, params.maxWidth, params.maxHeight);
     var canvas = params.canvas || new Canvas(blotMetrics.blottedWidth, blotMetrics.blottedHeight);
     var left = params.x || 0;
     if(params.align === 'center') left +=  Math.floor(params.maxWidth / 2 - (blotMetrics.blottedWidth - 1) / 2);
