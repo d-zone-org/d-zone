@@ -105,8 +105,8 @@ function addScreen() {
     return ui.screens.length - 1;
 }
 
-function addElement(element, args) {
-    var newElement = ui.screens[args[0]].addElement(new (element.bind.apply(element, args))());
+function addElement(element, screen, ...args) {
+    var newElement = ui.screens[screen].addElement(new element(...args));
     draw();
     return newElement;
 }
@@ -134,11 +134,11 @@ module.exports = {
         });
     },
     addScreen,
-    addButton(screen, x, y, w, h, text, onClick) {
-        return addElement(Button, arguments);
+    addButton(screen, ...args) {
+        return addElement(Button, screen, ...args);
     },
-    addBubble(screen, gx, gy, text) {
-        return addElement(Bubble, [screen, gx, gy, text, gameView, ui]);
+    addBubble(screen, ...args) {
+        return addElement(Bubble, screen, ...args, gameView, ui);
     },
     removeElement,
     htmlCanvas: ui.htmlCanvas

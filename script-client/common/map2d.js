@@ -232,6 +232,6 @@ function getTileColor(type, value) { // For printing in console
 }
 
 var neighbors = [{ x:-1, y:0 }, { x:1, y:0 }, { x:0, y:-1 }, { x:0, y:1 }]; // W E N S
-var neighborsExtended = neighbors.concat([
+var neighborsExtended = [...neighbors,
     { x:-1, y:-1 }, { x:1, y:1 }, { x:1, y:-1 }, { x:-1, y:1 } // NW SE NE SW
-]);
+];

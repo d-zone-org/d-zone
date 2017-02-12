@@ -15,6 +15,7 @@ function Element(options) {
     this.hoverMargin = { top: 0, bottom: 0, left: 0, right: 0 };
     this.hoverable = options.hoverable;
     this.clickable = options.clickable;
+    this.dirty = true;
 }
 
 Element.prototype.addElement = function(element) {
@@ -25,7 +26,8 @@ Element.prototype.addElement = function(element) {
 };
 
 Element.prototype.draw = function(canvas) {
-    this.drawSelf();
+    if(this.dirty) this.drawSelf();
+    this.dirty = false;
     canvas.context.drawImage(this.elementCanvas.canvas, this.x, this.y);
     for(var i = 0; i < this.childElements.length; i++) {
         this.childElements[i].draw(canvas);
@@ -89,6 +91,7 @@ Element.prototype.mouseOut = function(x, y, buttons) {
 };
 
 Element.prototype.makeDirty = function() {
+    this.dirty = true;
     this.parentElement.makeDirty();
 };
 

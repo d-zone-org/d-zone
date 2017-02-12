@@ -34,7 +34,7 @@ module.exports = {
         }
     },
     bubble: {
-        fillAlpha: 0.75,
+        fillAlpha: 0.8,
         textAlpha: 0.95,
         fill: black,
         text: white

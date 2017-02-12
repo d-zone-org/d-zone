@@ -106,7 +106,7 @@ function getBlotMetrics(wordMetrics, maxWidth, maxHeight) {
     if(lineWidth > 0) wordLines.push(line); // Add final line if not empty
     var charLines = wordLines.map(function(wordLine) { // Convert word arrays to char arrays
         var charLine = wordLine.reduce(function(a, b) {
-            return a.concat(wordMetrics.wordChars[b]).concat(space);
+            return [...a, ...wordMetrics.wordChars[b], space];
         }, []);
         charLine.pop(); // Remove line-ending space
         return charLine;
