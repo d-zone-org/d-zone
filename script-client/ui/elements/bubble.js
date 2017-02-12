@@ -7,10 +7,13 @@ var Text = require('./../text');
 module.exports = Bubble;
 inherits(Bubble, Element);
 
-function Bubble(x, y, text) {
+function Bubble(gx, gy, text, gameView, ui) {
     var blotMetrics = Text.getBlotMetrics(text, 160);
     var width = blotMetrics.blottedWidth + 8;
-    Element.call(this, { x: x - Math.floor(width / 2), y, width, height: blotMetrics.blottedHeight + 6 });
+    Element.call(this, { width, height: blotMetrics.blottedHeight + 6 });
+    this.gx = gx;
+    this.gy = gy;
+    this.moveToGameXY(gameView, ui);
     this.text = text;
 }
 
@@ -22,4 +25,17 @@ Bubble.prototype.drawSelf = function() {
     this.elementCanvas.context.globalAlpha = Styles.textAlpha;
     Text.blotText({ text: this.text, maxWidth: this.width, x: 4, y: Math.floor(this.height / 2) - 4, canvas: this.elementCanvas, align: 'left' });
     this.elementCanvas.context.globalAlpha = 1;
+};
+
+Bubble.prototype.moveToGameXY = function(gameView, ui) {
+    var scaleRatio = gameView.scale / ui.scale;
+    this.x = Math.floor(scaleRatio * (this.gx - gameView.panX + gameView.originX) - this.width / 2 + 1 );
+    this.y = Math.floor(scaleRatio * (this.gy - gameView.panY + gameView.originY - 15)) - 16;
+    this.x = Math.max(1, Math.min(ui.width - this.width - 2, this.x));
+    this.y = Math.max(1, Math.min(ui.height - this.height - 2, this.y));
+};
+
+Bubble.prototype.gameViewChange = function(gameView, ui) {
+    this.moveToGameXY(gameView, ui);
+    this.makeDirty();
 };

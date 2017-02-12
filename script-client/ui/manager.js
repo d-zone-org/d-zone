@@ -29,6 +29,16 @@ var ui = {
     screens: []
 };
 
+gameView.events.on('view-change', function() {
+    for(var s = 0; s < ui.screens.length; s++) {
+        ui.screens[s].toChildren('gameViewChange', [gameView, ui]);
+        ui.dirty = ui.dirty || ui.screens[s].dirty;
+        ui.screens[s].dirty = false;
+    }
+    if(ui.dirty) draw();
+    ui.dirty = false;
+});
+
 function mouseEvent(eventType, event) {
     ui.cursorX = Math.floor(event.x / ui.scale);
     ui.cursorY = Math.floor(event.y / ui.scale);
@@ -81,8 +91,12 @@ function resizeCanvas() {
     ui.internalCanvas.setSize(ui.width, ui.height);
     for(var s = 0; s < ui.screens.length; s++) {
         ui.screens[s].resize(ui.width, ui.height);
+        ui.screens[s].gameViewChange(gameView, ui.scale);
+        ui.dirty = ui.dirty || ui.screens[s].dirty;
+        ui.screens[s].dirty = false;
     }
-    draw();
+    if(ui.dirty) draw();
+    ui.dirty = false;
 }
 
 function addScreen() {
@@ -91,8 +105,8 @@ function addScreen() {
     return ui.screens.length - 1;
 }
 
-function addElement(screen, element, args) {
-    var newElement = ui.screens[screen].addElement(new (element.bind.apply(element, args))());
+function addElement(element, args) {
+    var newElement = ui.screens[args[0]].addElement(new (element.bind.apply(element, args))());
     draw();
     return newElement;
 }
@@ -100,12 +114,6 @@ function addElement(screen, element, args) {
 function removeElement(element) {
     util.removeFromArray(element, element.parentElement.childElements);
     draw();
-}
-
-function gameToUIXY(gx, gy) {
-    var x = Math.floor(gameView.scale / ui.scale * (gx - gameView.panX + gameView.originX)),
-        y = Math.floor(gameView.scale / ui.scale * (gy - gameView.panY + gameView.originY));
-    return { x, y };
 }
 
 module.exports = {
@@ -127,13 +135,10 @@ module.exports = {
     },
     addScreen,
     addButton(screen, x, y, w, h, text, onClick) {
-        return addElement(screen, Button, arguments);
+        return addElement(Button, arguments);
     },
-    addBubble(screen, x, y, text) {
-        var xy = gameToUIXY(x, y);
-        arguments[1] = xy.x + 1;
-        arguments[2] = xy.y - Math.floor(gameView.scale / ui.scale * 13) - 16;
-        return addElement(screen, Bubble, arguments);
+    addBubble(screen, gx, gy, text) {
+        return addElement(Bubble, [screen, gx, gy, text, gameView, ui]);
     },
     removeElement,
     htmlCanvas: ui.htmlCanvas

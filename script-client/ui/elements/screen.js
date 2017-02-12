@@ -31,7 +31,9 @@ Screen.prototype.focusUI = function() {
 };
 
 Screen.prototype.resize = function(width, height) {
+    if(this.width === width && this.height === height) return;
     this.width = width;
     this.height = height;
     this.elementCanvas.setSize(width, height);
+    this.makeDirty();
 };

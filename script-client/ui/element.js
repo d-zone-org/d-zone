@@ -101,6 +101,8 @@ Element.prototype.getAbsolutePosition = function() { // Position on screen
     return { x: parentAbsolute.x + this.x, y: parentAbsolute.y + this.y };
 };
 
+Element.prototype.gameViewChange = function() { }; // Virtual
+
 Element.prototype.drawSelf = function() { }; // Virtual
 
 Element.prototype.toChildren = function(event, args) {
