@@ -32,11 +32,14 @@ var Discord = require('./discord/discord');
 
 // Initialize managers
 SpriteManager.init(['actors', 'environment', 'static-tiles', 'props', 'font']);
-GameManager.init(systems);
 ComponentManager.init(components, systems);
 RenderManager.init(ComponentManager.getComponentData);
-WorldManager.generateWorld(30);
+WorldManager.generateWorld(50);
 ActorManager.init(ComponentManager.getComponentData);
+
+require('./debug/dummyactors')();
+
+GameManager.init(systems);
 
 if(window.innerWidth) onWindowReady();
 else window.addEventListener('resize', onWindowReady );
@@ -45,6 +48,7 @@ function onWindowReady() {
     SpriteManager.waitForLoaded(function() {
         UIManager.init({ maxScale: 3 });
         UIManager.addButton(UIManager.addScreen(), 5, 5, 50, 20, 'Reset', function() {
+            console.log('button clicked yo');
             //Discord.login();
         });
     });
@@ -63,7 +67,6 @@ var actor2 = ActorManager.create({
     y: 2
 });
 
-require('./debug/dummyactors')();
 
 global.dz.events.on('key-q', function() { // Log component data
     console.log(ComponentManager.componentData);

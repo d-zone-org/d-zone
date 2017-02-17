@@ -1,42 +1,50 @@
 'use strict';
-const black = '#000000';
-const darkest = '#1D171F';
-const dimBrown = '#382D34';
-const dimGrey = '#786969';
-const grey = '#9E908F';
-const lightGrey = '#BAB0A8';
-const brightGrey = '#D4D0B9';
-const offWhite = '#F5F0D5';
-const blurple = '#7B8FCE';
-const white = '#FFFFFF';
+
+const C = {
+    black: '#000000',
+    darkest: '#1D171F',
+    dimBrown: '#382D34',
+    dimGrey: '#786969',
+    grey: '#9E908F',
+    lightGrey: '#BAB0A8',
+    brightGrey: '#D4D0B9',
+    offWhite: '#F5F0D5',
+    blurple: '#7B8FCE',
+    white: '#FFFFFF'
+};
+
+for(var key in C) { // Convert hex strings to actual numbers
+    if(!C.hasOwnProperty(key)) continue;
+    C[key] = parseInt(C[key].substr(1, 6), 16);
+}
 
 module.exports = {
     button: {
         normal: {
             alpha: 0.75,
-            border: offWhite,
-            fill: black,
-            text: white
+            border: C.offWhite,
+            fill: C.black,
+            text: C.white
         }
         ,
         hover: {
             alpha: 0.95,
-            border: white,
-            fill: black,
-            text: white
+            border: C.white,
+            fill: C.black,
+            text: C.white
         }
         ,
         click: {
             alpha: 1,
-            border: grey,
-            fill: black,
-            text: grey
+            border: C.grey,
+            fill: C.black,
+            text: C.grey
         }
     },
     bubble: {
         fillAlpha: 0.8,
         textAlpha: 0.95,
-        fill: black,
-        text: white
+        fill: C.black,
+        text: C.white
     }
 };

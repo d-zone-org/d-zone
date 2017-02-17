@@ -1,11 +1,8 @@
 'use strict';
-var inherits = require('inherits');
-var Element = require('./../element');
 var Styles = require('./../styles').bubble;
 var Text = require('./../text');
 
 module.exports = Bubble;
-inherits(Bubble, Element);
 
 function Bubble(gx, gy, text, gameView, ui) {
     var blotMetrics = Text.getBlotMetrics(text, 160);
@@ -34,6 +31,8 @@ Bubble.prototype.moveToGameXY = function(gameView, ui) {
     this.x = Math.max(1, Math.min(ui.width - this.width - 2, this.x));
     this.y = Math.max(1, Math.min(ui.height - this.height - 2, this.y));
 };
+
+// TODO: Prevent elements overlapping with siblings
 
 Bubble.prototype.gameViewChange = function(gameView, ui) {
     this.moveToGameXY(gameView, ui);

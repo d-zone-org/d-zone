@@ -1,132 +1,60 @@
 'use strict';
-var util = require('dz-util');
-var InputManager = require('man-input');
-var ViewManager = require('man-view');
-var Canvas = require('canvas');
-var Screen = require('./elements/screen');
+var requestAnimationFrame = require('raf');
+// var ViewManager = require('man-view');
+var PIXI = require('pixi.js');
 var Button = require('./elements/button');
-var Bubble = require('./elements/bubble');
+// var Bubble = require('./elements/bubble');
 
-var gameView = ViewManager.view;
-
-/* TODO: Implement UI building like this:
-var testWindow = UIManager.addWindow()
-    .setPosition(20,20)
-    .setSize(100,200);
-var testButton = testWindow.addButton()
-    .setPosition(10,10)
-    .setSize(30,10)
-    .setText('Click!')
-    .onClick(someFunction);
-*/
+// var gameView = ViewManager.view;
 
 var ui = {
-    internalCanvas: new Canvas(1, 1),
-    htmlCanvas: new Canvas(1, 1),
-    scale: 1,
-    width: 1, height: 1, // In game pixels
-    cursorX: 0, cursorY: 0, // In game pixels
-    screens: []
+    container: new PIXI.Container(),
+    scale: 1, width: 1, height: 1 // In game pixels
 };
 
-gameView.events.on('view-change', function() {
-    for(var s = 0; s < ui.screens.length; s++) {
-        ui.screens[s].toChildren('gameViewChange', [gameView, ui]);
-        ui.dirty = ui.dirty || ui.screens[s].dirty;
-        ui.screens[s].dirty = false;
-    }
-    if(ui.dirty) draw();
-    ui.dirty = false;
-});
-
-function mouseEvent(eventType, event) {
-    ui.cursorX = Math.floor(event.x / ui.scale);
-    ui.cursorY = Math.floor(event.y / ui.scale);
-    var args = [ui.cursorX, ui.cursorY];
-    if(eventType === 'mouseWheel') args.push(event.direction);
-    else if(eventType === 'mouseMove') args.push(event.buttons);
-    else args.push(event.button);
-    for(var s = 0; s < ui.screens.length; s++) {
-        ui.screens[s].mouseEvent(eventType, args);
-        ui.dirty = ui.dirty || ui.screens[s].dirty;
-        ui.focus = ui.focus || ui.screens[s].focus;
-        ui.screens[s].dirty = false;
-        ui.screens[s].focus = false;
-    }
-    if(ui.dirty) draw();
-    if(!ui.focus) ViewManager[eventType](event);
-    ui.dirty = false;
-    ui.focus = false;
-}
-
-InputManager.events.on('mouse-move', function (event) { mouseEvent('mouseMove', event); });
-InputManager.events.on('mouse-down', function (event) { mouseEvent('mouseDown', event); });
-InputManager.events.on('mouse-up', function (event) { mouseEvent('mouseUp', event); });
-InputManager.events.on('mouse-wheel', function (event) { mouseEvent('mouseWheel', event); });
-
-function draw() { // Draw internal UI canvas to HTML canvas, UI itself is only redrawn when it needs to be
-    ui.internalCanvas.clear();
-    ui.htmlCanvas.clear();
-    for(var s = 0; s < ui.screens.length; s++) {
-        ui.screens[s].draw(ui.internalCanvas);
-    }
-    ui.htmlCanvas.context.drawImage(ui.internalCanvas.canvas, 0, 0);
+function draw() {
+    ui.renderer.render(ui.container);
+    requestAnimationFrame(draw);
 }
 
 function zoom(newScale) {
     if(newScale < 1 || newScale > ui.maxScale) return;
     ui.scale = newScale;
     resizeCanvas();
-    ui.htmlCanvas.canvas.style.transform = 'scale(' + ui.scale + ', ' + ui.scale + ')';
+    ui.renderer.view.style.transform = 'scale(' + ui.scale + ', ' + ui.scale + ')';
 }
 
 function resizeCanvas() {
-    var newWidth = Math.ceil(window.innerWidth / ui.scale),
-        newHeight = Math.ceil(window.innerHeight / ui.scale);
-    ui.cursorX = Math.round(newWidth * (ui.cursorX / ui.width));
-    ui.cursorY = Math.round(newHeight * (ui.cursorY / ui.height));
-    ui.width = newWidth;
-    ui.height = newHeight;
-    ui.htmlCanvas.setSize(ui.width, ui.height);
-    ui.internalCanvas.setSize(ui.width, ui.height);
-    for(var s = 0; s < ui.screens.length; s++) {
-        ui.screens[s].resize(ui.width, ui.height);
-        ui.screens[s].gameViewChange(gameView, ui.scale);
-        ui.dirty = ui.dirty || ui.screens[s].dirty;
-        ui.screens[s].dirty = false;
-    }
-    if(ui.dirty) draw();
-    ui.dirty = false;
+    ui.width = Math.ceil(window.innerWidth / ui.scale);
+    ui.height = Math.ceil(window.innerHeight / ui.scale);
+    ui.renderer.resize(ui.width, ui.height);
 }
 
 function addScreen() {
-    var screen = new Screen();
-    ui.screens.push(screen);
-    return ui.screens.length - 1;
+    return ui.container.addChild(new PIXI.Container());
 }
 
 function addElement(element, screen, ...args) {
-    var newElement = ui.screens[screen].addElement(new element(...args));
-    draw();
-    return newElement;
+    return screen.addChild(new element(...args));
 }
 
 function removeElement(element) {
-    util.removeFromArray(element, element.parentElement.childElements);
-    draw();
+    element.destroy();
 }
 
 module.exports = {
     init(options) {
         ui.maxScale = options.maxScale;
-        ui.htmlCanvas.canvas.id = 'ui';
-        ui.htmlCanvas.addToPage();
         var scale = calcScale(window.innerWidth, window.innerHeight);
-        ui.cursorX = Math.floor(window.innerWidth / 2 / scale);
-        ui.cursorY = Math.floor(window.innerHeight / 2 / scale);
         ui.width = Math.ceil(window.innerWidth / scale);
         ui.height = Math.floor(window.innerHeight / scale);
+        ui.renderer = PIXI.autoDetectRenderer(ui.width, ui.height,
+            { antialias: false, transparent: true });
+        ui.renderer.view.id = 'ui';
+        document.body.appendChild(ui.renderer.view);
+        ui.renderer.view.addEventListener('contextmenu', function(e) { e.preventDefault(); });
         zoom(scale); // Initial zoom
+        requestAnimationFrame(draw);
         window.addEventListener('resize', function() {
             var newScale = calcScale(window.innerWidth, window.innerHeight);
             if(newScale !== ui.scale) zoom(newScale);
@@ -138,13 +66,23 @@ module.exports = {
         return addElement(Button, screen, ...args);
     },
     addBubble(screen, ...args) {
-        return addElement(Bubble, screen, ...args, gameView, ui);
+        return addElement(Bubble, screen, ...args, ui);
     },
-    removeElement,
-    htmlCanvas: ui.htmlCanvas
+    removeElement
 };
 
 function calcScale(width, height) {
     var size = Math.min(width, height);
     return size < 400 ? 1 : size < 1000 ? 2 : 3;
 }
+
+/* TODO: Implement UI building like this:
+ var testWindow = UIManager.addWindow()
+ .setPosition(20,20)
+ .setSize(100,200);
+ var testButton = testWindow.addButton()
+ .setPosition(10,10)
+ .setSize(30,10)
+ .setText('Click!')
+ .onClick(someFunction);
+ */
