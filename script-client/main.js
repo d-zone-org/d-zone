@@ -35,6 +35,7 @@ SpriteManager.init(['actors', 'environment', 'static-tiles', 'props', 'font']);
 ComponentManager.init(components, systems);
 RenderManager.init(ComponentManager.getComponentData);
 WorldManager.generateWorld(50);
+ViewManager.setOrigin(WorldManager.world.imageCenter);
 ActorManager.init(ComponentManager.getComponentData);
 
 require('./debug/dummyactors')();
@@ -45,15 +46,13 @@ if(window.innerWidth) onWindowReady();
 else window.addEventListener('resize', onWindowReady );
 function onWindowReady() {
     window.removeEventListener('resize', onWindowReady);
+    ViewManager.windowReady();
     SpriteManager.waitForLoaded(function() {
         UIManager.init({ maxScale: 3 });
-        UIManager.addButton(UIManager.addScreen(), 5, 5, 50, 20, 'Reset', function() {
-            console.log('button clicked yo');
+        UIManager.addButton(5, 5, 50, 20, 'Reset', function() {
             //Discord.login();
         });
     });
-    ViewManager.init({ id: 'main', maxScale: 4 });
-    require('sys-render').setWorld(WorldManager.world);
 }
 
 // Debug/Testing

@@ -18,7 +18,6 @@ module.exports = {
             zBuffer.push([]);
         }
     },
-    getZDepth: getZDepth,
     getDrawX: getDrawX,
     getDrawY: getDrawY,
     getDrawXY: getDrawXY,
@@ -51,7 +50,7 @@ module.exports = {
         sprite.dy = getDrawY(transform.x, transform.y, transform.z);
         sprite.fdx = sprite.dx + sprite.dox;
         sprite.fdy = sprite.dy + sprite.doy;
-        sprite.zDepth = getZDepth(transform.x, transform.y);
+        sprite.zDepth = (transform.x + transform.y) * 2 - minZDepth;
         if(sprite.zDepth !== oldZDepth || sprite.dy !== oldDY) updateZBuffer(entity, sprite);
     },
     adjustZDepth(entity, sprite, delta) {
@@ -88,10 +87,6 @@ function removeSprite(entity) {
     }
     entityZDepths[entity] = undefined;
     dirtyBuffer = true;
-}
-
-function getZDepth(x, y) {
-    return (x + y) * 2 - minZDepth;
 }
 
 function getDrawX(x, y) {

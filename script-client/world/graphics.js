@@ -44,7 +44,7 @@ function onViewChange() {
         viewedSegments.push(ySegments);
     }
     segmentCache = newCache;
-    RenderSystem.setBGSegments(viewedSegments);
+    RenderSystem.setBGSegments(viewedSegments, segmentImageWidth, segmentImageHeight);
 }
 
 function drawSegment(x, y) {

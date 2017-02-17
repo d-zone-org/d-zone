@@ -1,6 +1,7 @@
 'use strict';
 var requestAnimationFrame = require('raf');
-// var ViewManager = require('man-view');
+var InputManager = require('man-input');
+var ViewManager = require('man-view');
 var PIXI = require('pixi.js');
 var Button = require('./elements/button');
 // var Bubble = require('./elements/bubble');
@@ -8,12 +9,20 @@ var Button = require('./elements/button');
 // var gameView = ViewManager.view;
 
 var ui = {
+    renderer: PIXI.autoDetectRenderer(1, 1, { antialias: false, transparent: true }),
     container: new PIXI.Container(),
     scale: 1, width: 1, height: 1 // In game pixels
 };
+ui.container.hitArea = new PIXI.Rectangle(0, 0, 1, 1);
+InputManager.init(ui.container);
 
+// var renderTime = 0, frameCount = 0;
 function draw() {
+    // frameCount++;
+    // var renderStart = performance.now();
     ui.renderer.render(ui.container);
+    // renderTime += performance.now() - renderStart;
+    // if(frameCount == 500) { frameCount = 0; console.log('avg ui render time',renderTime/500); renderTime = 0; }
     requestAnimationFrame(draw);
 }
 
@@ -28,14 +37,12 @@ function resizeCanvas() {
     ui.width = Math.ceil(window.innerWidth / ui.scale);
     ui.height = Math.ceil(window.innerHeight / ui.scale);
     ui.renderer.resize(ui.width, ui.height);
+    ui.container.hitArea.width = ui.width;
+    ui.container.hitArea.height = ui.height;
 }
 
-function addScreen() {
-    return ui.container.addChild(new PIXI.Container());
-}
-
-function addElement(element, screen, ...args) {
-    return screen.addChild(new element(...args));
+function addElement(element, ...args) {
+    return ui.container.addChild(new element(...args));
 }
 
 function removeElement(element) {
@@ -48,8 +55,6 @@ module.exports = {
         var scale = calcScale(window.innerWidth, window.innerHeight);
         ui.width = Math.ceil(window.innerWidth / scale);
         ui.height = Math.floor(window.innerHeight / scale);
-        ui.renderer = PIXI.autoDetectRenderer(ui.width, ui.height,
-            { antialias: false, transparent: true });
         ui.renderer.view.id = 'ui';
         document.body.appendChild(ui.renderer.view);
         ui.renderer.view.addEventListener('contextmenu', function(e) { e.preventDefault(); });
@@ -60,13 +65,21 @@ module.exports = {
             if(newScale !== ui.scale) zoom(newScale);
             else resizeCanvas();
         });
+        InputManager.events.on('mouse-down',function(e){
+            for(var i = 0; i < ui.container.children.length; i++) {
+                if(ui.container.children[i].isEventCaptured(e)) return;
+            }
+            ViewManager.mouseDown(e);
+        });
+        InputManager.events.on('mouse-up', ViewManager.mouseUp);
+        InputManager.events.on('mouse-move', ViewManager.mouseMove);
+        InputManager.events.on('mouse-wheel', ViewManager.mouseWheel);
     },
-    addScreen,
-    addButton(screen, ...args) {
-        return addElement(Button, screen, ...args);
+    addButton(...args) {
+        return addElement(Button, ...args);
     },
-    addBubble(screen, ...args) {
-        return addElement(Bubble, screen, ...args, ui);
+    addBubble(...args) {
+        return addElement(Bubble, ...args, ui);
     },
     removeElement
 };

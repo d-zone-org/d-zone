@@ -4,22 +4,8 @@ var EventEmitter = require('events').EventEmitter;
 var events = new EventEmitter();
 var mouseX, mouseY, mouseLeft, mouseRight, mouseMiddle, mouseOut;
 
-// Mouse events
-window.addEventListener('mousemove', onMouseMove);
-window.addEventListener('mousedown', onMouseDown);
-window.addEventListener('mouseup', onMouseUp);
-document.addEventListener('mouseout', onMouseOut);
-document.addEventListener('mouseover', onMouseOver);
-var wheelSupport = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
-window.addEventListener(wheelSupport, onMouseWheel);
-
-// Touch events
-window.addEventListener('touchstart', onTouchStart);
-window.addEventListener('touchmove', onTouchMove);
-window.addEventListener('touchend', onTouchEnd);
-window.addEventListener('touchcancel', onTouchEnd);
-
 function onMouseMove(e) {
+    e = e.data.originalEvent;
     if(mouseOut) return;
     mouseX = e.pageX;
     mouseY = e.pageY;
@@ -29,62 +15,86 @@ function onMouseMove(e) {
 const BUTTONS = ['left','middle','right'];
 
 function onMouseDown(e) {
+    e = e.data.originalEvent;
     switch(BUTTONS[e.button]) {
         case 'left': mouseLeft = true; break;
         case 'right': mouseRight = true; break;
         case 'middle': mouseMiddle = true; break;
     }
-    events.emit('mouse-down', { button: BUTTONS[e.button], x: mouseX, y: mouseY });
+    events.emit('mouse-down', { button: BUTTONS[e.button], x: mouseX, y: mouseY, e });
 }
 
 function onMouseUp(e) {
+    e = e.data.originalEvent;
     switch(BUTTONS[e.button]) {
         case 'left': mouseLeft = false; break;
         case 'right': mouseRight = false; break;
         case 'middle': mouseMiddle = false; break;
     }
-    events.emit('mouse-up', { button: BUTTONS[e.button], x: mouseX, y: mouseY });
+    events.emit('mouse-up', { button: BUTTONS[e.button], x: mouseX, y: mouseY, e });
 }
 
 function onMouseOut(e) {
+    e = e.data.originalEvent;
     mouseOut = true;
     mouseX = e.pageX;
     mouseY = e.pageY;
-    events.emit('mouse-out', { button: BUTTONS[e.button], x: mouseX, y: mouseY });
+    events.emit('mouse-out', { button: BUTTONS[e.button], x: mouseX, y: mouseY, e });
 }
 
 function onMouseOver(e) {
+    e = e.data.originalEvent;
     mouseOut = false;
     mouseX = e.pageX;
     mouseY = e.pageY;
     var buttonNumber = e.buttons & 1 ? 0 : e.buttons & 2 ? 1 : e.buttons & 4 ? 2 : -1;
-    events.emit('mouse-over', { button: BUTTONS[buttonNumber], x: mouseX, y: mouseY });
+    events.emit('mouse-over', { button: BUTTONS[buttonNumber], x: mouseX, y: mouseY, e });
 }
 
 function onMouseWheel(e) {
     if(!e.deltaY) return;
-    events.emit('mouse-wheel', { direction: e.deltaY > 0 ? 'down' : 'up', x: mouseX, y: mouseY });
+    events.emit('mouse-wheel', { direction: e.deltaY > 0 ? 'down' : 'up', x: mouseX, y: mouseY, e });
 }
 
 function onTouchStart(e) {
+    e = e.data.originalEvent;
     mouseLeft = true;
     mouseX = e.touches[0].pageX;
     mouseY = e.touches[0].pageY;
-    this.emit('mouse-down', { button: 'left', x: mouseX, y: mouseY });
+    this.emit('mouse-down', { button: 'left', x: mouseX, y: mouseY, e });
 }
 
 function onTouchMove(e) {
+    e = e.data.originalEvent;
     mouseX = e.changedTouches[0].pageX;
     mouseY = e.changedTouches[0].pageY;
-    this.emit('mouse-move', { x: mouseX, y: mouseY });
+    this.emit('mouse-move', { x: mouseX, y: mouseY, e });
 }
 
 function onTouchEnd(e) {
+    e = e.data.originalEvent;
     mouseLeft = false;
-    events.emit('mouse-up', { button: 'left', x: mouseX, y: mouseY });
+    events.emit('mouse-up', { button: 'left', x: mouseX, y: mouseY, e });
 }
 
 module.exports = {
+    init(uiContainer) {
+        uiContainer.interactive = true;
+        // Mouse events
+        uiContainer.on('mousemove', onMouseMove);
+        uiContainer.on('mousedown', onMouseDown);
+        uiContainer.on('mouseup', onMouseUp);
+        uiContainer.on('mouseupoutside', onMouseUp);
+        uiContainer.on('mouseout', onMouseOut);
+        uiContainer.on('mouseover', onMouseOver);
+        var wheelSupport = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+        window.addEventListener(wheelSupport, onMouseWheel);
+        // Touch events
+        uiContainer.on('touchstart', onTouchStart);
+        uiContainer.on('touchmove', onTouchMove);
+        uiContainer.on('touchend', onTouchEnd);
+        uiContainer.on('touchendoutside', onTouchEnd);
+    },
     events: events
 };
 

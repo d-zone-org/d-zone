@@ -1,9 +1,9 @@
 'use strict';
-var Canvas = require('canvas');
 var util = require('dz-util.js');
 
+var renderer, stage;
+var maxScale = 4;
 var view = {
-    canvas: new Canvas(1, 1), scale: 1,
     width: 1, height: 1, // In game pixels
     cursorX: 0, cursorY: 0, // In game pixels
     centerX: 0, centerY: 0, // World image coords in the center of the window
@@ -14,11 +14,13 @@ var view = {
 var panFrom = false;
 
 var viewManager = {
-    init(options) {
-        view.maxScale = options.maxScale;
-        view.id = options.id;
-        view.canvas.canvas.id = view.id;
-        view.canvas.addToPage(true); // Under UI canvas
+    init(r, s) {
+        renderer = r;
+        stage = s;
+        renderer.view.id = 'game';
+        document.body.appendChild(renderer.view);
+    },
+    windowReady() {
         var windowSize = Math.min(window.innerWidth, window.innerHeight);
         var scale = windowSize < 400 ? 1 : windowSize < 800 ? 2 : windowSize < 1200 ? 3 : 4;
         view.cursorX = Math.floor(window.innerWidth / 2 / scale);
@@ -26,7 +28,7 @@ var viewManager = {
         view.width = Math.ceil(window.innerWidth / scale);
         view.height = Math.floor(window.innerHeight / scale);
         zoom(scale, true); // Initial zoom
-        view.events.emit('ready');
+        view.events.emit('view-ready');
         window.addEventListener('resize', function() {
             fitWindow();
             resizeCanvas();
@@ -34,9 +36,9 @@ var viewManager = {
     },
     view: view,
     onFrameReady: false,
-    setOrigin(x, y) {
-        view.originX = Math.round(x);
-        view.originY = Math.round(y);
+    setOrigin(origin) {
+        view.originX = Math.round(origin.x);
+        view.originY = Math.round(origin.y);
         view.centerX = view.originX;
         view.centerY = view.originY;
         calcPan();
@@ -44,7 +46,7 @@ var viewManager = {
     mouseMove(event) {
         view.cursorX = Math.floor(event.x / view.scale);
         view.cursorY = Math.floor(event.y / view.scale);
-        panMove();
+        if(panFrom) panMove();
     },
     mouseDown(event) {
         panFrom = panFrom || { x: view.cursorX, y: view.cursorY };
@@ -58,7 +60,6 @@ var viewManager = {
 };
 
 function panMove() {
-    if(!panFrom) return;
     view.centerX -= view.cursorX - panFrom.x;
     view.centerY -= view.cursorY - panFrom.y;
     calcPan();
@@ -70,11 +71,13 @@ function calcPan() {
     view.centerY = Math.max(-view.height / 2, Math.min(view.originY * 2 + view.height / 2, view.centerY));
     view.panX = Math.round(view.centerX - view.width / 2);
     view.panY = Math.round(view.centerY - view.height / 2);
+    stage.x = view.originX - view.panX;
+    stage.y = view.originY - view.panY;
     view.events.emit('view-change');
 }
 
 function zoom(newScale, init) {
-    if(newScale < 1 || newScale > view.maxScale) return;
+    if(newScale < 1 || newScale > maxScale) return;
     view.scale = newScale;
     var cursorWorldX = view.panX + view.cursorX,
         cursorWorldY = view.panY + view.cursorY;
@@ -98,11 +101,13 @@ function fitWindow() {
 }
 
 function resizeCanvas() {
-    viewManager.onFrameReady = function() { // Wait until new frame is ready to be drawn
-        view.canvas.canvas.style.transform = 'scale(' + view.scale + ', ' + view.scale + ')';
-        view.canvas.setSize(view.width, view.height);
-        viewManager.onFrameReady = false;
-    };
+    renderer.resize(view.width, view.height);
+    renderer.view.style.transform = 'scale(' + view.scale + ', ' + view.scale + ')';
+    // viewManager.onFrameReady = function() { // Wait until new frame is ready to be drawn
+    //     view.canvas.canvas.style.transform = 'scale(' + view.scale + ', ' + view.scale + ')';
+    //     view.canvas.setSize(view.width, view.height);
+    //     viewManager.onFrameReady = false;
+    // };
 }
 
 module.exports = viewManager;

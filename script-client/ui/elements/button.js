@@ -22,13 +22,12 @@ function Button(x, y, width, height, text, onClick) {
     this.textSprite.y = Math.floor(this.buttonHeight / 2 - this.textSprite.height / 2 + 1);
     this.interactive = true;
     this.onClick = onClick;
-    console.log(width,height);
-    console.log(this.width,this.height);
     this.on('click', this.onClick);
     this.on('mouseover', this.onHover);
     this.on('mouseout', this.offHover);
     this.on('mousedown', this.onMouseDown);
     this.on('mouseup', this.onMouseUp);
+    this.on('mouseupoutside', this.onMouseUp);
     this.draw();
 }
 
@@ -43,20 +42,18 @@ Button.prototype.draw = function() {
 };
 
 Button.prototype.onHover = function(e) {
-    this.clicking = this.wasClicking && e.data.originalEvent.buttons;
-    this.wasClicking = false;
     this.hover = true;
     this.draw();
 };
 
 Button.prototype.offHover = function(e) {
-    this.wasClicking = this.clicking;
-    this.clicking = false;
     this.hover = false;
     this.draw();
 };
 
 Button.prototype.onMouseDown = function(e) {
+    console.log('button mouse down');
+    this.lastEvent = e.data.originalEvent;
     this.clicking = true;
     this.draw();
 };
@@ -66,14 +63,6 @@ Button.prototype.onMouseUp = function(e) {
     this.draw();
 };
 
-Button.prototype.drawSelf = function() {
-    this.elementCanvas.clear();
-    var style = this.clicking ? Styles.click : this.hover ? Styles.hover : Styles.normal;
-    this.elementCanvas.context.globalAlpha = style.alpha;
-    this.elementCanvas.context.fillStyle = style.border;
-    this.elementCanvas.context.fillRect(0, 0, this.width, this.height);
-    this.elementCanvas.context.fillStyle = style.fill;
-    this.elementCanvas.context.fillRect(1, 1, this.width - 2, this.height - 2);
-    Text.blotText({ text: this.text, maxWidth: this.width, y: Math.floor(this.height / 2) - 4, canvas: this.elementCanvas, align: 'center' });
-    this.elementCanvas.context.globalAlpha = 1;
+Button.prototype.isEventCaptured = function(e) {
+    return e.e === this.lastEvent;
 };
