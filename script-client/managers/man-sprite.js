@@ -37,8 +37,8 @@ function onImageLoad(image, imageName) {
 function getColorSheet(sheet, color, alpha, regions) {
     var hex = '#' + ('00000' + color.toString(16)).substr(-6);
     var sheetName = sheet + hex;
-    if(!sheets[sheetName]) {
-        this.waitForLoaded(function() {
+    this.waitForLoaded(function() {
+        if(!sheets[sheetName]) {
             regions = regions || [];
             var canvas = document.createElement('canvas');
             canvas.width = sheets[sheet].width;
@@ -63,9 +63,8 @@ function getColorSheet(sheet, color, alpha, regions) {
             context.drawImage(colorCanvas, 0, 0);
             applyAlpha(sheets[sheet], canvas); // Restore original alpha channel
             sheets[sheetName] = canvas;
-        });
-    }
-    
+        }
+    });
     return sheetName;
 }
 
