@@ -26,9 +26,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "watch": "webpack --watch",
-    "dev": "webpack-dev-server --https",
+    "build": "webpack --config webpack/webpack.config.js",
+    "watch": "webpack --config webpack/webpack.config.js --watch",
+    "dev": "webpack-dev-server --config webpack/webpack.config.js --https",
     "start": "node index.js"
   },
   "repository": {
