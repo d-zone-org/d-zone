@@ -4,7 +4,7 @@ var InputManager = require('man-input');
 var ViewManager = require('man-view');
 var PIXI = require('pixi.js');
 var Button = require('./elements/button');
-// var Bubble = require('./elements/bubble');
+var Bubble = require('./elements/bubble');
 
 // var gameView = ViewManager.view;
 
@@ -17,13 +17,15 @@ ui.container.hitArea = new PIXI.Rectangle(0, 0, 1, 1);
 InputManager.init(ui.container);
 
 // var renderTime = 0, frameCount = 0;
-function draw() {
+function render() {
     // frameCount++;
     // var renderStart = performance.now();
+    for(var i = 0; i < ui.container.children.length; i++) {
+        if(ui.container.children[i].updatePosition) ui.container.children[i].updatePosition();
+    }
     ui.renderer.render(ui.container);
     // renderTime += performance.now() - renderStart;
     // if(frameCount == 500) { frameCount = 0; console.log('avg ui render time',renderTime/500); renderTime = 0; }
-    requestAnimationFrame(draw);
 }
 
 function zoom(newScale) {
@@ -46,7 +48,7 @@ function addElement(element, ...args) {
 }
 
 function removeElement(element) {
-    element.destroy();
+    element.destroy(true);
 }
 
 module.exports = {
@@ -59,15 +61,14 @@ module.exports = {
         document.body.appendChild(ui.renderer.view);
         ui.renderer.view.addEventListener('contextmenu', function(e) { e.preventDefault(); });
         zoom(scale); // Initial zoom
-        requestAnimationFrame(draw);
         window.addEventListener('resize', function() {
             var newScale = calcScale(window.innerWidth, window.innerHeight);
             if(newScale !== ui.scale) zoom(newScale);
             else resizeCanvas();
         });
-        InputManager.events.on('mouse-down',function(e){
+        InputManager.events.on('mouse-down',function(e) {
             for(var i = 0; i < ui.container.children.length; i++) {
-                if(ui.container.children[i].isEventCaptured(e)) return;
+                if(ui.container.children[i].interactive && ui.container.children[i].isEventCaptured(e)) return;
             }
             ViewManager.mouseDown(e);
         });
@@ -79,9 +80,10 @@ module.exports = {
         return addElement(Button, ...args);
     },
     addBubble(...args) {
-        return addElement(Bubble, ...args, ui);
+        return addElement(Bubble, ...args, ViewManager.view, ui);
     },
-    removeElement
+    removeElement,
+    render
 };
 
 function calcScale(width, height) {

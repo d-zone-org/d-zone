@@ -18,5 +18,5 @@ module.exports = function() {
     }, 100);
     setInterval(function() {
         ActorManager.message(util.pickInArray(actors), 'Hello, this is a message!');
-    }, 500);
+    }, 2000);
 };

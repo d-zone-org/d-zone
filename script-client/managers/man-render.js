@@ -1,5 +1,6 @@
 'use strict';
 var ViewManager = require('man-view.js');
+var UIManager = require('ui/manager');
 var PIXI = require('pixi.js');
 
 // TODO: Use chunk system to reduce culling and zDepth calculations
@@ -60,6 +61,7 @@ module.exports = {
             dirtyView = false;
         }
         renderer.render(stage);
+        UIManager.render();
     },
     updateSprite(entity) {
         var sprite = spriteData[entity];

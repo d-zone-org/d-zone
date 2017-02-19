@@ -1,40 +1,53 @@
 'use strict';
-var Styles = require('./../styles').bubble;
+var PIXI = require('pixi.js');
+var style = require('./../styles').bubble;
 var Text = require('./../text');
 
 module.exports = Bubble;
 
+Bubble.prototype = Object.create(PIXI.Container.prototype);
+
 function Bubble(gx, gy, text, gameView, ui) {
+    PIXI.Container.call(this);
     var blotMetrics = Text.getBlotMetrics(text, 160);
-    var width = blotMetrics.blottedWidth + 8;
-    Element.call(this, { width, height: blotMetrics.blottedHeight + 6 });
+    this.bubbleWidth = blotMetrics.blottedWidth + 8;
+    this.bubbleHeight = blotMetrics.blottedHeight + 6;
     this.gx = gx;
     this.gy = gy;
-    this.moveToGameXY(gameView, ui);
+    this.gameView = gameView;
+    this.ui = ui;
     this.text = text;
+    this.graphics = this.addChild(new PIXI.Graphics());
+    blotMetrics.align = 'left';
+    this.textSprite = this.addChild(new PIXI.Sprite(PIXI.Texture.fromCanvas(Text.blotText(blotMetrics))));
+    this.textSprite.alpha = style.textAlpha;
+    this.textSprite.x = Math.floor(this.bubbleWidth / 2 - this.textSprite.width / 2);
+    this.textSprite.y = Math.floor(this.bubbleHeight / 2 - this.textSprite.height / 2 + 1);
+    this.textSprite.mask = new PIXI.Graphics();
+    this.addChild(this.textSprite.mask);
+    this.draw();
 }
 
-Bubble.prototype.drawSelf = function() {
-    this.elementCanvas.clear();
-    this.elementCanvas.context.globalAlpha = Styles.fillAlpha;
-    this.elementCanvas.context.fillStyle = Styles.fill;
-    this.elementCanvas.context.fillRect(0, 0, this.width, this.height);
-    this.elementCanvas.context.globalAlpha = Styles.textAlpha;
-    Text.blotText({ text: this.text, maxWidth: this.width, x: 4, y: Math.floor(this.height / 2) - 4, canvas: this.elementCanvas, align: 'left' });
-    this.elementCanvas.context.globalAlpha = 1;
+Bubble.prototype.draw = function() {
+    this.graphics.clear();
+    this.graphics.alpha = style.fillAlpha;
+    this.graphics.beginFill(style.fill);
+    this.graphics.drawRect(0, 0, this.bubbleWidth, this.bubbleHeight);
 };
 
-Bubble.prototype.moveToGameXY = function(gameView, ui) {
-    var scaleRatio = gameView.scale / ui.scale;
-    this.x = Math.floor(scaleRatio * (this.gx - gameView.panX + gameView.originX) - this.width / 2 + 1 );
-    this.y = Math.floor(scaleRatio * (this.gy - gameView.panY + gameView.originY - 15)) - 16;
-    this.x = Math.max(1, Math.min(ui.width - this.width - 2, this.x));
-    this.y = Math.max(1, Math.min(ui.height - this.height - 2, this.y));
+Bubble.prototype.setPercent = function(percent) {
+    if(percent > 1) return;
+    this.textSprite.mask.clear();
+    this.textSprite.mask.drawRect(0, 0, this.bubbleWidth * percent, this.bubbleHeight);
+};
+
+Bubble.prototype.updatePosition = function() {
+    var scaleRatio = this.gameView.scale / this.ui.scale;
+    this.x = Math.floor(scaleRatio * (this.gx - this.gameView.panX + this.gameView.originX) 
+        - this.bubbleWidth / 2);
+    this.y = Math.floor(scaleRatio * (this.gy - this.gameView.panY + this.gameView.originY - 6)) - 16;
+    this.x = Math.max(1, Math.min(this.ui.width - this.bubbleWidth - 2, this.x));
+    this.y = Math.max(1, Math.min(this.ui.height - this.bubbleHeight - 2, this.y));
 };
 
 // TODO: Prevent elements overlapping with siblings
-
-Bubble.prototype.gameViewChange = function(gameView, ui) {
-    this.moveToGameXY(gameView, ui);
-    this.makeDirty();
-};
