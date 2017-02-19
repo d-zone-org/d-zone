@@ -2,9 +2,9 @@
 
 module.exports = Movement;
 
-function Movement() {
-    this.data = {
+function Movement(data) {
+    this.data = Object.assign({
         direction: 'east', // Direction of movement
         ticks: 1 // Duration
-    };
+    }, data);
 }

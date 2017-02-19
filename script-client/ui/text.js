@@ -1,12 +1,10 @@
 'use strict';
-var SpriteManager = require('man-sprite');
+var TextureManager = require('man-texture');
 var Canvas = require('canvas');
 var fontSheet;
-SpriteManager.waitForLoaded(function() {
-    fontSheet = SpriteManager.sheets.font;
-});
+TextureManager.waitForLoaded(() => { fontSheet = TextureManager.getImage('font') });
 
-const padX = 4, padY = 3, lineHeight = 10;
+const lineHeight = 10;
 const CHARMAP = {
     upper: { y: 0, height: 8, xSpacing: 1, chars: [
         ['A',5], ['B',5], ['C',5], ['D',5], ['E',4], ['F',4], ['G',5], ['H',5], ['I',3], ['J',5],

@@ -8,6 +8,7 @@ var EntityManager = require('man-entity');
 var ComponentManager = require('man-component');
 var worldConfig = require('./config');
 var PathManager = require('./path/pathmanager');
+var Sprites = require('./sprites');
 
 var world, transformData;
 
@@ -24,7 +25,7 @@ var worldManager = {
         PathManager.init(CollisionMap.map);
         addEntity(EntityManager.addEntity([
             [require('com-transform'), { x: world.beacon.x, y: world.beacon.y, platform: false }],
-            [require('com-sprite3d'), worldConfig().beacon]
+            [require('com-sprite3d'), Sprites.createBeaconSprite()]
         ]));
         WorldGraphics.createSegments(world);
     },

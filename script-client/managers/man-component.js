@@ -40,14 +40,13 @@ module.exports = {
         }
     },
     addComponent(entity, mask, component, data) {
-        var thisComponentData = componentData[component];
-        thisComponentData[entity] = (new component()).data; // New instance of default data
-        Object.assign(thisComponentData[entity], data); // Apply custom data
+        componentData[component][entity] = (new component(data)).data;
         for(var f = 0; f < componentFamilies.length; f++) { // Notify families that require component
             componentFamilies[f].addEntity(entity, mask); // Notify families that match new mask
         }
     },
     removeComponent(entity, component) {
+        if(componentData[component][entity].destroy) componentData[component][entity].destroy();
         delete componentData[component][entity]; // Delete component data
         for(var f = 0; f < componentFamilies.length; f++) { // Notify families that require component
             componentFamilies[f].removeEntity(entity, getComponentMask([component]));
@@ -65,7 +64,7 @@ module.exports = {
 };
 
 function getComponentData(family) {
-    if(family.length) {
+    if(family[0]) {
         var familyData = [];
         for(var c = 0; c < family.length; c++) {
             familyData.push(componentData[family[c]]);

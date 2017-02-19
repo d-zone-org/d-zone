@@ -1,11 +1,28 @@
 'use strict';
+var ViewManager = require('man-view.js');
+var PIXI = require('pixi.js');
+
+// TODO: Use chunk system to reduce culling and zDepth calculations
+
+var renderer = PIXI.autoDetectRenderer(800, 600, { antialias: false, backgroundColor: 0x1d171f }),
+    stage = new PIXI.Container(), // Main container used by game renderer
+    sprites = new PIXI.Container(); // Non-bg game sprites
+// stage = new PIXI.particles.ParticleContainer(100000);
+stage.addChild(sprites);
+var dirtyView; // Flag for re-culling sprites
+
+ViewManager.init(renderer, stage);
+var view = ViewManager.view;
 
 var spriteData, transformData; // Reference to sprite and transform data
 var zBuffer = []; // Array of Z-depths, each containing depth-sorted sprites
-var flatZBuffer = []; // Flat list of depth-sorted sprites
 var entityZDepths = []; // Z-depths indexed by entity
 var dirtyBuffer; // Indicates whether Z-buffer needs rebuilding
 var minZDepth; // Lowest possible entity Z-depth
+
+view.events.on('view-change', function(){
+    dirtyView = true;
+});
 
 module.exports = {
     init(getComponentData) {
@@ -21,23 +38,36 @@ module.exports = {
     getDrawX: getDrawX,
     getDrawY: getDrawY,
     getDrawXY: getDrawXY,
-    getZBuffer() {
+    render() {
         if(dirtyBuffer) {
-            flatZBuffer.length = 0;
-            for(var i = 0; i < zBuffer.length; i++) {
-                if(zBuffer[i].length) {
-                    flatZBuffer.push(...zBuffer[i]);
+            sprites.children.length = 0;
+            for(var b = 0; b < zBuffer.length; b++) {
+                if(zBuffer[b].length) {
+                    sprites.children.push(...zBuffer[b]);
                 }
             }
             dirtyBuffer = false;
         }
-        return flatZBuffer;
+        if(dirtyView) { // If view was changed, refresh sprite culling
+            var sprite;
+            for(var i = 0; i < sprites.children.length; i++) {
+                sprite = sprites.children[i];
+                sprites.children[i].visible = sprite.x + sprite.width > -stage.x
+                    && sprite.x < view.width - stage.x
+                    && sprite.y + sprite.height >  -stage.y
+                    && sprite.y < view.height - stage.y;
+            }
+            dirtyView = false;
+        }
+        renderer.render(stage);
     },
     updateSprite(entity) {
         var sprite = spriteData[entity];
         if(!sprite) return;
-        sprite.fdx = sprite.dx + sprite.dox;
-        sprite.fdy = sprite.dy + sprite.doy;
+        sprite.x = sprite.dx + sprite.dox;
+        sprite.y = sprite.dy + sprite.doy;
+        sprite.visible = sprite.x + sprite.width > -stage.x && sprite.x < view.width - stage.x
+            && sprite.y + sprite.height >  -stage.y && sprite.y < view.height - stage.y;
     },
     updateTransform(entity) {
         var transform = transformData[entity];
@@ -48,16 +78,22 @@ module.exports = {
         var oldDY = sprite.dy;
         sprite.dx = getDrawX(transform.x, transform.y);
         sprite.dy = getDrawY(transform.x, transform.y, transform.z);
-        sprite.fdx = sprite.dx + sprite.dox;
-        sprite.fdy = sprite.dy + sprite.doy;
+        sprite.x = sprite.dx + sprite.dox;
+        sprite.y = sprite.dy + sprite.doy;
         sprite.zDepth = (transform.x + transform.y) * 2 - minZDepth;
+        sprite.visible = sprite.x + sprite.width > -stage.x && sprite.x < view.width - stage.x
+            && sprite.y + sprite.height >  -stage.y && sprite.y < view.height - stage.y;
         if(sprite.zDepth !== oldZDepth || sprite.dy !== oldDY) updateZBuffer(entity, sprite);
     },
     adjustZDepth(entity, sprite, delta) {
         sprite.zDepth += delta;
         updateZBuffer(entity, sprite);
     },
-    removeSprite
+    addToStage(entity) {
+        spriteData[entity].setParent(sprites);
+    },
+    removeSprite,
+    renderer, stage
 };
 
 function updateZBuffer(entity, sprite) {

@@ -23,12 +23,14 @@ module.exports = new configLoader({
     },
     sprites: {
         common: {
+            sheet: 'actors',
             sheetX: 0,
             sheetY: 0,
             sheetW: 14,
             sheetH: 14,
             dox: -7,
-            doy: -4
+            doy: -4,
+            hitArea: [0,2, 7,-1, 14,2, 14,12, 7,15, 0,12]
         },
         idle: {
             north: {

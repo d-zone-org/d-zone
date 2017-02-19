@@ -4,6 +4,7 @@ var Geometry = require('geometry');
 var EntityManager = require('man-entity');
 var SpriteManager = require('man-sprite');
 var WorldManager = require('world/manager');
+var Sprites = require('./sprites');
 var actorConfig = require('./config');
 
 var ACTOR = require('./components/actor');
@@ -38,18 +39,18 @@ module.exports = {
             transform.z = placeZ;
         }
         var facing = util.pickInObject(Geometry.DIRECTIONS); // Face random direction
-        var sprite = actorConfig().sprites.idle[facing]; 
-        sprite.sheet = 'actors';
+        // var sprite = actorConfig().sprites.idle[facing]; 
+        // sprite.sheet = 'actors';
         var actor = { facing };
         if(!isNaN(params.color)) {
             actor.color = params.color;
-            sprite.sheet = SpriteManager.getColorSheet('actors', params.color, 0.8,
-                [{ alpha: 0.4, x: 14, y: 42, w: 14, h: 28 }]);
+            // sprite.sheet = SpriteManager.getColorSheet('actors', params.color, 0.8,
+            //     [{ alpha: 0.4, x: 14, y: 42, w: 14, h: 28 }]);
         }
         var data = [
             [ACTOR, actor],
             [TRANSFORM, transform], // Transform must be before sprite so render manager sees it when sprite is added
-            [SPRITE3D, sprite] 
+            [SPRITE3D, Sprites.createActorSprite(facing)] 
         ];
         var e = EntityManager.addEntity(data);
         transform = WorldManager.addEntity(e);
@@ -73,7 +74,7 @@ module.exports = {
     },
     turn(entity, direction) {
         actorData[entity].facing = direction;
-        Object.assign(spriteData[entity], actorConfig().sprites.idle[direction]);
+        // Object.assign(spriteData[entity], actorConfig().sprites.idle[direction]);
     }
 };
 

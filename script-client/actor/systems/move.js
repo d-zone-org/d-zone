@@ -11,12 +11,11 @@ var ANIMATION = require('com-animation');
 
 var move = new System([
     require('../components/actor'),
-    require('com-sprite3d'),
     require('com-transform'),
     MOVEMENT
 ]);
 
-move.updateEntity = function(entity, actor, sprite, transform, movement) {
+move.updateEntity = function(entity, actor, transform, movement) {
     if(!movement.tick) { // Initialize movement
         ActorManager.turn(entity, movement.direction);
         var moveDelta = actorConfig().movement[movement.direction];

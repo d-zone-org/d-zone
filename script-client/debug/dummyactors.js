@@ -10,13 +10,13 @@ for(var c = 0; c < 10; c++) {
 }
 
 module.exports = function() {
-    for(var i = 0; i < 100; i++) {
+    for(var i = 0; i < 500; i++) {
         actors.push(ActorManager.create({ color: util.pickInArray(colors) }));
     }
-    setInterval(function() {
-        ActorManager.hop(util.pickInArray(actors), util.pickInObject(Geometry.DIRECTIONS));
-    }, 30);
-    setInterval(function() {
-        ActorManager.message(util.pickInArray(actors), 'Hello, this is a message!');
-    }, 1000);
+    // setInterval(function() {
+    //     ActorManager.hop(util.pickInArray(actors), util.pickInObject(Geometry.DIRECTIONS));
+    // }, 5);
+    // setInterval(function() {
+    //     ActorManager.message(util.pickInArray(actors), 'Hello, this is a message!');
+    // }, 1000);
 };

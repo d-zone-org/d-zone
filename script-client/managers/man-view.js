@@ -28,7 +28,6 @@ var viewManager = {
         view.width = Math.ceil(window.innerWidth / scale);
         view.height = Math.floor(window.innerHeight / scale);
         zoom(scale, true); // Initial zoom
-        view.events.emit('view-ready');
         window.addEventListener('resize', function() {
             fitWindow();
             resizeCanvas();
@@ -46,7 +45,7 @@ var viewManager = {
     mouseMove(event) {
         view.cursorX = Math.floor(event.x / view.scale);
         view.cursorY = Math.floor(event.y / view.scale);
-        if(panFrom) panMove();
+        if(event.buttons && panFrom) panMove(); else panFrom = false;
     },
     mouseDown(event) {
         panFrom = panFrom || { x: view.cursorX, y: view.cursorY };
@@ -66,14 +65,14 @@ function panMove() {
     panFrom = { x: view.cursorX, y: view.cursorY };
 }
 
-function calcPan() {
+function calcPan(silent) {
     view.centerX = Math.max(-view.width / 2, Math.min(view.originX * 2 + view.width / 2, view.centerX));
     view.centerY = Math.max(-view.height / 2, Math.min(view.originY * 2 + view.height / 2, view.centerY));
     view.panX = Math.round(view.centerX - view.width / 2);
     view.panY = Math.round(view.centerY - view.height / 2);
     stage.x = view.originX - view.panX;
     stage.y = view.originY - view.panY;
-    view.events.emit('view-change');
+    if(!silent) view.events.emit('view-change');
 }
 
 function zoom(newScale, init) {
@@ -81,7 +80,7 @@ function zoom(newScale, init) {
     view.scale = newScale;
     var cursorWorldX = view.panX + view.cursorX,
         cursorWorldY = view.panY + view.cursorY;
-    fitWindow();
+    fitWindow(true);
     if(!init) { // If not initial zoom
         view.centerX += cursorWorldX - (view.panX + view.cursorX); // Consistent cursor-world location
         view.centerY += cursorWorldY - (view.panY + view.cursorY);
@@ -90,24 +89,19 @@ function zoom(newScale, init) {
     resizeCanvas();
 }
 
-function fitWindow() {
+function fitWindow(silent) {
     var newWidth = Math.ceil(window.innerWidth / view.scale),
         newHeight = Math.ceil(window.innerHeight / view.scale);
     view.cursorX = Math.round(newWidth * (view.cursorX / view.width));
     view.cursorY = Math.round(newHeight * (view.cursorY / view.height));
     view.width = newWidth;
     view.height = newHeight;
-    calcPan();
+    calcPan(silent);
 }
 
 function resizeCanvas() {
     renderer.resize(view.width, view.height);
     renderer.view.style.transform = 'scale(' + view.scale + ', ' + view.scale + ')';
-    // viewManager.onFrameReady = function() { // Wait until new frame is ready to be drawn
-    //     view.canvas.canvas.style.transform = 'scale(' + view.scale + ', ' + view.scale + ')';
-    //     view.canvas.setSize(view.width, view.height);
-    //     viewManager.onFrameReady = false;
-    // };
 }
 
 module.exports = viewManager;

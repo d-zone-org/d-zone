@@ -2,7 +2,7 @@
 var EventEmitter = require('events').EventEmitter;
 
 var events = new EventEmitter();
-var mouseX, mouseY, mouseLeft, mouseRight, mouseMiddle, mouseOut;
+var mouseX, mouseY, mouseOut;
 
 function onMouseMove(e) {
     e = e.data.originalEvent;
@@ -16,21 +16,11 @@ const BUTTONS = ['left','middle','right'];
 
 function onMouseDown(e) {
     e = e.data.originalEvent;
-    switch(BUTTONS[e.button]) {
-        case 'left': mouseLeft = true; break;
-        case 'right': mouseRight = true; break;
-        case 'middle': mouseMiddle = true; break;
-    }
     events.emit('mouse-down', { button: BUTTONS[e.button], x: mouseX, y: mouseY, e });
 }
 
 function onMouseUp(e) {
     e = e.data.originalEvent;
-    switch(BUTTONS[e.button]) {
-        case 'left': mouseLeft = false; break;
-        case 'right': mouseRight = false; break;
-        case 'middle': mouseMiddle = false; break;
-    }
     events.emit('mouse-up', { button: BUTTONS[e.button], x: mouseX, y: mouseY, e });
 }
 
@@ -58,7 +48,6 @@ function onMouseWheel(e) {
 
 function onTouchStart(e) {
     e = e.data.originalEvent;
-    mouseLeft = true;
     mouseX = e.touches[0].pageX;
     mouseY = e.touches[0].pageY;
     this.emit('mouse-down', { button: 'left', x: mouseX, y: mouseY, e });
@@ -73,7 +62,6 @@ function onTouchMove(e) {
 
 function onTouchEnd(e) {
     e = e.data.originalEvent;
-    mouseLeft = false;
     events.emit('mouse-up', { button: 'left', x: mouseX, y: mouseY, e });
 }
 
@@ -99,7 +87,8 @@ module.exports = {
 };
 
 // Debug
-document.addEventListener('keydown', function(e) {
+var realWindow = window.parent || window;
+realWindow.addEventListener('keydown', function(e) {
     var key = e.keyCode >= 48 && e.keyCode <= 90 ?
         String.fromCharCode(parseInt(e.keyCode)).toLowerCase() : KEYCODES[e.keyCode];
     global.dz.events.emit('key-' + key);

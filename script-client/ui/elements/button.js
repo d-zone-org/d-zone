@@ -35,10 +35,9 @@ Button.prototype.draw = function() {
     this.graphics.clear();
     var style = this.clicking ? Styles.click : this.hover ? Styles.hover : Styles.normal;
     this.alpha = style.alpha;
-    this.graphics.beginFill(style.border);
-    this.graphics.drawRect(0, 0, this.buttonWidth, this.buttonHeight);
     this.graphics.beginFill(style.fill);
-    this.graphics.drawRect(1, 1, this.buttonWidth - 2, this.buttonHeight - 2);
+    this.graphics.lineStyle(1, style.border);
+    this.graphics.drawRect(0, 0, this.buttonWidth - 1, this.buttonHeight - 1);
 };
 
 Button.prototype.onHover = function(e) {

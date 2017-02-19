@@ -2,9 +2,11 @@
 var util = require('dz-util');
 var Canvas = require('canvas');
 var Map2D = require('map2d');
-var SpriteManager = require('man-sprite');
-var RenderSystem = require('sys-render');
-var view = require('man-view').view;
+var TextureManager = require('man-texture');
+var RenderManager = require('man-render');
+var PIXI = require('pixi.js');
+var ViewManager = require('man-view');
+var view = ViewManager.view;
 
 var tileSheet;
 var tileWidth = 32,
@@ -18,8 +20,7 @@ var segmentSize = 32,
 var segments; // Store map tile segments
 var segmentX1 = 0, segmentY1 = 0, // Current top-left bounds
     segmentX2 = 0, segmentY2 = 0; // Current bottom-right bounds
-var viewedSegments = [], // Segment indexes currently in view, 2D array
-    segmentCache = {};
+var viewedSegments, segmentCache = {};
 
 function onViewChange() {
     var newSX1 = Math.floor((view.centerX - view.width / 2) / segmentImageWidth),
@@ -32,19 +33,24 @@ function onViewChange() {
     segmentY1 = newSY1;
     segmentX2 = newSX2;
     segmentY2 = newSY2;
-    viewedSegments = [];
+    if(viewedSegments) viewedSegments.destroy();
+    viewedSegments = new PIXI.Container();
     var newCache = {};
     for(let sx = segmentX1; sx <= segmentX2; sx++) {
-        let ySegments = [];
         for(let sy = segmentY1; sy <= segmentY2; sy++) {
             var segment = segmentCache[sx + ':' + sy] || drawSegment(sx, sy);
+            if(!segment) continue;
+            segment.x = sx * segmentImageWidth;
+            segment.y = sy * segmentImageHeight;
             newCache[sx + ':' + sy] = segment;
-            ySegments.push(segment);
+            viewedSegments.addChild(segment);
         }
-        viewedSegments.push(ySegments);
     }
     segmentCache = newCache;
-    RenderSystem.setBGSegments(viewedSegments, segmentImageWidth, segmentImageHeight);
+    viewedSegments.x = -view.originX;
+    viewedSegments.y = -view.originY;
+    RenderManager.stage.addChildAt(viewedSegments, 0);
+    viewedSegments.updateTransform();
 }
 
 function drawSegment(x, y) {
@@ -62,14 +68,16 @@ function drawSegment(x, y) {
             drawY = (row - 1) * halfTileHeight;
         segmentCanvas.drawImage(tileSheet,sheetX,sheetY,tileWidth,tileHeight,drawX,drawY);
     }
-    return segmentCanvas.canvas;
+    var sprite = new PIXI.Sprite(PIXI.Texture.fromCanvas(segmentCanvas.canvas));
+    sprite.cacheAsBitmap = true;
+    return sprite;
 }
 
 module.exports = {
     createSegments(world) { // Create segment maps of tiles after isometric rotation
         segmentImageWidth = Math.min(world.size * tileWidth + tileWidth, segmentImageWidth);
         segmentImageHeight = Math.min(world.size * tileHeight + tileHeight, segmentImageHeight);
-        var worldSegmentSize = Math.max(1, Math.floor((world.size + 1) / segmentSize));
+        var worldSegmentSize = Math.max(1, Math.ceil(world.size / segmentSize));
         segments = new Map2D(Array, worldSegmentSize);
         var projectedTiles = new Map2D(Uint8Array, world.size + 1, world.size * 2 + 1);
         world.tiles.forEachTileIntersection(function(nw, ne, se, sw, ix, iy) {
@@ -100,8 +108,9 @@ module.exports = {
             x: world.size * tileHeight,
             y: world.size * halfTileHeight
         };
-        SpriteManager.waitForLoaded(function() {
-            tileSheet = SpriteManager.sheets['static-tiles'];
+        ViewManager.setOrigin(world.imageCenter);
+        TextureManager.waitForLoaded(function() {
+            tileSheet = TextureManager.getImage('static-tiles');
             onViewChange();
             view.events.on('view-change', onViewChange);
         });

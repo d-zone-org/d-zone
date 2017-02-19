@@ -24,6 +24,7 @@ var EntityManager = require('man-entity');
 var ComponentManager = require('man-component');
 var RenderManager = require('man-render');
 var SpriteManager = require('man-sprite');
+var TextureManager = require('man-texture');
 var UIManager = require('./ui/manager');
 var ViewManager = require('man-view');
 var WorldManager = require('./world/manager');
@@ -31,41 +32,44 @@ var ActorManager = require('./actor/manager');
 var Discord = require('./discord/discord');
 
 // Initialize managers
-SpriteManager.init(['actors', 'environment', 'static-tiles', 'props', 'font']);
+// SpriteManager.init(['actors', 'static-tiles', 'props', 'font']);
+TextureManager.init(['actors', 'static-tiles', 'props', 'font']);
 ComponentManager.init(components, systems);
 RenderManager.init(ComponentManager.getComponentData);
-WorldManager.generateWorld(50);
-ViewManager.setOrigin(WorldManager.world.imageCenter);
-ActorManager.init(ComponentManager.getComponentData);
-
-require('./debug/dummyactors')();
 
 GameManager.init(systems);
 
+// TODO: Move ALL initialization to after window is ready
 if(window.innerWidth) onWindowReady();
 else window.addEventListener('resize', onWindowReady );
 function onWindowReady() {
     window.removeEventListener('resize', onWindowReady);
     ViewManager.windowReady();
-    SpriteManager.waitForLoaded(function() {
-        UIManager.init({ maxScale: 3 });
-        UIManager.addButton(5, 5, 50, 20, 'Reset', function() {
-            //Discord.login();
-        });
+    TextureManager.waitForLoaded(onReady);
+}
+
+function onReady() {
+    UIManager.init({ maxScale: 3 });
+    UIManager.addButton(5, 5, 50, 20, 'Reset', function() {
+        //Discord.login();
     });
+
+    WorldManager.generateWorld(60);
+    ActorManager.init(ComponentManager.getComponentData);
+    actor1 = ActorManager.create({
+        x: -1,
+        y: 2
+    });
+    actor2 = ActorManager.create({
+        x: 1,
+        y: 2
+    });
+    require('./debug/dummyactors')();
 }
 
 // Debug/Testing
 
-var actor1 = ActorManager.create({
-    x: -1,
-    y: 2
-});
-var actor2 = ActorManager.create({
-    x: 1,
-    y: 2
-});
-
+var actor1, actor2;
 
 global.dz.events.on('key-q', function() { // Log component data
     console.log(ComponentManager.componentData);

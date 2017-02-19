@@ -1,5 +1,6 @@
 'use strict';
 var Canvas = require('canvas');
+var TextureManager = require('man-texture');
 var EventEmitter = require('events').EventEmitter;
 
 var sheets = {};

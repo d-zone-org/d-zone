@@ -2,8 +2,8 @@
 
 module.exports = Animation;
 
-function Animation() {
-    this.data = {
+function Animation(data) {
+    this.data = Object.assign({
         loop: true,
         restoreSprite: true, // Indicates whether to restore sprite properties upon completion
         rate: 2, // Game ticks per frame
@@ -20,5 +20,5 @@ function Animation() {
         zDepthValues: [], // Relative values to change zDepth, corresponding to zDepthFrames
         offsetYFrames: [], // Frames at which offsetY of sprite is manually changed
         offsetYValues: [] // Relative values to change offsetY, corresponding to offsetYFrames
-    };
+    }, data);
 }

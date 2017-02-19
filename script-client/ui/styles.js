@@ -23,20 +23,20 @@ module.exports = {
         normal: {
             alpha: 0.75,
             border: C.offWhite,
-            fill: C.black,
+            fill: C.darkest,
             text: C.white
         }
         ,
         hover: {
-            alpha: 0.95,
+            alpha: 1,
             border: C.white,
-            fill: C.black,
+            fill: C.dimBrown,
             text: C.white
         }
         ,
         click: {
             alpha: 1,
-            border: C.grey,
+            border: C.offWhite,
             fill: C.black,
             text: C.grey
         }
