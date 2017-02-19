@@ -20,13 +20,13 @@ function update() { // Real update method once sprites are loaded
     currentFrame = requestAnimationFrame(render); // Request new frame
 }
 
-var renderTime = 0, frameCount = 0;
+// var renderTime = 0, frameCount = 0;
 function render() {
-    frameCount++;
-    var renderStart = performance.now();
+    // frameCount++;
+    // var renderStart = performance.now();
     RenderManager.render();
-    renderTime += performance.now() - renderStart;
-    if(frameCount == 500) { frameCount = 0; console.log('avg game render time',renderTime/500); renderTime = 0; }
+    // renderTime += performance.now() - renderStart;
+    // if(frameCount == 500) { frameCount = 0; console.log('avg game render time',renderTime/500); renderTime = 0; }
 }
 
 renderSystem.onEntityAdded = function(entity) {

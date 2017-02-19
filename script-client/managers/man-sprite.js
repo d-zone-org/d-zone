@@ -1,39 +1,21 @@
 'use strict';
-var Canvas = require('canvas');
 var TextureManager = require('man-texture');
-var EventEmitter = require('events').EventEmitter;
+var PIXI = require('pixi.js');
 
-var sheets = {};
-var events = new EventEmitter();
-events.setMaxListeners(0);
-var imageList, imagesLoaded = 0, loaded = false;
+var sprites = {};
 
 var spriteManager = {
-    init(imgList) {
-        imageList = imgList;
-        for(var i = 0; i < imageList.length; i++) {
-            var image = new Image;
-            image.addEventListener('load', onImageLoad.bind(this, image, imageList[i]));
-            image.src = './img/' + imageList[i] + '.png';
-        }
-    },
-    waitForLoaded(cb) {
-        if(spriteManager.loaded) cb();
-        else events.once('loaded', cb);
-    },
-    getColorSheet,
-    sheets,
-    events
+    getColorSheet
 };
 
-function onImageLoad(image, imageName) {
-    var canvas = new Canvas(image.width, image.height);
-    sheets[imageName] = canvas.canvas;
-    canvas.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width, image.height);
-    imagesLoaded++;
-    spriteManager.loaded = imagesLoaded == imageList.length;
-    if(spriteManager.loaded) events.emit('loaded');
-}
+var colorMatrix = new PIXI.filters.ColorMatrixFilter();
+colorMatrix.matrix = [
+//  R    G    B    A   Offset  
+    1.0, 0.0, 0.0, 0.0, 0, // R
+    0.0, 1.0, 0.0, 0.0, 0, // G
+    0.0, 0.0, 1.0, 0.0, 0, // B
+    0.0, 0.0, 0.0, 1.0, 0  // A
+];
 
 function getColorSheet(sheet, color, alpha, regions) {
     var hex = '#' + ('00000' + color.toString(16)).substr(-6);

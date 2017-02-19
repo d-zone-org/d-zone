@@ -1,5 +1,14 @@
 'use strict';
-console.log(`###### D-ZONE ${require('json-loader!./../package.json').version} ######`);
+console.log(
+    `%c %c %c %c D-Zone ${require('json-loader!./../package.json').version} %c %c %c `,
+    'padding: 4px 2px; background: #1D171F',
+    'padding: 4px 3px; background: #382D34',
+    'padding: 4px 4px; background: #6E5F62',
+    'padding: 4px 5px; background: #366E37; color: #D4CFB6',
+    'padding: 4px 4px; background: #6E5F62',
+    'padding: 4px 3px; background: #382D34',
+    'padding: 4px 2px; background: #1D171F'
+);
 var EventEmitter = require('events').EventEmitter;
 var util = require('dz-util');
 global.dz = { events: new EventEmitter() }; // D-Zone globals
@@ -32,7 +41,6 @@ var ActorManager = require('./actor/manager');
 var Discord = require('./discord/discord');
 
 // Initialize managers
-// SpriteManager.init(['actors', 'static-tiles', 'props', 'font']);
 TextureManager.init(['actors', 'static-tiles', 'props', 'font']);
 ComponentManager.init(components, systems);
 RenderManager.init(ComponentManager.getComponentData);
@@ -54,7 +62,7 @@ function onReady() {
         //Discord.login();
     });
 
-    WorldManager.generateWorld(60);
+    WorldManager.generateWorld(30);
     ActorManager.init(ComponentManager.getComponentData);
     actor1 = ActorManager.create({
         x: -1,

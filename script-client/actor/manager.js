@@ -74,7 +74,7 @@ module.exports = {
     },
     turn(entity, direction) {
         actorData[entity].facing = direction;
-        // Object.assign(spriteData[entity], actorConfig().sprites.idle[direction]);
+        Sprites.turn(spriteData[entity], direction);
     }
 };
 

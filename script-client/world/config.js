@@ -8,13 +8,18 @@ module.exports = new configLoader({
     centeredness: 1, // How centralized the land is (0 - 1)
     removeIslands: true,
     flowerPatchesFactor: 1,
-    sprites: {
+    textures: {
         beacon: {
             sheet: 'props',
-            sheetX: 0,
-            sheetY: 0,
-            sheetW: 31,
-            sheetH: 56,
+            frameX: 0,
+            frameY: 0,
+            frameW: 31,
+            frameH: 56,
+        }
+    },
+    sprites: {
+        beacon: {
+            texturePath: ['props', 'beacon'],
             dox: -16,
             doy: -42
         }

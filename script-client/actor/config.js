@@ -21,63 +21,107 @@ module.exports = new configLoader({
             dx: 1
         }
     },
+    textures: {
+        idle: {
+            common: {
+                sheet: 'actors',
+                frameX: 0,
+                frameY: 0,
+                frameW: 14,
+                frameH: 14
+            },
+            north: {
+                frameX: 14
+            },
+            west: {
+                frameX: 14
+            },
+            south: { },
+            east: {
+                frameY: 56
+            }
+        },
+        hop: {
+            common: {
+                sheet: 'actors',
+                frameX: 28,
+                frameY: 0,
+                frames: 13,
+                frameW: 35,
+                frameH: 27,
+                deltaX: 1,
+                deltaY: 0
+            },
+            north: {
+                frameY: 54
+            },
+            west: {
+                frameY: 81
+            },
+            south: { },
+            east: {
+                frameY: 27
+            }
+        },
+        speak: {
+            common: {
+                sheet: 'actors',
+                frameX: 0,
+                frameY: 0,
+                frames: 4,
+                frameW: 14,
+                frameH: 14,
+                deltaX: 0,
+                deltaY: 1
+            },
+            south: { },
+            east: {
+                frameY: 56
+            }
+        }
+    },
     sprites: {
         common: {
-            sheet: 'actors',
-            sheetX: 0,
-            sheetY: 0,
-            sheetW: 14,
-            sheetH: 14,
+            texturePath: ['actors','idle'],
             dox: -7,
             doy: -4,
             hitArea: [0,2, 7,-1, 14,2, 14,12, 7,15, 0,12]
         },
         idle: {
-            north: {
-                sheetX: 14
-            },
-            west: {
-                sheetX: 14
-            },
+            north: { },
+            west: { },
             south: { },
-            east: {
-                sheetY: 56
-            }
+            east: { }
         }
     },
     animations: {
         hop: {
             common: {
-                sheetX: 28,
                 loop: false,
                 rate: 2,
                 frames: 13,
-                frameW: 35,
-                frameH: 27,
-                deltaX: 1,
-                deltaY: 0,
                 zDepthFrames: [6,9]
             },
             north: {
-                sheetY: 54,
+                texturePath: ['actors','hop','north'],
                 offsetX: -9,
                 offsetY: -15,
                 zDepthValues: [-1,0]
             },
             west: {
-                sheetY: 81,
+                texturePath: ['actors','hop','west'],
                 offsetX: -26,
                 offsetY: -15,
                 zDepthValues: [-1,0]
             },
             south: {
-                sheetY: 0,
+                texturePath: ['actors','hop','south'],
                 offsetX: -26,
                 offsetY: -6,
                 zDepthValues: [1,1]
             },
             east: {
-                sheetY: 27,
+                texturePath: ['actors','hop','east'],
                 offsetX: -9,
                 offsetY: -6,
                 zDepthValues: [1,1]
@@ -93,22 +137,17 @@ module.exports = new configLoader({
         },
         speak: {
             common: {
-                sheetX: 0,
                 loop: true,
                 rate: 5,
-                frames: 4,
-                frameW: 14,
-                frameH: 14,
-                deltaX: 0,
-                deltaY: 1,
                 offsetX: -7,
-                offsetY: -4
+                offsetY: -4,
+                frames: 4,
             },
             south: {
-                sheetY: 0
+                texturePath: ['actors','speak','south']
             },
             east: {
-                sheetY: 56
+                texturePath: ['actors','speak','east']
             }
         }
     }

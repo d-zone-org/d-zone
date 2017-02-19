@@ -7,14 +7,15 @@ TextureManager.waitForLoaded(prepareSprites);
 var textures = {};
 
 function prepareSprites() {
-    var spriteConfig = worldConfig().sprites;
-    TextureManager.createTextures(textures, spriteConfig, 'props', 'sheetW', 'sheetH');
+    var textureConfig = worldConfig().textures;
+    TextureManager.createTextures('props', textureConfig);
 }
 
 module.exports = {
     createBeaconSprite() {
-        var beacon = new PIXI.Sprite(textures.props.beacon);
-        Object.assign(beacon, worldConfig().sprites.beacon);
+        var spriteConfig = worldConfig().sprites.beacon;
+        var beacon = new PIXI.Sprite(TextureManager.getTexture(...spriteConfig.texturePath));
+        Object.assign(beacon, spriteConfig);
         return beacon;
     },
     textures
