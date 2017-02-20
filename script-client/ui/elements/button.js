@@ -14,7 +14,7 @@ function Button(x, y, width, height, text, onClick) {
     this.buttonWidth = width;
     this.buttonHeight = height;
     this.graphics = this.addChild(new PIXI.Graphics());
-    this.textSprite = this.addChild(new TextBox(text, { maxWidth: this.buttonWidth - 2 }));
+    this.textSprite = this.addChild(new TextBox(text, { maxWidth: this.buttonWidth - 2, maxLines: 1 }));
     this.textSprite.x = Math.floor(this.buttonWidth / 2 - this.textSprite.width / 2);
     this.textSprite.y = Math.floor(this.buttonHeight / 2 - this.textSprite.height / 2 + 1);
     this.interactive = true;
@@ -29,13 +29,13 @@ function Button(x, y, width, height, text, onClick) {
 }
 
 Button.prototype.draw = function() {
-    // TODO: Add 1px inner shadow and drop shadow
-    this.graphics.clear();
     var style = this.clicking ? Styles.click : this.hover ? Styles.hover : Styles.normal;
     this.alpha = style.alpha;
-    this.graphics.beginFill(style.fill);
-    this.graphics.lineStyle(1, style.border);
-    this.graphics.drawRect(0, 0, this.buttonWidth - 1, this.buttonHeight - 1);
+    this.graphics.clear()
+        .lineStyle(1, 0)
+        .drawRect(1, 1, this.buttonWidth - 1, this.buttonHeight - 1)
+        .lineStyle(1, style.border).beginFill(style.fill)
+        .drawRect(0, 0, this.buttonWidth - 1, this.buttonHeight - 1);
 };
 
 Button.prototype.onHover = function(e) {

@@ -44,6 +44,7 @@ module.exports = {
     bubble: {
         fillAlpha: 0.8,
         textAlpha: 0.95,
+        border: C.brightGrey,
         fill: C.black,
         text: C.white
     }

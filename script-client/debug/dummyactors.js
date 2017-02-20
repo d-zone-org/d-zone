@@ -10,13 +10,13 @@ for(var c = 0; c < 10; c++) {
 }
 
 module.exports = function() {
-    for(var i = 0; i < 10; i++) {
+    for(var i = 0; i < 200; i++) {
         actors.push(ActorManager.create({ color: util.pickInArray(colors) }));
     }
     setInterval(function() {
         ActorManager.hop(util.pickInArray(actors), util.pickInObject(Geometry.DIRECTIONS));
-    }, 100);
+    }, 50);
     setInterval(function() {
-        ActorManager.message(util.pickInArray(actors), 'Hello everyone,\nthis is a test message for you all to see, it takes up several lines!');
-    }, 1000);
+        ActorManager.message(util.pickInArray(actors), 'Hey, this is a long message! Wow, it sure takes up more than 4 lines! So, some pagination is required. Here we go, 1 2 3 4 paginate! Yeah, we did it!');
+    }, 4000);
 };
