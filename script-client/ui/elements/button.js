@@ -1,7 +1,7 @@
 'use strict';
 var PIXI = require('pixi.js');
 var Styles = require('./../styles').button;
-var Text = require('./../text');
+var TextBox = require('./textbox');
 
 module.exports = Button;
 
@@ -9,15 +9,12 @@ Button.prototype = Object.create(PIXI.Container.prototype);
 
 function Button(x, y, width, height, text, onClick) {
     PIXI.Container.call(this);
-    this.buttonWidth = width;
-    this.buttonHeight = height;
     this.x = x;
     this.y = y;
-    this.text = text;
+    this.buttonWidth = width;
+    this.buttonHeight = height;
     this.graphics = this.addChild(new PIXI.Graphics());
-    this.textSprite = this.addChild(new PIXI.Sprite(PIXI.Texture.fromCanvas(Text.blotText({ 
-        text: this.text, maxWidth: this.buttonWidth
-    }))));
+    this.textSprite = this.addChild(new TextBox(text, { maxWidth: this.buttonWidth - 2 }));
     this.textSprite.x = Math.floor(this.buttonWidth / 2 - this.textSprite.width / 2);
     this.textSprite.y = Math.floor(this.buttonHeight / 2 - this.textSprite.height / 2 + 1);
     this.interactive = true;
@@ -32,6 +29,7 @@ function Button(x, y, width, height, text, onClick) {
 }
 
 Button.prototype.draw = function() {
+    // TODO: Add 1px inner shadow and drop shadow
     this.graphics.clear();
     var style = this.clicking ? Styles.click : this.hover ? Styles.hover : Styles.normal;
     this.alpha = style.alpha;

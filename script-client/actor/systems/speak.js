@@ -32,11 +32,16 @@ speak.updateEntity = function(entity, actor, sprite, message) {
         newChar = message.tick % message.rate === 0; // Only add on first tick
     }
     if(newChar) {
+        if(message.newMessages.length) {
+            var newMessage = message.newMessages.shift();
+            message.message += '\n' + newMessage;
+            speechBubbles[entity].addMessage(newMessage);
+        }
         message.charIndex = Math.floor(message.tick / message.rate);
-        speechBubbles[entity].setPercent(message.charIndex / message.message.length);
+        speechBubbles[entity].setProgress(message.charIndex / message.message.length);
         if(message.charIndex < message.message.length) {
             // New char
-        } else if(message.charIndex === message.message.length + 20) {
+        } else if(message.charIndex === message.message.length + 40) {
             UIManager.removeElement(speechBubbles[entity]);
             speechBubbles[entity] = undefined;
             ComponentManager.getComponentData(ANIMATION)[entity].stop = true;

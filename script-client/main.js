@@ -79,7 +79,8 @@ function onReady() {
 
 var actor1, actor2;
 
-global.dz.events.on('key-q', function() { // Log component data
+global.dz.events.on('key-q', function() {
+    console.log(require('pixi.js'));
     console.log(ComponentManager.componentData);
     console.log(ComponentManager.componentFamilies);
     console.log(WorldManager.world);

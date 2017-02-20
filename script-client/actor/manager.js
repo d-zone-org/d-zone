@@ -66,11 +66,8 @@ module.exports = {
         EntityManager.addComponent(entity, MOVEMENT, { direction });
     },
     message(entity, message) {
-        if(messageData[entity]) {
-            messageData[entity].message += '\n' + message;
-        } else {
-            EntityManager.addComponent(entity, MESSAGE, { message });
-        }
+        if(messageData[entity]) messageData[entity].newMessages.push(message);
+        else EntityManager.addComponent(entity, MESSAGE, { message });
     },
     turn(entity, direction) {
         actorData[entity].facing = direction;
