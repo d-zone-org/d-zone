@@ -128,12 +128,12 @@ module.exports = new configLoader({
             }
         },
         hopUp: {
-            offsetYFrames: [4,5,6,7,8,9],
-            offsetYValues: [-1,-2,-2,-1,-1,-1],
+            offsetYFrames: [4,6,7,8,9],
+            offsetYValues: [-1,-1,-1,-2,-3],
         },
         hopDown: {
-            offsetYFrames: [5,6,7,8,9],
-            offsetYValues: [1,1,1,2,3],
+            offsetYFrames: [4,5,6,7,8,9],
+            offsetYValues: [1,1,2,1,2,1],
         },
         speak: {
             common: {

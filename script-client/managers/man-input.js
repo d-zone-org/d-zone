@@ -41,7 +41,7 @@ function onMouseOver(e) {
     events.emit('mouse-over', { button: BUTTONS[buttonNumber], x: mouseX, y: mouseY, e });
 }
 
-function onMouseWheel(e) {
+function onMouseWheel(e) { // TODO: Add pinch zoom support
     if(!e.deltaY) return;
     events.emit('mouse-wheel', { direction: e.deltaY > 0 ? 'down' : 'up', x: mouseX, y: mouseY, e });
 }
