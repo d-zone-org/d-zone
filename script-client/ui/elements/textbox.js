@@ -11,12 +11,19 @@ function TextBox(text, options) {
     this.textOptions = options || {};
     var blottedText = Text.blotText(Object.assign({ text }, this.textOptions));
     var meta = blottedText.meta;
-    var page;
-    this.meta = { pages: [], page: 0, maxLines: this.textOptions.maxLines || 99 };
-    this.meta.pageHeight = this.meta.maxLines * meta.lines[0].height - this.meta.maxLines * 2;
+    this.meta = { pages: [], page: 0, linesPerPage: this.textOptions.maxLines || 99 };
+    if(options.normalizePages) {
+        var pageCount = Math.ceil(meta.lines.length / this.meta.linesPerPage);
+        this.meta.linesPerPage++;
+        do {
+            this.meta.linesPerPage--;
+        } while(Math.ceil(meta.lines.length / (this.meta.linesPerPage - 1)) === pageCount);
+    }
+    this.meta.pageHeight = this.meta.linesPerPage * meta.lines[0].height - this.meta.linesPerPage * 2;
     var baseTexture = new PIXI.BaseTexture(blottedText.canvas);
+    var page;
     for(let i = 0; i < meta.lines.length; i++) {
-        if(i % this.meta.maxLines === 0) {
+        if(i % this.meta.linesPerPage === 0) {
             page = new PIXI.Container();
             page.meta = { lines: [] };
             this.meta.pages.push(page);

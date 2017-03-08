@@ -26,6 +26,7 @@ speak.updateEntity = function(entity, actor, sprite, message) {
         if(actor.facing === 'west') ActorManager.turn(entity, 'south');
         EntityManager.addComponent(entity, ANIMATION, actorConfig().animations.speak[actor.facing]);
         speechBubbles[entity] = UIManager.addBubble(sprite.dx, sprite.dy, message.message);
+        message.rate = speechBubbles[entity].textSprite.meta.pages.length > 1 ? 1 : 2;
     }
     if(message.delay) return message.delay--;
     if(message.newMessage) {

@@ -17,6 +17,16 @@ module.exports = function() {
         ActorManager.hop(util.pickInArray(actors), util.pickInObject(Geometry.DIRECTIONS));
     }, 50);
     setInterval(function() {
-        ActorManager.message(util.pickInArray(actors), 'Hey, this is a long message! Wow, it sure takes up more than 4 lines! So, some pagination is required. Here we go, 1 2 3 4 paginate! Yeah, we did it!');
+        ActorManager.message(util.pickInArray(actors), sentenceBuilder());
     }, 4000);
 };
+
+var nonsense = ['lol','omg','discord','haha','...','yeah','no','wow','indeed','right','memes'];
+function sentenceBuilder() {
+    var sentence = '';
+    var wordCount = util.random(1, 30);
+    for(var i = 0; i < wordCount; i++) {
+        sentence += (i == 0 ? '' : ' ') + util.pickInArray(nonsense);
+    }
+    return sentence;
+}

@@ -41,7 +41,7 @@ Bubble.prototype.revealChar = function() {
 Bubble.prototype.setText = function(text) {
     if(this.textSprite) this.textSprite.destroy(true);
     this.textSprite = this.addChild(new TextBox(text, {
-        maxWidth: 150, maxLines: 4, align: 'left', unrevealed: true 
+        maxWidth: 150, maxLines: 4, normalizePages: true, align: 'left', unrevealed: true
     }));
     this.bubbleWidth = this.textSprite.width + 8;
     this.bubbleHeight = this.textSprite.height + 3;
