@@ -38,6 +38,7 @@ speak.updateEntity = function(entity, actor, sprite, message) {
         speechBubbles[entity] = undefined;
         ComponentManager.getComponentData(ANIMATION)[entity].stop = true;
         EntityManager.removeComponent(entity, MESSAGE);
+        return;
     }
     var newChar = true;
     if(message.rate > 1) { // If not adding char on every tick
@@ -46,7 +47,7 @@ speak.updateEntity = function(entity, actor, sprite, message) {
     if(newChar) {
         speechBubbles[entity].revealChar();
         if(speechBubbles[entity].state === 'new-page') {
-            message.delay = 20;
+            message.delay = 40;
         } else if(speechBubbles[entity].state === 'finished') {
             if(message.newMessages.length) { // More messages pending
                 message.delay = 60;

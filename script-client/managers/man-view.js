@@ -33,7 +33,7 @@ var viewManager = {
             resizeCanvas();
         });
     },
-    view: view,
+    view,
     onFrameReady: false,
     setOrigin(origin) {
         view.originX = Math.round(origin.x);

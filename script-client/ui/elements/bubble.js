@@ -2,20 +2,20 @@
 var PIXI = require('pixi.js');
 var style = require('./../styles').bubble;
 var TextBox = require('./textbox');
+var BubblesManager = require('./../managers/man-bubbles');
 
 module.exports = Bubble;
 
 Bubble.prototype = Object.create(PIXI.Container.prototype);
 
-function Bubble(gx, gy, text, gameView, ui) {
+function Bubble(gx, gy, text) {
     PIXI.Container.call(this);
     this.gx = gx;
     this.gy = gy;
-    this.gameView = gameView;
-    this.ui = ui;
     this.graphics = this.addChild(new PIXI.Graphics());
     this.setText(text);
     this.draw();
+    BubblesManager.addBubble(this);
 }
 
 Bubble.prototype.draw = function() {
@@ -52,14 +52,15 @@ Bubble.prototype.setText = function(text) {
     this.charsShown = this.textSprite.meta.charsShown;
 };
 
-Bubble.prototype.updatePosition = function() {
-    var scaleRatio = this.gameView.scale / this.ui.scale;
-    this.x = Math.floor(scaleRatio * (this.gx - this.gameView.panX + this.gameView.originX) 
-        - this.bubbleWidth / 2);
-    this.y = Math.floor(scaleRatio * (this.gy - this.gameView.panY + this.gameView.originY - 11) 
-        - this.bubbleHeight);
-    this.x = Math.max(1, Math.min(this.ui.width - this.bubbleWidth - 2, this.x));
-    this.y = Math.max(1, Math.min(this.ui.height - this.bubbleHeight - 2, this.y));
+Bubble.prototype.updatePosition = function(scaleRatio, ui, view) {
+    this.x = Math.floor(scaleRatio * (this.gx - view.panX + view.originX) - this.bubbleWidth / 2);
+    this.y = Math.floor(scaleRatio * (this.gy - view.panY + view.originY - 6) - this.bubbleHeight - 6);
+    this.x = Math.max(1, Math.min(ui.width - this.bubbleWidth - 2, this.x));
+    this.y = Math.max(1, Math.min(ui.height - this.bubbleHeight - 2, this.y));
+};
+
+Bubble.prototype.onDestroy = function() {
+    BubblesManager.removeBubble(this);
 };
 
 // TODO: Prevent elements overlapping with siblings

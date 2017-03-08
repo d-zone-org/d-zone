@@ -1,10 +1,7 @@
 'use strict';
-var requestAnimationFrame = require('raf');
 var InputManager = require('man-input');
 var ViewManager = require('man-view');
 var PIXI = require('pixi.js');
-var Button = require('./elements/button');
-var Bubble = require('./elements/bubble');
 
 // var gameView = ViewManager.view;
 
@@ -20,9 +17,6 @@ InputManager.init(ui.container);
 function render() {
     // frameCount++;
     // var renderStart = performance.now();
-    for(var i = 0; i < ui.container.children.length; i++) {
-        if(ui.container.children[i].updatePosition) ui.container.children[i].updatePosition();
-    }
     ui.renderer.render(ui.container);
     // renderTime += performance.now() - renderStart;
     // if(frameCount == 500) { frameCount = 0; console.log('avg ui render time',renderTime/500); renderTime = 0; }
@@ -48,6 +42,7 @@ function addElement(element, ...args) {
 }
 
 function removeElement(element) {
+    if(element.onDestroy) element.onDestroy();
     element.destroy(true);
 }
 
@@ -77,13 +72,14 @@ module.exports = {
         InputManager.events.on('mouse-wheel', ViewManager.mouseWheel);
     },
     addButton(...args) {
-        return addElement(Button, ...args);
+        return addElement(require('./elements/button'), ...args);
     },
     addBubble(...args) {
-        return addElement(Bubble, ...args, ViewManager.view, ui);
+        return addElement(require('./elements/bubble'), ...args);
     },
     removeElement,
-    render
+    render,
+    ui
 };
 
 function calcScale(width, height) {
