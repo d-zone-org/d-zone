@@ -50,3 +50,6 @@ Core client modules such as the renderer and input controller are loosely based 
 _Disclaimer: I cannot be held responsible for anything that happens to your computer, your server, your bot, or anything else as a result of using this package._
 
 _Please consider the privacy of the users on your server. D-Zone will allow anyone with the URL (and password, if used) to monitor the chat of anyone in any channel that your bot has permission to see._
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vegeta897/d-zone/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
