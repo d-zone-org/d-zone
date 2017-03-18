@@ -38,7 +38,6 @@ module.exports = {
     },
     getDrawX: getDrawX,
     getDrawY: getDrawY,
-    getDrawXY: getDrawXY,
     render() {
         if(dirtyBuffer) {
             sprites.children.length = 0;
@@ -133,8 +132,4 @@ function getDrawX(x, y) {
 
 function getDrawY(x, y, z) {
     return (x + y) * 8 - z * 8;
-}
-
-function getDrawXY(x, y, z) {
-    return [getDrawX(x, y), getDrawY(x, y, z)];
 }

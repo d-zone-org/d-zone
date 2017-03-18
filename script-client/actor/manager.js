@@ -26,24 +26,20 @@ module.exports = {
         freeMapIndexes = WorldManager.world.tiles.getTiles([2,3], [WorldManager.world.tiles.indexFromXY(WorldManager.world.radius, WorldManager.world.radius)]);
         currentFreeMapIndexes = freeMapIndexes.slice(0);
     },
-    create(params) {
-        params = params || {};
-        var transform = {};
-        if(params.x) transform.x = params.x;
-        if(params.y) transform.y = params.y;
-        if(params.z) transform.z = params.z;
+    create({ x, y, z, color }) {
+        var transform = { x, y, z };
         if(isNaN(transform.x) && isNaN(transform.y) && isNaN(transform.z)) {
-            var randomTile = getRandomFreeTile();
-            transform.x = WorldManager.unCenter(randomTile.xy.x);
-            transform.y = WorldManager.unCenter(randomTile.xy.y);
+            var { x: randomX, y: randomY } = getRandomFreeTile();
+            transform.x = WorldManager.unCenter(randomX);
+            transform.y = WorldManager.unCenter(randomY);
             transform.z = placeZ;
         }
         var facing = util.pickInObject(Geometry.DIRECTIONS); // Face random direction
         // var sprite = actorConfig().sprites.idle[facing]; 
         // sprite.sheet = 'actors';
         var actor = { facing };
-        if(!isNaN(params.color)) {
-            actor.color = params.color;
+        if(!isNaN(color)) {
+            actor.color = color;
             // sprite.sheet = SpriteManager.getColorSheet('actors', params.color, 0.8,
             //     [{ alpha: 0.4, x: 14, y: 42, w: 14, h: 28 }]);
         }
@@ -76,8 +72,5 @@ module.exports = {
 };
 
 function getRandomFreeTile() {
-    var picked = { index: util.pickInArray(currentFreeMapIndexes) };
-    picked.value = WorldManager.world.tiles.getIndex(picked.index);
-    picked.xy = WorldManager.world.tiles.XYFromIndex(picked.index);
-    return picked;
+    return WorldManager.world.tiles.XYFromIndex(util.pickInArray(currentFreeMapIndexes));
 }

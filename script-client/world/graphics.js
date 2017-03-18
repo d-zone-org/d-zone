@@ -86,8 +86,8 @@ module.exports = {
             if(shape === 0 && ring === 0) return;
             var drawX = Math.floor((ix - iy) / 2) + world.radius,
                 drawY = ix + iy;
-            var sheetXY = getTile(ring, shape);
-            projectedTiles.setXY(drawX, drawY, (sheetXY.y << 4) | sheetXY.x);
+            var { x: sheetX, y: sheetY } = getTile(ring, shape);
+            projectedTiles.setXY(drawX, drawY, (sheetY << 4) | sheetX);
         });
         for(var sx = 0; sx < segments.width; sx++) { for(var sy = 0; sy < segments.height; sy++) {
             var tileX = sx * segmentSize,

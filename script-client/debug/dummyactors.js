@@ -18,7 +18,7 @@ module.exports = function() {
     }, 50);
     setInterval(function() {
         ActorManager.message(util.pickInArray(actors), sentenceBuilder());
-    }, 4000);
+    }, 2000);
 };
 
 var nonsense = ['lol','omg','discord','haha','...','yeah','no','wow','indeed','right','memes'];

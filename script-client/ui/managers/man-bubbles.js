@@ -22,6 +22,9 @@ module.exports = {
 function onViewChange() {
     var scaleRatio = view.scale / ui.scale;
     for(var i = 0; i < bubbles.length; i++) {
+        for(var p = 0; p < i; p++) {
+            // Avoid other bubbles
+        }
         bubbles[i].updatePosition(scaleRatio, ui, view)
     }
 }

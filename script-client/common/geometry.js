@@ -13,15 +13,14 @@ module.exports = {
         return this.DIRECTIONS[util.pickInObject(this.DIRECTIONS)];
     },
     getNeighbors(grid) {
-        var x = +grid.split(':')[0], y = +grid.split(':')[1];
-        return { n: x+':'+(y-1), e: (x+1)+':'+y, s: x+':'+(y+1), w: (x-1)+':'+y }
+        var [x, y] = grid.split(':');
+        return { n: x+':'+(y-1), e: (+x+1)+':'+y, s: x+':'+(+y+1), w: (x-1)+':'+y }
     },
     get8Neighbors(grid) {
-        var x = +grid.split(':')[0], y = +grid.split(':')[1];
-        return { 
-            n: x+':'+(y-1), e: (x+1)+':'+y, s: x+':'+(y+1), w: (x-1)+':'+y,
-            nw: (x-1)+':'+(y-1), ne: (x+1)+':'+(y-1), sw: (x-1)+':'+(y+1), se: (x+1)+':'+(y+1)
-        }
+        var [x, y] = grid.split(':');
+        return Object.assign(getNeighbors(grid), {
+            nw: (x-1)+':'+(y-1), ne: (+x+1)+':'+(y-1), sw: (x-1)+':'+(+y+1), se: (+x+1)+':'+(+y+1)
+        })
     },
     getDistance(a,b) {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);

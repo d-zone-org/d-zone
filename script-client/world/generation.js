@@ -56,8 +56,8 @@ function crawlMap(map) {
             tilesCrawled[currentIndex] = true;
             if(islands[thisIsland]) islands[thisIsland].push(currentIndex);
             else islands.push([currentIndex]);
-            var coords = map.tiles.XYFromIndex(currentIndex);
-            map.tiles.forEachNeighborExtended(coords.x, coords.y, function(nx, ny, nVal, nTileIndex, nIndex) {
+            let { x, y } = map.tiles.XYFromIndex(currentIndex);
+            map.tiles.forEachNeighborExtended(x, y, function(nx, ny, nVal, nTileIndex, nIndex) {
                 if(!nVal) { // If neighbor doesn't exist, set current tile to slab and move on
                     if(currentVal != TILES.SLAB) map.tiles.setIndex(currentIndex, TILES.SLAB);
                     return;
@@ -84,12 +84,12 @@ function crawlMap(map) {
         }
     }
     // Find land tile closest to center to place beacon
-    var beacon = map.tiles.traverseSpiral(map.radius, map.radius, (val) => { return val; });
-    map.tiles.setXY(beacon.x, beacon.y, TILES.SLAB);
-    map.tiles.forEachNeighbor(beacon.x, beacon.y, function(nx, ny, nVal, nIndex) {
+    var { x: beaconX, y: beaconY } = map.tiles.traverseSpiral(map.radius, map.radius, (val) => { return val; });
+    map.tiles.setXY(beaconX, beaconY, TILES.SLAB);
+    map.tiles.forEachNeighbor(beaconX, beaconY, function(nx, ny, nVal, nIndex) {
         map.tiles.setIndex(nIndex, TILES.SLAB);
     });
-    map.beacon = { x: beacon.x - map.radius, y: beacon.y - map.radius };
+    map.beacon = { x: beaconX - map.radius, y: beaconY - map.radius };
 }
 
 function createFlowerPatches(map) {
@@ -98,23 +98,22 @@ function createFlowerPatches(map) {
     for(var fp = 0; fp < numPatches; fp++) {
         var attempt = 0, limit = Math.pow(map.radius, 2);
         do {
-            var valid = false;
-            var tile = { index: util.pickInArray(validTiles) };
-            tile.value = map.tiles.getIndex(tile.index);
-            tile.xy = map.tiles.XYFromIndex(tile.index);
-            if(!tile) { // No valid tiles left to grow flowers
+            if(!validTiles.length) { // No valid tiles left to grow flowers
                 attempt = limit;
                 break;
             }
-            valid = map.tiles.checkNeighborsExtended(tile.xy.x, tile.xy.y, [TILES.GRASS, TILES.FLOWERS]);
+            var valid = false;
+            var tileIndex = util.pickInArray(validTiles);
+            var { x: tileX, y: tileY } = map.tiles.XYFromIndex(tileIndex);
+            valid = map.tiles.checkNeighborsExtended(tileX, tileY, [TILES.GRASS, TILES.FLOWERS]);
             attempt++;
         } while(attempt < limit && !valid);
         if(attempt == limit) continue;
-        map.tiles.setIndex(tile.index, TILES.FLOWERS);
+        map.tiles.setIndex(tileIndex, TILES.FLOWERS);
         var spread = util.random(2, 5);
         for(var s = 0; s < spread; s++) {
-            var spreadX = tile.xy.x + util.random(-1, 1),
-                spreadY = tile.xy.y + util.random(-1, 1);
+            var spreadX = tileX + util.random(-1, 1),
+                spreadY = tileY + util.random(-1, 1);
             var spreadIndex = map.tiles.indexFromXY(spreadX, spreadY);
             util.removeFromArray(spreadIndex, validTiles);
             if(map.tiles.getXY(spreadX, spreadY) === TILES.FLOWERS) continue;

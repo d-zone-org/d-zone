@@ -47,8 +47,8 @@ function removeElement(element) {
 }
 
 module.exports = {
-    init(options) {
-        ui.maxScale = options.maxScale;
+    init({ maxScale }) {
+        ui.maxScale = maxScale;
         var scale = calcScale(window.innerWidth, window.innerHeight);
         ui.width = Math.ceil(window.innerWidth / scale);
         ui.height = Math.floor(window.innerHeight / scale);

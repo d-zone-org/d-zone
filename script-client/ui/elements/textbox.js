@@ -6,18 +6,14 @@ module.exports = TextBox;
 
 TextBox.prototype = Object.create(PIXI.Container.prototype);
 
-function TextBox(text, options) {
+function TextBox(text, { maxWidth, align, maxLines, normalizePages, unrevealed }) {
     PIXI.Container.call(this);
-    this.textOptions = options || {};
-    var blottedText = Text.blotText(Object.assign({ text }, this.textOptions));
+    var blottedText = Text.blotText({ text, maxWidth, align });
     var meta = blottedText.meta;
-    this.meta = { pages: [], page: 0, linesPerPage: this.textOptions.maxLines || 99 };
-    if(options.normalizePages) {
+    this.meta = { pages: [], page: 0, linesPerPage: maxLines || 99 };
+    if(normalizePages) {
         var pageCount = Math.ceil(meta.lines.length / this.meta.linesPerPage);
-        this.meta.linesPerPage++;
-        do {
-            this.meta.linesPerPage--;
-        } while(Math.ceil(meta.lines.length / (this.meta.linesPerPage - 1)) === pageCount);
+        while(Math.ceil(meta.lines.length / (this.meta.linesPerPage - 1)) === pageCount) this.meta.linesPerPage--;
     }
     this.meta.pageHeight = this.meta.linesPerPage * meta.lines[0].height - this.meta.linesPerPage * 2;
     var baseTexture = new PIXI.BaseTexture(blottedText.canvas);
@@ -42,7 +38,7 @@ function TextBox(text, options) {
         page.meta.lines.push(lineSprite);
         page.addChild(lineSprite);
     }
-    this.visible = !this.textOptions.unrevealed;
+    this.visible = !unrevealed;
 }
 
 TextBox.prototype.revealChar = function() {
