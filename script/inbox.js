@@ -29,6 +29,7 @@ function Inbox(config) {
             serverIDs.push(newServer.id);
             if(serverList[i].password) newServer.password = serverList[i].password;
             if(serverList[i].ignoreChannels) newServer.ignoreChannels = serverList[i].ignoreChannels;
+            if(serverList[i].listenChannels) newServer.listenChannels = serverList[i].listenChannels;
             if(serverList[i].default) self.servers.default = newServer;
             self.servers[serverList[i].id] = newServer;
         }
@@ -42,6 +43,8 @@ function Inbox(config) {
         if(!self.servers || !self.servers[serverID]) return;
         if(self.servers[serverID].ignoreChannels // Check if this channel is ignored
             && self.servers[serverID].ignoreChannels.indexOf(bot.channels[channelID].name) >= 0) return;
+        if(self.servers[serverID].listenChannels // Check if this channel is listened to
+            && self.servers[serverID].listenChannels.indexOf(bot.channels[channelID].name) < 0) return;
         var messageObject = { 
             type: 'message', servers: [serverID], 
             data: { uid: userID, message: bot.fixMessage(message), channel: channelID }

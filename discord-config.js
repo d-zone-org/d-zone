@@ -31,7 +31,11 @@ var config = module.exports = convict({
                 format: String
             },
             ignoreChannels: {
-                doc: "Optional, list of text channel names you want to be ignored (case-sensitive).",
+                doc: "Optional, list of text channel names you want to be ignored (cannot be used with listenChannels, case-sensitive).",
+                format: Array
+            },
+            listenChannels: {
+                doc: "Optional, list of text channel names you do not want to ignore (cannot be used with ignoreChannels, case-sensitive).",
                 format: Array
             }
         }
