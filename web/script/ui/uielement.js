@@ -39,6 +39,11 @@ UIElement.prototype.reposition = function() {
         }
     }
     if(this.hasOwnProperty('right')) this.x = this.parent.x + this.parent.w - this.w - this.right;
+    if(this.elements) {
+        for(var i = 0; i < this.elements.length; i++) {
+            this.elements[i].reposition();
+        }
+    }
 };
 
 UIElement.prototype.redraw = function(canvas) {
@@ -57,4 +62,18 @@ UIElement.prototype.remove = function() {
         }
     }
     this.ui.redraw();
+};
+
+UIElement.prototype.resize = function(width, height) {
+    this.w = this.canvas.canvas.width = width;
+    this.h = this.canvas.canvas.height = height;
+    if(this.draw) this.draw();
+};
+
+UIElement.prototype.resizeChildren = function(width, height) {
+    if(this.elements) {
+        for(var i = 0; i < this.elements.length; i++) {
+            this.elements[i].resize(width, height);
+        }
+    }
 };

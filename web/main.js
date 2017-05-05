@@ -63,9 +63,6 @@ function initWebsocket() {
                     delete game.serverListPanel;
                     return;
                 }
-                game.serverListPanel = game.ui.addPanel({
-                    left: 'auto', top: 'auto', w: 146, h: 28 + 21 * (Object.keys(game.servers).length - 2)
-                });
                 var joinThisServer = function(server) { return function() {
                     var params = '?s=' + server.id;
                     if(server.password) params += '&p=' + server.password;
@@ -106,17 +103,26 @@ function initWebsocket() {
                     game.serverListPanel.remove();
                     delete game.serverListPanel;
                 } };
+                game.serverListPanel = game.ui.addPanel({
+                    left: 'auto', top: 'auto', w: 146, h: 28 + 21 * (Object.keys(game.servers).length - 2)
+                });
+                var widestButton = 136;
                 var serverButtonY = 0;
+                var button;
                 for(var sKey in game.servers) { if(!game.servers.hasOwnProperty(sKey)) continue;
                     if(sKey == 'default') continue;
                     var server = game.servers[sKey];
                     var serverLock = game.servers[sKey].passworded ? ':icon-lock-small: ' : '';
-                    game.ui.addButton({
-                        text: serverLock+game.servers[sKey].name, left: 5, top: 5 + serverButtonY * 21, 
+                    button = game.ui.addButton({
+                        text: serverLock+game.servers[sKey].name+' '+game.servers[sKey].name, left: 5, top: 5 + serverButtonY * 21, 
                         w: 136, h: 18, parent: game.serverListPanel, onPress: new joinThisServer(server)
                     });
+                    widestButton = Math.max(widestButton, button.textCanvas.width + 2);
                     serverButtonY++;
                 }
+                game.serverListPanel.resize(widestButton + 10, game.serverListPanel.h);
+                game.serverListPanel.resizeChildren(widestButton, button.h);
+                game.serverListPanel.reposition();
             } });
             // Help button
             game.ui.addButton({ text: '?', bottom: 3, right: 3, w: 18, h: 18, onPress: function() {
