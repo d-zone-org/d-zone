@@ -114,7 +114,7 @@ function initWebsocket() {
                     var server = game.servers[sKey];
                     var serverLock = game.servers[sKey].passworded ? ':icon-lock-small: ' : '';
                     button = game.ui.addButton({
-                        text: serverLock+game.servers[sKey].name+' '+game.servers[sKey].name, left: 5, top: 5 + serverButtonY * 21, 
+                        text: serverLock+game.servers[sKey].name, left: 5, top: 5 + serverButtonY * 21, 
                         w: 136, h: 18, parent: game.serverListPanel, onPress: new joinThisServer(server)
                     });
                     widestButton = Math.max(widestButton, button.textCanvas.width + 2);
