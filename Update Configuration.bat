@@ -1,27 +1,23 @@
 @echo off
 color 0f
 title D-Zone Configuration Updater
-echo Welcome to D-Zone Configuration Updater.
+echo This will automatically update your discord-config.json
+echo to populate the server list with all servers your bot
+echo has access to.
 echo.
-echo Config Updater is an application that automatically updates
-echo your discord-config.json file to include all the servers that
-echo the bot is in.
+echo Your token must be present in discord-config.json
 echo.
-echo Proceeding with this process will automatically overwrite your
-echo discord-config.json file.
+echo If you have any existing servers in the configuration,
+echo they will not be overwritten.
 echo.
-echo Make sure to change your bot token is in update-config.js on
-echo line 11 to make it so the script can read the servers your bot
-echo is on.
-echo.
-echo Type "accept" to continue with the file overwrite.
+echo Type "accept" to continue with the file update.
 echo.
 set /p input=
 echo.
 if not %input% == accept (
-    echo Input was not "accept", cancelling...
+    echo You did not "accept" the update, cancelling...
 ) ELSE (
-    node update-config.js
+    node script/update-config.js
 )
 echo.
 echo Press any key to exit...
