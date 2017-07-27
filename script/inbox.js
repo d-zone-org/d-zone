@@ -40,11 +40,14 @@ function Inbox(config) {
     bot.on('message', function(user, userID, channelID, message, rawEvent) {
         if(!bot.channels[channelID]) return;
         var serverID = bot.channels[channelID].guild_id;
+        var channelName = bot.channels[channelID].name;
         if(!self.servers || !self.servers[serverID]) return;
-        if(self.servers[serverID].ignoreChannels // Check if this channel is ignored
-            && self.servers[serverID].ignoreChannels.indexOf(bot.channels[channelID].name) >= 0) return;
-        if(self.servers[serverID].listenChannels // Check if this channel is listened to
-            && self.servers[serverID].listenChannels.indexOf(bot.channels[channelID].name) < 0) return;
+        if(self.servers[serverID].ignoreChannels && // Check if this channel is ignored
+            (self.servers[serverID].ignoreChannels.indexOf(channelName) >= 0 ||
+                self.servers[serverID].ignoreChannels.indexOf(channelID) >= 0)) return;
+        if(self.servers[serverID].listenChannels && // Check if this channel is listened to
+            (self.servers[serverID].listenChannels.indexOf(channelName) < 0 ||
+                self.servers[serverID].listenChannels.indexOf(channelID) < 0)) return;
         var messageObject = { 
             type: 'message', servers: [serverID], 
             data: { uid: userID, message: bot.fixMessage(message), channel: channelID }
