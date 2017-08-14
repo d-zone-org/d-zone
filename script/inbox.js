@@ -46,8 +46,8 @@ function Inbox(config) {
             (self.servers[serverID].ignoreChannels.indexOf(channelName) >= 0 ||
                 self.servers[serverID].ignoreChannels.indexOf(channelID) >= 0)) return;
         if(self.servers[serverID].listenChannels && // Check if this channel is listened to
-            (self.servers[serverID].listenChannels.indexOf(channelName) < 0 ||
-                self.servers[serverID].listenChannels.indexOf(channelID) < 0)) return;
+            self.servers[serverID].listenChannels.indexOf(channelName) < 0 &&
+            self.servers[serverID].listenChannels.indexOf(channelID) < 0) return;
         var messageObject = { 
             type: 'message', servers: [serverID], 
             data: { uid: userID, message: bot.fixMessage(message), channel: channelID }
