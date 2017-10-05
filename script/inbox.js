@@ -24,7 +24,10 @@ function Inbox(config) {
                 console.log('Unknown server ID:',serverList[i].id);
                 continue;
             }
-            var newServer = { discordID: serverList[i].id, name: bot.servers[serverList[i].id].name };
+            var newServer = {
+                discordID: serverList[i].id, 
+                name: serverList[i].alias || bot.servers[serverList[i].id].name
+            };
             newServer.id = util.abbreviate(newServer.name, serverIDs);
             serverIDs.push(newServer.id);
             if(serverList[i].password) newServer.password = serverList[i].password;
