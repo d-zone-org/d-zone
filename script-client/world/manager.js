@@ -29,8 +29,6 @@ var worldManager = {
         ]));
         WorldGraphics.createSegments(world);
     },
-    addEntity: addEntity,
-    removeEntity: removeEntity,
     moveEntity(e, x, y, z) {
         var transform = removeEntity(e);
         transform.x += x;
@@ -47,12 +45,13 @@ var worldManager = {
     removePlatform(x, y, z) { CollisionMap.removePlatform(center(x), center(y), z); },
     isSolid(x, y, z) { return CollisionMap.isSolid(center(x), center(y), z); },
     getPath(e, sx, sy, sz, dx, dy, dz, maxDown, maxUp, cb) {
-        removePlatform(sx, sy, sz + 1); // Can't use self as platform
+        worldManager.removePlatform(sx, sy, sz + 1); // Can't use self as platform
         PathManager.getPath(e, center(sx), center(sy), sz, center(dx), center(dy), dz, maxDown, maxUp, function(path) {
-            if(!path) makePlatform(sx, sy, sz + 1);
+            if(!path) worldManager.makePlatform(sx, sy, sz + 1);
             cb(path);
         });
     },
+    addEntity, removeEntity,
     center, unCenter
 };
 

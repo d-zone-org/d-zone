@@ -26,9 +26,9 @@ module.exports = {
         freeMapIndexes = WorldManager.world.tiles.getTiles([2,3], [WorldManager.world.tiles.indexFromXY(WorldManager.world.radius, WorldManager.world.radius)]);
         currentFreeMapIndexes = freeMapIndexes.slice(0);
     },
-    create({ x, y, z, color }) {
+    create({ x, y, z = 0, color }) {
         var transform = { x, y, z };
-        if(isNaN(transform.x) && isNaN(transform.y) && isNaN(transform.z)) {
+        if(isNaN(transform.x) && isNaN(transform.y)) {
             var { x: randomX, y: randomY } = getRandomFreeTile();
             transform.x = WorldManager.unCenter(randomX);
             transform.y = WorldManager.unCenter(randomY);

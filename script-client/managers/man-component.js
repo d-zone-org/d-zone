@@ -10,7 +10,7 @@ module.exports = {
     init(com, sys) {
         components = com;
         for(var c = 0; c < components.length; c++) {
-            componentData[components[c]] = [];
+            componentData.set(components[c], []);
             components[c]._mask = 1 << c;
         }
         systems = sys;
@@ -40,14 +40,15 @@ module.exports = {
         }
     },
     addComponent(entity, mask, component, data) {
-        componentData[component][entity] = (new component(data)).data;
+        componentData.get(component)[entity] = (new component(data)).data;
         for(var f = 0; f < componentFamilies.length; f++) { // Notify families that require component
             componentFamilies[f].addEntity(entity, mask); // Notify families that match new mask
         }
     },
     removeComponent(entity, component) {
-        if(componentData[component][entity].destroy) componentData[component][entity].destroy();
-        delete componentData[component][entity]; // Delete component data
+        let cd = componentData.get(component);
+        if(cd[entity].destroy) cd[entity].destroy();
+        delete cd[entity]; // Delete component data
         for(var f = 0; f < componentFamilies.length; f++) { // Notify families that require component
             componentFamilies[f].removeEntity(entity, getComponentMask([component]));
         }
@@ -67,11 +68,11 @@ function getComponentData(family) {
     if(family[0]) {
         var familyData = [];
         for(var c = 0; c < family.length; c++) {
-            familyData.push(componentData[family[c]]);
+            familyData.push(componentData.get(family[c]));
         }
         return familyData;
     } else {
-        return componentData[family];
+        return componentData.get(family);
     }
 }
 
@@ -87,7 +88,7 @@ function getComponentMask(componentList) {
 function ComponentFamily(componentList) {
     this.componentNames = '';
     for(var c = 0; c < componentList.length; c++) {
-        this.componentNames += (c == 0 ? '' : '-') + componentList[c].name;
+        this.componentNames += (c === 0 ? '' : '-') + componentList[c].name;
     }
     this.mask = getComponentMask(componentList);
     this.entities = [];

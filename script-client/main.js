@@ -1,6 +1,6 @@
 'use strict';
 console.log(
-    `%c %c %c %c D-Zone ${require('json-loader!./../package.json').version} %c %c %c `,
+    `%c %c %c %c D-Zone ${require('./../package.json').version} %c %c %c `,
     'padding: 4px 2px; background: #1D171F',
     'padding: 4px 3px; background: #382D34',
     'padding: 4px 4px; background: #6E5F62',

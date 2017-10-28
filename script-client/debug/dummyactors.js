@@ -21,7 +21,7 @@ module.exports = function() {
     }, 2000);
 };
 
-var nonsense = ['lol','omg','discord','haha','...','yeah','no','wow','indeed','right','memes'];
+var nonsense = ['lol','omg','discord','haha','...','yeah','no','wow','indeed','right','memes','dude'];
 function sentenceBuilder() {
     var sentence = '';
     var wordCount = util.random(1, 30);
