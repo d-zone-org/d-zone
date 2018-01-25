@@ -4,7 +4,7 @@
     {
       "id": "1234567891234567",
       "default": true,
-      "ignoreChannels": ["Members-Only","Testing"]
+      "ignoreChannels": ["members-Only","testing"]
     }
   ]
 }

@@ -45,6 +45,8 @@ function Inbox(config) {
         var serverID = bot.channels[channelID].guild_id;
         var channelName = bot.channels[channelID].name;
         if(!self.servers || !self.servers[serverID]) return;
+        if(self.servers[serverID].ignoreUsers && // Check if this user is ignored
+            self.servers[serverID].ignoreUsers.indexOf(userID)) return;
         if(self.servers[serverID].ignoreChannels && // Check if this channel is ignored
             (self.servers[serverID].ignoreChannels.indexOf(channelName) >= 0 ||
                 self.servers[serverID].ignoreChannels.indexOf(channelID) >= 0)) return;

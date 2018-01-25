@@ -38,6 +38,10 @@ var config = module.exports = convict({
                 doc: "Optional, list of text channel names or IDs you want to be ignored (cannot be used with listenChannels, case-sensitive).",
                 format: Array
             },
+            ignoreUsers: {
+                doc: "Optional, list of user IDs you want to be ignored (user ID means the long string of numbers, not username@1234).",
+                format: Array
+            },
             listenChannels: {
                 doc: "Optional, list of text channel names or IDs you do not want to ignore (cannot be used with ignoreChannels, case-sensitive).",
                 format: Array
