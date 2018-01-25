@@ -230,8 +230,7 @@ Actor.prototype.startTalking = function(message, channel, onStop) {
     this.messageBox = new TextBox(this, message, true);
     this.messageBox.addToGame(this.game);
     var self = this;
-    var scrollSpeed = message.length > 150 ? 1 : message.length > 75 ? 2 : 3;
-    this.messageBox.scrollMessage(scrollSpeed, 4, function() {
+    this.messageBox.scrollMessage(function() {
         delete self.messageBox;
         self.talking = false;
         self.nametag.sprite.hidden = false;

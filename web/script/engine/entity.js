@@ -37,8 +37,8 @@ Entity.prototype.tickDelay = function(cb, ticks) { // Execute callback after X t
     this.game.schedule.push({ type: 'once', tick: this.game.ticks+ticks, cb: cb, entity: this });
 };
 
-Entity.prototype.tickRepeat = function(cb, ticks) { // Execute callback every tick for X ticks
-    this.game.schedule.push({ type: 'repeat', start: this.game.ticks, count: ticks, cb: cb, entity: this });
+Entity.prototype.tickRepeat = function(cb, ticks, afterCB) { // Execute callback every tick for X ticks
+    this.game.schedule.push({ type: 'repeat', start: this.game.ticks, count: ticks, cb: cb, afterCB: afterCB, entity: this });
 };
 
 Entity.prototype.removeFromSchedule = function(cb) {

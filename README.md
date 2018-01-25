@@ -20,7 +20,7 @@ This project is still **very early in development**, so there isn't much point i
 
 Contained in the package are the server files and client files.
 
-Rename `discord-config-example.json` to `discord-config.json` and insert the login and server info for your Discord server(s). **You must specify _one_ `default` Discord server.** You can include multiple servers here, and as long as your bot can connect to them, they will be available for clients to view. You can password-protect a server from being viewed by a client by using the `password` property. If you want certain channels to be ignored, you can include the `ignoreChannels` property, which accepts an array of channel names or IDs, and ignores any messages in those channels. Alternatively, you can use the `listenChannels` property which works the same way but serves as a whitelist instead, so your bot will only relay messages in those channels. In addition, you can ignore specific users by including the `ignoreUsers` property, which accepts an array of user IDs (the long string of numbers, *not* username@1234). Finally, you can add an `alias` property to specify a custom name for the server instead of the actual server name.
+Rename `discord-config-example.json` to `discord-config.json` and insert the login and server info for your Discord server(s). **You must specify _one_ `default` Discord server.** You can include multiple servers here, and as long as your bot can connect to them, they will be available for clients to view. You can password-protect a server from being viewed by a client by using the `password` property. Check the [Configuration](https://github.com/vegeta897/d-zone/wiki/Configuration) reference for more info.
 
 You can automatically populate your `discord-config.json` with all your bot's servers by running `Update Configuration.bat`. Your token must be present in `discord-config.json`.
 
@@ -33,6 +33,8 @@ The client files are all contained within the `web` folder, and need to be built
 **Important:** D-Zone currently does not support `https`, so your host/subdomain *must not have SSL enabled*. If you are savvy with websockets over SSL, please consider submitting a pull request to add support! Regardless, this will be supported in the rewrite in progress, but I have no ETA.
 
 If everything works, the client should connect to the default server, generate a world, and receive live updates via websocket from the server.
+
+You can tweak the message box parameters by editing `misc-config.json`. Check the [Misc Config](https://github.com/vegeta897/d-zone/wiki/Configuration#misc) reference for details.
 
 Remember, this project is still being developed (as is discord.io), so keep your D-Zone up to date with `npm update`
 

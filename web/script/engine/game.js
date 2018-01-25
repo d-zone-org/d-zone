@@ -73,6 +73,7 @@ Game.prototype.update = function() {
         }
         if(task.type == 'deleted' || endTick <= this.ticks) {
             if(task.type == 'once') task.cb();
+            else if(task.type == 'repeat' && task.afterCB) task.afterCB();
             this.schedule.splice(i,1);
             i--;
         }
