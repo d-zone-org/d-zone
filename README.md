@@ -16,7 +16,11 @@ If you're an absolute beginner and have never used Node, I have written a more [
 
 This project is still **very early in development**, so there isn't much point in running it yet. But in case you're curious, here's what you need to do:
 
-`npm install --no-optional`
+```
+git clone https://github.com/vegeta897/d-zone.git
+cd d-zone
+npm install --no-optional
+```
 
 Contained in the package are the server files and client files.
 
@@ -36,7 +40,7 @@ If everything works, the client should connect to the default server, generate a
 
 You can tweak the message box parameters by editing `misc-config.json`. Check the [Misc Config](https://github.com/vegeta897/d-zone/wiki/Configuration#misc) reference for details.
 
-Remember, this project is still being developed (as is discord.io), so keep your D-Zone up to date with `npm update`
+Remember, this project is still being developed, so check back here for updates!
 
 Don't forget to rebuild `bundle.js` and re-upload the web files after updating!
 
