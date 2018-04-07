@@ -16,7 +16,7 @@ If you're an absolute beginner and have never used Node, I have written a more [
 
 This project is still **very early in development**, so there isn't much point in running it yet. But in case you're curious, here's what you need to do:
 
-`npm install d-zone --no-optional`
+`npm install --no-optional`
 
 Contained in the package are the server files and client files.
 
