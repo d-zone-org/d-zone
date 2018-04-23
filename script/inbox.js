@@ -25,7 +25,7 @@ function Inbox(config) {
                 continue;
             }
             var newServer = {
-                discordID: serverList[i].id, 
+                discordID: serverList[i].id,
                 name: serverList[i].alias || bot.servers[serverList[i].id].name
             };
             newServer.id = util.abbreviate(newServer.name, serverIDs);
@@ -53,9 +53,9 @@ function Inbox(config) {
         if(self.servers[serverID].listenChannels && // Check if this channel is listened to
             self.servers[serverID].listenChannels.indexOf(channelName) < 0 &&
             self.servers[serverID].listenChannels.indexOf(channelID) < 0) return;
-        var messageObject = { 
-            type: 'message', servers: [serverID], 
-            data: { uid: userID, message: bot.fixMessage(message), channel: channelID }
+        var messageObject = {
+            type: 'message', servers: [serverID],
+            data: { uid: userID, message: bot.fixMessage(message, serverID), channel: channelID }
         };
         self.emit('message',messageObject);
     });
@@ -64,7 +64,7 @@ function Inbox(config) {
         for(var sKey in bot.servers) { if(!bot.servers.hasOwnProperty(sKey)) continue;
             if(bot.servers[sKey].members && bot.servers[sKey].members[userID]) userInServers.push(sKey);
         }
-        var presence = { 
+        var presence = {
             type: 'presence', servers: userInServers, data: { uid: userID, status: status }
         };
         self.emit('presence',presence);
