@@ -7,11 +7,32 @@ var util = require('./../web/script/common/util');
 module.exports = Inbox;
 inherits(Inbox, EventEmitter);
 
+var commandCooldowns = {};
+
 function Inbox(config) {
-    var bot = new Discord.Client({ autorun: true, token: config.get('token') });
     EventEmitter.call(this);
+    var bot = new Discord.Client({ autorun: true, token: config.get('token') });
     this.bot = bot;
     var self = this;
+    function setPresence() {
+        bot.setPresence({
+            game: {
+                name: config.get('infoCommand'),
+                url: config.get('url'),
+                type: 1
+            }
+        });
+    }
+    function respond(channelID, serverID) {
+        if(Date.now() - (commandCooldowns[channelID] || 0) < 30 * 1000) return;
+        commandCooldowns[channelID] = Date.now();
+        var info = config.get('url');
+        if(self.servers[serverID]) {
+            info += '?s=' + self.servers[serverID].id;
+            if(self.servers[serverID].password) info += '&p=' + self.servers[serverID].password;
+        }
+        bot.sendMessage({ to: channelID, message: info });
+    }
     bot.on('ready', bot.getAllUsers);
     bot.on('allUsers', function() {
         if(self.servers) return; // Don't re-initialize if reconnecting
@@ -38,36 +59,40 @@ function Inbox(config) {
         }
         console.log('Connected to',Object.keys(self.servers).length-1, 'server(s)');
         self.emit('connected');
+        setInterval(setPresence, 60 * 1000);
+        setPresence();
         require('fs').writeFileSync('./bot.json', JSON.stringify(bot, null, '\t'));
-    });
-    bot.on('message', function(user, userID, channelID, message, rawEvent) {
-        if(!bot.channels[channelID]) return;
-        var serverID = bot.channels[channelID].guild_id;
-        var channelName = bot.channels[channelID].name;
-        if(!self.servers || !self.servers[serverID]) return;
-        if(self.servers[serverID].ignoreUsers && // Check if this user is ignored
-            self.servers[serverID].ignoreUsers.indexOf(userID)) return;
-        if(self.servers[serverID].ignoreChannels && // Check if this channel is ignored
-            (self.servers[serverID].ignoreChannels.indexOf(channelName) >= 0 ||
-                self.servers[serverID].ignoreChannels.indexOf(channelID) >= 0)) return;
-        if(self.servers[serverID].listenChannels && // Check if this channel is listened to
-            self.servers[serverID].listenChannels.indexOf(channelName) < 0 &&
-            self.servers[serverID].listenChannels.indexOf(channelID) < 0) return;
-        var messageObject = {
-            type: 'message', servers: [serverID],
-            data: { uid: userID, message: bot.fixMessage(message, serverID), channel: channelID }
-        };
-        self.emit('message',messageObject);
-    });
-    bot.on('presence', function(user, userID, status, rawEvent) {
-        var userInServers = [];
-        for(var sKey in bot.servers) { if(!bot.servers.hasOwnProperty(sKey)) continue;
-            if(bot.servers[sKey].members && bot.servers[sKey].members[userID]) userInServers.push(sKey);
-        }
-        var presence = {
-            type: 'presence', servers: userInServers, data: { uid: userID, status: status }
-        };
-        self.emit('presence',presence);
+        bot.on('message', function(user, userID, channelID, message, rawEvent) {
+            if(userID === bot.id) return; // Don't listen to yourself, bot
+            if(!bot.channels[channelID]) return respond(channelID);
+            var serverID = bot.channels[channelID].guild_id;
+            var channelName = bot.channels[channelID].name;
+            if(!self.servers || !self.servers[serverID]) return;
+            if(config.get('infoCommand') && config.get('url') && message === config.get('infoCommand')) return respond(channelID, serverID);
+            if(self.servers[serverID].ignoreUsers && // Check if this user is ignored
+                self.servers[serverID].ignoreUsers.indexOf(userID)) return;
+            if(self.servers[serverID].ignoreChannels && // Check if this channel is ignored
+                (self.servers[serverID].ignoreChannels.indexOf(channelName) >= 0 ||
+                    self.servers[serverID].ignoreChannels.indexOf(channelID) >= 0)) return;
+            if(self.servers[serverID].listenChannels && // Check if this channel is listened to
+                self.servers[serverID].listenChannels.indexOf(channelName) < 0 &&
+                self.servers[serverID].listenChannels.indexOf(channelID) < 0) return;
+            var messageObject = {
+                type: 'message', servers: [serverID],
+                data: { uid: userID, message: bot.fixMessage(message, serverID), channel: channelID }
+            };
+            self.emit('message',messageObject);
+        });
+        bot.on('presence', function(user, userID, status, rawEvent) {
+            var userInServers = [];
+            for(var sKey in bot.servers) { if(!bot.servers.hasOwnProperty(sKey)) continue;
+                if(bot.servers[sKey].members && bot.servers[sKey].members[userID]) userInServers.push(sKey);
+            }
+            var presence = {
+                type: 'presence', servers: userInServers, data: { uid: userID, status: status }
+            };
+            self.emit('presence',presence);
+        });
     });
     bot.on('disconnect', function() {
         console.log("Bot disconnected, reconnecting...");

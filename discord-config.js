@@ -3,22 +3,22 @@ var path = require('path');
 
 // Define a schema
 var config = module.exports = convict({
-    email: {
-        doc: "The email for your Discord account. Ignored if token provided.",
-        format: "email"
-    },
-    password: {
-        doc: "The password for your Discord account. Ignored if token provided.",
+    token: {
+        doc: "The login token for your Discord bot.",
         format: String
     },
-    token: {
-        doc: "The token for your Discord account. Only required for bot accounts.",
+    url: {
+        doc: "The site URL where the simulation can be viewed.",
+        format: "url"
+    },
+    infoCommand: {
+        doc: "The command which the bot will respond to with the site URL.",
         format: String
     },
     servers: [
         {
             id: {
-                doc: "The Discord server ID you want to attach to",
+                doc: "The Discord server ID you want to simulate.",
                 format: String,
                 default: "123456789"
             },
