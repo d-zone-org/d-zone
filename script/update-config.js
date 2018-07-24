@@ -5,11 +5,12 @@
     Made by JacobGunther12 (@JacobGunther12#1281)
     Rewritten by Vegeta897
 
-    Automatically updates the discord-config.json file to 
+    Automatically updates the discord-config.json file to
     include all servers the bot has access to
 
 */
 
+require('dotenv').config();
 var fs = require("fs");
 
 var config;
@@ -17,15 +18,15 @@ try { config = require('../discord-config.json'); } catch(e) {}
 
 if(!config) {
     console.error('Please verify that "discord-config.json" exists in the root folder and contains valid JSON data');
-} else if(!config.token) {
-    console.error('Your discord-config.json file is missing the token');
+} else if(!process.env.token) {
+    console.error('You must define the token environment variable');
 } else {
     Object.assign({
         servers: []
     }, config);
     var Discord = require('discord.io');
     var bot = new Discord.Client({
-        token: config.token,
+        token: process.env.token,
         autorun: true
     });
     bot.on('ready', function() {

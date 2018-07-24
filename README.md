@@ -22,11 +22,13 @@ cd d-zone
 npm install --no-optional
 ```
 
-Contained in the package are the server files and client files.
+Set your `token` environment variable to your bot's token. Alternatively, create a file called `.env` in the project root and put `token="your_token"` in it.
 
-Rename `discord-config-example.json` to `discord-config.json` and insert the login and server info for your Discord server(s). **You must specify _one_ `default` Discord server.** You can include multiple servers here, and as long as your bot can connect to them, they will be available for clients to view. You can password-protect a server from being viewed by a client by using the `password` property. Check the [Configuration](https://github.com/vegeta897/d-zone/wiki/Configuration) reference for more info.
+Rename `discord-config-example.json` to `discord-config.json` and insert the info for your Discord server(s). **You must specify _one_ `default` Discord server.** You can include multiple servers here, and as long as your bot can connect to them, they will be available for clients to view.
 
-You can automatically populate your `discord-config.json` with all your bot's servers by running `Update Configuration.bat`. Your token must be present in `discord-config.json`.
+You can password-protect a server from being viewed by a client by using the `password` property. Check the [Configuration](https://github.com/vegeta897/d-zone/wiki/Configuration) reference for more info.
+
+You can automatically populate your `discord-config.json` with all your bot's servers by running `Update Configuration.bat`.
 
 Rename `socket-config-example.json` to `socket-config.json` and insert the IP and port you want to run the websocket on.
 

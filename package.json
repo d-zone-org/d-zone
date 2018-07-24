@@ -1,15 +1,16 @@
 {
   "name": "d-zone",
-  "version": "0.1.65",
+  "version": "0.1.66",
   "description": "An ambient life simulation driven by the user activity within a Discord server",
   "main": "index.js",
   "dependencies": {
     "brfs": "^1.4.1",
     "browser-storage": "0.0.2",
     "browserify": "latest",
-    "convict": "^1.0.1",
+    "convict": "^1.1.3",
     "dateformat": "^1.0.11",
     "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "dotenv": "^6.0.0",
     "inherits": "^2.0.1",
     "raf": "^3.1.0",
     "uglifyify": "^3.0.1",

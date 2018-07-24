@@ -3,10 +3,6 @@ var path = require('path');
 
 // Define a schema
 var config = module.exports = convict({
-    token: {
-        doc: "The login token for your Discord bot.",
-        format: String
-    },
     url: {
         doc: "The site URL where the simulation can be viewed.",
         format: "url"

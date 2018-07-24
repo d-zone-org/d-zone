@@ -11,7 +11,7 @@ var commandCooldowns = {};
 
 function Inbox(config) {
     EventEmitter.call(this);
-    var bot = new Discord.Client({ autorun: true, token: config.get('token') });
+    var bot = new Discord.Client({ autorun: true, token: process.env.token });
     this.bot = bot;
     var self = this;
     function setPresence() {

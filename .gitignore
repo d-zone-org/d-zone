@@ -46,9 +46,6 @@ org.eclipse.*
 *.exe
 
 # Custom
-CFDump.php
-db.class.php
-db-live.class.php
 bot.json
 reference/*
 web/static/bundle.js
@@ -58,10 +55,9 @@ restart bot.bat
 start bot.bat
 
 # Config
+.env
 discord-config.json
 socket-config.json
-config-dzone.json
-config-dbot.json
 
 # Visual Studio
 *.sln

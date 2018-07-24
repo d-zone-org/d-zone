@@ -6,10 +6,11 @@ var Renderer = require('./script/engine/renderer.js');
 var Canvas = require('./script/engine/canvas.js');
 var UI = require('./script/ui/ui.js');
 var bs = require('browser-storage');
+var packageInfo = require('./../package.json');
+var socketConfig = require('./../socket-config.json');
 
 // TODO: Loading screen while preloading images, connecting to websocket, and generating world
 console.log('Loading...');
-var packageInfo = JSON.parse(require('fs').readFileSync('./package.json'));
 var version = packageInfo.version;
 var preloader = new Preloader(initGame);
 var game, ws;
@@ -23,12 +24,12 @@ function initGame(images) {
     game.ui = new UI(game);
     //game.showGrid = true;
     //game.timeRenders = true;
-    
+
     //game.on('update', function () {
     //    // Update
     //});
     initWebsocket();
-    
+
     window.pause = function() { game.paused = true; };
     window.unpause = function() { game.paused = false; };
     window.game = game;
@@ -39,21 +40,20 @@ function initWebsocket() {
     var Users = require('./script/actors/users.js');
     var Decorator = require('./script/props/decorator.js');
     var users, world, decorator;
-    var socketConfig = JSON.parse(require('fs').readFileSync('./socket-config.json'));
-    
-    console.log('Initializing websocket on port',socketConfig.port);
-    
+
+    console.log('Initializing websocket on port', socketConfig.port);
+
     // Swap the comments on the next 4 lines to switch between your websocket server and a virtual one
-    
+
     // TODO: We don't need websocket-stream, we can use the native browser websocket api
     var WebSocket = require('websocket-stream');
-    ws = WebSocket('ws://'+socketConfig.address+':'+socketConfig.port);
+    ws = WebSocket('ws://' + socketConfig.address + ':' + socketConfig.port);
     //var TestSocket = require('./script/engine/tester.js'),
     //    ws = new TestSocket(50,3000);
     ws.on('data',function(data) {
         data = JSON.parse(data);
         if(decorator) decorator.beacon.ping();
-        if(data.type == 'server-list') {
+        if(data.type === 'server-list') {
             game.servers = data.data;
             console.log('Got server list:',game.servers);
             // Server button
@@ -68,12 +68,12 @@ function initWebsocket() {
                     if(server.password) params += '&p=' + server.password;
                     if(server.passworded) {
                         var submitPassword = function(pass) {
-                            bs.setItem('dzone-default-server',JSON.stringify({ 
+                            bs.setItem('dzone-default-server',JSON.stringify({
                                 id: server.id, password: pass
                             }));
                             server.password = pass;
-                            if(window.location.protocol != 'file:') window.history.pushState(
-                                {server: server.id, password: server.password}, 
+                            if(window.location.protocol !== 'file:') window.history.pushState(
+                                {server: server.id, password: server.password},
                                 server.id, window.location.pathname + params
                             );
                             joinServer(server);
@@ -94,8 +94,8 @@ function initWebsocket() {
                         });
                     } else {
                         bs.setItem('dzone-default-server',JSON.stringify({ id: server.id }));
-                        if(window.location.protocol != 'file:') window.history.pushState(
-                            {server: server.id, password: server.password}, 
+                        if(window.location.protocol !== 'file:') window.history.pushState(
+                            {server: server.id, password: server.password},
                             server.id, window.location.pathname + params
                         );
                         joinServer(server);
@@ -110,11 +110,11 @@ function initWebsocket() {
                 var serverButtonY = 0;
                 var button;
                 for(var sKey in game.servers) { if(!game.servers.hasOwnProperty(sKey)) continue;
-                    if(sKey == 'default') continue;
+                    if(sKey === 'default') continue;
                     var server = game.servers[sKey];
                     var serverLock = game.servers[sKey].passworded ? ':icon-lock-small: ' : '';
                     button = game.ui.addButton({
-                        text: serverLock+game.servers[sKey].name, left: 5, top: 5 + serverButtonY * 21, 
+                        text: serverLock+game.servers[sKey].name, left: 5, top: 5 + serverButtonY * 21,
                         w: 136, h: 18, parent: game.serverListPanel, onPress: new joinThisServer(server)
                     });
                     widestButton = Math.max(widestButton, button.textCanvas.width + 2);
@@ -136,18 +136,18 @@ function initWebsocket() {
                 game.ui.addLabel({
                     text: packageInfo.description, top: 20, left: 2, maxWidth: 196, parent: game.helpPanel
                 });
-                game.ui.addLabel({ 
+                game.ui.addLabel({
                     text: ':icon-npm: View on npm', hyperlink: 'https://www.npmjs.com/package/d-zone',
-                    top: 50, left: 8, parent: game.helpPanel 
+                    top: 50, left: 8, parent: game.helpPanel
                 });
-                game.ui.addLabel({ 
+                game.ui.addLabel({
                     text: ':icon-github: View on GitHub', hyperlink: 'https://github.com/vegeta897/d-zone',
-                    top: 50, right: 8, parent: game.helpPanel 
+                    top: 50, right: 8, parent: game.helpPanel
                 });
             }});
             var startupServer = getStartupServer();
             joinServer(startupServer);
-        } else if(data.type == 'server-join') { // Initial server status
+        } else if(data.type === 'server-join') { // Initial server status
             game.reset();
             game.renderer.clear();
             var userList = data.data.users;
@@ -157,7 +157,7 @@ function initWebsocket() {
             users = new Users(game, world);
             var params = '?s=' + data.data.request.server;
             if(data.data.request.password) params += '&p=' + data.data.request.password;
-            if(window.location.protocol != 'file:') window.history.replaceState(
+            if(window.location.protocol !== 'file:') window.history.replaceState(
                 data.data.request, data.data.request.server, window.location.pathname + params
             );
             //return;
@@ -173,12 +173,12 @@ function initWebsocket() {
             }
             console.log((Object.keys(users.actors).length).toString()+' actors created');
             game.renderer.canvases[0].onResize();
-        } else if(data.type == 'presence') { // User status update
+        } else if(data.type === 'presence') { // User status update
             if(!users.actors[data.data.uid]) return;
             users.actors[data.data.uid].updatePresence(data.data.status);
-        } else if(data.type == 'message') { // Chatter
+        } else if(data.type === 'message') { // Chatter
             users.queueMessage(data.data);
-        } else if(data.type == 'error') {
+        } else if(data.type === 'error') {
             window.alert(data.data.message);
             if(!game.world) joinServer({id: 'default'});
         } else {
@@ -188,7 +188,7 @@ function initWebsocket() {
     ws.on('connect', function() { console.log('Websocket connected'); });
     ws.on('disconnect', function() {console.log('Websocket disconnected'); });
     ws.on('error', function(err) { console.log('error',err); });
-    
+
     window.testMessage = function(message) {
         var msg = message ? message.text : 'hello, test message yo!';
         var uid = message ? message.uid : users.actors[Object.keys(users.actors)[0]].uid;

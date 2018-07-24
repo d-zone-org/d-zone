@@ -5,7 +5,7 @@ echo This will automatically update your discord-config.json
 echo to populate the server list with all servers your bot
 echo has access to.
 echo.
-echo Your token must be present in discord-config.json
+echo Your token must be defined as an environment variable or in .env
 echo.
 echo If you have any existing servers in the configuration,
 echo they will not be overwritten.
