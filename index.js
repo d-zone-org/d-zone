@@ -1,5 +1,6 @@
 'use strict';
-require('dotenv').config();
+var path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 var discordConfig = require('./discord-config');
 var socketConfig = require('./socket-config');
 var Inbox = require('./script/inbox.js');
