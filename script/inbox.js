@@ -1,5 +1,5 @@
 'use strict';
-var Discord = require("discord.io");
+const Eris = require('eris');
 var EventEmitter = require("events").EventEmitter;
 var inherits = require('inherits');
 var util = require('./../web/script/common/util');
@@ -11,135 +11,119 @@ var commandCooldowns = {};
 
 function Inbox(config) {
     EventEmitter.call(this);
-    var bot = new Discord.Client({ autorun: true, token: process.env.token });
+    var bot = new Eris(process.env.token, { getAllUsers: true });
     this.bot = bot;
     var self = this;
     function setPresence() {
-        bot.setPresence({
-            game: {
-                name: config.get('infoCommand'),
-                url: config.get('url'),
-                type: 1
-            }
+        bot.editStatus(null, {
+            name: config.get('infoCommand'),
+            url: config.get('url'),
+            type: 0
         });
     }
-    function respond(channelID, serverID) {
-        if(Date.now() - (commandCooldowns[channelID] || 0) < 30 * 1000) return;
-        commandCooldowns[channelID] = Date.now();
-        var info = config.get('url');
-        if(self.servers[serverID]) {
-            info += '?s=' + self.servers[serverID].id;
-            if(self.servers[serverID].password) info += '&p=' + self.servers[serverID].password;
+    function respond(channel) {
+        if(Date.now() - (commandCooldowns[channel.id] || 0) < 30 * 1000) return;
+        commandCooldowns[channel.id] = Date.now();
+        let info = config.get('url');
+        let server = channel.guild && self.servers[channel.guild.id];
+        if(server) {
+            info += '?s=' + server.id;
+            if(server.password) info += '&p=' + server.password;
         }
-        bot.sendMessage({ to: channelID, message: info });
+        channel.createMessage(info);
     }
-    bot.on('ready', bot.getAllUsers);
-    bot.on('allUsers', function() {
+    bot.on('ready', () => {
         if(self.servers) return; // Don't re-initialize if reconnecting
-        console.log(new Date(), 'Logged in as: ' + bot.username + ' - (' + bot.id + ')');
+        console.log(new Date(), 'Logged in as: ' + bot.user.username + ' - (' + bot.user.id + ')');
         var serverList = config.get('servers');
         var serverIDs = [];
-        self.servers = {};
-        for(var i = 0; i < serverList.length; i++) {
-            if(!bot.servers[serverList[i].id]) { // Skip unknown servers
-                console.log('Unknown server ID:',serverList[i].id);
+        self.servers = new Map();
+        for(let server of serverList) {
+            let guild = bot.guilds.get(server.id);
+            if(!guild) { // Skip unknown servers
+                console.log('Unknown server ID:', server.id);
                 continue;
             }
             var newServer = {
-                discordID: serverList[i].id,
-                name: serverList[i].alias || bot.servers[serverList[i].id].name
+                discordID: server.id,
+                name: server.alias || guild.name,
+                default: server.default
             };
             newServer.id = util.abbreviate(newServer.name, serverIDs);
             serverIDs.push(newServer.id);
-            if(serverList[i].password) newServer.password = serverList[i].password;
-            if(serverList[i].ignoreChannels) newServer.ignoreChannels = serverList[i].ignoreChannels;
-            if(serverList[i].listenChannels) newServer.listenChannels = serverList[i].listenChannels;
-            if(serverList[i].default) self.servers.default = newServer;
-            self.servers[serverList[i].id] = newServer;
+            if(server.password) newServer.password = server.password;
+            if(server.ignoreChannels) newServer.ignoreChannels = server.ignoreChannels;
+            if(server.listenChannels) newServer.listenChannels = server.listenChannels;
+            self.servers.set(server.id, newServer);
         }
-        console.log('Connected to',Object.keys(self.servers).length-1, 'server(s)');
+        console.log('Connected to', self.servers.size, 'server(s)');
         self.emit('connected');
         setInterval(setPresence, 60 * 1000);
         setPresence();
-        require('fs').writeFileSync('./bot.json', JSON.stringify(bot, null, '\t'));
-        bot.on('message', function(user, userID, channelID, message, rawEvent) {
-            if(userID === bot.id) return; // Don't listen to yourself, bot
-            if(!bot.channels[channelID]) return respond(channelID);
-            var serverID = bot.channels[channelID].guild_id;
-            var channelName = bot.channels[channelID].name;
-            if(!self.servers || !self.servers[serverID]) return;
-            if(config.get('infoCommand') && config.get('url') && message === config.get('infoCommand')) return respond(channelID, serverID);
-            if(self.servers[serverID].ignoreUsers && // Check if this user is ignored
-                self.servers[serverID].ignoreUsers.indexOf(userID)) return;
-            if(self.servers[serverID].ignoreChannels && // Check if this channel is ignored
-                (self.servers[serverID].ignoreChannels.indexOf(channelName) >= 0 ||
-                    self.servers[serverID].ignoreChannels.indexOf(channelID) >= 0)) return;
-            if(self.servers[serverID].listenChannels && // Check if this channel is listened to
-                self.servers[serverID].listenChannels.indexOf(channelName) < 0 &&
-                self.servers[serverID].listenChannels.indexOf(channelID) < 0) return;
-            var messageObject = {
-                type: 'message', servers: [serverID],
-                data: { uid: userID, message: bot.fixMessage(message, serverID), channel: channelID }
-            };
-            self.emit('message',messageObject);
+        bot.on('messageCreate', ({ author, channel, cleanContent: message }) => {
+            if(author.id === bot.id) return; // Don't listen to yourself, bot
+            if(!channel.guild) return respond(channel); // Private message
+            var serverID = channel.guild.id;
+            let server = self.servers.get(serverID);
+            if(!server) return;
+            if(config.get('infoCommand') && config.get('url') && message === config.get('infoCommand')) return respond(channel);
+            if(server.ignoreUsers && // Check if this user is ignored
+                server.ignoreUsers.indexOf(author.id)) return;
+            if(server.ignoreChannels && // Check if this channel is ignored
+                (server.ignoreChannels.indexOf(channel.name) >= 0 ||
+                    server.ignoreChannels.indexOf(channel.id) >= 0)) return;
+            if(server.listenChannels && // Check if this channel is listened to
+                server.listenChannels.indexOf(channel.name) < 0 &&
+                server.listenChannels.indexOf(channel.id) < 0) return;
+            self.emit('message', {
+                type: 'message', server: serverID,
+                data: { uid: author.id, message, channel: channel.id }
+            });
         });
-        bot.on('presence', function(user, userID, status, rawEvent) {
-            var userInServers = [];
-            for(var sKey in bot.servers) { if(!bot.servers.hasOwnProperty(sKey)) continue;
-                if(bot.servers[sKey].members && bot.servers[sKey].members[userID]) userInServers.push(sKey);
-            }
-            var presence = {
-                type: 'presence', servers: userInServers, data: { uid: userID, status: status }
-            };
-            self.emit('presence',presence);
+        bot.on('presenceUpdate', ({ id, status, guild }) => {
+            if(!self.servers.has(guild.id)) return;
+            self.emit('presence', {
+                type: 'presence', server: guild.id, data: { uid: id, status }
+            });
         });
     });
-    bot.on('disconnect', function() {
-        console.log("Bot disconnected, reconnecting...");
-        setTimeout(function(){
-            bot.connect(); //Auto reconnect after 5 seconds
-        },5000);
-    });
+    bot.on('disconnect', () => console.log("Bot disconnected, reconnecting..."));
+    bot.on('error', err => console.log(err));
+    bot.connect();
 }
 
 Inbox.prototype.getUsers = function(connectRequest) {
-    var server = this.servers[connectRequest.server];
-    if(!server) { // If requested server ID is not a Discord ID, check abbreviated IDs
-        for(var sKey in this.servers) { if(!this.servers.hasOwnProperty(sKey)) continue;
-            if(this.servers[sKey].id == connectRequest.server) {
-                server = this.servers[sKey];
-                break;
-            }
-        }
-    }
+    let server = this.servers.get(connectRequest.server) ||
+        Array.from(this.servers.values()).find(s => s.id === connectRequest.server || s.default && connectRequest.server === 'default');
     if(!server) return 'unknown-server';
     if(server.password && server.password !== connectRequest.password) return 'bad-password';
-    var discordServer = this.bot.servers[server.discordID], users = {};
-    for(var uid in discordServer.members) { if(!discordServer.members.hasOwnProperty(uid)) continue;
-        var member = discordServer.members[uid];
+    let guild = this.bot.guilds.get(server.discordID);
+    if(!guild) return 'unknown-server';
+    let users = {};
+    for(let [uid, member] of guild.members) {
         users[uid] = {
-            id: member.id,
+            id: uid,
             username: member.nick || member.username,
             status: member.status
         };
         users[uid].roleColor = false;
-        var rolePosition = -1;
-        for(var i = 0; i < discordServer.members[uid].roles.length; i++) {
-            var role = discordServer.roles[discordServer.members[uid].roles[i]];
+        let rolePosition = -1;
+        for(let roleID of member.roles) {
+            let role = guild.roles.get(roleID);
             if(!role || !role.color || role.position < rolePosition) continue;
-            users[uid].roleColor = '#'+('00000'+role.color.toString(16)).substr(-6);
+            users[uid].roleColor = '#' + ('00000' + role.color.toString(16)).substr(-6);
             rolePosition = role.position;
         }
     }
-    return { server: server, userList: users };
+    return { server, userList: users };
 };
 
 Inbox.prototype.getServers = function() {
-    var serverList = {};
-    for(var sKey in this.servers) { if(!this.servers.hasOwnProperty(sKey)) continue;
-        var key = sKey == 'default' ? sKey : this.servers[sKey].id;
-        serverList[key] = { id: this.servers[sKey].id, name: this.servers[sKey].name };
-        if(this.servers[sKey].password) serverList[key].passworded = true;
+    let serverList = {};
+    for(let [sKey, server] of this.servers.entries()) {
+        serverList[sKey] = { id: server.id, name: server.name };
+        if(server.default) serverList[sKey].default = true;
+        if(server.password) serverList[sKey].passworded = true;
     }
     return serverList;
 };

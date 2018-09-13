@@ -1,8 +1,8 @@
-var convict = require('convict');
-var path = require('path');
+const convict = require('convict');
+const path = require('path');
 
 // Define a schema
-var config = module.exports = convict({
+const config = convict({
     address: {
         doc: "The address/URL of your websocket server.",
         format: String,
@@ -19,4 +19,6 @@ var config = module.exports = convict({
 config.loadFile(path.resolve(__dirname,'socket-config.json'));
 
 // Perform validation
-config.validate({strict: true});
+config.validate({allowed: 'strict'});
+
+module.exports = config;

@@ -13,7 +13,7 @@ var inbox = new Inbox(discordConfig);
 
 var webSock;
 
-inbox.on('connected',function() {
+inbox.on('connected', () => {
     webSock = new WebSock(socketConfig,
         function onConnect(socket) {
             socket.send(JSON.stringify({ type: 'server-list', data: inbox.getServers() }));
@@ -28,7 +28,7 @@ inbox.on('connected',function() {
                 socket.send(JSON.stringify({
                     type: 'error', data: { message: 'Sorry, wrong password for that Discord server.' }
                 }));
-                console.log('Client used wrong password to join server',connectRequest.server);
+                console.log('Client used wrong password to join server', connectRequest.server, connectRequest.password);
             } else {
                 socket.discordServer = users.server.discordID;
                 // Send list of current online users to set up initial client state
@@ -41,6 +41,6 @@ inbox.on('connected',function() {
             }
         }
     );
-    inbox.on('message',webSock.sendData.bind(webSock));
-    inbox.on('presence',webSock.sendData.bind(webSock));
+    inbox.on('message', webSock.sendData.bind(webSock));
+    inbox.on('presence', webSock.sendData.bind(webSock));
 });

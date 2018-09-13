@@ -55,7 +55,7 @@ function initWebsocket() {
         if(decorator) decorator.beacon.ping();
         if(data.type === 'server-list') {
             game.servers = data.data;
-            console.log('Got server list:',game.servers);
+            console.log('Got server list:', game.servers);
             // Server button
             game.ui.addButton({ text: 'Server', top: 3, right: 3, onPress: function() {
                 if(game.serverListPanel) {
@@ -68,12 +68,9 @@ function initWebsocket() {
                     if(server.password) params += '&p=' + server.password;
                     if(server.passworded) {
                         var submitPassword = function(pass) {
-                            bs.setItem('dzone-default-server',JSON.stringify({
-                                id: server.id, password: pass
-                            }));
                             server.password = pass;
                             if(window.location.protocol !== 'file:') window.history.pushState(
-                                {server: server.id, password: server.password},
+                                { server: server.id, password: server.password },
                                 server.id, window.location.pathname + params
                             );
                             joinServer(server);
@@ -93,7 +90,6 @@ function initWebsocket() {
                             onPress: game.passwordPromptInput.submit.bind(game.passwordPromptInput)
                         });
                     } else {
-                        bs.setItem('dzone-default-server',JSON.stringify({ id: server.id }));
                         if(window.location.protocol !== 'file:') window.history.pushState(
                             {server: server.id, password: server.password},
                             server.id, window.location.pathname + params
@@ -104,13 +100,12 @@ function initWebsocket() {
                     delete game.serverListPanel;
                 } };
                 game.serverListPanel = game.ui.addPanel({
-                    left: 'auto', top: 'auto', w: 146, h: 28 + 21 * (Object.keys(game.servers).length - 2)
+                    left: 'auto', top: 'auto', w: 146, h: 28 + 21 * (Object.keys(game.servers).length - 1)
                 });
                 var widestButton = 136;
                 var serverButtonY = 0;
                 var button;
                 for(var sKey in game.servers) { if(!game.servers.hasOwnProperty(sKey)) continue;
-                    if(sKey === 'default') continue;
                     var server = game.servers[sKey];
                     var serverLock = game.servers[sKey].passworded ? ':icon-lock-small: ' : '';
                     button = game.ui.addButton({
@@ -148,6 +143,7 @@ function initWebsocket() {
             var startupServer = getStartupServer();
             joinServer(startupServer);
         } else if(data.type === 'server-join') { // Initial server status
+            bs.setItem('dzone-default-server', JSON.stringify(data.data.request));
             game.reset();
             game.renderer.clear();
             var userList = data.data.users;
@@ -193,7 +189,7 @@ function initWebsocket() {
         var msg = message ? message.text : 'hello, test message yo!';
         var uid = message ? message.uid : users.actors[Object.keys(users.actors)[0]].uid;
         var channel = message ? message.channel : '1';
-        ws.emit('data',JSON.stringify({ type: 'message', data: {
+        ws.emit('data', JSON.stringify({ type: 'message', data: {
             uid: uid, message: msg, channel: channel
         }}));
     };

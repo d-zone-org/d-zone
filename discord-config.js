@@ -1,15 +1,17 @@
-var convict = require('convict');
-var path = require('path');
+const convict = require('convict');
+const path = require('path');
 
 // Define a schema
-var config = module.exports = convict({
+const config = convict({
     url: {
         doc: "The site URL where the simulation can be viewed.",
-        format: "url"
+        format: "url",
+        default: ""
     },
     infoCommand: {
         doc: "The command which the bot will respond to with the site URL.",
-        format: String
+        format: String,
+        default: "!d-zone"
     },
     servers: [
         {
@@ -20,34 +22,42 @@ var config = module.exports = convict({
             },
             default: {
                 doc: "Indicates whether clients connect to this server by default. One server should have this set to true.",
-                format: Boolean
+                format: Boolean,
+                default: false
             },
             alias: {
                 doc: "Optional, server selection box will show this instead of the actual server name.",
-                format: String
+                format: String,
+                default: ''
             },
             password: {
                 doc: "Optional, clients will be required to enter this password to connect to this server.",
-                format: String
+                format: String,
+                default: ''
             },
             ignoreChannels: {
                 doc: "Optional, list of text channel names or IDs you want to be ignored (cannot be used with listenChannels, case-sensitive).",
-                format: Array
+                format: Array,
+                default: []
             },
             ignoreUsers: {
                 doc: "Optional, list of user IDs you want to be ignored (user ID means the long string of numbers, not username@1234).",
-                format: Array
+                format: Array,
+                default: []
             },
             listenChannels: {
                 doc: "Optional, list of text channel names or IDs you do not want to ignore (cannot be used with ignoreChannels, case-sensitive).",
-                format: Array
+                format: Array,
+                default: []
             }
         }
     ]
 });
 
 // Load configuration
-config.loadFile(path.resolve(__dirname,'discord-config.json'));
+config.loadFile(path.resolve(__dirname, 'discord-config.json'));
 
 // Perform validation
 config.validate();
+
+module.exports = config;
