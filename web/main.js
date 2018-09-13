@@ -143,7 +143,9 @@ function initWebsocket() {
             var startupServer = getStartupServer();
             joinServer(startupServer);
         } else if(data.type === 'server-join') { // Initial server status
-            bs.setItem('dzone-default-server', JSON.stringify(data.data.request));
+            var requestServer = data.data.request.server;
+            var requestPass = data.data.request.password;
+            bs.setItem('dzone-default-server', JSON.stringify({ id: requestServer, password: requestPass }));
             game.reset();
             game.renderer.clear();
             var userList = data.data.users;
@@ -152,9 +154,9 @@ function initWebsocket() {
             game.decorator = decorator;
             users = new Users(game, world);
             var params = '?s=' + data.data.request.server;
-            if(data.data.request.password) params += '&p=' + data.data.request.password;
+            if(requestPass) params += '&p=' + requestPass;
             if(window.location.protocol !== 'file:') window.history.replaceState(
-                data.data.request, data.data.request.server, window.location.pathname + params
+                data.data.request, requestServer, window.location.pathname + params
             );
             //return;
             //console.log('Initializing actors',data.data);
