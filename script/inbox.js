@@ -61,7 +61,7 @@ function Inbox(config) {
         setInterval(setPresence, 60 * 1000);
         setPresence();
         bot.on('messageCreate', ({ author, channel, cleanContent: message }) => {
-            if(author.id === bot.id) return; // Don't listen to yourself, bot
+            if(author.id === bot.user.id) return; // Don't listen to yourself, bot
             if(!channel.guild) return respond(channel); // Private message
             var serverID = channel.guild.id;
             let server = self.servers.get(serverID);
