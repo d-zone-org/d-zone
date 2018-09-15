@@ -41,17 +41,15 @@ function initWebsocket() {
     var Decorator = require('./script/props/decorator.js');
     var users, world, decorator;
 
-    console.log('Initializing websocket on port', socketConfig.port);
+    var socketURL = (socketConfig.secure ? 'wss://' : 'ws://') + socketConfig.address + ':' + socketConfig.port;
+    console.log('Initializing websocket on', socketURL);
 
-    // Swap the comments on the next 4 lines to switch between your websocket server and a virtual one
-
-    // TODO: We don't need websocket-stream, we can use the native browser websocket api
-    var WebSocket = require('websocket-stream');
-    ws = WebSocket('ws://' + socketConfig.address + ':' + socketConfig.port);
+    // Swap the comments on the next 3 lines to switch between your websocket server and a virtual one
+    ws = new WebSocket(socketURL);
     //var TestSocket = require('./script/engine/tester.js'),
-    //    ws = new TestSocket(50,3000);
-    ws.on('data',function(data) {
-        data = JSON.parse(data);
+    //ws = new TestSocket(50, 3000);
+    ws.addEventListener('message', function(event) {
+        var data = JSON.parse(event.data);
         if(decorator) decorator.beacon.ping();
         if(data.type === 'server-list') {
             game.servers = data.data;
@@ -183,18 +181,18 @@ function initWebsocket() {
             //console.log('Websocket data:',data);
         }
     });
-    ws.on('connect', function() { console.log('Websocket connected'); });
-    ws.on('disconnect', function() {console.log('Websocket disconnected'); });
-    ws.on('error', function(err) { console.log('error',err); });
+    ws.addEventListener('open', function() { console.log('Websocket connected'); });
+    ws.addEventListener('close', function() {console.log('Websocket disconnected'); });
+    ws.addEventListener('error', function(err) {console.log('Websocket error:', err); });
 
-    window.testMessage = function(message) {
-        var msg = message ? message.text : 'hello, test message yo!';
-        var uid = message ? message.uid : users.actors[Object.keys(users.actors)[0]].uid;
-        var channel = message ? message.channel : '1';
-        ws.emit('data', JSON.stringify({ type: 'message', data: {
-            uid: uid, message: msg, channel: channel
-        }}));
-    };
+    // window.testMessage = function(message) {
+    //     var msg = message ? message.text : 'hello, test message yo!';
+    //     var uid = message ? message.uid : users.actors[Object.keys(users.actors)[0]].uid;
+    //     var channel = message ? message.channel : '1';
+    //     ws.send('data', JSON.stringify({ type: 'message', data: {
+    //         uid: uid, message: msg, channel: channel
+    //     }}));
+    // };
 }
 
 window.onpopstate = function(event) {
@@ -207,7 +205,7 @@ function joinServer(server) {
     var connectionMessage = { type: 'connect', data: { server: server.id } };
     if(server.password) connectionMessage.data.password = server.password;
     console.log('Requesting to join server', server.id);
-    ws.write(new Buffer(JSON.stringify(connectionMessage)));
+    ws.send(new Buffer(JSON.stringify(connectionMessage)));
 }
 
 function getStartupServer() {

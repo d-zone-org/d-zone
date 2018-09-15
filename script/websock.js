@@ -1,11 +1,24 @@
 'use strict';
-var DateFormat = require('dateformat');
+const fs = require('fs');
+const https = require('https');
+const WSServer = require('ws').Server;
+const DateFormat = require('dateformat');
 
 module.exports = WebSock;
 
 function WebSock(config, onConnect, onJoinServer) {
-    var WSServer = require('ws').Server;
-    var wss = new WSServer({ port: config.get('port') });
+    let wss;
+    if(config.get('secure')) {
+        const server = new https.createServer({
+            cert: fs.readFileSync(process.env.cert),
+            key: fs.readFileSync(process.env.key)
+        });
+        wss = new WSServer({ server });
+        server.on('error', err => console.log('Websocket server error:', err));
+        server.listen(config.get('port'));
+    } else {
+        wss = new WSServer({ port: config.get('port') })
+    }
     this.wss = wss;
     wss.on('connection', function(socket) {
         console.log(DateFormat(new Date(), 'm/d h:MM:ss TT'),
@@ -22,6 +35,8 @@ function WebSock(config, onConnect, onJoinServer) {
             //    "h:MM:ss TT"),'client disconnected, total:', wss.clients.length);
         });
     });
+    wss.on('listening', () => console.log('Websocket listening on port', config.get('port')));
+    wss.on('error', err => console.log('Websocket server error:', err));
 }
 
 WebSock.prototype.sendData = function(data) {

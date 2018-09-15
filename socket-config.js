@@ -12,6 +12,11 @@ const config = convict({
         doc: "The port for your websocket server address.",
         format: "port",
         default: "3000"
+    },
+    secure: {
+        doc: "Set to true to use wss:// protocol instead of ws://",
+        format: Boolean,
+        default: false
     }
 });
 
