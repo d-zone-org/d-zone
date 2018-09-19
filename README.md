@@ -12,7 +12,7 @@ Hopefully the simulation is interesting to watch. You can see the current (unint
 
 ## Installation
 
-If you're an absolute beginner and have never used Node, I have written a more [beginner-friendly guide](https://github.com/vegeta897/d-zone/wiki/Beginner's-Setup-Guide)
+If you're an absolute beginner or want more detailed instructions, I have written a more [beginner-friendly guide](https://github.com/vegeta897/d-zone/wiki/Beginner's-Setup-Guide)
 
 ```
 git clone https://github.com/vegeta897/d-zone.git
@@ -50,7 +50,7 @@ The game engine architecture is currently loosely based on [crtrdg](http://crtrd
 It consists of both a server and client component:
 
 ### Server Component
-The server runs a [Discord bot](https://www.npmjs.com/package/discord.io) which monitors the activity and user statuses in the server(s) of your choice. This data is sent to clients in real time via websockets.
+The server runs a [Discord bot](https://abal.moe/Eris/) which monitors the activity and user statuses in the server(s) of your choice. This data is sent to clients in real time via websockets.
 
 ### Client Component
 The client (also designed with node via browserify) runs a graphical simulation in a canvas depicting an isometric scene populated by objects and autonomous characters. The activity in the scene is dictated and influenced by the data received from the server component. Clients are able to change which Discord server they are viewing with in-game UI.
