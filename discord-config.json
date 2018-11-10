@@ -1,0 +1,11 @@
+{
+  "url": "http://127.0.0.1:8080",
+  "infoCommand": "!d-zone",
+  "servers": [
+    {
+      "id": "232769614004748288",
+      "default": true,
+      "ignoreChannels": []
+    }
+  ]
+}

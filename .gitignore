@@ -55,8 +55,6 @@ start bot.bat
 
 # Config
 .env
-discord-config.json
-socket-config.json
 
 # Visual Studio
 *.sln
