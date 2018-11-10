@@ -26,4 +26,7 @@ config.loadFile(path.resolve(__dirname,'socket-config.json'));
 // Perform validation
 config.validate({allowed: 'strict'});
 
+// Heroku
+config.set('port', process.env.PORT || config.get('port'))
+
 module.exports = config;
