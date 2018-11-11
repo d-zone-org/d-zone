@@ -6,6 +6,7 @@
     "discord",
     "dzone"
   ],
+  "logo": "https://raw.githubusercontent.com/vegeta897/d-zone/master/web/favicon-196.png",
   "env": {
     "TOKEN": {
       "description": "Your Discord Bot Token"
