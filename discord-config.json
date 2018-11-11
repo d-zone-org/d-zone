@@ -1,11 +1,7 @@
 {
-  "url": "http://127.0.0.1:8080",
+  "url": "https://github.com/vegeta897/d-zone",
   "infoCommand": "!d-zone",
+  "autoPopulate": true,
   "servers": [
-    {
-      "id": "232769614004748288",
-      "default": true,
-      "ignoreChannels": []
-    }
   ]
 }

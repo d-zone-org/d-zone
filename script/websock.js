@@ -11,12 +11,26 @@ module.exports = WebSock;
 
 function WebSock(config, onConnect, onJoinServer) {
     let wss;
-    let server
-
+    let server;
     const app = express();
     app.use(express.static(path.join(__dirname, './../web')));
-    server = new http.createServer(app);
-    wss = new WSServer({ server })
+
+    if (process.env.DYNO) {
+        server = new http.createServer(app);
+        wss = new WSServer({ server })
+    } else {
+        if(config.get('secure')) {
+            const server = new https.createServer(app, {
+                cert: fs.readFileSync(process.env.cert),
+                key: fs.readFileSync(process.env.key)
+            });
+            wss = new WSServer({ server });
+        } else {
+            server = new http.createServer(app);
+            wss = new WSServer({ server })
+        }
+    }
+
 
     this.wss = wss;
     wss.on('connection', function(socket) {
@@ -37,6 +51,7 @@ function WebSock(config, onConnect, onJoinServer) {
     wss.on('listening', () => console.log('Websocket listening on port', config.get('port')));
     wss.on('error', err => console.log('Websocket server error:', err));
 
+    server.on('error', err => console.log('Websocket server error:', err));
     server.listen(config.get('port'));
 }
 

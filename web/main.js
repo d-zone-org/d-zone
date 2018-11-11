@@ -41,7 +41,7 @@ function initWebsocket() {
     var Decorator = require('./script/props/decorator.js');
     var users, world, decorator;
 
-    var socketURL = (window.location.protocol == 'https:' ? 'wss://' : 'ws://') + window.location.hostname
+    var socketURL = (window.location.protocol == 'https:' ? 'wss://' : 'ws://') + window.location.hostname + (socketConfig.port ? ':' + socketConfig.port : '')
     console.log(socketURL);
 
     // Swap the comments on the next 3 lines to switch between your websocket server and a virtual one
