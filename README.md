@@ -12,7 +12,11 @@ Hopefully the simulation is interesting to watch. You can see the current (unint
 
 ## Installation
 
-If you're an absolute beginner or want more detailed instructions, I have written a more [beginner-friendly guide](https://github.com/vegeta897/d-zone/wiki/Beginner's-Setup-Guide)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/vegeta897/d-zone/tree/heroku)
+
+If you don't want to use Heroku, proceed below.
+
+If you're an absolute beginner or want more detailed instructions, read the [beginner-friendly guide](https://github.com/vegeta897/d-zone/wiki/Beginner's-Setup-Guide)
 
 ```
 git clone https://github.com/vegeta897/d-zone.git
