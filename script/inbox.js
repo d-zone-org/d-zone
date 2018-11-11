@@ -11,7 +11,7 @@ var commandCooldowns = {};
 
 function Inbox(config) {
     EventEmitter.call(this);
-    var bot = new Eris(process.env.token, { getAllUsers: true });
+    var bot = new Eris(process.env.TOKEN, { getAllUsers: true });
     this.bot = bot;
     var self = this;
     function setPresence() {
@@ -38,29 +38,62 @@ function Inbox(config) {
         var serverList = config.get('servers');
         var serverIDs = [];
         self.servers = new Map();
-        for(let server of serverList) {
-            let guild = bot.guilds.get(server.id);
-            if(!guild) { // Skip unknown servers
-                console.log('Unknown server ID:', server.id);
-                continue;
+        var defaultSet = false;
+        for (let guild of bot.guilds.map((x) => x)) {
+            // if auto populate is turned off don't track
+            if(!config.get('autoPopulate')) {
+                if(!serverList.map((server) => server.id).includes(guild.id)) {
+                    continue
+                }
             }
-            var newServer = {
-                discordID: server.id,
-                name: server.alias || guild.name,
-                default: server.default
-            };
+            var server = serverList.find(function(server) {return guild.id == server.id});
+            if(!server) server = {};
+
+            var newServer = {};
+            newServer.discordID = guild.id;
+            newServer.name = server.alias || guild.name;
+            if (server.default) defaultSet = true;
+            newServer.default = server.default || false;
             newServer.id = util.abbreviate(newServer.name, serverIDs);
             serverIDs.push(newServer.id);
             if(server.password) newServer.password = server.password;
             if(server.ignoreChannels) newServer.ignoreChannels = server.ignoreChannels;
             if(server.listenChannels) newServer.listenChannels = server.listenChannels;
-            self.servers.set(server.id, newServer);
+            self.servers.set(guild.id, newServer);
         }
+
+        // define default server if default is not set
+        if(!defaultSet) {
+            let key = self.servers.keys().next().value;
+            let value = self.servers.values().next().value;
+            value.default = true;
+            self.servers.set(key, value)
+        }
+
         console.log('Connected to', self.servers.size, 'server(s)');
         self.emit('connected');
         setInterval(setPresence, 60 * 1000);
         setPresence();
-        bot.on('messageCreate', ({ author, channel, cleanContent: message }) => {
+
+        bot.on('guildCreate', (guild) => {
+            var newServer = {};
+            newServer.discordID = guild.id;
+            newServer.name = guild.name;
+            newServer.default = false;
+            newServer.id = util.abbreviate(newServer.name, []);
+
+            self.servers.set(guild.id, newServer);
+            console.log("hi")
+        });
+        bot.on('guildDelete', (guild) => {
+            self.servers.delete(guild.id);
+            console.log("bye")
+        });
+
+        bot.on('messageCreate', (msg) => {
+            var author = msg.author;
+            var channel = msg.channel;
+            var message = msg.cleanContent;
             if(author.id === bot.user.id) return; // Don't listen to yourself, bot
             if(!channel.guild) return respond(channel); // Private message
             var serverID = channel.guild.id;

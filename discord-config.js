@@ -13,6 +13,11 @@ const config = convict({
         format: String,
         default: "!d-zone"
     },
+    autoPopulate: {
+        doc: "Whether to create a d-zone for each Discord server the bot is in.",
+        format: Boolean,
+        default: true
+    },
     servers: [
         {
             id: {

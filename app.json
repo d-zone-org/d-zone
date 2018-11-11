@@ -1,0 +1,20 @@
+{
+  "name": "d-zone",
+  "description": "An ambient life simulation driven by user activity within a Discord server",
+  "keywords": [
+    "simulation",
+    "discord",
+    "dzone"
+  ],
+  "env": {
+    "TOKEN": {
+      "description": "Your Discord Bot Token"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  }
+}
