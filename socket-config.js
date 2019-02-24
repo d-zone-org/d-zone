@@ -6,7 +6,7 @@ const config = convict({
     address: {
         doc: "The address/URL of your websocket server.",
         format: String,
-        default: "192.168.0.1"
+        default: "127.0.0.1"
     },
     port: {
         doc: "The port for your websocket server address.",
