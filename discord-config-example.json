@@ -1,6 +1,7 @@
 {
   "url": "http://pixelatomy.com/dzone",
   "infoCommand": "!d-zone",
+  "autoPopulate": true,
   "servers": [
     {
       "id": "1234567891234567",

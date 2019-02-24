@@ -48,7 +48,6 @@ org.eclipse.*
 # Custom
 bot.json
 reference/*
-web/static/bundle.js
 web/index-down.html
 tenc
 restart bot.bat
@@ -56,8 +55,6 @@ start bot.bat
 
 # Config
 .env
-discord-config.json
-socket-config.json
 
 # Visual Studio
 *.sln
@@ -90,3 +87,4 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+test.js
