@@ -1,0 +1,12 @@
+{
+  "name": "d-zone-server",
+  "version": "0.2.0",
+  "description": "Backend Server for D-Zone",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "tsc && cd dist && node index",
+    "build": "tsc"
+  },
+  "license": "ISC",
+  "private": true
+}
