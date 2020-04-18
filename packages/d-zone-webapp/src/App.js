@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Stage, useApp } from '@inlet/react-pixi';
+import ReactViewport from './ReactViewport';
+import Engine from './Engine';
+
+const ReactPixiViewport = React.forwardRef(({ children }, ref) => {
+    const app = useApp();
+    return <ReactViewport app={app} ref={ref}>{children}</ReactViewport>;
+});
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const refViewport = React.useCallback(node => {
+        if(node !== null) {
+            Engine(node);
+        }
+    }, []);
+
+    return (
+        <div className='App'>
+            <Stage width={500} height={500} options={{ autoResize: true, sharedTicker: true }}>
+                <ReactPixiViewport ref={refViewport} />
+            </Stage>
+        </div>
+    );
 }
 
 export default App;
