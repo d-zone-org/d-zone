@@ -1,28 +1,13 @@
 {
   "name": "d-zone",
   "version": "0.2.0",
-  "description": "An ambient life simulation driven by the user activity within a Discord server",
-  "main": "packages/server/dist/index.js",
-  "scripts": {
-    "start": "lerna run start",
-    "build": "lerna run build"
-  },
-  "repository": "git+https://github.com/vegeta897/d-zone.git",
-  "keywords": [
-    "discord",
-    "Discord",
-    "isometric",
-    "canvas"
-  ],
   "author": "Devin Spikowski",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/vegeta897/d-zone/issues"
-  },
-  "homepage": "https://github.com/vegeta897/d-zone#readme",
   "private": true,
+  "workspaces": [
+    "packages/webapp",
+    "packages/server"
+  ],
   "devDependencies": {
-    "lerna": "^3.20.2",
-    "typescript": "^3.8.3"
+    "lerna": "^3.20.2"
   }
 }

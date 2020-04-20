@@ -108,11 +108,9 @@ dist
 .vscode-test
 
 # yarn v2
-
-.yarn/cache
+.yarn/releases
 .yarn/unplugged
-.yarn/build-state.yml
-.pnp.*
+.yarn/install-state.gz
 
 # Jetbrains IDE
 .idea
