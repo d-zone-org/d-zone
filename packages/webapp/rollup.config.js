@@ -4,7 +4,8 @@ import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
 import { terser } from 'rollup-plugin-terser';
- import svelteConfig from './svelte.config';
+import svelteConfig from './svelte.config';
+import typescript from '@rollup/plugin-typescript';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -33,6 +34,7 @@ export default {
 			dedupe: ['svelte']
 		}),
 		commonjs(),
+		typescript({tsconfig: './tsconfig.json'}),
 
 		// In dev mode, serve on port 5000...
 		!production && serve({

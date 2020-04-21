@@ -1230,6 +1230,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@rollup/plugin-typescript", [
+        ["virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:4.1.1", {
+          "packageLocation": "./.yarn/$$virtual/@rollup-plugin-typescript-virtual-ddebbe0a6e/0/cache/@rollup-plugin-typescript-npm-4.1.1-ac6e200270-2.zip/node_modules/@rollup/plugin-typescript/",
+          "packageDependencies": [
+            ["@rollup/plugin-typescript", "virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:4.1.1"],
+            ["@rollup/pluginutils", "virtual:0a3a43559322b74db5cfa0b86a1b86b0e94e633b9f4d7dbf3d2a363cd28ae3d102c903827c8afc6de3c5c0805f873d329f131c54f0d3e5d82867ecf085c8a184#npm:3.0.9"],
+            ["resolve", "patch:resolve@npm%3A1.16.1#builtin<compat/resolve>::version=1.16.1&hash=e7677c"],
+            ["rollup", "npm:2.6.1"],
+            ["tslib", "npm:1.11.1"],
+            ["typescript", "patch:typescript@npm%3A3.8.3#builtin<compat/typescript>::version=3.8.3&hash=c79188"]
+          ],
+          "packagePeers": [
+            "rollup",
+            "tslib",
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@rollup/pluginutils", [
         ["virtual:0a3a43559322b74db5cfa0b86a1b86b0e94e633b9f4d7dbf3d2a363cd28ae3d102c903827c8afc6de3c5c0805f873d329f131c54f0d3e5d82867ecf085c8a184#npm:3.0.9", {
           "packageLocation": "./.yarn/$$virtual/@rollup-pluginutils-virtual-8e69e8b7de/0/cache/@rollup-pluginutils-npm-3.0.9-767ac6bc80-2.zip/node_modules/@rollup/pluginutils/",
@@ -7434,6 +7453,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["webapp", "workspace:packages/webapp"],
             ["@rollup/plugin-commonjs", "virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:11.1.0"],
             ["@rollup/plugin-node-resolve", "virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:7.1.3"],
+            ["@rollup/plugin-typescript", "virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:4.1.1"],
             ["rollup", "npm:2.6.1"],
             ["rollup-plugin-livereload", "npm:1.2.0"],
             ["rollup-plugin-serve", "npm:1.0.1"],
@@ -7442,6 +7462,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sass", "npm:1.26.3"],
             ["svelte", "npm:3.20.1"],
             ["svelte-preprocess", "virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:3.7.1"],
+            ["tslib", "npm:1.11.1"],
             ["typescript", "patch:typescript@npm%3A3.8.3#builtin<compat/typescript>::version=3.8.3&hash=c79188"]
           ],
           "linkType": "SOFT",
