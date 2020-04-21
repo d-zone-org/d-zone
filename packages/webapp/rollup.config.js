@@ -4,12 +4,12 @@ import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
 import { terser } from 'rollup-plugin-terser';
-import autoPreprocess from 'svelte-preprocess';
+ import svelteConfig from './svelte.config';
 
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	input: 'src/main.ts',
+	input: 'src/main.js',
 	output: {
 		sourcemap: true,
 		format: 'iife',
@@ -20,13 +20,7 @@ export default {
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,
-			// we'll extract any component CSS out into
-			// a separate file — better for performance
-			css: css => {
-				css.write('public/build/bundle.css');
-      },
-      // Preprocess scss and ts
-      preprocess: autoPreprocess()
+			...svelteConfig
 		}),
 
 		// If you have external dependencies installed from

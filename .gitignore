@@ -108,9 +108,7 @@ dist
 .vscode-test
 
 # yarn v2
-.yarn/releases
-.yarn/unplugged
-.yarn/install-state.gz
+# Meh Include All
 
 # Jetbrains IDE
 .idea
