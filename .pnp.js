@@ -6959,20 +6959,38 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["svelte-preprocess", [
-        ["virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:3.7.1", {
-          "packageLocation": "./.yarn/unplugged/svelte-preprocess-virtual-129fc9d93a/node_modules/svelte-preprocess/",
+        ["virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:3.7.3", {
+          "packageLocation": "./.yarn/unplugged/svelte-preprocess-virtual-e1ae98ade0/node_modules/svelte-preprocess/",
           "packageDependencies": [
-            ["svelte-preprocess", "virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:3.7.1"],
+            ["svelte-preprocess", "virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:3.7.3"],
+            ["@babel/core", null],
             ["@types/pug", "npm:2.0.4"],
             ["@types/sass", "npm:1.16.0"],
+            ["coffeescript", null],
             ["detect-indent", "npm:6.0.0"],
+            ["less", null],
+            ["node-sass", null],
+            ["postcss", null],
+            ["postcss-load-config", null],
+            ["pug", null],
             ["sass", "npm:1.26.3"],
             ["strip-indent", "npm:3.0.0"],
+            ["stylus", null],
             ["svelte", "npm:3.20.1"],
             ["typescript", "patch:typescript@npm%3A3.8.3#builtin<compat/typescript>::version=3.8.3&hash=c79188"]
           ],
           "packagePeers": [
-            "svelte"
+            "coffeescript",
+            "@babel/core",
+            "less",
+            "node-sass",
+            "postcss",
+            "postcss-load-config",
+            "pug",
+            "sass",
+            "stylus",
+            "svelte",
+            "typescript"
           ],
           "linkType": "HARD",
         }]
@@ -7461,7 +7479,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rollup-plugin-terser", "virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:5.3.0"],
             ["sass", "npm:1.26.3"],
             ["svelte", "npm:3.20.1"],
-            ["svelte-preprocess", "virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:3.7.1"],
+            ["svelte-preprocess", "virtual:d293af44cc1e0d0fc09cc0c8c4a3d9e5fccdf4ddebae06b8fad52a312360d8122c830d53ecc46b13c13aaad8c6ae7dbd798566bd5cba581433425b2ff3f7540b#npm:3.7.3"],
             ["tslib", "npm:1.11.1"],
             ["typescript", "patch:typescript@npm%3A3.8.3#builtin<compat/typescript>::version=3.8.3&hash=c79188"]
           ],

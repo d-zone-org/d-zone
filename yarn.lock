@@ -6221,17 +6221,48 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"svelte-preprocess@npm:^3.7.1":
-  version: 3.7.1
-  resolution: "svelte-preprocess@npm:3.7.1"
+"svelte-preprocess@npm:^3.7.3":
+  version: 3.7.3
+  resolution: "svelte-preprocess@npm:3.7.3"
   dependencies:
     "@types/pug": ^2.0.4
     "@types/sass": ^1.16.0
     detect-indent: ^6.0.0
     strip-indent: ^3.0.0
   peerDependencies:
+    "@babel/core": ^7.8.4
+    coffeescript: ^2.5.1
+    less: ^3.10.3
+    node-sass: ^4.13.1
+    postcss: ^7.0.26
+    postcss-load-config: ^2.1.0
+    pug: ^2.0.4
+    sass: ^1.26.3
+    stylus: ^0.54.7
     svelte: ^3.18.1
-  checksum: 2/e8a3ca7760fefbaf7f8ac020514f0fa01ba9b74792d0fc67fa54069d642d959c1f3149c8c28acba88d6dd65075f2c58e32bd88aa669baf6683c4fb45c6f0d6a9
+    typescript: ^3.7.5
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    coffeescript:
+      optional: true
+    node-sass:
+      optional: true
+    postcss:
+      optional: true
+    postcss-load-config:
+      optional: true
+    pug:
+      optional: true
+    sass:
+      optional: true
+    stylus:
+      optional: true
+    svelte:
+      optional: true
+    typescript:
+      optional: true
+  checksum: 2/82b00feedbbdfa1659b0263dff1b6c08fc9195a8be7e8d4f56eb60d6133c761da72cc08db04a8153bf1be650f71fe4afab3c61c1896c03edd2c7b7020d4f9891
   languageName: node
   linkType: hard
 
@@ -6686,7 +6717,7 @@ fsevents@~2.1.2:
     rollup-plugin-terser: ^5.3.0
     sass: ^1.26.3
     svelte: ^3.20.1
-    svelte-preprocess: ^3.7.1
+    svelte-preprocess: ^3.7.3
     tslib: ^1.11.1
     typescript: ^3.8.3
   languageName: unknown
