@@ -5673,7 +5673,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"sass@npm:*, sass@npm:^1.26.3":
+"sass@npm:^1.26.3":
   version: 1.26.3
   resolution: "sass@npm:1.26.3"
   dependencies:
@@ -6221,9 +6221,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"svelte-preprocess@npm:^3.7.3":
-  version: 3.7.3
-  resolution: "svelte-preprocess@npm:3.7.3"
+"svelte-preprocess@npm:^3.7.4":
+  version: 3.7.4
+  resolution: "svelte-preprocess@npm:3.7.4"
   dependencies:
     "@types/pug": ^2.0.4
     "@types/sass": ^1.16.0
@@ -6246,6 +6246,8 @@ fsevents@~2.1.2:
       optional: true
     coffeescript:
       optional: true
+    less:
+      optional: true
     node-sass:
       optional: true
     postcss:
@@ -6262,7 +6264,7 @@ fsevents@~2.1.2:
       optional: true
     typescript:
       optional: true
-  checksum: 2/82b00feedbbdfa1659b0263dff1b6c08fc9195a8be7e8d4f56eb60d6133c761da72cc08db04a8153bf1be650f71fe4afab3c61c1896c03edd2c7b7020d4f9891
+  checksum: 2/42b0650a10abf417cb5c5e532c472af548908a124e8a14e0b249766eaa8297e61bb18e06d2916c75c92cb6d0fb29a19400882983f2c5b19c7a03e77c6ac6bd83
   languageName: node
   linkType: hard
 
@@ -6499,7 +6501,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"typescript@*, typescript@^3.8.3":
+typescript@^3.8.3:
   version: 3.8.3
   resolution: "typescript@npm:3.8.3"
   bin:
@@ -6509,7 +6511,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@*#builtin<compat/typescript>, typescript@patch:typescript@^3.8.3#builtin<compat/typescript>":
+"typescript@patch:typescript@^3.8.3#builtin<compat/typescript>":
   version: 3.8.3
   resolution: "typescript@patch:typescript@npm%3A3.8.3#builtin<compat/typescript>::version=3.8.3&hash=c79188"
   bin:
@@ -6717,7 +6719,7 @@ fsevents@~2.1.2:
     rollup-plugin-terser: ^5.3.0
     sass: ^1.26.3
     svelte: ^3.20.1
-    svelte-preprocess: ^3.7.3
+    svelte-preprocess: ^3.7.4
     tslib: ^1.11.1
     typescript: ^3.8.3
   languageName: unknown
