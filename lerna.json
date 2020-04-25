@@ -1,9 +1,6 @@
 {
-  "packages": [
-    "packages/webapp",
-    "packages/server"
-  ],
-  "npmClient": "yarn",
-  "useWorkspaces": true,
-  "version": "0.2.0"
+	"packages": ["packages/webapp", "packages/server"],
+	"npmClient": "yarn",
+	"useWorkspaces": true,
+	"version": "0.2.0"
 }

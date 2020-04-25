@@ -1,13 +1,13 @@
-import svelte from 'rollup-plugin-svelte';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import livereload from 'rollup-plugin-livereload';
-import serve from 'rollup-plugin-serve';
-import { terser } from 'rollup-plugin-terser';
-import svelteConfig from './svelte.config';
-import typescript from '@rollup/plugin-typescript';
+import svelte from 'rollup-plugin-svelte'
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import livereload from 'rollup-plugin-livereload'
+import serve from 'rollup-plugin-serve'
+import { terser } from 'rollup-plugin-terser'
+import svelteConfig from './svelte.config'
+import typescript from '@rollup/plugin-typescript'
 
-const production = !process.env.ROLLUP_WATCH;
+const production = !process.env.ROLLUP_WATCH
 
 export default {
 	input: 'src/main.js',
@@ -15,13 +15,13 @@ export default {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		file: 'public/build/bundle.js',
 	},
 	plugins: [
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,
-			...svelteConfig
+			...svelteConfig,
 		}),
 
 		// If you have external dependencies installed from
@@ -31,26 +31,27 @@ export default {
 		// https://github.com/rollup/rollup-plugin-commonjs
 		resolve({
 			browser: true,
-			dedupe: ['svelte']
+			dedupe: ['svelte'],
 		}),
 		commonjs(),
-		typescript({tsconfig: './tsconfig.json'}),
+		typescript({ tsconfig: './tsconfig.json' }),
 
 		// In dev mode, serve on port 5000...
-		!production && serve({
-			contentBase: 'public',
-			port: 5000,
-			historyApiFallback: '/index.html'
-		}),
+		!production &&
+			serve({
+				contentBase: 'public',
+				port: 5000,
+				historyApiFallback: '/index.html',
+			}),
 
 		// ...and reload when the app changes
 		!production && livereload('public'),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser()
+		production && terser(),
 	],
 	watch: {
-		clearScreen: false
-	}
-};
+		clearScreen: false,
+	},
+}

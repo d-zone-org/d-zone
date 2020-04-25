@@ -1,13 +1,20 @@
 {
-  "name": "d-zone",
-  "version": "0.2.0",
-  "author": "Devin Spikowski",
-  "private": true,
-  "workspaces": [
-    "packages/webapp",
-    "packages/server"
-  ],
-  "devDependencies": {
-    "lerna": "^3.20.2"
-  }
+	"name": "d-zone",
+	"version": "0.2.0",
+	"author": "Devin Spikowski",
+	"private": true,
+	"workspaces": [
+		"packages/webapp",
+		"packages/server"
+	],
+	"scripts": {
+		"pre-commit": "lerna run build && pretty-quick --staged --pattern \"./packages/**\""
+	},
+	"devDependencies": {
+		"husky": "^4.2.5",
+		"lerna": "^3.20.2",
+		"prettier": "2.0.5",
+		"prettier-plugin-svelte": "^0.7.0",
+		"pretty-quick": "^2.0.1"
+	}
 }

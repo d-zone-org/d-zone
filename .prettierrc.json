@@ -1,0 +1,24 @@
+{
+	"trailingComma": "es5",
+	"useTabs": true,
+	"tabWidth": 2,
+	"semi": false,
+  "singleQuote": true,
+	"overrides": [
+		{
+			"files": "*.ts",
+			"options": {
+				"parser": "typescript"
+			}
+		},
+		{
+			"files": "*.svelte",
+			"options": {
+				"svelteSortOrder": "styles-scripts-markup",
+				"svelteStrictMode": true,
+				"svelteBracketNewLine": true,
+				"svelteAllowShorthand": false
+			}
+		}
+	]
+}

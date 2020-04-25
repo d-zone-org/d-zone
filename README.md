@@ -1,9 +1,11 @@
 # D-Zone
+
 > An _ambient life simulation_ driven by the user activity within a [Discord](https://discordapp.com) server
 
-[![D-Zone](http://i.imgur.com/PLh059j.gif "Hippity hop!")](https://pixelatomy.com/dzone/)
+[![D-Zone](http://i.imgur.com/PLh059j.gif 'Hippity hop!')](https://pixelatomy.com/dzone/)
 
 ## Concept
+
 **D-Zone** is a graphical simulation meant to abstractly represent the activity in your Discord server.
 
 This is not meant for any actual monitoring or diagnostics, only an experiment in the abstraction of chatroom data represented via autonomous characters in a scene.
@@ -15,6 +17,7 @@ Hopefully the simulation is interesting to watch. You can see the current (unint
 > Under Work
 
 ## Design
+
 The game engine architecture is currently loosely based on [crtrdg](http://crtrdg.com/).
 
 > Under Work

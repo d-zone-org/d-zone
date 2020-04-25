@@ -1,6 +1,6 @@
 {
-  "name": "server",
-  "devDependencies": {
-    "typescript": "^3.8.3"
-  }
+	"name": "server",
+	"devDependencies": {
+		"typescript": "^3.8.3"
+	}
 }
