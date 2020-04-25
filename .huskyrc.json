@@ -1,3 +1,5 @@
 {
-  "pre-commit": "yarn run pre-commit"
+  "hooks": {
+    "pre-commit": "yarn run pre-commit"
+  }
 }
