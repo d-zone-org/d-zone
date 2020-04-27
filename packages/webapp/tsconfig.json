@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		"target": "es2015",
 		"module": "esnext",
+		"moduleResolution": "node",
 		"sourceMap": true,
 		"rootDir": "src",
 		"removeComments": true,
