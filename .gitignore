@@ -109,9 +109,9 @@ dist
 
 # yarn v2 https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
 .yarn/*
-!.yarn/cache
 !.yarn/releases
 !.yarn/plugins
+.pnp.*
 
 # Jetbrains IDE
 .idea
