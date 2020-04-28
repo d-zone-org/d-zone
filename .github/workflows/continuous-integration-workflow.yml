@@ -2,7 +2,13 @@
 name: Builds
 
 # Trigger the workflow on push or pull request
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - rewrite
+  pull_request:
+    branches:
+      - rewrite
 
 # Jobs run in parallel by default
 jobs:
@@ -11,13 +17,13 @@ jobs:
     # To test on different machines
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps: 
       # Steps are sequence of tasks
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: '13.x'
       - run: yarn install --check-cache
       - run: yarn lerna run build
