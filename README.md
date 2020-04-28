@@ -19,7 +19,7 @@ If you don't want to use Heroku, proceed below.
 If you're an absolute beginner or want more detailed instructions, read the [beginner-friendly guide](https://github.com/vegeta897/d-zone/wiki/Beginner's-Setup-Guide)
 
 ```
-git clone https://github.com/vegeta897/d-zone.git
+git clone -b master https://github.com/vegeta897/d-zone.git
 cd d-zone
 npm install --no-optional
 ```
