@@ -1,9 +1,15 @@
 # D-Zone
+
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/vegeta897/d-zone/Builds/feature/websetup?style=flat-square) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![Discord](https://img.shields.io/discord/700890186883530844?style=flat-square)
+
 > An _ambient life simulation_ driven by the user activity within a [Discord](https://discordapp.com) server
 
-[![D-Zone](http://i.imgur.com/PLh059j.gif "Hippity hop!")](https://pixelatomy.com/dzone/)
+[![D-Zone](http://i.imgur.com/PLh059j.gif 'Hippity hop!')](https://pixelatomy.com/dzone/)
+
+> ⚠️ This is the development branch. Check out the [master branch](https://github.com/vegeta897/d-zone/tree/master) for a working release.
 
 ## Concept
+
 **D-Zone** is a graphical simulation meant to abstractly represent the activity in your Discord server.
 
 This is not meant for any actual monitoring or diagnostics, only an experiment in the abstraction of chatroom data represented via autonomous characters in a scene.
@@ -15,6 +21,7 @@ Hopefully the simulation is interesting to watch. You can see the current (unint
 > Under Work
 
 ## Design
+
 The game engine architecture is currently loosely based on [crtrdg](http://crtrdg.com/).
 
 > Under Work

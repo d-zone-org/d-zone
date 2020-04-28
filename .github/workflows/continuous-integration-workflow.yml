@@ -1,0 +1,23 @@
+# Name displayed on github
+name: Builds
+
+# Trigger the workflow on push or pull request
+on: [push, pull_request]
+
+# Jobs run in parallel by default
+jobs:
+  builds:
+    name: Build
+    # To test on different machines
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps: 
+      # Steps are sequence of tasks
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - run: yarn install --check-cache
+      - run: yarn lerna run build
