@@ -15,6 +15,7 @@
 		"lerna": "^3.20.2",
 		"prettier": "2.0.5",
 		"prettier-plugin-svelte": "^0.7.0",
-		"pretty-quick": "^2.0.1"
+		"pretty-quick": "^2.0.1",
+		"typescript": "^3.8.3"
 	}
 }
