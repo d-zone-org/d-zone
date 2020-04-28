@@ -1,6 +1,6 @@
 # D-Zone
 
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/vegeta897/d-zone/Builds/feature/websetup?style=flat-square) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![Discord](https://img.shields.io/discord/700890186883530844?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/vegeta897/d-zone/Builds?style=flat-square) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![Discord](https://img.shields.io/discord/700890186883530844?style=flat-square)
 
 > An _ambient life simulation_ driven by the user activity within a [Discord](https://discordapp.com) server
 
