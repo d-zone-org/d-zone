@@ -6,6 +6,8 @@
 
 [![D-Zone](http://i.imgur.com/PLh059j.gif 'Hippity hop!')](https://pixelatomy.com/dzone/)
 
+> ⚠️ This is the development branch checkout the [master branch](https://github.com/vegeta897/d-zone/tree/master)
+
 ## Concept
 
 **D-Zone** is a graphical simulation meant to abstractly represent the activity in your Discord server.
