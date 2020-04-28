@@ -16,7 +16,11 @@ export default {
 		format: 'iife',
 		name: 'app',
 		file: 'public/build/bundle.js',
+		globals: {
+			'pixi.js': 'PIXI'
+		},
 	},
+	external: ['pixi.js'],
 	plugins: [
 		svelte({
 			// enable run-time checks when not in production

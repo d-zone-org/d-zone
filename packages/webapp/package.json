@@ -4,6 +4,9 @@
 		"build": "rollup -c",
 		"dev": "rollup -c -w"
 	},
+	"dependencies": {
+		"pixi.js": "^5.2.3"
+	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^11.1.0",
 		"@rollup/plugin-node-resolve": "^7.1.3",
