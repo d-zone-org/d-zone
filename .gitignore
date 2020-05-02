@@ -118,3 +118,6 @@ dist
 
 # Build files
 build
+
+# VSCode
+.vscode
