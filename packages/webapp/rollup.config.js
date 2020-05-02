@@ -38,7 +38,7 @@ export default {
 			dedupe: ['svelte'],
 		}),
 		commonjs(),
-		typescript({ tsconfig: './tsconfig.json' }),
+		typescript({ tsconfig: './tsconfig.app.json' }),
 
 		// In dev mode, serve on port 5000...
 		!production &&

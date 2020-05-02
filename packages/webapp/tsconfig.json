@@ -18,9 +18,6 @@
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
-	"typeRoots": [
-			"src/types"
-		],
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true
 	}

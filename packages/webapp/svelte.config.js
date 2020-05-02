@@ -13,7 +13,7 @@ export default {
 		},
 		typescript: {
 			transpileOnly: true,
-			tsconfigFile: './tsconfig.json',
+			tsconfigFile: './tsconfig.app.json',
 		},
 	}),
 }
