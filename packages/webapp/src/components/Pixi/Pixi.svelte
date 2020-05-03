@@ -1,3 +1,8 @@
-<script src="PixiFunction.ts"></script>
+<script lang="typescript">
+  import {init} from './Pixi'
 
-<canvas bind:this={canvas}></canvas>
+	let canvas: HTMLCanvasElement
+  init(canvas)
+</script>
+
+<canvas bind:this="{canvas}"></canvas>
