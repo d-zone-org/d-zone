@@ -1,0 +1,12 @@
+coverage:
+  status:
+    project:
+      default: off
+      webapp:
+        flags:
+          - webapp
+
+flags:
+  frontend:
+    paths:
+      - packages/webapp/

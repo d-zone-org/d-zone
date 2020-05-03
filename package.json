@@ -8,10 +8,12 @@
 		"packages/server"
 	],
 	"scripts": {
+		"coverage": "lerna run test:coverage && yarn run codecov",
 		"pre-commit": "lerna run build && pretty-quick --staged --pattern \"./packages/**\""
 	},
 	"devDependencies": {
 		"@yarnpkg/pnpify": "^2.0.0-rc.22",
+		"codecov": "^3.6.5",
 		"husky": "^4.2.5",
 		"lerna": "^3.20.2",
 		"prettier": "2.0.5",
