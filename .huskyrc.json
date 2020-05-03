@@ -1,5 +1,6 @@
 {
   "hooks": {
-    "pre-commit": "yarn run pre-commit"
+    "pre-commit": "yarn run pre-commit",
+    "pre-push": "yarn lerna run test"
   }
 }
