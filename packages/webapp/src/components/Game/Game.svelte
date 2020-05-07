@@ -1,10 +1,12 @@
 <script lang="typescript">
     import { onMount } from 'svelte'
-    import {init} from './Pixi'
+    import { initGame } from './Game'
+
     let canvas: HTMLCanvasElement
 
+    // Initialize game with canvas when svelte mounts game component
     onMount(() => {
-        init(canvas)
+        initGame(canvas)
     })
 </script>
 

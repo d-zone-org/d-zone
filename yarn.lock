@@ -2926,6 +2926,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ecs-lib@npm:^0.8.0-pre.2":
+  version: 0.8.0-pre.2
+  resolution: "ecs-lib@npm:0.8.0-pre.2"
+  checksum: 2/844a9f55b3659f7cb2faf83eb25b0ab46a884e3f3c1cd26303cfe48d7658b214e19ddde6c9e4b9bfdfa433022679ffb39c36cec4d12574d69136b64257e0aca8
+  languageName: node
+  linkType: hard
+
 "emoji-regex@npm:^7.0.1":
   version: 7.0.3
   resolution: "emoji-regex@npm:7.0.3"
@@ -7731,6 +7738,7 @@ typescript@^3.8.3:
     "@rollup/plugin-node-resolve": ^7.1.3
     "@rollup/plugin-typescript": ^4.1.1
     "@rollup/plugin-url": ^4.0.2
+    ecs-lib: ^0.8.0-pre.2
     pixi.js: ^5.2.3
     rollup: ^2.6.1
     rollup-plugin-livereload: ^1.2.0

@@ -5,6 +5,7 @@
 		"dev": "rollup -c -w"
 	},
 	"dependencies": {
+		"ecs-lib": "^0.8.0-pre.2",
 		"pixi.js": "^5.2.3"
 	},
 	"devDependencies": {

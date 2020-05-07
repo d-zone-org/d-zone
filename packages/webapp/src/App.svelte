@@ -1,11 +1,11 @@
 <script lang="typescript">
 	import HelloComponent from './components/Hello/Hello.svelte'
-	import PixiComponent from './components/Pixi/Pixi.svelte'
+	import GameComponent from './components/Game/Game.svelte'
 </script>
 
 <main>
 	<HelloComponent></HelloComponent>
-	<PixiComponent></PixiComponent>
+	<GameComponent></GameComponent>
 </main>
 
 <style lang="scss">

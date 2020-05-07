@@ -39,7 +39,11 @@ export default {
 			dedupe: ['svelte'],
 		}),
 		url(),
-		commonjs(),
+		commonjs({
+			namedExports: {
+				'ecs-lib': ['Component', 'System', 'Entity']
+			}
+		}),
 		typescript({ tsconfig: './tsconfig.json' }),
 
 		// In dev mode, serve on port 5000...
