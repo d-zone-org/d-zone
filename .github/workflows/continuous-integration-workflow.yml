@@ -32,4 +32,4 @@ jobs:
       # Run build scripts
       - run: yarn lerna run build
       # Gather coverage reports
-      - run: yarn run coverage
+      - run: yarn run collect-coverage

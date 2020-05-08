@@ -2,13 +2,16 @@
 	"name": "d-zone",
 	"version": "0.2.0",
 	"author": "Devin Spikowski",
+	"contributors": [
+		"Sagnik Pradhan"
+	],
 	"private": true,
 	"workspaces": [
 		"packages/webapp",
 		"packages/server"
 	],
 	"scripts": {
-		"coverage": "lerna run test:coverage && yarn run codecov",
+		"collect-coverage": "lerna run test:coverage && yarn run codecov",
 		"pre-commit": "lerna run build && pretty-quick --staged --pattern \"./packages/**\""
 	},
 	"devDependencies": {
