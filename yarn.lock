@@ -3595,6 +3595,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"color-convert@npm:~0.5.0":
+  version: 0.5.3
+  resolution: "color-convert@npm:0.5.3"
+  checksum: 2/8170311e6c630b6f95f28b52f69c8ec4da2fced6ac0ad3d59bdc6657d8f871553a14cba5cbb1e6a405f06839556dd0b1f76391de76a314708bf94b0f51c19ff6
+  languageName: node
+  linkType: hard
+
 "color-name@npm:1.1.3":
   version: 1.1.3
   resolution: "color-name@npm:1.1.3"
@@ -3938,6 +3945,13 @@ __metadata:
     source-map-resolve: ^0.5.2
     urix: ^0.1.0
   checksum: 2/b94365b3c07c35529beab95f679102c66d1027774c2e80f5179a6ee11ccc440046aeb7771df33569334bbdfd8ea753dd132197040dc079fcd881141348a1886f
+  languageName: node
+  linkType: hard
+
+"cssfontparser@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "cssfontparser@npm:1.2.1"
+  checksum: 2/ee7bef1622227795bfd31a55838fa4c0ae091914433295bbf7d680eea8623cb90279dd8eec20e2cc97092b000a71468c803149f55bff5e443596ddef29250151
   languageName: node
   linkType: hard
 
@@ -6140,6 +6154,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jest-canvas-mock@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "jest-canvas-mock@npm:2.2.0"
+  dependencies:
+    cssfontparser: ^1.2.1
+    parse-color: ^1.0.0
+  checksum: 2/bef62ef8735b53f2f4636e957492a0a864586e4ed35e37bc5fbfd151fe632ea2bc4be5c1724e40172a403b6fffcb989db66194686e47ddf1105481188b2c3b7f
+  languageName: node
+  linkType: hard
+
 "jest-changed-files@npm:^25.5.0":
   version: 25.5.0
   resolution: "jest-changed-files@npm:25.5.0"
@@ -8185,6 +8209,15 @@ __metadata:
   dependencies:
     callsites: ^3.0.0
   checksum: 2/58714b9699f8e84340aaf0781b7cbd82f1c357f6ce9c035c151d0e8c1e9b869c51b95b680882f0d21b4751e817a6c936d4bb2952a1a1d9d9fb27e5a84baec2aa
+  languageName: node
+  linkType: hard
+
+"parse-color@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "parse-color@npm:1.0.0"
+  dependencies:
+    color-convert: ~0.5.0
+  checksum: 2/b8784c7c462bc9db24f7b0a7823dd26f7fc51d5c15485e73b263db0016111969c6b89dd135a25233d3f611e15264be5efbb9034ae1d1c1b70690d24559298381
   languageName: node
   linkType: hard
 
@@ -10873,6 +10906,7 @@ typescript@^3.8.3:
     "@types/testing-library__jest-dom": ^5.0.3
     codecov: ^3.6.5
     jest: ^25.5.4
+    jest-canvas-mock: ^2.2.0
     pixi.js: ^5.2.3
     rollup: ^2.6.1
     rollup-plugin-livereload: ^1.2.0
