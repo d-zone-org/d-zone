@@ -11,6 +11,7 @@
 		"packages/server"
 	],
 	"scripts": {
+		"test":  "lerna run test",
 		"collect-coverage": "lerna run test:coverage && yarn run codecov",
 		"pre-commit": "lerna run build && pretty-quick --staged --pattern \"./packages/**\""
 	},

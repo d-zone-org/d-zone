@@ -3,8 +3,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "jest --config jest.config.js",
-    "test:coverage": "jest --config jest.config.js --collectCoverage"
+    "test": "jest --passWithNoTests --config jest.config.js",
+    "test:coverage": "yarn run test -- --collectCoverage"
   },
   "dependencies": {
     "pixi.js": "^5.2.3"
