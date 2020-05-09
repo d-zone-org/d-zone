@@ -1,5 +1,7 @@
 <script lang="typescript">
-  const message = 'Hello World'
+  import sayHi from './Hello'
+
+  const message = sayHi('World')
 </script>
 
 <h1>{message}</h1>
