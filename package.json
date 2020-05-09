@@ -12,7 +12,7 @@
 	],
 	"scripts": {
 		"test": "lerna run test",
-		"collect-coverage": "lerna run test:coverage",
+		"collect-coverage": "lerna run test:coverage && yarn node ./scripts/merge-coverage-reports.js",
 		"pre-commit": "lerna run build && pretty-quick --staged --pattern \"./packages/**\""
 	},
 	"devDependencies": {
