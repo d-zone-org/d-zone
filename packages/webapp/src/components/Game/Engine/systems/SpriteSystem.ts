@@ -3,7 +3,7 @@ import { TransformComponent } from '../components/TransformComponent'
 import { SpriteComponent } from '../components/SpriteComponent'
 import { getRenderer, createSprite } from '../../Renderer/Renderer'
 
-export default class HopSystem extends System {
+export default class SpriteSystem extends System {
 	private renderer: PIXI.Application
 
 	constructor() {
