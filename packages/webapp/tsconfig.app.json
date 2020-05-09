@@ -2,6 +2,7 @@
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
 		"rootDir": "src",
-		"types": ["jest"]
-	}
+		"typeRoots": ["src/types"]
+	},
+	"exclude": ["**/*.test.ts"]
 }

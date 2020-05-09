@@ -18,7 +18,7 @@ export default {
 		name: 'app',
 		file: 'public/build/bundle.js',
 		globals: {
-			'pixi.js': 'PIXI'
+			'pixi.js': 'PIXI',
 		},
 	},
 	external: ['pixi.js'],
@@ -44,7 +44,7 @@ export default {
 				'ecs-lib': ['Component', 'System', 'Entity']
 			}
 		}),
-		typescript({ tsconfig: './tsconfig.json' }),
+		typescript({ tsconfig: 'tsconfig.app.json' }),
 
 		// In dev mode, serve on port 5000...
 		!production &&
