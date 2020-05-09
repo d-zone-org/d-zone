@@ -2,7 +2,6 @@ import { Entity, System } from 'ecs-lib'
 import { ActorComponent } from '../components/ActorComponent'
 
 export default class ActorSystem extends System {
-
 	entities: Entity[] = []
 
 	getEntities(): Entity[] {
@@ -10,9 +9,7 @@ export default class ActorSystem extends System {
 	}
 
 	constructor() {
-		super([
-			ActorComponent.type,
-		])
+		super([ActorComponent.type])
 	}
 
 	enter(entity: Entity): void {

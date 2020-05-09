@@ -53,7 +53,8 @@ export default class Engine {
 					x: randomCoord(),
 					y: randomCoord(),
 					z: 0,
-				})
+				}
+			)
 			this.world.addEntity(actorEntity)
 		}
 

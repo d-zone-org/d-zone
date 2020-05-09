@@ -10,7 +10,7 @@ export function initLoader() {
 export async function runLoader() {
 	return new Promise((resolve, reject) => {
 		loader.load((_loader, resources) => {
-			Object.keys(resources).forEach(resourceKey => {
+			Object.keys(resources).forEach((resourceKey) => {
 				let resource = resources[resourceKey]
 				if (resource && resource.error) reject(resource.error)
 			})

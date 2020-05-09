@@ -41,8 +41,8 @@ export default {
 		url(),
 		commonjs({
 			namedExports: {
-				'ecs-lib': ['Component', 'System', 'Entity']
-			}
+				'ecs-lib': ['Component', 'System', 'Entity'],
+			},
 		}),
 		typescript({ tsconfig: 'tsconfig.app.json' }),
 

@@ -2,11 +2,8 @@ import { Entity, System } from 'ecs-lib'
 import { SpeakComponent } from '../components/SpeakComponent'
 
 export default class SpeakSystem extends System {
-
 	constructor() {
-		super([
-			SpeakComponent.type,
-		])
+		super([SpeakComponent.type])
 	}
 
 	update(_time: number, delta: number, entity: Entity): void {

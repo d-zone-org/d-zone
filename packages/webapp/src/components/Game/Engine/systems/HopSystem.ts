@@ -3,12 +3,8 @@ import { TransformComponent } from '../components/TransformComponent'
 import { HopComponent } from '../components/HopComponent'
 
 export default class HopSystem extends System {
-
 	constructor() {
-		super([
-			TransformComponent.type,
-			HopComponent.type,
-		])
+		super([TransformComponent.type, HopComponent.type])
 	}
 
 	update(_time: number, delta: number, entity: Entity): void {
