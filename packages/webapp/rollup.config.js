@@ -6,6 +6,7 @@ import serve from 'rollup-plugin-serve'
 import { terser } from 'rollup-plugin-terser'
 import svelteConfig from './svelte.config'
 import typescript from '@rollup/plugin-typescript'
+import url from '@rollup/plugin-url'
 
 const production = !process.env.ROLLUP_WATCH
 
@@ -37,7 +38,12 @@ export default {
 			browser: true,
 			dedupe: ['svelte'],
 		}),
-		commonjs(),
+		url(),
+		commonjs({
+			namedExports: {
+				'ecs-lib': ['Component', 'System', 'Entity'],
+			},
+		}),
 		typescript({ tsconfig: 'tsconfig.app.json' }),
 
 		// In dev mode, serve on port 5000...

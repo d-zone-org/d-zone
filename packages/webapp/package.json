@@ -7,12 +7,14 @@
 		"test:coverage": "yarn run test --collectCoverage"
 	},
 	"dependencies": {
+		"ecs-lib": "^0.8.0-pre.2",
 		"pixi.js": "^5.2.3"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^11.1.0",
 		"@rollup/plugin-node-resolve": "^7.1.3",
 		"@rollup/plugin-typescript": "^4.1.1",
+		"@rollup/plugin-url": "^4.0.2",
 		"@testing-library/jest-dom": "^5.5.0",
 		"@testing-library/svelte": "^3.0.0",
 		"@types/jest": "^25.2.1",
