@@ -14,22 +14,19 @@ on:
 jobs:
   builds:
     name: Build
-    # To test on different machines
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    # Environment variables
-    env:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    runs-on: ubuntu-latest
     steps: 
       # Steps are sequence of tasks
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: '13.x'
+          node-version: '14.x'
       - run: yarn install --check-cache
       # Run build scripts
       - run: yarn lerna run build
       # Gather coverage reports
       - run: yarn run collect-coverage
+      # Post coverages to coverall
+      - uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
