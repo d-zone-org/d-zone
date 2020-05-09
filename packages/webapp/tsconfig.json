@@ -1,27 +1,3 @@
 {
-	"compilerOptions": {
-		"target": "es2015",
-		"module": "esnext",
-		"moduleResolution": "node",
-		"sourceMap": true,
-		"rootDir": "src",
-		"removeComments": true,
-		"strict": true,
-		"noImplicitAny": true,
-		"strictNullChecks": true,
-		"strictFunctionTypes": true,
-		"strictBindCallApply": true,
-		"strictPropertyInitialization": true,
-		"noImplicitThis": true,
-		"alwaysStrict": true,
-		// "noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true,
-	"typeRoots": [
-			"src/types"
-		],
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true
-	}
+	"extends": "../../tsconfig.base.json"
 }
