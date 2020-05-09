@@ -1,13 +1,13 @@
 {
-  "name": "server",
-  "devDependencies": {
-    "@types/jest": "^25.2.1",
-    "jest": "^26.0.1",
-    "ts-jest": "^25.5.0",
-    "typescript": "^3.8.3"
-  },
-  "scripts": {
-    "test": "jest --config jest.config.js",
-    "test:coverage": "yarn run test --collectCoverage"
-  }
+	"name": "server",
+	"devDependencies": {
+		"@types/jest": "^25.2.1",
+		"jest": "^26.0.1",
+		"ts-jest": "^25.5.0",
+		"typescript": "^3.8.3"
+	},
+	"scripts": {
+		"test": "jest --config jest.config.js",
+		"test:coverage": "yarn run test --collectCoverage"
+	}
 }

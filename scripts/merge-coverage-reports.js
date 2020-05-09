@@ -3,8 +3,8 @@ const { createReporter } = require('istanbul-api')
 const path = require('path')
 
 const lcovFilePaths = [
-	"../packages/server/coverage/coverage-final.json",
-	"../packages/webapp/coverage/coverage-final.json"
+	'../packages/server/coverage/coverage-final.json',
+	'../packages/webapp/coverage/coverage-final.json',
 ].map((fileRelativePath) => path.join(__dirname, fileRelativePath))
 
 const coverageMap = createCoverageMap({})

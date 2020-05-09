@@ -4,7 +4,7 @@ import * as PIXI from 'pixi.js'
 export function init(canvas: HTMLCanvasElement) {
 	let app: PIXI.Application
 
-  onMount(() => {
+	onMount(() => {
 		app = new PIXI.Application({
 			width: 800,
 			height: 600,

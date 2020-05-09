@@ -17,7 +17,7 @@ export default {
 		name: 'app',
 		file: 'public/build/bundle.js',
 		globals: {
-			'pixi.js': 'PIXI'
+			'pixi.js': 'PIXI',
 		},
 	},
 	external: ['pixi.js'],

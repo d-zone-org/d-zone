@@ -15,7 +15,7 @@ jobs:
   builds:
     name: Build
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       # Steps are sequence of tasks
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
