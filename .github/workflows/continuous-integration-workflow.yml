@@ -7,12 +7,12 @@ on:
     branches:
       - rewrite
     paths-ignore:
-      - '*.md'
+      - '**.md'
   pull_request:
     branches:
       - rewrite
     paths-ignore:
-      - '*.md'
+      - '**.md'
 # Jobs run in parallel by default
 jobs:
   builds:
