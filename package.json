@@ -3,7 +3,8 @@
 	"version": "0.2.0",
 	"author": "Devin Spikowski",
 	"contributors": [
-		"Sagnik Pradhan"
+		"Devin Spikowski <vegeta897@gmail.com> (https://pixelatomy.com)",
+		"Sagnik Pradhan <markten6321@gmail.com> (https://sagnikpradhan.github.io)"
 	],
 	"private": true,
 	"workspaces": [
