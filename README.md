@@ -1,6 +1,6 @@
 # D-Zone
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/vegeta897/d-zone/Builds?style=flat-square) ![Coveralls github](https://img.shields.io/coveralls/github/vegeta897/d-zone?style=flat-square) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) [![Discord](https://img.shields.io/discord/700890186883530844?style=flat-square)](https://discord.gg/BFgCNfh)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/vegeta897/d-zone/CI?style=flat-square)](https://github.com/vegeta897/d-zone/actions?query=workflow%3ACI) [![Coveralls github](https://img.shields.io/coveralls/github/vegeta897/d-zone?style=flat-square)](https://coveralls.io/github/vegeta897/d-zone) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) [![GitHub stars](https://img.shields.io/github/stars/vegeta897/d-zone?style=flat-square)](https://github.com/vegeta897/d-zone/stargazers) [![Discord](https://img.shields.io/discord/700890186883530844?style=flat-square)](https://discord.gg/BFgCNfh)
 
 > An _ambient life simulation_ driven by the user activity within a [Discord](https://discordapp.com) server
 
