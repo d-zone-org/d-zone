@@ -1,8 +1,7 @@
 {
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"rootDir": "src",
-		"typeRoots": ["src/types"]
+		"rootDir": "src"
 	},
 	"exclude": ["**/*.test.ts"]
 }
