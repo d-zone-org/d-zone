@@ -1,19 +1,22 @@
 # Name displayed on github
-name: Builds
+name: CI
 
 # Trigger the workflow on push or pull request
 on:
   push:
     branches:
       - rewrite
+    paths-ignore:
+      - '*.md'
   pull_request:
     branches:
       - rewrite
-
+    paths-ignore:
+      - '*.md'
 # Jobs run in parallel by default
 jobs:
   builds:
-    name: Build
+    name: CI
     runs-on: ubuntu-latest
     steps:
       # Steps are sequence of tasks
