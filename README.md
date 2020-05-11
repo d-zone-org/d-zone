@@ -22,7 +22,7 @@ Hopefully the simulation is interesting to watch. You can see the current (unint
 
 ## Design
 
-The game engine architecture is currently loosely based on [crtrdg](http://crtrdg.com/).
+The game engine is an ECS implementation, rendered with [PixiJS](https://github.com/pixijs/pixi.js)
 
 > Under Work
 
