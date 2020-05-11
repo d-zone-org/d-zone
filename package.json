@@ -23,7 +23,7 @@
 		"istanbul-lib-coverage": "^3.0.0",
 		"lerna": "^3.20.2",
 		"prettier": "2.0.5",
-		"prettier-plugin-svelte": "^0.7.0",
+		"prettier-plugin-svelte": "^1.1.0",
 		"pretty-quick": "^2.0.1",
 		"typescript": "^3.8.3"
 	}
