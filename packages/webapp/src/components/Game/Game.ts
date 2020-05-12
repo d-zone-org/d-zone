@@ -1,8 +1,13 @@
-import { initRenderer } from './Renderer/Renderer'
+import Renderer from './Renderer/Renderer'
 import Engine from './Engine/Engine'
+import { addActors } from './Engine/Benchmark'
+import { Entity } from 'ecs-lib'
 
 export async function initGame(canvas: HTMLCanvasElement) {
-	await initRenderer(canvas)
+	const renderer: Renderer = new Renderer(canvas)
+	await renderer.load()
 	const engine: Engine = new Engine()
-	engine.start()
+	engine.init(renderer)
+	addActors(engine.world, 300) // Add 300 random actors
+	engine.start(60) // Start update loop
 }

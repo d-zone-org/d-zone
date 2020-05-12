@@ -18,6 +18,8 @@ export default class ActorEntity extends Entity {
 				sheet: 'cube',
 				sheetX: 0,
 				sheetY: 0,
+				render: true,
+				dirty: false,
 			})
 		)
 	}

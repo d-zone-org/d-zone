@@ -1,19 +1,32 @@
-import ECS, { Entity } from 'ecs-lib'
-import ActorEntity from './entities/ActorEntity'
+import ECS from 'ecs-lib'
 import ActorSystem from './systems/ActorSystem'
-import SpriteSystem from './systems/SpriteSystem'
 import HopSystem from './systems/HopSystem'
-
-import { randomString, randomColor, randomCoord } from './Benchmark'
+import TransformSystem from './systems/TransformSystem'
+import SpriteSystem from './systems/SpriteSystem'
+import Renderer from '../Renderer/Renderer'
 
 export default class Engine {
-	private readonly world: ECS
+	readonly world: ECS
 
 	constructor() {
 		this.world = new ECS()
 		console.log('ECS world created!', this.world)
 	}
 
+	init(renderer: Renderer) {
+		const actorSystem = new ActorSystem()
+		const hopSystem = new HopSystem()
+		const transformSystem = new TransformSystem()
+		const spriteSystem = new SpriteSystem(
+			renderer.pushSpritesToRenderer.bind(renderer)
+		)
+		this.world.addSystem(actorSystem)
+		this.world.addSystem(hopSystem)
+		this.world.addSystem(transformSystem)
+		this.world.addSystem(spriteSystem)
+	}
+
+	private interval: number | undefined
 	private updateCount: number = 0
 	private updateTimeSum: number = 0
 	private countStartTime: number = 0
@@ -34,30 +47,12 @@ export default class Engine {
 		// }
 	}
 
-	start(): void {
-		const actorSystem = new ActorSystem()
-		const spriteSystem = new SpriteSystem()
-		const hopSystem = new HopSystem()
-		this.world.addSystem(actorSystem)
-		this.world.addSystem(spriteSystem)
-		this.world.addSystem(hopSystem)
+	start(fps: number): void {
+		// Begin game loop
+		this.interval = setInterval(() => this.update(), 1000 / fps)
+	}
 
-		for (let i = 0; i < 300; i++) {
-			let actorEntity: Entity = new ActorEntity(
-				{
-					userID: randomString([48, 57], 18),
-					username: randomString([32, 126], Math.floor(Math.random() * 12) + 3),
-					color: randomColor(),
-				},
-				{
-					x: randomCoord(),
-					y: randomCoord(),
-					z: 0,
-				}
-			)
-			this.world.addEntity(actorEntity)
-		}
-
-		setInterval(() => this.update(), 1000 / 60) // Begin game loop
+	stop(): void {
+		clearInterval(this.interval)
 	}
 }

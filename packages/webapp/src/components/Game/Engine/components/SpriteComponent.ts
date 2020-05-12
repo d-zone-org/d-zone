@@ -8,6 +8,8 @@ export type Sprite = {
 	sheet: string
 	sheetX: number
 	sheetY: number
+	render: boolean
+	dirty: boolean
 }
 
 export const SpriteComponent = Component.register<Sprite>()
