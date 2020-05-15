@@ -1,6 +1,7 @@
 import { Entity, System, Component } from 'ecs-lib'
 import { Sprite, SpriteComponent } from '../components/SpriteComponent'
 import { Transform, TransformComponent } from '../components/TransformComponent'
+import { get2dCoordsFromIso, getZIndex } from '../../Common/Projection'
 
 export default class TransformSystem extends System {
 	constructor() {
@@ -10,12 +11,13 @@ export default class TransformSystem extends System {
 	update(_time: number, _delta: number, entity: Entity): void {
 		let transform: Component<Transform> = TransformComponent.oneFrom(entity)
 		let sprite: Component<Sprite> = SpriteComponent.oneFrom(entity)
-		if (
-			sprite.data.x !== transform.data.x ||
-			sprite.data.y !== transform.data.y
-		) {
-			sprite.data.x = transform.data.x
-			sprite.data.y = transform.data.y
+		let { x: prevX, y: prevY } = sprite.data
+		let { x, y, z } = transform.data
+		let [newX, newY] = get2dCoordsFromIso(x, y, z)
+		if (prevX !== newX || prevY !== newY) {
+			sprite.data.x = newX
+			sprite.data.y = newY
+			sprite.data.zIndex = getZIndex(x, y, z)
 			sprite.data.dirty = true
 		}
 	}

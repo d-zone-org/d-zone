@@ -10,6 +10,7 @@ export type Sprite = {
 	sheetY: number
 	render: boolean
 	dirty: boolean
+	zIndex: number
 }
 
 export const SpriteComponent = Component.register<Sprite>()

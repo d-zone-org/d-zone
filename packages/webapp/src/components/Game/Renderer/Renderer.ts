@@ -21,6 +21,7 @@ export default class Renderer {
 			backgroundColor: 0x1d171f,
 			view: canvas,
 		})
+		this.app.stage.sortableChildren = true
 		this.resources = new Resources()
 	}
 
@@ -35,16 +36,23 @@ export default class Renderer {
 	}: Record<string, Component<Sprite>[]>): void {
 		for (let add of added) {
 			let sprite = this.createPixiSprite(add)
-			let {
-				data: { x, y },
-			} = add
-			sprite.setTransform(x, y)
+			add.attr.pixiSprite = sprite
+			this.updatePixiSpriteFromComponent(add)
 			this.app.stage.addChild(sprite)
 		}
 		for (let change of changed) {
+			this.updatePixiSpriteFromComponent(change)
 		}
 		for (let remove of removed) {
+			this.app.stage.removeChild(remove.attr.pixiSprite)
+			remove.attr.pixiSprite.destroy()
 		}
+	}
+
+	updatePixiSpriteFromComponent(component: Component<Sprite>) {
+		let { x, y, zIndex } = component.data
+		component.attr.pixiSprite.setTransform(x, y)
+		component.attr.pixiSprite.zIndex = zIndex
 	}
 
 	createPixiSprite(spriteComponent: Component<Sprite>): PIXI.Sprite {

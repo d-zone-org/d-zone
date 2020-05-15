@@ -20,6 +20,7 @@ export default class ActorEntity extends Entity {
 				sheetY: 0,
 				render: true,
 				dirty: false,
+				zIndex: 0,
 			})
 		)
 	}

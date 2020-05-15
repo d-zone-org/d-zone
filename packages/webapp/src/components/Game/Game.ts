@@ -1,7 +1,6 @@
 import Renderer from './Renderer/Renderer'
 import Engine from './Engine/Engine'
 import { addActors } from './Engine/Benchmark'
-import { Entity } from 'ecs-lib'
 
 export async function initGame(canvas: HTMLCanvasElement) {
 	const renderer: Renderer = new Renderer(canvas)

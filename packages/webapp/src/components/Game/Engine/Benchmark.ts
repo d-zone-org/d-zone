@@ -26,7 +26,7 @@ export function randomColor(): number {
 }
 
 export function randomCoord(): number {
-	return Math.round(Math.random() * 600)
+	return Math.round(Math.random() * 60)
 }
 
 export function addActors(world: ECS, count: number): Entity[] {
