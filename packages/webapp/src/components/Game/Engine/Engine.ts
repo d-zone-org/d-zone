@@ -1,29 +1,15 @@
-import ECS from 'ecs-lib'
-import ActorSystem from './systems/ActorSystem'
-import HopSystem from './systems/HopSystem'
-import TransformSystem from './systems/TransformSystem'
-import SpriteSystem from './systems/SpriteSystem'
-import Renderer from '../Renderer/Renderer'
+import ECS, { System } from 'ecs-lib'
 
 export default class Engine {
 	readonly world: ECS
 
 	constructor() {
 		this.world = new ECS()
-		console.log('ECS world created!', this.world)
 	}
 
-	init(renderer: Renderer) {
-		const actorSystem = new ActorSystem()
-		const hopSystem = new HopSystem()
-		const transformSystem = new TransformSystem()
-		const spriteSystem = new SpriteSystem(
-			renderer.pushSpritesToRenderer.bind(renderer)
-		)
-		this.world.addSystem(actorSystem)
-		this.world.addSystem(hopSystem)
-		this.world.addSystem(transformSystem)
-		this.world.addSystem(spriteSystem)
+	init(systems: System[]) {
+		systems.forEach((system) => this.world.addSystem(system))
+		console.log('ECS world initialized!', this.world)
 	}
 
 	private interval: number | undefined
@@ -31,7 +17,7 @@ export default class Engine {
 	private updateTimeSum: number = 0
 	private countStartTime: number = 0
 
-	private update() {
+	update() {
 		// if (this.updateCount % 200 === 0) {
 		// 	this.countStartTime = performance.now();
 		// }
