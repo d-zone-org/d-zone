@@ -1,5 +1,4 @@
 import { randomString, randomColor, randomCoord, addActors } from './Benchmark'
-import Engine from './Engine'
 
 describe('Engine benchmark functions', () => {
 	test('returns string with correct length', () => {
@@ -15,11 +14,14 @@ describe('Engine benchmark functions', () => {
 		let coord: number = randomCoord()
 		expect(coord).toEqual(Math.round(coord))
 	})
-	// test('adds actors to world', async () => {
-	// 	const engine: Engine = new Engine()
-	// 	engine.init({ pushSpritesToRenderer: mockPushSprites })
-	// 	const actorCount: number = 1
-	// 	addActors(engine.world, actorCount)
-	// 	expect(engine.world.addEntity).toHaveBeenCalledTimes(actorCount)
-	// })
+	test('adds actors to world', async () => {
+		let world = {
+			addEntity: jest.fn(() => {}),
+		}
+		const actorCount: number = 1
+		// @ts-ignore
+		let entities = addActors(world, actorCount)
+		expect(world.addEntity).toHaveBeenCalledTimes(actorCount)
+		expect(entities).toHaveLength(actorCount)
+	})
 })
