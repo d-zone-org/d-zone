@@ -11,13 +11,16 @@ export default class ActorEntity extends Entity {
 		this.add(new TransformComponent(transform))
 		this.add(
 			new SpriteComponent({
-				x: -7,
-				y: -7,
+				x: 0,
+				y: 0,
 				width: 14,
 				height: 14,
 				sheet: 'cube',
 				sheetX: 0,
 				sheetY: 0,
+				render: true,
+				dirty: false,
+				zIndex: 0,
 			})
 		)
 	}

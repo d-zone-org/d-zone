@@ -1,3 +1,6 @@
+import ECS, { Entity } from 'ecs-lib'
+import ActorEntity from './entities/ActorEntity'
+
 export function randomString(
 	[charMin, charMax]: [number, number],
 	length: number
@@ -23,5 +26,26 @@ export function randomColor(): number {
 }
 
 export function randomCoord(): number {
-	return Math.round(Math.random() * 600)
+	return Math.round(Math.random() * 60)
+}
+
+export function addActors(world: ECS, count: number): Entity[] {
+	let entities: Entity[] = []
+	for (let i = 0; i < count; i++) {
+		let actorEntity: Entity = new ActorEntity(
+			{
+				userID: randomString([48, 57], 18),
+				username: randomString([32, 126], Math.floor(Math.random() * 12) + 3),
+				color: randomColor(),
+			},
+			{
+				x: randomCoord(),
+				y: randomCoord(),
+				z: 0,
+			}
+		)
+		entities.push(actorEntity)
+		world.addEntity(actorEntity)
+	}
+	return entities
 }
