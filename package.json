@@ -12,7 +12,7 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/vegeta897/d-zone.git"
-	 },
+	},
 	"bugs": {
 		"url": "https://github.com/vegeta897/d-zone/issues"
 	},
@@ -27,7 +27,6 @@
 		"pre-commit": "lerna run build && pretty-quick --staged --pattern \"./packages/**\""
 	},
 	"devDependencies": {
-		"@yarnpkg/pnpify": "^2.0.0-rc.22",
 		"husky": "^4.2.5",
 		"istanbul-api": "^3.0.0",
 		"istanbul-lib-coverage": "^3.0.0",
