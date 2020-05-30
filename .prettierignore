@@ -1,2 +1,4 @@
 .yarn/*
+.vscode/*
+.pnp.js
 coverage
