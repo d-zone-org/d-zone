@@ -3754,7 +3754,7 @@ __metadata:
     prettier: 2.0.5
     prettier-plugin-svelte: ^1.1.0
     pretty-quick: ^2.0.1
-    typescript: ^3.9.4
+    typescript: ^3.9.5
   languageName: unknown
   linkType: soft
 
@@ -9103,7 +9103,7 @@ __metadata:
     "@types/jest": ^25.2.3
     jest: ^26.0.1
     ts-jest: ^26.1.0
-    typescript: ^3.9.4
+    typescript: ^3.9.5
   languageName: unknown
   linkType: soft
 
@@ -10184,23 +10184,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-typescript@^3.9.4:
-  version: 3.9.4
-  resolution: "typescript@npm:3.9.4"
+typescript@^3.9.5:
+  version: 3.9.5
+  resolution: "typescript@npm:3.9.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 3/f364e86609679566abda039acf35030b78d738c456dae201bad71722b47aa753ea42f3076a2767b72b63a1b8641f1ffb3984dcbdf088bd401b4e7118e3601893
+  checksum: 3/15618435493667083eb43dc7b36c4d3dd47fd9e9c8a14f0ac4019bbf6124b6cc518b6ed506400913db1bf50831207ee8201b5d827680076930b562923f4f18a0
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^3.9.4#builtin<compat/typescript>":
-  version: 3.9.4
-  resolution: "typescript@patch:typescript@npm%3A3.9.4#builtin<compat/typescript>::version=3.9.4&hash=8cac75"
+"typescript@patch:typescript@^3.9.5#builtin<compat/typescript>":
+  version: 3.9.5
+  resolution: "typescript@patch:typescript@npm%3A3.9.5#builtin<compat/typescript>::version=3.9.5&hash=8cac75"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 3/6fe6acffaf466fe06116a9adb089914b070b8363c38fa1c80a4728452eb8fc88b7977930b61a860ab37080733eddf4dacf25dc88f0dd14efe6d8312ed6fcfb12
+  checksum: 3/347b57e017c6f6c956eb7fc3c392e764bb924b1758103207cfb9c465210d4134212a164a064c259d524f055b86b023ebecc3e3ab5b5d666c1c0d96e1397149f6
   languageName: node
   linkType: hard
 
@@ -10471,7 +10471,7 @@ typescript@^3.9.4:
     svelte-preprocess: ^3.7.4
     ts-jest: ^26.1.0
     tslib: ^2.0.0
-    typescript: ^3.9.4
+    typescript: ^3.9.5
   languageName: unknown
   linkType: soft
 
