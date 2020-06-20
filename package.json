@@ -23,17 +23,14 @@
 	],
 	"scripts": {
 		"test": "lerna run test",
-		"collect-coverage": "lerna run test:coverage && yarn node ./scripts/merge-coverage-reports.js",
-		"pre-commit": "lerna run build && pretty-quick --staged --pattern \"./packages/**\""
+		"collect-coverage": "lerna run test:coverage && yarn node ./scripts/merge-coverage-reports.js"
 	},
 	"devDependencies": {
-		"husky": "^4.2.5",
 		"istanbul-api": "^3.0.0",
 		"istanbul-lib-coverage": "^3.0.0",
 		"lerna": "^3.22.0",
 		"prettier": "2.0.5",
 		"prettier-plugin-svelte": "^1.1.0",
-		"pretty-quick": "^2.0.1",
 		"typescript": "^3.9.5"
 	}
 }
