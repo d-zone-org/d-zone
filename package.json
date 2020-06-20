@@ -23,13 +23,12 @@
 	],
 	"scripts": {
 		"lint": "prettier --check packages",
-		"test": "lerna run test",
-		"collect-coverage": "lerna run test:coverage && yarn node ./scripts/merge-coverage-reports.js"
+		"test": "yarn workspaces foreach -p run test",
+		"collect-coverage": "yarn workspaces foreach -p run test:coverage && yarn node ./scripts/merge-coverage-reports.js"
 	},
 	"devDependencies": {
 		"istanbul-api": "^3.0.0",
 		"istanbul-lib-coverage": "^3.0.0",
-		"lerna": "^3.22.0",
 		"prettier": "^2.0.5",
 		"prettier-plugin-svelte": "^1.1.0",
 		"typescript": "^3.9.5"

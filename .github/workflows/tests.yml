@@ -16,8 +16,8 @@ on:
 
 # Jobs run in parallel by default
 jobs:
-  tests:
-    name: Tests
+  test-coverage:
+    name: Run Tests and Gather Coverage Reports
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,20 +26,7 @@ jobs:
           node-version: '12.x'
       - name: Installing Dependencies
         run: yarn install --check-cache
-      - name: Running Tests
-        run: yarn run test
-  coverage:
-    name: Coverage Reports
-    runs-on: ubuntu-latest
-    needs: [tests]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - name: Installing Dependencies
-        run: yarn install --check-cache
-      - name: Collecting Coverages
+      - name: Running Tests and Collecting Coverages
         run: yarn run collect-coverage
       - name: Posting Coverages
         uses: coverallsapp/github-action@master
