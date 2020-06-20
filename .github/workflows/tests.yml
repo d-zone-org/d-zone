@@ -1,0 +1,34 @@
+# Name displayed on github
+name: Tests
+
+# Trigger the workflow on push or pull request
+on:
+  push:
+    branches:
+      - rewrite
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    branches:
+      - rewrite
+    paths-ignore:
+      - '**.md'
+
+# Jobs run in parallel by default
+jobs:
+  test-coverage:
+    name: Run Tests and Gather Coverage Reports
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Installing Dependencies
+        run: yarn install --check-cache
+      - name: Running Tests and Collecting Coverages
+        run: yarn run collect-coverage
+      - name: Posting Coverages
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

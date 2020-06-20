@@ -2,3 +2,4 @@
 .vscode/*
 .pnp.js
 coverage
+**/build/*

@@ -1,0 +1,26 @@
+# Name displayed on github
+name: Lint
+
+# Trigger the workflow on push or pull request
+on:
+  push:
+    branches:
+      - rewrite
+  pull_request:
+    branches:
+      - rewrite
+
+# Jobs run in parallel by default
+jobs:
+  lint:
+    name: Run Linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Installing Dependencies
+        run: yarn install --check-cache
+      - name: Running Lint Command
+        run: yarn run lint

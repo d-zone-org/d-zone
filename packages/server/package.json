@@ -3,11 +3,13 @@
 	"devDependencies": {
 		"@types/jest": "^25.2.3",
 		"jest": "^26.0.1",
+		"prettier": "^2.0.5",
 		"ts-jest": "^26.1.0",
-		"typescript": "^3.9.4"
+		"typescript": "^3.9.5"
 	},
 	"scripts": {
-		"test": "jest --config jest.config.js",
+		"lint": "prettier --config ../../.prettierrc.json --ignore-path ../../.prettierignore --check .",
+		"test": "jest --config jest.config.js --passWithNoTests",
 		"test:coverage": "yarn run test --collectCoverage"
 	}
 }
