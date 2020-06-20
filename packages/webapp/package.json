@@ -28,7 +28,7 @@
 		"rollup-plugin-serve": "^1.0.1",
 		"rollup-plugin-svelte": "^5.2.2",
 		"rollup-plugin-terser": "^6.1.0",
-		"sass": "^1.26.7",
+		"sass": "^1.26.8",
 		"svelte": "^3.23.2",
 		"svelte-jester": "^1.0.6",
 		"svelte-preprocess": "^3.7.4",
