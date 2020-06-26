@@ -1,15 +1,17 @@
 {
 	"name": "server",
+	"main": "./dist/lib/index.js",
+	"bin": "./dist/cli/index.js",
+	"scripts": {
+		"build": "yarn tsc",
+		"lint": "prettier --config ../../.prettierrc.json --ignore-path ../../.prettierignore --check ."
+	},
 	"devDependencies": {
-		"@types/jest": "^26.0.0",
-		"jest": "^26.1.0",
+		"@types/node": "^14.0.14",
 		"prettier": "^2.0.5",
-		"ts-jest": "^26.1.1",
 		"typescript": "^3.9.5"
 	},
-	"scripts": {
-		"lint": "prettier --config ../../.prettierrc.json --ignore-path ../../.prettierignore --check .",
-		"test": "jest --config jest.config.js --passWithNoTests",
-		"test:coverage": "yarn run test --collectCoverage"
+	"dependencies": {
+		"eventemitter3": "^4.0.4"
 	}
 }
