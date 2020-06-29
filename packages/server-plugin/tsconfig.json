@@ -8,8 +8,6 @@
 		"rootDir": "src",
 		"outDir": "build",
 		"baseUrl": ".",
-		"paths": {
-			"@d-zone/server": ["../server-core"]
-		}
+		"paths": { "@d-zone/server": ["../server-core"] }
 	}
 }

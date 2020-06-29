@@ -1,1 +1,1 @@
-import {} from "@d-zone/server"
+import {} from '@d-zone/server'
