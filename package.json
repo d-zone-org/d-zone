@@ -19,10 +19,12 @@
 	"private": true,
 	"workspaces": [
 		"packages/webapp",
-		"packages/server"
+		"packages/server-core",
+		"packages/server-plugin"
 	],
 	"scripts": {
 		"lint": "prettier --check packages",
+		"lint:check": "prettier --check $INIT_CWD",
 		"test": "yarn workspaces foreach -p run test",
 		"collect-coverage": "yarn workspaces foreach -p run test:coverage && yarn node ./scripts/merge-coverage-reports.js"
 	},

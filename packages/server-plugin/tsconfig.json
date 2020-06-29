@@ -1,0 +1,13 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"target": "es2019",
+		"lib": ["es2019"],
+		"module": "commonjs",
+		"declaration": true,
+		"rootDir": "src",
+		"outDir": "build",
+		"baseUrl": ".",
+		"paths": { "@d-zone/server": ["../server-core"] }
+	}
+}
