@@ -375,6 +375,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@d-zone/plugin@workspace:packages/server-plugin":
+  version: 0.0.0-use.local
+  resolution: "@d-zone/plugin@workspace:packages/server-plugin"
+  dependencies:
+    "@types/node": ^14.0.14
+    prettier: ^2.0.5
+    typescript: ^3.9.5
+  peerDependencies:
+    "@d-zone/server": "*"
+  languageName: unknown
+  linkType: soft
+
+"@d-zone/server@workspace:packages/server-core":
+  version: 0.0.0-use.local
+  resolution: "@d-zone/server@workspace:packages/server-core"
+  dependencies:
+    "@types/node": ^14.0.14
+    prettier: ^2.0.5
+    typescript: ^3.9.5
+  bin:
+    server: ./src/cli/index.ts
+  languageName: unknown
+  linkType: soft
+
 "@istanbuljs/load-nyc-config@npm:^1.0.0":
   version: 1.0.0
   resolution: "@istanbuljs/load-nyc-config@npm:1.0.0"
@@ -2464,13 +2488,6 @@ __metadata:
   version: 3.1.2
   resolution: "eventemitter3@npm:3.1.2"
   checksum: fa1a206c4e4e8e427542f7fdfa10bd073a4ddf2510fb22e2f9a33b9aa7a0d5669bffba9b889e22d8c1c976af51a92dab274845e58d626ddb2d3563ed4d5d50dc
-  languageName: node
-  linkType: hard
-
-"eventemitter3@npm:^4.0.4":
-  version: 4.0.4
-  resolution: "eventemitter3@npm:4.0.4"
-  checksum: 6693972304a7bf91aea3727d83803e1b38819ee0ed628ed842ac909284dedd1f3a7aa0ab4ccdd332bfcb9720138c9021b7b4737259e9fe8d70f7f25c57b9f0ad
   languageName: node
   linkType: hard
 
@@ -5480,19 +5497,6 @@ __metadata:
   checksum: e3036658c26b4aa0c74b89c91dc702f1b98c34ffc108e7944e2e227f910896367e98374a1a8c9923385ddfccd1759bfbd133d7857f4e315070594bb8761740e7
   languageName: node
   linkType: hard
-
-"server@workspace:packages/server":
-  version: 0.0.0-use.local
-  resolution: "server@workspace:packages/server"
-  dependencies:
-    "@types/node": ^14.0.14
-    eventemitter3: ^4.0.4
-    prettier: ^2.0.5
-    typescript: ^3.9.5
-  bin:
-    server: ./dist/cli/index.js
-  languageName: unknown
-  linkType: soft
 
 "set-blocking@npm:^2.0.0, set-blocking@npm:~2.0.0":
   version: 2.0.0

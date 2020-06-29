@@ -5,9 +5,11 @@
 		"lib": ["es2019"],
 		"module": "commonjs",
 		"declaration": true,
-		"sourceMap": false,
-		"inlineSourceMap": true,
 		"rootDir": "src",
-		"outDir": "build"
+		"outDir": "build",
+		"baseUrl": ".",
+		"paths": {
+			"@d-zone/server": ["../server-core"]
+		}
 	}
 }

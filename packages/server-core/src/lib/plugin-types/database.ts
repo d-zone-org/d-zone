@@ -3,11 +3,11 @@ export type DatabasePluginClass<Options> = new (
 ) => DatabasePluginInterface
 
 export interface DatabasePluginInterface {
-	guilds: DocumentManager<GuildSchema>
-	users: DocumentManager<UserSchema>
+	guilds: DatabaseDocumentManager<GuildSchema>
+	users: DatabaseDocumentManager<UserSchema>
 }
 
-export interface DocumentManager<DocumentSchema> {
+export interface DatabaseDocumentManager<DocumentSchema> {
 	getById(id: string): Promise<DocumentSchema>
 	updateById(id: string, doc: Partial<DocumentSchema>): Promise<DocumentSchema>
 	deleteById(id: string): Promise<DocumentSchema>

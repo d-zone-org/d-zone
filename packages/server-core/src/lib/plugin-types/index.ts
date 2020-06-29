@@ -1,2 +1,2 @@
-export * as api from './api'
-export * as database from './database'
+export * from './api'
+export * from './database'
