@@ -1,12 +1,6 @@
 {
-	"extends": "../../tsconfig.base.json",
+	"extends": "../../tsconfig.server.json",
 	"compilerOptions": {
-		"target": "es2019",
-		"lib": ["es2019"],
-		"module": "commonjs",
-		"declaration": true,
-		"sourceMap": false,
-		"inlineSourceMap": true,
 		"rootDir": "src",
 		"outDir": "build"
 	}
