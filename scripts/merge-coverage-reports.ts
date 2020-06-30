@@ -7,7 +7,7 @@ import istanbulReport from 'istanbul-lib-report'
 const root = (...args: string[]) => path.join(__dirname, '..', ...args)
 
 const coverageMap = istanbulCoverage.createCoverageMap()
-for (const file of lcovFiles()) coverageMap.merge(file)
+for (const file of coverageReports()) coverageMap.merge(file)
 
 const reporter = istanbulReports.create('lcovonly')
 const reporterContext = istanbulReport.createContext({
@@ -19,7 +19,7 @@ const reporterContext = istanbulReport.createContext({
 /* @ts-expect-error */
 reporter.execute(reporterContext)
 
-function* lcovFiles(): Generator<istanbulCoverage.CoverageMapData> {
+function* coverageReports(): Generator<istanbulCoverage.CoverageMapData> {
 	const packageJson: typeof import('../package.json') = require('../package.json')
 	const workspaceRoots = packageJson.workspaces
 	const lcovFilePaths = workspaceRoots.map((workspaceRoot) =>
