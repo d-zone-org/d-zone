@@ -1,23 +1,17 @@
 {
 	"compilerOptions": {
 		"target": "es2015",
-		"module": "es2020",
+		"module": "commonjs",
 		"moduleResolution": "node",
 		"sourceMap": true,
 		"removeComments": true,
 		"strict": true,
-		"noImplicitAny": true,
-		"strictNullChecks": true,
-		"strictFunctionTypes": true,
-		"strictBindCallApply": true,
-		"strictPropertyInitialization": true,
-		"noImplicitThis": true,
-		"alwaysStrict": true,
 		"noUnusedLocals": false,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
 		"forceConsistentCasingInFileNames": true
 	}
 }
