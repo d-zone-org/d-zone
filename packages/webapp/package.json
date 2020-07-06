@@ -31,7 +31,7 @@
 		"sass": "^1.26.9",
 		"svelte": "^3.23.2",
 		"svelte-jester": "^1.0.6",
-		"svelte-preprocess": "^3.9.11",
+		"svelte-preprocess": "^3.9.12",
 		"ts-jest": "^26.1.1",
 		"tslib": "^2.0.0",
 		"typescript": "^3.9.5"
