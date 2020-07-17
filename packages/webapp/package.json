@@ -14,7 +14,7 @@
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^13.0.0",
 		"@rollup/plugin-node-resolve": "^8.1.0",
-		"@rollup/plugin-typescript": "^5.0.1",
+		"@rollup/plugin-typescript": "^5.0.2",
 		"@testing-library/jest-dom": "^5.11.0",
 		"@testing-library/svelte": "^3.0.0",
 		"@types/jest": "^26.0.0",
