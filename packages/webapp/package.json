@@ -12,7 +12,7 @@
 		"pixi.js": "^5.3.0"
 	},
 	"devDependencies": {
-		"@rollup/plugin-commonjs": "^13.0.0",
+		"@rollup/plugin-commonjs": "^14.0.0",
 		"@rollup/plugin-node-resolve": "^8.4.0",
 		"@rollup/plugin-typescript": "^5.0.2",
 		"@testing-library/jest-dom": "^5.11.0",
