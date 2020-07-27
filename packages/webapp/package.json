@@ -9,7 +9,7 @@
 	},
 	"dependencies": {
 		"ecs-lib": "^0.8.0-pre.2",
-		"pixi.js": "^5.3.0"
+		"pixi.js": "^5.3.1"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^14.0.0",
