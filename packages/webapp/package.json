@@ -18,7 +18,7 @@
 		"@testing-library/jest-dom": "^5.11.0",
 		"@testing-library/svelte": "^3.0.0",
 		"@types/jest": "^26.0.0",
-		"@types/testing-library__jest-dom": "^5.9.1",
+		"@types/testing-library__jest-dom": "^5.9.2",
 		"jest": "^26.1.0",
 		"jest-canvas-mock": "^2.2.0",
 		"prettier": "^2.0.5",
