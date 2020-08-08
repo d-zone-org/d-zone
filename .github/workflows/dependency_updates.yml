@@ -12,6 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      
+    - uses: tibdex/github-app-token@v1
+      id: generate-token
+      with:
+        app_id: ${{ secrets.APP_ID }}
+        private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
     - run: yarn up '*'
 
@@ -22,5 +28,6 @@ jobs:
         branch: automatic_dependency_updates
         title: Update all dependencies
         body: An updated update of all NPM dependencies.
+        token: ${{ steps.generate-token.outputs.token }}
         #labels: auto-merge
         #reviewers: # optional
