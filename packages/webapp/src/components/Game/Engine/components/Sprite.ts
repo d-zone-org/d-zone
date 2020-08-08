@@ -1,8 +1,17 @@
 import { Component, Types } from 'ecsy'
 
-export default class SpriteComponent extends Component<any> {}
+export default class Sprite extends Component<Sprite> {
+	x!: number
+	y!: number
+	width!: number
+	height!: number
+	sheet!: string
+	render!: boolean
+	dirty!: boolean
+	zIndex!: number
+}
 
-SpriteComponent.schema = {
+Sprite.schema = {
 	x: { type: Types.Number },
 	y: { type: Types.Number },
 	width: { type: Types.Number },
