@@ -7,19 +7,11 @@ export default class Engine {
 		this.world = new World()
 	}
 
-	init(
-		systems: SystemConstructor<any>[],
-		components: ComponentConstructor<any>[]
-	) {
-		components.forEach((component) => this.world.registerComponent(component))
-		systems.forEach((system) => this.world.registerSystem(system))
-		console.log('ECSY world initialized!', this.world)
-	}
-
 	private interval: number | undefined
+	private tick: number = 0
 
 	update() {
-		this.world.execute()
+		this.world.execute(this.interval, this.tick++)
 	}
 
 	start(fps: number): void {

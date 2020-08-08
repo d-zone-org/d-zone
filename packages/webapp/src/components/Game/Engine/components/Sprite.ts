@@ -6,8 +6,6 @@ export default class Sprite extends Component<Sprite> {
 	width!: number
 	height!: number
 	sheet!: string
-	render!: boolean
-	dirty!: boolean
 	zIndex!: number
 }
 
@@ -17,7 +15,5 @@ Sprite.schema = {
 	width: { type: Types.Number },
 	height: { type: Types.Number },
 	sheet: { type: Types.String },
-	render: { type: Types.Boolean },
-	dirty: { type: Types.Boolean },
 	zIndex: { type: Types.Number },
 }

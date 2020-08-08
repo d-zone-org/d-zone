@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js'
-import Resources from './Resources/Resources'
 
 // Global PIXI settings
 PIXI.settings.RESOLUTION = window.devicePixelRatio
@@ -7,7 +6,6 @@ PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
 
 export default class Renderer {
 	app: PIXI.Application
-	resources: Resources
 	constructor(canvas: HTMLCanvasElement) {
 		this.app = new PIXI.Application({
 			width: 800,
@@ -16,10 +14,6 @@ export default class Renderer {
 			view: canvas,
 		})
 		this.app.stage.sortableChildren = true
-		this.resources = new Resources()
-	}
-
-	async load() {
-		await this.resources.load()
+		this.app.stage.setTransform(this.app.view.width / 2, 0) // Center on 0, 0
 	}
 }
