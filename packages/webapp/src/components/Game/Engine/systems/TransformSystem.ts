@@ -1,24 +1,26 @@
-import { Entity, System, Component } from 'ecs-lib'
-import { Sprite, SpriteComponent } from '../components/SpriteComponent'
-import { Transform, TransformComponent } from '../components/TransformComponent'
+import { System } from 'ecsy'
+import Sprite from '../components/Sprite'
+import Transform from '../components/Transform'
 import { get2dCoordsFromIso, getZIndex } from '../../Common/Projection'
 
 export default class TransformSystem extends System {
-	constructor() {
-		super([SpriteComponent.type, TransformComponent.type])
-	}
-
-	update(_time: number, _delta: number, entity: Entity): void {
-		let transform: Component<Transform> = TransformComponent.oneFrom(entity)
-		let sprite: Component<Sprite> = SpriteComponent.oneFrom(entity)
-		let { x: prevX, y: prevY } = sprite.data
-		let { x, y, z } = transform.data
-		let [newX, newY] = get2dCoordsFromIso(x, y, z)
-		if (prevX !== newX || prevY !== newY) {
-			sprite.data.x = newX
-			sprite.data.y = newY
-			sprite.data.zIndex = getZIndex(x, y, z)
-			sprite.data.dirty = true
+	execute(_delta: number, _time: number) {
+		let update = (entity: any) => {
+			let { x, y, z } = entity.getComponent!(Transform)
+			let sprite = entity.getMutableComponent!(Sprite)
+			let [newX, newY] = get2dCoordsFromIso(x, y, z)
+			sprite.x = newX
+			sprite.y = newY
+			sprite.zIndex = getZIndex(x, y, z)
 		}
+
+		this.queries.sprites.added!.forEach(update)
+		this.queries.sprites.changed!.forEach(update)
 	}
+}
+TransformSystem.queries = {
+	sprites: {
+		components: [Sprite, Transform],
+		listen: { added: true, changed: [Transform] },
+	},
 }

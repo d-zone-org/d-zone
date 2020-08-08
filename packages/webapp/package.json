@@ -8,7 +8,7 @@
 		"test:coverage": "yarn run test --collectCoverage"
 	},
 	"dependencies": {
-		"ecs-lib": "^0.8.0-pre.2",
+		"ecsy": "^0.4.0",
 		"pixi.js": "^5.3.3"
 	},
 	"devDependencies": {

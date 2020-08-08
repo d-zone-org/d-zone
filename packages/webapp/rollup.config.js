@@ -18,9 +18,10 @@ export default {
 		file: 'public/build/bundle.js',
 		globals: {
 			'pixi.js': 'PIXI',
+			ecsy: 'ECSY',
 		},
 	},
-	external: ['pixi.js'],
+	external: ['pixi.js', 'ecsy'],
 	plugins: [
 		svelte({
 			// enable run-time checks when not in production
@@ -37,11 +38,7 @@ export default {
 			browser: true,
 			dedupe: ['svelte'],
 		}),
-		commonjs({
-			namedExports: {
-				'ecs-lib': ['Component', 'System', 'Entity'],
-			},
-		}),
+		commonjs(),
 		typescript({ tsconfig: 'tsconfig.app.json' }),
 
 		// In dev mode, serve on port 5000...

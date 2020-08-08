@@ -1,29 +1,25 @@
-import { Entity, System } from 'ecs-lib'
-import { TransformComponent } from '../components/TransformComponent'
-import { HopComponent } from '../components/HopComponent'
+import { System } from 'ecsy'
+import Hop from '../components/Hop'
+import Transform from '../components/Transform'
 
 export default class HopSystem extends System {
-	constructor() {
-		super([TransformComponent.type, HopComponent.type])
-	}
-
-	update(_time: number, delta: number, entity: Entity): void {
-		let transform = TransformComponent.oneFrom(entity)
-		let hop = HopComponent.oneFrom(entity)
-
-		if (hop.attr.progress >= 1) {
-			transform.data.x += hop.data.x
-			transform.data.y += hop.data.y
-			transform.data.z += hop.data.z
-			entity.remove(hop)
-			return
+	execute(_delta: number, _time: number) {
+		let hopping = this.queries.hopping.results
+		for (let i = hopping.length - 1; i >= 0; i--) {
+			let entity = hopping[i]
+			let hop = entity.getMutableComponent!(Hop)
+			if (hop.progress >= 1) {
+				let transform = entity.getMutableComponent!(Transform)
+				transform.x += hop.x
+				transform.y += hop.y
+				transform.z += hop.z
+				entity.removeComponent(Hop)
+				return
+			}
+			hop.progress += 1 / 30
 		}
-
-		hop.attr.progress += delta / (1000 / 60) / 30
 	}
-
-	enter(entity: Entity): void {
-		let hop = HopComponent.oneFrom(entity)
-		hop.attr.progress = 0
-	}
+}
+HopSystem.queries = {
+	hopping: { components: [Hop, Transform] },
 }

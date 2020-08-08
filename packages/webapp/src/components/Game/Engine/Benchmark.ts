@@ -1,5 +1,30 @@
-import ECS, { Entity } from 'ecs-lib'
-import ActorEntity from './entities/ActorEntity'
+import { Entity, World } from 'ecsy'
+import Transform from './components/Transform'
+import Sprite from './components/Sprite'
+import Actor from './components/Actor'
+import Hop from './components/Hop'
+
+export function addActors(world: World, count: number): Entity[] {
+	let entities: Entity[] = []
+	for (let i = 0; i < count; i++) {
+		let actorEntity = world
+			.createEntity()
+			.addComponent(Transform, { x: randomCoord(), y: randomCoord(), z: 0 })
+			.addComponent(Sprite, { width: 14, height: 14, sheet: 'cube' })
+			.addComponent(Actor, {
+				userID: randomString([48, 57], 18),
+				username: randomString([32, 126], Math.floor(Math.random() * 12) + 3),
+				color: randomColor(),
+			})
+
+		entities.push(actorEntity)
+	}
+	return entities
+}
+
+export function hopActor(actor: Entity) {
+	if (!actor.hasComponent(Hop)) actor.addComponent(Hop, randomHop())
+}
 
 export function randomString(
 	[charMin, charMax]: [number, number],
@@ -26,26 +51,13 @@ export function randomColor(): number {
 }
 
 export function randomCoord(): number {
-	return Math.round(Math.random() * 60)
+	return Math.round(Math.random() * 50)
 }
 
-export function addActors(world: ECS, count: number): Entity[] {
-	let entities: Entity[] = []
-	for (let i = 0; i < count; i++) {
-		let actorEntity: Entity = new ActorEntity(
-			{
-				userID: randomString([48, 57], 18),
-				username: randomString([32, 126], Math.floor(Math.random() * 12) + 3),
-				color: randomColor(),
-			},
-			{
-				x: randomCoord(),
-				y: randomCoord(),
-				z: 0,
-			}
-		)
-		entities.push(actorEntity)
-		world.addEntity(actorEntity)
-	}
-	return entities
+export function randomHop(): object {
+	let axis = Math.random() > 0.5 ? 'x' : 'y'
+	let magnitude = Math.random() > 0.5 ? 1 : -1
+	let hop: any = {}
+	hop[axis] = magnitude
+	return hop
 }
