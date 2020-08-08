@@ -1,4 +1,4 @@
-import { World, SystemConstructor, ComponentConstructor } from 'ecsy'
+import { World } from 'ecsy'
 
 export default class Engine {
 	readonly world: World
