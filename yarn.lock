@@ -2403,10 +2403,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ecs-lib@npm:^0.8.0-pre.2":
-  version: 0.8.0-pre.2
-  resolution: "ecs-lib@npm:0.8.0-pre.2"
-  checksum: 844a9f55b3659f7cb2faf83eb25b0ab46a884e3f3c1cd26303cfe48d7658b214e19ddde6c9e4b9bfdfa433022679ffb39c36cec4d12574d69136b64257e0aca8
+"ecsy@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "ecsy@npm:0.4.0"
+  checksum: e8c4d1674ef259aec7423066759d211a9f475f8259f4490be6aa7ee528bc249d371e7ba2582f11866ddc0e0db06cb3245f16e290512d3fc71b58744b2e0d8cfb
   languageName: node
   linkType: hard
 
@@ -6299,7 +6299,7 @@ typescript@^3.9.7:
     "@testing-library/svelte": ^3.0.0
     "@types/jest": ^26.0.0
     "@types/testing-library__jest-dom": ^5.9.1
-    ecs-lib: ^0.8.0-pre.2
+    ecsy: ^0.4.0
     jest: ^26.2.2
     jest-canvas-mock: ^2.2.0
     pixi.js: ^5.3.3

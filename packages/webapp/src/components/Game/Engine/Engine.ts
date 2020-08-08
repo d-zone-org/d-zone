@@ -1,14 +1,18 @@
-import ECS, { System } from 'ecs-lib'
+import { World, SystemConstructor, ComponentConstructor } from 'ecsy'
 
 export default class Engine {
-	readonly world: ECS
+	readonly world: World
 
 	constructor() {
-		this.world = new ECS()
+		this.world = new World()
 	}
 
-	init(systems: System[]) {
-		systems.forEach((system) => this.world.addSystem(system))
+	init(
+		systems: SystemConstructor<any>[],
+		components: ComponentConstructor<any>[]
+	) {
+		components.forEach((component) => this.world.registerComponent(component))
+		systems.forEach((system) => this.world.registerSystem(system))
 		console.log('ECS world initialized!', this.world)
 	}
 
@@ -22,7 +26,7 @@ export default class Engine {
 		// 	this.countStartTime = performance.now();
 		// }
 		// let preUpdateTime = performance.now();
-		this.world.update()
+		this.world.execute()
 		this.updateCount++
 		// let now = performance.now();
 		// this.updateTimeSum += now - preUpdateTime;

@@ -1,16 +1,14 @@
-import { Component } from 'ecs-lib'
+import { Component, Types } from 'ecsy'
 
-export type Sprite = {
-	x: number
-	y: number
-	width: number
-	height: number
-	sheet: string
-	sheetX: number
-	sheetY: number
-	render: boolean
-	dirty: boolean
-	zIndex: number
+export default class SpriteComponent extends Component<any> {}
+
+SpriteComponent.schema = {
+	x: { type: Types.Number },
+	y: { type: Types.Number },
+	width: { type: Types.Number },
+	height: { type: Types.Number },
+	sheet: { type: Types.String },
+	render: { type: Types.Boolean },
+	dirty: { type: Types.Boolean },
+	zIndex: { type: Types.Number },
 }
-
-export const SpriteComponent = Component.register<Sprite>()

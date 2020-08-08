@@ -1,42 +1,13 @@
-import { Entity, System, Component } from 'ecs-lib'
-import { Sprite, SpriteComponent } from '../components/SpriteComponent'
-type PushSpritesToRendererFn = (
-	sprites: Record<string, Component<Sprite>[]>
-) => void
+import { System } from 'ecsy'
+import SpriteComponent from '../components/SpriteComponent'
 
 export default class SpriteSystem extends System {
-	private sprites: Record<string, Component<Sprite>[]> = {
-		added: [],
-		changed: [],
-		removed: [],
+	execute(_delta: number, _time: number) {
+		this.queries.sprites.results.forEach((entity) => {
+			console.log(entity)
+		})
 	}
-
-	constructor(private readonly pushSpritesToRenderer: PushSpritesToRendererFn) {
-		super([SpriteComponent.type])
-	}
-
-	update(_time: number, _delta: number, entity: Entity): void {
-		let sprite: Component<Sprite> = SpriteComponent.oneFrom(entity)
-		if (sprite.data.dirty) {
-			this.sprites.changed.push(sprite)
-			sprite.data.dirty = false
-		}
-	}
-
-	afterUpdateAll(_time: number, _entities: Entity[]) {
-		this.pushSpritesToRenderer(this.sprites)
-		this.sprites.added.length = 0
-		this.sprites.changed.length = 0
-		this.sprites.removed.length = 0
-	}
-
-	enter(entity: Entity): void {
-		let sprite: Component<Sprite> = SpriteComponent.oneFrom(entity)
-		this.sprites.added.push(sprite)
-	}
-
-	exit(entity: Entity): void {
-		let sprite: Component<Sprite> = SpriteComponent.oneFrom(entity)
-		this.sprites.removed.push(sprite)
-	}
+}
+SpriteSystem.queries = {
+	sprites: { components: [SpriteComponent] },
 }
