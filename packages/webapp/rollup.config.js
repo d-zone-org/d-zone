@@ -59,11 +59,6 @@ const config = {
 				'https://unpkg.com/es-react' +
 				`@${deps['react-dom']}${dev ? '/dev' : ''}/react-dom.js`,
 		},
-
-		// Waiting for the day they make an es-module version
-		globals: {
-			'pixi.js': 'PIXI',
-		},
 	},
 
 	context: 'window',
