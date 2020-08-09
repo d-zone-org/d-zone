@@ -2,8 +2,6 @@
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/vegeta897/d-zone/Tests?style=flat-square)](https://github.com/vegeta897/d-zone/actions?query=workflow%3ATests) [![Coveralls github](https://img.shields.io/coveralls/github/vegeta897/d-zone?style=flat-square)](https://coveralls.io/github/vegeta897/d-zone) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) [![GitHub stars](https://img.shields.io/github/stars/vegeta897/d-zone?style=flat-square)](https://github.com/vegeta897/d-zone/stargazers) [![Discord](https://img.shields.io/discord/700890186883530844?style=flat-square)](https://discord.gg/BFgCNfh) [![Deployment](https://img.shields.io/github/deployments/vegeta897/d-zone/production?label=deployment&style=flat-square)](https://d-zone.vercel.app/)
 
-![Deployment](https://img.shields.io/github/deployments/vegeta897/d-zone/production?label=deployment&style=flat-square)
-
 > An _ambient life simulation_ driven by the user activity within a [Discord](https://discordapp.com) server
 
 [![D-Zone](http://i.imgur.com/PLh059j.gif 'Hippity hop!')](https://pixelatomy.com/dzone/)
