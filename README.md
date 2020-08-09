@@ -8,6 +8,8 @@
 
 > ⚠️ This is the development branch. Check out the [master branch](https://github.com/vegeta897/d-zone/tree/master) for a working release.
 
+> View the current rewrite build here: https://d-zone.vercel.app/
+
 ## Concept
 
 **D-Zone** is a graphical simulation meant to abstractly represent the activity in your Discord server.
