@@ -7,7 +7,7 @@ module.exports = {
 
 	moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx', 'node'],
 
-	rootDir: '__tests__',
+	rootDir: 'source',
 
 	setupFiles: [
 		/*'jest-canvas-mock'*/
