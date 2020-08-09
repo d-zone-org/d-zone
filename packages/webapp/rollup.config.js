@@ -1,62 +1,79 @@
-import svelte from 'rollup-plugin-svelte'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import livereload from 'rollup-plugin-livereload'
 import serve from 'rollup-plugin-serve'
 import { terser } from 'rollup-plugin-terser'
-import svelteConfig from './svelte.config'
 import typescript from '@rollup/plugin-typescript'
+import sucrase from '@rollup/plugin-sucrase'
+import url from '@rollup/plugin-url'
 
-const production = !process.env.ROLLUP_WATCH
+import { main, dependencies as deps } from './package.json'
 
-export default {
-	input: 'src/main.js',
+const dev = process.env.ROLLUP_WATCH
+
+const plugins = [
+	resolve({
+		extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx'],
+	}),
+	commonjs(),
+
+	url({
+		destDir: 'public/assets',
+		fileName: '[dirname][hash][extname]',
+		sourceDir: '/assets',
+	}),
+]
+
+if (dev)
+	plugins.push(
+		sucrase({
+			transforms: ['typescript', 'jsx'],
+		}),
+		serve({
+			contentBase: 'public',
+			port: 5000,
+			historyApiFallback: '/index.html',
+		}),
+		livereload('public')
+	)
+else plugins.push(typescript({ tsconfig: 'tsconfig.json' }), terser())
+
+const config = {
+	input: main,
 	output: {
 		sourcemap: true,
-		format: 'iife',
+		format: 'es',
 		name: 'app',
-		file: 'public/build/bundle.js',
+		dir: 'public/build',
+
+		paths: {
+			ecsy:
+				'https://unpkg.com/ecsy' +
+				`@${deps.ecsy}/build/ecsy.module${dev ? '' : '.min'}.js`,
+
+			react:
+				'https://unpkg.com/es-react' +
+				`@${deps.react}${dev ? '/dev' : ''}/react.js`,
+
+			'react-dom':
+				'https://unpkg.com/es-react' +
+				`@${deps['react-dom']}${dev ? '/dev' : ''}/react-dom.js`,
+		},
+
+		// Waiting for the day they make an es-module version
 		globals: {
 			'pixi.js': 'PIXI',
-			ecsy: 'ECSY',
 		},
 	},
-	external: ['pixi.js', 'ecsy'],
-	plugins: [
-		svelte({
-			// enable run-time checks when not in production
-			dev: !production,
-			...svelteConfig,
-		}),
 
-		// If you have external dependencies installed from
-		// npm, you'll most likely need these plugins. In
-		// some cases you'll need additional configuration —
-		// consult the documentation for details:
-		// https://github.com/rollup/rollup-plugin-commonjs
-		resolve({
-			browser: true,
-			dedupe: ['svelte'],
-		}),
-		commonjs(),
-		typescript({ tsconfig: 'tsconfig.app.json' }),
+	context: 'window',
+	external: Object.keys(deps),
 
-		// In dev mode, serve on port 5000...
-		!production &&
-			serve({
-				contentBase: 'public',
-				port: 5000,
-				historyApiFallback: '/index.html',
-			}),
+	plugins,
 
-		// ...and reload when the app changes
-		!production && livereload('public'),
-
-		// If we're building for production (npm run build
-		// instead of npm run dev), minify
-		production && terser(),
-	],
 	watch: {
 		clearScreen: false,
 	},
 }
+
+export default config

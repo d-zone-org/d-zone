@@ -1,6 +1,10 @@
 {
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"module": "es2020"
+		"rootDir": "source",
+		"outDir": "public/build",
+		"jsx": "react",
+		"baseUrl": "source",
+		"paths": { "es/*": ["ES/*"] }
 	}
 }

@@ -1,9 +1,9 @@
-import { Loader } from 'pixi.js'
+import PIXI from 'es/pixi.js'
 
-let loader: Loader
+let loader: PIXI.Loader
 
 export function initLoader() {
-	loader = new Loader()
+	loader = new PIXI.Loader()
 	loader.add('cube', './img/cube.png')
 }
 

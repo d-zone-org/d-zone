@@ -4,15 +4,16 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 
-		<title>Svelte app</title>
+		<title>The D-Zone</title>
 
-		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="icon" type="image/png" href="/img/cube.png" />
 		<link rel="stylesheet" href="/build/bundle.css" />
-
-		<script defer src="/build/bundle.js"></script>
-		<script src="https://unpkg.com/pixi.js@5.3.3/dist/pixi.min.js"></script>
-		<script src="https://unpkg.com/ecsy@0.4.0/build/ecsy.js"></script>
 	</head>
 
-	<body></body>
+	<body>
+		<div id="app"></div>
+
+		<script src="https://unpkg.com/pixi.js@5.3.3/dist/pixi.min.js"></script>
+		<script type="module" src="/build/main.js"></script>
+	</body>
 </html>
