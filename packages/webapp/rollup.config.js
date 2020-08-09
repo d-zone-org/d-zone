@@ -36,7 +36,11 @@ if (dev)
 		}),
 		livereload('public')
 	)
-else plugins.push(typescript({ tsconfig: 'tsconfig.json' }), terser())
+else
+	plugins.push(
+		typescript({ tsconfig: 'tsconfig.json', exclude: ['source/__tests__/**'] }),
+		terser()
+	)
 
 const config = {
 	input: main,
@@ -62,7 +66,10 @@ const config = {
 	},
 
 	context: 'window',
-	external: Object.keys(deps),
+
+	// All dependencies are treated as external
+	// Except a few which are very small
+	external: Object.keys(deps).filter((d) => !['regexparam'].includes(d)),
 
 	plugins,
 
