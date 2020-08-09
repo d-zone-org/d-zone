@@ -1,9 +1,12 @@
 import React from 'react'
-import Game from './Game'
+import { Router } from './Components/Router'
 
 export default () => (
-	<>
-		<h1>d-zone go brrr!!</h1>
-		<Game />
-	</>
+	<Router
+		routes={[
+			{ path: '/', component: () => import('./Pages/Home') },
+			{ path: '/home', component: () => import('./Pages/Home') },
+			{ path: '*', component: () => import('./Pages/404') },
+		]}
+	/>
 )

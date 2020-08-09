@@ -14,7 +14,8 @@
 		"es": "link:./source/ES",
 		"pixi.js": "^5.3.3",
 		"react": "^16.13.1",
-		"react-dom": "^16.13.1"
+		"react-dom": "^16.13.1",
+		"regexparam": "^1.3.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.11.1",
