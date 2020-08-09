@@ -11,7 +11,7 @@
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
-		"forceConsistentCasingInFileNames": true
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true
 	}
 }

@@ -5,18 +5,11 @@ module.exports = {
 
 	coverageReporters: ['json', 'text'],
 
-	globals: {
-		'ts-jest': {
-			tsconfig: 'tsconfig.test.json',
-			packageJson: 'package.json',
-		},
-	},
-
 	moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx', 'node'],
 
-	preset: 'ts-jest',
+	rootDir: 'source',
 
-	rootDir: 'src',
-
-	setupFiles: ['jest-canvas-mock'],
+	setupFiles: [
+		/*'jest-canvas-mock'*/
+	],
 }
