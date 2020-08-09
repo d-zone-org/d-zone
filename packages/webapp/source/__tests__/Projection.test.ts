@@ -1,5 +1,18 @@
-import { get2dCoordsFromIso } from '../Game/Common/Projection'
+import { get2dCoordsFromIso, getZIndex } from '../Game/Common/Projection'
 
-test('returns x and y values', () => {
-	expect(get2dCoordsFromIso(0, 0, 0).length).toEqual(2)
+describe(get2dCoordsFromIso, () => {
+	test('returns x and y values', () => {
+		let coords = get2dCoordsFromIso(0, 0, 0)
+		expect(coords.length).toEqual(2)
+		expect(coords[0]).toEqual(0)
+		expect(coords[1]).toEqual(0)
+	})
+})
+
+describe(getZIndex, () => {
+	test('returns number', () => {
+		let zIndex = getZIndex(0, 0, 0)
+		expect(zIndex).toEqual(0)
+		expect(zIndex).not.toBeNaN()
+	})
 })
