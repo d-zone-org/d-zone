@@ -1,4 +1,8 @@
-import { get2dCoordsFromIso, getZIndex, SCALE } from '../Components/Game/Common/Projection'
+import {
+	get2dCoordsFromIso,
+	getZIndex,
+	SCALE,
+} from '../Components/Game/Common/Projection'
 
 describe(get2dCoordsFromIso, () => {
 	test('returns x and y values', () => {
