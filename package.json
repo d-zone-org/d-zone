@@ -18,9 +18,7 @@
 	},
 	"private": true,
 	"workspaces": [
-		"packages/webapp",
-		"packages/server-core",
-		"packages/server-plugin"
+		"packages/**/**"
 	],
 	"scripts": {
 		"lint": "prettier --check packages",
@@ -37,7 +35,6 @@
 		"istanbul-lib-report": "^3.0.0",
 		"istanbul-reports": "^3.0.2",
 		"prettier": "^2.0.5",
-		"prettier-plugin-svelte": "^1.1.0",
 		"typescript": "^3.9.7"
 	}
 }

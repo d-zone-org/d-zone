@@ -1,0 +1,10 @@
+{
+	"extends": "../../../tsconfig.base.json",
+	"compilerOptions": {
+		"target": "es2019",
+		"rootDir": "source",
+		"sourceMap": true,
+		"outDir": "build",
+		"declaration": true
+	}
+}
