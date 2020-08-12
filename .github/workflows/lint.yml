@@ -14,6 +14,7 @@ on:
 jobs:
   lint:
     name: Run Linter
+    if: github.event.push || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
