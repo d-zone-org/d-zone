@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"target": "es2019",
+		"module": "es6",
+		"lib": ["ES2019", "DOM"],
+
+		"jsx": "react",
+
+		"sourceMap": true,
+
+		"rootDir": "source",
+
+		"strict": true,
+
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+
+		"moduleResolution": "node",
+
+		"esModuleInterop": true,
+
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
+	}
+}

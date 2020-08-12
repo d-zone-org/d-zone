@@ -1,7 +1,7 @@
 import { Attributes, Not, System } from 'ecsy'
 import Sprite from '../components/Sprite'
 import PixiSprite from '../components/PixiSprite'
-import PIXI from 'es/pixi'
+import PIXI from 'pixi.js'
 
 export default class SpriteSystem extends System {
 	private resources: any
