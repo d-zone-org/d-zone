@@ -1,4 +1,4 @@
-import PIXI from 'pixi.js'
+import * as PIXI from 'pixi.js'
 
 // Global PIXI settings
 PIXI.settings.RESOLUTION = window.devicePixelRatio

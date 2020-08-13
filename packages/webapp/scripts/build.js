@@ -91,6 +91,8 @@ async function developmentBuild() {
 					? 'react-dom/cjs/react-dom.development.js'
 					: name === 'ecsy'
 					? 'ecsy/build/ecsy.module.js'
+					: name === 'pixi.js'
+					? 'pixi.js/lib/pixi.es.js'
 					: name
 			)
 
