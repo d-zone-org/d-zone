@@ -12,6 +12,7 @@ const pluginReplace = require('@rollup/plugin-replace')
 const pluginLiveReload = require('rollup-plugin-livereload')
 const pluginServe = require('rollup-plugin-serve')
 const pluginTerser = require('rollup-plugin-terser').terser
+const clear = require('rollup-plugin-clear')
 
 const { dependencies, main } = require('../package.json')
 
@@ -33,6 +34,9 @@ async function productionBuild() {
 	console.log('Started Production Build')
 
 	const plugins = [
+		clear({
+			targets: [root('public/build')],
+		}),
 		pluginCommonJS(),
 		pluginNodeResolve({
 			extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx'],
@@ -72,6 +76,9 @@ async function developmentBuild() {
 
 	async function createDependenciesBundle() {
 		const plugins = [
+			clear({
+				targets: [root('public/build')],
+			}),
 			pluginCommonJS(),
 			pluginNodeResolve({ preferBuiltins: false }),
 			pluginReplace({
