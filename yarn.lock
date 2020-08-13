@@ -436,7 +436,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-commonjs@npm:^14.0.0":
+"@rollup/plugin-commonjs@14.0.0":
   version: 14.0.0
   resolution: "@rollup/plugin-commonjs@npm:14.0.0"
   dependencies:
@@ -450,6 +450,23 @@ __metadata:
   peerDependencies:
     rollup: ^2.3.4
   checksum: f8c733dee53be98576bd9c739a876635407792944abcc1eba2cd9444ce673092582b863be9a1d29c2dde56a654761b1df1ba5301686e94359bca114d1c05c893
+  languageName: node
+  linkType: hard
+
+"@rollup/plugin-commonjs@patch:@rollup/plugin-commonjs@14.0.0#./patches/plugin-commonjs::locator=webapp%40workspace%3Apackages%2Fwebapp":
+  version: 14.0.0
+  resolution: "@rollup/plugin-commonjs@patch:@rollup/plugin-commonjs@npm%3A14.0.0#./patches/plugin-commonjs::version=14.0.0&hash=5c363b&locator=webapp%40workspace%3Apackages%2Fwebapp"
+  dependencies:
+    "@rollup/pluginutils": ^3.0.8
+    commondir: ^1.0.1
+    estree-walker: ^1.0.1
+    glob: ^7.1.2
+    is-reference: ^1.1.2
+    magic-string: ^0.25.2
+    resolve: ^1.11.0
+  peerDependencies:
+    rollup: ^2.3.4
+  checksum: fdab37981c098134f29679bf3073d90d189b97263c6a380d4372e7ad4f93b6af87b8ebbe3e9f025f8653161450b163ae3e8f2c784f7077bd7bb109c52cf58c83
   languageName: node
   linkType: hard
 
@@ -2385,7 +2402,7 @@ typescript@^3.9.7:
   version: 0.0.0-use.local
   resolution: "webapp@workspace:packages/webapp"
   dependencies:
-    "@rollup/plugin-commonjs": ^14.0.0
+    "@rollup/plugin-commonjs": "patch:@rollup/plugin-commonjs@14.0.0#./patches/plugin-commonjs"
     "@rollup/plugin-node-resolve": ^8.4.0
     "@rollup/plugin-replace": ^2.3.3
     "@rollup/plugin-sucrase": ^3.1.0
