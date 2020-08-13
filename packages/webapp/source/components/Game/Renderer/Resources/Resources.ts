@@ -1,4 +1,5 @@
 import { initLoader, runLoader } from './Loader'
+import PIXI from 'pixi.js'
 
 export default class Resources {
 	resources: any

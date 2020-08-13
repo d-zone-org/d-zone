@@ -89,6 +89,8 @@ async function developmentBuild() {
 					? 'react/cjs/react.development.js'
 					: name === 'react-dom'
 					? 'react-dom/cjs/react-dom.development.js'
+					: name === 'ecsy'
+					? 'ecsy/build/ecsy.module.js'
 					: name
 			)
 
