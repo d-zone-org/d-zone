@@ -1,4 +1,4 @@
-import PIXI from 'es/pixi.js'
+import * as PIXI from 'pixi.js'
 
 let loader: PIXI.Loader
 

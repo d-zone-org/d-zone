@@ -12,4 +12,8 @@ module.exports = {
 	setupFiles: [
 		/*'jest-canvas-mock'*/
 	],
+
+	transform: {
+		'.(js|jsx|ts|tsx)': '@sucrase/jest-plugin',
+	},
 }

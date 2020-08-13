@@ -1,13 +1,15 @@
 import path from 'path'
-import fs from 'fs'
 import istanbulCoverage from 'istanbul-lib-coverage'
 import istanbulReports from 'istanbul-reports'
 import istanbulReport from 'istanbul-lib-report'
+import glob from 'glob'
 
 const root = (...args: string[]) => path.join(__dirname, '..', ...args)
 
 const coverageMap = istanbulCoverage.createCoverageMap()
-for (const file of coverageReports()) coverageMap.merge(file)
+const coverageFilePaths = glob.sync('**/coverage-final.json')
+console.log('Found coverage files', coverageFilePaths)
+coverageFilePaths.forEach((file) => coverageMap.merge(require(root(file))))
 
 const reporter = istanbulReports.create('lcovonly')
 const reporterContext = istanbulReport.createContext({
@@ -18,14 +20,3 @@ const reporterContext = istanbulReport.createContext({
 
 /* @ts-expect-error */
 reporter.execute(reporterContext)
-
-function* coverageReports(): Generator<istanbulCoverage.CoverageMapData> {
-	const packageJson: typeof import('../package.json') = require('../package.json')
-	const workspaceRoots = packageJson.workspaces
-	const lcovFilePaths = workspaceRoots.map((workspaceRoot) =>
-		root(workspaceRoot, 'coverage/coverage-final.json')
-	)
-	const existentFiles = lcovFilePaths.filter((file) => fs.existsSync(file))
-	console.log(`Found files: \n${existentFiles.join('\n')}`)
-	for (const filePath of existentFiles) yield require(filePath)
-}

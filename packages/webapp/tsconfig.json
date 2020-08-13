@@ -1,10 +1,27 @@
 {
-	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"rootDir": "source",
-		"outDir": "public/build",
+		"target": "es2019",
+		"module": "es6",
+		"lib": ["ES2019", "DOM"],
+
 		"jsx": "react",
-		"baseUrl": "source",
-		"paths": { "es/*": ["ES/*"] }
+
+		"sourceMap": true,
+
+		"rootDir": "source",
+
+		"strict": true,
+
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+
+		"moduleResolution": "node",
+
+		"esModuleInterop": true,
+
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
 	}
 }
