@@ -3,7 +3,11 @@
 	"main": "source/index.tsx",
 	"scripts": {
 		"build": "yarn node scripts/build",
-		"dev": "yarn node scripts/build --dev"
+		"dev": "yarn node scripts/build --dev",
+		"test": "jest --config jest.config.js",
+		"test:coverage": "yarn run test --collectCoverage",
+		"serve": "yarn dlx serve public",
+		"lint": "prettier --config ../../.prettierrc.json --ignore-path ../../.prettierignore --check ."
 	},
 	"dependencies": {
 		"ecsy": "^0.4.0",
@@ -17,9 +21,12 @@
 		"@rollup/plugin-replace": "^2.3.3",
 		"@rollup/plugin-sucrase": "^3.1.0",
 		"@rollup/plugin-typescript": "^5.0.2",
+		"@sucrase/jest-plugin": "^2.0.0",
+		"@types/jest": "^26.0.9",
 		"@types/react": "^16.9.46",
 		"@types/react-dom": "^16.9.8",
 		"@types/yargs-parser": "^15.0.0",
+		"jest": "^26.4.0",
 		"prettier": "^2.0.5",
 		"rollup": "^2.23.1",
 		"rollup-plugin-clear": "^2.0.7",
