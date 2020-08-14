@@ -22,7 +22,6 @@
 		"esModuleInterop": true,
 
 		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-		"typeRoots": ["source/__types__"]
+		"forceConsistentCasingInFileNames": true
 	}
 }
