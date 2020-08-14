@@ -20,7 +20,7 @@ export default class Renderer {
 		})
 		this.view.drag().pinch().wheel().decelerate()
 		this.view.moveCenter(0, 0)
+		this.view.sortableChildren = true
 		this.app.stage.addChild(this.view)
-		this.app.stage.sortableChildren = true
 	}
 }
