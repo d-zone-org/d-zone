@@ -22,6 +22,5 @@ export default class Renderer {
 		this.view.moveCenter(0, 0)
 		this.app.stage.addChild(this.view)
 		this.app.stage.sortableChildren = true
-		// this.app.stage.setTransform(this.app.view.width / 2, 0) // Center on 0, 0
 	}
 }
