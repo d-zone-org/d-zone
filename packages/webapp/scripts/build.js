@@ -100,6 +100,8 @@ async function developmentBuild() {
 					? 'ecsy/build/ecsy.module.js'
 					: name === 'pixi.js'
 					? 'pixi.js/lib/pixi.es.js'
+					: name === 'pixi-viewport'
+					? 'pixi-viewport/dist/viewport.es.js'
 					: name
 			)
 

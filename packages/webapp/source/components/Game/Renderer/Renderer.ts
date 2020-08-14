@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js'
+import { Viewport } from 'pixi-viewport'
 
 // Global PIXI settings
 PIXI.settings.RESOLUTION = window.devicePixelRatio
@@ -6,6 +7,7 @@ PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
 
 export default class Renderer {
 	app: PIXI.Application
+	view: Viewport
 	constructor(canvas: HTMLCanvasElement) {
 		this.app = new PIXI.Application({
 			width: 800,
@@ -13,7 +15,16 @@ export default class Renderer {
 			backgroundColor: 0x1d171f,
 			view: canvas,
 		})
+		this.view = new Viewport({
+			screenWidth: window.innerWidth,
+			screenHeight: window.innerHeight,
+			worldWidth: 800,
+			worldHeight: 600,
+			interaction: this.app.renderer.plugins.interaction,
+		})
+		this.app.stage.addChild(this.view)
+		this.view.drag().pinch().wheel().decelerate()
 		this.app.stage.sortableChildren = true
-		this.app.stage.setTransform(this.app.view.width / 2, 0) // Center on 0, 0
+		// this.app.stage.setTransform(this.app.view.width / 2, 0) // Center on 0, 0
 	}
 }
