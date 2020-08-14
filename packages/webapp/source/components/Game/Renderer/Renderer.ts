@@ -10,20 +10,18 @@ export default class Renderer {
 	view: Viewport
 	constructor(canvas: HTMLCanvasElement) {
 		this.app = new PIXI.Application({
-			width: 800,
-			height: 600,
 			backgroundColor: 0x1d171f,
 			view: canvas,
+			resolution: 1,
 		})
 		this.view = new Viewport({
-			screenWidth: window.innerWidth,
-			screenHeight: window.innerHeight,
-			worldWidth: 800,
-			worldHeight: 600,
+			screenWidth: this.app.view.offsetWidth,
+			screenHeight: this.app.view.offsetHeight,
 			interaction: this.app.renderer.plugins.interaction,
 		})
-		this.app.stage.addChild(this.view)
 		this.view.drag().pinch().wheel().decelerate()
+		this.view.moveCenter(0, 0)
+		this.app.stage.addChild(this.view)
 		this.app.stage.sortableChildren = true
 		// this.app.stage.setTransform(this.app.view.width / 2, 0) // Center on 0, 0
 	}
