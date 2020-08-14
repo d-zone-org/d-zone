@@ -29,6 +29,6 @@ export async function initGame(canvas: HTMLCanvasElement) {
 	let actors = addActors(engine.world, 300) // Add 300 random actors
 	setInterval(() => {
 		hopActor(actors[Math.floor(Math.random() * actors.length)])
-	}, 50)
+	}, 500)
 	engine.start(60) // Start update loop
 }
