@@ -41,8 +41,8 @@ if (VERBOSE)
 		` Source Entry Point - ${sourceEntryPoint}\n`
 	)
 
-if (DEV) developmentBuild().catch(console.error)
-else productionBuild().catch(console.error)
+if (DEV) developmentBuild().catch(errorHandler)
+else productionBuild().catch(errorHandler)
 
 async function productionBuild() {
 	if (VERBOSE) console.log(c.yellow('Started Production Build'))
@@ -200,4 +200,9 @@ async function developmentBuild() {
 				)
 		})
 	}
+}
+
+function errorHandler(err) {
+	console.error(err)
+	process.exit(1)
 }
