@@ -36,7 +36,6 @@ export default class SpriteSystem extends System {
 			pixiSprite.setTransform(sprite.x, sprite.y)
 			pixiSprite.zIndex = sprite.zIndex
 			this.view.addChild(pixiSprite)
-			this.cull.add(pixiSprite)
 			entity.addComponent(PixiSprite, { value: pixiSprite })
 		}
 
@@ -45,7 +44,6 @@ export default class SpriteSystem extends System {
 			let entity = removed[i]
 			let pixiSprite = entity.getComponent!(PixiSprite)
 			this.view.removeChild(pixiSprite.value)
-			this.cull.remove(pixiSprite.value)
 			pixiSprite.value.destroy()
 			entity.removeComponent(PixiSprite)
 		}

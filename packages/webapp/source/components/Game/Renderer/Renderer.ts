@@ -24,7 +24,8 @@ export default class Renderer {
 		this.view.moveCenter(0, 0)
 		this.view.sortableChildren = true
 		this.app.stage.addChild(this.view)
-		this.cull = new Cull.Simple()
+		this.cull = new Cull.SpatialHash()
+		this.cull.addContainer(this.view)
 		this.app.ticker.add(() => {
 			if (this.view.dirty) {
 				this.cull.cull(this.view.getVisibleBounds())
