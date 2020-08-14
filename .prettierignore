@@ -1,5 +1,7 @@
 .yarn/*
 .vscode/*
 .pnp.js
-coverage
+**/coverage/*
 **/build/*
+yarn.lock
+**/patches/*

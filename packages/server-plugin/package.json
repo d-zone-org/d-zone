@@ -3,12 +3,10 @@
 	"main": "./build/index.js",
 	"typings": "./build/lib/index.d.ts",
 	"scripts": {
-		"build": "yarn tsc",
-		"lint": "yarn lint:check"
+		"build": "yarn tsc"
 	},
 	"devDependencies": {
 		"@types/node": "^14.0.14",
-		"prettier": "^2.0.5",
 		"typescript": "^3.9.7"
 	},
 	"peerDependencies": {

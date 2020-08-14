@@ -1,0 +1,29 @@
+name: Update yarn
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - run: yarn set version from sources
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v3.1.0
+        with:
+          commit-message: Update Yarn Version
+          branch: yarn_bleeding_edge
+          title: Update Yarn Version
+          body: An updated of yarn binary from the source.
+          token: ${{ steps.generate-token.outputs.token }}
