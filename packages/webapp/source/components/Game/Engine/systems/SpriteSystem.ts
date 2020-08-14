@@ -6,9 +6,11 @@ import * as PIXI from 'pixi.js'
 export default class SpriteSystem extends System {
 	private resources: any
 	private renderer: any
+	private view: any
 	init(attributes: Attributes) {
 		this.resources = attributes.resources
 		this.renderer = attributes.renderer
+		this.view = this.renderer.view
 	}
 	execute(_delta: number, _time: number) {
 		let updated = this.queries.updated.changed!
@@ -29,7 +31,7 @@ export default class SpriteSystem extends System {
 			let pixiSprite = new PIXI.Sprite(this.resources.textures[sprite.sheet])
 			pixiSprite.setTransform(sprite.x, sprite.y)
 			pixiSprite.zIndex = sprite.zIndex
-			this.renderer.app.stage.addChild(pixiSprite)
+			this.view.addChild(pixiSprite)
 			entity.addComponent(PixiSprite, { value: pixiSprite })
 		}
 
@@ -37,7 +39,7 @@ export default class SpriteSystem extends System {
 		for (let i = removed.length - 1; i >= 0; i--) {
 			let entity = removed[i]
 			let pixiSprite = entity.getComponent!(PixiSprite)
-			this.renderer.app.stage.removeChild(pixiSprite.value)
+			this.view.removeChild(pixiSprite.value)
 			pixiSprite.value.destroy()
 			entity.removeComponent(PixiSprite)
 		}

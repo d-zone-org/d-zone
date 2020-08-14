@@ -51,7 +51,7 @@ export function randomColor(): number {
 }
 
 export function randomCoord(): number {
-	return Math.round(Math.random() * 50)
+	return Math.round(Math.random() * 80 - 40)
 }
 
 export function randomHop(): object {
