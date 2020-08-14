@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js'
 import { Viewport } from 'pixi-viewport'
 
 // Global PIXI settings
-PIXI.settings.RESOLUTION = window.devicePixelRatio
+PIXI.settings.RESOLUTION = 1
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
 
 export default class Renderer {
@@ -12,7 +12,6 @@ export default class Renderer {
 		this.app = new PIXI.Application({
 			backgroundColor: 0x1d171f,
 			view: canvas,
-			resolution: 1,
 		})
 		this.view = new Viewport({
 			screenWidth: this.app.view.offsetWidth,
