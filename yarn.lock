@@ -398,7 +398,6 @@ __metadata:
   resolution: "@d-zone/plugin@workspace:packages/server-plugin"
   dependencies:
     "@types/node": ^14.0.14
-    prettier: ^2.0.5
     typescript: ^3.9.7
   peerDependencies:
     "@d-zone/server": "*"
@@ -410,7 +409,6 @@ __metadata:
   resolution: "@d-zone/server@workspace:packages/server-core"
   dependencies:
     "@types/node": ^14.0.14
-    prettier: ^2.0.5
     typescript: ^3.9.7
   bin:
     server: ./build/cli/index.js
@@ -6087,7 +6085,6 @@ typescript@^3.9.7:
     pixi-cull: ^1.0.0
     pixi-viewport: ^4.13.2
     pixi.js: ^5.3.3
-    prettier: ^2.0.5
     react: ^16.13.1
     react-dom: ^16.13.1
     rollup: ^2.24.0
