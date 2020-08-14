@@ -4650,6 +4650,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pixi-cull@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "pixi-cull@npm:1.0.0"
+  peerDependencies:
+    pixi.js: ^5.0.0-rc.2
+  checksum: cc6144bf1b6b907540b8759322bc02a6273e3b81e61c8e2ab6936c353384fe6680888fa429857a9f01e50de4a92209751931c627b98dadafe67208991359d6b1
+  languageName: node
+  linkType: hard
+
 "pixi-viewport@npm:^4.13.2":
   version: 4.13.2
   resolution: "pixi-viewport@npm:4.13.2"
@@ -6075,6 +6084,7 @@ typescript@^3.9.7:
     "@types/yargs-parser": ^15.0.0
     ecsy: ^0.4.0
     jest: ^26.4.0
+    pixi-cull: ^1.0.0
     pixi-viewport: ^4.13.2
     pixi.js: ^5.3.3
     prettier: ^2.0.5

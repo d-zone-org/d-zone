@@ -22,8 +22,9 @@ export function addActors(world: World, count: number): Entity[] {
 	return entities
 }
 
-export function hopActor(actor: Entity) {
-	if (!actor.hasComponent(Hop)) actor.addComponent(Hop, randomHop())
+export function hopActor(actor: Entity, direction?: { x: number; y: number }) {
+	if (!actor.hasComponent(Hop))
+		actor.addComponent(Hop, direction || randomHop())
 }
 
 export function randomString(

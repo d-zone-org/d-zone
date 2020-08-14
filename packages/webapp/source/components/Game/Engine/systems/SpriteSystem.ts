@@ -7,10 +7,12 @@ export default class SpriteSystem extends System {
 	private resources: any
 	private renderer: any
 	private view: any
+	private cull: any
 	init(attributes: Attributes) {
 		this.resources = attributes.resources
 		this.renderer = attributes.renderer
 		this.view = this.renderer.view
+		this.cull = this.renderer.cull
 	}
 	execute(_delta: number, _time: number) {
 		let updated = this.queries.updated.changed!
@@ -21,7 +23,9 @@ export default class SpriteSystem extends System {
 				let pixiSprite = entity.getComponent!(PixiSprite)
 				pixiSprite.value.setTransform(sprite.x, sprite.y)
 				pixiSprite.value.zIndex = sprite.zIndex
+				this.cull.updateObject(pixiSprite.value)
 			}
+			this.cull.cull(this.view.getVisibleBounds())
 		}
 
 		let added = this.queries.added.results
@@ -32,6 +36,7 @@ export default class SpriteSystem extends System {
 			pixiSprite.setTransform(sprite.x, sprite.y)
 			pixiSprite.zIndex = sprite.zIndex
 			this.view.addChild(pixiSprite)
+			this.cull.add(pixiSprite)
 			entity.addComponent(PixiSprite, { value: pixiSprite })
 		}
 
@@ -40,6 +45,7 @@ export default class SpriteSystem extends System {
 			let entity = removed[i]
 			let pixiSprite = entity.getComponent!(PixiSprite)
 			this.view.removeChild(pixiSprite.value)
+			this.cull.remove(pixiSprite.value)
 			pixiSprite.value.destroy()
 			entity.removeComponent(PixiSprite)
 		}
