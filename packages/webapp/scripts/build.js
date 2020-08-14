@@ -18,6 +18,7 @@ const clear = require('rollup-plugin-clear')
 const { dependencies, main } = require('../package.json')
 
 const root = (...args) => path.resolve(__dirname, '..', ...args)
+const join = path.join
 
 // Constants or Configuration
 const dependenciesArr = Object.keys(dependencies)
@@ -108,21 +109,23 @@ async function developmentBuild() {
 			}),
 		]
 
-		// In case there are specific files we want to use instead
-		// of the entry point mentioned in package.json
+		// Resolve es modules if availaible
 		const getEntryPointPath = (name) => {
-			const path = require.resolve(
-				name === 'react'
-					? 'react/cjs/react.development.js'
-					: name === 'react-dom'
-					? 'react-dom/cjs/react-dom.development.js'
-					: name === 'ecsy'
-					? 'ecsy/build/ecsy.module.js'
-					: name === 'pixi.js'
-					? 'pixi.js/lib/pixi.es.js'
-					: name === 'pixi-viewport'
-					? 'pixi-viewport/dist/viewport.es.js'
-					: name
+			const resolve = require.resolve
+			const root = (...args) => join(name, ...args)
+
+			const { main, module, type } = require(root('package.json'))
+
+			// Add paths relative to packages root
+			const ManualMap = {}
+
+			// Preference
+			// 1. main field if module
+			// 2. module field
+			// 3. manually mapped paths
+			// 4. main field
+			const path = resolve(
+				root(type === 'module' ? main : module || ManualMap[name] || main)
 			)
 
 			if (VERBOSE) console.log(`Using ${c.cyan(name)}:`, c.gray(path))
