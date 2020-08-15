@@ -109,7 +109,7 @@ async function developmentBuild() {
 			}),
 		]
 
-		// Resolve es modules if availaible
+		// Resolve es modules if available
 		const getEntryPointPath = (name) => {
 			const resolve = require.resolve
 			const root = (...args) => join(name, ...args)
@@ -120,7 +120,7 @@ async function developmentBuild() {
 			const ManualMap = {}
 
 			// Preference
-			// 1. main field if module
+			// 1. main field, if module
 			// 2. module field
 			// 3. manually mapped paths
 			// 4. main field
