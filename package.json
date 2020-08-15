@@ -21,8 +21,8 @@
 		"packages/**/**"
 	],
 	"scripts": {
-		"lint": "prettier --check packages",
-		"lint:check": "prettier --check $INIT_CWD",
+		"format": "prettier --write .",
+		"check:format": "prettier --check $INIT_CWD",
 		"test": "yarn workspaces foreach -p run test",
 		"collect-coverage": "yarn workspaces foreach -p run test:coverage && yarn dlx ts-node --dir scripts merge-coverage-reports.ts"
 	},
