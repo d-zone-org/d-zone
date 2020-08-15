@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "es2019",
-		"module": "es6",
+		"module": "es2020",
 		"lib": ["ES2019", "DOM"],
 
 		"jsx": "react",

@@ -4944,6 +4944,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"regexparam@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "regexparam@npm:1.3.0"
+  checksum: 3be8055bc697d720647e2b2a781e8a784013e80d51724dce833524c8f1a9fbfa7efd3dac90572ce64191b82e908c8e70c6ff40b8da3ff0b3fb4199af73d4a8b5
+  languageName: node
+  linkType: hard
+
 "remove-trailing-separator@npm:^1.0.1":
   version: 1.1.0
   resolution: "remove-trailing-separator@npm:1.1.0"
@@ -6095,6 +6102,7 @@ typescript@^3.9.7:
     pixi.js: ^5.3.3
     react: ^16.13.1
     react-dom: ^16.13.1
+    regexparam: ^1.3.0
     rollup: ^2.24.0
     rollup-plugin-clear: ^2.0.7
     rollup-plugin-livereload: ^1.3.0
