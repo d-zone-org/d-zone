@@ -46,7 +46,7 @@ jobs:
     - name: Commit changes
       run: |
         cd .`git log -1 --pretty=%s | awk '{ print $9 }'` # ditto
-        git add yarn.lock .yarn/cache .pnp.* # only add yarn.lock if not using zero-installs
+        git add yarn.lock # only add yarn.lock if not using zero-installs
         git config --global user.name 'dependabot[bot]'
         git config --global user.email '49699333+dependabot[bot]@users.noreply.github.com'
         git commit -m "Dependabot autofix"
