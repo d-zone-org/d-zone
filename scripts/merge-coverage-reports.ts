@@ -13,7 +13,6 @@ coverageFilePaths.forEach((file) => coverageMap.merge(require(root(file))))
 
 const reporter = istanbulReports.create('lcovonly')
 const reporterContext = istanbulReport.createContext({
-	/* @ts-expect-error */
 	coverageMap,
 	dir: root('coverage'),
 })
