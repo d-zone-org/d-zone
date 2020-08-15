@@ -20,9 +20,6 @@ export const Router: React.FC<RouterProps> = ({ routes }) => {
 	const [currentCommponent, updateComponent] = React.useState<React.ReactNode>(
 		undefined
 	)
-	const [state, updateState] = React.useState<
-		'Loading' | 'Not Found' | 'Loaded' | 'Error'
-	>('Loading')
 
 	// On intial render, parse the paths
 	React.useEffect(() => {
@@ -36,14 +33,14 @@ export const Router: React.FC<RouterProps> = ({ routes }) => {
 		}
 	}, [])
 
-	// Everytime path changes or parsed routes array changes
+	// Everytime path changes
 	React.useEffect(() => {
-		updateState('Loading')
+		console.log('Router: Loading')
 
 		const idx = parsedRoutes.findIndex(({ pattern }) =>
 			pattern.test(location.pathname)
 		)
-		if (idx <= -1) return updateState('Not Found')
+		if (idx <= -1) return console.log('Router: Not Found')
 
 		const { cachedComponent, componentImportFn } = parsedRoutes[idx]
 
@@ -55,15 +52,13 @@ export const Router: React.FC<RouterProps> = ({ routes }) => {
 				.then((c) => {
 					parsedRoutes[idx].cachedComponent = c.default
 					updateComponent(c.default)
-					updateState('Loaded')
+					console.log('Router: Loaded')
 				})
 				.catch((err) => {
 					console.error(err)
-					updateState('Error')
+					console.log('Router: Error')
 				})
-	}, [location.pathname, parsedRoutes.length])
-
-	React.useEffect(() => console.log(`Router State - ${state}`), [state])
+	}, [location.pathname])
 
 	return <>{currentCommponent}</>
 }

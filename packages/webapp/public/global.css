@@ -1,5 +1,6 @@
 html,
-body {
+body,
+div#container {
 	margin: 0px;
 	min-height: 100%;
 	font-family: sans-serif;
