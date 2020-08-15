@@ -204,25 +204,30 @@ async function developmentBuild() {
 					c.greenBright(`Completed build: ${c.white(event.duration + 'ms')}`)
 				)
 			else if (code === 'ERROR') {
-				const error = event.error
-				const { frame, loc, name, stack } = error
-
-				console.log(c.red(frame))
-				console.log(c.red(`In ${loc.file}`))
-
-				// Just to remove useless props
-				const smallerError = new Error(name)
-				smallerError.stack = stack
-
-				if (VERBOSE) console.error(error)
-				else console.error(smallerError)
+				throw new Error(event.error)
 			} else if (VERBOSE) console.log(event)
 			else return
 		})
 	}
 }
 
+function logError(error) {
+	const { frame, loc, name, stack } = error
+
+	// Random property that only exists on rollups errors
+	if (!frame || VERBOSE) return console.error(error)
+
+	console.log(c.red(frame))
+	console.log(c.red(`In ${loc.file}`))
+
+	// Just to remove useless props
+	const smallerError = new Error(name)
+	smallerError.stack = stack
+
+	console.error(smallerError)
+}
+
 function errorHandler(err) {
-	console.error(err)
-	process.exit(1)
+	logError(err)
+	if (!DEV) process.exit(1)
 }

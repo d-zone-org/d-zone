@@ -4737,6 +4737,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pixi.js-legacy@npm:^5.3.3":
+  version: 5.3.3
+  resolution: "pixi.js-legacy@npm:5.3.3"
+  dependencies:
+    "@pixi/canvas-display": 5.3.3
+    "@pixi/canvas-extract": 5.3.3
+    "@pixi/canvas-graphics": 5.3.3
+    "@pixi/canvas-mesh": 5.3.3
+    "@pixi/canvas-particles": 5.3.3
+    "@pixi/canvas-prepare": 5.3.3
+    "@pixi/canvas-renderer": 5.3.3
+    "@pixi/canvas-sprite": 5.3.3
+    "@pixi/canvas-sprite-tiling": 5.3.3
+    "@pixi/canvas-text": 5.3.3
+    pixi.js: 5.3.3
+  checksum: 432b3b6a1ad0ca54266d98bbec68429255ebc729eaa366da458a6aa9948a02e561965ab83bfd8bb307076ba241b44e638fa3fff7122910c6630fd39fb113ce0a
+  languageName: node
+  linkType: hard
+
 "pixi.js@npm:5.3.3":
   version: 5.3.3
   resolution: "pixi.js@npm:5.3.3"
@@ -4776,25 +4795,6 @@ __metadata:
     "@pixi/ticker": 5.3.3
     "@pixi/utils": 5.3.3
   checksum: ceb92d75b115dfe781aaa86b8f1aad9af9a761cf8354c6f2948ffbdcc32103130d07054f1ca01cd52012532e2625cd044b2fd23ad37033c01c14190fb8df0e48
-  languageName: node
-  linkType: hard
-
-"pixi.js@npm:pixi.js-legacy@^5.3.3":
-  version: 5.3.3
-  resolution: "pixi.js-legacy@npm:5.3.3"
-  dependencies:
-    "@pixi/canvas-display": 5.3.3
-    "@pixi/canvas-extract": 5.3.3
-    "@pixi/canvas-graphics": 5.3.3
-    "@pixi/canvas-mesh": 5.3.3
-    "@pixi/canvas-particles": 5.3.3
-    "@pixi/canvas-prepare": 5.3.3
-    "@pixi/canvas-renderer": 5.3.3
-    "@pixi/canvas-sprite": 5.3.3
-    "@pixi/canvas-sprite-tiling": 5.3.3
-    "@pixi/canvas-text": 5.3.3
-    pixi.js: 5.3.3
-  checksum: 432b3b6a1ad0ca54266d98bbec68429255ebc729eaa366da458a6aa9948a02e561965ab83bfd8bb307076ba241b44e638fa3fff7122910c6630fd39fb113ce0a
   languageName: node
   linkType: hard
 
@@ -6173,7 +6173,7 @@ typescript@^3.9.7:
     jest: ^26.4.0
     pixi-cull: ^1.0.0
     pixi-viewport: ^4.13.2
-    pixi.js: "npm:pixi.js-legacy@^5.3.3"
+    pixi.js-legacy: ^5.3.3
     react: ^16.13.1
     react-dom: ^16.13.1
     rollup: ^2.24.0
