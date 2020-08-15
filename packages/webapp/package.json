@@ -27,6 +27,7 @@
 		"@types/react": "^16.9.46",
 		"@types/react-dom": "^16.9.8",
 		"@types/yargs-parser": "^15.0.0",
+		"colorette": "^1.2.1",
 		"jest": "^26.4.0",
 		"rollup": "^2.24.0",
 		"rollup-plugin-clear": "^2.0.7",
