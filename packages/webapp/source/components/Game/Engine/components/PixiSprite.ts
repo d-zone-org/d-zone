@@ -1,5 +1,5 @@
 import { Component, Types } from 'ecsy'
-import * as PIXI from 'pixi.js'
+import * as PIXI from 'pixi.js-legacy'
 
 export default class PixiSprite extends Component<PixiSprite> {
 	value!: PIXI.Sprite

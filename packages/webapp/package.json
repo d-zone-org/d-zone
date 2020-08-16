@@ -6,13 +6,14 @@
 		"dev": "yarn node scripts/build --dev",
 		"test": "jest --config jest.config.js",
 		"test:coverage": "yarn run test --collectCoverage",
-		"serve": "yarn dlx serve public"
+		"serve": "yarn dlx serve public",
+		"type-check": "tsc --rootDir source --noEmit"
 	},
 	"dependencies": {
 		"ecsy": "^0.4.0",
 		"pixi-cull": "^1.0.0",
 		"pixi-viewport": "^4.13.2",
-		"pixi.js": "^5.3.3",
+		"pixi.js-legacy": "^5.3.3",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1"
 	},
@@ -29,6 +30,7 @@
 		"@types/yargs-parser": "^15.0.0",
 		"colorette": "^1.2.1",
 		"jest": "^26.4.0",
+		"pixi.js": "^5.3.3",
 		"rollup": "^2.24.0",
 		"rollup-plugin-clear": "^2.0.7",
 		"rollup-plugin-livereload": "^1.3.0",

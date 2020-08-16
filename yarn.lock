@@ -636,6 +636,122 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pixi/canvas-display@npm:5.3.3":
+  version: 5.3.3
+  resolution: "@pixi/canvas-display@npm:5.3.3"
+  dependencies:
+    "@pixi/display": 5.3.3
+  checksum: 2c1925d1612782c451ba5f41ce00238df7100169396932cf4d3e9eafc0747e3dc0b2c546f37edccf24a7880357987756ae9e9378f0a7e1485128cc1ef37c6043
+  languageName: node
+  linkType: hard
+
+"@pixi/canvas-extract@npm:5.3.3":
+  version: 5.3.3
+  resolution: "@pixi/canvas-extract@npm:5.3.3"
+  dependencies:
+    "@pixi/canvas-renderer": 5.3.3
+    "@pixi/core": 5.3.3
+    "@pixi/display": 5.3.3
+    "@pixi/math": 5.3.3
+    "@pixi/utils": 5.3.3
+  checksum: 8c50d53ee5532851f925638113d6df284574bfd7aaa21003be8a5d887350efd1bc5ffcf6e26462b7fbd1fc7f083f9de3ef2dd59b68f485218bbbc8b04d74e0f8
+  languageName: node
+  linkType: hard
+
+"@pixi/canvas-graphics@npm:5.3.3":
+  version: 5.3.3
+  resolution: "@pixi/canvas-graphics@npm:5.3.3"
+  dependencies:
+    "@pixi/canvas-renderer": 5.3.3
+    "@pixi/constants": 5.3.3
+    "@pixi/core": 5.3.3
+    "@pixi/graphics": 5.3.3
+    "@pixi/math": 5.3.3
+  checksum: 11612c60d469b0c4bafc380fe7d8290a8ae43ccc35222702c4ca6e8fd3e3babcb2457ae3481f90c2dffc437ef594424ee339511e1ce933ba7070e00be380daaf
+  languageName: node
+  linkType: hard
+
+"@pixi/canvas-mesh@npm:5.3.3":
+  version: 5.3.3
+  resolution: "@pixi/canvas-mesh@npm:5.3.3"
+  dependencies:
+    "@pixi/canvas-renderer": 5.3.3
+    "@pixi/constants": 5.3.3
+    "@pixi/mesh": 5.3.3
+    "@pixi/mesh-extras": 5.3.3
+    "@pixi/settings": 5.3.3
+  checksum: d4a0be410b9cd2dfa9ff54864b70246f2ca86617ba396403f53cdef13332db2e6beddbc69b5a5987980927d5b850b1bdba882b8bda8c80305cafca67eb4b599d
+  languageName: node
+  linkType: hard
+
+"@pixi/canvas-particles@npm:5.3.3":
+  version: 5.3.3
+  resolution: "@pixi/canvas-particles@npm:5.3.3"
+  dependencies:
+    "@pixi/particles": 5.3.3
+  checksum: e9308f980a42b9dc6136856521fe524b667bbea5d9259db35935816ba1508cf17787060e6d5196c334195c83c0387c64933071a7550b199a54751db5fa362d1a
+  languageName: node
+  linkType: hard
+
+"@pixi/canvas-prepare@npm:5.3.3":
+  version: 5.3.3
+  resolution: "@pixi/canvas-prepare@npm:5.3.3"
+  dependencies:
+    "@pixi/canvas-renderer": 5.3.3
+    "@pixi/core": 5.3.3
+    "@pixi/prepare": 5.3.3
+  checksum: b62cdcbc422ec68a2dd3ef80d93f434d9bdcbb5507c8906ff34a5e28a90d7c52f84f207132a7d55adff5a9a2191610fb3bf3f43d8b43359374a94d4f851deffb
+  languageName: node
+  linkType: hard
+
+"@pixi/canvas-renderer@npm:5.3.3":
+  version: 5.3.3
+  resolution: "@pixi/canvas-renderer@npm:5.3.3"
+  dependencies:
+    "@pixi/constants": 5.3.3
+    "@pixi/core": 5.3.3
+    "@pixi/math": 5.3.3
+    "@pixi/settings": 5.3.3
+    "@pixi/utils": 5.3.3
+  checksum: 83a306ef8c486b258230858a67fb4092990b2f55d062efb246ce2d2bc2054dd203a0cfc1134f8f3ffc98b7358e4411858ddd5d803d9a9c3909be329f54e4c2a5
+  languageName: node
+  linkType: hard
+
+"@pixi/canvas-sprite-tiling@npm:5.3.3":
+  version: 5.3.3
+  resolution: "@pixi/canvas-sprite-tiling@npm:5.3.3"
+  dependencies:
+    "@pixi/canvas-renderer": 5.3.3
+    "@pixi/canvas-sprite": 5.3.3
+    "@pixi/sprite-tiling": 5.3.3
+    "@pixi/utils": 5.3.3
+  checksum: 7b46f76d7668b89f320b7d855c419a1657e368ae8376ccc83aecc9154761d26e4e20a521701cb100779b1b0c8c445fb37483c282e59ea07f61f9d49889bc7b04
+  languageName: node
+  linkType: hard
+
+"@pixi/canvas-sprite@npm:5.3.3":
+  version: 5.3.3
+  resolution: "@pixi/canvas-sprite@npm:5.3.3"
+  dependencies:
+    "@pixi/canvas-renderer": 5.3.3
+    "@pixi/constants": 5.3.3
+    "@pixi/math": 5.3.3
+    "@pixi/sprite": 5.3.3
+    "@pixi/utils": 5.3.3
+  checksum: 25af0037fe9e13f380ddb79a24fdf2563da2568ec8dc7e1d85ca12f529a69f785972f55b31b0a1553acdd8b8406de1511da328a23ca3be8e0b4786659227475d
+  languageName: node
+  linkType: hard
+
+"@pixi/canvas-text@npm:5.3.3":
+  version: 5.3.3
+  resolution: "@pixi/canvas-text@npm:5.3.3"
+  dependencies:
+    "@pixi/sprite": 5.3.3
+    "@pixi/text": 5.3.3
+  checksum: 0fb847de0f4bd1ff04d7dc24a21d20f53167a6f28c2b150d67fa0802a0e21c31ebd24e3ddf39e7be2a9e917ffa164b4041244f5d09f7b4d0d8551f13b0bb2d15
+  languageName: node
+  linkType: hard
+
 "@pixi/constants@npm:5.3.3":
   version: 5.3.3
   resolution: "@pixi/constants@npm:5.3.3"
@@ -4621,7 +4737,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pixi.js@npm:^5.3.3":
+"pixi.js-legacy@npm:^5.3.3":
+  version: 5.3.3
+  resolution: "pixi.js-legacy@npm:5.3.3"
+  dependencies:
+    "@pixi/canvas-display": 5.3.3
+    "@pixi/canvas-extract": 5.3.3
+    "@pixi/canvas-graphics": 5.3.3
+    "@pixi/canvas-mesh": 5.3.3
+    "@pixi/canvas-particles": 5.3.3
+    "@pixi/canvas-prepare": 5.3.3
+    "@pixi/canvas-renderer": 5.3.3
+    "@pixi/canvas-sprite": 5.3.3
+    "@pixi/canvas-sprite-tiling": 5.3.3
+    "@pixi/canvas-text": 5.3.3
+    pixi.js: 5.3.3
+  checksum: 432b3b6a1ad0ca54266d98bbec68429255ebc729eaa366da458a6aa9948a02e561965ab83bfd8bb307076ba241b44e638fa3fff7122910c6630fd39fb113ce0a
+  languageName: node
+  linkType: hard
+
+"pixi.js@npm:5.3.3, pixi.js@npm:^5.3.3":
   version: 5.3.3
   resolution: "pixi.js@npm:5.3.3"
   dependencies:
@@ -6039,6 +6174,7 @@ typescript@^3.9.7:
     pixi-cull: ^1.0.0
     pixi-viewport: ^4.13.2
     pixi.js: ^5.3.3
+    pixi.js-legacy: ^5.3.3
     react: ^16.13.1
     react-dom: ^16.13.1
     rollup: ^2.24.0
