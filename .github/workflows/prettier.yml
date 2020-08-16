@@ -23,7 +23,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - run: yarn install --check-cache
+      - run: yarn install
 
       - run: yarn run format
 
