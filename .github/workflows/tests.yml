@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: '12.x'
       - name: Installing Dependencies
-        run: yarn install --check-cache
+        run: yarn install
       - name: Running Tests and Collecting Coverages
         run: yarn run collect-coverage
       - name: Posting Coverages
