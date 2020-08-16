@@ -195,17 +195,39 @@ async function developmentBuild() {
 			watch: watchOptions,
 		})
 
-		watcher.on('event', ({ code, duration }) => {
+		watcher.on('event', (event) => {
+			const code = event.code
+
 			if (code === 'BUNDLE_START') console.log(c.yellow('\nFound Changes'))
-			if (code === 'BUNDLE_END')
+			else if (code === 'BUNDLE_END')
 				console.log(
-					c.greenBright(`Completed build: ${c.white(duration + 'ms')}`)
+					c.greenBright(`Completed build: ${c.white(event.duration + 'ms')}`)
 				)
+			else if (code === 'ERROR') {
+				throw new Error(event.error)
+			} else if (VERBOSE) console.log(event)
+			else return
 		})
 	}
 }
 
+function logError(error) {
+	const { frame, loc, name, stack } = error
+
+	// Random property that only exists on rollups errors
+	if (!frame || VERBOSE) return console.error(error)
+
+	console.log(c.red(frame))
+	console.log(c.red(`In ${loc.file}`))
+
+	// Just to remove useless props
+	const smallerError = new Error(name)
+	smallerError.stack = stack
+
+	console.error(smallerError)
+}
+
 function errorHandler(err) {
-	console.error(err)
-	process.exit(1)
+	logError(err)
+	if (!DEV) process.exit(1)
 }

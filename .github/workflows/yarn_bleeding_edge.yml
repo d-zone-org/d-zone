@@ -17,7 +17,11 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
+      - name: Update Yarn version
       - run: yarn set version from sources
+      # Run yarn install to update lock file if needed
+      - name: Install
+      - run: yarn install
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3.1.0
