@@ -1145,6 +1145,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-json@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@rollup/plugin-json@npm:4.1.0"
+  dependencies:
+    "@rollup/pluginutils": ^3.0.8
+  peerDependencies:
+    rollup: ^1.20.0 || ^2.0.0
+  checksum: 07bc6bc83d07aefd35278e4e1a125e65210061b3dcab50c0f01273c54f43a60a3e01c1a0fed451e35d592ef1cbc8288ec8148a6229cf8cca9cdbf11a6d2d7d1c
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-node-resolve@npm:^8.4.0":
   version: 8.4.0
   resolution: "@rollup/plugin-node-resolve@npm:8.4.0"
@@ -6159,6 +6170,7 @@ typescript@^3.9.7:
   resolution: "webapp@workspace:packages/webapp"
   dependencies:
     "@rollup/plugin-commonjs": "patch:@rollup/plugin-commonjs@14.0.0#./patches/plugin-commonjs"
+    "@rollup/plugin-json": ^4.1.0
     "@rollup/plugin-node-resolve": ^8.4.0
     "@rollup/plugin-replace": ^2.3.3
     "@rollup/plugin-sucrase": ^3.1.0

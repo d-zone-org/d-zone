@@ -979,11 +979,24 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.24-x64",
-  "image": "cube-hop.png",
+  "image": "sprites.png",
   "format": "RGBA8888",
   "size": { "w": 155, "h": 265 },
   "scale": "1",
   "layers": [
+   { "name": "cube", "opacity": 255, "blendMode": "normal" },
+   { "name": "cube-idle", "opacity": 255, "blendMode": "normal" },
+   { "name": "cube-off", "opacity": 255, "blendMode": "normal" },
+   { "name": "talk-right", "opacity": 255, "blendMode": "normal" },
+   { "name": "talk-left", "opacity": 255, "blendMode": "normal" },
+   { "name": "hop-west", "opacity": 255, "blendMode": "normal" },
+   { "name": "hop-north", "opacity": 255, "blendMode": "normal" },
+   { "name": "hop-east", "opacity": 255, "blendMode": "normal" },
+   { "name": "hop-south", "opacity": 255, "blendMode": "normal" },
+   { "name": "brick-edge", "opacity": 255, "blendMode": "normal" },
+   { "name": "grass-brick", "opacity": 255, "blendMode": "normal" },
+   { "name": "flowers", "opacity": 255, "blendMode": "normal" },
+   { "name": "grass", "opacity": 255, "blendMode": "normal" },
    { "name": "beacon", "opacity": 255, "blendMode": "normal" }
   ]
  }

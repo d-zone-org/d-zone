@@ -1,10 +1,14 @@
 import * as PIXI from 'pixi.js-legacy'
+import sheet from './Sprites'
+
+console.log(sheet.meta.app)
 
 let loader: PIXI.Loader
 
 export function initLoader() {
 	loader = new PIXI.Loader()
 	loader.add('cube', './img/cube.png')
+	loader.add('./img/sprites.json')
 }
 
 export async function runLoader() {
