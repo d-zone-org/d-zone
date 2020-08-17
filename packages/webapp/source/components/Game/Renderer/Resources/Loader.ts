@@ -1,9 +1,8 @@
 import * as PIXI from 'pixi.js-legacy'
-import sizes from '../../../../../public/img/sprite-sizes.json'
+import sizes from '../../../../art/sprite-sizes.json'
 
 function parseSheet(sheet: PIXI.LoaderResource, next: () => void) {
 	if (sheet.extension === 'json') {
-		console.log(sheet)
 		let frames = sheet.data.frames
 		for (let frameKey of Object.keys(frames)) {
 			let layer = frameKey.split(':')[0]
