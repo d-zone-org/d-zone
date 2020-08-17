@@ -10,7 +10,7 @@ export function addActors(world: World, count: number): Entity[] {
 		let actorEntity = world
 			.createEntity()
 			.addComponent(Transform, { x: randomCoord(), y: randomCoord(), z: 0 })
-			.addComponent(Sprite, { width: 14, height: 14, texture: 'cube:0' })
+			.addComponent(Sprite, { texture: 'cube:0' })
 			.addComponent(Actor, {
 				userID: randomString([48, 57], 18),
 				username: randomString([32, 126], Math.floor(Math.random() * 12) + 3),
