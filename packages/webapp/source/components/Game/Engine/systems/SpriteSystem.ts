@@ -20,10 +20,11 @@ export default class SpriteSystem extends System {
 			for (let i = updated.length - 1; i >= 0; i--) {
 				let entity = updated[i]
 				let sprite = entity.getComponent!(Sprite)
-				let pixiSprite = entity.getComponent!(PixiSprite)
-				pixiSprite.value.setTransform(sprite.x, sprite.y)
-				pixiSprite.value.zIndex = sprite.zIndex
-				this.cull.updateObject(pixiSprite.value)
+				let { value: pixiSprite } = entity.getComponent!(PixiSprite)
+				pixiSprite.setTransform(sprite.x, sprite.y)
+				pixiSprite.zIndex = sprite.zIndex
+				pixiSprite.texture = this.resources.sheet.textures[sprite.spriteName]
+				this.cull.updateObject(pixiSprite)
 			}
 			this.cull.cull(this.view.getVisibleBounds())
 		}
@@ -32,7 +33,9 @@ export default class SpriteSystem extends System {
 		for (let i = added.length - 1; i >= 0; i--) {
 			let entity = added[i]
 			let sprite = entity.getComponent!(Sprite)
-			let pixiSprite = new PIXI.Sprite(this.resources.textures[sprite.sheet])
+			let pixiSprite = new PIXI.Sprite(
+				this.resources.sheet.textures[sprite.spriteName]
+			)
 			pixiSprite.setTransform(sprite.x, sprite.y)
 			pixiSprite.zIndex = sprite.zIndex
 			this.view.addChild(pixiSprite)

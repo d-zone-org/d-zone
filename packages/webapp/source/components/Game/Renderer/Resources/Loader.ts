@@ -1,14 +1,25 @@
 import * as PIXI from 'pixi.js-legacy'
-import sheet from './Sprites'
+import sizes from '../../../../../public/img/sprite-sizes.json'
 
-console.log(sheet.meta.app)
+function parseSheet(sheet: PIXI.LoaderResource, next: () => void) {
+	if (sheet.extension === 'json') {
+		console.log(sheet)
+		let frames = sheet.data.frames
+		for (let frameKey of Object.keys(frames)) {
+			let layer = frameKey.split(':')[0]
+			let frame = frames[frameKey as keyof typeof frames]
+			frame.sourceSize = sizes[layer as keyof typeof sizes]
+		}
+	}
+	next()
+}
 
 let loader: PIXI.Loader
 
 export function initLoader() {
 	loader = new PIXI.Loader()
-	loader.add('cube', './img/cube.png')
 	loader.add('./img/sprites.json')
+	loader.use(parseSheet)
 }
 
 export async function runLoader() {

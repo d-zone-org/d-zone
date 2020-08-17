@@ -1,6 +1,7 @@
 import { System } from 'ecsy'
 import Hop from '../components/Hop'
 import Transform from '../components/Transform'
+import Sprite from '../components/Sprite'
 
 export default class HopSystem extends System {
 	execute(_delta: number, _time: number) {
@@ -14,6 +15,10 @@ export default class HopSystem extends System {
 				transform.y += hop.y
 				transform.z += hop.z
 				entity.removeComponent(Hop)
+				let sprite = entity.getMutableComponent!(Sprite)
+				if (hop.x > 0) sprite.spriteName = 'cube:0'
+				else if (hop.y > 0) sprite.spriteName = 'cube:1'
+				else sprite.spriteName = 'cube:2'
 				return
 			}
 			hop.progress += 1 / 30
@@ -21,5 +26,5 @@ export default class HopSystem extends System {
 	}
 }
 HopSystem.queries = {
-	hopping: { components: [Hop, Transform] },
+	hopping: { components: [Hop, Transform, Sprite] },
 }
