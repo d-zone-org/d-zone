@@ -25,7 +25,7 @@ export default class SpriteSystem extends System {
 				let { value: pixiSprite } = entity.getComponent!(PixiSprite)
 				pixiSprite.setTransform(sprite.x, sprite.y)
 				pixiSprite.zIndex = sprite.zIndex
-				pixiSprite.texture = this.textures[sprite.spriteName]
+				pixiSprite.texture = this.textures[sprite.texture]
 				pixiSprite.anchor = pixiSprite.texture.defaultAnchor
 				this.cull.updateObject(pixiSprite)
 			}
@@ -37,7 +37,7 @@ export default class SpriteSystem extends System {
 			let entity = added[i]
 			let sprite = entity.getComponent!(Sprite)
 			let pixiSprite = new PIXI.Sprite(
-				this.resources.sheet.textures[sprite.spriteName]
+				this.resources.sheet.textures[sprite.texture]
 			)
 			pixiSprite.setTransform(sprite.x, sprite.y)
 			pixiSprite.zIndex = sprite.zIndex

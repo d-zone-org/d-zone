@@ -5,7 +5,7 @@ export default class Sprite extends Component<Sprite> {
 	y!: number
 	width!: number
 	height!: number
-	spriteName!: string
+	texture!: string
 	zIndex!: number
 }
 
@@ -14,6 +14,6 @@ Sprite.schema = {
 	y: { type: Types.Number },
 	width: { type: Types.Number },
 	height: { type: Types.Number },
-	spriteName: { type: Types.String },
+	texture: { type: Types.String },
 	zIndex: { type: Types.Number },
 }

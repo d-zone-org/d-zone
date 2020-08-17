@@ -23,15 +23,17 @@ export default class HopSystem extends System {
 				transform.y += hop.y
 				transform.z += hop.z
 				let sprite = entity.getMutableComponent!(Sprite)
-				if (hop.direction === 'east') sprite.spriteName = 'cube:0'
-				else if (hop.direction === 'south') sprite.spriteName = 'cube:1'
-				else sprite.spriteName = 'cube:2'
+				if (hop.direction === 'east') sprite.texture = 'cube:0'
+				else if (hop.direction === 'south') sprite.texture = 'cube:1'
+				else sprite.texture = 'cube:2'
 				entity.removeComponent(Hop)
 				return
 			} else if (frame === 0 || frame > hop.frame) {
 				hop.frame = frame
 				let sprite = entity.getMutableComponent!(Sprite)
-				sprite.spriteName = `hop-${hop.direction}:${hop.frame}`
+				sprite.texture = this.animations[`hop-${hop.direction}`][
+					hop.frame
+				].textureCacheIds[0]
 			}
 			hop.progress += 1 / (hopFrameCount * 2)
 		}
