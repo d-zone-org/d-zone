@@ -22,11 +22,11 @@ export async function initGame(canvas: HTMLCanvasElement) {
 	engine.world.registerComponent(Actor)
 	engine.world.registerComponent(Hop)
 	engine.world.registerComponent(PixiSprite, false) // Do not pool
-	engine.world.registerSystem(HopSystem)
+	engine.world.registerSystem(HopSystem, { resources })
 	engine.world.registerSystem(TransformSystem)
 	engine.world.registerSystem(SpriteSystem, { resources, renderer })
 	console.log('ECSY world initialized!', engine.world)
-	let actors = addActors(engine.world, 300) // Add 300 random actors
+	let actors = addActors(engine.world, 100)
 	setInterval(() => {
 		hopActor(actors[Math.floor(Math.random() * actors.length)])
 	}, 50)
