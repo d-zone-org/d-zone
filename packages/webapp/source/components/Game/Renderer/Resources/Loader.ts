@@ -3,11 +3,12 @@ import sizes from '../../../../art/sprite-sizes.json'
 
 function parseSheet(sheet: PIXI.LoaderResource, next: () => void) {
 	if (sheet.extension === 'json') {
-		let frames = sheet.data.frames
-		for (let frameKey of Object.keys(frames)) {
+		for (let frameKey of Object.keys(sheet.textures as any)) {
 			let layer = frameKey.split(':')[0]
-			let frame = frames[frameKey as keyof typeof frames]
-			frame.sourceSize = sizes[layer as keyof typeof sizes]
+			let texture = sheet.textures![frameKey as keyof typeof sheet.textures]
+			let actualSize = sizes[layer as keyof typeof sizes]
+			texture.orig.width = actualSize.w
+			texture.orig.height = actualSize.h
 		}
 	}
 	next()
