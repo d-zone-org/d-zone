@@ -5234,9 +5234,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.26.0":
-  version: 2.26.0
-  resolution: "rollup@npm:2.26.0"
+"rollup@npm:^2.26.3":
+  version: 2.26.3
+  resolution: "rollup@npm:2.26.3"
   dependencies:
     fsevents: ~2.1.2
   dependenciesMeta:
@@ -5244,7 +5244,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 29c2de59555c00b2af5a1867508d9b99c27099377cc6a26028316579fe7f7dd1eb874182e1f74b422ea0f6442ce0083a9460c459c1cf0a922416225c9a8705cc
+  checksum: ebcf760a0dc73d9f9d2adedc87db4227f36059ce7a0c83c89ce4f37837f3c7aa3ce7c62699604ea9e6ac85573956a071237c8f91e2b441545721088b0de19ab4
   languageName: node
   linkType: hard
 
@@ -6177,7 +6177,7 @@ typescript@^3.9.7:
     pixi.js-legacy: ^5.3.3
     react: ^16.13.1
     react-dom: ^16.13.1
-    rollup: ^2.26.0
+    rollup: ^2.26.3
     rollup-plugin-clear: ^2.0.7
     rollup-plugin-livereload: ^1.3.0
     rollup-plugin-serve: ^1.0.3
