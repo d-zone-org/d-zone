@@ -1,15 +1,38 @@
 import * as PIXI from 'pixi.js-legacy'
-import sizes from '../../../../art/sprite-sizes.json'
+import spriteConfig from '../../../../art/sprite-config.json'
 
-function parseSheet(sheet: PIXI.LoaderResource, next: () => void) {
+interface FrameConfig {
+	w: number
+	h: number
+	animation?: boolean
+	anchor?: { x: number; y: number }
+}
+
+function parseSheet(sheet: any, next: () => void) {
 	if (sheet.extension === 'json') {
-		for (let frameKey of Object.keys(sheet.textures as any)) {
-			let layer = frameKey.split(':')[0]
-			let texture = sheet.textures![frameKey as keyof typeof sheet.textures]
-			let actualSize = sizes[layer as keyof typeof sizes]
-			texture.orig.width = actualSize.w
-			texture.orig.height = actualSize.h
-		}
+		sheet.onComplete.once((res: any) => {
+			if (!res.data) return
+			let animations: any = {}
+			for (let frameKey of Object.keys(res.data.frames as any).sort()) {
+				let layer = frameKey.split(':')[0]
+				let frame = res.data.frames![frameKey as keyof typeof res.data.frames]
+				let config: FrameConfig =
+					spriteConfig[layer as keyof typeof spriteConfig]
+				frame.sourceSize.w = config.w
+				frame.sourceSize.h = config.h
+				if (config.anchor) {
+					frame.anchor = {
+						x: config.anchor.x / config.w, // Normalize to [0,1]
+						y: config.anchor.y / config.h,
+					}
+				}
+				if (config.animation) {
+					animations[layer] = animations[layer] || []
+					animations[layer].push(frameKey)
+				}
+			}
+			sheet.data.animations = animations
+		})
 	}
 	next()
 }
@@ -19,7 +42,7 @@ let loader: PIXI.Loader
 export function initLoader() {
 	loader = new PIXI.Loader()
 	loader.add('./img/sprites.json')
-	loader.use(parseSheet)
+	loader.pre(parseSheet)
 }
 
 export async function runLoader() {
