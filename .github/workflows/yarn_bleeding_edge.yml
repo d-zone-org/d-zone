@@ -29,5 +29,5 @@ jobs:
           commit-message: Update Yarn Version
           branch: yarn_bleeding_edge
           title: Update Yarn Version
-          body: An updated of yarn binary from the source.
+          body: Updated yarn binary from the source.
           token: ${{ steps.generate-token.outputs.token }}
