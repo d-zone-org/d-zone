@@ -46,7 +46,7 @@ export function randomColor(): number {
 }
 
 export function randomCoord(): number {
-	return Math.round(Math.random() * 40 - 20)
+	return Math.round(Math.random() * 30 - 15)
 }
 
 const directions = {
