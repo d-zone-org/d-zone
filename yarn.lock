@@ -2410,10 +2410,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ecsy@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "ecsy@npm:0.4.0"
-  checksum: e8c4d1674ef259aec7423066759d211a9f475f8259f4490be6aa7ee528bc249d371e7ba2582f11866ddc0e0db06cb3245f16e290512d3fc71b58744b2e0d8cfb
+"ecsy@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "ecsy@npm:0.4.1"
+  checksum: 803725ca81232841da83d5bbfd86347d61241e116f93aeea24d207e1e86e6ca0ebf4ab61c86405e2c97ae7415b7ead1245cda56cfd2819ce8d2e60a8e43b6e85
   languageName: node
   linkType: hard
 
@@ -6181,7 +6181,7 @@ typescript@^4.0.2:
     "@types/react-dom": ^16.9.8
     "@types/yargs-parser": ^15.0.0
     colorette: ^1.2.1
-    ecsy: ^0.4.0
+    ecsy: ^0.4.1
     jest: ^26.4.1
     pixi-cull: ^1.0.0
     pixi-viewport: ^4.13.2

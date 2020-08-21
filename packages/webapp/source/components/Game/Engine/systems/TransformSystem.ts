@@ -6,8 +6,8 @@ import { get2dCoordsFromIso, getZIndex } from '../../Common/Projection'
 export default class TransformSystem extends System {
 	execute(_delta: number, _time: number) {
 		let update = (entity: any) => {
-			let { x, y, z } = entity.getComponent!(Transform)
-			let sprite = entity.getMutableComponent!(Sprite)
+			let { x, y, z } = entity.getComponent(Transform)!
+			let sprite = entity.getMutableComponent(Sprite)!
 			let [newX, newY] = get2dCoordsFromIso(x, y, z)
 			sprite.x = newX
 			sprite.y = newY
