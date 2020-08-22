@@ -1,10 +1,13 @@
 import * as PIXI from 'pixi.js-legacy'
 import { Viewport } from 'pixi-viewport'
+import WheelStepped from './WheelStepped'
 import Cull from 'pixi-cull'
 
 // Global PIXI settings
 PIXI.settings.RESOLUTION = 1
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
+
+const zoomLevels = [0.25, 0.5, 1, 2, 3, 4, 5, 6, 8]
 
 export default class Renderer {
 	app: PIXI.Application
@@ -20,40 +23,32 @@ export default class Renderer {
 			screenHeight: this.app.view.offsetHeight,
 			interaction: this.app.renderer.plugins.interaction,
 		})
-		this.view.drag({ wheel: false }).pinch().decelerate({ friction: 0.8 })
+		this.view.plugins.add(
+			'wheel-stepped',
+			new WheelStepped(this.view, { smooth: 3, steps: zoomLevels }),
+			0
+		)
+		this.view
+			.drag({ wheel: false })
+			.pinch()
+			.decelerate({ friction: 0.8 })
+			.clampZoom({
+				minScale: zoomLevels[0],
+				maxScale: zoomLevels[zoomLevels.length - 1],
+			})
 		this.view.moveCenter(0, 0)
-		this.view.scaled = 2
-		this.view.on('zoomed-end', () => {
-			console.log(this.view.scaled)
-		})
+		this.view.scaled = zoomLevels[3]
+		this.view.sortableChildren = true
+		this.app.stage.addChild(this.view)
 		canvas.addEventListener(
 			'wheel',
 			(event) => {
-				// Copied mostly from pixi-viewport wheel plugin
-				let point = this.app.renderer.plugins.interaction.mouse.global
-				let oldPoint = this.view.toLocal(point)
-				let viewChanged = false
-				if (event.deltaY < 0) {
-					this.view.scaled++
-					viewChanged = true
-				} else if (event.deltaY > 0) {
-					if (this.view.scaled > 1) {
-						this.view.scaled--
-						viewChanged = true
-					}
-				}
-				let newPoint = this.view.toGlobal(oldPoint)
-				if (viewChanged) {
-					this.view.x += point.x - newPoint.x
-					this.view.y += point.y - newPoint.y
-				}
 				event.preventDefault()
 				return false
 			},
 			false
 		)
-		this.view.sortableChildren = true
-		this.app.stage.addChild(this.view)
+
 		this.cull = new Cull.SpatialHash()
 		this.cull.addContainer(this.view)
 		this.app.ticker.add(() => {
