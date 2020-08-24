@@ -53,6 +53,8 @@ export default class Renderer {
 		this.cull.addContainer(this.view)
 		this.app.ticker.add(() => {
 			if (this.view.dirty) {
+				this.view.x = Math.round(this.view.x)
+				this.view.y = Math.round(this.view.y)
 				this.cull.cull(this.view.getVisibleBounds())
 				this.view.dirty = false
 			}
