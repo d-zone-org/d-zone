@@ -4206,7 +4206,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mime@npm:>=2.0.3":
+"mime@npm:>=2.4.6":
   version: 2.4.6
   resolution: "mime@npm:2.4.6"
   bin:
@@ -5212,22 +5212,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-livereload@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "rollup-plugin-livereload@npm:1.3.0"
+"rollup-plugin-livereload@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "rollup-plugin-livereload@npm:2.0.0"
   dependencies:
     livereload: ^0.9.1
-  checksum: 2e724493e08591c40cd5c9457ab9010a1af3326de22907fb6739c37413edf4bb00ec0d313c75d258f4ca556ab526d8397915a3bd2ae369ce1b33668e9762f741
+  checksum: e32fc0e3dc090128af39f5ce3d7d442fc27f9059e596a2a81541553b3f600dab708c3a507ffcc0eb6b36e40726f67be1b4a77ecbf15ffcc66b7724acd3c6d52b
   languageName: node
   linkType: hard
 
-"rollup-plugin-serve@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "rollup-plugin-serve@npm:1.0.3"
+"rollup-plugin-serve@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "rollup-plugin-serve@npm:1.0.4"
   dependencies:
-    mime: ">=2.0.3"
+    mime: ">=2.4.6"
     opener: 1
-  checksum: 4dd70ce37e1702e9b2fb4e8d60d34c91c8aefdc2bbbc5a3abfb9da43c73fa633909d63839825df62c2f261d5235604a380616e825fb635dbe8d07dd148835367
+  checksum: ef93ad881cd8d8803e0b3024afb77302adf3b34b960a8263bcc445c4e9dc805ab036bfca52feae0a2450d58f825dda2b1b4c480219406937775671c4fc8ab1ff
   languageName: node
   linkType: hard
 
@@ -5245,9 +5245,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.26.5":
-  version: 2.26.5
-  resolution: "rollup@npm:2.26.5"
+"rollup@npm:^2.26.6":
+  version: 2.26.6
+  resolution: "rollup@npm:2.26.6"
   dependencies:
     fsevents: ~2.1.2
   dependenciesMeta:
@@ -5255,7 +5255,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 92b0e96cc32af0dc18f42c12aed671085b1ba684d4b3211ac019912c7947830f624c2f1913108975630f8712667f0b9fa2999895f86a68ac4ddffbc2c88ea208
+  checksum: 5af753b56158899ed77d95d376030e5be5c04647ad4aa6bbc487eb8e616b621ba2671a85d619c91a046d17b5194a0534137003077fdcc19a72f0d9997bf04cdd
   languageName: node
   linkType: hard
 
@@ -6189,14 +6189,14 @@ typescript@^4.0.2:
     pixi.js-legacy: ^5.3.3
     react: ^16.13.1
     react-dom: ^16.13.1
-    rollup: ^2.26.5
+    rollup: ^2.26.6
     rollup-plugin-clear: ^2.0.7
-    rollup-plugin-livereload: ^1.3.0
-    rollup-plugin-serve: ^1.0.3
+    rollup-plugin-livereload: ^2.0.0
+    rollup-plugin-serve: ^1.0.4
     rollup-plugin-terser: ^7.0.0
     tslib: ^2.0.1
     typescript: ^4.0.2
-    yargs-parser: ^19.0.1
+    yargs-parser: ^19.0.4
   languageName: unknown
   linkType: soft
 
@@ -6378,10 +6378,10 @@ typescript@^4.0.2:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:^19.0.1":
-  version: 19.0.1
-  resolution: "yargs-parser@npm:19.0.1"
-  checksum: e2a326f5f379a5bba4a8d74d13c08281d4ee9b8377a1d30cf82c1e0b775405b94f7ea141d224e05d7950f93d313f2c12a79b39edeb324a8ff56bdd291687d127
+"yargs-parser@npm:^19.0.4":
+  version: 19.0.4
+  resolution: "yargs-parser@npm:19.0.4"
+  checksum: 69ed686f9f215b1aeccf767e6fa264e1d37b2ac9c5cf78cd55cab1afb994aa3cb8888c4e3d51c214050cdeefe133d61f4079c87f6621c13d0b7a6349b0677cb7
   languageName: node
   linkType: hard
 
