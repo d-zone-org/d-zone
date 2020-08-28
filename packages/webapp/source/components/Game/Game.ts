@@ -25,7 +25,7 @@ export async function initGame(canvas: HTMLCanvasElement) {
 	engine.world.registerComponent(Transform)
 	engine.world.registerComponent(Actor)
 	engine.world.registerComponent(Hop)
-	engine.world.registerComponent(MapCell)
+	engine.world.registerComponent(MapCell, false) // Do not pool
 	engine.world.registerComponent(PixiSprite, false) // Do not pool
 	engine.world.registerSystem(HopSystem, { resources })
 	engine.world.registerSystem(MapSystem, { map })
