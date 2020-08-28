@@ -9,7 +9,6 @@ export class Map3D {
 		return this.data.get(Map3D.xyzToHash(x, y, z))
 	}
 	addCell(cell: Cell3D): void {
-		// Throw if occupied?
 		this.data.set(cell.getHash(), cell)
 	}
 	clearXYZ(x: number, y: number, z: number): void {
@@ -20,17 +19,26 @@ export class Map3D {
 	}
 }
 export class Cell3D {
-	private map: Map3D
+	private readonly map: Map3D
 	private x: number
 	private y: number
 	private z: number
-	entity: Entity
-	constructor(map: Map3D, x: number, y: number, z: number, entity: Entity) {
+	entity?: Entity
+	parentCell?: Cell3D
+	constructor(
+		map: Map3D,
+		x: number,
+		y: number,
+		z: number,
+		entity?: Entity,
+		parentCell?: Cell3D
+	) {
 		this.map = map
 		this.x = x
 		this.y = y
 		this.z = z
-		this.entity = entity
+		if (entity) this.entity = entity
+		if (parentCell) this.parentCell = parentCell
 	}
 	getHash(): string {
 		return this.x + ':' + this.y + ':' + this.z
@@ -41,6 +49,14 @@ export class Cell3D {
 		this.y = y
 		this.z = z
 		this.map.addCell(this)
+	}
+	getNeighbor(x: number, y: number, z: number): Cell3D | undefined {
+		return this.map.getXYZ(this.x + x, this.y + y, this.z + z)
+	}
+	spread(x: number, y: number, z: number): void {
+		this.map.addCell(
+			new Cell3D(this.map, this.x + x, this.y + y, this.z + z, undefined, this)
+		)
 	}
 	destroy(): void {
 		this.map.clearXYZ(this.x, this.y, this.z)
