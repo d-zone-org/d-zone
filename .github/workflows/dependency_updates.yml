@@ -29,5 +29,5 @@ jobs:
           title: Update all dependencies
           body: An updated update of all NPM dependencies.
           token: ${{ steps.generate-token.outputs.token }}
-          #labels: auto-merge
+          labels: dependencies
           #reviewers: # optional
