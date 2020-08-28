@@ -28,7 +28,7 @@ export default class HopSystem extends System {
 				else sprite.texture = 'cube:2'
 				entity.removeComponent(Hop)
 				return
-			} else if (frame === 0 || frame > hop.frame) {
+			} else if (hop.progress === 0 || frame > hop.frame) {
 				hop.frame = frame
 				let sprite = entity.getMutableComponent(Sprite)!
 				sprite.texture = this.animations[`hop-${hop.direction}`][
