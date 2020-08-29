@@ -1,64 +1,101 @@
-import { Entity } from 'ecsy'
+const FLOOR = 0
 
 export class Map3D {
 	private data: Map<string, Cell3D>
 	constructor() {
 		this.data = new Map()
 	}
-	getXYZ(x: number, y: number, z: number): Cell3D | undefined {
-		return this.data.get(Map3D.xyzToHash(x, y, z))
+	getXYZ(grid: Grid): Cell3D {
+		if (grid.z < FLOOR) return FloorCell
+		return this.data.get(Map3D.gridToHash(grid)) || EmptyCell
 	}
 	addCell(cell: Cell3D): void {
 		this.data.set(cell.getHash(), cell)
 	}
-	clearXYZ(x: number, y: number, z: number): void {
-		this.data.delete(Map3D.xyzToHash(x, y, z))
+	clearXYZ(grid: Grid): void {
+		this.data.delete(Map3D.gridToHash(grid))
 	}
-	private static xyzToHash(x: number, y: number, z: number): string {
-		return x + ':' + y + ':' + z
+	private static gridToHash(grid: Grid): string {
+		return grid.x + ':' + grid.y + ':' + grid.z
 	}
 }
 export class Cell3D {
-	private readonly map: Map3D
-	private x: number
-	private y: number
-	private z: number
-	entity?: Entity
+	private readonly map: Map3D | null
+	x: number
+	y: number
+	z: number
 	parentCell?: Cell3D
-	constructor(
-		map: Map3D,
-		x: number,
-		y: number,
-		z: number,
-		entity?: Entity,
-		parentCell?: Cell3D
-	) {
-		this.map = map
-		this.x = x
-		this.y = y
-		this.z = z
-		if (entity) this.entity = entity
-		if (parentCell) this.parentCell = parentCell
+	properties: Cell3DProperties = {}
+	constructor(options: Cell3DOptions) {
+		this.map = options.map
+		this.x = options.x
+		this.y = options.y
+		this.z = options.z
+		if (options.parentCell) this.parentCell = options.parentCell
+		Object.assign(this.properties, options.properties)
 	}
 	getHash(): string {
 		return this.x + ':' + this.y + ':' + this.z
 	}
-	moveTo(x: number, y: number, z: number): void {
-		this.map.clearXYZ(this.x, this.y, this.z)
-		this.x = x
-		this.y = y
-		this.z = z
-		this.map.addCell(this)
+	moveTo(grid: Grid): void {
+		this.map!.clearXYZ(this)
+		Object.assign(this, grid)
+		this.map!.addCell(this)
 	}
-	getNeighbor(x: number, y: number, z: number): Cell3D | undefined {
-		return this.map.getXYZ(this.x + x, this.y + y, this.z + z)
+	getNeighbor(grid: Grid): Cell3D {
+		return this.map!.getXYZ({
+			x: this.x + grid.x,
+			y: this.y + grid.y,
+			z: this.z + grid.z,
+		})
 	}
-	spread(x: number, y: number, z: number): void {
-		this.map.addCell(
-			new Cell3D(this.map, this.x + x, this.y + y, this.z + z, undefined, this)
+	spread(grid: Grid, cellProperties?: Cell3DProperties): void {
+		this.map!.addCell(
+			new Cell3D({
+				map: this.map!,
+				x: this.x + grid.x,
+				y: this.y + grid.y,
+				z: this.z + grid.z,
+				parentCell: this,
+				properties: cellProperties,
+			})
 		)
 	}
 	destroy(): void {
-		this.map.clearXYZ(this.x, this.y, this.z)
+		this.map!.clearXYZ(this)
 	}
+}
+const EmptyCell = new Cell3D({
+	map: null,
+	x: 0,
+	y: 0,
+	z: 0,
+	properties: { solid: false },
+})
+const FloorCell = new Cell3D({
+	map: null,
+	x: 0,
+	y: 0,
+	z: -1,
+	properties: { platform: true, solid: true },
+})
+
+export interface Cell3DOptions {
+	map: Map3D | null
+	x: number
+	y: number
+	z: number
+	parentCell?: Cell3D
+	properties?: Cell3DProperties
+}
+
+interface Cell3DProperties {
+	solid?: boolean
+	platform?: boolean
+}
+
+export interface Grid {
+	x: number
+	y: number
+	z: number
 }

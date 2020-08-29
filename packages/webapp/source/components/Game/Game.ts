@@ -19,6 +19,7 @@ export async function initGame(canvas: HTMLCanvasElement) {
 	console.log('Renderer created', renderer.app.stage)
 	const resources = new Resources()
 	await resources.load()
+	console.log('Resources loaded')
 	const engine: Engine = new Engine()
 	const map: Map3D = new Map3D()
 	engine.world.registerComponent(Sprite)
