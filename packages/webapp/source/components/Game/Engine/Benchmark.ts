@@ -3,17 +3,11 @@ import Transform from './components/Transform'
 import Sprite from './components/Sprite'
 import Actor from './components/Actor'
 import Hop from './components/Hop'
-import MapCell from './components/MapCell'
-
-interface Grid {
-	x: number
-	y: number
-	z: number
-}
+import { Grid } from '../Common/Map'
 
 export function addActors(world: World, count: number): Entity[] {
 	let entities: Entity[] = []
-	let gridPool = createGridPool(30, 30, 1)
+	let gridPool = createGridPool(20, 20, 1)
 	for (let i = 0; i < count; i++) {
 		let grid = gridPool.splice(
 			Math.floor(Math.random() * gridPool.length),
@@ -78,20 +72,18 @@ export function createGridPool(
 }
 
 const directions = {
-	east: { x: 1, y: 0, direction: 'east' },
-	west: { x: -1, y: 0, direction: 'west' },
-	south: { y: 1, x: 0, direction: 'south' },
-	north: { y: -1, x: 0, direction: 'north' },
+	east: { x: 1, y: 0, z: 0, direction: 'east' },
+	west: { x: -1, y: 0, z: 0, direction: 'west' },
+	south: { y: 1, x: 0, z: 0, direction: 'south' },
+	north: { y: -1, x: 0, z: 0, direction: 'north' },
 }
 
 export function hopActor(actor: Entity, direction?: keyof typeof directions) {
-	if (actor.hasComponent(Hop)) return
-	let hop = directions[direction as keyof typeof directions] || randomHop()
-	let { value: mapCell } = actor.getComponent(MapCell)!
-	if (!mapCell.getNeighbor(hop.x || 0, hop.y || 0, 0)) {
-		mapCell.spread(hop.x || 0, hop.y || 0, 0)
-		actor.addComponent(Hop, hop)
-	}
+	if (actor.hasComponent(Hop)) return // Already hopping
+	actor.addComponent(
+		Hop,
+		directions[direction as keyof typeof directions] || randomHop()
+	)
 }
 
 export function randomHop(): object {
