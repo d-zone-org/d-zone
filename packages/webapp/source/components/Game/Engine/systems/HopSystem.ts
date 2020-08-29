@@ -5,11 +5,13 @@ import Sprite from '../components/Sprite'
 import MapCell from '../components/MapCell'
 import ActorCell from '../../Common/ActorCell'
 import {
-	hopUpOffsets,
-	hopDownOffsets,
+	hopUpYOffsets,
+	hopDownYOffsets,
+	hopZDepthOffsets,
 } from '../../../../art/sprite-config.json'
 
 let hopFrameCount: number
+let hopFrameRate = 2
 
 export default class HopSystem extends System {
 	private animations: any
@@ -46,7 +48,7 @@ export default class HopSystem extends System {
 				transform.y += hop.y
 				transform.z += hop.z
 				faceSpriteToHop(entity.getMutableComponent(Sprite)!, hop)
-				entity.getMutableComponent(MapCell)!.value.properties.platform = true
+				entity.getComponent(MapCell)!.value.properties.platform = true
 				entity.removeComponent(Hop)
 			} else if (hop.progress === 0 || frame > hop.frame) {
 				hop.frame = frame
@@ -54,13 +56,23 @@ export default class HopSystem extends System {
 				sprite.texture = this.animations[`hop-${hop.direction}`][
 					hop.frame
 				].textureCacheIds[0]
+				if (hop.progress === 0) sprite.zIndex += 0.01
+				let zDepthOffsetIndex = hopZDepthOffsets.frames.indexOf(hop.frame)
+				if (zDepthOffsetIndex >= 0) {
+					// Adjust z-depth while hopping
+					sprite.zIndex +=
+						hopZDepthOffsets[hop.direction as keyof typeof hopZDepthOffsets][
+							zDepthOffsetIndex
+						]
+				}
 				if (hop.z !== 0) {
-					let offsets = hop.z > 0 ? hopUpOffsets : hopDownOffsets
-					let offsetIndex = offsets.yFrames.indexOf(hop.frame)
-					if (offsetIndex >= 0) sprite.y += offsets.yValues[offsetIndex]
+					// Raise or lower sprite while hopping up/down
+					let yOffsets = hop.z > 0 ? hopUpYOffsets : hopDownYOffsets
+					let yOffsetIndex = yOffsets.frames.indexOf(hop.frame)
+					if (yOffsetIndex >= 0) sprite.y += yOffsets.values[yOffsetIndex]
 				}
 			}
-			hop.progress += 1 / (hopFrameCount * 2)
+			hop.progress += 1 / hopFrameCount / hopFrameRate
 		}
 	}
 }

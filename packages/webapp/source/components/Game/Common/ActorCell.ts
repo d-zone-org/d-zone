@@ -1,19 +1,12 @@
 import { Cell3D, Cell3DOptions, Grid } from './Map'
-import { Entity } from 'ecsy'
-
-interface ActorCellOptions extends Cell3DOptions {
-	entity: Entity // Maybe we don't need this
-}
 
 export default class ActorCell extends Cell3D {
-	// private entity: Entity
 	private static hopZLevels: number[] = [0, 1, -1]
 
-	constructor(options: ActorCellOptions) {
+	constructor(options: Cell3DOptions) {
 		super(options)
 		this.properties.solid = true
 		this.properties.platform = true
-		// this.entity = options.entity
 	}
 
 	getHopTarget(target: Grid): Grid | false {

@@ -5,6 +5,18 @@ import Actor from './components/Actor'
 import Hop from './components/Hop'
 import { Grid } from '../Common/Map'
 
+export function createActor(world: World, grid: Grid): Entity {
+	return world
+		.createEntity()
+		.addComponent(Transform, grid)
+		.addComponent(Sprite, { texture: 'cube:0' })
+		.addComponent(Actor, {
+			userID: randomString([48, 57], 18),
+			username: randomString([32, 126], Math.floor(Math.random() * 12) + 3),
+			color: randomColor(),
+		})
+}
+
 export function addActors(world: World, count: number): Entity[] {
 	let entities: Entity[] = []
 	let gridPool = createGridPool(20, 20, 1)
@@ -13,15 +25,7 @@ export function addActors(world: World, count: number): Entity[] {
 			Math.floor(Math.random() * gridPool.length),
 			1
 		)[0]
-		let actorEntity = world
-			.createEntity()
-			.addComponent(Transform, grid)
-			.addComponent(Sprite, { texture: 'cube:0' })
-			.addComponent(Actor, {
-				userID: randomString([48, 57], 18),
-				username: randomString([32, 126], Math.floor(Math.random() * 12) + 3),
-				color: randomColor(),
-			})
+		let actorEntity = createActor(world, grid)
 		entities.push(actorEntity)
 	}
 	return entities
@@ -89,4 +93,30 @@ export function hopActor(actor: Entity, direction?: keyof typeof directions) {
 export function randomHop(): object {
 	let direction = Object.keys(directions)[Math.floor(Math.random() * 4)]
 	return directions[direction as keyof typeof directions]
+}
+
+export function hopTest(world: World) {
+	createActor(world, { x: 1, y: 0, z: 0 })
+	let hop2 = createActor(world, { x: 1, y: 0, z: 1 })
+	setTimeout(() => {
+		hopActor(hop2, 'west')
+	}, 1700)
+	createActor(world, { x: 0, y: 0, z: 0 })
+	createActor(world, { x: 0, y: -1, z: 0 })
+	createActor(world, { x: 0, y: -1, z: 1 })
+	hopActor(createActor(world, { x: 0, y: -1, z: 2 }), 'south')
+
+	createActor(world, { x: -1, y: 4, z: 0 })
+	createActor(world, { x: 0, y: 4, z: 0 })
+	createActor(world, { x: 0, y: 4, z: 1 })
+	hopActor(createActor(world, { x: 0, y: 4, z: 2 }), 'west')
+
+	for (let i = 0; i < 4; i++) {
+		let hopper = createActor(world, { x: 4, y: i, z: 0 })
+		setTimeout(() => {
+			setInterval(() => {
+				hopActor(hopper, 'south')
+			}, 1500)
+		}, i * 300)
+	}
 }

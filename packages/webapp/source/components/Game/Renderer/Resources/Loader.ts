@@ -17,7 +17,7 @@ function parseSheet(sheet: any, next: () => void) {
 				let layer = frameKey.split(':')[0]
 				let frame = res.data.frames![frameKey as keyof typeof res.data.frames]
 				let config: FrameConfig =
-					spriteConfig[layer as keyof typeof spriteConfig]
+					spriteConfig.frames[layer as keyof typeof spriteConfig.frames]
 				frame.sourceSize.w = config.w
 				frame.sourceSize.h = config.h
 				if (config.anchor) {
