@@ -13,12 +13,8 @@ export default class MapSystem extends System {
 	execute(_delta: number, _time: number) {
 		this.queries.added.results.forEach((entity) => {
 			let { x, y, z } = entity.getComponent(Transform)!
-			let cell
-			if (entity.hasComponent(Actor)) {
-				cell = new ActorCell({ map: this.map, x, y, z, entity })
-			} else {
-				cell = new Cell3D({ map: this.map, x, y, z })
-			}
+			let cellType = entity.hasComponent(Actor) ? ActorCell : Cell3D
+			let cell = new cellType({ map: this.map, x, y, z })
 			entity.addComponent(MapCell, { value: cell })
 			this.map.addCell(cell)
 		})
