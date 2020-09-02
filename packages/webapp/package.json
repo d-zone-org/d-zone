@@ -32,7 +32,7 @@
 		"colorette": "^1.2.1",
 		"jest": "^26.4.2",
 		"pixi.js": "^5.3.3",
-		"rollup": "^2.26.8",
+		"rollup": "^2.26.9",
 		"rollup-plugin-clear": "^2.0.7",
 		"rollup-plugin-livereload": "^2.0.0",
 		"rollup-plugin-serve": "^1.0.4",
