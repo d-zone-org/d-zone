@@ -1,11 +1,11 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "target": "es2019",
-    "lib": ["es2019"],
-    "sourceMap": false,
-    "inlineSourceMap": true,
-    "declaration": true,
-    "resolveJsonModule": true
-  }
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"target": "es2019",
+		"lib": ["es2019"],
+		"sourceMap": false,
+		"inlineSourceMap": true,
+		"declaration": true,
+		"resolveJsonModule": true
+	}
 }

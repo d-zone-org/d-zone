@@ -10,6 +10,7 @@ const pluginNodeResolve = require('@rollup/plugin-node-resolve').nodeResolve
 const pluginTypescript = require('@rollup/plugin-typescript')
 const pluginSucrase = require('@rollup/plugin-sucrase')
 const pluginReplace = require('@rollup/plugin-replace')
+const pluginJson = require('@rollup/plugin-json')
 const pluginLiveReload = require('rollup-plugin-livereload')
 const pluginServe = require('rollup-plugin-serve')
 const pluginTerser = require('rollup-plugin-terser').terser
@@ -52,6 +53,7 @@ async function productionBuild() {
 		clear({
 			targets: [root('public/build')],
 		}),
+		pluginJson(),
 		pluginCommonJS(),
 		pluginNodeResolve({
 			extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx'],
@@ -100,6 +102,7 @@ async function developmentBuild() {
 			clear({
 				targets: [root('public/build')],
 			}),
+			pluginJson(),
 			pluginCommonJS(),
 			pluginNodeResolve({ preferBuiltins: false }),
 			pluginReplace({
@@ -154,6 +157,7 @@ async function developmentBuild() {
 
 	async function startWatchMode() {
 		const plugins = [
+			pluginJson(),
 			pluginCommonJS(),
 			pluginNodeResolve({
 				extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx'],
@@ -195,17 +199,39 @@ async function developmentBuild() {
 			watch: watchOptions,
 		})
 
-		watcher.on('event', ({ code, duration }) => {
+		watcher.on('event', (event) => {
+			const code = event.code
+
 			if (code === 'BUNDLE_START') console.log(c.yellow('\nFound Changes'))
-			if (code === 'BUNDLE_END')
+			else if (code === 'BUNDLE_END')
 				console.log(
-					c.greenBright(`Completed build: ${c.white(duration + 'ms')}`)
+					c.greenBright(`Completed build: ${c.white(event.duration + 'ms')}`)
 				)
+			else if (code === 'ERROR') {
+				throw new Error(event.error)
+			} else if (VERBOSE) console.log(event)
+			else return
 		})
 	}
 }
 
+function logError(error) {
+	const { frame, loc, name, stack } = error
+
+	// Random property that only exists on rollup errors
+	if (!frame || VERBOSE) return console.error(error)
+
+	console.log(c.red(frame))
+	console.log(c.red(`In ${loc.file}`))
+
+	// Just to remove useless props
+	const smallerError = new Error(name)
+	smallerError.stack = stack
+
+	console.error(smallerError)
+}
+
 function errorHandler(err) {
-	console.error(err)
-	process.exit(1)
+	logError(err)
+	if (!DEV) process.exit(1)
 }

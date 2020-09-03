@@ -1,8 +1,10 @@
-name: Update yarn
+# source: https://github.com/microsoft/RichCodeNavIndexer/blob/master/.github/workflows/dependency_updates.yml
+
+name: Update dependencies
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 2 * * *'
   workflow_dispatch:
 
 jobs:
@@ -17,17 +19,15 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Update Yarn version
-        run: yarn set version from sources
-      # Run yarn install to update lock file if needed
-      - name: Install
-        run: yarn install
+      - run: yarn up '*'
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3.1.0
         with:
-          commit-message: Update Yarn Version
-          branch: yarn_bleeding_edge
-          title: Update Yarn Version
-          body: Updated yarn binary from the source.
+          commit-message: Update all dependencies
+          branch: automatic_dependency_updates
+          title: Update all dependencies
+          body: An updated update of all NPM dependencies.
           token: ${{ steps.generate-token.outputs.token }}
+          labels: dependencies
+          #reviewers: # optional

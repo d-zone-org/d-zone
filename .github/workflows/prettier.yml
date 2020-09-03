@@ -9,22 +9,24 @@ on:
 jobs:
   format:
     name: Run Prettier
+    if: github.event.pusher.name != 'd-zone-maintenance'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - uses: tibdex/github-app-token@v1
         id: generate-token
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - run: yarn install --check-cache
+      - run: yarn install
 
       - run: yarn run format
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Auto format by prettier
-          token: ${{ steps.generate-token.outputs.token }}
