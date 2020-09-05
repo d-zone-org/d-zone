@@ -5240,9 +5240,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-terser@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "rollup-plugin-terser@npm:7.0.1"
+"rollup-plugin-terser@npm:^7.0.2":
+  version: 7.0.2
+  resolution: "rollup-plugin-terser@npm:7.0.2"
   dependencies:
     "@babel/code-frame": ^7.10.4
     jest-worker: ^26.2.1
@@ -5250,13 +5250,13 @@ __metadata:
     terser: ^5.0.0
   peerDependencies:
     rollup: ^2.0.0
-  checksum: 891e7f5faebf896024bfd76569bbd6fd040eed395490b0eec6270742189db2b5e4d3102b1af3d243d63ef44994acf537fe9e02ead7b55eec6c5c75a30d43c633
+  checksum: 553cc21efcea3e4d46c61fbd41cb4a82a3ab8e02ae4ce7c03f9248dea93e5a91c3624e2271490ee05b2bb481568305733b496d968d3ac9c99b777a588a336f01
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.26.9":
-  version: 2.26.9
-  resolution: "rollup@npm:2.26.9"
+"rollup@npm:^2.26.10":
+  version: 2.26.10
+  resolution: "rollup@npm:2.26.10"
   dependencies:
     fsevents: ~2.1.2
   dependenciesMeta:
@@ -5264,7 +5264,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: cb972f64f61dada3f1b3881da6d05e44f6943082c6a024def90157cf18bb691802de49519ebd99568f66ccc038a69ca5d675b138aea097a8f7f266c174ab5a9d
+  checksum: 5eeb830002385dd774fa3c2beb7b6754d966dcd11e0c9ef3b34da2d979068aa3af79a0239d75d0fd899b83cb4ab177dc12888ab2c2de59b21cc613ddb02e60f7
   languageName: node
   linkType: hard
 
@@ -6198,11 +6198,11 @@ typescript@^4.0.2:
     react: ^16.13.1
     react-dom: ^16.13.1
     regexparam: ^1.3.0
-    rollup: ^2.26.9
+    rollup: ^2.26.10
     rollup-plugin-clear: ^2.0.7
     rollup-plugin-livereload: ^2.0.0
     rollup-plugin-serve: ^1.0.4
-    rollup-plugin-terser: ^7.0.1
+    rollup-plugin-terser: ^7.0.2
     tslib: ^2.0.1
     typescript: ^4.0.2
     yargs-parser: ^19.0.4
