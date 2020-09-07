@@ -1,6 +1,7 @@
 import yargs from 'yargs-parser'
 import path from 'path'
 import module from 'module'
+import fs from 'fs'
 
 import type {
 	rollup as RollupFn,
@@ -89,22 +90,23 @@ export async function configure({
 
 	if (dev) {
 		// Dependencies to be bundled
-		const dependencies = Object.keys(userManifest.dependencies).filter(
-			(dependency) => !development?.ignoredDependencies?.includes(dependency)
+		const dependencies = Object.entries(userManifest.dependencies).filter(
+			([dependencyId]) =>
+				!development?.ignoredDependencies?.includes(dependencyId)
 		)
 
 		// Start development mode
 		await developmentMode({
 			dependenciesBundleOptions: {
 				userRequire,
-				dependencies,
+				dependencies: Object.fromEntries(dependencies),
 				outputDirectory: userRoot(outputDirectory, 'dependencies'),
 				rollup,
 				plugins: [commonJs.plugin, nodeResolve.plugin, replace.plugin],
 			},
 			watchModeOptions: {
 				dependencyMap: Object.fromEntries(
-					dependencies.map((dependencyId) => [
+					dependencies.map(([dependencyId]) => [
 						dependencyId,
 						`./dependencies/${dependencyId}.js`,
 					])
@@ -146,7 +148,7 @@ async function developmentMode({
 /**
  * Create bundle of dependencies
  * @param options - Options
- * @param options.dependencies - Array of ids of dependencies to be bundled
+ * @param options.dependencies - Dependencies field from users manifest
  * @param options.userRequire - Users require method
  * @param options.plugins - Tuple of commonjs, node-resolve and replace plugin
  * @param options.outputDirectory - Output directory for dependencies
@@ -161,7 +163,7 @@ async function createDependenciesBundle({
 
 	rollup,
 }: {
-	dependencies: string[]
+	dependencies: Record<string, string>
 	userRequire: NodeRequire
 	plugins: [
 		typeof PluginCommonJs,
@@ -173,18 +175,41 @@ async function createDependenciesBundle({
 
 	rollup: typeof RollupFn
 }) {
-	// Resolves es module entry points
-	const getEntryPointPath = (name: string) => {
-		const root = (...args: string[]) => path.join(name, ...args)
-		const { main, module, type } = userRequire(root('package.json'))
-		return userRequire.resolve(root(type === 'module' ? main : module || main))
+	// Caching
+	const cacheFilePath = path.join(outputDirectory, 'cache.json')
+	const cache: string[] = fs.existsSync(cacheFilePath)
+		? require(cacheFilePath)
+		: // In case file doesnt exist create the output directory
+		  (await fs.promises.mkdir(outputDirectory, { recursive: true }), [])
+	const updatedCache: string[] = []
+
+	// Dependencies entry points
+	const entryPoints: Record<string, string> = {}
+
+	for (const [name, descriptor] of Object.entries(dependencies)) {
+		// If dependency isnt already cached
+		// Resolve its esm entry and add to entrypoints
+		if (!cache.includes(name + descriptor)) {
+			const root = (...args: string[]) => path.join(name, ...args)
+			const { main, module, type } = userRequire(root('package.json'))
+
+			const modulePath = root(type === 'module' ? main : module || main)
+			entryPoints[name] = userRequire.resolve(modulePath)
+		}
+
+		// Update Cache
+		updatedCache.push(name + descriptor)
 	}
+
+	// Write updated cache
+	await fs.promises.writeFile(cacheFilePath, JSON.stringify(updatedCache))
+
+	// If all dependencies are cached return
+	if (Object.keys(entryPoints).length === 0) return
 
 	// Rollup input options
 	const inputOptions: RollupInputOptions = {
-		input: Object.fromEntries(
-			dependencies.map((name) => [name, getEntryPointPath(name)])
-		),
+		input: entryPoints,
 		context: 'window',
 		plugins: [
 			pluginCommonJs(),
