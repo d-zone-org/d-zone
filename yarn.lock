@@ -1134,6 +1134,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-node-resolve@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@rollup/plugin-node-resolve@npm:9.0.0"
+  dependencies:
+    "@rollup/pluginutils": ^3.1.0
+    "@types/resolve": 1.17.1
+    builtin-modules: ^3.1.0
+    deepmerge: ^4.2.2
+    is-module: ^1.0.0
+    resolve: ^1.17.0
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0
+  checksum: 34576bbd9cfb096ed6fcce256e9210995144ccfd352ef09134507a7c6b479cee20da2896525ebf8bf139d9a31e8eec4b6787ed9de3209ee6610a949dc9f7c268
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-replace@npm:^2.3.3":
   version: 2.3.3
   resolution: "@rollup/plugin-replace@npm:2.3.3"
@@ -1349,6 +1365,13 @@ __metadata:
   version: 14.6.3
   resolution: "@types/node@npm:14.6.3"
   checksum: 8bdc9a0e2a8fc39708c83652fcc46ed28c3b1017be6a668b2df39d8d5bbc2d4746744b475370d44c9b73bf7bebf827ba50f5b14872b450b74ef9fe4dab9173a6
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.6.4":
+  version: 14.6.4
+  resolution: "@types/node@npm:14.6.4"
+  checksum: bff274e362080628c96e51b1948be668b68117e35d6353691c753052e490efc0934a0c0a3ba5d2739ac70e745932a9f6b049b7d01a1d96c9ae0c93c3b1b88ed0
   languageName: node
   linkType: hard
 
@@ -5697,7 +5720,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sucrase@npm:^3.0.0, sucrase@npm:^3.10.1":
+"sucrase@npm:^3.0.0, sucrase@npm:^3.10.1, sucrase@npm:^3.15.0":
   version: 3.15.0
   resolution: "sucrase@npm:3.15.0"
   dependencies:
@@ -6173,6 +6196,7 @@ typescript@^4.0.2:
     rollup-plugin-terser: ^7.0.2
     tslib: ^2.0.1
     typescript: ^4.0.2
+    yakshaving: "workspace:packages/webapp-yakshaving"
     yargs-parser: ^19.0.4
   languageName: unknown
   linkType: soft
@@ -6337,6 +6361,31 @@ typescript@^4.0.2:
   checksum: 5b7434c95d31ffa2b9b97df98e2d786446a0ff21c30e0265088caa4818a3335559a425763e55b6d9370d9fcecb75a36ae5bb901184676bd255f96ee3c743f667
   languageName: node
   linkType: hard
+
+"yakshaving@workspace:packages/webapp-yakshaving":
+  version: 0.0.0-use.local
+  resolution: "yakshaving@workspace:packages/webapp-yakshaving"
+  dependencies:
+    "@rollup/plugin-commonjs": ^15.0.0
+    "@rollup/plugin-node-resolve": ^9.0.0
+    "@rollup/plugin-replace": ^2.3.3
+    "@rollup/plugin-sucrase": ^3.1.0
+    "@rollup/plugin-typescript": ^5.0.2
+    "@types/node": ^14.6.4
+    "@types/yargs-parser": ^15.0.0
+    rollup: ^2.26.10
+    sucrase: ^3.15.0
+    typescript: ^4.0.2
+    yargs-parser: ^19.0.4
+  peerDependencies:
+    "@rollup/plugin-commonjs": "*"
+    "@rollup/plugin-node-resolve": "*"
+    "@rollup/plugin-replace": "*"
+    "@rollup/plugin-sucrase": "*"
+    "@rollup/plugin-typescript": "*"
+    rollup: "*"
+  languageName: unknown
+  linkType: soft
 
 "yallist@npm:^4.0.0":
   version: 4.0.0

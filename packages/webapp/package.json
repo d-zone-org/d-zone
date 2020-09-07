@@ -2,8 +2,8 @@
 	"name": "webapp",
 	"main": "source/index.tsx",
 	"scripts": {
-		"build": "yarn node scripts/build",
-		"dev": "yarn node scripts/build --dev",
+		"build": "yarn node build.config.js",
+		"dev": "yarn node build.config.js --dev",
 		"test": "jest --config jest.config.js",
 		"test:coverage": "yarn run test --collectCoverage",
 		"serve": "yarn dlx serve public",
@@ -29,8 +29,6 @@
 		"@types/jest": "^26.0.9",
 		"@types/react": "^16.9.46",
 		"@types/react-dom": "^16.9.8",
-		"@types/yargs-parser": "^15.0.0",
-		"colorette": "^1.2.1",
 		"jest": "^26.4.2",
 		"pixi.js": "^5.3.3",
 		"rollup": "^2.26.10",
@@ -40,6 +38,6 @@
 		"rollup-plugin-terser": "^7.0.2",
 		"tslib": "^2.0.1",
 		"typescript": "^4.0.2",
-		"yargs-parser": "^19.0.4"
+		"yakshaving": "workspace:packages/webapp-yakshaving"
 	}
 }
