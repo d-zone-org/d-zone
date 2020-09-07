@@ -366,28 +366,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@d-zone/plugin@workspace:packages/server-plugin":
-  version: 0.0.0-use.local
-  resolution: "@d-zone/plugin@workspace:packages/server-plugin"
-  dependencies:
-    "@types/node": ^14.0.14
-    typescript: ^4.0.2
-  peerDependencies:
-    "@d-zone/server": "*"
-  languageName: unknown
-  linkType: soft
-
-"@d-zone/server@workspace:packages/server-core":
-  version: 0.0.0-use.local
-  resolution: "@d-zone/server@workspace:packages/server-core"
-  dependencies:
-    "@types/node": ^14.0.14
-    typescript: ^4.0.2
-  bin:
-    server: ./build/cli/index.js
-  languageName: unknown
-  linkType: soft
-
 "@istanbuljs/load-nyc-config@npm:^1.0.0":
   version: 1.1.0
   resolution: "@istanbuljs/load-nyc-config@npm:1.1.0"
@@ -1111,37 +1089,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-commonjs@14.0.0":
-  version: 14.0.0
-  resolution: "@rollup/plugin-commonjs@npm:14.0.0"
+"@rollup/plugin-commonjs@npm:^15.0.0":
+  version: 15.0.0
+  resolution: "@rollup/plugin-commonjs@npm:15.0.0"
   dependencies:
-    "@rollup/pluginutils": ^3.0.8
+    "@rollup/pluginutils": ^3.1.0
     commondir: ^1.0.1
-    estree-walker: ^1.0.1
-    glob: ^7.1.2
-    is-reference: ^1.1.2
-    magic-string: ^0.25.2
-    resolve: ^1.11.0
+    estree-walker: ^2.0.1
+    glob: ^7.1.6
+    is-reference: ^1.2.1
+    magic-string: ^0.25.7
+    resolve: ^1.17.0
   peerDependencies:
-    rollup: ^2.3.4
-  checksum: f8c733dee53be98576bd9c739a876635407792944abcc1eba2cd9444ce673092582b863be9a1d29c2dde56a654761b1df1ba5301686e94359bca114d1c05c893
-  languageName: node
-  linkType: hard
-
-"@rollup/plugin-commonjs@patch:@rollup/plugin-commonjs@14.0.0#./patches/plugin-commonjs::locator=webapp%40workspace%3Apackages%2Fwebapp":
-  version: 14.0.0
-  resolution: "@rollup/plugin-commonjs@patch:@rollup/plugin-commonjs@npm%3A14.0.0#./patches/plugin-commonjs::version=14.0.0&hash=5c363b&locator=webapp%40workspace%3Apackages%2Fwebapp"
-  dependencies:
-    "@rollup/pluginutils": ^3.0.8
-    commondir: ^1.0.1
-    estree-walker: ^1.0.1
-    glob: ^7.1.2
-    is-reference: ^1.1.2
-    magic-string: ^0.25.2
-    resolve: ^1.11.0
-  peerDependencies:
-    rollup: ^2.3.4
-  checksum: 3b0fca3424bd2b1b8a8f2e6d11dc22a09922773b3d0fea224f72cc035f61f75be36581a85de9ad6ccb6eaaa6e8b7f0833ffe5129106758b79181baae80d6eadd
+    rollup: ^2.22.0
+  checksum: c48493cabb1ab71a24bf0561f48a6d98843c7a07fef312e73a6c08ad3b19301b4d4a45bd0b6fb0acc856b19695f898b0d0be6cdb157439397d05aeb572d7dbdd
   languageName: node
   linkType: hard
 
@@ -2525,6 +2486,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"estree-walker@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "estree-walker@npm:2.0.1"
+  checksum: 51ae3892e256162f942b6cc433f9fe313c30ffc71c9b07099168383fe211ef001a50f1df543ea8ed0753eb768079e0c1a0712540b228bbe3b544260fd113017d
+  languageName: node
+  linkType: hard
+
 "esutils@npm:^2.0.2":
   version: 2.0.3
   resolution: "esutils@npm:2.0.3"
@@ -3272,7 +3240,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-reference@npm:^1.1.2":
+"is-reference@npm:^1.2.1":
   version: 1.2.1
   resolution: "is-reference@npm:1.2.1"
   dependencies:
@@ -4114,7 +4082,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.25.2, magic-string@npm:^0.25.5":
+"magic-string@npm:^0.25.5, magic-string@npm:^0.25.7":
   version: 0.25.7
   resolution: "magic-string@npm:0.25.7"
   dependencies:
@@ -5155,7 +5123,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@^1.10.0, resolve@^1.11.0, resolve@^1.14.1, resolve@^1.17.0, resolve@^1.3.2":
+"resolve@^1.10.0, resolve@^1.14.1, resolve@^1.17.0, resolve@^1.3.2":
   version: 1.17.0
   resolution: "resolve@npm:1.17.0"
   dependencies:
@@ -5164,7 +5132,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.10.0#builtin<compat/resolve>, resolve@patch:resolve@^1.11.0#builtin<compat/resolve>, resolve@patch:resolve@^1.14.1#builtin<compat/resolve>, resolve@patch:resolve@^1.17.0#builtin<compat/resolve>, resolve@patch:resolve@^1.3.2#builtin<compat/resolve>":
+"resolve@patch:resolve@^1.10.0#builtin<compat/resolve>, resolve@patch:resolve@^1.14.1#builtin<compat/resolve>, resolve@patch:resolve@^1.17.0#builtin<compat/resolve>, resolve@patch:resolve@^1.3.2#builtin<compat/resolve>":
   version: 1.17.0
   resolution: "resolve@patch:resolve@npm%3A1.17.0#builtin<compat/resolve>::version=1.17.0&hash=3388aa"
   dependencies:
@@ -6177,7 +6145,7 @@ typescript@^4.0.2:
   version: 0.0.0-use.local
   resolution: "webapp@workspace:packages/webapp"
   dependencies:
-    "@rollup/plugin-commonjs": "patch:@rollup/plugin-commonjs@14.0.0#./patches/plugin-commonjs"
+    "@rollup/plugin-commonjs": ^15.0.0
     "@rollup/plugin-json": ^4.1.0
     "@rollup/plugin-node-resolve": ^8.4.0
     "@rollup/plugin-replace": ^2.3.3

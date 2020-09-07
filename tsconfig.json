@@ -1,17 +1,25 @@
 {
 	"compilerOptions": {
-		"target": "es2015",
+		"target": "es2019",
+		"lib": ["es2019", "dom"],
 		"module": "commonjs",
-		"moduleResolution": "node",
+
 		"sourceMap": true,
-		"removeComments": true,
+
 		"strict": true,
-		"noUnusedLocals": false,
+
+		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
+
+		"moduleResolution": "node",
+
 		"esModuleInterop": true,
+
+		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
-		"skipLibCheck": true
+
+		"resolveJsonModule": true
 	}
 }
