@@ -59,7 +59,7 @@ async function productionBuild() {
 			extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx'],
 			preferBuiltins: false,
 		}),
-		pluginTypescript({ tsconfig: root('tsconfig.json') }),
+		pluginTypescript({ tsconfig: root('tsconfig.build.json') }),
 		pluginReplace({
 			values: {
 				'process.env.NODE_ENV': '"production"',
@@ -164,7 +164,7 @@ async function developmentBuild() {
 				preferBuiltins: false,
 			}),
 			TS
-				? pluginTypescript({ tsconfig: root('tsconfig.json') })
+				? pluginTypescript({ tsconfig: root('tsconfig.build.json') })
 				: pluginSucrase({ transforms: ['typescript', 'jsx'] }),
 			pluginServe({
 				contentBase: root('public'),

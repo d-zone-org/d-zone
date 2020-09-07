@@ -1,28 +1,8 @@
 {
+	"extends": "../../tsconfig.json",
+
 	"compilerOptions": {
-		"target": "es2019",
-		"module": "es2020",
-		"lib": ["ES2019", "DOM"],
-
 		"jsx": "react",
-
-		"sourceMap": true,
-
-		"rootDir": "source",
-
-		"strict": true,
-
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true,
-
-		"moduleResolution": "node",
-		"resolveJsonModule": true,
-
-		"esModuleInterop": true,
-
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true
+		"types": ["jest"]
 	}
 }
