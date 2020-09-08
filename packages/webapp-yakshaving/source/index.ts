@@ -186,8 +186,8 @@ async function developmentMode({
 /**
  * Create bundle of dependencies
  * @param options - Options
- * @param options.dependencies - Dependencies field from users manifest
- * @param options.userRequire - Users require method
+ * @param options.dependencies - Dependencies field from user's manifest
+ * @param options.userRequire - User's require method
  * @param options.plugins - Tuple of commonjs, node-resolve and replace plugin
  * @param options.outputDirectory - Output directory for dependencies
  * @param options.rollup - Rollup method
@@ -225,8 +225,8 @@ async function createDependenciesBundle({
 	const entryPoints: Record<string, string> = {}
 
 	for (const [name, descriptor] of Object.entries(dependencies)) {
-		// If dependency isnt already cached
-		// Resolve its esm entry and add to entrypoints
+		// If dependency isn't already cached
+		// Resolve its esm entry and add to entryPoints
 		if (!cache.includes(name + descriptor)) {
 			const root = (...args: string[]) => path.join(name, ...args)
 			const { main, module, type } = userRequire(root('package.json'))
@@ -279,10 +279,10 @@ async function createDependenciesBundle({
  * @param options - Options
  * @param options.entryPoint - Entry point for application
  * @param options.dependencyMap - Map of dependency and their relative location
- * @param options.requiredPlugins - Object of required plugins and thier configuration
+ * @param options.requiredPlugins - Object of required plugins and their configuration
  * @param options.extraPlugins - Additional plugins
  * @param options.outputDirectory - Output directory for bundle
- * @param options.watch - Rollups watch method
+ * @param options.watch - Rollup watch method
  * @param options.additionalRollupSettings - Additional rollup settings
  */
 async function startWatchMode({
