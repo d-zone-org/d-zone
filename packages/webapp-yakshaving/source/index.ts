@@ -64,6 +64,9 @@ export async function configure({
 	development?: {
 		ignoredDependencies?: string[]
 		additionalPlugins?: Plugin[]
+		additionalRollupSettings?: Parameters<
+			typeof developmentMode
+		>[0]['watchModeOptions']['additionalRollupSettings']
 	}
 }) {
 	// Parse command line arguments
@@ -104,6 +107,7 @@ export async function configure({
 				rollup,
 				plugins: [commonJs.plugin, nodeResolve.plugin, replace.plugin],
 			},
+
 			watchModeOptions: {
 				dependencyMap: Object.fromEntries(
 					dependencies.map(([dependencyId]) => [
@@ -121,6 +125,7 @@ export async function configure({
 					typescript: [typescript.plugin, typescript.devConfig],
 				},
 				extraPlugins: development?.additionalPlugins || [],
+				additionalRollupSettings: development?.additionalRollupSettings,
 			},
 		})
 	} else productionMode()
@@ -245,6 +250,7 @@ async function createDependenciesBundle({
  * @param options.extraPlugins - Additional plugins
  * @param options.outputDirectory - Output directory for bundle
  * @param options.watch - Rollups watch method
+ * @param options.additionalRollupSettings - Additional rollup settings
  */
 async function startWatchMode({
 	entryPoint,
@@ -260,6 +266,8 @@ async function startWatchMode({
 
 	outputDirectory,
 	watch,
+
+	additionalRollupSettings,
 }: {
 	entryPoint: string
 	dependencyMap: Record<string, string>
@@ -280,6 +288,11 @@ async function startWatchMode({
 
 	outputDirectory: string
 	watch: typeof WatchFn
+
+	additionalRollupSettings?: {
+		input?: RollupInputOptions
+		output?: RollupOutputOptions
+	}
 }) {
 	// Input options
 	const inputOptions: RollupInputOptions = {
@@ -305,6 +318,7 @@ async function startWatchMode({
 			} as Parameters<typeof PluginTypescript>[0]),
 		],
 		external: Object.keys(dependencyMap),
+		...additionalRollupSettings?.input,
 	}
 
 	// Output options
@@ -314,6 +328,7 @@ async function startWatchMode({
 		entryFileNames: 'bundle.js',
 		sourcemap: true,
 		paths: dependencyMap,
+		...additionalRollupSettings?.output,
 	}
 
 	const watchOptions = { clearScreen: false }
