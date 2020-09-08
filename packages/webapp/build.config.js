@@ -7,7 +7,7 @@ const pluginReplace = require('@rollup/plugin-replace')
 const pluginSucrase = require('@rollup/plugin-sucrase')
 const pluginTypescript = require('@rollup/plugin-typescript')
 const pluginJson = require('@rollup/plugin-json')
-// const pluginClearDirectory = require('rollup-plugin-clear')
+const pluginClearDirectory = require('rollup-plugin-clear')
 const pluginLiveReload = require('rollup-plugin-livereload')
 const pluginServe = require('rollup-plugin-serve')
 const pluginTerser = require('rollup-plugin-terser').terser
@@ -54,7 +54,10 @@ configure({
 	},
 
 	production: {
-		additionalPlugins: [pluginJson()],
+		additionalPlugins: [
+			pluginJson(),
+			pluginClearDirectory({ targets: [root('public/build')] }),
+		],
 		additionalRollupSettings,
 	},
 }).catch((err) => {
