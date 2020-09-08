@@ -15,6 +15,10 @@ const pluginTerser = require('rollup-plugin-terser').terser
 const path = require('path')
 const root = (...args) => path.join(__dirname, ...args)
 
+const additionalRollupSettings = {
+	input: { preserveEntrySignatures: false },
+}
+
 configure({
 	projectRoot: __dirname,
 	entryPoint: 'source/index.tsx',
@@ -46,10 +50,12 @@ configure({
 			}),
 			pluginLiveReload(root('public')),
 		],
+		additionalRollupSettings,
 	},
 
 	production: {
 		additionalPlugins: [pluginJson()],
+		additionalRollupSettings,
 	},
 }).catch((err) => {
 	console.error(err)
