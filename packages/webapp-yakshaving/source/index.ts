@@ -21,40 +21,22 @@ import type PluginSucrase from '@rollup/plugin-sucrase'
 import type { terser as PluginTerser } from 'rollup-plugin-terser'
 
 /**
- * Represents required plugins for yakshaving
- * @property plugin - Plugin factory function
- * @property devConfig - Config to be used in development mode
- * @property prodConfig - Config to be used in production mode
+ * Congfiguration Options
+ * @property options.projectRoot - Your projects root directory
+ * @property options.entryPoint - Entry files path, relative to `projectRoot`
+ * @property options.outputDirectory - Output directory, relative to `projectRoot`
+ * @property options.rollup - `rollup` method from rollup
+ * @property options.watch - `watch` method from rollup
+ * @property options.requiredPlugins - Required plugins
+ * @property options.development - Development mode settings
+ * @property options.development.ignoredDependencies - Dependencies to be not bundled seperately
+ * @property options.development.additionalPlugins - Additonal plugins to be used in dev mode
+ * @property options.development.additionalRollupSettings - Add development mode specific rollup settings
+ * @property options.production - Production mode settings
+ * @property options.production.additionalPlugins - Additional plugins to be used in prod mode
+ * @property options.production.additionalRollupSettings - Add production mode specific rollup settings
  */
-interface RequiredPlugin<P extends PluginImpl<any>> {
-	plugin: P
-	devConfig?: Parameters<P>[0]
-	prodConfig?: Parameters<P>[0]
-}
-
-/**
- * Configure bundler
- * @param options - Configuration
- */
-export async function configure({
-	projectRoot,
-	entryPoint,
-	outputDirectory,
-
-	rollup,
-	watch,
-	requiredPlugins: {
-		commonJs,
-		nodeResolve,
-		replace,
-		sucrase,
-		typescript,
-		terser,
-	},
-
-	development,
-	production,
-}: {
+export interface ConfigurationOptions {
 	projectRoot: string
 	entryPoint: string
 	outputDirectory: string
@@ -87,7 +69,47 @@ export async function configure({
 			output?: RollupOutputOptions
 		}
 	}
-}) {
+}
+
+/**
+ * Represents required plugins for yakshaving
+ * @property plugin - Plugin factory function
+ * @property devConfig - Config to be used in development mode
+ * @property prodConfig - Config to be used in production mode
+ */
+export interface RequiredPlugin<P extends PluginImpl<any>> {
+	plugin: P
+	devConfig?: Parameters<P>[0]
+	prodConfig?: Parameters<P>[0]
+}
+
+/**
+ * Configure bundler. Import this function in your configuration file
+ * and call it with your configuration. Run your configuration file
+ * like any other node application. Add `--dev` flag for development mode.
+ * Check out `ConfigurationOptions` interface for description of the properties.
+ * 
+ * @param options - Configuration Options
+ */
+export async function configure({
+	projectRoot,
+	entryPoint,
+	outputDirectory,
+
+	rollup,
+	watch,
+	requiredPlugins: {
+		commonJs,
+		nodeResolve,
+		replace,
+		sucrase,
+		typescript,
+		terser,
+	},
+
+	development,
+	production,
+}: ConfigurationOptions) {
 	// Parse command line arguments
 	const { dev } = yargs(process.argv.slice(2), {
 		alias: { dev: ['d'] },
