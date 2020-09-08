@@ -10,6 +10,7 @@ const pluginJson = require('@rollup/plugin-json')
 // const pluginClearDirectory = require('rollup-plugin-clear')
 const pluginLiveReload = require('rollup-plugin-livereload')
 const pluginServe = require('rollup-plugin-serve')
+const pluginTerser = require('rollup-plugin-terser').terser
 
 const path = require('path')
 const root = (...args) => path.join(__dirname, ...args)
@@ -24,7 +25,12 @@ configure({
 		nodeResolve: { plugin: pluginNodeResolve },
 		replace: { plugin: pluginReplace },
 		sucrase: { plugin: pluginSucrase },
-		typescript: { plugin: pluginTypescript },
+		typescript: {
+			plugin: pluginTypescript,
+			devConfig: { tsconfig: root('tsconfig.build.json') },
+			prodConfig: { tsconfig: root('tsconfig.build.json') },
+		},
+		terser: { plugin: pluginTerser },
 	},
 
 	rollup,
@@ -40,6 +46,10 @@ configure({
 			}),
 			pluginLiveReload(root('public')),
 		],
+	},
+
+	production: {
+		additionalPlugins: [pluginJson()],
 	},
 }).catch((err) => {
 	console.error(err)

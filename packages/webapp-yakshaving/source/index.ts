@@ -18,6 +18,7 @@ import type { nodeResolve as PluginNodeResolve } from '@rollup/plugin-node-resol
 import type PluginReplace from '@rollup/plugin-replace'
 import type PluginTypescript from '@rollup/plugin-typescript'
 import type PluginSucrase from '@rollup/plugin-sucrase'
+import type { terser as PluginTerser } from 'rollup-plugin-terser'
 
 /**
  * Represents required plugins for yakshaving
@@ -42,9 +43,17 @@ export async function configure({
 
 	rollup,
 	watch,
-	requiredPlugins: { commonJs, nodeResolve, replace, sucrase, typescript },
+	requiredPlugins: {
+		commonJs,
+		nodeResolve,
+		replace,
+		sucrase,
+		typescript,
+		terser,
+	},
 
 	development,
+	production,
 }: {
 	projectRoot: string
 	entryPoint: string
@@ -56,17 +65,27 @@ export async function configure({
 	requiredPlugins: {
 		commonJs: RequiredPlugin<typeof PluginCommonJs>
 		nodeResolve: RequiredPlugin<typeof PluginNodeResolve>
-		replace: RequiredPlugin<typeof PluginReplace>
+		replace: { plugin: typeof PluginReplace }
 		sucrase: RequiredPlugin<typeof PluginSucrase>
 		typescript: RequiredPlugin<typeof PluginTypescript>
+		terser: RequiredPlugin<typeof PluginTerser>
 	}
 
 	development?: {
 		ignoredDependencies?: string[]
 		additionalPlugins?: Plugin[]
-		additionalRollupSettings?: Parameters<
-			typeof developmentMode
-		>[0]['watchModeOptions']['additionalRollupSettings']
+		additionalRollupSettings?: {
+			input?: RollupInputOptions
+			output?: RollupOutputOptions
+		}
+	}
+
+	production?: {
+		additionalPlugins?: Plugin[]
+		additionalRollupSettings?: {
+			input?: RollupInputOptions
+			output?: RollupOutputOptions
+		}
 	}
 }) {
 	// Parse command line arguments
@@ -128,7 +147,21 @@ export async function configure({
 				additionalRollupSettings: development?.additionalRollupSettings,
 			},
 		})
-	} else productionMode()
+	} else
+		await productionMode({
+			entryPoint: userRoot(entryPoint),
+			requiredPlugins: {
+				commonJs: [commonJs.plugin, commonJs.prodConfig],
+				nodeResolve: [nodeResolve.plugin, nodeResolve.prodConfig],
+				typescript: [typescript.plugin, typescript.prodConfig],
+				terser: [terser.plugin, terser.prodConfig],
+				replace: [replace.plugin],
+			},
+			extraPlugins: production?.additionalPlugins || [],
+			additionalRollupSettings: production?.additionalRollupSettings,
+			outputDirectory: userRoot(outputDirectory),
+			rollup,
+		})
 }
 
 /**
@@ -350,4 +383,90 @@ function listenTheWatcher(watcher: RollupWatcher) {
 	})
 }
 
-async function productionMode() {}
+/**
+ * Start production mode
+ * @param options - Options
+ * @param options.entryPoint - Entry point for application
+ * @param options.requiredPlugins - Object of required plugins and their configuration
+ * @param options.extraPlugins - Additional Plugins
+ * @param options.outputDirectory - Output directory for bundle
+ * @param options.rollup - Rollup method
+ * @param options.additionalRollupSettings - Additional rollup settings
+ */
+async function productionMode({
+	entryPoint,
+
+	requiredPlugins: {
+		commonJs: [pluginCommonJs, commonJsUserOpts],
+		nodeResolve: [pluginNodeResolve, nodeResolveUserOpts],
+		typescript: [pluginTypescript, typescriptUserOpts],
+		terser: [pluginTerser, terserUserOpts],
+		replace: [pluginReplace],
+	},
+	extraPlugins,
+
+	outputDirectory,
+	rollup,
+
+	additionalRollupSettings,
+}: {
+	entryPoint: string
+
+	requiredPlugins: {
+		commonJs: [typeof PluginCommonJs, Parameters<typeof PluginCommonJs>[0]?]
+		nodeResolve: [
+			typeof PluginNodeResolve,
+			Parameters<typeof PluginNodeResolve>[0]?
+		]
+		typescript: [
+			typeof PluginTypescript,
+			Parameters<typeof PluginTypescript>[0]?
+		]
+		terser: [typeof PluginTerser, Parameters<typeof PluginTerser>[0]?]
+		replace: [typeof PluginReplace, Parameters<typeof PluginReplace>[0]?]
+	}
+	extraPlugins: Plugin[]
+
+	outputDirectory: string
+	rollup: typeof RollupFn
+
+	additionalRollupSettings?: {
+		input?: RollupInputOptions
+		output?: RollupOutputOptions
+	}
+}) {
+	const plugins = [
+		pluginCommonJs(commonJsUserOpts),
+		pluginNodeResolve({
+			extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx'],
+			preferBuiltins: false,
+			...nodeResolveUserOpts,
+		}),
+		pluginTypescript(typescriptUserOpts),
+		pluginReplace({
+			values: {
+				'process.env.NODE_ENV': '"production"',
+			},
+		}),
+		pluginTerser(terserUserOpts),
+		...extraPlugins,
+	]
+
+	const inputOptions: RollupInputOptions = {
+		input: entryPoint,
+		context: 'window',
+		plugins,
+		...additionalRollupSettings?.input,
+	}
+
+	const outputOptions: RollupOutputOptions = {
+		dir: outputDirectory,
+		format: 'es',
+		entryFileNames: '[name].bundle.js',
+		sourcemap: true,
+		...additionalRollupSettings?.output,
+	}
+
+	const bundle = await rollup(inputOptions)
+	await bundle.write(outputOptions)
+}
