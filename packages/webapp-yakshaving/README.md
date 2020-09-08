@@ -17,4 +17,5 @@
 
 ## Documentation
 
-Check out the documentation [here](./docs/README.md)!
+- Check out the documentation [here](./docs/README.md)!
+- Want an example? See how we are using it [here](https://github.com/vegeta897/d-zone/blob/better-distribution/packages/webapp/build.config.js).
