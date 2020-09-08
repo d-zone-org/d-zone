@@ -147,7 +147,7 @@ export async function configure({
 				additionalRollupSettings: development?.additionalRollupSettings,
 			},
 		})
-	} else
+	} else {
 		await productionMode({
 			entryPoint: userRoot(entryPoint),
 			requiredPlugins: {
@@ -162,6 +162,8 @@ export async function configure({
 			outputDirectory: userRoot(outputDirectory),
 			rollup,
 		})
+		process.exit()
+	}
 }
 
 /**
