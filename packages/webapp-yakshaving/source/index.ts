@@ -2,6 +2,8 @@ import yargs from 'yargs-parser'
 import path from 'path'
 import module from 'module'
 import fs from 'fs'
+import { assert } from 'superstruct'
+import configurationSchema from './configuration-schema'
 
 import type {
 	rollup as RollupFn,
@@ -91,100 +93,111 @@ export interface RequiredPlugin<P extends PluginImpl<any>> {
  *
  * @param options - Configuration Options
  */
-export async function configure({
-	projectRoot,
-	entryPoint,
-	outputDirectory,
+export async function configure(options: ConfigurationOptions) {
+	try {
+		// Validate options
+		assert(options, configurationSchema)
 
-	rollup,
-	watch,
-	requiredPlugins: {
-		commonJs,
-		nodeResolve,
-		replace,
-		sucrase,
-		typescript,
-		terser,
-	},
+		// De-structure options
+		const {
+			projectRoot,
+			entryPoint,
+			outputDirectory,
 
-	development,
-	production,
-}: ConfigurationOptions) {
-	// Parse command line arguments
-	const { dev } = yargs(process.argv.slice(2), {
-		alias: { dev: ['d'] },
-		boolean: ['dev'],
-		default: { dev: false },
-
-		configuration: {
-			'strip-aliased': true,
-		},
-	})
-
-	// Helper function
-	const userRoot = (...args: string[]) => path.resolve(projectRoot, ...args)
-
-	// User information
-	const userManifestPath = userRoot('package.json')
-	const userManifest: {
-		dependencies: Record<string, string>
-	} = require(userManifestPath)
-
-	const userRequire = module.createRequire(userManifestPath)
-
-	if (dev) {
-		// Dependencies to be bundled
-		const dependencies = Object.entries(userManifest.dependencies).filter(
-			([dependencyId]) =>
-				!development?.ignoredDependencies?.includes(dependencyId)
-		)
-
-		// Start development mode
-		await developmentMode({
-			dependenciesBundleOptions: {
-				userRequire,
-				dependencies: Object.fromEntries(dependencies),
-				outputDirectory: userRoot(outputDirectory, 'dependencies'),
-				rollup,
-				plugins: [commonJs.plugin, nodeResolve.plugin, replace.plugin],
-			},
-
-			watchModeOptions: {
-				dependencyMap: Object.fromEntries(
-					dependencies.map(([dependencyId]) => [
-						dependencyId,
-						`./dependencies/${dependencyId}.js`,
-					])
-				),
-				entryPoint: userRoot(entryPoint),
-				outputDirectory: userRoot(outputDirectory),
-				watch,
-				requiredPlugins: {
-					commonJs: [commonJs.plugin, commonJs.devConfig],
-					nodeResolve: [nodeResolve.plugin, nodeResolve.devConfig],
-					sucrase: [sucrase.plugin, sucrase.devConfig],
-					typescript: [typescript.plugin, typescript.devConfig],
-				},
-				extraPlugins: development?.additionalPlugins || [],
-				additionalRollupSettings: development?.additionalRollupSettings,
-			},
-		})
-	} else {
-		await productionMode({
-			entryPoint: userRoot(entryPoint),
-			requiredPlugins: {
-				commonJs: [commonJs.plugin, commonJs.prodConfig],
-				nodeResolve: [nodeResolve.plugin, nodeResolve.prodConfig],
-				typescript: [typescript.plugin, typescript.prodConfig],
-				terser: [terser.plugin, terser.prodConfig],
-				replace: [replace.plugin],
-			},
-			extraPlugins: production?.additionalPlugins || [],
-			additionalRollupSettings: production?.additionalRollupSettings,
-			outputDirectory: userRoot(outputDirectory),
 			rollup,
+			watch,
+			requiredPlugins: {
+				commonJs,
+				nodeResolve,
+				replace,
+				sucrase,
+				typescript,
+				terser,
+			},
+
+			development,
+			production,
+		} = options
+
+		// Parse command line arguments
+		const { dev } = yargs(process.argv.slice(2), {
+			alias: { dev: ['d'] },
+			boolean: ['dev'],
+			default: { dev: false },
+
+			configuration: {
+				'strip-aliased': true,
+			},
 		})
-		process.exit()
+
+		// Helper function
+		const userRoot = (...args: string[]) => path.resolve(projectRoot, ...args)
+
+		// User information
+		const userManifestPath = userRoot('package.json')
+		const userManifest: {
+			dependencies: Record<string, string>
+		} = require(userManifestPath)
+
+		const userRequire = module.createRequire(userManifestPath)
+
+		if (dev) {
+			// Dependencies to be bundled
+			const dependencies = Object.entries(userManifest.dependencies).filter(
+				([dependencyId]) =>
+					!development?.ignoredDependencies?.includes(dependencyId)
+			)
+
+			// Start development mode
+			await developmentMode({
+				dependenciesBundleOptions: {
+					userRequire,
+					dependencies: Object.fromEntries(dependencies),
+					outputDirectory: userRoot(outputDirectory, 'dependencies'),
+					rollup,
+					plugins: [commonJs.plugin, nodeResolve.plugin, replace.plugin],
+				},
+
+				watchModeOptions: {
+					dependencyMap: Object.fromEntries(
+						dependencies.map(([dependencyId]) => [
+							dependencyId,
+							`./dependencies/${dependencyId}.js`,
+						])
+					),
+					entryPoint: userRoot(entryPoint),
+					outputDirectory: userRoot(outputDirectory),
+					watch,
+					requiredPlugins: {
+						commonJs: [commonJs.plugin, commonJs.devConfig],
+						nodeResolve: [nodeResolve.plugin, nodeResolve.devConfig],
+						sucrase: [sucrase.plugin, sucrase.devConfig],
+						typescript: [typescript.plugin, typescript.devConfig],
+					},
+					extraPlugins: development?.additionalPlugins || [],
+					additionalRollupSettings: development?.additionalRollupSettings,
+				},
+			})
+		} else {
+			await productionMode({
+				entryPoint: userRoot(entryPoint),
+				requiredPlugins: {
+					commonJs: [commonJs.plugin, commonJs.prodConfig],
+					nodeResolve: [nodeResolve.plugin, nodeResolve.prodConfig],
+					typescript: [typescript.plugin, typescript.prodConfig],
+					terser: [terser.plugin, terser.prodConfig],
+					replace: [replace.plugin],
+				},
+				extraPlugins: production?.additionalPlugins || [],
+				additionalRollupSettings: production?.additionalRollupSettings,
+				outputDirectory: userRoot(outputDirectory),
+				rollup,
+			})
+			process.exit(0)
+		}
+	} catch (err) {
+		console.error(err)
+		process.exit(1)
 	}
 }
 
@@ -241,7 +254,7 @@ async function createDependenciesBundle({
 	const cacheFilePath = path.join(outputDirectory, 'cache.json')
 	const cache: string[] = fs.existsSync(cacheFilePath)
 		? require(cacheFilePath)
-		: // In case file doesnt exist create the output directory
+		: // In case file doesn't exist create the output directory
 		  (await fs.promises.mkdir(outputDirectory, { recursive: true }), [])
 	const updatedCache: string[] = []
 
