@@ -5341,7 +5341,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.26.11":
+"rollup@npm:^2.26.10, rollup@npm:^2.26.11":
   version: 2.26.11
   resolution: "rollup@npm:2.26.11"
   dependencies:
