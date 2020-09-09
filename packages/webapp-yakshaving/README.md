@@ -1,4 +1,4 @@
-<img src="./doodle.svg" width="300px"/>
+<img src="./doodle.svg" width="300px" alt="Yakshaving logo"/>
 
 # Yakshaving
 
