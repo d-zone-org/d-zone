@@ -37,5 +37,8 @@
 	},
 	"dependencies": {
 		"yargs-parser": "^19.0.4"
+	},
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org/"
 	}
 }
