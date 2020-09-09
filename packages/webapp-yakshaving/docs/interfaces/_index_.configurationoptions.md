@@ -32,97 +32,97 @@ Congfiguration Options
 
 ## Hierarchy
 
-* **ConfigurationOptions**
+- **ConfigurationOptions**
 
 ## Index
 
 ### Properties
 
-* [development](_index_.configurationoptions.md#optional-development)
-* [entryPoint](_index_.configurationoptions.md#entrypoint)
-* [outputDirectory](_index_.configurationoptions.md#outputdirectory)
-* [production](_index_.configurationoptions.md#optional-production)
-* [projectRoot](_index_.configurationoptions.md#projectroot)
-* [requiredPlugins](_index_.configurationoptions.md#requiredplugins)
-* [rollup](_index_.configurationoptions.md#rollup)
-* [watch](_index_.configurationoptions.md#watch)
+- [development](_index_.configurationoptions.md#optional-development)
+- [entryPoint](_index_.configurationoptions.md#entrypoint)
+- [outputDirectory](_index_.configurationoptions.md#outputdirectory)
+- [production](_index_.configurationoptions.md#optional-production)
+- [projectRoot](_index_.configurationoptions.md#projectroot)
+- [requiredPlugins](_index_.configurationoptions.md#requiredplugins)
+- [rollup](_index_.configurationoptions.md#rollup)
+- [watch](_index_.configurationoptions.md#watch)
 
 ## Properties
 
 ### `Optional` development
 
-• **development**? : *undefined | object*
+• **development**? : _undefined | object_
 
-*Defined in [index.ts:56](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L56)*
+_Defined in [index.ts:56](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L56)_
 
-___
+---
 
-###  entryPoint
+### entryPoint
 
-• **entryPoint**: *string*
+• **entryPoint**: _string_
 
-*Defined in [index.ts:41](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L41)*
+_Defined in [index.ts:41](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L41)_
 
-___
+---
 
-###  outputDirectory
+### outputDirectory
 
-• **outputDirectory**: *string*
+• **outputDirectory**: _string_
 
-*Defined in [index.ts:42](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L42)*
+_Defined in [index.ts:42](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L42)_
 
-___
+---
 
 ### `Optional` production
 
-• **production**? : *undefined | object*
+• **production**? : _undefined | object_
 
-*Defined in [index.ts:65](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L65)*
+_Defined in [index.ts:65](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L65)_
 
-___
+---
 
-###  projectRoot
+### projectRoot
 
-• **projectRoot**: *string*
+• **projectRoot**: _string_
 
-*Defined in [index.ts:40](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L40)*
+_Defined in [index.ts:40](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L40)_
 
-___
+---
 
-###  requiredPlugins
+### requiredPlugins
 
-• **requiredPlugins**: *object*
+• **requiredPlugins**: _object_
 
-*Defined in [index.ts:47](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L47)*
+_Defined in [index.ts:47](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L47)_
 
 #### Type declaration:
 
-* **commonJs**: *[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginCommonJs›*
+- **commonJs**: _[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginCommonJs›_
 
-* **nodeResolve**: *[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginNodeResolve›*
+- **nodeResolve**: _[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginNodeResolve›_
 
-* **replace**(): *object*
+- **replace**(): _object_
 
-  * **plugin**: *typeof PluginReplace*
+  - **plugin**: _typeof PluginReplace_
 
-* **sucrase**: *[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginSucrase›*
+- **sucrase**: _[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginSucrase›_
 
-* **terser**: *[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginTerser›*
+- **terser**: _[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginTerser›_
 
-* **typescript**: *[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginTypescript›*
+- **typescript**: _[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginTypescript›_
 
-___
+---
 
-###  rollup
+### rollup
 
-• **rollup**: *typeof RollupFn*
+• **rollup**: _typeof RollupFn_
 
-*Defined in [index.ts:44](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L44)*
+_Defined in [index.ts:44](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L44)_
 
-___
+---
 
-###  watch
+### watch
 
-• **watch**: *typeof WatchFn*
+• **watch**: _typeof WatchFn_
 
-*Defined in [index.ts:45](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L45)*
+_Defined in [index.ts:45](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L45)_

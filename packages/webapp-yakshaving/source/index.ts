@@ -88,7 +88,7 @@ export interface RequiredPlugin<P extends PluginImpl<any>> {
  * and call it with your configuration. Run your configuration file
  * like any other node application. Add `--dev` flag for development mode.
  * Check out `ConfigurationOptions` interface for description of the properties.
- * 
+ *
  * @param options - Configuration Options
  */
 export async function configure({

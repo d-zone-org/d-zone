@@ -11,6 +11,7 @@
 ## Features
 
 - Fast development mode
+
   - Bundles app in development mode with sucrase rather than typescript.
   - Seperate bundle for dependencies, prevents waste of time in treeshaking them.
   - Caching of the dependency bundle, prevents building of dependencies every restart.

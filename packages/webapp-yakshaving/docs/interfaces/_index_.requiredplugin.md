@@ -12,40 +12,40 @@ Represents required plugins for yakshaving
 
 ## Type parameters
 
-▪ **P**: *PluginImpl‹any›*
+▪ **P**: _PluginImpl‹any›_
 
 ## Hierarchy
 
-* **RequiredPlugin**
+- **RequiredPlugin**
 
 ## Index
 
 ### Properties
 
-* [devConfig](_index_.requiredplugin.md#optional-devconfig)
-* [plugin](_index_.requiredplugin.md#plugin)
-* [prodConfig](_index_.requiredplugin.md#optional-prodconfig)
+- [devConfig](_index_.requiredplugin.md#optional-devconfig)
+- [plugin](_index_.requiredplugin.md#plugin)
+- [prodConfig](_index_.requiredplugin.md#optional-prodconfig)
 
 ## Properties
 
 ### `Optional` devConfig
 
-• **devConfig**? : *Parameters‹P›[0]*
+• **devConfig**? : _Parameters‹P›[0]_
 
-*Defined in [index.ts:82](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L82)*
+_Defined in [index.ts:82](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L82)_
 
-___
+---
 
-###  plugin
+### plugin
 
-• **plugin**: *P*
+• **plugin**: _P_
 
-*Defined in [index.ts:81](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L81)*
+_Defined in [index.ts:81](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L81)_
 
-___
+---
 
 ### `Optional` prodConfig
 
-• **prodConfig**? : *Parameters‹P›[0]*
+• **prodConfig**? : _Parameters‹P›[0]_
 
-*Defined in [index.ts:83](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L83)*
+_Defined in [index.ts:83](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L83)_
