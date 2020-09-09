@@ -382,7 +382,7 @@ async function startWatchMode({
 	const outputOptions: RollupOutputOptions = {
 		dir: outputDirectory,
 		format: 'es',
-		entryFileNames: 'bundle.js',
+		entryFileNames: '[name].bundle.js',
 		sourcemap: true,
 		paths: dependencyMap,
 		...additionalRollupSettings?.output,
