@@ -21,16 +21,16 @@ import type PluginSucrase from '@rollup/plugin-sucrase'
 import type { terser as PluginTerser } from 'rollup-plugin-terser'
 
 /**
- * Congfiguration Options
- * @property options.projectRoot - Your projects root directory
- * @property options.entryPoint - Entry files path, relative to `projectRoot`
+ * Configuration Options
+ * @property options.projectRoot - Your project's root directory
+ * @property options.entryPoint - Path to entry file, relative to `projectRoot`
  * @property options.outputDirectory - Output directory, relative to `projectRoot`
  * @property options.rollup - `rollup` method from rollup
  * @property options.watch - `watch` method from rollup
  * @property options.requiredPlugins - Required plugins
  * @property options.development - Development mode settings
- * @property options.development.ignoredDependencies - Dependencies to be not bundled seperately
- * @property options.development.additionalPlugins - Additonal plugins to be used in dev mode
+ * @property options.development.ignoredDependencies - Dependencies to be not bundled separately
+ * @property options.development.additionalPlugins - Additional plugins to be used in dev mode
  * @property options.development.additionalRollupSettings - Add development mode specific rollup settings
  * @property options.production - Production mode settings
  * @property options.production.additionalPlugins - Additional plugins to be used in prod mode

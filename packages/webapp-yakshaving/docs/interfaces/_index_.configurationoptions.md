@@ -2,11 +2,11 @@
 
 # Interface: ConfigurationOptions
 
-Congfiguration Options
+Configuration Options
 
-**`property`** options.projectRoot - Your projects root directory
+**`property`** options.projectRoot - Your project's root directory
 
-**`property`** options.entryPoint - Entry files path, relative to `projectRoot`
+**`property`** options.entryPoint - Path to entry file, relative to `projectRoot`
 
 **`property`** options.outputDirectory - Output directory, relative to `projectRoot`
 
@@ -18,9 +18,9 @@ Congfiguration Options
 
 **`property`** options.development - Development mode settings
 
-**`property`** options.development.ignoredDependencies - Dependencies to be not bundled seperately
+**`property`** options.development.ignoredDependencies - Dependencies to be not bundled separately
 
-**`property`** options.development.additionalPlugins - Additonal plugins to be used in dev mode
+**`property`** options.development.additionalPlugins - Additional plugins to be used in dev mode
 
 **`property`** options.development.additionalRollupSettings - Add development mode specific rollup settings
 
@@ -32,97 +32,97 @@ Congfiguration Options
 
 ## Hierarchy
 
-- **ConfigurationOptions**
+* **ConfigurationOptions**
 
 ## Index
 
 ### Properties
 
-- [development](_index_.configurationoptions.md#optional-development)
-- [entryPoint](_index_.configurationoptions.md#entrypoint)
-- [outputDirectory](_index_.configurationoptions.md#outputdirectory)
-- [production](_index_.configurationoptions.md#optional-production)
-- [projectRoot](_index_.configurationoptions.md#projectroot)
-- [requiredPlugins](_index_.configurationoptions.md#requiredplugins)
-- [rollup](_index_.configurationoptions.md#rollup)
-- [watch](_index_.configurationoptions.md#watch)
+* [development](_index_.configurationoptions.md#optional-development)
+* [entryPoint](_index_.configurationoptions.md#entrypoint)
+* [outputDirectory](_index_.configurationoptions.md#outputdirectory)
+* [production](_index_.configurationoptions.md#optional-production)
+* [projectRoot](_index_.configurationoptions.md#projectroot)
+* [requiredPlugins](_index_.configurationoptions.md#requiredplugins)
+* [rollup](_index_.configurationoptions.md#rollup)
+* [watch](_index_.configurationoptions.md#watch)
 
 ## Properties
 
 ### `Optional` development
 
-• **development**? : _undefined | object_
+• **development**? : *undefined | object*
 
-_Defined in [index.ts:56](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L56)_
+*Defined in [index.ts:56](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L56)*
 
----
+___
 
-### entryPoint
+###  entryPoint
 
-• **entryPoint**: _string_
+• **entryPoint**: *string*
 
-_Defined in [index.ts:41](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L41)_
+*Defined in [index.ts:41](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L41)*
 
----
+___
 
-### outputDirectory
+###  outputDirectory
 
-• **outputDirectory**: _string_
+• **outputDirectory**: *string*
 
-_Defined in [index.ts:42](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L42)_
+*Defined in [index.ts:42](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L42)*
 
----
+___
 
 ### `Optional` production
 
-• **production**? : _undefined | object_
+• **production**? : *undefined | object*
 
-_Defined in [index.ts:65](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L65)_
+*Defined in [index.ts:65](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L65)*
 
----
+___
 
-### projectRoot
+###  projectRoot
 
-• **projectRoot**: _string_
+• **projectRoot**: *string*
 
-_Defined in [index.ts:40](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L40)_
+*Defined in [index.ts:40](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L40)*
 
----
+___
 
-### requiredPlugins
+###  requiredPlugins
 
-• **requiredPlugins**: _object_
+• **requiredPlugins**: *object*
 
-_Defined in [index.ts:47](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L47)_
+*Defined in [index.ts:47](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L47)*
 
 #### Type declaration:
 
-- **commonJs**: _[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginCommonJs›_
+* **commonJs**: *[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginCommonJs›*
 
-- **nodeResolve**: _[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginNodeResolve›_
+* **nodeResolve**: *[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginNodeResolve›*
 
-- **replace**(): _object_
+* **replace**(): *object*
 
-  - **plugin**: _typeof PluginReplace_
+  * **plugin**: *typeof PluginReplace*
 
-- **sucrase**: _[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginSucrase›_
+* **sucrase**: *[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginSucrase›*
 
-- **terser**: _[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginTerser›_
+* **terser**: *[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginTerser›*
 
-- **typescript**: _[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginTypescript›_
+* **typescript**: *[RequiredPlugin](_index_.requiredplugin.md)‹typeof PluginTypescript›*
 
----
+___
 
-### rollup
+###  rollup
 
-• **rollup**: _typeof RollupFn_
+• **rollup**: *typeof RollupFn*
 
-_Defined in [index.ts:44](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L44)_
+*Defined in [index.ts:44](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L44)*
 
----
+___
 
-### watch
+###  watch
 
-• **watch**: _typeof WatchFn_
+• **watch**: *typeof WatchFn*
 
-_Defined in [index.ts:45](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L45)_
+*Defined in [index.ts:45](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L45)*

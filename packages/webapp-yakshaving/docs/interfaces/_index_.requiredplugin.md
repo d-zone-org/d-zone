@@ -12,40 +12,40 @@ Represents required plugins for yakshaving
 
 ## Type parameters
 
-▪ **P**: _PluginImpl‹any›_
+▪ **P**: *PluginImpl‹any›*
 
 ## Hierarchy
 
-- **RequiredPlugin**
+* **RequiredPlugin**
 
 ## Index
 
 ### Properties
 
-- [devConfig](_index_.requiredplugin.md#optional-devconfig)
-- [plugin](_index_.requiredplugin.md#plugin)
-- [prodConfig](_index_.requiredplugin.md#optional-prodconfig)
+* [devConfig](_index_.requiredplugin.md#optional-devconfig)
+* [plugin](_index_.requiredplugin.md#plugin)
+* [prodConfig](_index_.requiredplugin.md#optional-prodconfig)
 
 ## Properties
 
 ### `Optional` devConfig
 
-• **devConfig**? : _Parameters‹P›[0]_
+• **devConfig**? : *Parameters‹P›[0]*
 
-_Defined in [index.ts:82](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L82)_
+*Defined in [index.ts:82](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L82)*
 
----
+___
 
-### plugin
+###  plugin
 
-• **plugin**: _P_
+• **plugin**: *P*
 
-_Defined in [index.ts:81](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L81)_
+*Defined in [index.ts:81](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L81)*
 
----
+___
 
 ### `Optional` prodConfig
 
-• **prodConfig**? : _Parameters‹P›[0]_
+• **prodConfig**? : *Parameters‹P›[0]*
 
-_Defined in [index.ts:83](https://github.com/vegeta897/d-zone/blob/458baeb/packages/webapp-yakshaving/source/index.ts#L83)_
+*Defined in [index.ts:83](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L83)*
