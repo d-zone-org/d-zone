@@ -1,4 +1,6 @@
-# yakshaving
+![doodle](./doodle.svg)
+
+# Yakshaving
 
 > Simple, powerful and smart wrapper around rollup
 
