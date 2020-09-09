@@ -1,9 +1,0 @@
-{
-	"extends": "../../tsconfig.server.json",
-	"compilerOptions": {
-		"rootDir": "src",
-		"outDir": "build",
-		"baseUrl": ".",
-		"paths": { "@d-zone/server": ["../server-core"] }
-	}
-}

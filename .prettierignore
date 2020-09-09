@@ -6,3 +6,4 @@
 yarn.lock
 **/patches/*
 packages/webapp/public/img/*
+packages/webapp-yakshaving/docs/*
