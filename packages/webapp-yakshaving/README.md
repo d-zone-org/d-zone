@@ -1,4 +1,4 @@
-![doodle](./doodle.svg)
+<img src="./doodle.svg" width="300px"/>
 
 # Yakshaving
 
