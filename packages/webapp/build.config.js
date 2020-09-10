@@ -19,6 +19,12 @@ const additionalRollupSettings = {
 	input: { preserveEntrySignatures: false },
 }
 
+const replaceBasename = {
+	values: {
+		'process.env.BASENAME': `'${process.env.BASENAME}'`,
+	},
+}
+
 configure({
 	projectRoot: __dirname,
 	entryPoint: 'source/index.tsx',
@@ -42,6 +48,7 @@ configure({
 
 	development: {
 		additionalPlugins: [
+			pluginReplace(replaceBasename),
 			pluginJson(),
 			pluginServe({
 				contentBase: root('public'),
@@ -55,11 +62,7 @@ configure({
 
 	production: {
 		additionalPlugins: [
-			pluginReplace({
-				values: {
-					'process.env.BASENAME': `'${process.env.BASENAME}'`,
-				},
-			}),
+			pluginReplace(replaceBasename),
 			pluginJson(),
 			pluginClearDirectory({ targets: [root('public/build')] }),
 		],
