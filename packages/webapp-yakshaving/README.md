@@ -1,4 +1,4 @@
-<img align="right" src="./doodle.svg" width="300px" alt="Yakshaving logo"/>
+<img align="right" src="https://raw.githubusercontent.com/d-zone-org/d-zone/rewrite/packages/webapp-yakshaving/doodle.svg" width="300px" alt="Yakshaving logo"/>
 
 # Yakshaving
 
@@ -6,7 +6,9 @@
 
 ## Installation
 
-> Got no idea! Still figuring this out
+```bash
+yarn add yakshaving
+```
 
 ## Features
 
@@ -22,5 +24,5 @@
 
 ## Documentation
 
-- Check out the documentation [here](./docs/README.md)!
-- Want an example? See how we are using it [here](https://github.com/vegeta897/d-zone/blob/better-distribution/packages/webapp/build.config.js).
+- Check out the documentation [here](https://github.com/d-zone-org/d-zone/tree/rewrite/packages/webapp-yakshaving/docs)!
+- Want an example? See how we are using it [here](https://github.com/d-zone-org/d-zone/blob/rewrite/packages/webapp/build.config.js).
