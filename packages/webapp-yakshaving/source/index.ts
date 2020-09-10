@@ -36,7 +36,7 @@ import type { terser as PluginTerser } from 'rollup-plugin-terser'
  * @property options.development.additionalPlugins - Additional plugins to be used in dev mode
  * @property options.development.additionalRollupSettings - Add development mode specific rollup settings
  * @property options.production - Production mode settings
- * @property options.production.additionalPlugins - Additional plugins to be used in prod mode
+ * @property options.production.additionalPlugins - Function (can be async) that returns additional plugins
  * @property options.production.additionalRollupSettings - Add production mode specific rollup settings
  */
 export interface ConfigurationOptions {
@@ -58,7 +58,7 @@ export interface ConfigurationOptions {
 
 	development?: {
 		ignoredDependencies?: string[]
-		additionalPlugins?: Plugin[]
+		additionalPlugins?: () => Promise<Plugin[]> | Plugin[]
 		additionalRollupSettings?: {
 			input?: RollupInputOptions
 			output?: RollupOutputOptions
@@ -66,7 +66,7 @@ export interface ConfigurationOptions {
 	}
 
 	production?: {
-		additionalPlugins?: Plugin[]
+		additionalPlugins?: () => Promise<Plugin[]> | Plugin[]
 		additionalRollupSettings?: {
 			input?: RollupInputOptions
 			output?: RollupOutputOptions
@@ -144,11 +144,14 @@ export async function configure(options: ConfigurationOptions) {
 	const userRequire = module.createRequire(userManifestPath)
 
 	if (dev) {
+		// De-structure development config if possible
+		const { additionalPlugins, additionalRollupSettings, ignoredDependencies } =
+			development || {}
+
 		// Dependencies to be bundled
-		const dependencies = Object.entries(userManifest.dependencies).filter(
-			([dependencyId]) =>
-				!development?.ignoredDependencies?.includes(dependencyId)
-		)
+		const dependencies = Object.entries(
+			userManifest.dependencies
+		).filter(([dependencyId]) => ignoredDependencies?.includes(dependencyId))
 
 		// Start development mode
 		await developmentMode({
@@ -176,11 +179,14 @@ export async function configure(options: ConfigurationOptions) {
 					sucrase: [sucrase.plugin, sucrase.devConfig],
 					typescript: [typescript.plugin, typescript.devConfig],
 				},
-				extraPlugins: development?.additionalPlugins || [],
-				additionalRollupSettings: development?.additionalRollupSettings,
+				extraPlugins: additionalPlugins ? await additionalPlugins() : [],
+				additionalRollupSettings: additionalRollupSettings,
 			},
 		})
 	} else {
+		// De-structure production config if possible
+		const { additionalPlugins, additionalRollupSettings } = production || {}
+
 		await productionMode({
 			entryPoint: userRoot(entryPoint),
 			requiredPlugins: {
@@ -190,12 +196,11 @@ export async function configure(options: ConfigurationOptions) {
 				terser: [terser.plugin, terser.prodConfig],
 				replace: [replace.plugin],
 			},
-			extraPlugins: production?.additionalPlugins || [],
-			additionalRollupSettings: production?.additionalRollupSettings,
+			extraPlugins: additionalPlugins ? await additionalPlugins() : [],
+			additionalRollupSettings: additionalRollupSettings,
 			outputDirectory: userRoot(outputDirectory),
 			rollup,
 		})
-		process.exit(0)
 	}
 }
 

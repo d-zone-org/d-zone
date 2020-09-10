@@ -34,7 +34,7 @@ const Configuration = object({
 	development: optional(
 		object({
 			ignoredDependencies: optional(array(string())),
-			additionalPlugins: optional(array()),
+			additionalPlugins: optional(func()),
 			additionalRollupSettings: optional(
 				object({
 					input: optional(object()),
@@ -46,7 +46,7 @@ const Configuration = object({
 
 	production: optional(
 		object({
-			additionalPlugins: optional(array()),
+			additionalPlugins: optional(func()),
 			additionalRollupSettings: optional(
 				object({
 					input: optional(object()),

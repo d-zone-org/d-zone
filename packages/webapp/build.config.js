@@ -47,7 +47,7 @@ configure({
 	watch,
 
 	development: {
-		additionalPlugins: [
+		additionalPlugins: () => [
 			pluginReplace(replaceBasename),
 			pluginJson(),
 			pluginServe({
@@ -61,7 +61,7 @@ configure({
 	},
 
 	production: {
-		additionalPlugins: [
+		additionalPlugins: () => [
 			pluginReplace(replaceBasename),
 			pluginJson(),
 			pluginClearDirectory({ targets: [root('public/build')] }),
