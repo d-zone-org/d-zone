@@ -30,7 +30,7 @@ Errors thrown by Yakshaving
 
 \+ **new YakError**(`name`: string, `description`: string, `context?`: Record‹string, unknown›): *[YakError](_error_.yakerror.md)*
 
-*Defined in [packages/webapp-yakshaving/source/error.ts:7](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/error.ts#L7)*
+*Defined in [packages/webapp-yakshaving/source/error.ts:7](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/error.ts#L7)*
 
 Throw a new yak error
 
@@ -50,7 +50,7 @@ Name | Type | Description |
 
 • **context**? : *Record‹string, unknown›*
 
-*Defined in [packages/webapp-yakshaving/source/error.ts:7](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/error.ts#L7)*
+*Defined in [packages/webapp-yakshaving/source/error.ts:7](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/error.ts#L7)*
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/webapp-yakshaving/source/error.ts:6](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/error.ts#L6)*
+*Defined in [packages/webapp-yakshaving/source/error.ts:6](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/error.ts#L6)*
 
 ___
 

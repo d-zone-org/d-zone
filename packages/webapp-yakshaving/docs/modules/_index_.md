@@ -19,7 +19,7 @@
 
 ▸ **configure**(`options`: [ConfigurationOptions](../interfaces/_index_.configurationoptions.md)): *Promise‹void›*
 
-*Defined in [packages/webapp-yakshaving/source/index.ts:98](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/index.ts#L98)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:98](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L98)*
 
 Configure bundler. Import this function in your configuration file
 and call it with your configuration. Run your configuration file

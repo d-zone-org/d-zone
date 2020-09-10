@@ -26,7 +26,7 @@ Configuration Options
 
 **`property`** options.production - Production mode settings
 
-**`property`** options.production.additionalPlugins - Additional plugins to be used in prod mode
+**`property`** options.production.additionalPlugins - Function (can be async) that returns additional plugins
 
 **`property`** options.production.additionalRollupSettings - Add production mode specific rollup settings
 
@@ -53,7 +53,7 @@ Configuration Options
 
 • **development**? : *undefined | object*
 
-*Defined in [packages/webapp-yakshaving/source/index.ts:59](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/index.ts#L59)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:59](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L59)*
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 • **entryPoint**: *string*
 
-*Defined in [packages/webapp-yakshaving/source/index.ts:44](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/index.ts#L44)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:44](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L44)*
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 • **outputDirectory**: *string*
 
-*Defined in [packages/webapp-yakshaving/source/index.ts:45](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/index.ts#L45)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:45](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L45)*
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 • **production**? : *undefined | object*
 
-*Defined in [packages/webapp-yakshaving/source/index.ts:68](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/index.ts#L68)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:68](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L68)*
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 • **projectRoot**: *string*
 
-*Defined in [packages/webapp-yakshaving/source/index.ts:43](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/index.ts#L43)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:43](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L43)*
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 • **requiredPlugins**: *object*
 
-*Defined in [packages/webapp-yakshaving/source/index.ts:50](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/index.ts#L50)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:50](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L50)*
 
 #### Type declaration:
 
@@ -117,7 +117,7 @@ ___
 
 • **rollup**: *typeof RollupFn*
 
-*Defined in [packages/webapp-yakshaving/source/index.ts:47](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/index.ts#L47)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:47](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L47)*
 
 ___
 
@@ -125,4 +125,4 @@ ___
 
 • **watch**: *typeof WatchFn*
 
-*Defined in [packages/webapp-yakshaving/source/index.ts:48](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/index.ts#L48)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:48](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L48)*

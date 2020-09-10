@@ -14,7 +14,7 @@
 
 ▸ **validate**(`value`: unknown): *void*
 
-*Defined in [packages/webapp-yakshaving/source/validator.ts:65](https://github.com/d-zone-org/d-zone/blob/4365347/packages/webapp-yakshaving/source/validator.ts#L65)*
+*Defined in [packages/webapp-yakshaving/source/validator.ts:65](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/validator.ts#L65)*
 
 Validate configuration
 
