@@ -27,7 +27,10 @@ jobs:
       - name: Install and Build 🔧
         run: |
           yarn install
+          yarn workspace yakshaving build
           yarn workspace webapp build
+        env:
+          BASENAME: /${{ github.event.repository.name }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.9
