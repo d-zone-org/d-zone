@@ -1,5 +1,7 @@
 import React from 'react'
-import { Router, RouterRoutes } from '../Router'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Home from '../../pages/Home'
+import NotFound from '../../pages/Not-Found'
 
 const AppStyles: React.CSSProperties = {
 	minHeight: '100vh',
@@ -10,14 +12,18 @@ const AppStyles: React.CSSProperties = {
 export const ThemeStyles: React.CSSProperties = {}
 
 export const App = () => {
-	const routes: RouterRoutes = [
-		{ path: '/', component: () => import('../../pages/Home') },
-		{ path: '*', component: () => import('../../pages/Not-Found') },
-	]
-
 	return (
 		<div style={AppStyles} id="app">
-			<Router routes={routes}></Router>
+			<Router basename="/">
+				<Switch>
+					<Route exact path="/">
+						<Home />
+					</Route>
+					<Route path="*">
+						<NotFound />
+					</Route>
+				</Switch>
+			</Router>
 		</div>
 	)
 }
