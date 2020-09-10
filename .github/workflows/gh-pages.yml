@@ -27,6 +27,7 @@ jobs:
       - name: Install and Build 🔧
         run: |
           yarn install
+          yarn workspace yakshaving build
           yarn workspace webapp build
 
       - name: Deploy 🚀
