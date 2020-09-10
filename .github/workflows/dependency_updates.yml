@@ -28,7 +28,7 @@ jobs:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
-      - run: yarn up '!(yakshaving)'
+      - run: yarn up !(yakshaving)
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3.1.0
