@@ -14,7 +14,8 @@ export const ThemeStyles: React.CSSProperties = {}
 export const App = () => {
 	return (
 		<div style={AppStyles} id="app">
-			<Router basename="/">
+			{/* @ts-ignore */}
+			<Router basename={`${process.env.BASENAME}/`}>
 				<Switch>
 					<Route exact path="/">
 						<Home />

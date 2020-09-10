@@ -55,6 +55,11 @@ configure({
 
 	production: {
 		additionalPlugins: [
+			pluginReplace({
+				values: {
+					'process.env.BASENAME': `'${process.env.BASENAME}'`,
+				},
+			}),
 			pluginJson(),
 			pluginClearDirectory({ targets: [root('public/build')] }),
 		],
