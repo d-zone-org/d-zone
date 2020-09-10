@@ -1,4 +1,4 @@
-<img src="./doodle.svg" width="300px" alt="Yakshaving logo"/>
+<img align="right" src="./doodle.svg" width="300px" alt="Yakshaving logo"/>
 
 # Yakshaving
 
@@ -15,6 +15,8 @@
   - Bundles app in development mode with sucrase rather than typescript.
   - Separate bundle for dependencies, prevents waste of time in treeshaking them.
   - Caching of the dependency bundle, prevents building of dependencies every restart.
+
+- Built in configuration validation so you don't end up breaking something by mistake.
 
 - What do you think we need more?
 

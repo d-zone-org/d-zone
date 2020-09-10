@@ -28,7 +28,7 @@
 		"@rollup/plugin-typescript": "^5.0.2",
 		"@types/node": "^14.6.4",
 		"@types/yargs-parser": "^15.0.0",
-		"rollup": "^2.26.10",
+		"rollup": "^2.26.11",
 		"rollup-plugin-terser": "^7.0.2",
 		"sucrase": "^3.15.0",
 		"typedoc": "^0.19.1",
@@ -37,7 +37,7 @@
 	},
 	"dependencies": {
 		"superstruct": "^0.10.12",
-		"yargs-parser": "^19.0.4"
+		"yargs-parser": "^20.0.0"
 	},
 	"publishConfig": {
 		"registry": "https://registry.npmjs.org/"
