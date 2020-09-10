@@ -5341,7 +5341,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.26.10, rollup@npm:^2.26.11":
+"rollup@npm:^2.26.11":
   version: 2.26.11
   resolution: "rollup@npm:2.26.11"
   dependencies:
@@ -6546,13 +6546,13 @@ typescript@^4.0.2:
     "@rollup/plugin-typescript": ^5.0.2
     "@types/node": ^14.6.4
     "@types/yargs-parser": ^15.0.0
-    rollup: ^2.26.10
+    rollup: ^2.26.11
     rollup-plugin-terser: ^7.0.2
     sucrase: ^3.15.0
     typedoc: ^0.19.1
     typedoc-plugin-markdown: ^2.4.2
     typescript: ^4.0.2
-    yargs-parser: ^19.0.4
+    yargs-parser: ^20.0.0
   peerDependencies:
     "@rollup/plugin-commonjs": "*"
     "@rollup/plugin-node-resolve": "*"
@@ -6581,10 +6581,10 @@ typescript@^4.0.2:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:^19.0.4":
-  version: 19.0.4
-  resolution: "yargs-parser@npm:19.0.4"
-  checksum: 69ed686f9f215b1aeccf767e6fa264e1d37b2ac9c5cf78cd55cab1afb994aa3cb8888c4e3d51c214050cdeefe133d61f4079c87f6621c13d0b7a6349b0677cb7
+"yargs-parser@npm:^20.0.0":
+  version: 20.0.0
+  resolution: "yargs-parser@npm:20.0.0"
+  checksum: ddd40e7c1a23416f46b08fd5b07b9ac87b56682cbeb164dd56c7bd14a5a2274be2450a1ac8e2c320bf3b558c9b69fd20dd14d03481c75664662838275250cdfa
   languageName: node
   linkType: hard
 
