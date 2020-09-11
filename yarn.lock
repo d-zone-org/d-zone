@@ -2436,10 +2436,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ecsy@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "ecsy@npm:0.4.1"
-  checksum: 803725ca81232841da83d5bbfd86347d61241e116f93aeea24d207e1e86e6ca0ebf4ab61c86405e2c97ae7415b7ead1245cda56cfd2819ce8d2e60a8e43b6e85
+"ecsy@npm:^0.4.2":
+  version: 0.4.2
+  resolution: "ecsy@npm:0.4.2"
+  checksum: b34ac6ec40788235aaceb16673057288c886955f445fdfbc17248176d0db6c2ce342d099c81245cc6eaef91eb7de9e2085b8974aa0a265335220a358cb3e81e3
   languageName: node
   linkType: hard
 
@@ -6509,7 +6509,7 @@ typescript@^4.0.2:
     "@types/react": ^16.9.46
     "@types/react-dom": ^16.9.8
     "@types/react-router-dom": ^5.1.5
-    ecsy: ^0.4.1
+    ecsy: ^0.4.2
     jest: ^26.4.2
     pixi-cull: ^1.0.0
     pixi-viewport: ^4.13.2
