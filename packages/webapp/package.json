@@ -10,7 +10,7 @@
 		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
-		"ecsy": "^0.4.1",
+		"ecsy": "^0.4.2",
 		"pixi-cull": "^1.0.0",
 		"pixi-viewport": "^4.13.2",
 		"pixi.js-legacy": "^5.3.3",
