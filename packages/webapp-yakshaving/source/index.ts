@@ -149,9 +149,10 @@ export async function configure(options: ConfigurationOptions) {
 			development || {}
 
 		// Dependencies to be bundled
-		const dependencies = Object.entries(
-			userManifest.dependencies
-		).filter(([dependencyId]) => ignoredDependencies?.includes(dependencyId))
+		const dependencies = Object.entries(userManifest.dependencies).filter(
+			([dependencyId]) =>
+				ignoredDependencies && !ignoredDependencies.includes(dependencyId)
+		)
 
 		// Start development mode
 		await developmentMode({
