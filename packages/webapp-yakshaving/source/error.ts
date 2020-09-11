@@ -3,8 +3,8 @@
  */
 
 export class YakError extends Error {
-	public readonly name: string;
-	public readonly context?: Record<string, unknown>;
+	public readonly name: string
+	public readonly context?: Record<string, unknown>
 
 	/**
 	 * Throw a new yak error
@@ -17,13 +17,13 @@ export class YakError extends Error {
 		description: string,
 		context?: Record<string, unknown>
 	) {
-		super(description);
+		super(description)
 
-		Object.setPrototypeOf(this, new.target.prototype);
+		Object.setPrototypeOf(this, new.target.prototype)
 
-		this.name = name;
-		this.context = context;
+		this.name = name
+		this.context = context
 
-		Error.captureStackTrace(this);
+		Error.captureStackTrace(this)
 	}
 }
