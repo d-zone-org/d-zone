@@ -17,28 +17,20 @@
 
 ###  configure
 
-▸ **configure**(`__namedParameters`: object): *Promise‹void›*
+▸ **configure**(`options`: [ConfigurationOptions](../interfaces/_index_.configurationoptions.md)): *Promise‹void›*
 
-*Defined in [index.ts:94](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L94)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:98](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L98)*
 
 Configure bundler. Import this function in your configuration file
 and call it with your configuration. Run your configuration file
 like any other node application. Add `--dev` flag for development mode.
 Check out `ConfigurationOptions` interface for description of the properties.
+The function might emit error, please handle it properly.
 
 **Parameters:**
 
-▪ **__namedParameters**: *object*
-
-Name | Type |
------- | ------ |
-`development` | undefined &#124; object |
-`entryPoint` | string |
-`outputDirectory` | string |
-`production` | undefined &#124; object |
-`projectRoot` | string |
-`requiredPlugins` | object |
-`rollup` | rollup |
-`watch` | watch |
+Name | Type | Description |
+------ | ------ | ------ |
+`options` | [ConfigurationOptions](../interfaces/_index_.configurationoptions.md) | Configuration Options  |
 
 **Returns:** *Promise‹void›*

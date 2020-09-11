@@ -1,7 +1,10 @@
 import yargs from 'yargs-parser'
+
 import path from 'path'
 import module from 'module'
 import fs from 'fs'
+
+import { validate } from './validator'
 
 import type {
 	rollup as RollupFn,
@@ -33,7 +36,7 @@ import type { terser as PluginTerser } from 'rollup-plugin-terser'
  * @property options.development.additionalPlugins - Additional plugins to be used in dev mode
  * @property options.development.additionalRollupSettings - Add development mode specific rollup settings
  * @property options.production - Production mode settings
- * @property options.production.additionalPlugins - Additional plugins to be used in prod mode
+ * @property options.production.additionalPlugins - Function (can be async) that returns additional plugins
  * @property options.production.additionalRollupSettings - Add production mode specific rollup settings
  */
 export interface ConfigurationOptions {
@@ -55,7 +58,7 @@ export interface ConfigurationOptions {
 
 	development?: {
 		ignoredDependencies?: string[]
-		additionalPlugins?: Plugin[]
+		additionalPlugins?: () => Promise<Plugin[]> | Plugin[]
 		additionalRollupSettings?: {
 			input?: RollupInputOptions
 			output?: RollupOutputOptions
@@ -63,7 +66,7 @@ export interface ConfigurationOptions {
 	}
 
 	production?: {
-		additionalPlugins?: Plugin[]
+		additionalPlugins?: () => Promise<Plugin[]> | Plugin[]
 		additionalRollupSettings?: {
 			input?: RollupInputOptions
 			output?: RollupOutputOptions
@@ -88,28 +91,36 @@ export interface RequiredPlugin<P extends PluginImpl<any>> {
  * and call it with your configuration. Run your configuration file
  * like any other node application. Add `--dev` flag for development mode.
  * Check out `ConfigurationOptions` interface for description of the properties.
+ * The function might emit error, please handle it properly.
  *
  * @param options - Configuration Options
  */
-export async function configure({
-	projectRoot,
-	entryPoint,
-	outputDirectory,
+export async function configure(options: ConfigurationOptions) {
+	// Validate options
+	// This is better than unknown errors emitted by rollup
+	validate(options)
 
-	rollup,
-	watch,
-	requiredPlugins: {
-		commonJs,
-		nodeResolve,
-		replace,
-		sucrase,
-		typescript,
-		terser,
-	},
+	// De-structure options
+	const {
+		projectRoot,
+		entryPoint,
+		outputDirectory,
 
-	development,
-	production,
-}: ConfigurationOptions) {
+		rollup,
+		watch,
+		requiredPlugins: {
+			commonJs,
+			nodeResolve,
+			replace,
+			sucrase,
+			typescript,
+			terser,
+		},
+
+		development,
+		production,
+	} = options
+
 	// Parse command line arguments
 	const { dev } = yargs(process.argv.slice(2), {
 		alias: { dev: ['d'] },
@@ -133,11 +144,14 @@ export async function configure({
 	const userRequire = module.createRequire(userManifestPath)
 
 	if (dev) {
+		// De-structure development config if possible
+		const { additionalPlugins, additionalRollupSettings, ignoredDependencies } =
+			development || {}
+
 		// Dependencies to be bundled
-		const dependencies = Object.entries(userManifest.dependencies).filter(
-			([dependencyId]) =>
-				!development?.ignoredDependencies?.includes(dependencyId)
-		)
+		const dependencies = Object.entries(
+			userManifest.dependencies
+		).filter(([dependencyId]) => ignoredDependencies?.includes(dependencyId))
 
 		// Start development mode
 		await developmentMode({
@@ -165,11 +179,14 @@ export async function configure({
 					sucrase: [sucrase.plugin, sucrase.devConfig],
 					typescript: [typescript.plugin, typescript.devConfig],
 				},
-				extraPlugins: development?.additionalPlugins || [],
-				additionalRollupSettings: development?.additionalRollupSettings,
+				extraPlugins: additionalPlugins ? await additionalPlugins() : [],
+				additionalRollupSettings: additionalRollupSettings,
 			},
 		})
 	} else {
+		// De-structure production config if possible
+		const { additionalPlugins, additionalRollupSettings } = production || {}
+
 		await productionMode({
 			entryPoint: userRoot(entryPoint),
 			requiredPlugins: {
@@ -179,12 +196,11 @@ export async function configure({
 				terser: [terser.plugin, terser.prodConfig],
 				replace: [replace.plugin],
 			},
-			extraPlugins: production?.additionalPlugins || [],
-			additionalRollupSettings: production?.additionalRollupSettings,
+			extraPlugins: additionalPlugins ? await additionalPlugins() : [],
+			additionalRollupSettings: additionalRollupSettings,
 			outputDirectory: userRoot(outputDirectory),
 			rollup,
 		})
-		process.exit()
 	}
 }
 
@@ -241,7 +257,7 @@ async function createDependenciesBundle({
 	const cacheFilePath = path.join(outputDirectory, 'cache.json')
 	const cache: string[] = fs.existsSync(cacheFilePath)
 		? require(cacheFilePath)
-		: // In case file doesnt exist create the output directory
+		: // In case file doesn't exist create the output directory
 		  (await fs.promises.mkdir(outputDirectory, { recursive: true }), [])
 	const updatedCache: string[] = []
 

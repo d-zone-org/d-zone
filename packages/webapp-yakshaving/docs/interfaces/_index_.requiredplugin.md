@@ -32,7 +32,7 @@ Represents required plugins for yakshaving
 
 • **devConfig**? : *Parameters‹P›[0]*
 
-*Defined in [index.ts:82](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L82)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:85](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L85)*
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 • **plugin**: *P*
 
-*Defined in [index.ts:81](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L81)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:84](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L84)*
 
 ___
 
@@ -48,4 +48,4 @@ ___
 
 • **prodConfig**? : *Parameters‹P›[0]*
 
-*Defined in [index.ts:83](https://github.com/vegeta897/d-zone/blob/afa9e61/packages/webapp-yakshaving/source/index.ts#L83)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:86](https://github.com/d-zone-org/d-zone/blob/85b6f01/packages/webapp-yakshaving/source/index.ts#L86)*
