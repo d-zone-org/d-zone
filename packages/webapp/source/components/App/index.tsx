@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Home from '../../pages/Home'
-import NotFound from '../../pages/Not-Found'
+import { Home } from '../../pages/Home'
+import { NotFound } from '../../pages/Not-Found'
 
 const AppStyles: React.CSSProperties = {
 	minHeight: '100vh',
@@ -11,7 +11,7 @@ const AppStyles: React.CSSProperties = {
 
 export const ThemeStyles: React.CSSProperties = {}
 
-export const App = () => {
+export const App: React.FC = () => {
 	return (
 		<div style={AppStyles} id="app">
 			{/* @ts-ignore */}

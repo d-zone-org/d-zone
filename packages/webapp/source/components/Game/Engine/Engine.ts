@@ -8,9 +8,9 @@ export default class Engine {
 	}
 
 	private interval: number | undefined
-	private tick: number = 0
+	private tick = 0
 
-	update() {
+	update(): void {
 		this.world.execute(this.interval, this.tick++)
 	}
 

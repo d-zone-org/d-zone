@@ -12,7 +12,7 @@ const zoomLevels = [0.25, 0.5, 1, 2, 3, 4, 5, 6, 8]
 export default class Renderer {
 	app: PIXI.Application
 	view: Viewport
-	cull: any
+	cull: Cull.SpatialHash
 	constructor(canvas: HTMLCanvasElement) {
 		this.app = new PIXI.Application({
 			backgroundColor: 0x1d171f,

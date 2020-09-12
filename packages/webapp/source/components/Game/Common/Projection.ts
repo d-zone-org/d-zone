@@ -1,4 +1,4 @@
-export const SCALE: number = 8
+export const SCALE = 8
 
 export function get2dCoordsFromIso(
 	x: number,

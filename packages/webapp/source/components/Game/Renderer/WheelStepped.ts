@@ -1,4 +1,4 @@
-import { Plugin, Viewport } from 'pixi-viewport'
+import { Plugin, Viewport, ViewportOptions } from 'pixi-viewport'
 import * as PIXI from 'pixi.js-legacy'
 
 const wheelSteppedOptions = {
@@ -7,6 +7,24 @@ const wheelSteppedOptions = {
 	reverse: false,
 	center: null,
 	steps: [0.25, 0.5, 1, 2, 3, 4, 5, 6, 8],
+}
+
+interface Point {
+	x: number
+	y: number
+}
+
+interface MyViewport extends Viewport {
+	input: { getPointerPosition: (e: WheelEvent) => Point }
+	options: ViewportOptions
+}
+
+class MyPlugin extends Plugin {
+	readonly parent: MyViewport
+	constructor(viewport: Viewport) {
+		super(viewport)
+		this.parent = viewport as MyViewport
+	}
 }
 
 function getClosestIndex(arr: number[], target: number): number {
@@ -18,7 +36,7 @@ function getClosestIndex(arr: number[], target: number): number {
 	return closest
 }
 
-export default class WheelStepped extends Plugin {
+export default class WheelStepped extends MyPlugin {
 	private options: {
 		smooth: boolean | number
 		interrupt: boolean
@@ -28,23 +46,21 @@ export default class WheelStepped extends Plugin {
 	}
 	private smoothing: { x: number; y: number } | null = null
 	private smoothingCenter: { x: number; y: number } = { x: 0, y: 0 }
-	private readonly parent: Viewport
-	private paused: boolean = false
-	private smoothingCount: number = 0
-	private targetZoomLevel: number = 0
+	private paused = false
+	private smoothingCount = 0
+	private targetZoomLevel = 0
 	constructor(parent: Viewport, options = {}) {
 		super(parent)
-		this.parent = parent
 		this.options = Object.assign({}, wheelSteppedOptions, options)
 	}
 
-	down() {
+	down(): void {
 		if (this.options.interrupt) {
 			this.smoothing = null
 		}
 	}
 
-	update() {
+	update(): void {
 		if (this.smoothing) {
 			const point = this.smoothingCenter
 			const change = this.smoothing
@@ -55,10 +71,9 @@ export default class WheelStepped extends Plugin {
 			this.parent.scale.x += change.x
 			this.parent.scale.y += change.y
 			this.parent.emit('zoomed', { viewport: this.parent, type: 'wheel' })
-			const clamp = this.parent.plugins.get('clamp-zoom')
+			const clamp = this.parent.plugins.get('clamp-zoom') as MyPlugin
 			if (clamp) {
-				// @ts-ignore
-				clamp.clamp()
+				clamp.parent.clamp()
 			}
 			if (this.options.center) {
 				this.parent.moveCenter(this.options.center!)
@@ -81,8 +96,7 @@ export default class WheelStepped extends Plugin {
 		if (this.paused || this.smoothing) {
 			return
 		}
-		// @ts-ignore
-		let point = this.parent.input.getPointerPosition(e)
+		const point = this.parent.input.getPointerPosition(e)
 		const sign = this.options.reverse ? -1 : 1
 		const currentZoomLevel = getClosestIndex(
 			this.options.steps,
@@ -111,10 +125,9 @@ export default class WheelStepped extends Plugin {
 			this.parent.scale.x = targetScale
 			this.parent.scale.y = targetScale
 			this.parent.emit('zoomed', { viewport: this.parent, type: 'wheel' })
-			const clamp = this.parent.plugins.get('clamp-zoom')
+			const clamp = this.parent.plugins.get('clamp-zoom') as MyPlugin
 			if (clamp) {
-				// @ts-ignore
-				clamp.clamp()
+				clamp.parent.clamp()
 			}
 			if (this.options.center) {
 				this.parent.moveCenter(this.options.center!)
@@ -130,7 +143,6 @@ export default class WheelStepped extends Plugin {
 			event: e,
 			viewport: this.parent,
 		})
-		// @ts-ignore
 		return !this.parent.options.passiveWheel
 	}
 }

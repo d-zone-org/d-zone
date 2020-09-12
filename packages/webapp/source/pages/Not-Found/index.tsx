@@ -15,7 +15,7 @@ const HeadingStyle: React.CSSProperties = {
 	marginBottom: '0.5em',
 }
 
-export default () => (
+export const NotFound: React.FC = () => (
 	<div style={WrapperStyle}>
 		<h1 style={HeadingStyle}>404 Not Found</h1>
 		<img

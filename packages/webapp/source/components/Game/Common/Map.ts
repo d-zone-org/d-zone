@@ -2,12 +2,28 @@ const FLOOR = 0
 
 export class Map3D {
 	private data: Map<string, Cell3D>
+	private readonly floorCell: Cell3D
+	private readonly emptyCell: Cell3D
 	constructor() {
 		this.data = new Map()
+		this.floorCell = new Cell3D({
+			map: this,
+			x: 0,
+			y: 0,
+			z: -1,
+			properties: { platform: true, solid: true },
+		})
+		this.emptyCell = new Cell3D({
+			map: this,
+			x: 0,
+			y: 0,
+			z: 0,
+			properties: { solid: false },
+		})
 	}
 	getXYZ(grid: Grid): Cell3D {
-		if (grid.z < FLOOR) return FloorCell
-		return this.data.get(Map3D.gridToHash(grid)) || EmptyCell
+		if (grid.z < FLOOR) return this.floorCell
+		return this.data.get(Map3D.gridToHash(grid)) || this.emptyCell
 	}
 	addCell(cell: Cell3D): void {
 		this.data.set(cell.getHash(), cell)
@@ -20,7 +36,7 @@ export class Map3D {
 	}
 }
 export class Cell3D {
-	private readonly map: Map3D | null
+	private readonly map: Map3D
 	x: number
 	y: number
 	z: number
@@ -38,21 +54,21 @@ export class Cell3D {
 		return this.x + ':' + this.y + ':' + this.z
 	}
 	moveTo(grid: Grid): void {
-		this.map!.clearXYZ(this)
+		this.map.clearXYZ(this)
 		Object.assign(this, grid)
-		this.map!.addCell(this)
+		this.map.addCell(this)
 	}
 	getNeighbor(grid: Grid): Cell3D {
-		return this.map!.getXYZ({
+		return this.map.getXYZ({
 			x: this.x + grid.x,
 			y: this.y + grid.y,
 			z: this.z + grid.z,
 		})
 	}
 	spread(grid: Grid, cellProperties?: Cell3DProperties): void {
-		this.map!.addCell(
+		this.map.addCell(
 			new Cell3D({
-				map: this.map!,
+				map: this.map,
 				x: this.x + grid.x,
 				y: this.y + grid.y,
 				z: this.z + grid.z,
@@ -62,26 +78,12 @@ export class Cell3D {
 		)
 	}
 	destroy(): void {
-		this.map!.clearXYZ(this)
+		this.map.clearXYZ(this)
 	}
 }
-const EmptyCell = new Cell3D({
-	map: null,
-	x: 0,
-	y: 0,
-	z: 0,
-	properties: { solid: false },
-})
-const FloorCell = new Cell3D({
-	map: null,
-	x: 0,
-	y: 0,
-	z: -1,
-	properties: { platform: true, solid: true },
-})
 
 export interface Cell3DOptions {
-	map: Map3D | null
+	map: Map3D
 	x: number
 	y: number
 	z: number

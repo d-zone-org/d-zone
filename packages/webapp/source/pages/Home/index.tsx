@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default () => {
+export const Home: React.FC = () => {
 	const Game = React.lazy(() => import('../../components/Game'))
 
 	return (

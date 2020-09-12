@@ -4,17 +4,17 @@ import {
 	SCALE,
 } from '../components/Game/Common/Projection'
 
-describe(get2dCoordsFromIso, () => {
+describe('get2dCoordsFromIso', () => {
 	test('returns x and y values', () => {
-		let coords = get2dCoordsFromIso(1, 2, 3)
+		const coords = get2dCoordsFromIso(1, 2, 3)
 		expect(coords[0]).toEqual(-2 * SCALE)
 		expect(coords[1]).toEqual(0)
 	})
 })
 
-describe(getZIndex, () => {
+describe('getZIndex', () => {
 	test('returns z-index', () => {
-		let zIndex = getZIndex(1, 2, 3)
+		const zIndex = getZIndex(1, 2, 3)
 		expect(zIndex).toEqual(3.03)
 	})
 })

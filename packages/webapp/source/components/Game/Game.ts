@@ -14,7 +14,7 @@ import MapSystem from './Engine/systems/MapSystem'
 import TransformSystem from './Engine/systems/TransformSystem'
 import SpriteSystem from './Engine/systems/SpriteSystem'
 
-export async function initGame(canvas: HTMLCanvasElement) {
+export async function initGame(canvas: HTMLCanvasElement): Promise<void> {
 	const renderer: Renderer = new Renderer(canvas)
 	console.log('Renderer created', renderer.app.stage)
 	const resources = new Resources()
@@ -33,7 +33,7 @@ export async function initGame(canvas: HTMLCanvasElement) {
 	engine.world.registerSystem(TransformSystem)
 	engine.world.registerSystem(SpriteSystem, { resources, renderer })
 	console.log('ECSY world initialized!', engine.world)
-	let actors = addActors(engine.world, 100)
+	const actors = addActors(engine.world, 100)
 	setInterval(() => {
 		hopActor(actors[Math.floor(Math.random() * actors.length)])
 	}, 50)

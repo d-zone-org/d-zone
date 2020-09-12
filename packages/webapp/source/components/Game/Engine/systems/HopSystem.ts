@@ -11,53 +11,55 @@ import {
 } from '../../../../art/sprite-config.json'
 
 let hopFrameCount: number
-let hopFrameRate = 2
+const hopFrameRate = 2
 
 export default class HopSystem extends System {
-	private animations: any
-	init(attributes: Attributes) {
+	private animations: Record<string, PIXI.Texture[]> = {}
+	init(attributes: Attributes): void {
 		this.animations = attributes.resources.sheet.spritesheet.animations
 		hopFrameCount = this.animations['hop-east'].length
 	}
-	execute(_delta: number, _time: number) {
-		let added = this.queries.hopping.added
+	execute(_delta: number, _time: number): void {
+		const added = this.queries.hopping.added
 		if (added) {
 			added.forEach((entity) => {
-				let hop = entity.getMutableComponent(Hop)!
-				let actorCell = entity.getComponent(MapCell)!.value as ActorCell
-				let target = actorCell.getHopTarget(hop)
+				const hop = entity.getMutableComponent(Hop) as Hop
+				const mapCell = entity.getComponent(MapCell) as MapCell
+				const actorCell = mapCell.value as ActorCell
+				const target = actorCell.getHopTarget(hop)
 				if (target) {
 					actorCell.reserveTarget(target)
 					actorCell.properties.platform = false
 					Object.assign(hop, target)
 				} else {
-					faceSpriteToHop(entity.getMutableComponent(Sprite)!, hop)
+					faceSpriteToHop(entity.getMutableComponent(Sprite) as Sprite, hop)
 					entity.removeComponent(Hop)
 				}
 			})
 		}
 
-		let hopping = this.queries.hopping.results
+		const hopping = this.queries.hopping.results
 		for (let i = hopping.length - 1; i >= 0; i--) {
-			let entity = hopping[i]
-			let hop = entity.getMutableComponent(Hop)!
-			let frame = Math.floor(hopFrameCount * hop.progress)
+			const entity = hopping[i]
+			const hop = entity.getMutableComponent(Hop) as Hop
+			const frame = Math.floor(hopFrameCount * hop.progress)
 			if (hop.progress >= 1) {
-				let transform = entity.getMutableComponent(Transform)!
+				const transform = entity.getMutableComponent(Transform) as Transform
 				transform.x += hop.x
 				transform.y += hop.y
 				transform.z += hop.z
-				faceSpriteToHop(entity.getMutableComponent(Sprite)!, hop)
-				entity.getComponent(MapCell)!.value.properties.platform = true
+				faceSpriteToHop(entity.getMutableComponent(Sprite) as Sprite, hop)
+				const mapCell = entity.getComponent(MapCell) as MapCell
+				mapCell.value.properties.platform = true
 				entity.removeComponent(Hop)
 			} else if (hop.progress === 0 || frame > hop.frame) {
 				hop.frame = frame
-				let sprite = entity.getMutableComponent(Sprite)!
+				const sprite = entity.getMutableComponent(Sprite) as Sprite
 				sprite.texture = this.animations[`hop-${hop.direction}`][
 					hop.frame
 				].textureCacheIds[0]
 				if (hop.progress === 0) sprite.zIndex += 0.01
-				let zDepthOffsetIndex = hopZDepthOffsets.frames.indexOf(hop.frame)
+				const zDepthOffsetIndex = hopZDepthOffsets.frames.indexOf(hop.frame)
 				if (zDepthOffsetIndex >= 0) {
 					// Adjust z-depth while hopping
 					sprite.zIndex +=
@@ -67,8 +69,8 @@ export default class HopSystem extends System {
 				}
 				if (hop.z !== 0) {
 					// Raise or lower sprite while hopping up/down
-					let yOffsets = hop.z > 0 ? hopUpYOffsets : hopDownYOffsets
-					let yOffsetIndex = yOffsets.frames.indexOf(hop.frame)
+					const yOffsets = hop.z > 0 ? hopUpYOffsets : hopDownYOffsets
+					const yOffsetIndex = yOffsets.frames.indexOf(hop.frame)
 					if (yOffsetIndex >= 0) sprite.y += yOffsets.values[yOffsetIndex]
 				}
 			}

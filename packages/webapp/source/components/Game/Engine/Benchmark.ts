@@ -18,14 +18,14 @@ export function createActor(world: World, grid: Grid): Entity {
 }
 
 export function addActors(world: World, count: number): Entity[] {
-	let entities: Entity[] = []
-	let gridPool = createGridPool(20, 20, 1)
+	const entities: Entity[] = []
+	const gridPool = createGridPool(20, 20, 1)
 	for (let i = 0; i < count; i++) {
-		let grid = gridPool.splice(
+		const grid = gridPool.splice(
 			Math.floor(Math.random() * gridPool.length),
 			1
 		)[0]
-		let actorEntity = createActor(world, grid)
+		const actorEntity = createActor(world, grid)
 		entities.push(actorEntity)
 	}
 	return entities
@@ -35,7 +35,7 @@ export function randomString(
 	[charMin, charMax]: [number, number],
 	length: number
 ): string {
-	let value: string = ''
+	let value = ''
 	for (let i = 0; i < length; i++) {
 		value += String.fromCharCode(Math.random() * (charMax - charMin) + charMin)
 	}
@@ -60,7 +60,7 @@ export function createGridPool(
 	ySize: number,
 	zSize: number
 ): Grid[] {
-	let pool: Grid[] = []
+	const pool: Grid[] = []
 	for (let x = 0; x < xSize; x++) {
 		for (let y = 0; y < ySize; y++) {
 			for (let z = 0; z < zSize; z++) {
@@ -75,6 +75,13 @@ export function createGridPool(
 	return pool
 }
 
+interface direction {
+	x: number
+	y: number
+	z: number
+	direction: 'east' | 'west' | 'south' | 'north'
+}
+
 const directions = {
 	east: { x: 1, y: 0, z: 0, direction: 'east' },
 	west: { x: -1, y: 0, z: 0, direction: 'west' },
@@ -82,7 +89,10 @@ const directions = {
 	north: { y: -1, x: 0, z: 0, direction: 'north' },
 }
 
-export function hopActor(actor: Entity, direction?: keyof typeof directions) {
+export function hopActor(
+	actor: Entity,
+	direction?: keyof typeof directions
+): void {
 	if (actor.hasComponent(Hop)) return // Already hopping
 	actor.addComponent(
 		Hop,
@@ -90,14 +100,14 @@ export function hopActor(actor: Entity, direction?: keyof typeof directions) {
 	)
 }
 
-export function randomHop(): object {
-	let direction = Object.keys(directions)[Math.floor(Math.random() * 4)]
-	return directions[direction as keyof typeof directions]
+export function randomHop(): direction {
+	const direction = Object.keys(directions)[Math.floor(Math.random() * 4)]
+	return directions[direction as keyof typeof directions] as direction
 }
 
-export function hopTest(world: World) {
+export function hopTest(world: World): void {
 	createActor(world, { x: 1, y: 0, z: 0 })
-	let hop2 = createActor(world, { x: 1, y: 0, z: 1 })
+	const hop2 = createActor(world, { x: 1, y: 0, z: 1 })
 	setTimeout(() => {
 		hopActor(hop2, 'west')
 	}, 1700)
@@ -112,7 +122,7 @@ export function hopTest(world: World) {
 	hopActor(createActor(world, { x: 0, y: 4, z: 2 }), 'west')
 
 	for (let i = 0; i < 4; i++) {
-		let hopper = createActor(world, { x: 4, y: i, z: 0 })
+		const hopper = createActor(world, { x: 4, y: i, z: 0 })
 		setTimeout(() => {
 			setInterval(() => {
 				hopActor(hopper, 'south')
