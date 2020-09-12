@@ -12,6 +12,7 @@ import type {
 	watch as WatchFn,
 	RollupOptions as RollupInputOptions,
 	OutputOptions as RollupOutputOptions,
+	WatcherOptions as RollupWatchOptions,
 	Plugin,
 	PluginImpl,
 } from 'rollup'
@@ -25,51 +26,48 @@ import type { terser as PluginTerser } from 'rollup-plugin-terser'
 
 /**
  * Configuration Options
- * @property options.projectRoot - Your project's root directory
- * @property options.entryPoint - Path to entry file, relative to `projectRoot`
- * @property options.outputDirectory - Output directory, relative to `projectRoot`
- * @property options.rollup - `rollup` method from rollup
- * @property options.watch - `watch` method from rollup
- * @property options.requiredPlugins - Required plugins
- * @property options.development - Development mode settings
- * @property options.development.ignoredDependencies - Dependencies to be not bundled separately
- * @property options.development.additionalPlugins - Additional plugins to be used in dev mode
- * @property options.development.additionalRollupSettings - Add development mode specific rollup settings
- * @property options.production - Production mode settings
- * @property options.production.additionalPlugins - Function (can be async) that returns additional plugins
- * @property options.production.additionalRollupSettings - Add production mode specific rollup settings
+ * @property options.projectRoot - Projects root directory
+ * @property options.entryPoint - Entry point(s) to your application
+ * @property options.outputDirectory - Projects output directory
+ *
+ * @property options.ignoredDepsBundleDependencies - Dependencies to be ignored in dev dependencies bundle
+ * @property options.additionalPlugins - Function (can be async) resolving additional plugins
+ *
+ * @property options.advanced - Advanced configuration
+ *
+ * @property options.advanced.rollup - Tuple with rollup config and optionally rollup method
+ * @property options.advanced.watch - Tuple with watcher config and optionally watch method
+ *
+ * @property options.advanced.corePluginAndOptions - Core plugins and options
+ * @property options.advanced.corePluginAndOptions.commonJs - CommonJs plugin and options
+ * @property options.advanced.corePluginAndOptions.nodeResolve - Node resolve plugin and options
+ * @property options.advanced.corePluginAndOptions.replace - Replace plugin
+ * @property options.advanced.corePluginAndOptions.sucrase - Sucrase plugin and options
+ * @property options.advanced.corePluginAndOptions.typescript - Typescript plugin and options
+ * @property options.advanced.corePluginAndOptions.terser - Terser plugin and options
  */
 export interface ConfigurationOptions {
 	projectRoot: string
-	entryPoint: string
+	entryPoint: string | Record<string, string>
 	outputDirectory: string
 
-	rollup: typeof RollupFn
-	watch: typeof WatchFn
+	ignoredDepsBundleDependencies?: string[]
+	additionalPlugins?: (devMode: boolean) => Promise<Plugin[]> | Plugin[]
 
-	requiredPlugins: {
-		commonJs: RequiredPlugin<typeof PluginCommonJs>
-		nodeResolve: RequiredPlugin<typeof PluginNodeResolve>
-		replace: { plugin: typeof PluginReplace }
-		sucrase: RequiredPlugin<typeof PluginSucrase>
-		typescript: RequiredPlugin<typeof PluginTypescript>
-		terser: RequiredPlugin<typeof PluginTerser>
-	}
+	advanced?: {
+		rollup?: [
+			{ input?: RollupInputOptions; output?: RollupOutputOptions },
+			typeof RollupFn?
+		]
+		watch?: [RollupWatchOptions, typeof WatchFn?]
 
-	development?: {
-		ignoredDependencies?: string[]
-		additionalPlugins?: () => Promise<Plugin[]> | Plugin[]
-		additionalRollupSettings?: {
-			input?: RollupInputOptions
-			output?: RollupOutputOptions
-		}
-	}
-
-	production?: {
-		additionalPlugins?: () => Promise<Plugin[]> | Plugin[]
-		additionalRollupSettings?: {
-			input?: RollupInputOptions
-			output?: RollupOutputOptions
+		corePluginsAndOptions?: {
+			commonJs?: PluginAndOptions<typeof PluginCommonJs>
+			nodeResolve?: PluginAndOptions<typeof PluginNodeResolve>
+			replace?: { plugin: typeof PluginReplace }
+			sucrase?: PluginAndOptions<typeof PluginSucrase>
+			typescript?: PluginAndOptions<typeof PluginTypescript>
+			terser?: PluginAndOptions<typeof PluginTerser>
 		}
 	}
 }
@@ -80,10 +78,14 @@ export interface ConfigurationOptions {
  * @property devConfig - Config to be used in development mode
  * @property prodConfig - Config to be used in production mode
  */
-export interface RequiredPlugin<P extends PluginImpl<any>> {
-	plugin: P
-	devConfig?: Parameters<P>[0]
-	prodConfig?: Parameters<P>[0]
+export interface PluginAndOptions<P extends PluginImpl<any>> {
+	plugin?: P
+
+	config?: {
+		common?: Parameters<P>[0]
+		development?: Parameters<P>[0]
+		production?: Parameters<P>[0]
+	}
 }
 
 /**
@@ -106,19 +108,10 @@ export async function configure(options: ConfigurationOptions) {
 		entryPoint,
 		outputDirectory,
 
-		rollup,
-		watch,
-		requiredPlugins: {
-			commonJs,
-			nodeResolve,
-			replace,
-			sucrase,
-			typescript,
-			terser,
-		},
+		additionalPlugins,
+		ignoredDepsBundleDependencies,
 
-		development,
-		production,
+		advanced,
 	} = options
 
 	// Parse command line arguments
@@ -132,74 +125,25 @@ export async function configure(options: ConfigurationOptions) {
 		},
 	})
 
-	// Helper function
-	const userRoot = (...args: string[]) => path.resolve(projectRoot, ...args)
+	// User related information and methods
+	const user = createUser(projectRoot)
+	const userPlugins = additionalPlugins ? await additionalPlugins(dev) : []
+	const userDependencies = user.manifest.dependencies
+
+	// TODO: Actually execute any code
+}
+
+function createUser(projectRoot: string) {
+	const root = (...args: string[]) => path.resolve(projectRoot, ...args)
 
 	// User information
-	const userManifestPath = userRoot('package.json')
-	const userManifest: {
+	const manifestPath = root('package.json')
+	const manifest: {
 		dependencies: Record<string, string>
-	} = require(userManifestPath)
+	} = require(manifestPath)
 
-	const userRequire = module.createRequire(userManifestPath)
+	// Users node require
+	const userRequire = module.createRequire(manifestPath)
 
-	if (dev) {
-		// De-structure development config if possible
-		const { additionalPlugins, additionalRollupSettings, ignoredDependencies } =
-			development || {}
-
-		// Dependencies to be bundled
-		const dependencies = Object.entries(userManifest.dependencies).filter(
-			([dependencyId]) => !ignoredDependencies?.includes(dependencyId)
-		)
-
-		// Start development mode
-		await developmentMode({
-			dependenciesBundleOptions: {
-				userRequire,
-				dependencies: Object.fromEntries(dependencies),
-				outputDirectory: userRoot(outputDirectory, 'dependencies'),
-				rollup,
-				plugins: [commonJs.plugin, nodeResolve.plugin, replace.plugin],
-			},
-
-			watchModeOptions: {
-				dependencyMap: Object.fromEntries(
-					dependencies.map(([dependencyId]) => [
-						dependencyId,
-						`./dependencies/${dependencyId}.js`,
-					])
-				),
-				entryPoint: userRoot(entryPoint),
-				outputDirectory: userRoot(outputDirectory),
-				watch,
-				requiredPlugins: {
-					commonJs: [commonJs.plugin, commonJs.devConfig],
-					nodeResolve: [nodeResolve.plugin, nodeResolve.devConfig],
-					sucrase: [sucrase.plugin, sucrase.devConfig],
-					typescript: [typescript.plugin, typescript.devConfig],
-				},
-				extraPlugins: additionalPlugins ? await additionalPlugins() : [],
-				additionalRollupSettings: additionalRollupSettings,
-			},
-		})
-	} else {
-		// De-structure production config if possible
-		const { additionalPlugins, additionalRollupSettings } = production || {}
-
-		await productionMode({
-			entryPoint: userRoot(entryPoint),
-			requiredPlugins: {
-				commonJs: [commonJs.plugin, commonJs.prodConfig],
-				nodeResolve: [nodeResolve.plugin, nodeResolve.prodConfig],
-				typescript: [typescript.plugin, typescript.prodConfig],
-				terser: [terser.plugin, terser.prodConfig],
-				replace: [replace.plugin],
-			},
-			extraPlugins: additionalPlugins ? await additionalPlugins() : [],
-			additionalRollupSettings: additionalRollupSettings,
-			outputDirectory: userRoot(outputDirectory),
-			rollup,
-		})
-	}
+	return { root, manifest, require: userRequire }
 }

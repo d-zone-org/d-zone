@@ -1,5 +1,5 @@
-import { createDependenciesBundle } from './createDependenciesBundle'
-import { startWatchMode } from './startWatchMode'
+import { createDependenciesBundle } from './dependencies-bundle'
+import { startWatchMode } from './watch-mode'
 
 /**
  * Start development mode
