@@ -21,7 +21,7 @@ const additionalRollupSettings = {
 
 const replaceBasename = {
 	values: {
-		'process.env.BASENAME': `'${process.env.BASENAME}'`,
+		'process.env.BASENAME': `'${process.env.BASENAME || ''}'`,
 	},
 }
 
