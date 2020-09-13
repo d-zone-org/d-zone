@@ -133,7 +133,7 @@ export const userConfigurationOptionsSchema = z.object({
 			corePluginsAndOptions: z.object({
 				commonJs: pluginAndOptionsSchema,
 				nodeResolve: pluginAndOptionsSchema,
-				replace: pluginAndOptionsSchema,
+				replace: z.object({ plugin: z.function() }),
 				sucrase: pluginAndOptionsSchema,
 				typescript: pluginAndOptionsSchema,
 				terser: pluginAndOptionsSchema,
