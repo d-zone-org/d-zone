@@ -12,3 +12,5 @@ import { UserConfigurationOptions, parseConfiguration } from './configuration'
 export async function configure(options: UserConfigurationOptions) {
 	console.log(parseConfiguration(options))
 }
+
+export { UserConfigurationOptions, ConfigurationOptions } from './configuration'

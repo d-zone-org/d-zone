@@ -14,4 +14,7 @@ export function parseConfiguration(
 	return { configuration: parsedConfiguration, user: userInformation }
 }
 
-export { UserConfigurationOptions } from './user-schema-types'
+export {
+	UserConfigurationOptions,
+	ConfigurationOptions,
+} from './user-schema-types'
