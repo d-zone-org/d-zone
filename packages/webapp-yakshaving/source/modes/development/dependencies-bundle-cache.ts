@@ -59,7 +59,7 @@ export class DependenciesCache {
 			throw new YakError(
 				'CACHE_NOT_INITIALIZED',
 				'Someone forgot to initialize the internal cache. Create an issue.',
-				{ isOperational: false }
+				{ internal: true, isOperational: false }
 			)
 		else fsAsync.writeFile(this.#cacheFilePath, JSON.stringify(this.#newCache))
 	}

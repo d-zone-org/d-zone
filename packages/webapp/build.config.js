@@ -1,16 +1,10 @@
 const { configure } = require('yakshaving')
-const { rollup, watch } = require('rollup')
 
-const pluginCommonJs = require('@rollup/plugin-commonjs')
-const pluginNodeResolve = require('@rollup/plugin-node-resolve').nodeResolve
 const pluginReplace = require('@rollup/plugin-replace')
-const pluginSucrase = require('@rollup/plugin-sucrase')
-const pluginTypescript = require('@rollup/plugin-typescript')
 const pluginJson = require('@rollup/plugin-json')
 const pluginClearDirectory = require('rollup-plugin-clear')
 const pluginLiveReload = require('rollup-plugin-livereload')
 const pluginServe = require('rollup-plugin-serve')
-const pluginTerser = require('rollup-plugin-terser').terser
 
 const path = require('path')
 const root = (...args) => path.join(__dirname, ...args)
@@ -30,45 +24,29 @@ configure({
 	entryPoint: 'source/index.tsx',
 	outputDirectory: 'public/build',
 
-	requiredPlugins: {
-		commonJs: { plugin: pluginCommonJs },
-		nodeResolve: { plugin: pluginNodeResolve },
-		replace: { plugin: pluginReplace },
-		sucrase: { plugin: pluginSucrase },
-		typescript: {
-			plugin: pluginTypescript,
-			devConfig: { tsconfig: root('tsconfig.build.json') },
-			prodConfig: { tsconfig: root('tsconfig.build.json') },
-		},
-		terser: { plugin: pluginTerser },
-	},
+	additionalPlugins: (devMode) =>
+		devMode
+			? [
+					pluginReplace(replaceBasename),
+					pluginJson(),
+					pluginServe({
+						contentBase: root('public'),
+						port: 5000,
+						historyApiFallback: '/index.html',
+					}),
+					pluginLiveReload(root('public')),
+			  ]
+			: [
+					pluginReplace(replaceBasename),
+					pluginJson(),
+					pluginClearDirectory({ targets: [root('public/build')] }),
+			  ],
 
-	rollup,
-	watch,
-
-	development: {
-		additionalPlugins: () => [
-			pluginReplace(replaceBasename),
-			pluginJson(),
-			pluginServe({
-				contentBase: root('public'),
-				port: 5000,
-				historyApiFallback: '/index.html',
-			}),
-			pluginLiveReload(root('public')),
-		],
-		additionalRollupSettings,
-	},
-
-	production: {
-		additionalPlugins: () => [
-			pluginReplace(replaceBasename),
-			pluginJson(),
-			pluginClearDirectory({ targets: [root('public/build')] }),
-		],
-		additionalRollupSettings,
+	advanced: {
+		rollup: [{ input: additionalRollupSettings }],
+		watch: [additionalRollupSettings],
 	},
 }).catch((err) => {
-	console.error(err)
+	console.dir(err, { depth: 10 })
 	process.exit(1)
 })

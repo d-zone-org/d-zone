@@ -1,5 +1,4 @@
-import z from 'zod'
-import defaultsMerge from 'defaults-deep-ts'
+import * as z from 'zod'
 
 import type {
 	rollup as RollupFn,
@@ -19,7 +18,7 @@ import type PluginSucrase from '@rollup/plugin-sucrase'
 import type { terser as PluginTerser } from 'rollup-plugin-terser'
 
 /**
- * Represents required plugins for yakshaving
+ * Plugins and their environment specific options.
  * @property plugin - Plugin factory function
  * @property devConfig - Config to be used in development mode
  * @property prodConfig - Config to be used in production mode
@@ -49,7 +48,8 @@ const pluginAndOptionsSchema = z
 	.deepPartial()
 
 /**
- * Configuration Options
+ * User Configuration Options
+ *
  * @property options.projectRoot - Projects root directory
  * @property options.entryPoint - Entry point(s) to your application
  * @property options.outputDirectory - Projects output directory
@@ -70,7 +70,7 @@ const pluginAndOptionsSchema = z
  * @property options.advanced.corePluginAndOptions.typescript - Typescript plugin and options
  * @property options.advanced.corePluginAndOptions.terser - Terser plugin and options
  */
-export interface ConfigurationOptions {
+export interface UserConfigurationOptions {
 	projectRoot: string
 	entryPoint: string | Record<string, string>
 	outputDirectory: string
@@ -96,7 +96,7 @@ export interface ConfigurationOptions {
 	}
 }
 
-const configurationSchema = z.object({
+export const userConfigurationOptionsSchema = z.object({
 	projectRoot: z.string(),
 	entryPoint: z.string(),
 	outputDirectory: z.string(),
@@ -106,16 +106,29 @@ const configurationSchema = z.object({
 
 	advanced: z
 		.object({
-			rollup: z.tuple([
-				z
-					.object({
-						input: z.record(z.unknown()),
-						output: z.record(z.unknown()),
-					})
-					.partial(),
-				z.function().optional(),
+			rollup: z.union([
+				z.tuple([
+					z
+						.object({
+							input: z.record(z.unknown()),
+							output: z.record(z.unknown()),
+						})
+						.partial(),
+				]),
+				z.tuple([
+					z
+						.object({
+							input: z.record(z.unknown()),
+							output: z.record(z.unknown()),
+						})
+						.partial(),
+					z.function(),
+				]),
 			]),
-			watch: z.tuple([z.record(z.unknown()), z.function().optional()]),
+			watch: z.union([
+				z.tuple([z.record(z.unknown())]),
+				z.tuple([z.record(z.unknown()), z.function()]),
+			]),
 
 			corePluginsAndOptions: z.object({
 				commonJs: pluginAndOptionsSchema,
@@ -129,41 +142,3 @@ const configurationSchema = z.object({
 		.deepPartial()
 		.optional(),
 })
-
-const defaultConfiguration: Partial<ConfigurationOptions> = {
-	advanced: {
-		rollup: [{}, require('rollup').rollup],
-		watch: [{}, require('rollup').watch],
-
-		corePluginsAndOptions: {
-			commonJs: { plugin: require('@rollup/plugin-commonjs') },
-			nodeResolve: {
-				plugin: require('@rollup/plugin-node-resolve').nodeResolve,
-				config: {
-					common: {
-						extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx'],
-					},
-				},
-			},
-			replace: { plugin: require('@rollup/plugin-replace') },
-			sucrase: { plugin: require('@rollup/plugin-sucrase') },
-			typescript: { plugin: require('@rollup/plugin-typescript') },
-			terser: { plugin: require('rollup-plugin-terser').terser },
-		},
-	},
-}
-
-/**
- * Parse configuration and fill in defaults
- * @param value - Configuration
- */
-export function parseConfiguration(value: ConfigurationOptions) {
-	const parsedData = configurationSchema.safeParse(value)
-
-	if (parsedData.success) {
-		return defaultsMerge<unknown, Partial<ConfigurationOptions>>(
-			parsedData.data,
-			defaultConfiguration
-		) as ConfigurationOptions
-	} else throw parsedData.error
-}

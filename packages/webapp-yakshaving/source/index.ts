@@ -1,7 +1,4 @@
-import path from 'path'
-import module from 'module'
-
-import { ConfigurationOptions } from './utils/configuration'
+import { UserConfigurationOptions, parseConfiguration } from './configuration'
 
 /**
  * Configure bundler. Import this function in your configuration file
@@ -12,19 +9,6 @@ import { ConfigurationOptions } from './utils/configuration'
  *
  * @param options - Configuration Options
  */
-export async function configure(options: ConfigurationOptions) {}
-
-function createUser(projectRoot: string) {
-	const root = (...args: string[]) => path.resolve(projectRoot, ...args)
-
-	// User information
-	const manifestPath = root('package.json')
-	const manifest: {
-		dependencies: Record<string, string>
-	} = require(manifestPath)
-
-	// Users node require
-	const userRequire = module.createRequire(manifestPath)
-
-	return { root, manifest, require: userRequire }
+export async function configure(options: UserConfigurationOptions) {
+	console.log(parseConfiguration(options))
 }
