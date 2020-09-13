@@ -2347,13 +2347,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"defaults-deep-ts@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "defaults-deep-ts@npm:0.2.0"
-  checksum: 7f07a60e05633141d0f9eadd93d7aad005ecff5db07808b1c663ef12ab635a449fd951b93ab2a75d909bf018195421fe7738c104ed9db72dc60dbdf5c1af6619
-  languageName: node
-  linkType: hard
-
 "define-property@npm:^0.2.5":
   version: 0.2.5
   resolution: "define-property@npm:0.2.5"
@@ -6716,7 +6709,7 @@ typescript@^4.0.2:
     "@rollup/plugin-typescript": ^5.0.2
     "@types/node": ^14.6.4
     "@types/yargs-parser": ^15.0.0
-    defaults-deep-ts: ^0.2.0
+    deepmerge: ^4.2.2
     rollup: ^2.26.11
     rollup-plugin-terser: ^7.0.2
     sucrase: ^3.15.0

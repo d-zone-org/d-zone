@@ -1,13 +1,14 @@
-import defaultsMerge from 'defaults-deep-ts'
+import deepmerge from 'deepmerge'
 
 import { YakError } from '../utils/error'
 import {
+	ConfigurationOptions,
 	UserConfigurationOptions,
 	userConfigurationOptionsSchema,
 } from './user-schema-types'
 
 // Default basic configuration
-const defaultConfiguration: Partial<UserConfigurationOptions> = {
+const DEFAULT_CONFIGURATION: Partial<ConfigurationOptions> = {
 	advanced: {
 		rollup: [{}, require('rollup').rollup],
 		watch: [{}, require('rollup').watch],
@@ -32,16 +33,15 @@ const defaultConfiguration: Partial<UserConfigurationOptions> = {
 
 /**
  * Parse user configuration and deep merge the defaults
- * @param value - Configuration
+ * @param userConfiguration - Configuration
  */
-export function parseUserConfiguration(value: UserConfigurationOptions) {
-	const parsedData = userConfigurationOptionsSchema.safeParse(value)
+export function parseUserConfiguration(
+	userConfiguration: UserConfigurationOptions
+): ConfigurationOptions {
+	const parsedData = userConfigurationOptionsSchema.safeParse(userConfiguration)
 
 	if (parsedData.success) {
-		return defaultsMerge<unknown, Partial<UserConfigurationOptions>>(
-			parsedData.data,
-			defaultConfiguration
-		) as Required<UserConfigurationOptions>
+		return deepmerge(DEFAULT_CONFIGURATION, parsedData.data)
 	} else {
 		throw new YakError('INVALID_CONFIGURATION', 'Invalid Configuration', {
 			internal: false,

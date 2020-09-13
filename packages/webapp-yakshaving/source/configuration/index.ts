@@ -7,7 +7,8 @@ export function parseConfiguration(
 ) {
 	const parsedConfiguration = parseUserConfiguration(userConfiguration)
 	const userInformation = extractUserInformation(
-		parsedConfiguration.projectRoot
+		parsedConfiguration.projectRoot,
+		parsedConfiguration.ignoredDepsBundleDependencies || []
 	)
 
 	return { configuration: parsedConfiguration, user: userInformation }
