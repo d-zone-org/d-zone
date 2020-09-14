@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge'
 
-import { YakError } from '../utils/error'
+import { YakError } from '../utilities/error'
 import {
 	ConfigurationOptions,
 	UserConfigurationOptions,

@@ -55,7 +55,7 @@ Configuration Options
 
 • **additionalPlugins**: *function*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:80](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L80)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:82
 
 #### Type declaration:
 
@@ -73,7 +73,7 @@ ___
 
 • **advanced**: *object*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:82](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L82)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:84
 
 #### Type declaration:
 
@@ -103,7 +103,7 @@ ___
 
 • **entryPoint**: *string | Record‹string, string›*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:76](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L76)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:78
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 • **ignoredDepsBundleDependencies**: *string[]*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:79](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L79)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:81
 
 ___
 
@@ -119,7 +119,7 @@ ___
 
 • **outputDirectory**: *string*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:77](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L77)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:79
 
 ___
 
@@ -127,4 +127,4 @@ ___
 
 • **projectRoot**: *string*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:75](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L75)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:77

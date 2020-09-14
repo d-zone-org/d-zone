@@ -30,7 +30,7 @@ Errors thrown by Yakshaving
 
 \+ **new YakError**(`name`: string, `description`: string, `context`: [YakErrorContext](../interfaces/yakerrorcontext.md)): *[YakError](yakerror.md)*
 
-*Defined in [packages/webapp-yakshaving/source/utils/error.ts:12](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/utils/error.ts#L12)*
+Defined in packages/webapp-yakshaving/source/modules/utilities/error.ts:12
 
 Throw a new yak error
 
@@ -50,7 +50,7 @@ Name | Type | Description |
 
 • **context**: *[YakErrorContext](../interfaces/yakerrorcontext.md)*
 
-*Defined in [packages/webapp-yakshaving/source/utils/error.ts:12](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/utils/error.ts#L12)*
+Defined in packages/webapp-yakshaving/source/modules/utilities/error.ts:12
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 *Overrides void*
 
-*Defined in [packages/webapp-yakshaving/source/utils/error.ts:11](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/utils/error.ts#L11)*
+Defined in packages/webapp-yakshaving/source/modules/utilities/error.ts:11
 
 ___
 

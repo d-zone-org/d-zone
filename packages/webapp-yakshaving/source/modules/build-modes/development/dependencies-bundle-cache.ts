@@ -1,7 +1,7 @@
 import path from 'path'
 import fs, { promises as fsAsync } from 'fs'
 
-import { YakError } from '../../utils/error'
+import { YakError } from '../../utilities/error'
 
 interface CacheDependencyData {}
 

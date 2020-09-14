@@ -1,15 +1,15 @@
-import {
+import type {
 	rollup as RollupFn,
 
 	RollupOptions as RollupInputOptions,
 	OutputOptions as RollupOutputOptions,
 	Plugin
 } from 'rollup';
-import PluginCommonJs from '@rollup/plugin-commonjs';
-import { nodeResolve as PluginNodeResolve } from '@rollup/plugin-node-resolve';
-import PluginReplace from '@rollup/plugin-replace';
-import PluginTypescript from '@rollup/plugin-typescript';
-import { terser as PluginTerser } from 'rollup-plugin-terser';
+import type PluginCommonJs from '@rollup/plugin-commonjs';
+import type { nodeResolve as PluginNodeResolve } from '@rollup/plugin-node-resolve';
+import type PluginReplace from '@rollup/plugin-replace';
+import type PluginTypescript from '@rollup/plugin-typescript';
+import type { terser as PluginTerser } from 'rollup-plugin-terser';
 
 /**
  * Start production mode

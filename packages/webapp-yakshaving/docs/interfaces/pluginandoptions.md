@@ -6,9 +6,13 @@ Plugins and their environment specific options.
 
 **`property`** plugin - Plugin factory function
 
-**`property`** devConfig - Config to be used in development mode
+**`property`** config- Configuration
 
-**`property`** prodConfig - Config to be used in production mode
+**`property`** config.common - Used in both modes
+
+**`property`** config.development - Used in development mode
+
+**`property`** config.production - Used in production mode
 
 ## Type parameters
 
@@ -31,7 +35,7 @@ Plugins and their environment specific options.
 
 • **config**? : *undefined | object*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:29](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L29)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:31
 
 ___
 
@@ -39,4 +43,4 @@ ___
 
 • **plugin**: *P*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:27](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L27)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:29

@@ -9,7 +9,7 @@
 	"scripts": {
 		"build": "tsc --build",
 		"dev": "tsc -w",
-		"docs": "typedoc --includeVersion --readme none --mode file --plugin typedoc-plugin-markdown --excludeNotExported"
+		"docs": "typedoc --includeVersion --readme none --mode file --plugin typedoc-plugin-markdown --excludeNotExported --excludePrivate"
 	},
 	"devDependencies": {
 		"@types/node": "^14.6.4",

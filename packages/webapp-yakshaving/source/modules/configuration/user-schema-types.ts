@@ -20,8 +20,10 @@ import type { terser as PluginTerser } from 'rollup-plugin-terser'
 /**
  * Plugins and their environment specific options.
  * @property plugin - Plugin factory function
- * @property devConfig - Config to be used in development mode
- * @property prodConfig - Config to be used in production mode
+ * @property config- Configuration
+ * @property config.common - Used in both modes
+ * @property config.development - Used in development mode
+ * @property config.production - Used in production mode
  */
 export interface PluginAndOptions<P extends PluginImpl<any>> {
 	plugin: P
@@ -112,13 +114,12 @@ export const userConfigurationOptionsSchema = z.object({
 	entryPoint: z.string(),
 	outputDirectory: z.string(),
 
-	ignoredDepsBundleDependencies: z.array(z.string()).optional(),
+	ignoredDepsBundleDependencies: z.array(z.string()),
 	additionalPlugins: z
 		.function(
 			z.tuple([z.boolean()]),
 			z.union([z.promise(z.array(z.any())), z.array(z.any())])
-		)
-		.optional(),
+		),
 
 	advanced: z
 		.object({

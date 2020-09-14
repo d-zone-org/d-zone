@@ -1,4 +1,4 @@
-import { UserConfigurationOptions, parseConfiguration } from './configuration'
+import { UserConfigurationOptions, parseConfiguration } from './modules/configuration'
 
 /**
  * Configure bundler. Import this function in your configuration file
@@ -13,4 +13,4 @@ export async function configure(options: UserConfigurationOptions) {
 	console.log(parseConfiguration(options))
 }
 
-export { UserConfigurationOptions, ConfigurationOptions } from './configuration'
+export { UserConfigurationOptions, ConfigurationOptions } from './modules/configuration'

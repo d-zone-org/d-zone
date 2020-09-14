@@ -49,7 +49,7 @@
 
 Ƭ **RecursivePartial**: *object*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:100](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L100)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:102
 
 #### Type declaration:
 
@@ -59,7 +59,7 @@ ___
 
 Ƭ **UserConfigurationOptions**: *Omit‹[ConfigurationOptions](interfaces/configurationoptions.md), "advanced"› & [RecursivePartial](README.md#recursivepartial)‹Pick‹[ConfigurationOptions](interfaces/configurationoptions.md), "advanced"››*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:107](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L107)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:109
 
 Similar to `ConfigurationOptions` but advanced options are all optional
 
@@ -69,7 +69,7 @@ Similar to `ConfigurationOptions` but advanced options are all optional
 
 • **plugin**: *ZodFunction‹ZodTuple‹[ZodAny‹›]›, ZodAny‹››* = z.function(z.tuple([z.any()]), z.any())
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:36](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L36)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:38
 
 ___
 
@@ -89,7 +89,7 @@ ___
 	})
 	.deepPartial()
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:37](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L37)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:39
 
 ___
 
@@ -150,7 +150,7 @@ ___
 		.optional(),
 })
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-schema-types.ts:110](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-schema-types.ts#L110)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:112
 
 ## Functions
 
@@ -158,7 +158,7 @@ ___
 
 ▸ **configure**(`options`: [UserConfigurationOptions](README.md#userconfigurationoptions)): *Promise‹void›*
 
-*Defined in [packages/webapp-yakshaving/source/index.ts:12](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/index.ts#L12)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:12](https://github.com/d-zone-org/d-zone/blob/fd51575/packages/webapp-yakshaving/source/index.ts#L12)*
 
 Configure bundler. Import this function in your configuration file
 and call it with your configuration. Run your configuration file
@@ -180,7 +180,7 @@ ___
 
 ▸ **createDependenciesBundle**(`__namedParameters`: object): *Promise‹void›*
 
-*Defined in [packages/webapp-yakshaving/source/modes/development/dependencies-bundle.ts:23](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/modes/development/dependencies-bundle.ts#L23)*
+Defined in packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle.ts:23
 
 Create bundle of dependencies
 
@@ -204,7 +204,7 @@ ___
 
 ▸ **developmentMode**(`__namedParameters`: object): *Promise‹void›*
 
-*Defined in [packages/webapp-yakshaving/source/modes/development/index.ts:10](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/modes/development/index.ts#L10)*
+Defined in packages/webapp-yakshaving/source/modules/build-modes/development/index.ts:10
 
 Start development mode
 
@@ -225,7 +225,7 @@ ___
 
 ▸ **extractUserInformation**(`projectRoot`: string, `ignoredDependencies`: string[]): *object*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-extract.ts:11](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-extract.ts#L11)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-extract.ts:11
 
 Extracts user information from `package.json`
 and creates helper methods
@@ -257,7 +257,7 @@ ___
 
 ▸ **listenTheWatcher**(`watcher`: RollupWatcher): *void*
 
-*Defined in [packages/webapp-yakshaving/source/modes/development/watch-mode.ts:115](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/modes/development/watch-mode.ts#L115)*
+Defined in packages/webapp-yakshaving/source/modules/build-modes/development/watch-mode.ts:115
 
 **Parameters:**
 
@@ -273,7 +273,7 @@ ___
 
 ▸ **parseConfiguration**(`userConfiguration`: [UserConfigurationOptions](README.md#userconfigurationoptions)): *object*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/index.ts:5](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/index.ts#L5)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/index.ts:5
 
 **Parameters:**
 
@@ -305,7 +305,7 @@ ___
 
 ▸ **parseUserConfiguration**(`userConfiguration`: [UserConfigurationOptions](README.md#userconfigurationoptions)): *[ConfigurationOptions](interfaces/configurationoptions.md)*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-parse.ts:38](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-parse.ts#L38)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-parse.ts:38
 
 Parse user configuration and deep merge the defaults
 
@@ -323,7 +323,7 @@ ___
 
 ▸ **productionMode**(`__namedParameters`: object): *Promise‹void›*
 
-*Defined in [packages/webapp-yakshaving/source/modes/production/index.ts:24](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/modes/production/index.ts#L24)*
+Defined in packages/webapp-yakshaving/source/modules/build-modes/production/index.ts:24
 
 Start production mode
 
@@ -348,7 +348,7 @@ ___
 
 ▸ **startWatchMode**(`__namedParameters`: object): *Promise‹void›*
 
-*Defined in [packages/webapp-yakshaving/source/modes/development/watch-mode.ts:24](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/modes/development/watch-mode.ts#L24)*
+Defined in packages/webapp-yakshaving/source/modules/build-modes/development/watch-mode.ts:24
 
 Start watch mode for application
 
@@ -374,11 +374,11 @@ Name | Type |
 
 ### ▪ **DEFAULT_CONFIGURATION**: *object*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-parse.ts:11](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-parse.ts#L11)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-parse.ts:11
 
 ▪ **advanced**: *object*
 
-*Defined in [packages/webapp-yakshaving/source/configuration/user-parse.ts:12](https://github.com/d-zone-org/d-zone/blob/4c95adb/packages/webapp-yakshaving/source/configuration/user-parse.ts#L12)*
+Defined in packages/webapp-yakshaving/source/modules/configuration/user-parse.ts:12
 
 * **rollup**: *[object, any]* = [{}, require('rollup').rollup]
 
