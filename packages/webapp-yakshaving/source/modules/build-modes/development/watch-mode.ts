@@ -13,7 +13,7 @@ import type PluginSucrase from '@rollup/plugin-sucrase'
 /**
  * Start watch mode for application
  * @param options - Options
- * @param options.entryPoint - Entry point for application
+ * @param options.entryPoint - Entry point(s) for application
  * @param options.dependencyMap - Map of dependency and their relative location
  * @param options.requiredPlugins - Object of required plugins and their configuration
  * @param options.extraPlugins - Additional plugins
@@ -38,7 +38,7 @@ export async function startWatchMode({
 
 	additionalRollupSettings,
 }: {
-	entryPoint: string
+	entryPoint: Record<string, string> | string | string[]
 	dependencyMap: Record<string, string>
 
 	requiredPlugins: {
@@ -112,6 +112,7 @@ export async function startWatchMode({
 	// Listener for watcher :P
 	listenTheWatcher(watcher)
 }
+
 function listenTheWatcher(watcher: RollupWatcher) {
 	watcher.on('event', (event) => {
 		console.log(event)

@@ -86,7 +86,7 @@ export async function createDependenciesBundle({
 	const outputOptions: RollupOutputOptions = {
 		dir: outputDirectory,
 		format: 'es',
-		entryFileNames: '[name].js',
+		entryFileNames: '[name]/index.js',
 		sourcemap: true,
 		exports: 'named',
 	}

@@ -27,6 +27,7 @@
 		"deepmerge": "^4.2.2",
 		"rollup": "^2.26.11",
 		"rollup-plugin-terser": "^7.0.2",
+		"source-map-support": "^0.5.19",
 		"tslib": "^2.0.1",
 		"typescript": "^4.0.2",
 		"yargs-parser": "^20.0.0",

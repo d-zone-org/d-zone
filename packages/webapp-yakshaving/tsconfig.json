@@ -5,6 +5,7 @@
 		"rootDir": "source",
 		"outDir": "build",
 		"declaration": true,
+		"sourceMap": true,
 		"typeRoots": ["./typings/**"]
 	}
 }

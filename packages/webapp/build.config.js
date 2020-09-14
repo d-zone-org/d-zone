@@ -24,6 +24,7 @@ configure({
 	entryPoint: 'source/index.tsx',
 	outputDirectory: 'public/build',
 
+	ignoredDepsBundleDependencies: [],
 	additionalPlugins: (devMode) =>
 		devMode
 			? [
@@ -43,7 +44,7 @@ configure({
 			  ],
 
 	advanced: {
-		rollup: [{ input: additionalRollupSettings }],
+		rollup: [additionalRollupSettings],
 		watch: [additionalRollupSettings],
 	},
 }).catch((err) => {

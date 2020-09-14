@@ -5,7 +5,6 @@ import type {
 	watch as WatchFn,
 	RollupOptions as RollupInputOptions,
 	OutputOptions as RollupOutputOptions,
-	WatcherOptions as RollupWatchOptions,
 	Plugin,
 	PluginImpl,
 } from 'rollup'
@@ -35,10 +34,10 @@ export interface PluginAndOptions<P extends PluginImpl<any>> {
 	}
 }
 
-const plugin = z.function(z.tuple([z.any()]), z.any())
+const pluginSchema = z.function(z.tuple([z.any()]), z.any())
 const pluginAndOptionsSchema = z
 	.object({
-		plugin,
+		plugin: pluginSchema,
 
 		config: z
 			.object({
@@ -75,7 +74,7 @@ const pluginAndOptionsSchema = z
  */
 export interface ConfigurationOptions {
 	projectRoot: string
-	entryPoint: string | Record<string, string>
+	entryPoint: string | Record<string, string> | string[]
 	outputDirectory: string
 
 	ignoredDepsBundleDependencies: string[]
@@ -86,7 +85,10 @@ export interface ConfigurationOptions {
 			{ input?: RollupInputOptions; output?: RollupOutputOptions },
 			typeof RollupFn
 		]
-		watch: [RollupWatchOptions, typeof WatchFn]
+		watch: [
+			{ input?: RollupInputOptions; output?: RollupOutputOptions },
+			typeof WatchFn
+		]
 
 		corePluginsAndOptions: {
 			commonJs: PluginAndOptions<typeof PluginCommonJs>
@@ -109,43 +111,37 @@ type RecursivePartial<T> = {
 export type UserConfigurationOptions = Omit<ConfigurationOptions, 'advanced'> &
 	RecursivePartial<Pick<ConfigurationOptions, 'advanced'>>
 
+const additionalSettingsSchema = z
+	.object({
+		input: z.record(z.unknown()),
+		output: z.record(z.unknown()),
+	})
+	.partial()
+
 export const userConfigurationOptionsSchema = z.object({
 	projectRoot: z.string(),
-	entryPoint: z.string(),
+	entryPoint: z.union([z.string(), z.array(z.string()), z.record(z.string())]),
 	outputDirectory: z.string(),
 
 	ignoredDepsBundleDependencies: z.array(z.string()),
-	additionalPlugins: z
-		.function(
-			z.tuple([z.boolean()]),
-			z.union([z.promise(z.array(z.any())), z.array(z.any())])
-		),
+	additionalPlugins: z.function(
+		z.tuple([z.boolean()]),
+		z.union([z.promise(z.array(z.any())), z.array(z.any())])
+	),
 
 	advanced: z
 		.object({
 			rollup: z.union([
+				z.tuple([additionalSettingsSchema]),
 				z.tuple([
-					z
-						.object({
-							input: z.record(z.unknown()),
-							output: z.record(z.unknown()),
-						})
-						.partial(),
-				]),
-				z.tuple([
-					z
-						.object({
-							input: z.record(z.unknown()),
-							output: z.record(z.unknown()),
-						})
-						.partial(),
+					additionalSettingsSchema,
 					z.function(z.tuple([z.any()]), z.promise(z.any())),
 				]),
 			]),
 			watch: z.union([
-				z.tuple([z.record(z.unknown())]),
+				z.tuple([additionalSettingsSchema]),
 				z.tuple([
-					z.record(z.unknown()),
+					additionalSettingsSchema,
 					z.function(z.tuple([z.any()]), z.any()),
 				]),
 			]),
@@ -153,7 +149,7 @@ export const userConfigurationOptionsSchema = z.object({
 			corePluginsAndOptions: z.object({
 				commonJs: pluginAndOptionsSchema,
 				nodeResolve: pluginAndOptionsSchema,
-				replace: z.object({ plugin }),
+				replace: z.object({ plugin: pluginSchema }),
 				sucrase: pluginAndOptionsSchema,
 				typescript: pluginAndOptionsSchema,
 				terser: pluginAndOptionsSchema,
