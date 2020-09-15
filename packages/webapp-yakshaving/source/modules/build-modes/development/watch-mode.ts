@@ -25,12 +25,7 @@ export async function startWatchMode({
 	entryPoint,
 	dependencyMap,
 
-	requiredPlugins: {
-		commonJs: [pluginCommonJs, commonJsUserOpts],
-		nodeResolve: [pluginNodeResolve, nodeResolveUserOpts],
-		sucrase: [pluginSucrase, sucraseUserOpts],
-		typescript: [pluginTypescript, typescriptUserOpts],
-	},
+	requiredPlugins,
 	extraPlugins,
 
 	outputDirectory,
@@ -63,6 +58,13 @@ export async function startWatchMode({
 		output?: RollupOutputOptions
 	}
 }) {
+	const {
+		commonJs: [pluginCommonJs, commonJsUserOpts],
+		nodeResolve: [pluginNodeResolve, nodeResolveUserOpts],
+		sucrase: [pluginSucrase, sucraseUserOpts],
+		typescript: [pluginTypescript, typescriptUserOpts],
+	} = requiredPlugins
+
 	// Input options
 	const inputOptions: RollupInputOptions = {
 		input: entryPoint,

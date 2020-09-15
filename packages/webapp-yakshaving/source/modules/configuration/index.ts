@@ -1,20 +1,15 @@
-import { UserConfigurationOptions } from './user-schema-types'
-import { parseUserConfiguration } from './user-parse'
-import { extractUserInformation } from './user-extract'
+import { Configuration } from './schema-types'
+import { validateConfiguration } from './validate'
+import { extractUserInformation } from './extract-information'
 
 export function parseConfiguration(
-	userConfiguration: UserConfigurationOptions
+	configuration: Configuration
 ) {
-	const parsedConfiguration = parseUserConfiguration(userConfiguration)
+	const validatedConfiguration = validateConfiguration(configuration)
 	const userInformation = extractUserInformation(
-		parsedConfiguration.projectRoot,
-		parsedConfiguration.ignoredDepsBundleDependencies
+		validatedConfiguration.projectRoot,
+		validatedConfiguration.advanced?.ignoredDependencies || []
 	)
 
-	return { configuration: parsedConfiguration, user: userInformation }
+	return { configuration: validatedConfiguration, user: userInformation }
 }
-
-export {
-	UserConfigurationOptions,
-	ConfigurationOptions,
-} from './user-schema-types'

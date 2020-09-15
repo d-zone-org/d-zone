@@ -9,45 +9,40 @@ const pluginServe = require('rollup-plugin-serve')
 const path = require('path')
 const root = (...args) => path.join(__dirname, ...args)
 
-const additionalRollupSettings = {
-	input: { preserveEntrySignatures: false },
-}
-
 const replaceBasename = {
 	values: {
 		'process.env.BASENAME': `'${process.env.BASENAME}'`,
 	},
 }
 
-configure({
+configure((devMode) => ({
 	projectRoot: __dirname,
 	entryPoint: 'source/index.tsx',
 	outputDirectory: 'public/build',
 
-	ignoredDepsBundleDependencies: [],
-	additionalPlugins: (devMode) =>
-		devMode
-			? [
-					pluginReplace(replaceBasename),
-					pluginJson(),
-					pluginServe({
-						contentBase: root('public'),
-						port: 5000,
-						historyApiFallback: '/index.html',
-					}),
-					pluginLiveReload(root('public')),
-			  ]
-			: [
-					pluginReplace(replaceBasename),
-					pluginJson(),
-					pluginClearDirectory({ targets: [root('public/build')] }),
-			  ],
+	additionalPlugins: devMode
+		? [
+				pluginReplace(replaceBasename),
+				pluginJson(),
+				pluginServe({
+					contentBase: root('public'),
+					port: 5000,
+					historyApiFallback: '/index.html',
+				}),
+				pluginLiveReload(root('public')),
+		  ]
+		: [
+				pluginReplace(replaceBasename),
+				pluginJson(),
+				pluginClearDirectory({ targets: [root('public/build')] }),
+		  ],
 
 	advanced: {
-		rollup: [additionalRollupSettings],
-		watch: [additionalRollupSettings],
+		rollupOptions: {
+			input: { preserveEntrySignatures: false },
+		},
 	},
-}).catch((err) => {
+})).catch((err) => {
 	console.dir(err, { depth: 10 })
 	process.exit(1)
 })

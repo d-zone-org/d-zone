@@ -5962,6 +5962,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"superstruct@npm:^0.10.12":
+  version: 0.10.12
+  resolution: "superstruct@npm:0.10.12"
+  checksum: 80240b1630e0eb349bbcf043275a1d7461631aba3f011df997e6170ab12187e71e483f03e5ab0c7c448b9aaa70bc9028b0d125b2398da68856d7e4745804df9e
+  languageName: node
+  linkType: hard
+
 "supports-color@npm:^5.3.0":
   version: 5.5.0
   resolution: "supports-color@npm:5.5.0"
@@ -6679,17 +6686,16 @@ typescript@^4.0.2:
     "@rollup/plugin-typescript": ^5.0.2
     "@types/node": ^14.6.4
     "@types/yargs-parser": ^15.0.0
-    deepmerge: ^4.2.2
     rollup: ^2.26.11
     rollup-plugin-terser: ^7.0.2
     source-map-support: ^0.5.19
     sucrase: ^3.15.0
+    superstruct: ^0.10.12
     tslib: ^2.0.1
     typedoc: ^0.19.1
     typedoc-plugin-markdown: ^2.4.2
     typescript: ^4.0.2
     yargs-parser: ^20.0.0
-    zod: ^1.11.5
   languageName: unknown
   linkType: soft
 
@@ -6733,12 +6739,5 @@ typescript@^4.0.2:
     y18n: ^4.0.0
     yargs-parser: ^18.1.2
   checksum: dbf687d6b938f01bbf11e158dde6df906282b70cd9295af0217ee8cefbd83ad09d49fa9458d0d5325b0e66f03df954a38986db96f91e5b46ccdbbaf9a0157b23
-  languageName: node
-  linkType: hard
-
-"zod@npm:^1.11.5":
-  version: 1.11.5
-  resolution: "zod@npm:1.11.5"
-  checksum: a807683ce9d1d4ba6582b444bc507e944c2c3ea68310400a12aacb334c64b83f32a46f0a22c79048e452dc229e0b19e3cb3446bb5cceec64f96e46e53a5867ec
   languageName: node
   linkType: hard
