@@ -2,6 +2,7 @@
 	"name": "webapp",
 	"main": "source/index.tsx",
 	"license": "MIT",
+	"homepage": "https://github.com/d-zone-org/d-zone/tree/rewrite/packages/webapp-yakshaving",
 	"scripts": {
 		"build": "yarn node build.config.js",
 		"dev": "yarn node build.config.js --dev",
