@@ -1,6 +1,5 @@
 const { configure } = require('yakshaving')
 
-const pluginReplace = require('@rollup/plugin-replace')
 const pluginJson = require('@rollup/plugin-json')
 const pluginClearDirectory = require('rollup-plugin-clear')
 const pluginLiveReload = require('rollup-plugin-livereload')
@@ -9,12 +8,6 @@ const pluginServe = require('rollup-plugin-serve')
 const path = require('path')
 const root = (...args) => path.join(__dirname, ...args)
 
-const replaceBasename = {
-	values: {
-		'process.env.BASENAME': `'${process.env.BASENAME}'`,
-	},
-}
-
 configure((devMode) => ({
 	projectRoot: __dirname,
 	entryPoint: 'source/index.tsx',
@@ -22,7 +15,6 @@ configure((devMode) => ({
 
 	additionalPlugins: devMode
 		? [
-				pluginReplace(replaceBasename),
 				pluginJson(),
 				pluginServe({
 					contentBase: root('public'),
@@ -32,7 +24,6 @@ configure((devMode) => ({
 				pluginLiveReload(root('public')),
 		  ]
 		: [
-				pluginReplace(replaceBasename),
 				pluginJson(),
 				pluginClearDirectory({ targets: [root('public/build')] }),
 		  ],
@@ -40,6 +31,12 @@ configure((devMode) => ({
 	advanced: {
 		rollupOptions: {
 			input: { preserveEntrySignatures: false },
+		},
+
+		pluginOptions: {
+			replace: {
+				'process.env.BASENAME': `'${process.env.BASENAME}'`,
+			},
 		},
 	},
 })).catch((err) => {

@@ -8,6 +8,7 @@ import { parseConfiguration } from './modules/configuration'
 import { Configuration } from './modules/configuration/schema-types'
 import { getRequiredModules } from './modules/utilities/get-module'
 import { developmentMode } from './modules/build-modes/development'
+import { productionMode } from './modules/build-modes/production'
 
 /**
  * Configure bundler. Import this function in your configuration file
@@ -46,10 +47,18 @@ export async function configure(
 		pluginReplace,
 		pluginSucrase,
 		pluginTypescript,
+		pluginTerser,
 	} = getRequiredModules(user.require, require)
 
 	if (dev) {
 		console.log('Starting development mode')
+
+		if (pluginOptions?.replace)
+			additionalPlugins.push(
+				pluginReplace({
+					values: pluginOptions.replace,
+				})
+			)
 
 		await developmentMode({
 			dependenciesBundleOptions: {
@@ -64,7 +73,7 @@ export async function configure(
 				dependencyMap: Object.fromEntries(
 					user.dependencies.map(([dependencyId]) => [
 						dependencyId,
-						`./${dependencyId}/index.js`,
+						`./dependencies/${dependencyId}/index.js`,
 					])
 				),
 				entryPoint,
@@ -82,5 +91,20 @@ export async function configure(
 		})
 	} else {
 		console.log('Starting production mode')
+
+		await productionMode({
+			entryPoint,
+			extraPlugins: additionalPlugins,
+			outputDirectory,
+			requiredPlugins: {
+				commonJs: [pluginCommonJs, pluginOptions?.commonJs],
+				nodeResolve: [pluginNodeResolve, pluginOptions?.nodeResolve],
+				typescript: [pluginTypescript, pluginOptions?.typescript],
+				replace: [pluginReplace, pluginOptions?.replace],
+				terser: [pluginTerser, pluginOptions?.terser],
+			},
+			rollup,
+			additionalRollupSettings: rollupOptions,
+		})
 	}
 }

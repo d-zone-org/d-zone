@@ -4,6 +4,7 @@ import type {
 	OutputOptions as RollupOutputOptions,
 	Plugin,
 	RollupWatcher,
+	InputOption,
 } from 'rollup'
 import type PluginCommonJs from '@rollup/plugin-commonjs'
 import type { nodeResolve as PluginNodeResolve } from '@rollup/plugin-node-resolve'
@@ -33,7 +34,7 @@ export async function startWatchMode({
 
 	additionalRollupSettings,
 }: {
-	entryPoint: Record<string, string> | string | string[]
+	entryPoint: InputOption
 	dependencyMap: Record<string, string>
 
 	requiredPlugins: {

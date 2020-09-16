@@ -3,7 +3,7 @@ import type {
 
 	RollupOptions as RollupInputOptions,
 	OutputOptions as RollupOutputOptions,
-	Plugin
+	Plugin, InputOption
 } from 'rollup';
 import type PluginCommonJs from '@rollup/plugin-commonjs';
 import type { nodeResolve as PluginNodeResolve } from '@rollup/plugin-node-resolve';
@@ -38,7 +38,7 @@ export async function productionMode({
 
 	additionalRollupSettings,
 }: {
-	entryPoint: string;
+	entryPoint: InputOption;
 
 	requiredPlugins: {
 		commonJs: [typeof PluginCommonJs, Parameters<typeof PluginCommonJs>[0]?];
