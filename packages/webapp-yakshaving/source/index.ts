@@ -23,88 +23,98 @@ export async function configure(
 		devMode: boolean
 	) => Configuration | Promise<Configuration>
 ) {
-	// Parse command line arguments
-	const { dev } = yargsParser(process.argv.slice(2), {
-		alias: { dev: ['d', 'w'] },
-		boolean: ['dev'],
-		default: { dev: false },
-	})
+	try {
+		// Parse command line arguments
+		const { dev } = yargsParser(process.argv.slice(2), {
+			alias: { dev: ['d', 'w'] },
+			boolean: ['dev'],
+			default: { dev: false },
+		})
 
-	// Validates user configuration and gets extra information
-	const {
-		configuration: { outputDirectory, entryPoint, additionalPlugins, advanced },
-		user,
-	} = parseConfiguration(await configurationFactory(dev))
-
-	// Advanced settings
-	const { pluginOptions, rollupOptions } = advanced || {}
-
-	// Get required modules from user or use our dependencies
-	const {
-		rollup: { rollup, watch },
-		pluginCommonJs,
-		pluginNodeResolve,
-		pluginReplace,
-		pluginSucrase,
-		pluginTypescript,
-		pluginTerser,
-	} = getRequiredModules(user.require, require)
-
-	if (dev) {
-		console.log('Starting development mode')
-
-		if (pluginOptions?.replace)
-			additionalPlugins.push(
-				pluginReplace({
-					values: pluginOptions.replace,
-				})
-			)
-
-		await developmentMode({
-			dependenciesBundleOptions: {
-				dependencies: user.dependencies,
-				outputDirectory: path.join(outputDirectory, 'dependencies'),
-				plugins: { pluginCommonJs, pluginNodeResolve, pluginReplace },
-				rollup: rollup,
-				userRequire: user.require,
+		// Validates user configuration and gets extra information
+		const {
+			configuration: {
+				outputDirectory,
+				entryPoint,
+				additionalPlugins,
+				advanced,
 			},
+			user,
+		} = parseConfiguration(await configurationFactory(dev))
 
-			watchModeOptions: {
-				dependencyMap: Object.fromEntries(
-					user.dependencies.map(([dependencyId]) => [
-						dependencyId,
-						`./dependencies/${dependencyId}/index.js`,
-					])
-				),
+		// Advanced settings
+		const { pluginOptions, rollupOptions } = advanced || {}
+
+		// Get required modules from user or use our dependencies
+		const {
+			rollup: { rollup, watch },
+			pluginCommonJs,
+			pluginNodeResolve,
+			pluginReplace,
+			pluginSucrase,
+			pluginTypescript,
+			pluginTerser,
+		} = getRequiredModules(user.require, require)
+
+		if (dev) {
+			console.log('Starting development mode')
+
+			if (pluginOptions?.replace)
+				additionalPlugins.push(
+					pluginReplace({
+						values: pluginOptions.replace,
+					})
+				)
+
+			await developmentMode({
+				dependenciesBundleOptions: {
+					dependencies: user.dependencies,
+					outputDirectory: path.join(outputDirectory, 'dependencies'),
+					plugins: { pluginCommonJs, pluginNodeResolve, pluginReplace },
+					rollup: rollup,
+					userRequire: user.require,
+				},
+
+				watchModeOptions: {
+					dependencyMap: Object.fromEntries(
+						user.dependencies.map(([dependencyId]) => [
+							dependencyId,
+							`./dependencies/${dependencyId}/index.js`,
+						])
+					),
+					entryPoint,
+					extraPlugins: additionalPlugins,
+					outputDirectory,
+					requiredPlugins: {
+						commonJs: [pluginCommonJs, pluginOptions?.commonJs],
+						nodeResolve: [pluginNodeResolve, pluginOptions?.nodeResolve],
+						sucrase: [pluginSucrase, pluginOptions?.sucrase],
+						typescript: [pluginTypescript, pluginOptions?.typescript],
+					},
+					watch,
+					additionalRollupSettings: rollupOptions,
+				},
+			})
+		} else {
+			console.log('Starting production mode')
+
+			await productionMode({
 				entryPoint,
 				extraPlugins: additionalPlugins,
 				outputDirectory,
 				requiredPlugins: {
 					commonJs: [pluginCommonJs, pluginOptions?.commonJs],
 					nodeResolve: [pluginNodeResolve, pluginOptions?.nodeResolve],
-					sucrase: [pluginSucrase, pluginOptions?.sucrase],
 					typescript: [pluginTypescript, pluginOptions?.typescript],
+					replace: [pluginReplace, pluginOptions?.replace],
+					terser: [pluginTerser, pluginOptions?.terser],
 				},
-				watch,
+				rollup,
 				additionalRollupSettings: rollupOptions,
-			},
-		})
-	} else {
-		console.log('Starting production mode')
-
-		await productionMode({
-			entryPoint,
-			extraPlugins: additionalPlugins,
-			outputDirectory,
-			requiredPlugins: {
-				commonJs: [pluginCommonJs, pluginOptions?.commonJs],
-				nodeResolve: [pluginNodeResolve, pluginOptions?.nodeResolve],
-				typescript: [pluginTypescript, pluginOptions?.typescript],
-				replace: [pluginReplace, pluginOptions?.replace],
-				terser: [pluginTerser, pluginOptions?.terser],
-			},
-			rollup,
-			additionalRollupSettings: rollupOptions,
-		})
+			})
+		}
+	} catch (err) {
+		console.dir(err, { depth: 10 })
+		process.exit(1)
 	}
 }

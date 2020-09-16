@@ -23,10 +23,7 @@ configure((devMode) => ({
 				}),
 				pluginLiveReload(root('public')),
 		  ]
-		: [
-				pluginJson(),
-				pluginClearDirectory({ targets: [root('public/build')] }),
-		  ],
+		: [pluginJson(), pluginClearDirectory({ targets: [root('public/build')] })],
 
 	advanced: {
 		rollupOptions: {
@@ -35,11 +32,8 @@ configure((devMode) => ({
 
 		pluginOptions: {
 			replace: {
-				'process.env.BASENAME': `'${process.env.BASENAME}'`,
+				'process.env.BASENAME': `'${process.env.BASENAME || ''}'`,
 			},
 		},
 	},
-})).catch((err) => {
-	console.dir(err, { depth: 10 })
-	process.exit(1)
-})
+}))
