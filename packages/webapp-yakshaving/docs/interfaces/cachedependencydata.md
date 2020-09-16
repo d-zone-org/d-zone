@@ -1,4 +1,4 @@
-[yakshaving - v0.4.1](../README.md) › [CacheDependencyData](cachedependencydata.md)
+[yakshaving - v0.5.0](../README.md) › [CacheDependencyData](cachedependencydata.md)
 
 # Interface: CacheDependencyData
 

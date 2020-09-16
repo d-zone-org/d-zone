@@ -1,4 +1,4 @@
-[yakshaving - v0.4.1](../README.md) › [YakErrorContext](yakerrorcontext.md)
+[yakshaving - v0.5.0](../README.md) › [YakErrorContext](yakerrorcontext.md)
 
 # Interface: YakErrorContext
 
@@ -23,7 +23,7 @@
 
 • **internal**: *boolean*
 
-Defined in packages/webapp-yakshaving/source/modules/utilities/error.ts:3
+*Defined in [packages/webapp-yakshaving/source/modules/utilities/error.ts:3](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/utilities/error.ts#L3)*
 
 ___
 
@@ -31,4 +31,4 @@ ___
 
 • **isOperational**: *boolean*
 
-Defined in packages/webapp-yakshaving/source/modules/utilities/error.ts:2
+*Defined in [packages/webapp-yakshaving/source/modules/utilities/error.ts:2](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/utilities/error.ts#L2)*

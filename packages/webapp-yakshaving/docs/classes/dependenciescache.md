@@ -1,4 +1,4 @@
-[yakshaving - v0.4.1](../README.md) › [DependenciesCache](dependenciescache.md)
+[yakshaving - v0.5.0](../README.md) › [DependenciesCache](dependenciescache.md)
 
 # Class: DependenciesCache
 
@@ -23,7 +23,7 @@ Small wrapper around dependencies cache
 
 ▸ **cacheDependency**(`dependencyId`: string, `descriptor`: string): *void*
 
-Defined in packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:49
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:49](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L49)*
 
 Mark the dependency as cached
 
@@ -42,7 +42,7 @@ ___
 
 ▸ **dependencyIsCached**(`dependencyId`: string, `descriptor`: string): *boolean*
 
-Defined in packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:37
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:37](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L37)*
 
 Check if dependency is cached
 
@@ -61,7 +61,7 @@ ___
 
 ▸ **init**(`rootDirectory`: string): *Promise‹void›*
 
-Defined in packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:21
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:21](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L21)*
 
 Initialize cache, extend previous cache if exists
 
@@ -79,7 +79,7 @@ ___
 
 ▸ **write**(): *Promise‹void›*
 
-Defined in packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:57
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:57](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L57)*
 
 Write the cache file to disk
 

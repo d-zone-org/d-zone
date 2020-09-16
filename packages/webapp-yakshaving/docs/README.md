@@ -1,6 +1,6 @@
-[yakshaving - v0.4.1](README.md)
+[yakshaving - v0.5.0](README.md)
 
-# yakshaving - v0.4.1
+# yakshaving - v0.5.0
 
 ## Index
 
@@ -12,20 +12,18 @@
 ### Interfaces
 
 * [CacheDependencyData](interfaces/cachedependencydata.md)
-* [ConfigurationOptions](interfaces/configurationoptions.md)
-* [PluginAndOptions](interfaces/pluginandoptions.md)
+* [Configuration](interfaces/configuration.md)
+* [Manifest](interfaces/manifest.md)
+* [UserInformation](interfaces/userinformation.md)
 * [YakErrorContext](interfaces/yakerrorcontext.md)
 
 ### Type aliases
 
-* [RecursivePartial](README.md#recursivepartial)
-* [UserConfigurationOptions](README.md#userconfigurationoptions)
+* [RollupSucraseOptions](README.md#rollupsucraseoptions)
 
 ### Variables
 
-* [plugin](README.md#const-plugin)
-* [pluginAndOptionsSchema](README.md#const-pluginandoptionsschema)
-* [userConfigurationOptionsSchema](README.md#const-userconfigurationoptionsschema)
+* [userConfigurationSchema](README.md#const-userconfigurationschema)
 
 ### Functions
 
@@ -33,144 +31,102 @@
 * [createDependenciesBundle](README.md#createdependenciesbundle)
 * [developmentMode](README.md#developmentmode)
 * [extractUserInformation](README.md#extractuserinformation)
+* [getRequiredModules](README.md#getrequiredmodules)
+* [interfaceObject](README.md#const-interfaceobject)
+* [isObject](README.md#const-isobject)
 * [listenTheWatcher](README.md#listenthewatcher)
 * [parseConfiguration](README.md#parseconfiguration)
-* [parseUserConfiguration](README.md#parseuserconfiguration)
 * [productionMode](README.md#productionmode)
 * [startWatchMode](README.md#startwatchmode)
-
-### Object literals
-
-* [DEFAULT_CONFIGURATION](README.md#const-default_configuration)
+* [validateConfiguration](README.md#validateconfiguration)
 
 ## Type aliases
 
-###  RecursivePartial
+###  RollupSucraseOptions
 
-Ƭ **RecursivePartial**: *object*
+Ƭ **RollupSucraseOptions**: *Parameters‹typeof RollupPluginSucrase›[0]*
 
-Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:102
-
-#### Type declaration:
-
-___
-
-###  UserConfigurationOptions
-
-Ƭ **UserConfigurationOptions**: *Omit‹[ConfigurationOptions](interfaces/configurationoptions.md), "advanced"› & [RecursivePartial](README.md#recursivepartial)‹Pick‹[ConfigurationOptions](interfaces/configurationoptions.md), "advanced"››*
-
-Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:109
-
-Similar to `ConfigurationOptions` but advanced options are all optional
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:24](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L24)*
 
 ## Variables
 
-### `Const` plugin
+### `Const` userConfigurationSchema
 
-• **plugin**: *ZodFunction‹ZodTuple‹[ZodAny‹›]›, ZodAny‹››* = z.function(z.tuple([z.any()]), z.any())
+• **userConfigurationSchema**: *Struct‹[Configuration](interfaces/configuration.md)›* = object({
+	projectRoot: string(),
+	entryPoint: union([string(), array(string()), record(string(), string())]),
+	outputDirectory: string(),
+	additionalPlugins: array(any()),
 
-Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:38
+	advanced: optional(
+		object({
+			ignoredDependencies: optional(array(string())),
 
-___
+			rollupOptions: optional(
+				object({
+					input: optional(
+						interfaceObject<RollupInputOptions>('RollupInputOptions')
+					),
+					output: optional(
+						interfaceObject<RollupOutputOptions>('RollupOutputOptions')
+					),
+				})
+			),
 
-### `Const` pluginAndOptionsSchema
-
-• **pluginAndOptionsSchema**: *ZodObject‹object, object, object›* = z
-	.object({
-		plugin,
-
-		config: z
-			.object({
-				common: z.any(),
-				development: z.any(),
-				production: z.any(),
-			})
-			.optional(),
-	})
-	.deepPartial()
-
-Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:39
-
-___
-
-### `Const` userConfigurationOptionsSchema
-
-• **userConfigurationOptionsSchema**: *ZodObject‹object, object, object›* = z.object({
-	projectRoot: z.string(),
-	entryPoint: z.string(),
-	outputDirectory: z.string(),
-
-	ignoredDepsBundleDependencies: z.array(z.string()).optional(),
-	additionalPlugins: z
-		.function(
-			z.tuple([z.boolean()]),
-			z.union([z.promise(z.array(z.any())), z.array(z.any())])
-		)
-		.optional(),
-
-	advanced: z
-		.object({
-			rollup: z.union([
-				z.tuple([
-					z
-						.object({
-							input: z.record(z.unknown()),
-							output: z.record(z.unknown()),
-						})
-						.partial(),
-				]),
-				z.tuple([
-					z
-						.object({
-							input: z.record(z.unknown()),
-							output: z.record(z.unknown()),
-						})
-						.partial(),
-					z.function(z.tuple([z.any()]), z.promise(z.any())),
-				]),
-			]),
-			watch: z.union([
-				z.tuple([z.record(z.unknown())]),
-				z.tuple([
-					z.record(z.unknown()),
-					z.function(z.tuple([z.any()]), z.any()),
-				]),
-			]),
-
-			corePluginsAndOptions: z.object({
-				commonJs: pluginAndOptionsSchema,
-				nodeResolve: pluginAndOptionsSchema,
-				replace: z.object({ plugin }),
-				sucrase: pluginAndOptionsSchema,
-				typescript: pluginAndOptionsSchema,
-				terser: pluginAndOptionsSchema,
-			}),
+			pluginOptions: optional(
+				object({
+					commonJs: optional(
+						interfaceObject<RollupCommonJSOptions>('CommonJSPluginOptions')
+					),
+					nodeResolve: optional(
+						interfaceObject<RollupNodeResolveOptions>(
+							'NodeResolvePluginOptions'
+						)
+					),
+					typescript: optional(
+						interfaceObject<RollupTypescriptOptions>('TypescriptPluginOptions')
+					),
+					sucrase: optional(
+						interfaceObject<RollupSucraseOptions>('SucrasePluginOptions')
+					),
+					terser: optional(
+						interfaceObject<TerserOptions>('TerserPluginOptions')
+					),
+					replace: optional(record(string(), string())),
+				})
+			),
 		})
-		.deepPartial()
-		.optional(),
+	),
 })
 
-Defined in packages/webapp-yakshaving/source/modules/configuration/user-schema-types.ts:112
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:79](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L79)*
 
 ## Functions
 
 ###  configure
 
-▸ **configure**(`options`: [UserConfigurationOptions](README.md#userconfigurationoptions)): *Promise‹void›*
+▸ **configure**(`configurationFactory`: function): *Promise‹void›*
 
-*Defined in [packages/webapp-yakshaving/source/index.ts:12](https://github.com/d-zone-org/d-zone/blob/fd51575/packages/webapp-yakshaving/source/index.ts#L12)*
+*Defined in [packages/webapp-yakshaving/source/index.ts:21](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/index.ts#L21)*
 
 Configure bundler. Import this function in your configuration file
-and call it with your configuration. Run your configuration file
+and call it with your configuration factory. Run your configuration file
 like any other node application. Add `--dev` flag for development mode.
-Check out `ConfigurationOptions` interface for description of the properties.
-The function might emit error, please handle it properly.
+Check out `Configuration` interface for description of the properties.
 
 **Parameters:**
 
-Name | Type | Description |
------- | ------ | ------ |
-`options` | [UserConfigurationOptions](README.md#userconfigurationoptions) | Configuration Options  |
+▪ **configurationFactory**: *function*
+
+Factory for configuration.
+
+▸ (`devMode`: boolean): *[Configuration](interfaces/configuration.md) | Promise‹[Configuration](interfaces/configuration.md)›*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`devMode` | boolean |
 
 **Returns:** *Promise‹void›*
 
@@ -180,7 +136,7 @@ ___
 
 ▸ **createDependenciesBundle**(`__namedParameters`: object): *Promise‹void›*
 
-Defined in packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle.ts:23
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle.ts:23](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle.ts#L23)*
 
 Create bundle of dependencies
 
@@ -192,7 +148,7 @@ Name | Type |
 ------ | ------ |
 `dependencies` | [string, string][] |
 `outputDirectory` | string |
-`plugins` | [commonjs, nodeResolve, replace] |
+`plugins` | object |
 `rollup` | rollup |
 `userRequire` | NodeRequire |
 
@@ -204,7 +160,7 @@ ___
 
 ▸ **developmentMode**(`__namedParameters`: object): *Promise‹void›*
 
-Defined in packages/webapp-yakshaving/source/modules/build-modes/development/index.ts:10
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/index.ts:10](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/build-modes/development/index.ts#L10)*
 
 Start development mode
 
@@ -223,9 +179,9 @@ ___
 
 ###  extractUserInformation
 
-▸ **extractUserInformation**(`projectRoot`: string, `ignoredDependencies`: string[]): *object*
+▸ **extractUserInformation**(`projectRoot`: string, `ignoredDependencies`: string[]): *[UserInformation](interfaces/userinformation.md)*
 
-Defined in packages/webapp-yakshaving/source/modules/configuration/user-extract.ts:11
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:22](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L22)*
 
 Extracts user information from `package.json`
 and creates helper methods
@@ -237,19 +193,81 @@ Name | Type | Description |
 `projectRoot` | string | Users root directory |
 `ignoredDependencies` | string[] | Ignored dependencies  |
 
+**Returns:** *[UserInformation](interfaces/userinformation.md)*
+
+___
+
+###  getRequiredModules
+
+▸ **getRequiredModules**(...`requires`: NodeRequire[]): *object*
+
+*Defined in [packages/webapp-yakshaving/source/modules/utilities/get-module.ts:12](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/utilities/get-module.ts#L12)*
+
+Get required modules using the requires provided
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`...requires` | NodeRequire[] | NodeRequires to use to get the module  |
+
 **Returns:** *object*
 
-* **dependencies**: *[string, string][]* = Object.entries(manifest.dependencies).filter(
-			([dependencyId]) => !ignoredDependencies.includes(dependencyId)
+* **pluginCommonJs**: *commonjs* = getModule<typeof pluginCommonJs>('@rollup/plugin-commonjs')
+
+* **pluginNodeResolve**: *nodeResolve* = getModule<typeof import('@rollup/plugin-node-resolve')>(
+			'@rollup/plugin-node-resolve'
+		).nodeResolve
+
+* **pluginReplace**: *replace* = getModule<typeof pluginReplace>('@rollup/plugin-replace')
+
+* **pluginSucrase**: *PluginImpl‹Options›* = getModule<typeof pluginSucrase>('@rollup/plugin-sucrase')
+
+* **pluginTerser**: *terser* = getModule<typeof import('rollup-plugin-terser')>(
+			'rollup-plugin-terser'
+		).terser
+
+* **pluginTypescript**: *typescript* = getModule<typeof pluginTypescript>(
+			'@rollup/plugin-typescript'
 		)
 
-* **manifest**(): *object*
+* **rollup**: *"D:/Sagnik/Projects/d-zone/.yarn/cache/rollup-npm-2.26.11-64b5fb1f64-65759710ab.zip/node_modules/rollup/dist/rollup"* = getModule<typeof import('rollup')>('rollup')
 
-  * **dependencies**: *Record‹string, string›*
+___
 
-* **require**: *NodeRequire* = module.createRequire(manifestPath)
+### `Const` interfaceObject
 
-* **root**: *root*
+▸ **interfaceObject**‹**T**›(`name`: string): *Struct‹T, null›*
+
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:30](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L30)*
+
+**Type parameters:**
+
+▪ **T**: *unknown*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`name` | string |
+
+**Returns:** *Struct‹T, null›*
+
+___
+
+### `Const` isObject
+
+▸ **isObject**(`val`: unknown): *boolean*
+
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:28](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L28)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`val` | unknown |
+
+**Returns:** *boolean*
 
 ___
 
@@ -257,7 +275,7 @@ ___
 
 ▸ **listenTheWatcher**(`watcher`: RollupWatcher): *void*
 
-Defined in packages/webapp-yakshaving/source/modules/build-modes/development/watch-mode.ts:115
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/watch-mode.ts:119](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/build-modes/development/watch-mode.ts#L119)*
 
 **Parameters:**
 
@@ -271,51 +289,21 @@ ___
 
 ###  parseConfiguration
 
-▸ **parseConfiguration**(`userConfiguration`: [UserConfigurationOptions](README.md#userconfigurationoptions)): *object*
+▸ **parseConfiguration**(`configuration`: [Configuration](interfaces/configuration.md)): *object*
 
-Defined in packages/webapp-yakshaving/source/modules/configuration/index.ts:5
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/index.ts:5](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/index.ts#L5)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`userConfiguration` | [UserConfigurationOptions](README.md#userconfigurationoptions) |
+`configuration` | [Configuration](interfaces/configuration.md) |
 
 **Returns:** *object*
 
-* **configuration**: *[ConfigurationOptions](interfaces/configurationoptions.md)* = parsedConfiguration
+* **configuration**: *[Configuration](interfaces/configuration.md)* = validatedConfiguration
 
-* **user**(): *object*
-
-  * **dependencies**: *[string, string][]* = Object.entries(manifest.dependencies).filter(
-			([dependencyId]) => !ignoredDependencies.includes(dependencyId)
-		)
-
-  * **manifest**(): *object*
-
-    * **dependencies**: *Record‹string, string›*
-
-  * **require**: *NodeRequire* = module.createRequire(manifestPath)
-
-  * **root**: *root*
-
-___
-
-###  parseUserConfiguration
-
-▸ **parseUserConfiguration**(`userConfiguration`: [UserConfigurationOptions](README.md#userconfigurationoptions)): *[ConfigurationOptions](interfaces/configurationoptions.md)*
-
-Defined in packages/webapp-yakshaving/source/modules/configuration/user-parse.ts:38
-
-Parse user configuration and deep merge the defaults
-
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`userConfiguration` | [UserConfigurationOptions](README.md#userconfigurationoptions) | Configuration  |
-
-**Returns:** *[ConfigurationOptions](interfaces/configurationoptions.md)*
+* **user**: *[UserInformation](interfaces/userinformation.md)* = userInformation
 
 ___
 
@@ -323,7 +311,7 @@ ___
 
 ▸ **productionMode**(`__namedParameters`: object): *Promise‹void›*
 
-Defined in packages/webapp-yakshaving/source/modules/build-modes/production/index.ts:24
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/production/index.ts:24](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/build-modes/production/index.ts#L24)*
 
 Start production mode
 
@@ -334,7 +322,7 @@ Start production mode
 Name | Type |
 ------ | ------ |
 `additionalRollupSettings` | undefined &#124; object |
-`entryPoint` | string |
+`entryPoint` | InputOption |
 `extraPlugins` | Plugin‹›[] |
 `outputDirectory` | string |
 `requiredPlugins` | object |
@@ -348,7 +336,7 @@ ___
 
 ▸ **startWatchMode**(`__namedParameters`: object): *Promise‹void›*
 
-Defined in packages/webapp-yakshaving/source/modules/build-modes/development/watch-mode.ts:24
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/watch-mode.ts:25](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/build-modes/development/watch-mode.ts#L25)*
 
 Start watch mode for application
 
@@ -360,7 +348,7 @@ Name | Type |
 ------ | ------ |
 `additionalRollupSettings` | undefined &#124; object |
 `dependencyMap` | Record‹string, string› |
-`entryPoint` | string |
+`entryPoint` | InputOption |
 `extraPlugins` | Plugin‹›[] |
 `outputDirectory` | string |
 `requiredPlugins` | object |
@@ -368,50 +356,20 @@ Name | Type |
 
 **Returns:** *Promise‹void›*
 
-## Object literals
+___
 
-### `Const` DEFAULT_CONFIGURATION
+###  validateConfiguration
 
-### ▪ **DEFAULT_CONFIGURATION**: *object*
+▸ **validateConfiguration**(`userConfiguration`: [Configuration](interfaces/configuration.md)): *[Configuration](interfaces/configuration.md)*
 
-Defined in packages/webapp-yakshaving/source/modules/configuration/user-parse.ts:11
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/validate.ts:10](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/validate.ts#L10)*
 
-▪ **advanced**: *object*
+Validate configuration
 
-Defined in packages/webapp-yakshaving/source/modules/configuration/user-parse.ts:12
+**Parameters:**
 
-* **rollup**: *[object, any]* = [{}, require('rollup').rollup]
+Name | Type | Description |
+------ | ------ | ------ |
+`userConfiguration` | [Configuration](interfaces/configuration.md) | Configuration  |
 
-* **watch**: *[object, any]* = [{}, require('rollup').watch]
-
-* **corePluginsAndOptions**: *object*
-
-  * **commonJs**: *object*
-
-    * **plugin**: *any* = require('@rollup/plugin-commonjs')
-
-  * **nodeResolve**: *object*
-
-    * **plugin**: *any* = require('@rollup/plugin-node-resolve').nodeResolve
-
-    * **config**: *object*
-
-      * **common**: *object*
-
-        * **extensions**: *string[]* = ['.mjs', '.js', '.json', '.node', '.ts', '.tsx']
-
-  * **replace**: *object*
-
-    * **plugin**: *any* = require('@rollup/plugin-replace')
-
-  * **sucrase**: *object*
-
-    * **plugin**: *any* = require('@rollup/plugin-sucrase')
-
-  * **terser**: *object*
-
-    * **plugin**: *any* = require('rollup-plugin-terser').terser
-
-  * **typescript**: *object*
-
-    * **plugin**: *any* = require('@rollup/plugin-typescript')
+**Returns:** *[Configuration](interfaces/configuration.md)*
