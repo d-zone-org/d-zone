@@ -13,7 +13,7 @@ export interface UserInformation {
 }
 
 /**
- * Extracts user information from `package.json` 
+ * Extracts user information from `package.json`
  * and creates helper methods
  *
  * @param projectRoot - Users root directory
@@ -22,7 +22,7 @@ export interface UserInformation {
 export function extractUserInformation(
 	projectRoot: string,
 	ignoredDependencies: string[]
-) : UserInformation {
+): UserInformation {
 	const root = (...args: string[]) => path.resolve(projectRoot, ...args)
 
 	// User information

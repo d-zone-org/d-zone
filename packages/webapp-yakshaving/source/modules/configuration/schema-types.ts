@@ -33,7 +33,7 @@ const interfaceObject = <T extends unknown>(name: string): Struct<T, null> =>
 /**
  * Represents configuration options
  *
- * @property projectRoot - Your applications root directory's absolute path
+ * @property projectRoot - Absolute path to your application's root directory
  * @property entryPoint - Entry-point(s) to your application
  * @property outputDirectory - Output directory
  * @property additionalPlugins - Additional plugins to be used

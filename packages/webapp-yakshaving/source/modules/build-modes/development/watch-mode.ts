@@ -113,10 +113,10 @@ export async function startWatchMode({
 	})
 
 	// Listener for watcher :P
-	listenTheWatcher(watcher)
+	listenToWatcher(watcher)
 }
 
-function listenTheWatcher(watcher: RollupWatcher) {
+function listenToWatcher(watcher: RollupWatcher) {
 	watcher.on('event', (event) => {
 		console.log(event)
 	})

@@ -18,4 +18,4 @@
 
 • **dependencies**: *Record‹string, string›*
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:5](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L5)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:5](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L5)*

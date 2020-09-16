@@ -23,7 +23,7 @@
 
 • **internal**: *boolean*
 
-*Defined in [packages/webapp-yakshaving/source/modules/utilities/error.ts:3](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/utilities/error.ts#L3)*
+*Defined in [packages/webapp-yakshaving/source/modules/utilities/error.ts:3](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/utilities/error.ts#L3)*
 
 ___
 
@@ -31,4 +31,4 @@ ___
 
 • **isOperational**: *boolean*
 
-*Defined in [packages/webapp-yakshaving/source/modules/utilities/error.ts:2](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/utilities/error.ts#L2)*
+*Defined in [packages/webapp-yakshaving/source/modules/utilities/error.ts:2](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/utilities/error.ts#L2)*

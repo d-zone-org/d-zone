@@ -18,9 +18,9 @@ yarn add yakshaving
   - Separate bundle for dependencies, prevents waste of time in treeshaking them.
   - Caching of the dependency bundle, prevents building of dependencies every restart.
 
-- Built in configuration validation so you don't end up breaking something by mistake.
+- Built in configuration validation, so you don't end up breaking something by mistake.
 
-- What do you think we need more?
+- Think it needs more? [Let us know!](https://github.com/d-zone-org/d-zone/issues/new)
 
 ## Documentation
 

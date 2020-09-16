@@ -2,9 +2,7 @@ import { Configuration } from './schema-types'
 import { validateConfiguration } from './validate'
 import { extractUserInformation } from './extract-information'
 
-export function parseConfiguration(
-	configuration: Configuration
-) {
+export function parseConfiguration(configuration: Configuration) {
 	const validatedConfiguration = validateConfiguration(configuration)
 	const userInformation = extractUserInformation(
 		validatedConfiguration.projectRoot,

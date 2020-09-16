@@ -4,7 +4,7 @@
 
 Represents configuration options
 
-**`property`** projectRoot - Your applications root directory's absolute path
+**`property`** projectRoot - Absolute path to your application's root directory
 
 **`property`** entryPoint - Entry-point(s) to your application
 
@@ -56,7 +56,7 @@ Represents configuration options
 
 • **additionalPlugins**: *Plugin[]*
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:57](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L57)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:57](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L57)*
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 • **advanced**? : *undefined | object*
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:59](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L59)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:59](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L59)*
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 • **entryPoint**: *InputOption*
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:55](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L55)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:55](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L55)*
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 • **outputDirectory**: *string*
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:56](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L56)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:56](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L56)*
 
 ___
 
@@ -88,4 +88,4 @@ ___
 
 • **projectRoot**: *string*
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:54](https://github.com/d-zone-org/d-zone/blob/cd5a088/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L54)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:54](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L54)*
