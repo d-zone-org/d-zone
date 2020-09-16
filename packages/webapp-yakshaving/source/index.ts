@@ -2,9 +2,12 @@ import 'source-map-support/register'
 
 import yargsParser from 'yargs-parser'
 
+import path from 'path'
+
 import { parseConfiguration } from './modules/configuration'
 import { Configuration } from './modules/configuration/schema-types'
 import { getRequiredModules } from './modules/utilities/get-module'
+import { developmentMode } from './modules/build-modes/development'
 
 /**
  * Configure bundler. Import this function in your configuration file
@@ -19,22 +22,64 @@ export async function configure(
 		devMode: boolean
 	) => Configuration | Promise<Configuration>
 ) {
+	// Parse command line arguments
 	const { dev } = yargsParser(process.argv.slice(2), {
 		alias: { dev: ['d', 'w'] },
 		boolean: ['dev'],
 		default: { dev: false },
 	})
 
-	const { configuration, user } = parseConfiguration(
-		await configurationFactory(dev)
-	)
+	// Validates user configuration and gets extra information
+	const {
+		configuration: { outputDirectory, entryPoint, additionalPlugins, advanced },
+		user,
+	} = parseConfiguration(await configurationFactory(dev))
 
-	const modules = getRequiredModules(user.require, require)
+	// Advanced settings
+	const { pluginOptions, rollupOptions } = advanced || {}
 
-	console.log({ configuration, user, modules })
+	// Get required modules from user or use our dependencies
+	const {
+		rollup: { rollup, watch },
+		pluginCommonJs,
+		pluginNodeResolve,
+		pluginReplace,
+		pluginSucrase,
+		pluginTypescript,
+	} = getRequiredModules(user.require, require)
 
 	if (dev) {
 		console.log('Starting development mode')
+
+		await developmentMode({
+			dependenciesBundleOptions: {
+				dependencies: user.dependencies,
+				outputDirectory: path.join(outputDirectory, 'dependencies'),
+				plugins: { pluginCommonJs, pluginNodeResolve, pluginReplace },
+				rollup: rollup,
+				userRequire: user.require,
+			},
+
+			watchModeOptions: {
+				dependencyMap: Object.fromEntries(
+					user.dependencies.map(([dependencyId]) => [
+						dependencyId,
+						`./${dependencyId}/index.js`,
+					])
+				),
+				entryPoint,
+				extraPlugins: additionalPlugins,
+				outputDirectory,
+				requiredPlugins: {
+					commonJs: [pluginCommonJs, pluginOptions?.commonJs],
+					nodeResolve: [pluginNodeResolve, pluginOptions?.nodeResolve],
+					sucrase: [pluginSucrase, pluginOptions?.sucrase],
+					typescript: [pluginTypescript, pluginOptions?.typescript],
+				},
+				watch,
+				additionalRollupSettings: rollupOptions,
+			},
+		})
 	} else {
 		console.log('Starting production mode')
 	}

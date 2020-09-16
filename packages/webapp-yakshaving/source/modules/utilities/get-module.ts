@@ -1,5 +1,10 @@
 import { YakError } from './error'
 
+import type pluginCommonJs from '@rollup/plugin-commonjs'
+import type pluginReplace from '@rollup/plugin-replace'
+import type pluginTypescript from '@rollup/plugin-typescript'
+import type pluginSucrase from '@rollup/plugin-sucrase'
+
 /**
  * Get required modules using the requires provided
  * @param requires - NodeRequires to use to get the module
@@ -8,7 +13,9 @@ export function getRequiredModules(...requires: NodeRequire[]) {
 	function getModule<T>(moduleName: string): T {
 		for (const require of requires) {
 			try {
-				return require(moduleName)
+				const path = require.resolve(moduleName)
+				console.log(`Using ${moduleName} from ${path}`)
+				return require(path)
 			} catch {}
 		}
 
@@ -20,21 +27,15 @@ export function getRequiredModules(...requires: NodeRequire[]) {
 
 	return {
 		rollup: getModule<typeof import('rollup')>('rollup'),
-		pluginCommonJs: getModule<typeof import('@rollup/plugin-commonjs')>(
-			'@rollup/plugin-commonjs'
-		),
+		pluginCommonJs: getModule<typeof pluginCommonJs>('@rollup/plugin-commonjs'),
 		pluginNodeResolve: getModule<typeof import('@rollup/plugin-node-resolve')>(
 			'@rollup/plugin-node-resolve'
 		).nodeResolve,
-		pluginReplace: getModule<typeof import('@rollup/plugin-replace')>(
-			'@rollup/plugin-replace'
-		),
-		pluginTypescript: getModule<typeof import('@rollup/plugin-typescript')>(
+		pluginReplace: getModule<typeof pluginReplace>('@rollup/plugin-replace'),
+		pluginTypescript: getModule<typeof pluginTypescript>(
 			'@rollup/plugin-typescript'
 		),
-		pluginSucrase: getModule<typeof import('@rollup/plugin-sucrase')>(
-			'@rollup/plugin-sucrase'
-		),
+		pluginSucrase: getModule<typeof pluginSucrase>('@rollup/plugin-sucrase'),
 		pluginTerser: getModule<typeof import('rollup-plugin-terser')>(
 			'rollup-plugin-terser'
 		).terser,

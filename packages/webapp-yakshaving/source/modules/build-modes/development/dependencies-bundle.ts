@@ -23,7 +23,7 @@ import type PluginReplace from '@rollup/plugin-replace'
 export async function createDependenciesBundle({
 	dependencies,
 	userRequire,
-	plugins: [pluginCommonJs, pluginNodeResolve, pluginReplace],
+	plugins: { pluginCommonJs, pluginNodeResolve, pluginReplace },
 
 	outputDirectory,
 
@@ -31,11 +31,11 @@ export async function createDependenciesBundle({
 }: {
 	dependencies: [string, string][]
 	userRequire: NodeRequire
-	plugins: [
-		typeof PluginCommonJs,
-		typeof PluginNodeResolve,
-		typeof PluginReplace
-	]
+	plugins: {
+		pluginCommonJs: typeof PluginCommonJs
+		pluginNodeResolve: typeof PluginNodeResolve
+		pluginReplace: typeof PluginReplace
+	}
 
 	outputDirectory: string
 
