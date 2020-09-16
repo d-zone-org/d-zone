@@ -1,6 +1,7 @@
 {
 	"name": "webapp",
 	"main": "source/index.tsx",
+	"license": "MIT",
 	"scripts": {
 		"build": "yarn node build.config.js",
 		"dev": "yarn node build.config.js --dev",
