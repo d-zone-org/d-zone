@@ -1,15 +1,15 @@
 import type {
 	rollup as RollupFn,
-
 	RollupOptions as RollupInputOptions,
 	OutputOptions as RollupOutputOptions,
-	Plugin, InputOption
-} from 'rollup';
-import type PluginCommonJs from '@rollup/plugin-commonjs';
-import type { nodeResolve as PluginNodeResolve } from '@rollup/plugin-node-resolve';
-import type PluginReplace from '@rollup/plugin-replace';
-import type PluginTypescript from '@rollup/plugin-typescript';
-import type { terser as PluginTerser } from 'rollup-plugin-terser';
+	Plugin,
+	InputOption,
+} from 'rollup'
+import type PluginCommonJs from '@rollup/plugin-commonjs'
+import type { nodeResolve as PluginNodeResolve } from '@rollup/plugin-node-resolve'
+import type PluginReplace from '@rollup/plugin-replace'
+import type PluginTypescript from '@rollup/plugin-typescript'
+import type { terser as PluginTerser } from 'rollup-plugin-terser'
 
 /**
  * Start production mode
@@ -29,7 +29,7 @@ export async function productionMode({
 		nodeResolve: [pluginNodeResolve, nodeResolveUserOpts],
 		typescript: [pluginTypescript, typescriptUserOpts],
 		terser: [pluginTerser, terserUserOpts],
-		replace: [pluginReplace],
+		replace: [pluginReplace, replaceValues],
 	},
 	extraPlugins,
 
@@ -38,30 +38,30 @@ export async function productionMode({
 
 	additionalRollupSettings,
 }: {
-	entryPoint: InputOption;
+	entryPoint: InputOption
 
 	requiredPlugins: {
-		commonJs: [typeof PluginCommonJs, Parameters<typeof PluginCommonJs>[0]?];
+		commonJs: [typeof PluginCommonJs, Parameters<typeof PluginCommonJs>[0]?]
 		nodeResolve: [
 			typeof PluginNodeResolve,
 			Parameters<typeof PluginNodeResolve>[0]?
-		];
+		]
 		typescript: [
 			typeof PluginTypescript,
 			Parameters<typeof PluginTypescript>[0]?
-		];
-		terser: [typeof PluginTerser, Parameters<typeof PluginTerser>[0]?];
-		replace: [typeof PluginReplace, Parameters<typeof PluginReplace>[0]?];
-	};
-	extraPlugins: Plugin[];
+		]
+		terser: [typeof PluginTerser, Parameters<typeof PluginTerser>[0]?]
+		replace: [typeof PluginReplace, Record<string, string>?]
+	}
+	extraPlugins: Plugin[]
 
-	outputDirectory: string;
-	rollup: typeof RollupFn;
+	outputDirectory: string
+	rollup: typeof RollupFn
 
 	additionalRollupSettings?: {
-		input?: RollupInputOptions;
-		output?: RollupOutputOptions;
-	};
+		input?: RollupInputOptions
+		output?: RollupOutputOptions
+	}
 }) {
 	const plugins = [
 		pluginCommonJs(commonJsUserOpts),
@@ -70,22 +70,25 @@ export async function productionMode({
 			preferBuiltins: false,
 			...nodeResolveUserOpts,
 		}),
+
+		...extraPlugins,
+
 		pluginTypescript(typescriptUserOpts),
 		pluginReplace({
 			values: {
 				'process.env.NODE_ENV': '"production"',
+				...replaceValues,
 			},
 		}),
 		pluginTerser(terserUserOpts),
-		...extraPlugins,
-	];
+	]
 
 	const inputOptions: RollupInputOptions = {
 		input: entryPoint,
 		context: 'window',
 		plugins,
 		...additionalRollupSettings?.input,
-	};
+	}
 
 	const outputOptions: RollupOutputOptions = {
 		dir: outputDirectory,
@@ -93,8 +96,8 @@ export async function productionMode({
 		entryFileNames: '[name].bundle.js',
 		sourcemap: true,
 		...additionalRollupSettings?.output,
-	};
+	}
 
-	const bundle = await rollup(inputOptions);
-	await bundle.write(outputOptions);
+	const bundle = await rollup(inputOptions)
+	await bundle.write(outputOptions)
 }
