@@ -25,7 +25,7 @@ function Inbox(config) {
         if(Date.now() - (commandCooldowns[channel.id] || 0) < 30 * 1000) return;
         commandCooldowns[channel.id] = Date.now();
         let info = config.get('url');
-        let server = channel.guild && self.servers[channel.guild.id];
+        let server = channel.guild && self.servers.get(channel.guild.id);
         if(server) {
             info += '?s=' + server.id;
             if(server.password) info += '&p=' + server.password;
