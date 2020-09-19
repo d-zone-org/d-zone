@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "D-Zone Socket Config Schema",
+  "type": "object",
+  "required": [
+    "address",
+    "port"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "address": {
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "hostname"
+        },
+        {
+          "type": "string",
+          "format": "ipv4"
+        },
+        {
+          "type": "string",
+          "format": "ipv6"
+        }
+      ]
+    },
+    "port": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 65535
+    },
+    "secure": {
+      "type": "boolean"
+    }
+  }
+}

@@ -7,7 +7,7 @@ var Canvas = require('./script/engine/canvas.js');
 var UI = require('./script/ui/ui.js');
 var bs = require('browser-storage');
 var packageInfo = require('./../package.json');
-var socketConfig = require('./../socket-config.json');
+var socketConfig = require('./../config/socket-config.json');
 
 // TODO: Loading screen while preloading images, connecting to websocket, and generating world
 console.log('Loading...');
@@ -22,12 +22,8 @@ function initGame(images) {
     game.renderer.addCanvas(canvas);
     game.bindCanvas(canvas);
     game.ui = new UI(game);
-    //game.showGrid = true;
-    //game.timeRenders = true;
-
-    //game.on('update', function () {
-    //    // Update
-    //});
+    // game.showGrid = true;
+    // game.timeRenders = true;
     initWebsocket();
 
     window.pause = function() { game.paused = true; };
@@ -108,7 +104,8 @@ function initWebsocket() {
                     var serverLock = game.servers[sKey].passworded ? ':icon-lock-small: ' : '';
                     button = game.ui.addButton({
                         text: serverLock+game.servers[sKey].name, left: 5, top: 5 + serverButtonY * 21,
-                        w: 136, h: 18, parent: game.serverListPanel, onPress: new joinThisServer(server)
+                        w: 136, h: 18, parent: game.serverListPanel, onPress: new joinThisServer(server),
+                        disabled: game.server === server.id
                     });
                     widestButton = Math.max(widestButton, button.textCanvas.width + 2);
                     serverButtonY++;
@@ -147,11 +144,12 @@ function initWebsocket() {
             game.reset();
             game.renderer.clear();
             var userList = data.data.users;
+            game.server = data.data.server.id;
             world = new World(game, Math.round(3.3 * Math.sqrt(Object.keys(userList).length)));
             decorator = new Decorator(game, world);
             game.decorator = decorator;
             users = new Users(game, world);
-            var params = '?s=' + data.data.request.server;
+            var params = '?s=' + data.data.server.code || data.data.server.id;
             if(requestPass) params += '&p=' + requestPass;
             if(window.location.protocol !== 'file:') window.history.replaceState(
                 data.data.request, requestServer, window.location.pathname + params
@@ -202,7 +200,7 @@ window.onpopstate = function(event) {
 };
 
 function joinServer(server) {
-    var connectionMessage = { type: 'connect', data: { server: server.id } };
+    var connectionMessage = { type: 'connect', data: { code: server.id } };
     if(server.password) connectionMessage.data.password = server.password;
     console.log('Requesting to join server', server.id);
     ws.send(new Buffer(JSON.stringify(connectionMessage)));
@@ -220,4 +218,4 @@ function getStartupServer() {
     return startupServer;
 }
 
-//setTimeout(function() { game.paused = true; },1000);
+// setTimeout(function() { game.paused = true; },1000);

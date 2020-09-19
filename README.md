@@ -44,9 +44,9 @@ If everything works, the client should connect to the default server, generate a
 
 You can tweak the message box parameters by editing `misc-config.json`. Check the [Misc Config](https://github.com/vegeta897/d-zone/wiki/Configuration#misc) reference for details.
 
-Remember, this project is still being developed, so check back here for updates!
+This project is still being developed, so check back here for updates!
 
-Don't forget to rebuild `bundle.js` and re-upload the web files after updating!
+Don't forget to rebuild `bundle.js` and re-upload the web files after updating.
 
 ## Design
 The game engine architecture is currently loosely based on [crtrdg](http://crtrdg.com/).

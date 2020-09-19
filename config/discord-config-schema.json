@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "D-Zone Discord Config Schema",
+  "type": "object",
+  "required": [
+    "url",
+    "command"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "url": {
+      "type": "string"
+    },
+    "command": {
+      "type": "string",
+      "minLength": 1
+    },
+    "defaultServer": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "maintainer": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "serverTokens": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "serverOptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "password": {
+              "type": "string"
+            },
+            "alias": {
+              "type": "string",
+              "minLength": 1
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "public": {
+              "type": "boolean"
+            },
+            "adminRoles": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[0-9]+$"
+              }
+            },
+            "publicCommandChannel": {
+              "type": "string",
+              "pattern": "^[0-9]+$"
+            },
+            "silentChannels": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[0-9]+$"
+              }
+            },
+            "listenChannels": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[0-9]+$"
+              }
+            },
+            "silentUsers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[0-9]+$"
+              }
+            },
+            "excludeRoles": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[0-9]+$"
+              }
+            },
+            "includeRoles": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9]+$"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^any$"
+                  }
+                ]
+              }
+            },
+            "excludeServer": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  }
+}

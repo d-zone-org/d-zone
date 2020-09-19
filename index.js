@@ -1,46 +1,42 @@
 'use strict';
-var path = require('path');
+// Server script entry point
+const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
-var discordConfig = require('./discord-config');
-var socketConfig = require('./socket-config');
-var Inbox = require('./script/inbox.js');
+const Discord = require('./script/discord.js');
+const WebSock = require('./script/websock.js');
 
 console.log('Initializing server');
 
-var WebSock = require('./script/websock.js');
+let discord = new Discord();
+let webSock;
 
-var inbox = new Inbox(discordConfig);
-
-var webSock;
-
-inbox.on('connected', () => {
-    webSock = new WebSock(socketConfig,
-        function onConnect(socket) {
-            socket.send(JSON.stringify({ type: 'server-list', data: inbox.getServers() }));
+discord.on('connected', () => {
+    webSock = new WebSock(function onConnect(socket) {
+            socket.send(JSON.stringify({ type: 'server-list', data: discord.getServers() }));
         },
         function onJoinServer(socket, connectRequest) {
-            var users = inbox.getUsers(connectRequest);
-            if(users === 'unknown-server') {
+            let response = discord.getUsers(connectRequest);
+            if(response === 'unknown-server') {
                 socket.send(JSON.stringify({
                     type: 'error', data: { message: 'Sorry, couldn\'t connect to that Discord server.' }
                 }));
-            } else if(users === 'bad-password') {
+            } else if(response === 'bad-password') {
                 socket.send(JSON.stringify({
                     type: 'error', data: { message: 'Sorry, wrong password for that Discord server.' }
                 }));
                 console.log('Client used wrong password to join server', connectRequest.server, connectRequest.password);
             } else {
-                socket.discordServer = users.server.discordID;
+                socket.discordServer = response.server.discordID;
                 // Send list of current online users to set up initial client state
-                console.log('Client joined server', users.server.name);
+                console.log('Client joined server', response.server.name);
                 socket.send(JSON.stringify({
                     type: 'server-join', data: {
-                        users: users.userList, request: connectRequest
+                        users: response.userList, server: response.server, request: connectRequest
                     }
                 }));
             }
         }
     );
-    inbox.on('message', webSock.sendData.bind(webSock));
-    inbox.on('presence', webSock.sendData.bind(webSock));
+    discord.on('message', webSock.sendData.bind(webSock));
+    discord.on('presence', webSock.sendData.bind(webSock));
 });

@@ -11,7 +11,7 @@ module.exports = {
     },
     findAndRemove: function(elem,arr) {
         for(var i = 0; i < arr.length; i++) {
-            if(arr[i] === elem) { 
+            if(arr[i] === elem) {
                 arr.splice(i, 1);
                 i--;
             }
@@ -29,14 +29,14 @@ module.exports = {
         if(floorX == index) return lower;
         var upper = arr[Math.ceil(index)];
         var fraction = index - Math.floor(index);
-        return (lower + ((upper - lower) * fraction)); 
+        return (lower + ((upper - lower) * fraction));
     },
     getURLParameter: function(name) {
         return decodeURIComponent(
                 (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)')
                     .exec(location.search)||[,""])[1].replace(/\+/g, '%20')) || null
     },
-    abbreviate: function(text,blacklist) {
+    abbreviate: function(text, blacklist) {
         var split = text.split(' ');
         var alpha = /[a-z0-9]/i;
         var result = '';
@@ -48,16 +48,25 @@ module.exports = {
                 }
             }
         }
-        if(result.trim() == '') result = '1';
+        if(result.trim() === '') result = '1';
         if(blacklist && blacklist.indexOf(result) >= 0) {
             var variation = 0;
             result += variation;
             do {
                 variation++;
                 result = result.substring(0,result.length-1) + variation;
-            } while (blacklist.indexOf(result) >= 0)
+            } while(blacklist.indexOf(result) >= 0)
         }
         return result;
+    },
+    createToken: function(blacklist) {
+        var token = '';
+        do {
+            for(var i = 0; i < 8; i++) {
+                token += this.pickInArray(this.hex);
+            }
+        } while(blacklist.indexOf(token) >= 0);
+        return token;
     },
     alphabet: ['a','b','c','d','e','f','g','h','i','j','k','l','m',
         'n','o','p','q','r','s','t','u','v','w','x','y','z'],

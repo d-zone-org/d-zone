@@ -38,11 +38,11 @@ function Actor(options) {
 
 Actor.prototype.onUpdate = function() {
     if(this.talking) this.updateSprite();
-    if(this.game.mouseOut || (this.game.mouseOver 
+    if(this.game.mouseOut || (this.game.mouseOver
         && (this.game.mouseOver.zDepth > this.zDepth // Don't override closer objects
         || this.game.mouseOver.position.z > this.position.z)) // Don't override higher objects
     || this.game.ui.mouseOnElement) return; // Ignore if mouse on UI element
-    var mouse = { 
+    var mouse = {
         x: this.game.centerMouseX - this.game.renderer.canvases[0].panning.panned.x,
         y: this.game.centerMouseY - this.game.renderer.canvases[0].panning.panned.y
     };
@@ -225,7 +225,7 @@ Actor.prototype.move = function(x, y, z, absolute) {
 
 Actor.prototype.startTalking = function(message, channel, onStop) {
     this.talking = true;
-    this.lastChannel = channel;
+    this.lastMessage = { channel, time: Date.now() };
     this.nametag.sprite.hidden = true;
     this.messageBox = new TextBox(this, message, true);
     this.messageBox.addToGame(this.game);
@@ -245,8 +245,10 @@ Actor.prototype.startTalking = function(message, channel, onStop) {
 };
 
 Actor.prototype.onMessage = function(message) { // Move this to the GoTo behavior
-    if(!message.channel || message.channel != this.lastChannel || message.user === this 
-        || this.presence != 'online') return;
+    var lastMessage = this.lastMessage || {};
+    if(message.channel !== lastMessage.channel) return; // Not my active channel
+    if(lastMessage.time < Date.now() - 3 * 60 * 1000) return; // Haven't spoken in 3 minutes
+    if(message.user === this || this.presence !== 'online') return; // Ignore if self or not online
     var self = this;
     function readyToMove() {
         for(var i = 0; i < self.behaviors.length; i++) {

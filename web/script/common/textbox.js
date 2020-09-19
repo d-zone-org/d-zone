@@ -2,7 +2,7 @@
 var inherits = require('inherits');
 var Entity = require('./../engine/entity.js');
 var TextBlotter = require('./../common/textblotter.js');
-var miscConfig = JSON.parse(require('fs').readFileSync('./misc-config.json')) || {};
+var miscConfig = require('./../../../config/misc-config.json') || {};
 
 var textboxConfig = miscConfig.textbox || {};
 var TEXTBOX_MAX_WIDTH = textboxConfig.maxWidth || 96;
@@ -43,7 +43,7 @@ function TextBox(parent, text, stay) {
     this.parent = parent;
     this.text = text;
     this.screen = { x: 0, y: 0 };
-    this.sprite = { 
+    this.sprite = {
         keepOnScreen: true,
         screen: this.screen, parent: this.parent, stay: stay, metrics: { x: 0, y: 0, w: 0, h: 0 }
     };
@@ -78,7 +78,7 @@ TextBox.prototype.scrollMessage = function(cb) {
         cb();
     }
     this.textMetrics = TextBlotter.calculateMetrics({ text: this.text, maxWidth: TEXTBOX_MAX_WIDTH });
-    if(this.text.trim() === '' || this.textMetrics.lines.length === 0 
+    if(this.text.trim() === '' || this.textMetrics.lines.length === 0
         || this.textMetrics.lines[0].chars.length === 0) { // No message to show
         complete();
         return;
@@ -94,7 +94,7 @@ TextBox.prototype.scrollMessage = function(cb) {
     //console.log(this.parent.username,'says:',this.text);
     var addLetter = function() {
         lineChar++;
-        self.blotText({ 
+        self.blotText({
             text: self.text, metrics: self.textMetrics, maxChars: lineChar,
             lineStart: lineNumber, lineCount: TEXTBOX_LINES_PER_PAGE
         });
@@ -104,7 +104,7 @@ TextBox.prototype.scrollMessage = function(cb) {
                 self.tickDelay(function() {
                     self.tickRepeat(function(progress) {
                         self.canvas = TextBlotter.transition({
-                            bg: TEXTBOX_BG_COLOR, metrics: self.textMetrics, progress: 1 - progress.percent, 
+                            bg: TEXTBOX_BG_COLOR, metrics: self.textMetrics, progress: 1 - progress.percent,
                             lineCount : Math.min(self.textMetrics.lines.length, TEXTBOX_LINES_PER_PAGE)
                         });
                         self.updateScreen();
