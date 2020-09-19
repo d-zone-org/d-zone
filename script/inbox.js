@@ -61,14 +61,14 @@ function Inbox(config) {
         self.emit('connected');
         setInterval(setPresence, 60 * 1000);
         setPresence();
-        bot.on('messageCreate', ({ author, channel, cleanContent: message }) => {
+        bot.on('messageCreate', ({ author, member, channel, cleanContent: message }) => {
             if(author.id === bot.user.id) return; // Don't listen to yourself, bot
             if(!channel.guild) return respond(channel); // Private message
             var serverID = channel.guild.id;
             let server = self.servers.get(serverID);
             if(!server) return;
             if(config.get('infoCommand') && config.get('url') && message === config.get('infoCommand')) return respond(channel);
-            if(server.hideOffline && (!author.status || author.status === 'offline')) return;
+            if(server.hideOffline && (!member.status || member.status === 'offline')) return;
             if(server.ignoreUsers && // Check if this user is ignored
                 server.ignoreUsers.indexOf(author.id)) return;
             if(server.ignoreChannels && // Check if this channel is ignored
