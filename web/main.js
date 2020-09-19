@@ -167,8 +167,7 @@ function initWebsocket() {
             console.log((Object.keys(users.actors).length).toString()+' actors created');
             game.renderer.canvases[0].onResize();
         } else if(data.type === 'presence') { // User status update
-            if(!users.actors[data.data.uid]) return;
-            users.actors[data.data.uid].updatePresence(data.data.status);
+            users.updateActor(data.data)
         } else if(data.type === 'message') { // Chatter
             users.queueMessage(data.data);
         } else if(data.type === 'error') {

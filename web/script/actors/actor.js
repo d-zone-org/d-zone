@@ -26,7 +26,7 @@ function Actor(options) {
     this.nametag.blotText();
     this.sheet = new Sheet('actor');
     this.sprite.image = 'actors';
-    this.presence = 'offline';
+    this.presence = 'online';
     this.talking = false;
     this.destination = false;
     this.facing = util.pickInObject(Geometry.DIRECTIONS);
@@ -172,6 +172,10 @@ Actor.prototype.startMove = function() {
     var halfZDepth = (this.position.x + this.position.y + (this.destDelta.x + this.destDelta.y)/2);
     var self = this;
     this.tickRepeat(function(progress) {
+        if(!self.exists) {
+            self.movePlaceholder && self.movePlaceholder.remove();
+            return;
+        }
         var newFrame = false;
         if(progress.ticks > 0 && progress.ticks % 3 == 0) {
             self.frame++; newFrame = true;
@@ -202,7 +206,7 @@ Actor.prototype.startMove = function() {
         self.preciseScreen = self.toScreenPrecise();
         self.nametag.updateScreen();
         self.updateSprite();
-    }, 3*(animation.frames));
+    }, 3 * (animation.frames));
 };
 
 Actor.prototype.move = function(x, y, z, absolute) {
