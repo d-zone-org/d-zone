@@ -91,12 +91,10 @@ function Inbox(config) {
                 type: 'presence', server: serverID, data: { uid: id, status }
             }
             if(server.hideOffline && status && status !== 'offline') {
-                console.log('adding user')
                 data.data.username = nick || username;
                 data.data.roleColor = getRoleColor(member, guild)
             }
             if(server.hideOffline && (!status || status === 'offline')) {
-                console.log('deleting user')
                 data.data.delete = true
             }
             self.emit('presence', data);
