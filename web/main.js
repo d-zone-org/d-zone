@@ -24,10 +24,6 @@ function initGame(images) {
     game.ui = new UI(game);
     //game.showGrid = true;
     //game.timeRenders = true;
-
-    //game.on('update', function () {
-    //    // Update
-    //});
     initWebsocket();
 
     window.pause = function() { game.paused = true; };
@@ -108,7 +104,7 @@ function initWebsocket() {
                     var serverLock = game.servers[sKey].passworded ? ':icon-lock-small: ' : '';
                     button = game.ui.addButton({
                         text: serverLock+game.servers[sKey].name, left: 5, top: 5 + serverButtonY * 21,
-                        w: 136, h: 18, parent: game.serverListPanel, onPress: new joinThisServer(server)
+                        w: 136, h: 18, parent: game.serverListPanel, onPress: new joinThisServer(server), disabled: game.server === server.id
                     });
                     widestButton = Math.max(widestButton, button.textCanvas.width + 2);
                     serverButtonY++;
@@ -147,6 +143,7 @@ function initWebsocket() {
             game.reset();
             game.renderer.clear();
             var userList = data.data.users;
+            game.server = requestServer;
             world = new World(game, Math.round(3.3 * Math.sqrt(Object.keys(userList).length)));
             decorator = new Decorator(game, world);
             game.decorator = decorator;
@@ -170,8 +167,7 @@ function initWebsocket() {
             console.log((Object.keys(users.actors).length).toString()+' actors created');
             game.renderer.canvases[0].onResize();
         } else if(data.type === 'presence') { // User status update
-            if(!users.actors[data.data.uid]) return;
-            users.actors[data.data.uid].updatePresence(data.data.status);
+            users.updateActor(data.data)
         } else if(data.type === 'message') { // Chatter
             users.queueMessage(data.data);
         } else if(data.type === 'error') {

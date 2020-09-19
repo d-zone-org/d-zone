@@ -19,8 +19,8 @@ function Users(game,world) {
 Users.prototype.addActor = function(data) {
     var grid = this.world.randomEmptyGrid();
     var actor = new Actor({
-        x: +grid.split(':')[0], y: +grid.split(':')[1], z: 0, 
-        uid: data.id,
+        x: +grid.split(':')[0], y: +grid.split(':')[1], z: 0,
+        uid: data.uid,
         username: data.username,
         roleColor: data.roleColor,
         maxListeners: this._maxListeners+3
@@ -29,6 +29,20 @@ Users.prototype.addActor = function(data) {
     actor.addToGame(this.game);
     actor.updatePresence(data.status);
 };
+
+Users.prototype.updateActor = function(data) {
+    let actor = this.actors[data.uid]
+    if(actor) {
+        if(data.delete) {
+            actor.updatePresence('offline')
+            this.removeActor(actor)
+        } else {
+            actor.updatePresence(data.status)
+        }
+    } else {
+        this.addActor(data)
+    }
+}
 
 Users.prototype.removeActor = function(actor) {
     delete this.actors[actor.uid];
@@ -60,8 +74,8 @@ Users.prototype.onMessageAdded = function(channel) {
 
 Users.prototype.getActorAtPosition = function(x,y,z) { // For debugging
     for(var aKey in this.actors) { if(!this.actors.hasOwnProperty(aKey)) continue;
-        if(this.actors[aKey].position.x == x 
-            && this.actors[aKey].position.y == y 
+        if(this.actors[aKey].position.x == x
+            && this.actors[aKey].position.y == y
             && this.actors[aKey].position.z == z) return this.actors[aKey];
     }
 };

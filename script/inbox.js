@@ -25,7 +25,7 @@ function Inbox(config) {
         if(Date.now() - (commandCooldowns[channel.id] || 0) < 30 * 1000) return;
         commandCooldowns[channel.id] = Date.now();
         let info = config.get('url');
-        let server = channel.guild && self.servers[channel.guild.id];
+        let server = channel.guild && self.servers.get(channel.guild.id);
         if(server) {
             info += '?s=' + server.id;
             if(server.password) info += '&p=' + server.password;
@@ -54,6 +54,7 @@ function Inbox(config) {
             if(server.password) newServer.password = server.password;
             if(server.ignoreChannels) newServer.ignoreChannels = server.ignoreChannels;
             if(server.listenChannels) newServer.listenChannels = server.listenChannels;
+            if(server.hideOffline) newServer.hideOffline = true
             self.servers.set(server.id, newServer);
         }
         console.log('Connected to', self.servers.size, 'server(s)');
@@ -67,6 +68,7 @@ function Inbox(config) {
             let server = self.servers.get(serverID);
             if(!server) return;
             if(config.get('infoCommand') && config.get('url') && message === config.get('infoCommand')) return respond(channel);
+            if(server.hideOffline && (!author.status || author.status === 'offline')) return;
             if(server.ignoreUsers && // Check if this user is ignored
                 server.ignoreUsers.indexOf(author.id)) return;
             if(server.ignoreChannels && // Check if this channel is ignored
@@ -80,11 +82,24 @@ function Inbox(config) {
                 data: { uid: author.id, message, channel: channel.id }
             });
         });
-        bot.on('presenceUpdate', ({ id, status, guild }) => {
-            if(!self.servers.has(guild.id)) return;
-            self.emit('presence', {
-                type: 'presence', server: guild.id, data: { uid: id, status }
-            });
+        bot.on('presenceUpdate', (member) => {
+            let { id, status, nick, username, guild } = member
+            var serverID = guild.id;
+            let server = self.servers.get(serverID);
+            if(!server) return;
+            let data = {
+                type: 'presence', server: serverID, data: { uid: id, status }
+            }
+            if(server.hideOffline && status && status !== 'offline') {
+                console.log('adding user')
+                data.data.username = nick || username;
+                data.data.roleColor = getRoleColor(member, guild)
+            }
+            if(server.hideOffline && (!status || status === 'offline')) {
+                console.log('deleting user')
+                data.data.delete = true
+            }
+            self.emit('presence', data);
         });
     });
     bot.on('disconnect', () => console.log("Bot disconnected, reconnecting..."));
@@ -101,19 +116,13 @@ Inbox.prototype.getUsers = function(connectRequest) {
     if(!guild) return 'unknown-server';
     let users = {};
     for(let [uid, member] of guild.members) {
+        if(server.hideOffline && (!member.status || member.status === 'offline')) continue;
         users[uid] = {
-            id: uid,
+            uid,
             username: member.nick || member.username,
             status: member.status
         };
-        users[uid].roleColor = false;
-        let rolePosition = -1;
-        for(let roleID of member.roles) {
-            let role = guild.roles.get(roleID);
-            if(!role || !role.color || role.position < rolePosition) continue;
-            users[uid].roleColor = '#' + ('00000' + role.color.toString(16)).substr(-6);
-            rolePosition = role.position;
-        }
+        users[uid].roleColor = getRoleColor(member, guild);
     }
     return { server, userList: users };
 };
@@ -127,3 +136,15 @@ Inbox.prototype.getServers = function() {
     }
     return serverList;
 };
+
+function getRoleColor(member, guild) {
+    let roleColor = false
+    let rolePosition = -1;
+    for(let roleID of member.roles) {
+        let role = guild.roles.get(roleID);
+        if(!role || !role.color || role.position < rolePosition) continue;
+        roleColor = '#' + ('00000' + role.color.toString(16)).substr(-6);
+        rolePosition = role.position;
+    }
+    return roleColor
+}

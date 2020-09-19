@@ -15,9 +15,9 @@ function Renderer(options) {
     this.zBufferKeys = [];
     this.overlay = [];
     this.frames = 0;
-    
+
     var lastRenderTime = 0;
-    
+
     var self = this;
     this.game.on('render', function () {
         self.updateDrawn = false;
@@ -76,7 +76,7 @@ Renderer.prototype.addToZBuffer = function(sprite, newZDepth) {
     if(zBufferDepth) {
         zBufferDepth.push(sprite);
         zBufferDepth.sort(function(a, b) {
-            return (a.position.z + a.position.fakeZ) - (b.position.z + b.position.fakeZ); 
+            return (a.position.z + a.position.fakeZ) - (b.position.z + b.position.fakeZ);
         });
     } else {
         this.zBuffer[newZDepth] = [sprite];
