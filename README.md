@@ -12,11 +12,11 @@ Hopefully the simulation is interesting to watch. You can see the current (unint
 
 ## Installation
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/vegeta897/d-zone/tree/heroku)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/d-zone-org/d-zone/tree/heroku)
 
 If you don't want to use Heroku, proceed below.
 
-If you're an absolute beginner or want more detailed instructions, read the [beginner-friendly guide](https://github.com/vegeta897/d-zone/wiki/Beginner's-Setup-Guide)
+If you're an absolute beginner or want more detailed instructions, read the [beginner-friendly guide](https://github.com/d-zone-org/d-zone/wiki/Beginner's-Setup-Guide)
 
 ```
 git clone https://github.com/vegeta897/d-zone.git
@@ -28,9 +28,9 @@ Set your `token` environment variable to your bot's token. Alternatively, create
 
 Rename `discord-config-example.json` to `discord-config.json` and insert the info for your Discord server(s). **You must specify _one_ `default` Discord server.** You can include multiple servers here, and as long as your bot can connect to them, they will be available for clients to view.
 
-You can password-protect a server from being viewed by a client by using the `password` property. Check the [Configuration](https://github.com/vegeta897/d-zone/wiki/Configuration) reference for more info.
+If your server has thousands of members, you will probably want to hide offline users by adding `hideOffline: true` to your server options.
 
-You can automatically populate your `discord-config.json` with all your bot's servers by running `Update Configuration.bat`.
+You can password-protect a server from being viewed by a client by using the `password` property. Check the [Configuration](https://github.com/d-zone-org/d-zone/wiki/Configuration) reference for more info.
 
 Rename `socket-config-example.json` to `socket-config.json` and insert the address and port you want to run the websocket on. If you are using HTTPS, set `secure` to `true`. **Make sure the address matches your certificate name if using HTTPS.** An IP address won't work with your certificate.
 
@@ -42,11 +42,9 @@ Remember, if you're running the server without HTTPS, then the web files must be
 
 If everything works, the client should connect to the default server, generate a world, and receive live updates via websocket from the server.
 
-You can tweak the message box parameters by editing `misc-config.json`. Check the [Misc Config](https://github.com/vegeta897/d-zone/wiki/Configuration#misc) reference for details.
+You can tweak the message box parameters by editing `misc-config.json`. Check the [Misc Config](https://github.com/d-zone-org/d-zone/wiki/Configuration#misc) reference for details.
 
-Remember, this project is still being developed, so check back here for updates!
-
-Don't forget to rebuild `bundle.js` and re-upload the web files after updating!
+Don't forget to rebuild `bundle.js` and re-upload the web files after making changes to your config files.
 
 ## Design
 The game engine architecture is currently loosely based on [crtrdg](http://crtrdg.com/).

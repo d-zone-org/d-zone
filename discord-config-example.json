@@ -1,11 +1,16 @@
 {
-  "url": "http://pixelatomy.com/dzone",
+  "url": "https://pixelatomy.com/dzone",
   "infoCommand": "!d-zone",
   "servers": [
     {
       "id": "1234567891234567",
       "default": true,
       "ignoreChannels": ["members-Only","testing"]
+    },
+    {
+      "id": "9999999999999999",
+      "alias": "My Secret Server",
+      "password": "secret"
     }
   ]
 }

@@ -1,4 +1,5 @@
 'use strict';
+// Server script entry point
 var path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 var discordConfig = require('./discord-config');
