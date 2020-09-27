@@ -3018,7 +3018,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highlight.js@npm:^10.0.0":
+"highlight.js@npm:^10.2.0":
   version: 10.2.0
   resolution: "highlight.js@npm:10.2.0"
   checksum: 249ae2aa4504200bb0bf856a0ed40dfd65f0302b5780dffcdc74d30bed31de72c9d1d1c2ab1fb6e365ebf7096064b69288cf1985c1d7bac6967fcb956ea7d247
@@ -5457,9 +5457,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.27.1":
-  version: 2.27.1
-  resolution: "rollup@npm:2.27.1"
+"rollup@npm:^2.28.2":
+  version: 2.28.2
+  resolution: "rollup@npm:2.28.2"
   dependencies:
     fsevents: ~2.1.2
   dependenciesMeta:
@@ -5467,7 +5467,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: ed5d60f5fe01b4141bcbf58fab9a27201df7b1de04dd3b30fc341a5540ff079c70f407f379a27aaeafbbc8c4e89b232c2c5fe109a63094fcdb002fbb97e0ce70
+  checksum: a0cfb9b5f7a3bd6b1528c18de5b86fa9befa78ee5358fe697c058ddd72325ce4d4b72df2391c8b06c538c92827035e26943b09ffa82b99a35bf3034ebd64e4f9
   languageName: node
   linkType: hard
 
@@ -6251,33 +6251,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-default-themes@npm:^0.11.1":
-  version: 0.11.1
-  resolution: "typedoc-default-themes@npm:0.11.1"
-  dependencies:
-    lunr: ^2.3.9
-  checksum: a83a1984d64c3d64e60d29e0fb9e82bcd25d80a2d1949e3788eda9dbd6473d55bc8bb9c34a590725d7910ab86bce5e9a41a85480122ad6d65492b431a75f7458
+"typedoc-default-themes@npm:^0.11.4":
+  version: 0.11.4
+  resolution: "typedoc-default-themes@npm:0.11.4"
+  checksum: 1993030e242ae9cd8b25ec706d7fefccd14b6f8de8f766b55b9bfa1b7044e244eccec9e6ed2382f85a6cea23e547bf398125bcd6f359fa0647212802c0830f4f
   languageName: node
   linkType: hard
 
-"typedoc-plugin-markdown@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "typedoc-plugin-markdown@npm:3.0.2"
+"typedoc-plugin-markdown@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "typedoc-plugin-markdown@npm:3.0.3"
   dependencies:
     handlebars: ^4.7.6
   peerDependencies:
     typedoc: ">=0.19.0"
-  checksum: e6b74b41e241aef698e4bb56330bbceab33d254a27232c2e16996ff85f435b6209308686db8fecea2af059e393e2889ce970dc94391797b8d561948cfe41c17e
+  checksum: 14eab3afa01803a24df6daa77d8be9c6636b642b4fdce73a4a93f962a149012b2861e0708b2f2619dcabbee1346ca472cf249384e17bfe2563a535189100459c
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.19.1":
-  version: 0.19.1
-  resolution: "typedoc@npm:0.19.1"
+"typedoc@npm:^0.19.2":
+  version: 0.19.2
+  resolution: "typedoc@npm:0.19.2"
   dependencies:
     fs-extra: ^9.0.1
     handlebars: ^4.7.6
-    highlight.js: ^10.0.0
+    highlight.js: ^10.2.0
     lodash: ^4.17.20
     lunr: ^2.3.9
     marked: ^1.1.1
@@ -6285,12 +6283,12 @@ __metadata:
     progress: ^2.0.3
     semver: ^7.3.2
     shelljs: ^0.8.4
-    typedoc-default-themes: ^0.11.1
+    typedoc-default-themes: ^0.11.4
   peerDependencies:
     typescript: 3.9.x || 4.0.x
   bin:
     typedoc: bin/typedoc
-  checksum: aee83bcc5fc359193b94c8a20f7916440bfb8bd529d377e8818560e5711b685c66093c82a969a17217926a7a9da8e0c26fc92e1ad387566904767fd62f7deebb
+  checksum: fc33909c4d66a390fd6dfe7ef88a979d799413403af3f3dea4e320ea5cee07f06d5fda57b9b0872fad0b17a540ebe5e1a8829618c731d9dd7837ddfef8e9f2bf
   languageName: node
   linkType: hard
 
@@ -6496,7 +6494,7 @@ typescript@^4.0.3:
     react-dom: ^16.13.1
     react-router-dom: ^5.2.0
     regexparam: ^1.3.0
-    rollup: ^2.27.1
+    rollup: ^2.28.2
     rollup-plugin-clear: ^2.0.7
     rollup-plugin-livereload: ^2.0.0
     rollup-plugin-serve: ^1.0.4
@@ -6685,16 +6683,16 @@ typescript@^4.0.3:
     "@rollup/plugin-typescript": ^6.0.0
     "@types/node": ^14.6.4
     "@types/yargs-parser": ^15.0.0
-    rollup: ^2.27.1
+    rollup: ^2.28.2
     rollup-plugin-terser: ^7.0.2
     source-map-support: ^0.5.19
     sucrase: ^3.15.0
     superstruct: ^0.10.12
     tslib: ^2.0.1
-    typedoc: ^0.19.1
-    typedoc-plugin-markdown: ^3.0.2
+    typedoc: ^0.19.2
+    typedoc-plugin-markdown: ^3.0.3
     typescript: ^4.0.3
-    yargs-parser: ^20.0.0
+    yargs-parser: ^20.2.0
   languageName: unknown
   linkType: soft
 
@@ -6715,10 +6713,10 @@ typescript@^4.0.3:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:^20.0.0":
-  version: 20.0.0
-  resolution: "yargs-parser@npm:20.0.0"
-  checksum: ddd40e7c1a23416f46b08fd5b07b9ac87b56682cbeb164dd56c7bd14a5a2274be2450a1ac8e2c320bf3b558c9b69fd20dd14d03481c75664662838275250cdfa
+"yargs-parser@npm:^20.2.0":
+  version: 20.2.0
+  resolution: "yargs-parser@npm:20.2.0"
+  checksum: d707279bded5a5e1dec5ce8c22d8b9adadd8da1c2a3e0f87c297d13284973fdeb10de8d93df950465036a23fa98bc2c3d26e2d2fc4c9c75f1f6b24db65da489f
   languageName: node
   linkType: hard
 
