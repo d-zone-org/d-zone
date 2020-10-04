@@ -14,7 +14,7 @@
 	"dependencies": {
 		"ecsy": "^0.4.2",
 		"pixi-cull": "^1.0.0",
-		"pixi-viewport": "^4.14.0",
+		"pixi-viewport": "^4.15.0",
 		"pixi.js-legacy": "^5.3.3",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
