@@ -1,4 +1,6 @@
-[yakshaving - v0.5.0](../README.md) › [CacheDependencyData](cachedependencydata.md)
+**[yakshaving - v0.5.1](../README.md)**
+
+> [Globals](../README.md) / CacheDependencyData
 
 # Interface: CacheDependencyData
 

@@ -1,4 +1,6 @@
-[yakshaving - v0.5.0](../README.md) › [DependenciesCache](dependenciescache.md)
+**[yakshaving - v0.5.1](../README.md)**
+
+> [Globals](../README.md) / DependenciesCache
 
 # Class: DependenciesCache
 
@@ -19,68 +21,68 @@ Small wrapper around dependencies cache
 
 ## Methods
 
-###  cacheDependency
+### cacheDependency
 
-▸ **cacheDependency**(`dependencyId`: string, `descriptor`: string): *void*
+▸ **cacheDependency**(`dependencyId`: string, `descriptor`: string): void
 
-*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:49](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L49)*
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:49](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L49)*
 
 Mark the dependency as cached
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `dependencyId` | string | Dependency id |
 `descriptor` | string | Dependency descriptor  |
 
-**Returns:** *void*
+**Returns:** void
 
 ___
 
-###  dependencyIsCached
+### dependencyIsCached
 
-▸ **dependencyIsCached**(`dependencyId`: string, `descriptor`: string): *boolean*
+▸ **dependencyIsCached**(`dependencyId`: string, `descriptor`: string): boolean
 
-*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:37](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L37)*
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:37](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L37)*
 
 Check if dependency is cached
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `dependencyId` | string | Dependency id |
 `descriptor` | string | Dependency descriptor  |
 
-**Returns:** *boolean*
+**Returns:** boolean
 
 ___
 
-###  init
+### init
 
-▸ **init**(`rootDirectory`: string): *Promise‹void›*
+▸ **init**(`rootDirectory`: string): Promise\<void>
 
-*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:21](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L21)*
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:21](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L21)*
 
 Initialize cache, extend previous cache if exists
 
-**Parameters:**
+#### Parameters:
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `rootDirectory` | string | Directory to initialize cache in  |
 
-**Returns:** *Promise‹void›*
+**Returns:** Promise\<void>
 
 ___
 
-###  write
+### write
 
-▸ **write**(): *Promise‹void›*
+▸ **write**(): Promise\<void>
 
-*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:57](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L57)*
+*Defined in [packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts:57](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/build-modes/development/dependencies-bundle-cache.ts#L57)*
 
 Write the cache file to disk
 
-**Returns:** *Promise‹void›*
+**Returns:** Promise\<void>

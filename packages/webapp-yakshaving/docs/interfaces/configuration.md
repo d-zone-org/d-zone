@@ -1,4 +1,6 @@
-[yakshaving - v0.5.0](../README.md) › [Configuration](configuration.md)
+**[yakshaving - v0.5.1](../README.md)**
+
+> [Globals](../README.md) / Configuration
 
 # Interface: Configuration
 
@@ -45,47 +47,47 @@ Represents configuration options
 ### Properties
 
 * [additionalPlugins](configuration.md#additionalplugins)
-* [advanced](configuration.md#optional-advanced)
+* [advanced](configuration.md#advanced)
 * [entryPoint](configuration.md#entrypoint)
 * [outputDirectory](configuration.md#outputdirectory)
 * [projectRoot](configuration.md#projectroot)
 
 ## Properties
 
-###  additionalPlugins
+### additionalPlugins
 
-• **additionalPlugins**: *Plugin[]*
+•  **additionalPlugins**: Plugin[]
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:57](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L57)*
-
-___
-
-### `Optional` advanced
-
-• **advanced**? : *undefined | object*
-
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:59](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L59)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:57](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L57)*
 
 ___
 
-###  entryPoint
+### advanced
 
-• **entryPoint**: *InputOption*
+• `Optional` **advanced**: undefined \| { ignoredDependencies?: string[] ; pluginOptions?: undefined \| { commonJs?: RollupCommonJSOptions ; nodeResolve?: RollupNodeResolveOptions ; replace?: Record\<string, string> ; sucrase?: [RollupSucraseOptions](../README.md#rollupsucraseoptions) ; terser?: TerserOptions ; typescript?: RollupTypescriptOptions  } ; rollupOptions: { input?: RollupInputOptions ; output?: RollupOutputOptions  }  }
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:55](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L55)*
-
-___
-
-###  outputDirectory
-
-• **outputDirectory**: *string*
-
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:56](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L56)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:59](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L59)*
 
 ___
 
-###  projectRoot
+### entryPoint
 
-• **projectRoot**: *string*
+•  **entryPoint**: InputOption
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:54](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L54)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:55](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L55)*
+
+___
+
+### outputDirectory
+
+•  **outputDirectory**: string
+
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:56](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L56)*
+
+___
+
+### projectRoot
+
+•  **projectRoot**: string
+
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/schema-types.ts:54](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/configuration/schema-types.ts#L54)*

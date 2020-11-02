@@ -1,4 +1,6 @@
-[yakshaving - v0.5.0](../README.md) › [UserInformation](userinformation.md)
+**[yakshaving - v0.5.1](../README.md)**
+
+> [Globals](../README.md) / UserInformation
 
 # Interface: UserInformation
 
@@ -17,42 +19,32 @@
 
 ## Properties
 
-###  dependencies
+### dependencies
 
-• **dependencies**: *[string, string][]*
+•  **dependencies**: [string, string][]
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:12](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L12)*
-
-___
-
-###  manifest
-
-• **manifest**: *[Manifest](manifest.md)*
-
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:10](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L10)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:12](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L12)*
 
 ___
 
-###  require
+### manifest
 
-• **require**: *NodeRequire*
+•  **manifest**: [Manifest](manifest.md)
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:11](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L11)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:10](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L10)*
 
 ___
 
-###  root
+### require
 
-• **root**: *function*
+•  **require**: NodeRequire
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:9](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L9)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:11](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L11)*
 
-#### Type declaration:
+___
 
-▸ (...`args`: string[]): *string*
+### root
 
-**Parameters:**
+•  **root**: (...args: string[]) => string
 
-Name | Type |
------- | ------ |
-`...args` | string[] |
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:9](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L9)*

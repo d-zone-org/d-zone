@@ -2,8 +2,6 @@ import 'source-map-support/register'
 
 import yargsParser from 'yargs-parser'
 
-import path from 'path'
-
 import { parseConfiguration } from './modules/configuration'
 import { Configuration } from './modules/configuration/schema-types'
 import { getRequiredModules } from './modules/utilities/get-module'
@@ -67,24 +65,17 @@ export async function configure(
 				)
 
 			await developmentMode({
+				outputDirectory,
 				dependenciesBundleOptions: {
 					dependencies: user.dependencies,
-					outputDirectory: path.join(outputDirectory, 'dependencies'),
 					plugins: { pluginCommonJs, pluginNodeResolve, pluginReplace },
 					rollup: rollup,
 					userRequire: user.require,
 				},
 
 				watchModeOptions: {
-					dependencyMap: Object.fromEntries(
-						user.dependencies.map(([dependencyId]) => [
-							dependencyId,
-							`./dependencies/${dependencyId}/index.js`,
-						])
-					),
 					entryPoint,
 					extraPlugins: additionalPlugins,
-					outputDirectory,
 					requiredPlugins: {
 						commonJs: [pluginCommonJs, pluginOptions?.commonJs],
 						nodeResolve: [pluginNodeResolve, pluginOptions?.nodeResolve],
