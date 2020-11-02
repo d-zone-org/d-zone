@@ -2,8 +2,6 @@ import 'source-map-support/register'
 
 import yargsParser from 'yargs-parser'
 
-import path from 'path'
-
 import { parseConfiguration } from './modules/configuration'
 import { Configuration } from './modules/configuration/schema-types'
 import { getRequiredModules } from './modules/utilities/get-module'
