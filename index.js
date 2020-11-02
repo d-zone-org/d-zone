@@ -14,6 +14,7 @@ var inbox = new Inbox(discordConfig);
 var webSock;
 
 inbox.on('connected', () => {
+    console.log('Inbox connected');
     webSock = new WebSock(socketConfig,
         function onConnect(socket) {
             socket.send(JSON.stringify({ type: 'server-list', data: inbox.getServers() }));
