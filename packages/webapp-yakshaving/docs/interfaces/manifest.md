@@ -1,4 +1,6 @@
-[yakshaving - v0.5.0](../README.md) › [Manifest](manifest.md)
+**[yakshaving - v0.5.1](../README.md)**
+
+> [Globals](../README.md) / Manifest
 
 # Interface: Manifest
 
@@ -14,8 +16,8 @@
 
 ## Properties
 
-###  dependencies
+### dependencies
 
-• **dependencies**: *Record‹string, string›*
+•  **dependencies**: Record\<string, string>
 
-*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:5](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L5)*
+*Defined in [packages/webapp-yakshaving/source/modules/configuration/extract-information.ts:5](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/configuration/extract-information.ts#L5)*

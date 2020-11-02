@@ -1,4 +1,6 @@
-[yakshaving - v0.5.0](../README.md) › [YakErrorContext](yakerrorcontext.md)
+**[yakshaving - v0.5.1](../README.md)**
+
+> [Globals](../README.md) / YakErrorContext
 
 # Interface: YakErrorContext
 
@@ -8,7 +10,7 @@
 
 ## Indexable
 
-* \[ **prop**: *string*\]: unknown
+▪ [prop: string]: unknown
 
 ## Index
 
@@ -19,16 +21,16 @@
 
 ## Properties
 
-###  internal
+### internal
 
-• **internal**: *boolean*
+•  **internal**: boolean
 
-*Defined in [packages/webapp-yakshaving/source/modules/utilities/error.ts:3](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/utilities/error.ts#L3)*
+*Defined in [packages/webapp-yakshaving/source/modules/utilities/error.ts:3](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/utilities/error.ts#L3)*
 
 ___
 
-###  isOperational
+### isOperational
 
-• **isOperational**: *boolean*
+•  **isOperational**: boolean
 
-*Defined in [packages/webapp-yakshaving/source/modules/utilities/error.ts:2](https://github.com/d-zone-org/d-zone/blob/ceae7d0/packages/webapp-yakshaving/source/modules/utilities/error.ts#L2)*
+*Defined in [packages/webapp-yakshaving/source/modules/utilities/error.ts:2](https://github.com/d-zone-org/d-zone/blob/e55b933/packages/webapp-yakshaving/source/modules/utilities/error.ts#L2)*
