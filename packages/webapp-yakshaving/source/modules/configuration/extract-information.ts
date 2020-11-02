@@ -34,7 +34,7 @@ export function extractUserInformation(
 		manifest,
 
 		require: module.createRequire(manifestPath),
-		dependencies: Object.entries(manifest.dependencies).filter(
+		dependencies: Object.entries(manifest.dependencies || {}).filter(
 			([dependencyId]) => !ignoredDependencies.includes(dependencyId)
 		),
 	}
