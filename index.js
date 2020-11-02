@@ -10,7 +10,9 @@ console.log('Initializing server');
 
 var webSock = new WebSock(socketConfig,
     function onConnect(socket) {
-        socket.send(JSON.stringify({ type: 'server-list', data: inbox.getServers() }));
+        var data = inbox.getServers();
+        if(!data) socket.send(JSON.stringify({ type: 'error', data: { message: 'The server is not ready yet, try again shortly.' } }));
+        else socket.send(JSON.stringify({ type: 'server-list', data }));
     },
     function onJoinServer(socket, connectRequest) {
         var users = inbox.getUsers(connectRequest);
