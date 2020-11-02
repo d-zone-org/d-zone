@@ -10,7 +10,6 @@ inherits(Inbox, EventEmitter);
 var commandCooldowns = {};
 
 function Inbox(config) {
-    console.log('Inbox instantiating...');
     EventEmitter.call(this);
     var bot = new Eris(process.env.TOKEN, { getAllUsers: true });
     this.bot = bot;
@@ -34,7 +33,6 @@ function Inbox(config) {
         channel.createMessage(info);
     }
     bot.on('ready', () => {
-        console.log('Discord bot connected');
         if(self.servers) return; // Don't re-initialize if reconnecting
         console.log(new Date(), 'Logged in as: ' + bot.user.username + ' - (' + bot.user.id + ')');
         var serverList = config.get('servers');
