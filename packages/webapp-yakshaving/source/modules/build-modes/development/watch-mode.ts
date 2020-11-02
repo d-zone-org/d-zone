@@ -15,7 +15,7 @@ import type PluginSucrase from '@rollup/plugin-sucrase'
  * Start watch mode for application
  * @param options - Options
  * @param options.entryPoint - Entry point(s) for application
- * @param options.dependencyMap - Map of dependency and their relative location
+ * @param options.dependenciesMap - Map of dependency and their relative location
  * @param options.requiredPlugins - Object of required plugins and their configuration
  * @param options.extraPlugins - Additional plugins
  * @param options.outputDirectory - Output directory for bundle
@@ -24,7 +24,7 @@ import type PluginSucrase from '@rollup/plugin-sucrase'
  */
 export async function startWatchMode({
 	entryPoint,
-	dependencyMap,
+	dependenciesMap,
 
 	requiredPlugins,
 	extraPlugins,
@@ -35,7 +35,7 @@ export async function startWatchMode({
 	additionalRollupSettings,
 }: {
 	entryPoint: InputOption
-	dependencyMap: Record<string, string>
+	dependenciesMap: Record<string, string>
 
 	requiredPlugins: {
 		commonJs: [typeof PluginCommonJs, Parameters<typeof PluginCommonJs>[0]?]
@@ -89,7 +89,7 @@ export async function startWatchMode({
 				...typescriptUserOpts,
 			} as Parameters<typeof PluginTypescript>[0]),
 		],
-		external: Object.keys(dependencyMap),
+		external: Object.keys(dependenciesMap),
 		...additionalRollupSettings?.input,
 	}
 
@@ -99,7 +99,7 @@ export async function startWatchMode({
 		format: 'es',
 		entryFileNames: '[name].bundle.js',
 		sourcemap: true,
-		paths: dependencyMap,
+		paths: dependenciesMap,
 		...additionalRollupSettings?.output,
 	}
 
