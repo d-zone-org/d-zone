@@ -152,6 +152,7 @@ Inbox.prototype.getUsers = function(connectRequest) {
 };
 
 Inbox.prototype.getServers = function() {
+    if(!this.servers) return;
     let serverList = {};
     for(let [sKey, server] of this.servers.entries()) {
         serverList[sKey] = { id: server.id, name: server.name };
