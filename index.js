@@ -16,7 +16,11 @@ var webSock = new WebSock(socketConfig,
     },
     function onJoinServer(socket, connectRequest) {
         var users = inbox.getUsers(connectRequest);
-        if(users === 'unknown-server') {
+        if(!users) {
+            socket.send(JSON.stringify({
+                type: 'error', data: { message: 'The server is not ready yet, try again shortly.' }
+            }));
+        } else if(users === 'unknown-server') {
             socket.send(JSON.stringify({
                 type: 'error', data: { message: 'Sorry, couldn\'t connect to that Discord server.' }
             }));
