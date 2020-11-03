@@ -126,6 +126,7 @@ function Inbox(config) {
 }
 
 Inbox.prototype.getUsers = function(connectRequest) {
+    if(!this.servers) return;
     let server = this.servers.get(connectRequest.server) ||
         Array.from(this.servers.values()).find(s => s.id === connectRequest.server || s.default && connectRequest.server === 'default');
     if(!server) return 'unknown-server';
