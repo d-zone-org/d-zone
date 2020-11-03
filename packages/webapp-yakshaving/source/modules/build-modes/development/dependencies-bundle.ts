@@ -11,7 +11,10 @@ import type PluginCommonJs from '@rollup/plugin-commonjs'
 import type { nodeResolve as PluginNodeResolve } from '@rollup/plugin-node-resolve'
 import type PluginReplace from '@rollup/plugin-replace'
 
-/**
+const getRelativePath = (from: string, to: string) =>
+	'./' + path.relative(from, to).replace(/\\/g, '/')
+
+/*
  * Create bundle of dependencies
  * @param options - Options
  * @param options.dependencies - Array of tuple of users dependency id and descriptor
@@ -19,7 +22,7 @@ import type PluginReplace from '@rollup/plugin-replace'
  * @param options.plugins - Tuple of commonjs, node-resolve and replace plugin
  * @param options.outputDirectory - Output directory
  * @param options.rollup - Rollup method
- * @returns Dependencies and their relative paths map
+ * @returns Dependencies and their paths
  */
 export async function createDependenciesBundle({
 	dependencies,
@@ -43,18 +46,18 @@ export async function createDependenciesBundle({
 	rollup: typeof RollupFn
 }): Promise<Record<string, string>> {
 	// Write in a subdirectory rather than the same
-	outputDirectory = path.join(outputDirectory, 'dependencies')
+	const dependenciesOuputDirectory = path.join(outputDirectory, 'dependencies')
 
 	// Caching
 	const cache = new DependenciesCache()
-	await cache.init(outputDirectory)
+	await cache.init(dependenciesOuputDirectory)
 
 	// Dependencies to bundled entry points
 	const entryPoints: Record<string, string> = {}
 	// Dependency Ids
 	const dependenciesId: string[] = []
 	// Dependencies map
-	const dependenciesMap: Record<string, string> = {}
+	const dependencyAbsolutePathsMap: Record<string, string> = {}
 
 	for (const [name, descriptor] of dependencies) {
 		// Add dependencies which are not cached
@@ -69,17 +72,24 @@ export async function createDependenciesBundle({
 		}
 
 		dependenciesId.push(name)
-		dependenciesMap[name] = path.join(
-			outputDirectory,
-			`./dependencies/${name}/index.js`
+		dependencyAbsolutePathsMap[name] = path.resolve(
+			dependenciesOuputDirectory,
+			`./${name}.js`
 		)
 	}
 
 	// Write updated cache
 	await cache.write()
 
+	const dependenciesMapRelativeToOutputDirectory = Object.fromEntries(
+		Object.entries(dependencyAbsolutePathsMap).map(([id, path]) => [
+			id,
+			getRelativePath(outputDirectory, path),
+		])
+	)
 	// If all dependencies are cached return
-	if (Object.keys(entryPoints).length === 0) return dependenciesMap
+	if (Object.keys(entryPoints).length === 0)
+		return dependenciesMapRelativeToOutputDirectory
 
 	// Rollup input options
 	const inputOptions: RollupInputOptions = {
@@ -97,31 +107,24 @@ export async function createDependenciesBundle({
 		external: dependenciesId,
 	}
 
+	const dependenciesMapRelativeToDependenciesOutputDirectory = Object.fromEntries(
+		Object.entries(dependencyAbsolutePathsMap).map(([id, path]) => [
+			id,
+			getRelativePath(dependenciesOuputDirectory, path),
+		])
+	)
 	// Rollup output options
 	const outputOptions: RollupOutputOptions = {
-		dir: outputDirectory,
+		dir: dependenciesOuputDirectory,
 		format: 'es',
-		entryFileNames: '[name]/index.js',
+		entryFileNames: '[name].js',
 		sourcemap: true,
-		exports: 'named',
-		// Relative to output directory
-		paths: Object.fromEntries(
-			Object.entries(dependenciesMap).map(([k, v]) => [
-				k,
-				path.relative(outputDirectory, v),
-			])
-		),
+		paths: dependenciesMapRelativeToDependenciesOutputDirectory,
 	}
 
 	// Generate bundle
 	const bundle = await rollup(inputOptions)
 	await bundle.write(outputOptions)
 
-	// Relative to users output directory
-	return Object.fromEntries(
-		Object.entries(dependenciesMap).map(([k, v]) => [
-			k,
-			path.relative(path.join(outputDirectory, '..'), v),
-		])
-	)
+	return dependenciesMapRelativeToOutputDirectory
 }

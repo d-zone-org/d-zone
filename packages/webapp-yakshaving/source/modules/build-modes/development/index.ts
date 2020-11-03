@@ -28,6 +28,7 @@ export async function developmentMode({
 		...dependenciesBundleOptions,
 		outputDirectory,
 	})
+
 	// Start watch mode
 	await startWatchMode({
 		...watchModeOptions,
