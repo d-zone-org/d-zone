@@ -11,7 +11,10 @@ var commandCooldowns = {};
 
 function Inbox(config) {
     EventEmitter.call(this);
-    var bot = new Eris(process.env.token, { getAllUsers: true });
+    var bot = new Eris(process.env.token, {
+        getAllUsers: true,
+        intents: ['guilds', 'guildMembers', 'guildPresences', 'guildMessages', 'directMessages']
+    });
     this.bot = bot;
     var self = this;
     function setPresence() {
