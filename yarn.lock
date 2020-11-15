@@ -6418,7 +6418,7 @@ typescript@^4.0.5:
 
 "typescript@patch:typescript@^4.0.5#builtin<compat/typescript>":
   version: 4.0.5
-  resolution: "typescript@patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=a72311"
+  resolution: "typescript@patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=cc6730"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
