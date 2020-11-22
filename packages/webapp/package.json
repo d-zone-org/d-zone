@@ -31,11 +31,11 @@
 		"@types/react-router-dom": "^5.1.5",
 		"jest": "^26.6.3",
 		"pixi.js": "^5.3.3",
-		"rollup": "^2.33.2",
+		"rollup": "^2.33.3",
 		"rollup-plugin-clear": "^2.0.7",
 		"rollup-plugin-livereload": "^2.0.0",
 		"rollup-plugin-serve": "^1.1.0",
-		"typescript": "^4.0.5",
+		"typescript": "^4.1.2",
 		"yakshaving": "workspace:packages/webapp-yakshaving"
 	}
 }
