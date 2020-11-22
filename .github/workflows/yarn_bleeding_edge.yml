@@ -24,7 +24,7 @@ jobs:
         run: yarn install
 
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v3.1.0
+        uses: peter-evans/create-pull-request@v3.5.0
         with:
           commit-message: Update Yarn Version
           branch: yarn_bleeding_edge
