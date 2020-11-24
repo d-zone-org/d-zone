@@ -6076,10 +6076,10 @@ resolve@^1.18.1:
   languageName: node
   linkType: hard
 
-"superstruct@npm:^0.11.1":
-  version: 0.11.1
-  resolution: "superstruct@npm:0.11.1"
-  checksum: 057defb7ab2a4b7ec27a4eed4ecdfd5d8a0084d14ed409530601a5b5a1a7a2499f15b5ff85a18d8a1eb6430eb7b508ce3db8fdf47b986671cf80cef3905f2e66
+"superstruct@npm:0.10.12":
+  version: 0.10.12
+  resolution: "superstruct@npm:0.10.12"
+  checksum: 80240b1630e0eb349bbcf043275a1d7461631aba3f011df997e6170ab12187e71e483f03e5ab0c7c448b9aaa70bc9028b0d125b2398da68856d7e4745804df9e
   languageName: node
   linkType: hard
 
@@ -6801,7 +6801,7 @@ typescript@^4.1.2:
     rollup-plugin-terser: ^7.0.2
     source-map-support: ^0.5.19
     sucrase: ^3.16.0
-    superstruct: ^0.11.1
+    superstruct: 0.10.12
     tslib: ^2.0.3
     typedoc: ^0.19.2
     typedoc-plugin-markdown: ^3.0.11
