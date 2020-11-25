@@ -1,42 +1,46 @@
 {
-	"name": "d-zone",
-	"version": "0.2.0",
-	"description": "An ambient life simulation driven by the user activity within a Discord server",
-	"author": "Devin Spikowski",
-	"contributors": [
-		"Devin Spikowski <vegeta897@gmail.com> (https://pixelatomy.com)",
-		"Sagnik Pradhan <markten6321@gmail.com> (https://sagnikpradhan.github.io)"
-	],
-	"license": "ISC",
-	"homepage": "https://github.com/vegeta897/d-zone#readme",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/vegeta897/d-zone.git"
-	},
-	"bugs": {
-		"url": "https://github.com/vegeta897/d-zone/issues"
-	},
-	"private": true,
-	"workspaces": [
-		"packages/**/**"
-	],
-	"scripts": {
-		"format": "prettier --write .",
-		"check:format": "prettier --check $INIT_CWD",
-		"test": "yarn workspaces foreach -p run test",
-		"collect-coverage": "yarn workspaces foreach -p run test:coverage && yarn dlx ts-node --dir scripts merge-coverage-reports.ts"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.1.3",
-		"@types/istanbul-lib-coverage": "^2.0.3",
-		"@types/istanbul-lib-report": "^3.0.0",
-		"@types/istanbul-reports": "^3.0.0",
-		"@types/node": "^14.0.14",
-		"glob": "^7.1.6",
-		"istanbul-lib-coverage": "^3.0.0",
-		"istanbul-lib-report": "^3.0.0",
-		"istanbul-reports": "^3.0.2",
-		"prettier": "^2.2.0",
-		"typescript": "^4.1.2"
-	}
+  "name": "d-zone",
+  "version": "0.2.0",
+  "description": "An ambient life simulation driven by the user activity within a Discord server",
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "commit": "gitmoji --comit"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "react-is": "^16.8.0",
+    "styled-components": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.9",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/styled-components": "^5",
+    "babel-plugin-styled-components": "^1.8.0",
+    "gitmoji-cli": "^3.2.12",
+    "prettier": "^2.2.0",
+    "typescript": "^4.1.2"
+  },
+  "prettier": {
+    "semi": false
+  },
+  "homepage": "https://github.com/vegeta897/d-zone#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vegeta897/d-zone.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vegeta897/d-zone/issues"
+  },
+  "author": "Devin Spikowski",
+  "contributors": [
+    "Devin Spikowski <vegeta897@gmail.com> (https://pixelatomy.com)",
+    "Sagnik Pradhan <markten6321@gmail.com> (https://sagnikpradhan.github.io)"
+  ],
+  "license": "ISC"
 }

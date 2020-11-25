@@ -78,6 +78,7 @@ web_modules/
 
 # Next.js build output
 .next
+out
 
 # Nuxt.js build / generate output
 .nuxt
@@ -107,17 +108,9 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-# yarn v2 https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
 .pnp.*
-
-# Jetbrains IDE
-.idea
-
-# Build files
-build
-
-# VSCode
-.vscode

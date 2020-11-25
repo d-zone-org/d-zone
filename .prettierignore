@@ -1,9 +1,0 @@
-.yarn/*
-.vscode/*
-.pnp.js
-**/coverage/*
-**/build/*
-yarn.lock
-**/patches/*
-packages/webapp/public/img/*
-packages/webapp-yakshaving/docs/*
