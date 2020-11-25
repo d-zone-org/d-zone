@@ -4,12 +4,13 @@
   "description": "An ambient life simulation driven by the user activity within a Discord server",
   "private": true,
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start",
-    "commit": "gitmoji --comit"
+    "dev": "nodemon",
+    "build": "next build && tsc --project ./server/tsconfig.json",
+    "start": "yarn cross-env NODE_ENV=production yarn node dist/index.js",
+    "commit": "gitmoji --commit"
   },
   "dependencies": {
+    "cross-env": "^7.0.2",
     "next": "latest",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
@@ -23,7 +24,9 @@
     "@types/styled-components": "^5",
     "babel-plugin-styled-components": "^1.8.0",
     "gitmoji-cli": "^3.2.12",
+    "nodemon": "^2.0.6",
     "prettier": "^2.2.0",
+    "ts-node": "^9.0.0",
     "typescript": "^4.1.2"
   },
   "prettier": {
