@@ -1,25 +1,25 @@
-import { World } from 'ecsy'
+import { World } from "ecsy"
 
 export default class Engine {
-	readonly world: World
+  readonly world: World
 
-	constructor() {
-		this.world = new World()
-	}
+  constructor() {
+    this.world = new World()
+  }
 
-	private interval: number | undefined
-	private tick: number = 0
+  private interval?: number
+  private tick: number = 0
 
-	update() {
-		this.world.execute(this.interval, this.tick++)
-	}
+  update() {
+    this.world.execute(this.interval, this.tick++)
+  }
 
-	start(fps: number): void {
-		// Begin game loop
-		this.interval = setInterval(() => this.update(), 1000 / fps)
-	}
+  start(fps: number): void {
+    // Begin game loop
+    this.interval = window.setInterval(() => this.update(), 1000 / fps)
+  }
 
-	stop(): void {
-		clearInterval(this.interval)
-	}
+  stop(): void {
+    clearInterval(this.interval)
+  }
 }
