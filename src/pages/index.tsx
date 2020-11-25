@@ -1,5 +1,6 @@
 import Head from "next/head"
 import styled from "styled-components"
+import dynamic from "next/dynamic"
 
 const Layout = styled.div`
   height: 100vh;
@@ -13,6 +14,10 @@ const Title = styled.h1`
   font-family: sans-serif;
 `
 
+const Game = dynamic(() => import("web/components/complex/game"), {
+  ssr: false,
+})
+
 export default function Home() {
   return (
     <>
@@ -22,6 +27,7 @@ export default function Home() {
 
       <Layout>
         <Title>Hey there!</Title>
+        <Game></Game>
       </Layout>
     </>
   )

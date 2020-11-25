@@ -9,7 +9,9 @@
     "outDir": "../dist",
 
     "isolatedModules": false,
-    "noEmit": false
+    "noEmit": false,
+
+    "paths": {}
   },
 
   "include": ["**.ts"]
