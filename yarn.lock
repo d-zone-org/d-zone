@@ -445,6 +445,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ws@npm:^7":
+  version: 7.4.0
+  resolution: "@types/ws@npm:7.4.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: fbb8c68e5865539f1518e119f741c7bf134c61dd2f7d0a653b9d6666811b5487cc434e24044069e1508f2c2e1138b413cb970a79713cab333d64201362746a1c
+  languageName: node
+  linkType: hard
+
 "@webassemblyjs/ast@npm:1.9.0":
   version: 1.9.0
   resolution: "@webassemblyjs/ast@npm:1.9.0"
@@ -2065,8 +2074,10 @@ __metadata:
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
     "@types/styled-components": ^5
+    "@types/ws": ^7
     babel-plugin-styled-components: ^1.8.0
     cross-env: ^7.0.2
+    eris: ^0.14.0
     gitmoji-cli: ^3.2.12
     next: latest
     nodemon: ^2.0.6
@@ -2077,6 +2088,7 @@ __metadata:
     styled-components: ^5.2.1
     ts-node: ^9.0.0
     typescript: ^4.1.2
+    ws: ^7.4.0
   languageName: unknown
   linkType: soft
 
@@ -2481,6 +2493,22 @@ __metadata:
   version: 2.2.0
   resolution: "env-paths@npm:2.2.0"
   checksum: 09de4fd1c068d5965aa8aede852a764b7fb6fa8f1299ba7789bc29c22840ab1985e0c9c55bc6bf40b4276834b8adfa1baf82ec9bc58445d9e75800dc32d78a4f
+  languageName: node
+  linkType: hard
+
+"eris@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "eris@npm:0.14.0"
+  dependencies:
+    opusscript: ^0.0.7
+    tweetnacl: ^1.0.1
+    ws: ^7.2.1
+  dependenciesMeta:
+    opusscript:
+      optional: true
+    tweetnacl:
+      optional: true
+  checksum: 1cfb90c9d6739443636d8d1a9f279945e3c122f48dcd608fe0ff45d26bb42a8502bb3c77236ccce2ee3bb40ea2c3cf7574bb64f6767d17ae799324caaf10b3ae
   languageName: node
   linkType: hard
 
@@ -4908,6 +4936,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"opusscript@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "opusscript@npm:0.0.7"
+  checksum: 3fc224fbe9608af9ab354b24e3e7c9bde5f1de6419c1c86882edf7781cda52bb82526e8990a63f8991ec15a14e16e7f8e49aeacd0cc99bc9c4376d2476d9b386
+  languageName: node
+  linkType: hard
+
 "ora@npm:^5.0.0":
   version: 5.1.0
   resolution: "ora@npm:5.1.0"
@@ -6932,6 +6967,13 @@ resolve@^1.10.0:
   languageName: node
   linkType: hard
 
+"tweetnacl@npm:^1.0.1":
+  version: 1.0.3
+  resolution: "tweetnacl@npm:1.0.3"
+  checksum: 1188f3ef85db04d6dba632d211e481ae0a5805974491633ff60bd56ae3362312dfea1515e0d200685867b69ff212e8778e26923f8203e3c335064b07f620a6c7
+  languageName: node
+  linkType: hard
+
 "type-fest@npm:^0.11.0":
   version: 0.11.0
   resolution: "type-fest@npm:0.11.0"
@@ -7404,6 +7446,21 @@ typescript@^4.1.2:
     signal-exit: ^3.0.2
     typedarray-to-buffer: ^3.1.5
   checksum: a26a8699c30cdc81d041b2c1049c6773f1e8401edda365874e9ca2dcf1fcf024dfeb43eea5e08c2e9b4e77be08a160d37f8d6c5d8c2d3ceccdf3d06e5cb38d35
+  languageName: node
+  linkType: hard
+
+"ws@npm:^7.2.1, ws@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "ws@npm:7.4.0"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ^5.0.2
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 67c0f3b86d89c20e337b0bd712e0a2752068eadc0cf13c024d0532c18d073381ced485fb114a636998327a82c34d83720f4ceb7632395c0cb9580ce221177fd8
   languageName: node
   linkType: hard
 
