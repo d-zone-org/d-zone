@@ -1,16 +1,16 @@
-import http from "http"
+import { createServer as createHTTPServer } from "http"
 
-import * as websocket from "./websocket"
-import * as next from "./next-wrapper"
-
-const port = parseInt(process.env.PORT || "3000", 10)
-const dev = process.env.NODE_ENV !== "production"
+import config from "./utils/config"
+import createWebSocketServer from "./components/websocket"
+import createNextWrapper from "./components/next-wrapper"
+import createDiscordClient from "./components/discord-client"
 
 const main = async () => {
-  const nextWrapper = await next.init({ dev })
-  const server = http.createServer(nextWrapper.requestHandler)
-  websocket.init({ server })
-  server.listen(port)
+  createDiscordClient()
+  const nextWrapper = await createNextWrapper()
+  const server = createHTTPServer(nextWrapper.requestHandler)
+  createWebSocketServer({ server })
+  server.listen(config.port)
 }
 
 main().catch((error) => {

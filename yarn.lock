@@ -1877,18 +1877,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-env@npm:^7.0.2":
-  version: 7.0.2
-  resolution: "cross-env@npm:7.0.2"
-  dependencies:
-    cross-spawn: ^7.0.1
-  bin:
-    cross-env: src/bin/cross-env.js
-    cross-env-shell: src/bin/cross-env-shell.js
-  checksum: 624d638db3b4b6b221f32238aeb6785b865365bf41154f01d46a23b6d78f807ca5588a3b32e9af5f17384b866fed3752d0e3ecf8c4a8cfca2935d363d27ba058
-  languageName: node
-  linkType: hard
-
 "cross-fetch@npm:3.0.5":
   version: 3.0.5
   resolution: "cross-fetch@npm:3.0.5"
@@ -1907,7 +1895,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.1":
+"cross-spawn@npm:^7.0.0":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
   dependencies:
@@ -2076,7 +2064,7 @@ __metadata:
     "@types/styled-components": ^5
     "@types/ws": ^7
     babel-plugin-styled-components: ^1.8.0
-    cross-env: ^7.0.2
+    dotenv: ^8.2.0
     eris: ^0.14.0
     gitmoji-cli: ^3.2.12
     next: latest
@@ -2089,6 +2077,7 @@ __metadata:
     ts-node: ^9.0.0
     typescript: ^4.1.2
     ws: ^7.4.0
+    zod: ^1.11.10
   languageName: unknown
   linkType: soft
 
@@ -2380,6 +2369,13 @@ __metadata:
   dependencies:
     is-obj: ^2.0.0
   checksum: 76e6693d8803eeff9cb920988446bf223cf1f6e5b1c0c2fe07a66906392134931a481b11e3c0bd852c5cfc97fad65258bcb4359169ad1d8d624cb3f56932be98
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "dotenv@npm:8.2.0"
+  checksum: 16cb89cbd7b98b053899b8aba8c5044c8fb61a2db8a81fe70360b75035fce5fed53bd7a34d772be717d0880c0321122a4c09423f518025e1b52d96791521b1a7
   languageName: node
   linkType: hard
 
@@ -7513,5 +7509,12 @@ typescript@^4.1.2:
   version: 3.1.1
   resolution: "yn@npm:3.1.1"
   checksum: bff63b80568d80c711670935427494dde47cdf97e8b04196b140ce0af519c81c5ee857eddad0caa8b422dd65aea0157bbfaacbb1546bebba623f0f383d5d9ae5
+  languageName: node
+  linkType: hard
+
+"zod@npm:^1.11.10":
+  version: 1.11.10
+  resolution: "zod@npm:1.11.10"
+  checksum: 9e7363c828246cc6e0f87e61608d3db75e68c5674b8d3a56e910ca5fc167b943b25e852503ba330f253443c2a76542a6a0e53ed791157c1b6ccfc0522da48872
   languageName: node
   linkType: hard

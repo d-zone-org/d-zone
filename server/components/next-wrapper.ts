@@ -2,9 +2,10 @@ import next from "next"
 
 import http from "http"
 import url from "url"
+import config from "../utils/config"
 
-export const init = async ({ dev }: { dev: boolean }) => {
-  const nextApp = next({ dev })
+export default async () => {
+  const nextApp = next({ dev: config.dev })
   const nextRequestHandler = nextApp.getRequestHandler()
 
   await nextApp.prepare()
