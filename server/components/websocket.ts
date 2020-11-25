@@ -1,13 +1,15 @@
 import http from "http"
 import WebSocket from "ws"
 
-export default async ({ server }: { server: http.Server }) => {
-  const wss = new WebSocket.Server({ server })
-  wss.on("connection", (ws) => {
-    ws.on("message", function incoming(message) {
-      console.log("received: %s", message)
-    })
+import { ClientMessage } from "../../interfaces/websocket"
 
-    ws.send("something")
+export default async ({ server: httpServer }: { server: http.Server }) => {
+  const server = new WebSocket.Server({ server: httpServer })
+
+  server.on("connection", (websocket) => {
+    websocket.on("message", (data) => {
+      const message: ClientMessage = JSON.parse(String(data))
+      console.log(message)
+    })
   })
 }
