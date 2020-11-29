@@ -2270,7 +2270,7 @@ __metadata:
     istanbul-lib-coverage: ^3.0.0
     istanbul-lib-report: ^3.0.0
     istanbul-reports: ^3.0.2
-    prettier: ^2.2.0
+    prettier: ^2.2.1
     typescript: ^4.1.2
   languageName: unknown
   linkType: soft
@@ -4947,14 +4947,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pixi-viewport@npm:^4.17.1":
-  version: 4.17.1
-  resolution: "pixi-viewport@npm:4.17.1"
+"pixi-viewport@npm:^4.18.0":
+  version: 4.18.0
+  resolution: "pixi-viewport@npm:4.18.0"
   dependencies:
     penner: ^0.1.3
   peerDependencies:
     pixi.js: ">=4.6.0"
-  checksum: f01932270a5b03ea732c3edc31a2ad45fb0c72150d2bbafa39367cf42307f96f8a5b15b61d67cf733196553598856803782d147874921f3e58c0390c9d84eec9
+  checksum: 0bb6efc6f72d184915ec1a4cbf79229d37bbead8927e01cd30abd489224bb10f7c8e86974c4dda2ab6abaf14f55e6038dd59f23cd434f88d6d9093ac7415f961
   languageName: node
   linkType: hard
 
@@ -5042,12 +5042,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "prettier@npm:2.2.0"
+"prettier@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "prettier@npm:2.2.1"
   bin:
     prettier: bin-prettier.js
-  checksum: fe7e2ac725d3b067204700c5fcee415a90e1c1ab01735a7748bce791db61a3242939a032bfe5f8faa2c054571f4e9bac266b766e483648511af72f69fb041a6c
+  checksum: 92c6c9f4b87eba1f28466edee57dd18c80d00b858edda77d46d1950d20e6e302b68ee255fc91133ba931e63c4577b5ae30da194d9626a8f3c0177778b91bf056
   languageName: node
   linkType: hard
 
@@ -6076,10 +6076,10 @@ resolve@^1.18.1:
   languageName: node
   linkType: hard
 
-"superstruct@npm:0.10.12":
-  version: 0.10.12
-  resolution: "superstruct@npm:0.10.12"
-  checksum: 80240b1630e0eb349bbcf043275a1d7461631aba3f011df997e6170ab12187e71e483f03e5ab0c7c448b9aaa70bc9028b0d125b2398da68856d7e4745804df9e
+"superstruct@npm:^0.12.1":
+  version: 0.12.1
+  resolution: "superstruct@npm:0.12.1"
+  checksum: 7b0b5148a3f383ab58b0876a21d4fe010661fc6535b98bbc02d6bbf25ccf8c964a0e4f960c288d18344f46ae8cfbb72f4e44403cec976355195e65ec65bed969
   languageName: node
   linkType: hard
 
@@ -6601,7 +6601,7 @@ typescript@^4.1.2:
     ecsy: ^0.4.2
     jest: ^26.6.3
     pixi-cull: ^1.0.0
-    pixi-viewport: ^4.17.1
+    pixi-viewport: ^4.18.0
     pixi.js: ^5.3.3
     pixi.js-legacy: ^5.3.3
     react: ^17.0.1
@@ -6801,7 +6801,7 @@ typescript@^4.1.2:
     rollup-plugin-terser: ^7.0.2
     source-map-support: ^0.5.19
     sucrase: ^3.16.0
-    superstruct: 0.10.12
+    superstruct: ^0.12.1
     tslib: ^2.0.3
     typedoc: ^0.19.2
     typedoc-plugin-markdown: ^3.0.11
