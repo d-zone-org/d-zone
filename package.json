@@ -10,6 +10,7 @@
     "commit": "gitmoji --commit"
   },
   "dependencies": {
+    "ape-ecs": "^1.3.0",
     "dotenv": "^8.2.0",
     "ecsy": "^0.4.2",
     "eris": "^0.14.0",
@@ -43,15 +44,7 @@
     "useTabs": true,
     "tabWidth": 2,
     "semi": false,
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.ts",
-        "options": {
-          "parser": "typescript"
-        }
-      }
-    ]
+    "singleQuote": true
   },
   "homepage": "https://github.com/vegeta897/d-zone#readme",
   "repository": {
