@@ -1,62 +1,58 @@
-import { Attributes, Not, System } from "ecsy"
-import Sprite from "../components/sprite"
-import PixiSprite from "../components/pixi-sprite"
-import * as PIXI from "pixi.js-legacy"
+import { Query, System } from 'ape-ecs'
+import Sprite from '../components/sprite'
+import PixiSprite from '../components/pixi-sprite'
+import * as PIXI from 'pixi.js-legacy'
 
 export default class SpriteSystem extends System {
-  private resources: any
-  private renderer: any
-  private textures: any
-  private view: any
-  private cull: any
-  init(attributes: Attributes) {
-    this.resources = attributes.resources
-    this.textures = this.resources.sheet.textures
-    this.renderer = attributes.renderer
-    this.view = this.renderer.view
-    this.cull = this.renderer.cull
-  }
-  execute(_delta: number, _time: number) {
-    let updated = this.queries.updated.changed!
-    if (updated) {
-      for (let i = updated.length - 1; i >= 0; i--) {
-        let entity = updated[i]
-        let sprite = entity.getComponent(Sprite)!
-        let { value: pixiSprite } = entity.getComponent(PixiSprite)!
-        pixiSprite.setTransform(sprite.x, sprite.y)
-        pixiSprite.zIndex = sprite.zIndex
-        pixiSprite.texture = this.textures[sprite.texture]
-        pixiSprite.anchor = pixiSprite.texture.defaultAnchor
-        this.cull.updateObject(pixiSprite)
-      }
-      this.cull.cull(this.view.getVisibleBounds())
-    }
+	private resources: any
+	private renderer: any
+	private textures: any
+	private view: any
+	private cull: any
+	private spriteQuery!: Query
+	init(resources: any, renderer: any) {
+		this.resources = resources
+		this.textures = this.resources.sheet.textures
+		this.renderer = renderer
+		this.view = this.renderer.view
+		this.cull = this.renderer.cull
+		this.spriteQuery = this.createQuery().fromAll(Sprite).persist(true, true)
+	}
+	update(tick: number) {
+		const updatedSprites = this.spriteQuery.execute({ updatedValues: tick })
+		updatedSprites.forEach((entity) => {
+			let sprite = entity.c.sprite
+			let { sprite: pixiSprite } = entity.c.pixiSprite
+			pixiSprite.setTransform(sprite.x, sprite.y)
+			pixiSprite.zIndex = sprite.zIndex
+			pixiSprite.texture = this.textures[sprite.texture]
+			pixiSprite.anchor = pixiSprite.texture.defaultAnchor
+			this.cull.updateObject(pixiSprite)
+		})
+		if (updatedSprites.size > 0) {
+			this.cull.cull(this.view.getVisibleBounds())
+		}
 
-    let added = this.queries.added.results
-    for (let i = added.length - 1; i >= 0; i--) {
-      let entity = added[i]
-      let sprite = entity.getComponent(Sprite)!
-      let pixiSprite = new PIXI.Sprite(
-        this.resources.sheet.textures[sprite.texture]
-      )
-      pixiSprite.setTransform(sprite.x, sprite.y)
-      pixiSprite.zIndex = sprite.zIndex
-      this.view.addChild(pixiSprite)
-      entity.addComponent(PixiSprite, { value: pixiSprite })
-    }
+		this.spriteQuery.added.forEach((entity) => {
+			let sprite = entity.c.sprite
+			let pixiSprite = new PIXI.Sprite(
+				this.resources.sheet.textures[sprite.texture]
+			)
+			pixiSprite.setTransform(sprite.x, sprite.y)
+			pixiSprite.zIndex = sprite.zIndex
+			this.view.addChild(pixiSprite)
+			entity.addComponent({
+				type: PixiSprite,
+				key: 'pixiSprite',
+				sprite: pixiSprite,
+			})
+		})
 
-    let removed = this.queries.removed.results
-    for (let i = removed.length - 1; i >= 0; i--) {
-      let entity = removed[i]
-      let pixiSprite = entity.getComponent(PixiSprite)!
-      this.view.removeChild(pixiSprite.value)
-      pixiSprite.value.destroy()
-      entity.removeComponent(PixiSprite)
-    }
-  }
-}
-SpriteSystem.queries = {
-  added: { components: [Sprite, Not(PixiSprite)] },
-  removed: { components: [Not(Sprite), PixiSprite] },
-  updated: { components: [Sprite, PixiSprite], listen: { changed: [Sprite] } },
+		this.spriteQuery.removed.forEach((entity) => {
+			let pixiSprite = entity.c.pixiSprite
+			this.view.removeChild(pixiSprite.value)
+			pixiSprite.value.destroy()
+			entity.removeComponent(typeof PixiSprite)
+		})
+	}
 }
