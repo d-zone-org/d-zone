@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "nodemon",
 		"build": "next build && tsc --project ./server/tsconfig.json",
-		"start": "yarn node dist/index.js",
+		"start": "yarn node dist/server/index.js",
 		"commit": "gitmoji --commit"
 	},
 	"dependencies": {
