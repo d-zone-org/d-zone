@@ -4,7 +4,7 @@ export default class Actor extends Component {
 	userID!: string
 	username!: string
 	color!: number
-
+	static typeName = 'Actor'
 	static properties = {
 		userID: '',
 		username: '',

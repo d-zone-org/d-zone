@@ -4,7 +4,7 @@ export default class Transform extends Component {
 	x!: number
 	y!: number
 	z!: number
-
+	static typeName = 'Transform'
 	static properties = {
 		x: 0,
 		y: 0,

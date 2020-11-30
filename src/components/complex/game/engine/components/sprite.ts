@@ -5,11 +5,11 @@ export default class Sprite extends Component {
 	y!: number
 	texture!: string
 	zIndex!: number
-
+	static typeName = 'Sprite'
 	static properties = {
 		x: 0,
 		y: 0,
 		texture: '',
-		zIndex: 0
+		zIndex: 0,
 	}
 }
