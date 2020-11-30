@@ -3843,7 +3843,6 @@ __metadata:
     ape-ecs: ^1.3.0
     babel-plugin-styled-components: ^1.8.0
     dotenv: ^8.2.0
-    ecsy: ^0.4.2
     eris: ^0.14.0
     gitmoji-cli: ^3.2.12
     next: 10.0.1
@@ -4197,13 +4196,6 @@ __metadata:
     jsbn: ~0.1.0
     safer-buffer: ^2.1.0
   checksum: 5b4dd05f24b2b94c1bb882488dba2b878bb5b83182669aa71fbdf53c6941618180cb226c4eb9a3e2fa51ad11f87b5edb0a7d7289cdef468ba2e6024542f73f07
-  languageName: node
-  linkType: hard
-
-"ecsy@npm:^0.4.2":
-  version: 0.4.2
-  resolution: "ecsy@npm:0.4.2"
-  checksum: b34ac6ec40788235aaceb16673057288c886955f445fdfbc17248176d0db6c2ce342d099c81245cc6eaef91eb7de9e2085b8974aa0a265335220a358cb3e81e3
   languageName: node
   linkType: hard
 
