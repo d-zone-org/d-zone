@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Plugin, Viewport } from 'pixi-viewport'
 import * as PIXI from 'pixi.js-legacy'
 

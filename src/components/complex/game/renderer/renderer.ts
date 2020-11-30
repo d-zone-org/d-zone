@@ -39,7 +39,9 @@ export default class Renderer {
 			})
 		this.view.moveCenter(0, 0)
 		this.view.scaled = zoomLevels[3]
+		// @ts-ignore
 		this.view.sortableChildren = true
+		// @ts-ignore
 		this.app.stage.addChild(this.view)
 		canvas.addEventListener(
 			'wheel',
@@ -54,7 +56,9 @@ export default class Renderer {
 		this.cull.addContainer(this.view)
 		this.app.ticker.add(() => {
 			if (this.view.dirty) {
+				// @ts-ignore
 				this.view.x = Math.round(this.view.x)
+				// @ts-ignore
 				this.view.y = Math.round(this.view.y)
 				this.cull.cull(this.view.getVisibleBounds())
 				this.view.dirty = false
