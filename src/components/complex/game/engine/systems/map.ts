@@ -1,46 +1,32 @@
-import { Attributes, Not, System } from "ecsy"
-import { Cell3D } from "../../common/map"
-import Transform from "../components/transform"
-import MapCell from "../components/map-cell"
-import Actor from "../components/actor"
-import ActorCell from "../../common/actor-cell"
+import { Query, System } from 'ape-ecs'
+import { Cell3D } from '../../common/map'
+import Transform from '../components/transform'
+import MapCell from '../components/map-cell'
+import Actor from '../components/actor'
+import ActorCell from '../../common/actor-cell'
 
 export default class MapSystem extends System {
-  private map: any
-  init(attributes: Attributes) {
-    this.map = attributes.map
-  }
+	private map: any
+	private mapQuery!: Query
+	init(map: any) {
+		this.map = map
+		this.mapQuery = this.createQuery().fromAll(Transform).persist(true, true)
+	}
 
-  execute(_delta: number, _time: number) {
-    this.queries.added.results.forEach((entity) => {
-      let { x, y, z } = entity.getComponent(Transform)!
-      let cellType = entity.hasComponent(Actor) ? ActorCell : Cell3D
-      let cell = new cellType({ map: this.map, x, y, z })
-      entity.addComponent(MapCell, { value: cell })
-      this.map.addCell(cell)
-    })
-    this.queries.moved.changed!.forEach((entity) => {
-      entity
-        .getComponent(MapCell)!
-        .value.moveTo(entity.getComponent(Transform)!)
-    })
-    let removed = this.queries.removed.results
-    for (let i = removed.length - 1; i >= 0; i--) {
-      let entity = removed[i]
-      entity.getComponent(MapCell)!.value.destroy()
-      entity.removeComponent(MapCell)
-    }
-  }
-}
-MapSystem.queries = {
-  added: {
-    components: [Transform, Not(MapCell)],
-  },
-  moved: {
-    components: [Transform, MapCell],
-    listen: { changed: [Transform] },
-  },
-  removed: {
-    components: [Not(Transform), MapCell],
-  },
+	update(tick: number) {
+		this.mapQuery.added.forEach((entity) => {
+			let { x, y, z } = entity.c.transform
+			let cellType = entity.has(Actor) ? ActorCell : Cell3D
+			let cell = new cellType({ map: this.map, x, y, z })
+			entity.addComponent({ type: MapCell, cell, key: 'mapCell' })
+			this.map.addCell(cell)
+		})
+		this.mapQuery.execute({ updatedValues: tick }).forEach((entity) => {
+			entity.c.mapCell.cell.moveTo(entity.c.transform)
+		})
+		this.mapQuery.removed.forEach((entity) => {
+			entity.c.mapCell.cell.destroy()
+			entity.removeComponent(typeof MapCell)
+		})
+	}
 }
