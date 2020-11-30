@@ -1,7 +1,4 @@
 import { Entity, IEntityConfig, World } from 'ape-ecs'
-import Transform from './components/transform'
-import Sprite from './components/sprite'
-import Actor from './components/actor'
 import Hop from './components/hop'
 import { Grid } from '../common/map'
 
