@@ -1,0 +1,8 @@
+.yarn/*
+.vscode/*
+.pnp.js
+**/coverage/*
+**/build/*
+yarn.lock
+**/patches/*
+public/img/*

@@ -39,7 +39,19 @@
     "typescript": "^4.1.2"
   },
   "prettier": {
-    "semi": false
+    "trailingComma": "es5",
+    "useTabs": true,
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.ts",
+        "options": {
+          "parser": "typescript"
+        }
+      }
+    ]
   },
   "homepage": "https://github.com/vegeta897/d-zone#readme",
   "repository": {
