@@ -92,9 +92,9 @@ const directions = {
 }
 
 export function hopActor(actor: Entity, direction?: keyof typeof directions) {
-	if (actor.has(Hop)) return // Already hopping
+	if (actor.has(Hop.typeName)) return // Already hopping
 	actor.addComponent({
-		type: Hop,
+		type: Hop.typeName,
 		key: 'hop',
 		...(directions[direction as keyof typeof directions] || randomHop()),
 	})

@@ -35,7 +35,7 @@ export default class HopSystem extends System {
 				Object.assign(hop, target)
 			} else {
 				faceSpriteToHop(entity.c.sprite as Sprite, hop)
-				entity.removeComponent(typeof Hop)
+				entity.removeComponent(Hop.typeName)
 			}
 		})
 
@@ -51,7 +51,7 @@ export default class HopSystem extends System {
 				})
 				faceSpriteToHop(entity.c.sprite as Sprite, hop)
 				entity.c.mapCell.cell.properties.platform = true
-				entity.removeComponent(typeof Hop)
+				entity.removeComponent(Hop.typeName)
 			} else if (hop.progress === 0 || frame > hop.frame) {
 				hop.frame = frame
 				const sprite = entity.c.sprite

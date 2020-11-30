@@ -44,7 +44,7 @@ export default class SpriteSystem extends System {
 			pixiSprite.zIndex = sprite.zIndex
 			this.view.addChild(pixiSprite)
 			entity.addComponent({
-				type: PixiSprite,
+				type: PixiSprite.typeName,
 				key: 'pixiSprite',
 				sprite: pixiSprite,
 			})
@@ -54,7 +54,7 @@ export default class SpriteSystem extends System {
 			let pixiSprite = entity.c.pixiSprite
 			this.view.removeChild(pixiSprite.value)
 			pixiSprite.value.destroy()
-			entity.removeComponent(typeof PixiSprite)
+			entity.removeComponent(PixiSprite.typeName)
 		})
 	}
 }

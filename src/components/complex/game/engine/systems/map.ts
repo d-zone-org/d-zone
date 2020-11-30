@@ -16,9 +16,9 @@ export default class MapSystem extends System {
 	update(tick: number) {
 		this.mapQuery.added.forEach((entity) => {
 			let { x, y, z } = entity.c.transform
-			let cellType = entity.has(Actor) ? ActorCell : Cell3D
+			let cellType = entity.has(Actor.typeName) ? ActorCell : Cell3D
 			let cell = new cellType({ map: this.map, x, y, z })
-			entity.addComponent({ type: MapCell, cell, key: 'mapCell' })
+			entity.addComponent({ type: MapCell.typeName, cell, key: 'mapCell' })
 			this.map.addCell(cell)
 		})
 		this.mapQuery.execute({ updatedValues: tick }).forEach((entity) => {
@@ -26,7 +26,7 @@ export default class MapSystem extends System {
 		})
 		this.mapQuery.removed.forEach((entity) => {
 			entity.c.mapCell.cell.destroy()
-			entity.removeComponent(typeof MapCell)
+			entity.removeComponent(MapCell.typeName)
 		})
 	}
 }
