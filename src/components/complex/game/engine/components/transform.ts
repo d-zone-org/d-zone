@@ -1,13 +1,13 @@
-import { Component, Types } from 'ecsy'
+import { Component } from 'ape-ecs'
 
-export default class Transform extends Component<Transform> {
+export default class Transform extends Component {
 	x!: number
 	y!: number
 	z!: number
-}
 
-Transform.schema = {
-	x: { type: Types.Number },
-	y: { type: Types.Number },
-	z: { type: Types.Number },
+	static properties = {
+		x: 0,
+		y: 0,
+		z: 0,
+	}
 }

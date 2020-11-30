@@ -1,13 +1,13 @@
-import { Component, Types } from 'ecsy'
+import { Component } from 'ape-ecs'
 
-export default class Actor extends Component<Actor> {
+export default class Actor extends Component {
 	userID!: string
 	username!: string
 	color!: number
-}
 
-Actor.schema = {
-	userID: { type: Types.String },
-	username: { type: Types.String },
-	color: { type: Types.Number },
+	static properties = {
+		userID: '',
+		username: '',
+		color: 0,
+	}
 }

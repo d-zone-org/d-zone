@@ -1,15 +1,15 @@
-import { Component, Types } from 'ecsy'
+import { Component } from 'ape-ecs'
 
-export default class Sprite extends Component<Sprite> {
+export default class Sprite extends Component {
 	x!: number
 	y!: number
 	texture!: string
 	zIndex!: number
-}
 
-Sprite.schema = {
-	x: { type: Types.Number },
-	y: { type: Types.Number },
-	texture: { type: Types.String },
-	zIndex: { type: Types.Number },
+	static properties = {
+		x: 0,
+		y: 0,
+		texture: '',
+		zIndex: 0
+	}
 }
