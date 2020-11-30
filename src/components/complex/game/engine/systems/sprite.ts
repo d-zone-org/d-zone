@@ -10,6 +10,7 @@ export default class SpriteSystem extends System {
 	private view: any
 	private cull: any
 	private spriteQuery!: Query
+
 	init(resources: any, renderer: any) {
 		this.resources = resources
 		this.textures = this.resources.sheet.textures
@@ -18,6 +19,7 @@ export default class SpriteSystem extends System {
 		this.cull = this.renderer.cull
 		this.spriteQuery = this.createQuery().fromAll(Sprite).persist(true, true)
 	}
+
 	update(tick: number) {
 		const updatedSprites = this.spriteQuery.execute({ updatedValues: tick })
 		updatedSprites.forEach((entity) => {

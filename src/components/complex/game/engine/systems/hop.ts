@@ -15,6 +15,7 @@ let hopFrameRate = 2
 export default class HopSystem extends System {
 	private animations: any
 	private hopQuery!: Query
+
 	init(resources: any) {
 		this.animations = resources.sheet.spritesheet.animations
 		hopFrameCount = this.animations['hop-east'].length
@@ -22,6 +23,7 @@ export default class HopSystem extends System {
 			.fromAll(Hop, Transform, Sprite, MapCell)
 			.persist(true)
 	}
+
 	update(_tick: number) {
 		this.hopQuery.added.forEach((entity) => {
 			let hop = entity.c.hop as Hop
@@ -86,11 +88,13 @@ export default class HopSystem extends System {
 		})
 	}
 }
+
 function faceSpriteToHop(sprite: Sprite, hop: Hop) {
 	sprite.update({
 		texture: hopDirectionTextures[hop.direction as direction],
 	})
 }
+
 type direction = 'east' | 'west' | 'south' | 'north'
 const hopDirectionTextures = {
 	east: 'cube:0',
