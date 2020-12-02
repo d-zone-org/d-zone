@@ -1,10 +1,10 @@
-import { Component, Types } from "ecsy"
-import { Cell3D } from "../../common/map"
+import { Component } from 'ape-ecs'
+import { Cell3D } from '../../common/map'
 
-export default class MapCell extends Component<MapCell> {
-  value!: Cell3D
-}
-
-MapCell.schema = {
-  value: { type: Types.Ref },
+export default class MapCell extends Component {
+	cell!: Cell3D
+	static typeName = 'MapCell'
+	static properties = {
+		cell: null,
+	}
 }

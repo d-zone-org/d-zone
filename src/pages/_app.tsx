@@ -1,5 +1,5 @@
-import { AppProps } from "next/app"
-import { createGlobalStyle } from "styled-components"
+import { AppProps } from 'next/app'
+import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -10,10 +10,10 @@ const GlobalStyle = createGlobalStyle`
 `
 
 export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <GlobalStyle />
-      <Component {...pageProps} />
-    </>
-  )
+	return (
+		<>
+			<GlobalStyle />
+			<Component {...pageProps} />
+		</>
+	)
 }

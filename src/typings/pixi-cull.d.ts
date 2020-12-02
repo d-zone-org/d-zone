@@ -1,1 +1,1 @@
-declare module "pixi-cull"
+declare module 'pixi-cull'

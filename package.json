@@ -1,58 +1,64 @@
 {
-  "name": "d-zone",
-  "version": "0.2.0",
-  "description": "An ambient life simulation driven by the user activity within a Discord server",
-  "private": true,
-  "scripts": {
-    "dev": "nodemon",
-    "build": "next build && tsc --project ./server/tsconfig.json",
-    "start": "yarn node dist/index.js",
-    "commit": "gitmoji --commit"
-  },
-  "dependencies": {
-    "dotenv": "^8.2.0",
-    "ecsy": "^0.4.2",
-    "eris": "^0.14.0",
-    "next": "10.0.1",
-    "pixi-cull": "^1.0.0",
-    "pixi-viewport": "^4.17.1",
-    "pixi.js": "npm:pixi.js-legacy@^5.3.3",
-    "pixi.js-legacy": "^5.3.3",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
-    "react-is": "^16.8.0",
-    "styled-components": "^5.2.1",
-    "ws": "^7.4.0",
-    "zod": "^1.11.10"
-  },
-  "devDependencies": {
-    "@types/node": "^14.14.9",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@types/styled-components": "^5",
-    "@types/ws": "^7",
-    "babel-plugin-styled-components": "^1.8.0",
-    "gitmoji-cli": "^3.2.12",
-    "nodemon": "^2.0.6",
-    "prettier": "^2.2.0",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.1.2"
-  },
-  "prettier": {
-    "semi": false
-  },
-  "homepage": "https://github.com/vegeta897/d-zone#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vegeta897/d-zone.git"
-  },
-  "bugs": {
-    "url": "https://github.com/vegeta897/d-zone/issues"
-  },
-  "author": "Devin Spikowski",
-  "contributors": [
-    "Devin Spikowski <vegeta897@gmail.com> (https://pixelatomy.com)",
-    "Sagnik Pradhan <markten6321@gmail.com> (https://sagnikpradhan.github.io)"
-  ],
-  "license": "ISC"
+	"name": "d-zone",
+	"version": "0.2.0",
+	"description": "An ambient life simulation driven by the user activity within a Discord server",
+	"private": true,
+	"scripts": {
+		"dev": "nodemon",
+		"build": "next build && tsc --project ./server/tsconfig.json",
+		"start": "yarn node dist/server/index.js",
+		"commit": "gitmoji --commit"
+	},
+	"dependencies": {
+		"ape-ecs": "^1.3.0",
+		"dotenv": "^8.2.0",
+		"eris": "^0.14.0",
+		"next": "10.0.1",
+		"pixi-cull": "^1.0.0",
+		"pixi-viewport": "^4.17.1",
+		"pixi.js": "npm:pixi.js-legacy@^5.3.3",
+		"pixi.js-legacy": "^5.3.3",
+		"react": "^16.8.0",
+		"react-dom": "^16.8.0",
+		"react-is": "^16.8.0",
+		"styled-components": "^5.2.1",
+		"ws": "^7.4.0",
+		"zod": "^1.11.10"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.12.9",
+		"@babel/preset-typescript": "^7.12.7",
+		"@types/node": "^14.14.9",
+		"@types/react": "^17.0.0",
+		"@types/react-dom": "^17.0.0",
+		"@types/styled-components": "^5",
+		"@types/ws": "^7",
+		"babel-plugin-styled-components": "^1.8.0",
+		"gitmoji-cli": "^3.2.12",
+		"nodemon": "^2.0.6",
+		"prettier": "^2.2.0",
+		"ts-node": "^9.0.0",
+		"typescript": "^4.1.2"
+	},
+	"prettier": {
+		"trailingComma": "es5",
+		"useTabs": true,
+		"tabWidth": 2,
+		"semi": false,
+		"singleQuote": true
+	},
+	"homepage": "https://github.com/vegeta897/d-zone#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/vegeta897/d-zone.git"
+	},
+	"bugs": {
+		"url": "https://github.com/vegeta897/d-zone/issues"
+	},
+	"author": "Devin Spikowski",
+	"contributors": [
+		"Devin Spikowski <vegeta897@gmail.com> (https://pixelatomy.com)",
+		"Sagnik Pradhan <markten6321@gmail.com> (https://sagnikpradhan.github.io)"
+	],
+	"license": "ISC"
 }

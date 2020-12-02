@@ -1,12 +1,12 @@
-import eris from "eris"
-import config from "../utils/config"
+import eris from 'eris'
+import config from '../utils/config'
 
 export default async () => {
-  const client = new eris.Client(config.discordClientToken)
+	const client = new eris.Client(config.discordClientToken)
 
-  client.on("error", (error) => {
-    console.error(error)
-  })
+	client.on('error', (error) => {
+		console.error(error)
+	})
 
-  await client.connect()
+	await client.connect()
 }

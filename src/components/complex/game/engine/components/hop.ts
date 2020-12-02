@@ -1,19 +1,19 @@
-import { Component, Types } from 'ecsy'
+import { Component } from 'ape-ecs'
 
-export default class Hop extends Component<Hop> {
+export default class Hop extends Component {
 	x!: number
 	y!: number
 	z!: number
-	direction!: string
+	direction!: 'east' | 'west' | 'south' | 'north'
 	progress!: number
 	frame!: number
-}
-
-Hop.schema = {
-	x: { type: Types.Number },
-	y: { type: Types.Number },
-	z: { type: Types.Number },
-	direction: { type: Types.String },
-	progress: { type: Types.Number },
-	frame: { type: Types.Number },
+	static typeName = 'Hop'
+	static properties = {
+		x: 0,
+		y: 0,
+		z: 0,
+		direction: null,
+		progress: 0,
+		frame: 0,
+	}
 }
