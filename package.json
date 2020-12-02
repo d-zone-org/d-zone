@@ -26,6 +26,8 @@
 		"zod": "^1.11.10"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.12.9",
+		"@babel/preset-typescript": "^7.12.7",
 		"@types/node": "^14.14.9",
 		"@types/react": "^17.0.0",
 		"@types/react-dom": "^17.0.0",
