@@ -25,6 +25,7 @@ export default class HopSystem extends System {
 	}
 
 	update(_tick: number) {
+		let needRefresh = false
 		this.hopQuery.added.forEach((entity) => {
 			let hop = entity.c.hop as Hop
 			let actorCell = entity.c.mapCell.cell
@@ -35,9 +36,12 @@ export default class HopSystem extends System {
 				Object.assign(hop, target)
 			} else {
 				faceSpriteToHop(entity.c.sprite as Sprite, hop)
-				entity.removeComponent(Hop.typeName)
+				entity.removeComponent(hop)
+				needRefresh = true
 			}
 		})
+		// Refresh hop query if any hops were aborted
+		if (needRefresh) this.hopQuery.refresh()
 
 		this.hopQuery.execute().forEach((entity) => {
 			let hop = entity.c.hop as Hop
@@ -51,7 +55,7 @@ export default class HopSystem extends System {
 				})
 				faceSpriteToHop(entity.c.sprite as Sprite, hop)
 				entity.c.mapCell.cell.properties.platform = true
-				entity.removeComponent(Hop.typeName)
+				entity.removeComponent(hop)
 			} else if (hop.progress === 0 || frame > hop.frame) {
 				hop.frame = frame
 				const sprite = entity.c.sprite

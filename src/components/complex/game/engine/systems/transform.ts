@@ -1,6 +1,6 @@
 import { Query, System } from 'ape-ecs'
-import Sprite from '../components/sprite'
 import Transform from '../components/transform'
+import Sprite from '../components/sprite'
 import { get2dCoordsFromIso, getZIndex } from '../../common/projection'
 
 export default class TransformSystem extends System {
@@ -11,7 +11,8 @@ export default class TransformSystem extends System {
 			.persist(true)
 	}
 	update(tick: number) {
-		let update = (entity: any) => {
+		this.transformQuery.execute().forEach((entity: any) => {
+			if (entity.c.transform._meta.updated !== tick) return
 			let { x, y, z } = entity.c.transform
 			let [newX, newY] = get2dCoordsFromIso(x, y, z)
 			entity.c.sprite.update({
@@ -19,8 +20,6 @@ export default class TransformSystem extends System {
 				y: newY,
 				zIndex: getZIndex(x, y, z),
 			})
-		}
-		this.transformQuery.added.forEach(update)
-		this.transformQuery.execute({ updatedValues: tick })
+		})
 	}
 }

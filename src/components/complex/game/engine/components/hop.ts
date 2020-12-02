@@ -4,7 +4,7 @@ export default class Hop extends Component {
 	x!: number
 	y!: number
 	z!: number
-	direction!: string
+	direction!: 'east' | 'west' | 'south' | 'north'
 	progress!: number
 	frame!: number
 	static typeName = 'Hop'
@@ -12,7 +12,7 @@ export default class Hop extends Component {
 		x: 0,
 		y: 0,
 		z: 0,
-		direction: 'east' || 'west' || 'south' || 'north',
+		direction: null,
 		progress: 0,
 		frame: 0,
 	}

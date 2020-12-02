@@ -1,22 +1,25 @@
 import { Entity, IEntityConfig, World } from 'ape-ecs'
-import Hop from './components/hop'
 import { Grid } from '../common/map'
+import Transform from './components/transform'
+import Sprite from './components/sprite'
+import Actor from './components/actor'
+import Hop from './components/hop'
 
 export function createActor(world: World, grid: Grid): Entity {
 	return world.createEntity({
 		components: [
 			{
-				type: 'Transform',
+				type: Transform.typeName,
 				...grid,
 				key: 'transform',
 			},
 			{
-				type: 'Sprite',
-				texture: 'cube-0',
+				type: Sprite.typeName,
+				texture: 'cube:0',
 				key: 'sprite',
 			},
 			{
-				type: 'Actor',
+				type: Actor.typeName,
 				key: 'actor',
 				userID: randomString([48, 57], 18),
 				username: randomString([32, 126], Math.floor(Math.random() * 12) + 3),

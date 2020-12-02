@@ -33,9 +33,9 @@ export async function initGame(canvas: HTMLCanvasElement) {
 	engine.world.registerSystem('default', TransformSystem)
 	engine.world.registerSystem('default', SpriteSystem, [resources, renderer])
 	console.log('ECSY world initialized!', engine.world)
-	let actors = addActors(engine.world, 1)
+	let actors = addActors(engine.world, 100)
 	setInterval(() => {
 		hopActor(actors[Math.floor(Math.random() * actors.length)])
-	}, 2000)
-	engine.start(1) // Start update loop
+	}, 250)
+	engine.start(60) // Start update loop
 }

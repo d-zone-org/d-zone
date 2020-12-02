@@ -10,6 +10,8 @@ export default class SpriteSystem extends System {
 	private view: any
 	private cull: any
 	private spriteQuery!: Query
+	private spriteAddQuery!: Query
+	private spriteRemoveQuery!: Query
 
 	init(resources: any, renderer: any) {
 		this.resources = resources
@@ -17,12 +19,21 @@ export default class SpriteSystem extends System {
 		this.renderer = renderer
 		this.view = this.renderer.view
 		this.cull = this.renderer.cull
-		this.spriteQuery = this.createQuery().fromAll(Sprite).persist(true, true)
+		this.spriteQuery = this.createQuery().fromAll(Sprite, PixiSprite).persist()
+		this.spriteAddQuery = this.createQuery()
+			.fromAll(Sprite)
+			.not(PixiSprite)
+			.persist()
+		this.spriteRemoveQuery = this.createQuery()
+			.fromAll(PixiSprite)
+			.not(Sprite)
+			.persist()
 	}
 
 	update(tick: number) {
-		const updatedSprites = this.spriteQuery.execute({ updatedValues: tick })
-		updatedSprites.forEach((entity) => {
+		let updatedSprites = 0
+		this.spriteQuery.execute().forEach((entity) => {
+			if (entity.c.sprite._meta.updated !== tick) return
 			let sprite = entity.c.sprite
 			let { sprite: pixiSprite } = entity.c.pixiSprite
 			pixiSprite.setTransform(sprite.x, sprite.y)
@@ -30,12 +41,13 @@ export default class SpriteSystem extends System {
 			pixiSprite.texture = this.textures[sprite.texture]
 			pixiSprite.anchor = pixiSprite.texture.defaultAnchor
 			this.cull.updateObject(pixiSprite)
+			updatedSprites++
 		})
-		if (updatedSprites.size > 0) {
+		if (updatedSprites > 0) {
 			this.cull.cull(this.view.getVisibleBounds())
 		}
 
-		this.spriteQuery.added.forEach((entity) => {
+		this.spriteAddQuery.execute().forEach((entity) => {
 			let sprite = entity.c.sprite
 			let pixiSprite = new PIXI.Sprite(
 				this.resources.sheet.textures[sprite.texture]
@@ -50,11 +62,11 @@ export default class SpriteSystem extends System {
 			})
 		})
 
-		this.spriteQuery.removed.forEach((entity) => {
+		this.spriteRemoveQuery.execute().forEach((entity) => {
 			let pixiSprite = entity.c.pixiSprite
 			this.view.removeChild(pixiSprite.value)
 			pixiSprite.value.destroy()
-			entity.removeComponent(PixiSprite.typeName)
+			entity.removeComponent(pixiSprite)
 		})
 	}
 }
