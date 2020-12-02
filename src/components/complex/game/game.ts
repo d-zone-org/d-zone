@@ -32,7 +32,7 @@ export async function initGame(canvas: HTMLCanvasElement) {
 	engine.world.registerSystem('default', MapSystem, [map])
 	engine.world.registerSystem('default', TransformSystem)
 	engine.world.registerSystem('default', SpriteSystem, [resources, renderer])
-	console.log('ECSY world initialized!', engine.world)
+	console.log('ECS world initialized!', engine.world)
 	let actors = addActors(engine.world, 100)
 	setInterval(() => {
 		hopActor(actors[Math.floor(Math.random() * actors.length)])
