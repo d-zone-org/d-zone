@@ -4,7 +4,7 @@
 
 > An _ambient life simulation_ driven by the user activity within a [Discord](https://discordapp.com) server
 
-[![D-Zone](http://i.imgur.com/PLh059j.gif "Hippity hop!")](https://pixelatomy.com/dzone/)
+[![D-Zone](http://i.imgur.com/PLh059j.gif 'Hippity hop!')](https://pixelatomy.com/dzone/)
 
 > ⚠️ This is the development branch. Check out the [master branch](https://github.com/vegeta897/d-zone/tree/master) for a working release.
 

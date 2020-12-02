@@ -1,36 +1,36 @@
 {
-  "compilerOptions": {
-    "target": "es6",
-    "module": "esnext",
+	"compilerOptions": {
+		"target": "es6",
+		"module": "esnext",
 
-    "lib": ["dom", "dom.iterable", "esnext"],
+		"lib": ["dom", "dom.iterable", "esnext"],
 
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": false,
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": false,
 
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+		"moduleResolution": "node",
+		"esModuleInterop": true,
 
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
 
-    "allowJs": true,
-    "noEmit": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
+		"allowJs": true,
+		"noEmit": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
 
-    "baseUrl": ".",
-    "paths": {
-      "root/*": ["./*"],
-      "web/*": ["./src/*"]
-    }
-  },
+		"baseUrl": ".",
+		"paths": {
+			"root/*": ["./*"],
+			"web/*": ["./src/*"]
+		}
+	},
 
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.json"],
-  "exclude": ["node_modules", ".next", "out", "next.config.js"]
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.json"],
+	"exclude": ["node_modules", ".next", "out", "next.config.js"]
 }
