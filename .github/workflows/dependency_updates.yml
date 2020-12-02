@@ -33,7 +33,7 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3.5.0
         with:
-          commit-message: Update all dependencies
+          commit-message: ⬆️ Update all dependencies
           branch: automatic_dependency_updates
           title: Update all dependencies
           body: An updated update of all NPM dependencies.
