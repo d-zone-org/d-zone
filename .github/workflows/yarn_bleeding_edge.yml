@@ -26,7 +26,7 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3.5.0
         with:
-          commit-message: Update Yarn Version
+          commit-message: ⚡️ Update Yarn Version
           branch: yarn_bleeding_edge
           title: Update Yarn Version
           body: Updated yarn binary from the source.

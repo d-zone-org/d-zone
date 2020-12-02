@@ -1,25 +1,36 @@
 {
 	"compilerOptions": {
-		"target": "es2019",
-		"lib": ["es2019", "dom"],
-		"module": "commonjs",
+		"target": "es6",
+		"module": "esnext",
 
-		"sourceMap": true,
+		"lib": ["dom", "dom.iterable", "esnext"],
 
 		"strict": true,
-
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": false,
 
 		"moduleResolution": "node",
-
 		"esModuleInterop": true,
 
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 
-		"resolveJsonModule": true
-	}
+		"allowJs": true,
+		"noEmit": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+
+		"baseUrl": ".",
+		"paths": {
+			"root/*": ["./*"],
+			"web/*": ["./src/*"]
+		}
+	},
+
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.json"],
+	"exclude": ["node_modules", ".next", "out", "next.config.js"]
 }
