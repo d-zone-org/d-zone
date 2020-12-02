@@ -30,9 +30,9 @@ export default class WheelStepped extends Plugin {
 	private smoothing: { x: number; y: number } | null = null
 	private smoothingCenter: { x: number; y: number } = { x: 0, y: 0 }
 	private readonly parent: Viewport
-	private paused: boolean = false
-	private smoothingCount: number = 0
-	private targetZoomLevel: number = 0
+	private paused = false
+	private smoothingCount = 0
+	private targetZoomLevel = 0
 	constructor(parent: Viewport, options = {}) {
 		super(parent)
 		this.parent = parent
@@ -83,7 +83,7 @@ export default class WheelStepped extends Plugin {
 			return
 		}
 		// @ts-ignore
-		let point = this.parent.input.getPointerPosition(e)
+		const point = this.parent.input.getPointerPosition(e)
 		const sign = this.options.reverse ? -1 : 1
 		const currentZoomLevel = getClosestIndex(
 			this.options.steps,
