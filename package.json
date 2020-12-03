@@ -17,7 +17,6 @@
 		"next": "10.0.1",
 		"pixi-cull": "^1.0.0",
 		"pixi-viewport": "^4.17.1",
-		"pixi.js": "npm:pixi.js-legacy@^5.3.3",
 		"pixi.js-legacy": "^5.3.3",
 		"react": "^16.8.0",
 		"react-dom": "^16.8.0",

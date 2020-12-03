@@ -1,6 +1,9 @@
-// @ts-nocheck
 import { Plugin, Viewport } from 'pixi-viewport'
 import * as PIXI from 'pixi.js-legacy'
+
+interface ClampZoomPlugin extends Plugin {
+	clamp: () => void
+}
 
 const wheelSteppedOptions = {
 	smooth: false,
@@ -24,19 +27,22 @@ export default class WheelStepped extends Plugin {
 		smooth: boolean | number
 		interrupt: boolean
 		reverse: boolean
-		center: null
+		center: null | PIXI.Point
 		steps: number[]
 	}
+
 	private smoothing: { x: number; y: number } | null = null
 	private smoothingCenter: { x: number; y: number } = { x: 0, y: 0 }
-	private readonly parent: Viewport
 	private paused = false
 	private smoothingCount = 0
 	private targetZoomLevel = 0
+
+	private readonly parent: Viewport
+
 	constructor(parent: Viewport, options = {}) {
 		super(parent)
 		this.parent = parent
-		this.options = Object.assign({}, wheelSteppedOptions, options)
+		this.options = { ...wheelSteppedOptions, ...options }
 	}
 
 	down() {
@@ -49,27 +55,28 @@ export default class WheelStepped extends Plugin {
 		if (this.smoothing) {
 			const point = this.smoothingCenter
 			const change = this.smoothing
-			let oldPoint: PIXI.Point
-			if (!this.options.center) {
-				oldPoint = this.parent.toLocal(point)
-			}
+			const oldPoint: PIXI.Point | null = !this.options.center
+				? this.parent.toLocal(point)
+				: null
+
 			this.parent.scale.x += change.x
 			this.parent.scale.y += change.y
 			this.parent.emit('zoomed', { viewport: this.parent, type: 'wheel' })
-			const clamp = this.parent.plugins.get('clamp-zoom')
-			if (clamp) {
-				// @ts-ignore
-				clamp.clamp()
-			}
+
+			const clamp = this.parent.plugins.get('clamp-zoom') as ClampZoomPlugin
+			if (clamp) clamp.clamp()
+
 			if (this.options.center) {
-				this.parent.moveCenter(this.options.center!)
+				this.parent.moveCenter(this.options.center)
 			} else {
-				const newPoint = this.parent.toGlobal(oldPoint!)
+				const newPoint = this.parent.toGlobal(oldPoint as PIXI.Point)
 				this.parent.x += point.x - newPoint.x
 				this.parent.y += point.y - newPoint.y
 			}
+
 			this.parent.emit('moved', { viewport: this.parent, type: 'wheel' })
 			this.smoothingCount++
+
 			if (this.smoothingCount >= this.options.smooth) {
 				this.parent.scale.x = this.options.steps[this.targetZoomLevel]
 				this.parent.scale.y = this.options.steps[this.targetZoomLevel]
@@ -79,59 +86,66 @@ export default class WheelStepped extends Plugin {
 	}
 
 	wheel(e: WheelEvent): boolean | undefined {
-		if (this.paused || this.smoothing) {
-			return
-		}
-		// @ts-ignore
-		const point = this.parent.input.getPointerPosition(e)
+		if (this.paused || this.smoothing) return
+
+		// @ts-expect-error Missing types
+		const inputManager = this.parent.input
+		const point = inputManager.getPointerPosition(e)
 		const sign = this.options.reverse ? -1 : 1
 		const currentZoomLevel = getClosestIndex(
 			this.options.steps,
 			this.parent.scaled
 		)
+
 		this.targetZoomLevel = currentZoomLevel
+
 		if (e.deltaY < 0 && currentZoomLevel < this.options.steps.length - 1) {
 			this.targetZoomLevel += sign
 		}
+
 		if (e.deltaY > 0 && currentZoomLevel > 0) {
 			this.targetZoomLevel -= sign
 		}
+
 		const targetScale = this.options.steps[this.targetZoomLevel]
+
 		if (typeof this.options.smooth === 'number') {
 			this.smoothing = {
 				x: (targetScale - this.parent.scale.x) / this.options.smooth,
 				y: (targetScale - this.parent.scale.y) / this.options.smooth,
 			}
+
 			this.smoothingCount = 0
 			this.smoothingCenter = point
 		} else {
-			let oldPoint
-			if (!this.options.center) {
-				oldPoint = this.parent.toLocal(point)
-			}
+			const oldPoint = !this.options.center ? this.parent.toLocal(point) : null
+
 			this.parent.scale.x = targetScale
 			this.parent.scale.y = targetScale
+
 			this.parent.emit('zoomed', { viewport: this.parent, type: 'wheel' })
-			const clamp = this.parent.plugins.get('clamp-zoom')
-			if (clamp) {
-				// @ts-ignore
-				clamp.clamp()
-			}
+
+			const clamp = this.parent.plugins.get('clamp-zoom') as ClampZoomPlugin
+			if (clamp) clamp.clamp()
+
 			if (this.options.center) {
-				this.parent.moveCenter(this.options.center!)
+				this.parent.moveCenter(this.options.center)
 			} else if (oldPoint) {
 				const newPoint = this.parent.toGlobal(oldPoint)
 				this.parent.x += point.x - newPoint.x
 				this.parent.y += point.y - newPoint.y
 			}
 		}
+
 		this.parent.emit('moved', { viewport: this.parent, type: 'wheel' })
 		this.parent.emit('wheel', {
 			wheel: { dx: e.deltaX, dy: e.deltaY, dz: e.deltaZ },
 			event: e,
 			viewport: this.parent,
 		})
-		// @ts-ignore
-		return !this.parent.options.passiveWheel
+
+		// @ts-expect-error Missing types
+		const parentViewportOptions = this.parent.options
+		return !parentViewportOptions.passiveWheel
 	}
 }
