@@ -13,8 +13,8 @@ export default class TransformSystem extends System {
 	update(tick: number) {
 		this.transformQuery.execute().forEach((entity: any) => {
 			if (entity.c.transform._meta.updated !== tick) return
-			let { x, y, z } = entity.c.transform
-			let [newX, newY] = get2dCoordsFromIso(x, y, z)
+			const { x, y, z } = entity.c.transform
+			const [newX, newY] = get2dCoordsFromIso(x, y, z)
 			entity.c.sprite.update({
 				x: newX,
 				y: newY,

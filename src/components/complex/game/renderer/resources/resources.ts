@@ -8,7 +8,7 @@ export default class Resources {
 	}
 
 	async load() {
-		let loader: any = await runLoader()
+		const loader: any = await runLoader()
 		Object.keys(loader).forEach((resourceKey) => {
 			if (resourceKey === './img/sprites.json') this.sheet = loader[resourceKey]
 		})

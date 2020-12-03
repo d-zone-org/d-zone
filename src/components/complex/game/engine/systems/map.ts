@@ -25,9 +25,9 @@ export default class MapSystem extends System {
 
 	update(tick: number) {
 		this.mapAddQuery.execute().forEach((entity) => {
-			let { x, y, z } = entity.c.transform
-			let cellType = entity.has(Actor.typeName) ? ActorCell : Cell3D
-			let cell = new cellType({ map: this.map, x, y, z })
+			const { x, y, z } = entity.c.transform
+			const cellType = entity.has(Actor.typeName) ? ActorCell : Cell3D
+			const cell = new cellType({ map: this.map, x, y, z })
 			entity.addComponent({ type: MapCell.typeName, cell, key: 'mapCell' })
 			this.map.addCell(cell)
 		})

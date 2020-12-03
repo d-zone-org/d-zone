@@ -12,11 +12,11 @@ function parseSheet(sheet: any, next: () => void) {
 	if (sheet.extension === 'json') {
 		sheet.onComplete.once((res: any) => {
 			if (!res.data) return
-			let animations: any = {}
+			const animations: any = {}
 			for (let frameKey of Object.keys(res.data.frames as any)) {
-				let layer = frameKey.split(':')[0]
-				let frame = res.data.frames![frameKey as keyof typeof res.data.frames]
-				let config: FrameConfig =
+				const layer = frameKey.split(':')[0]
+				const frame = res.data.frames![frameKey as keyof typeof res.data.frames]
+				const config: FrameConfig =
 					spriteConfig.frames[layer as keyof typeof spriteConfig.frames]
 				frame.sourceSize.w = config.w
 				frame.sourceSize.h = config.h
@@ -49,7 +49,7 @@ export async function runLoader() {
 	return new Promise((resolve, reject) => {
 		loader.load((_loader, resources) => {
 			Object.keys(resources).forEach((resourceKey) => {
-				let resource = resources[resourceKey]
+				const resource = resources[resourceKey]
 				if (resource && resource.error) reject(resource.error)
 			})
 			resolve(resources)

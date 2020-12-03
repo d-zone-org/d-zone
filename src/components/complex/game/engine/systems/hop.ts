@@ -10,7 +10,7 @@ import {
 } from 'web/art/sprite-config.json'
 
 let hopFrameCount: number
-let hopFrameRate = 2
+const hopFrameRate = 2
 
 export default class HopSystem extends System {
 	private animations: any
@@ -27,9 +27,9 @@ export default class HopSystem extends System {
 	update(_tick: number) {
 		let needRefresh = false
 		this.hopQuery.added.forEach((entity) => {
-			let hop = entity.c.hop as Hop
-			let actorCell = entity.c.mapCell.cell
-			let target = actorCell.getHopTarget(hop)
+			const hop = entity.c.hop as Hop
+			const actorCell = entity.c.mapCell.cell
+			const target = actorCell.getHopTarget(hop)
 			if (target) {
 				actorCell.reserveTarget(target)
 				actorCell.properties.platform = false
@@ -44,8 +44,8 @@ export default class HopSystem extends System {
 		if (needRefresh) this.hopQuery.refresh()
 
 		this.hopQuery.execute().forEach((entity) => {
-			let hop = entity.c.hop as Hop
-			let frame = Math.floor(hopFrameCount * hop.progress)
+			const hop = entity.c.hop as Hop
+			const frame = Math.floor(hopFrameCount * hop.progress)
 			if (hop.progress >= 1) {
 				const { x, y, z } = entity.c.transform
 				entity.c.transform.update({
@@ -68,7 +68,7 @@ export default class HopSystem extends System {
 						zIndex: sprite.zIndex + 0.01,
 					})
 				}
-				let zDepthOffsetIndex = hopZDepthOffsets.frames.indexOf(hop.frame)
+				const zDepthOffsetIndex = hopZDepthOffsets.frames.indexOf(hop.frame)
 				if (zDepthOffsetIndex >= 0) {
 					// Adjust z-depth while hopping
 					sprite.update({
@@ -79,8 +79,8 @@ export default class HopSystem extends System {
 				}
 				if (hop.z !== 0) {
 					// Raise or lower sprite while hopping up/down
-					let yOffsets = hop.z > 0 ? hopUpYOffsets : hopDownYOffsets
-					let yOffsetIndex = yOffsets.frames.indexOf(hop.frame)
+					const yOffsets = hop.z > 0 ? hopUpYOffsets : hopDownYOffsets
+					const yOffsetIndex = yOffsets.frames.indexOf(hop.frame)
 					if (yOffsetIndex >= 0) {
 						sprite.update({
 							y: sprite.y + yOffsets.values[yOffsetIndex],

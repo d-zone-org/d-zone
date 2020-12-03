@@ -34,8 +34,8 @@ export default class SpriteSystem extends System {
 		let updatedSprites = 0
 		this.spriteQuery.execute().forEach((entity) => {
 			if (entity.c.sprite._meta.updated !== tick) return
-			let sprite = entity.c.sprite
-			let { sprite: pixiSprite } = entity.c.pixiSprite
+			const sprite = entity.c.sprite
+			const { sprite: pixiSprite } = entity.c.pixiSprite
 			pixiSprite.setTransform(sprite.x, sprite.y)
 			pixiSprite.zIndex = sprite.zIndex
 			pixiSprite.texture = this.textures[sprite.texture]
@@ -48,8 +48,8 @@ export default class SpriteSystem extends System {
 		}
 
 		this.spriteAddQuery.execute().forEach((entity) => {
-			let sprite = entity.c.sprite
-			let pixiSprite = new PIXI.Sprite(
+			const sprite = entity.c.sprite
+			const pixiSprite = new PIXI.Sprite(
 				this.resources.sheet.textures[sprite.texture]
 			)
 			pixiSprite.setTransform(sprite.x, sprite.y)
@@ -63,7 +63,7 @@ export default class SpriteSystem extends System {
 		})
 
 		this.spriteRemoveQuery.execute().forEach((entity) => {
-			let pixiSprite = entity.c.pixiSprite
+			const pixiSprite = entity.c.pixiSprite
 			this.view.removeChild(pixiSprite.value)
 			pixiSprite.value.destroy()
 			entity.removeComponent(pixiSprite)
