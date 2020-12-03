@@ -16,7 +16,7 @@
 		"eris": "^0.14.0",
 		"next": "10.0.1",
 		"pixi-cull": "SagnikPradhan/pixi-cull#feat/types",
-		"pixi-viewport": "^4.17.1",
+		"pixi-viewport": "SagnikPradhan/pixi-viewport#feat/types",
 		"pixi.js-legacy": "^5.3.3",
 		"react": "^16.8.0",
 		"react-dom": "^16.8.0",

@@ -88,7 +88,6 @@ export default class WheelStepped extends Plugin {
 	wheel(e: WheelEvent): boolean | undefined {
 		if (this.paused || this.smoothing) return
 
-		// @ts-expect-error Missing types
 		const inputManager = this.parent.input
 		const point = inputManager.getPointerPosition(e)
 		const sign = this.options.reverse ? -1 : 1
@@ -144,7 +143,6 @@ export default class WheelStepped extends Plugin {
 			viewport: this.parent,
 		})
 
-		// @ts-expect-error Missing types
 		const parentViewportOptions = this.parent.options
 		return !parentViewportOptions.passiveWheel
 	}
