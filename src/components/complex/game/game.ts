@@ -28,7 +28,9 @@ export async function initGame(canvas: HTMLCanvasElement) {
 	engine.world.registerComponent(Hop)
 	engine.world.registerComponent(MapCell)
 	engine.world.registerComponent(PixiSprite)
-	engine.world.registerSystem('default', HopSystem, [resources])
+	engine.world.registerSystem('default', HopSystem, [
+		resources.sheet.spritesheet.animations,
+	])
 	engine.world.registerSystem('default', MapSystem, [map])
 	engine.world.registerSystem('default', TransformSystem)
 	engine.world.registerSystem('default', SpriteSystem, [resources, renderer])

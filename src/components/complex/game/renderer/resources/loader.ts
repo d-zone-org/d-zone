@@ -12,7 +12,7 @@ function parseSheet(sheet: any, next: () => void) {
 	if (sheet.extension === 'json') {
 		sheet.onComplete.once((res: any) => {
 			if (!res.data) return
-			const animations: any = {}
+			const animations: Record<string, string[]> = {}
 			for (let frameKey of Object.keys(res.data.frames as any)) {
 				const layer = frameKey.split(':')[0]
 				const frame = res.data.frames![frameKey as keyof typeof res.data.frames]

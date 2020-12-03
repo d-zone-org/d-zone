@@ -86,12 +86,16 @@ export function createGridPool(
 	return pool
 }
 
-const directions = {
+type direction = 'east' | 'west' | 'south' | 'north'
+const directions: Record<
+	string,
+	{ x: number; y: number; z: number; direction: direction }
+> = {
 	east: { x: 1, y: 0, z: 0, direction: 'east' },
 	west: { x: -1, y: 0, z: 0, direction: 'west' },
 	south: { y: 1, x: 0, z: 0, direction: 'south' },
 	north: { y: -1, x: 0, z: 0, direction: 'north' },
-}
+} as const
 
 export function hopActor(actor: Entity, direction?: keyof typeof directions) {
 	if (actor.has(Hop.typeName)) return // Already hopping
@@ -102,7 +106,7 @@ export function hopActor(actor: Entity, direction?: keyof typeof directions) {
 	})
 }
 
-export function randomHop(): object {
+export function randomHop(): typeof directions[keyof typeof directions] {
 	const direction = Object.keys(directions)[Math.floor(Math.random() * 4)]
 	return directions[direction as keyof typeof directions]
 }

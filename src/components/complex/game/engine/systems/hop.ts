@@ -8,16 +8,17 @@ import {
 	hopDownYOffsets,
 	hopZDepthOffsets,
 } from 'web/art/sprite-config.json'
+import { Animations } from '../../typings'
 
 let hopFrameCount: number
 const hopFrameRate = 2
 
 export default class HopSystem extends System {
-	private animations: any
+	private animations!: Animations
 	private hopQuery!: Query
 
-	init(resources: any) {
-		this.animations = resources.sheet.spritesheet.animations
+	init(animations: Animations) {
+		this.animations = animations
 		hopFrameCount = this.animations['hop-east'].length
 		this.hopQuery = this.createQuery()
 			.fromAll(Hop, Transform, Sprite, MapCell)

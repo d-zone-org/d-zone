@@ -1,7 +1,8 @@
 import { initLoader, runLoader } from './loader'
+import { Animations, IResources } from '../../typings'
 
-export default class Resources {
-	sheet: any = {}
+export default class Resources implements IResources {
+	sheet!: { spritesheet: { animations: Animations } }
 
 	constructor() {
 		initLoader()
