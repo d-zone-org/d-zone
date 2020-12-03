@@ -4142,7 +4142,7 @@ __metadata:
     gitmoji-cli: ^3.2.12
     next: 10.0.1
     nodemon: ^2.0.6
-    pixi-cull: ^1.0.0
+    pixi-cull: "SagnikPradhan/pixi-cull#feat/types"
     pixi-viewport: ^4.17.1
     pixi.js-legacy: ^5.3.3
     prettier: ^2.2.0
@@ -7965,12 +7965,12 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"pixi-cull@npm:^1.0.0":
+"pixi-cull@SagnikPradhan/pixi-cull#feat/types":
   version: 1.0.0
-  resolution: "pixi-cull@npm:1.0.0"
+  resolution: "pixi-cull@https://github.com/SagnikPradhan/pixi-cull.git#commit=4613387aab37a8002a98aa54529e49ee206e7ad7"
   peerDependencies:
     pixi.js: ^5.0.0-rc.2
-  checksum: cc6144bf1b6b907540b8759322bc02a6273e3b81e61c8e2ab6936c353384fe6680888fa429857a9f01e50de4a92209751931c627b98dadafe67208991359d6b1
+  checksum: 7f4f6f7dadad1aaae8b9116670809ea50b67c56e6aea29448b09a359161bc23cf39b7ee07c8b205cde811f2a521e02911d058b44c25474a919438675cbfed50d
   languageName: node
   linkType: hard
 

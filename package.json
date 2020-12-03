@@ -15,7 +15,7 @@
 		"dotenv": "^8.2.0",
 		"eris": "^0.14.0",
 		"next": "10.0.1",
-		"pixi-cull": "^1.0.0",
+		"pixi-cull": "SagnikPradhan/pixi-cull#feat/types",
 		"pixi-viewport": "^4.17.1",
 		"pixi.js-legacy": "^5.3.3",
 		"react": "^16.8.0",
