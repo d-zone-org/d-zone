@@ -43,6 +43,7 @@ export default class HopSystem extends System {
 		// Refresh hop query if any hops were aborted
 		if (needRefresh) this.hopQuery.refresh()
 
+		// TODO: Hop system should not be handling animation, make an animation component & system
 		this.hopQuery.execute().forEach((entity) => {
 			const hop = entity.c.hop as Hop
 			const frame = Math.floor(hopFrameCount * hop.progress)
