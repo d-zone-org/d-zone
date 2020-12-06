@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js-legacy'
 import SpatialHash from 'pixi-cull/dist/spatial-hash'
-import { Viewport } from 'pixi-viewport'
+import { BuiltInPlugins, Viewport } from 'pixi-viewport'
 
 import WheelStepped from './wheel-stepped'
 
@@ -10,9 +10,13 @@ PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
 
 const zoomLevels = [0.25, 0.5, 1, 2, 3, 4, 5, 6, 8] as const
 
+interface Plugins extends BuiltInPlugins {
+	'wheel-stepped': WheelStepped
+}
+
 export default class Renderer {
 	app: PIXI.Application
-	view: Viewport
+	view: Viewport<Plugins>
 	cull: SpatialHash
 
 	constructor(canvas: HTMLCanvasElement) {

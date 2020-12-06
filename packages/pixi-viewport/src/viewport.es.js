@@ -294,6 +294,7 @@ const PLUGIN_ORDER = [
 
 /**
  * Use this to access current plugins or add user-defined plugins
+ * @template {BuiltInPlugins} Plugins
  */
 class PluginManager {
 	/**
@@ -309,9 +310,9 @@ class PluginManager {
 	/**
 	 * Inserts a named plugin or a user plugin into the viewport
 	 * default plugin order: 'drag', 'pinch', 'wheel', 'follow', 'mouse-edges', 'decelerate', 'bounce', 'snap-zoom', 'clamp-zoom', 'snap', 'clamp'
-	 * @param {keyof BuiltInPlugins} name name of plugin
+	 * @param {keyof Plugins} name - name of plugin
 	 * @param {Plugin} plugin - instantiated Plugin class
-	 * @param {number} index to insert userPlugin (otherwise inserts it at the end)
+	 * @param {number} index - to insert userPlugin (otherwise inserts it at the end)
 	 */
 	add(name, plugin, index = PLUGIN_ORDER.length) {
 		this.plugins[name] = plugin
@@ -325,10 +326,10 @@ class PluginManager {
 
 	/**
 	 * get plugin
-	 * @template {keyof BuiltInPlugins} T extends keyof BuiltInPlugins
-	 * @param {T} name of plugin
-	 * @param {boolean} [ignorePaused] return null if plugin is paused
-	 * @return {BuiltInPlugins[T] | null}
+	 * @template {keyof Plugins} T extends keyof Plugins
+	 * @param {T} name - of plugin
+	 * @param {boolean} [ignorePaused] - return null if plugin is paused
+	 * @return {Plugins[T] | null}
 	 */
 	get(name, ignorePaused) {
 		if (ignorePaused) {
@@ -374,7 +375,7 @@ class PluginManager {
 
 	/**
 	 * removes installed plugin
-	 * @param {keyof BuiltInPlugins} name name of plugin
+	 * @param {keyof Plugins} name name of plugin
 	 */
 	remove(name) {
 		if (this.plugins[name]) {
@@ -386,7 +387,7 @@ class PluginManager {
 
 	/**
 	 * pause plugin
-	 * @param {keyof BuiltInPlugins} name name of plugin
+	 * @param {keyof Plugins} name name of plugin
 	 */
 	pause(name) {
 		if (this.plugins[name]) {
@@ -396,7 +397,7 @@ class PluginManager {
 
 	/**
 	 * resume plugin
-	 * @param {keyof BuiltInPlugins} name name of plugin
+	 * @param {keyof Plugins} name name of plugin
 	 */
 	resume(name) {
 		if (this.plugins[name]) {
@@ -3093,6 +3094,7 @@ const viewportOptions = {
 
 /**
  * Main class to use when creating a Viewport
+ * @template {BuiltInPlugins} Plugins
  */
 class Viewport extends Container {
 	/**
@@ -3182,7 +3184,7 @@ class Viewport extends Container {
 
 		/**
 		 * Use this to add user plugins or access existing plugins (e.g., to pause, resume, or remove them)
-		 * @type {PluginManager}
+		 * @type {PluginManager<Plugins>}
 		 */
 		this.plugins = new PluginManager(this)
 	}

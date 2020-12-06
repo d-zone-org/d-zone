@@ -375,8 +375,8 @@ export class Plugin {
     /**
      * @param {Viewport} parent
      */
-    constructor(parent: Viewport);
-    parent: Viewport;
+    constructor(parent: Viewport<any>);
+    parent: Viewport<any>;
     paused: boolean;
     /** called when plugin is removed */
     destroy(): void;
@@ -420,8 +420,9 @@ export class Plugin {
 }
 /**
  * Main class to use when creating a Viewport
+ * @template {BuiltInPlugins} Plugins
  */
-export class Viewport extends PIXI.Container {
+export class Viewport<Plugins extends BuiltInPlugins> extends PIXI.Container {
     /**
      * @param {ViewportOptions} [options]
      * @fires clicked
@@ -481,9 +482,9 @@ export class Viewport extends PIXI.Container {
     input: InputManager;
     /**
      * Use this to add user plugins or access existing plugins (e.g., to pause, resume, or remove them)
-     * @type {PluginManager}
+     * @type {PluginManager<Plugins>}
      */
-    plugins: PluginManager;
+    plugins: PluginManager<Plugins>;
     /**
      * update viewport on each frame
      * by default, you do not need to call this unless you set options.noTicker=true
@@ -572,7 +573,7 @@ export class Viewport extends PIXI.Container {
      * @param {number} [y]
      * @return {Viewport} this
      */
-    moveCenter(...args: any[]): Viewport;
+    moveCenter(...args: any[]): Viewport<any>;
     set corner(arg: PIXI.Point);
     /**
      * top-left corner of Viewport
@@ -585,7 +586,7 @@ export class Viewport extends PIXI.Container {
      * @param {number} [y]
      * @return {Viewport} this
      */
-    moveCorner(x: (number | PIXI.Point), y?: number, ...args: any[]): Viewport;
+    moveCorner(x: (number | PIXI.Point), y?: number, ...args: any[]): Viewport<any>;
     /**
      * get how many world pixels fit in screen's width
      * @type {number}
@@ -634,7 +635,7 @@ export class Viewport extends PIXI.Container {
      * @param {boolean} [noClamp] whether to disable clamp-zoom
      * @returns {Viewport} this
      */
-    fitWidth(width?: number, center?: boolean, scaleY?: boolean, noClamp?: boolean): Viewport;
+    fitWidth(width?: number, center?: boolean, scaleY?: boolean, noClamp?: boolean): Viewport<any>;
     /**
      * change zoom so the height fits in the viewport
      * @param {number} [height=this.worldHeight] in world coordinates
@@ -643,13 +644,13 @@ export class Viewport extends PIXI.Container {
      * @param {boolean} [noClamp] whether to disable clamp-zoom
      * @returns {Viewport} this
      */
-    fitHeight(height?: number, center?: boolean, scaleX?: boolean, noClamp?: boolean): Viewport;
+    fitHeight(height?: number, center?: boolean, scaleX?: boolean, noClamp?: boolean): Viewport<any>;
     /**
      * change zoom so it fits the entire world in the viewport
      * @param {boolean} center maintain the same center of the screen after zoom
      * @returns {Viewport} this
      */
-    fitWorld(center: boolean): Viewport;
+    fitWorld(center: boolean): Viewport<any>;
     /**
      * change zoom so it fits the size or the entire world in the viewport
      * @param {boolean} [center] maintain the same center of the screen after zoom
@@ -657,28 +658,28 @@ export class Viewport extends PIXI.Container {
      * @param {number} [height=this.worldHeight] desired height
      * @returns {Viewport} this
      */
-    fit(center?: boolean, width?: number, height?: number): Viewport;
+    fit(center?: boolean, width?: number, height?: number): Viewport<any>;
     /**
      * zoom viewport to specific value
      * @param {number} scale value (e.g., 1 would be 100%, 0.25 would be 25%)
      * @param {boolean} [center] maintain the same center of the screen after zoom
      * @return {Viewport} this
      */
-    setZoom(scale: number, center?: boolean): Viewport;
+    setZoom(scale: number, center?: boolean): Viewport<any>;
     /**
      * zoom viewport by a certain percent (in both x and y direction)
      * @param {number} percent change (e.g., 0.25 would increase a starting scale of 1.0 to 1.25)
      * @param {boolean} [center] maintain the same center of the screen after zoom
      * @return {Viewport} this
      */
-    zoomPercent(percent: number, center?: boolean): Viewport;
+    zoomPercent(percent: number, center?: boolean): Viewport<any>;
     /**
      * zoom viewport by increasing/decreasing width by a certain number of pixels
      * @param {number} change in pixels
      * @param {boolean} [center] maintain the same center of the screen after zoom
      * @return {Viewport} this
      */
-    zoom(change: number, center?: boolean): Viewport;
+    zoom(change: number, center?: boolean): Viewport<any>;
     /**
      * changes scale of viewport and maintains center of viewport
      * @type {number}
@@ -688,7 +689,7 @@ export class Viewport extends PIXI.Container {
     /**
      * @param {SnapZoomOptions} options
      */
-    snapZoom(options: SnapZoomOptions): Viewport;
+    snapZoom(options: SnapZoomOptions): Viewport<Plugins>;
     /**
      * is container out of world bounds
      * @returns {OutOfBounds}
@@ -725,7 +726,7 @@ export class Viewport extends PIXI.Container {
      * @param {DragOptions} [options]
      * @returns {Viewport} this
      */
-    drag(options?: DragOptions): Viewport;
+    drag(options?: DragOptions): Viewport<any>;
     /**
      * clamp to world boundaries or other provided boundaries
      * NOTES:
@@ -734,14 +735,14 @@ export class Viewport extends PIXI.Container {
      * @param {ClampOptions} [options]
      * @returns {Viewport} this
      */
-    clamp(options?: ClampOptions): Viewport;
+    clamp(options?: ClampOptions): Viewport<any>;
     /**
      * decelerate after a move
      * NOTE: this fires 'moved' event during deceleration
      * @param {DecelerateOptions} [options]
      * @return {Viewport} this
      */
-    decelerate(options?: DecelerateOptions): Viewport;
+    decelerate(options?: DecelerateOptions): Viewport<any>;
     /**
      * bounce on borders
      * NOTES:
@@ -772,13 +773,13 @@ export class Viewport extends PIXI.Container {
         };
         ease: string | Function;
         underflow: string;
-    }): Viewport;
+    }): Viewport<any>;
     /**
      * enable pinch to zoom and two-finger touch to drag
      * @param {PinchOptions} [options]
      * @return {Viewport} this
      */
-    pinch(options?: PinchOptions): Viewport;
+    pinch(options?: PinchOptions): Viewport<any>;
     /**
      * snap to a point
      * @param {number} x
@@ -786,7 +787,7 @@ export class Viewport extends PIXI.Container {
      * @param {SnapOptions} [options]
      * @return {Viewport} this
      */
-    snap(x: number, y: number, options?: SnapOptions): Viewport;
+    snap(x: number, y: number, options?: SnapOptions): Viewport<any>;
     /**
      * follow a target
      * NOTES:
@@ -798,19 +799,19 @@ export class Viewport extends PIXI.Container {
      * @param {FollowOptions} [options]
      * @returns {Viewport} this
      */
-    follow(target: PIXI.DisplayObject, options?: FollowOptions): Viewport;
+    follow(target: PIXI.DisplayObject, options?: FollowOptions): Viewport<any>;
     /**
      * zoom using mouse wheel
      * @param {WheelOptions} [options]
      * @return {Viewport} this
      */
-    wheel(options?: WheelOptions): Viewport;
+    wheel(options?: WheelOptions): Viewport<any>;
     /**
      * animate the position and/or scale of the viewport
      * @param {AnimateOptions} options
      * @returns {Viewport} this
      */
-    animate(options: any): Viewport;
+    animate(options: any): Viewport<any>;
     /**
      * enable clamping of zoom to constraints
      * @description
@@ -826,13 +827,13 @@ export class Viewport extends PIXI.Container {
      * @param {ClampZoomOptions} [options]
      * @return {Viewport} this
      */
-    clampZoom(options?: ClampZoomOptions): Viewport;
+    clampZoom(options?: ClampZoomOptions): Viewport<any>;
     /**
      * Scroll viewport when mouse hovers near one of the edges or radius-distance from center of screen.
      * NOTE: fires 'moved' event
      * @param {MouseEdgesOptions} [options]
      */
-    mouseEdges(options?: MouseEdgesOptions): Viewport;
+    mouseEdges(options?: MouseEdgesOptions): Viewport<Plugins>;
     set pause(arg: boolean);
     /**
      * pause viewport (including animation updates such as decelerate)
@@ -860,7 +861,7 @@ declare class Drag extends Plugin {
      * @param {Viewport} parent
      * @param {DragOptions} options
      */
-    constructor(parent: Viewport, options?: DragOptions);
+    constructor(parent: Viewport<any>, options?: DragOptions);
     options: {
         direction: string;
         pressDrag: boolean;
@@ -1071,7 +1072,7 @@ declare class SnapZoom extends Plugin {
      * @event snap-zoom-end(Viewport) emitted each time fit reaches its target
      * @event snap-zoom-end(Viewport) emitted each time fit reaches its target
      */
-    constructor(parent: Viewport, options?: SnapZoomOptions);
+    constructor(parent: Viewport<any>, options?: SnapZoomOptions);
     options: {
         width: number;
         height: number;
@@ -1276,32 +1277,33 @@ declare class InputManager {
  */
 /**
  * Use this to access current plugins or add user-defined plugins
+ * @template {BuiltInPlugins} Plugins
  */
-declare class PluginManager {
+declare class PluginManager<Plugins extends BuiltInPlugins> {
     /**
      * instantiated by Viewport
      * @param {Viewport} viewport
      */
-    constructor(viewport: Viewport);
-    viewport: Viewport;
+    constructor(viewport: Viewport<any>);
+    viewport: Viewport<any>;
     list: any[];
     plugins: {};
     /**
      * Inserts a named plugin or a user plugin into the viewport
      * default plugin order: 'drag', 'pinch', 'wheel', 'follow', 'mouse-edges', 'decelerate', 'bounce', 'snap-zoom', 'clamp-zoom', 'snap', 'clamp'
-     * @param {keyof BuiltInPlugins} name name of plugin
+     * @param {keyof Plugins} name - name of plugin
      * @param {Plugin} plugin - instantiated Plugin class
-     * @param {number} index to insert userPlugin (otherwise inserts it at the end)
+     * @param {number} index - to insert userPlugin (otherwise inserts it at the end)
      */
-    add(name: keyof BuiltInPlugins, plugin: Plugin, index?: number): void;
+    add(name: keyof Plugins, plugin: Plugin, index?: number): void;
     /**
      * get plugin
-     * @template {keyof BuiltInPlugins} T extends keyof BuiltInPlugins
-     * @param {T} name of plugin
-     * @param {boolean} [ignorePaused] return null if plugin is paused
-     * @return {BuiltInPlugins[T] | null}
+     * @template {keyof Plugins} T extends keyof Plugins
+     * @param {T} name - of plugin
+     * @param {boolean} [ignorePaused] - return null if plugin is paused
+     * @return {Plugins[T] | null}
      */
-    get<T extends "wheel" | "decelerate" | "bounce" | "drag" | "pinch" | "follow" | "mouse-edges" | "snap-zoom" | "clamp-zoom" | "snap" | "clamp">(name: T, ignorePaused?: boolean): BuiltInPlugins[T];
+    get<T extends keyof Plugins>(name: T, ignorePaused?: boolean): Plugins[T];
     /**
      * update all active plugins
      * @ignore
@@ -1319,19 +1321,19 @@ declare class PluginManager {
     reset(): void;
     /**
      * removes installed plugin
-     * @param {keyof BuiltInPlugins} name name of plugin
+     * @param {keyof Plugins} name name of plugin
      */
-    remove(name: keyof BuiltInPlugins): void;
+    remove(name: keyof Plugins): void;
     /**
      * pause plugin
-     * @param {keyof BuiltInPlugins} name name of plugin
+     * @param {keyof Plugins} name name of plugin
      */
-    pause(name: keyof BuiltInPlugins): void;
+    pause(name: keyof Plugins): void;
     /**
      * resume plugin
-     * @param {keyof BuiltInPlugins} name name of plugin
+     * @param {keyof Plugins} name name of plugin
      */
-    resume(name: keyof BuiltInPlugins): void;
+    resume(name: keyof Plugins): void;
     /**
      * sort plugins according to PLUGIN_ORDER
      * @ignore
