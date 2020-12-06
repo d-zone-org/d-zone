@@ -3,10 +3,10 @@ import Sprite from '../components/sprite'
 import PixiSprite from '../components/pixi-sprite'
 import * as PIXI from 'pixi.js-legacy'
 import type Renderer from '../../renderer/renderer'
+import type { Plugins } from '../../renderer/renderer'
 import type { Viewport } from 'pixi-viewport'
 import type SpatialHash from 'pixi-cull/dist/spatial-hash'
 import type { Textures } from '../../typings'
-import { Plugins } from '../../renderer/wheel-stepped'
 
 export default class SpriteSystem extends System {
 	private renderer!: Renderer

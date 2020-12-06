@@ -1,5 +1,6 @@
-import { BuiltInPlugins, Plugin, Viewport } from 'pixi-viewport'
+import { Plugin, Viewport } from 'pixi-viewport'
 import * as PIXI from 'pixi.js-legacy'
+import { Plugins } from './renderer'
 
 const wheelSteppedOptions = {
 	smooth: false,
@@ -18,7 +19,7 @@ function getClosestIndex(arr: number[], target: number): number {
 	return closest
 }
 
-export class WheelStepped extends Plugin {
+export default class WheelStepped extends Plugin {
 	private options: {
 		smooth: boolean | number
 		interrupt: boolean
@@ -138,8 +139,4 @@ export class WheelStepped extends Plugin {
 		const parentViewportOptions = this.parent.options
 		return !parentViewportOptions.passiveWheel
 	}
-}
-
-export interface Plugins extends BuiltInPlugins {
-	'wheel-stepped': WheelStepped
 }

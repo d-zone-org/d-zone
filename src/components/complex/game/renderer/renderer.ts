@@ -1,8 +1,12 @@
 import * as PIXI from 'pixi.js-legacy'
 import SpatialHash from 'pixi-cull/dist/spatial-hash'
-import { Viewport } from 'pixi-viewport'
+import { Viewport, BuiltInPlugins } from 'pixi-viewport'
 
-import { Plugins, WheelStepped } from './wheel-stepped'
+import WheelStepped from './wheel-stepped'
+
+export interface Plugins extends BuiltInPlugins {
+	'wheel-stepped': WheelStepped
+}
 
 // Global PIXI settings
 PIXI.settings.RESOLUTION = 1
