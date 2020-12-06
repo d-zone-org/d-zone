@@ -1,6 +1,5 @@
 import * as PIXI from 'pixi.js-legacy'
 import spriteConfig from 'web/art/sprite-config.json'
-import { LoaderResource } from 'pixi.js-legacy'
 
 interface FrameConfig {
 	w: number
@@ -9,10 +8,10 @@ interface FrameConfig {
 	anchor?: { x: number; y: number }
 }
 
-function parseSheet(sheet: LoaderResource, next: () => void) {
+function parseSheet(sheet: PIXI.LoaderResource, next: () => void) {
 	if (sheet.extension === 'json') {
 		// @ts-expect-error "onComplete" event emitter does, in fact, exist
-		sheet.onComplete.once((res: LoaderResource) => {
+		sheet.onComplete.once((res: PIXI.LoaderResource) => {
 			if (!res.data) return
 			const animations: Record<string, string[]> = {}
 			for (const frameKey of Object.keys(res.data.frames)) {
@@ -48,7 +47,7 @@ export function initLoader() {
 }
 
 export async function runLoader(): Promise<
-	Partial<Record<string, LoaderResource>>
+	Partial<Record<string, PIXI.LoaderResource>>
 > {
 	return new Promise((resolve, reject) => {
 		loader.load((_loader, resources) => {
