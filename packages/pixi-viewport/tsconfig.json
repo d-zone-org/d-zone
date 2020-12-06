@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"rootDir": "src",
+		"declarationDir": "@types",
+
+		"allowJs": true,
+		"declaration": true,
+		"emitDeclarationOnly": true,
+
+		"moduleResolution": "node",
+		"module": "es6",
+		"composite": true,
+		"skipLibCheck": true
+	}
+}

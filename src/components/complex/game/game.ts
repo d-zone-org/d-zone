@@ -28,12 +28,17 @@ export async function initGame(canvas: HTMLCanvasElement) {
 	engine.world.registerComponent(Hop)
 	engine.world.registerComponent(MapCell)
 	engine.world.registerComponent(PixiSprite)
-	engine.world.registerSystem('default', HopSystem, [resources])
+	engine.world.registerSystem('default', HopSystem, [
+		resources.sheet.spritesheet.animations,
+	])
 	engine.world.registerSystem('default', MapSystem, [map])
 	engine.world.registerSystem('default', TransformSystem)
-	engine.world.registerSystem('default', SpriteSystem, [resources, renderer])
+	engine.world.registerSystem('default', SpriteSystem, [
+		resources.sheet.textures,
+		renderer,
+	])
 	console.log('ECS world initialized!', engine.world)
-	let actors = addActors(engine.world, 100)
+	const actors = addActors(engine.world, 100)
 	setInterval(() => {
 		hopActor(actors[Math.floor(Math.random() * actors.length)])
 	}, 250)

@@ -1,16 +1,16 @@
 import { Query, System } from 'ape-ecs'
-import { Cell3D } from '../../common/map'
+import { Cell3D, Map3D } from '../../common/map'
 import Transform from '../components/transform'
 import MapCell from '../components/map-cell'
 import Actor from '../components/actor'
 import ActorCell from '../../common/actor-cell'
 
 export default class MapSystem extends System {
-	private map: any
+	private map!: Map3D
 	private mapQuery!: Query
 	private mapAddQuery!: Query
 	private mapRemoveQuery!: Query
-	init(map: any) {
+	init(map: Map3D) {
 		this.map = map
 		this.mapQuery = this.createQuery().fromAll(Transform, MapCell).persist()
 		this.mapAddQuery = this.createQuery()
@@ -25,9 +25,9 @@ export default class MapSystem extends System {
 
 	update(tick: number) {
 		this.mapAddQuery.execute().forEach((entity) => {
-			let { x, y, z } = entity.c.transform
-			let cellType = entity.has(Actor.typeName) ? ActorCell : Cell3D
-			let cell = new cellType({ map: this.map, x, y, z })
+			const { x, y, z } = entity.c.transform
+			const cellType = entity.has(Actor.typeName) ? ActorCell : Cell3D
+			const cell = new cellType({ map: this.map, x, y, z })
 			entity.addComponent({ type: MapCell.typeName, cell, key: 'mapCell' })
 			this.map.addCell(cell)
 		})

@@ -10,13 +10,18 @@ export default class ActorCell extends Cell3D {
 	}
 
 	getHopTarget(target: Grid): Grid | false {
-		if (this.getNeighbor({ x: 0, y: 0, z: 1 }).properties.solid) return false
-		let newTarget = { ...target }
-		for (let z of ActorCell.hopZLevels) {
+		const aboveNeighbor = this.getNeighbor({ x: 0, y: 0, z: 1 })
+		if (!aboveNeighbor || aboveNeighbor.properties.solid) return false
+		const newTarget = { ...target }
+		for (const z of ActorCell.hopZLevels) {
 			newTarget.z = z
+			const newTargetCell = this.getNeighbor(newTarget)
+			const underNewTarget = this.getNeighbor({ ...target, z: newTarget.z - 1 })
 			if (
-				!this.getNeighbor(newTarget).properties.solid &&
-				this.getNeighbor({ ...target, z: newTarget.z - 1 }).properties.platform
+				newTargetCell &&
+				!newTargetCell.properties.solid &&
+				underNewTarget &&
+				underNewTarget.properties.platform
 			) {
 				return newTarget
 			}
