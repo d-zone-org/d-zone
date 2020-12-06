@@ -9,7 +9,7 @@
 
 		"moduleResolution": "node",
 		"module": "es6",
-
+		"composite": true,
 		"skipLibCheck": true
 	}
 }
