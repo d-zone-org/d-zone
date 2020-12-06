@@ -12,7 +12,7 @@ export default async () => {
 
 	return {
 		requestHandler: (req: http.IncomingMessage, res: http.ServerResponse) => {
-			const parsedUrl = url.parse(req.url!, true)
+			const parsedUrl = url.parse(req.url as string, true)
 			return nextRequestHandler(req, res, parsedUrl)
 		},
 	}

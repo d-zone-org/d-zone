@@ -17,7 +17,7 @@
 		"project": "./tsconfig.json"
 	},
 	"plugins": ["react", "@typescript-eslint"],
-	"ignorePatterns": ["dist/**/*.js"],
+	"ignorePatterns": ["dist/**/*.js", "packages/pixi-viewport/**/*"],
 	"rules": {
 		"@typescript-eslint/explicit-module-boundary-types": "off"
 	}

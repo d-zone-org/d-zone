@@ -10,13 +10,16 @@
 		"commit": "gitmoji --commit",
 		"format": "prettier --write ."
 	},
+	"workspaces": [
+		"packages/**/*"
+	],
 	"dependencies": {
 		"ape-ecs": "^1.3.0",
 		"dotenv": "^8.2.0",
 		"eris": "^0.14.0",
 		"next": "10.0.1",
 		"pixi-cull": "SagnikPradhan/pixi-cull#feat/types",
-		"pixi-viewport": "SagnikPradhan/pixi-viewport#feat/types",
+		"pixi-viewport": "workspace:packages/pixi-viewport",
 		"pixi.js-legacy": "^5.3.3",
 		"react": "^16.8.0",
 		"react-dom": "^16.8.0",

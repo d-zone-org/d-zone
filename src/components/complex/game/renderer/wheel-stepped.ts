@@ -1,10 +1,6 @@
 import { Plugin, Viewport } from 'pixi-viewport'
 import * as PIXI from 'pixi.js-legacy'
 
-interface ClampZoomPlugin extends Plugin {
-	clamp: () => void
-}
-
 const wheelSteppedOptions = {
 	smooth: false,
 	interrupt: false,
@@ -33,15 +29,11 @@ export default class WheelStepped extends Plugin {
 
 	private smoothing: { x: number; y: number } | null = null
 	private smoothingCenter: { x: number; y: number } = { x: 0, y: 0 }
-	private paused = false
 	private smoothingCount = 0
 	private targetZoomLevel = 0
 
-	private readonly parent: Viewport
-
 	constructor(parent: Viewport, options = {}) {
 		super(parent)
-		this.parent = parent
 		this.options = { ...wheelSteppedOptions, ...options }
 	}
 
@@ -63,7 +55,7 @@ export default class WheelStepped extends Plugin {
 			this.parent.scale.y += change.y
 			this.parent.emit('zoomed', { viewport: this.parent, type: 'wheel' })
 
-			const clamp = this.parent.plugins.get('clamp-zoom') as ClampZoomPlugin
+			const clamp = this.parent.plugins.get('clamp-zoom')
 			if (clamp) clamp.clamp()
 
 			if (this.options.center) {
@@ -124,7 +116,7 @@ export default class WheelStepped extends Plugin {
 
 			this.parent.emit('zoomed', { viewport: this.parent, type: 'wheel' })
 
-			const clamp = this.parent.plugins.get('clamp-zoom') as ClampZoomPlugin
+			const clamp = this.parent.plugins.get('clamp-zoom')
 			if (clamp) clamp.clamp()
 
 			if (this.options.center) {
