@@ -25,7 +25,7 @@ export default class HopSystem extends System {
 			.persist(true)
 	}
 
-	update(_tick: number) {
+	update(/*tick: number*/) {
 		let needRefresh = false
 		this.hopQuery.added.forEach((entity) => {
 			const hop = entity.c.hop as Hop

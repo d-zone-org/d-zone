@@ -2,20 +2,22 @@ import { Query, System } from 'ape-ecs'
 import Sprite from '../components/sprite'
 import PixiSprite from '../components/pixi-sprite'
 import * as PIXI from 'pixi.js-legacy'
+import type Renderer from '../../renderer/renderer'
+import type { Viewport } from 'pixi-viewport'
+import type SpatialHash from 'pixi-cull/dist/spatial-hash'
+import type { Textures } from '../../typings'
 
 export default class SpriteSystem extends System {
-	private resources: any
-	private renderer: any
-	private textures: any
-	private view: any
-	private cull: any
+	private renderer!: Renderer
+	private textures!: Textures
+	private view!: Viewport
+	private cull!: SpatialHash
 	private spriteQuery!: Query
 	private spriteAddQuery!: Query
 	private spriteRemoveQuery!: Query
 
-	init(resources: any, renderer: any) {
-		this.resources = resources
-		this.textures = this.resources.sheet.textures
+	init(textures: Textures, renderer: Renderer) {
+		this.textures = textures
 		this.renderer = renderer
 		this.view = this.renderer.view
 		this.cull = this.renderer.cull
@@ -49,9 +51,7 @@ export default class SpriteSystem extends System {
 
 		this.spriteAddQuery.execute().forEach((entity) => {
 			const sprite = entity.c.sprite
-			const pixiSprite = new PIXI.Sprite(
-				this.resources.sheet.textures[sprite.texture]
-			)
+			const pixiSprite = new PIXI.Sprite(this.textures[sprite.texture])
 			pixiSprite.setTransform(sprite.x, sprite.y)
 			pixiSprite.zIndex = sprite.zIndex
 			this.view.addChild(pixiSprite)

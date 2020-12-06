@@ -1,4 +1,4 @@
-import { Query, System } from 'ape-ecs'
+import { Entity, Query, System } from 'ape-ecs'
 import Transform from '../components/transform'
 import Sprite from '../components/sprite'
 import { get2dCoordsFromIso, getZIndex } from '../../common/projection'
@@ -11,7 +11,7 @@ export default class TransformSystem extends System {
 			.persist(true)
 	}
 	update(tick: number) {
-		this.transformQuery.execute().forEach((entity: any) => {
+		this.transformQuery.execute().forEach((entity: Entity) => {
 			if (entity.c.transform._meta.updated !== tick) return
 			const { x, y, z } = entity.c.transform
 			const [newX, newY] = get2dCoordsFromIso(x, y, z)

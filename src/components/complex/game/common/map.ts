@@ -38,21 +38,24 @@ export class Cell3D {
 		return this.x + ':' + this.y + ':' + this.z
 	}
 	moveTo(grid: Grid): void {
-		this.map!.clearXYZ(this)
+		if (!this.map) return
+		this.map.clearXYZ(this)
 		Object.assign(this, grid)
-		this.map!.addCell(this)
+		this.map.addCell(this)
 	}
-	getNeighbor(grid: Grid): Cell3D {
-		return this.map!.getXYZ({
+	getNeighbor(grid: Grid): Cell3D | void {
+		if (!this.map) return
+		return this.map.getXYZ({
 			x: this.x + grid.x,
 			y: this.y + grid.y,
 			z: this.z + grid.z,
 		})
 	}
 	spread(grid: Grid, cellProperties?: Cell3DProperties): void {
-		this.map!.addCell(
+		if (!this.map) return
+		this.map.addCell(
 			new Cell3D({
-				map: this.map!,
+				map: this.map,
 				x: this.x + grid.x,
 				y: this.y + grid.y,
 				z: this.z + grid.z,
@@ -62,7 +65,8 @@ export class Cell3D {
 		)
 	}
 	destroy(): void {
-		this.map!.clearXYZ(this)
+		if (!this.map) return
+		this.map.clearXYZ(this)
 	}
 }
 const EmptyCell = new Cell3D({
