@@ -1,4 +1,4 @@
-import Renderer from './renderer/renderer'
+import Renderer from './renderer'
 import Resources from './renderer/resources/resources'
 import Engine from './engine'
 import { Map3D } from './common/map'
