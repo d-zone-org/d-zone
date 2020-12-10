@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js-legacy'
 import Renderer from './renderer'
 import Resources from './renderer/resources/resources'
 import Engine from './engine'
@@ -28,5 +29,11 @@ export default class Game {
 
 		// Start update loop
 		this.engine.start(60)
+	}
+
+	exit() {
+		this.renderer.app.stop()
+		this.engine.stop()
+		PIXI.utils.clearTextureCache()
 	}
 }

@@ -7,6 +7,7 @@ export const GameComponent = () => {
 
 	useEffect(() => {
 		if (canvasRef.current) game.init(canvasRef.current).catch(console.error)
+		return () => game.exit()
 	}, [canvasRef])
 
 	return <canvas ref={canvasRef} />
