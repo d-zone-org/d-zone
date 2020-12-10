@@ -45,36 +45,35 @@ export default class WheelStepped extends Plugin {
 	}
 
 	update() {
-		if (this.smoothing) {
-			const point = this.smoothingCenter
-			const change = this.smoothing
-			const oldPoint: PIXI.Point | null = !this.options.center
-				? this.parent.toLocal(point)
-				: null
+		if (!this.smoothing) return
+		const point = this.smoothingCenter
+		const change = this.smoothing
+		const oldPoint: PIXI.Point | null = !this.options.center
+			? this.parent.toLocal(point)
+			: null
 
-			this.parent.scale.x += change.x
-			this.parent.scale.y += change.y
-			this.parent.emit('zoomed', { viewport: this.parent, type: 'wheel' })
+		this.parent.scale.x += change.x
+		this.parent.scale.y += change.y
+		this.parent.emit('zoomed', { viewport: this.parent, type: 'wheel' })
 
-			const clamp = this.parent.plugins.get('clamp-zoom')
-			if (clamp) clamp.clamp()
+		const clamp = this.parent.plugins.get('clamp-zoom')
+		if (clamp) clamp.clamp()
 
-			if (this.options.center) {
-				this.parent.moveCenter(this.options.center)
-			} else {
-				const newPoint = this.parent.toGlobal(oldPoint as PIXI.Point)
-				this.parent.x += point.x - newPoint.x
-				this.parent.y += point.y - newPoint.y
-			}
+		if (this.options.center) {
+			this.parent.moveCenter(this.options.center)
+		} else {
+			const newPoint = this.parent.toGlobal(oldPoint as PIXI.Point)
+			this.parent.x += point.x - newPoint.x
+			this.parent.y += point.y - newPoint.y
+		}
 
-			this.parent.emit('moved', { viewport: this.parent, type: 'wheel' })
-			this.smoothingCount++
+		this.parent.emit('moved', { viewport: this.parent, type: 'wheel' })
+		this.smoothingCount++
 
-			if (this.smoothingCount >= this.options.smooth) {
-				this.parent.scale.x = this.options.steps[this.targetZoomLevel]
-				this.parent.scale.y = this.options.steps[this.targetZoomLevel]
-				this.smoothing = null
-			}
+		if (this.smoothingCount >= this.options.smooth) {
+			this.parent.scale.x = this.options.steps[this.targetZoomLevel]
+			this.parent.scale.y = this.options.steps[this.targetZoomLevel]
+			this.smoothing = null
 		}
 	}
 
