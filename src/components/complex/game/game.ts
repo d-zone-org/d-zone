@@ -6,16 +6,11 @@ import { registerECS } from './engine/register-ecs'
 import { seedGame } from './engine/benchmark'
 
 export default class Game {
-	renderer?: Renderer
-	resources: Resources
-	map: Map3D
-	engine: Engine
+	resources = new Resources()
+	map = new Map3D()
+	engine = new Engine()
 
-	constructor() {
-		this.resources = new Resources()
-		this.map = new Map3D()
-		this.engine = new Engine()
-	}
+	renderer?: Renderer
 
 	async init(canvas: HTMLCanvasElement) {
 		// Create renderer
