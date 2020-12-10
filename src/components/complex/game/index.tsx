@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import Game from './game'
 
-export type GameType = React.FC
+export const GameComponent = () => {
+	const canvasRef = useRef<HTMLCanvasElement>(null)
+	const game = new Game()
 
-export const GameComponent: GameType = () => {
-	return <canvas ref={(elem: HTMLCanvasElement) => elem && new Game(elem)} />
+	useEffect(() => {
+		if (canvasRef.current) game.init(canvasRef.current)
+	}, [canvasRef])
+
+	return <canvas ref={canvasRef} />
 }
 
 export default GameComponent
