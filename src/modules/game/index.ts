@@ -1,4 +1,3 @@
-import * as PIXI from 'pixi.js-legacy'
 import Renderer from './renderer'
 import Resources from './renderer/resources/resources'
 import Engine from './engine'
@@ -32,8 +31,7 @@ export default class Game {
 	}
 
 	exit() {
-		this.renderer.app.stop()
+		this.renderer.stop()
 		this.engine.stop()
-		PIXI.utils.clearTextureCache()
 	}
 }

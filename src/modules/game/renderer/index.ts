@@ -68,4 +68,9 @@ export default class Renderer {
 			}
 		})
 	}
+
+	stop() {
+		this.app.stop()
+		PIXI.utils.clearTextureCache()
+	}
 }
