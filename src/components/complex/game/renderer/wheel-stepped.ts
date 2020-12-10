@@ -1,6 +1,6 @@
 import { Plugin, Viewport } from 'pixi-viewport'
 import * as PIXI from 'pixi.js-legacy'
-import { Plugins } from './'
+import { Plugins } from '.'
 
 const wheelSteppedOptions = {
 	smooth: false,

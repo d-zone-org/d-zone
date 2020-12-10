@@ -4,7 +4,7 @@ import Transform from './components/transform'
 import Sprite from './components/sprite'
 import Actor from './components/actor'
 import Hop from './components/hop'
-import Engine from './'
+import Engine from '.'
 
 export function createActor(world: World, grid: Grid): Entity {
 	return world.createEntity({
