@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import Game from './game'
+import Game from '../../modules/game'
 
 export const GameComponent = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null)

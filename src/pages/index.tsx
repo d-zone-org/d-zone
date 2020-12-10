@@ -15,7 +15,7 @@ const Title = styled.h1`
 	font-family: sans-serif;
 `
 
-const Game = dynamic(() => import('web/components/complex/game'), {
+const Game = dynamic(() => import('root/src/components/game'), {
 	ssr: false,
 })
 
