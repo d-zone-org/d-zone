@@ -6,15 +6,14 @@ import { registerECS } from './engine/register-ecs'
 import { seedGame } from './engine/benchmark'
 
 export default class Game {
+	renderer = new Renderer()
 	resources = new Resources()
 	map = new Map3D()
 	engine = new Engine()
 
-	renderer?: Renderer
-
 	async init(canvas: HTMLCanvasElement) {
-		// Create renderer
-		this.renderer = new Renderer(canvas)
+		// Initialize renderer with canvas
+		this.renderer.init(canvas)
 		console.log('Renderer created', this.renderer.app.stage)
 
 		await this.resources.load()

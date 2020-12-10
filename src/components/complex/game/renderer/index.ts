@@ -15,11 +15,11 @@ PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
 const zoomLevels = [0.25, 0.5, 1, 2, 3, 4, 5, 6, 8] as const
 
 export default class Renderer {
-	app: PIXI.Application
-	view: Viewport<Plugins>
-	cull: SpatialHash
+	app!: PIXI.Application
+	view!: Viewport<Plugins>
+	cull!: SpatialHash
 
-	constructor(canvas: HTMLCanvasElement) {
+	init(canvas: HTMLCanvasElement) {
 		this.app = new PIXI.Application({
 			backgroundColor: 0x1d171f,
 			view: canvas,
