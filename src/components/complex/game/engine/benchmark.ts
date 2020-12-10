@@ -4,6 +4,7 @@ import Transform from './components/transform'
 import Sprite from './components/sprite'
 import Actor from './components/actor'
 import Hop from './components/hop'
+import Engine from 'web/components/complex/game/engine/engine'
 
 export function createActor(world: World, grid: Grid): Entity {
 	return world.createEntity({
@@ -135,4 +136,11 @@ export function hopTest(world: World) {
 			}, 1500)
 		}, i * 300)
 	}
+}
+
+export function seedGame(engine: Engine) {
+	const actors = addActors(engine.world, 100)
+	setInterval(() => {
+		hopActor(actors[Math.floor(Math.random() * actors.length)])
+	}, 250)
 }
