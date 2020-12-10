@@ -1,6 +1,6 @@
 import Renderer from './renderer/renderer'
 import Resources from './renderer/resources/resources'
-import Engine from './engine/engine'
+import Engine from './engine'
 import { Map3D } from './common/map'
 import { registerECS } from './engine/register-ecs'
 import { seedGame } from './engine/benchmark'
@@ -19,7 +19,7 @@ export default class Game {
 		this.map = new Map3D()
 		this.engine = new Engine()
 
-		this.init()
+		this.init().catch(console.error)
 	}
 
 	async init() {

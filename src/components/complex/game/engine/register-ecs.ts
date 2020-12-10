@@ -11,7 +11,7 @@ import SpriteSystem from './systems/sprite'
 import Renderer from 'web/components/complex/game/renderer/renderer'
 import Resources from 'web/components/complex/game/renderer/resources/resources'
 import { Map3D } from 'web/components/complex/game/common/map'
-import Engine from 'web/components/complex/game/engine/engine'
+import Engine from './'
 
 export function registerECS(
 	engine: Engine,
