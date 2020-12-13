@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js-legacy'
-// import type SpatialHash from 'pixi-cull/code/spatial-hash'
 import { SpatialHash } from 'pixi-cull'
 import { Viewport, BuiltInPlugins } from 'pixi-viewport'
 
