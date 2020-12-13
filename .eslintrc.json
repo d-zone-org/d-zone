@@ -20,6 +20,7 @@
 	"ignorePatterns": [
 		"dist/**/*.js",
 		"packages/pixi-viewport/**/*",
+		"packages/pixi-cull/**/*",
 		"next.config.js"
 	],
 	"rules": {

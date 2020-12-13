@@ -1,5 +1,4 @@
-export = Simple;
-declare class Simple {
+export class Simple {
     /**
      * creates a simple cull
      * @param {object} [options]
@@ -104,10 +103,7 @@ declare class Simple {
      */
     stats(): SimpleStats;
 }
-declare namespace Simple {
-    export { SimpleStats };
-}
-type SimpleStats = {
+export type SimpleStats = {
     total: number;
     visible: number;
     culled: number;

@@ -1,5 +1,4 @@
-export = SpatialHash;
-declare class SpatialHash {
+export class SpatialHash {
     /**
      * creates a spatial-hash cull
      * @param {object} [options]
@@ -173,22 +172,19 @@ declare class SpatialHash {
      */
     getSparseness(AABB?: AABB): number;
 }
-declare namespace SpatialHash {
-    export { Stats, Bounds, AABB };
-}
-type AABB = {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-};
-type Stats = {
+export type Stats = {
     total: number;
     visible: number;
     culled: number;
 };
-type Bounds = {
+export type Bounds = {
     xStart: number;
     yStart: number;
     xEnd: number;
+};
+export type AABB = {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
 };

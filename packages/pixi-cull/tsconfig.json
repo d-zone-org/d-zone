@@ -1,15 +1,15 @@
 {
-  "compilerOptions": {
-    "rootDir": "code",
-    "declarationDir": "@types",
+	"compilerOptions": {
+		"rootDir": "code",
+		"declarationDir": "@types",
 
-    "allowJs": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
+		"allowJs": true,
+		"declaration": true,
+		"emitDeclarationOnly": true,
 
-    "moduleResolution": "node",
-    "module": "commonjs",
-    "composite": true,
-    "skipLibCheck": true
-  }
+		"moduleResolution": "node",
+		"module": "es6",
+		"composite": true,
+		"skipLibCheck": true
+	}
 }
