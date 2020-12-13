@@ -1,0 +1,7 @@
+'use strict';
+
+module.exports = {
+    Simple: require('./simple'),
+    SpatialHash: require('./spatial-hash')
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL2NvZGUvaW5kZXguanMiXSwibmFtZXMiOlsibW9kdWxlIiwiZXhwb3J0cyIsIlNpbXBsZSIsInJlcXVpcmUiLCJTcGF0aWFsSGFzaCJdLCJtYXBwaW5ncyI6Ijs7QUFBQUEsT0FBT0MsT0FBUCxHQUFpQjtBQUNiQyxZQUFRQyxRQUFRLFVBQVIsQ0FESztBQUViQyxpQkFBYUQsUUFBUSxnQkFBUjtBQUZBLENBQWpCIiwiZmlsZSI6ImluZGV4LmpzIiwic291cmNlc0NvbnRlbnQiOlsibW9kdWxlLmV4cG9ydHMgPSB7XG4gICAgU2ltcGxlOiByZXF1aXJlKCcuL3NpbXBsZScpLFxuICAgIFNwYXRpYWxIYXNoOiByZXF1aXJlKCcuL3NwYXRpYWwtaGFzaCcpXG59Il19
