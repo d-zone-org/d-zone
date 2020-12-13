@@ -16,8 +16,6 @@ export enum Direction {
 	South,
 	East,
 	West,
-	Up,
-	Down,
 }
 
 export interface Grid {

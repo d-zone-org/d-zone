@@ -63,7 +63,7 @@ export default class HopSystem extends System {
 				hop.frame = frame
 				const sprite = entity.c.sprite
 				sprite.update({
-					texture: this.animations[`hop-${hop.direction}`][hop.frame]
+					texture: this.animations[getAnimationName(hop.direction)][hop.frame]
 						.textureCacheIds[0],
 				})
 				if (hop.progress === 0) {
@@ -123,5 +123,18 @@ function getZDepthOffset(direction: Direction): number[] {
 			return hopZDepthOffsets.north
 		case Direction.West:
 			return hopZDepthOffsets.west
+	}
+}
+
+function getAnimationName(direction: Direction): string {
+	switch (direction) {
+		case Direction.East:
+			return 'hop-east'
+		case Direction.South:
+			return 'hop-south'
+		case Direction.North:
+			return 'hop-north'
+		case Direction.West:
+			return 'hop-west'
 	}
 }
