@@ -4142,8 +4142,9 @@ __metadata:
     gitmoji-cli: ^3.2.12
     next: 10.0.1
     nodemon: ^2.0.6
-    pixi-cull: "SagnikPradhan/pixi-cull#feat/types"
+    pixi-cull: "workspace:packages/pixi-cull"
     pixi-viewport: "workspace:packages/pixi-viewport"
+    pixi.js: ^5.3.3
     pixi.js-legacy: ^5.3.3
     prettier: ^2.2.0
     react: ^16.8.0
@@ -7965,14 +7966,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"pixi-cull@SagnikPradhan/pixi-cull#feat/types":
-  version: 1.0.0
-  resolution: "pixi-cull@https://github.com/SagnikPradhan/pixi-cull.git#commit=4613387aab37a8002a98aa54529e49ee206e7ad7"
+"pixi-cull@workspace:packages/pixi-cull":
+  version: 0.0.0-use.local
+  resolution: "pixi-cull@workspace:packages/pixi-cull"
   peerDependencies:
     pixi.js: ^5.0.0-rc.2
-  checksum: 7f4f6f7dadad1aaae8b9116670809ea50b67c56e6aea29448b09a359161bc23cf39b7ee07c8b205cde811f2a521e02911d058b44c25474a919438675cbfed50d
-  languageName: node
-  linkType: hard
+  languageName: unknown
+  linkType: soft
 
 "pixi-viewport@workspace:packages/pixi-viewport":
   version: 0.0.0-use.local
@@ -8005,7 +8005,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"pixi.js@npm:5.3.3, pixi.js@npm:^5.2.0":
+"pixi.js@npm:5.3.3, pixi.js@npm:^5.2.0, pixi.js@npm:^5.3.3":
   version: 5.3.3
   resolution: "pixi.js@npm:5.3.3"
   dependencies:
