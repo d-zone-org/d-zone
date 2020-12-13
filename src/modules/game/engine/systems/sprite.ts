@@ -5,7 +5,7 @@ import * as PIXI from 'pixi.js-legacy'
 import type Renderer from '../../renderer'
 import type { Plugins } from '../../renderer'
 import type { Viewport } from 'pixi-viewport'
-import type SpatialHash from 'pixi-cull/dist/spatial-hash'
+import type { SpatialHash } from 'pixi-cull'
 import type { Textures } from '../../typings'
 
 export default class SpriteSystem extends System {
@@ -34,6 +34,12 @@ export default class SpriteSystem extends System {
 	}
 
 	update(tick: number) {
+		this.updatePixiSprites(tick)
+		this.addPixiSprites()
+		this.removePixiSprites()
+	}
+
+	updatePixiSprites(tick: number) {
 		let updatedSprites = 0
 		this.spriteQuery.execute().forEach((entity) => {
 			if (entity.c.sprite._meta.updated !== tick) return
@@ -49,7 +55,9 @@ export default class SpriteSystem extends System {
 		if (updatedSprites > 0) {
 			this.cull.cull(this.view.getVisibleBounds())
 		}
+	}
 
+	addPixiSprites() {
 		this.spriteAddQuery.execute().forEach((entity) => {
 			const sprite = entity.c.sprite
 			const pixiSprite = new PIXI.Sprite(this.textures[sprite.texture])
@@ -62,7 +70,9 @@ export default class SpriteSystem extends System {
 				sprite: pixiSprite,
 			})
 		})
+	}
 
+	removePixiSprites() {
 		this.spriteRemoveQuery.execute().forEach((entity) => {
 			const pixiSprite = entity.c.pixiSprite
 			this.view.removeChild(pixiSprite.value)
