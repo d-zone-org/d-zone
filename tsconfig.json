@@ -31,7 +31,10 @@
 		}
 	},
 
-	"references": [{ "path": "./packages/pixi-viewport" }],
+	"references": [
+		{ "path": "./packages/pixi-viewport" },
+		{ "path": "./packages/pixi-cull" }
+	],
 
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.json"],
 	"exclude": ["node_modules", ".next", "out", "next.config.js"]

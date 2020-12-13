@@ -5,7 +5,7 @@ import * as PIXI from 'pixi.js-legacy'
 import type Renderer from '../../renderer'
 import type { Plugins } from '../../renderer'
 import type { Viewport } from 'pixi-viewport'
-import type SpatialHash from 'pixi-cull/dist/spatial-hash'
+import type { SpatialHash } from 'pixi-cull'
 import type { Textures } from '../../typings'
 
 export default class SpriteSystem extends System {
