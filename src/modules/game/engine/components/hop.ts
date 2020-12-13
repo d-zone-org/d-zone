@@ -1,10 +1,11 @@
 import { Component } from 'ape-ecs'
+import { Direction } from '../../typings'
 
 export default class Hop extends Component {
 	x!: number
 	y!: number
 	z!: number
-	direction!: 'east' | 'west' | 'south' | 'north'
+	direction!: Direction
 	progress!: number
 	frame!: number
 	static typeName = 'Hop'

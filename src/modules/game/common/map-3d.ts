@@ -1,7 +1,9 @@
-import { Cell3D, Grid } from 'web/modules/game/common/cell-3d'
+import { Cell3D } from './cell-3d'
+import { Grid } from '../typings'
 
 const FLOOR = 0
 
+// TODO: Rewrite the map system
 export default class Map3D {
 	private data: Map<string, Cell3D>
 	constructor() {

@@ -10,3 +10,22 @@ export type Sheet = {
 }
 export type Animations = Record<string, PIXI.BaseTexture[]>
 export type Textures = Record<string, PIXI.Texture>
+
+export enum Direction {
+	North,
+	South,
+	East,
+	West,
+	Up,
+	Down,
+}
+
+export interface Grid {
+	x: number
+	y: number
+	z: number
+}
+
+export interface GridDirection extends Grid {
+	direction: Direction
+}

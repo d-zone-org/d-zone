@@ -1,12 +1,14 @@
 import { Entity, IEntityConfig, World } from 'ape-ecs'
 import Map3D from '../common/map-3d'
-import { Cell3D, Grid } from '../common/cell-3d'
+import { Cell3D } from '../common/cell-3d'
 import Transform from './components/transform'
 import Sprite from './components/sprite'
 import Actor from './components/actor'
 import Hop from './components/hop'
 import MapCell from './components/map-cell'
 import Engine from '.'
+import { DIRECTIONS } from '../constants'
+import { Grid, GridDirection } from '../typings'
 
 export function createActor(world: World, grid: Grid, map: Map3D): Entity {
 	return world.createEntity({
@@ -98,52 +100,41 @@ export function createGridPool(
 	return pool
 }
 
-type direction = 'east' | 'west' | 'south' | 'north'
-const directions: Record<
-	string,
-	{ x: number; y: number; z: number; direction: direction }
-> = {
-	east: { x: 1, y: 0, z: 0, direction: 'east' },
-	west: { x: -1, y: 0, z: 0, direction: 'west' },
-	south: { y: 1, x: 0, z: 0, direction: 'south' },
-	north: { y: -1, x: 0, z: 0, direction: 'north' },
-} as const
-
-export function hopActor(actor: Entity, direction?: keyof typeof directions) {
+export function hopActor(actor: Entity, direction?: GridDirection) {
 	if (actor.has(Hop.typeName)) return // Already hopping
 	actor.addComponent({
 		type: Hop.typeName,
 		key: 'hop',
-		...(directions[direction as keyof typeof directions] || randomHop()),
+		...(direction || randomHop()),
 	})
 }
 
-export function randomHop(): typeof directions[keyof typeof directions] {
-	const direction = Object.keys(directions)[Math.floor(Math.random() * 4)]
-	return directions[direction as keyof typeof directions]
+export function randomHop(): GridDirection {
+	const direction = Object.keys(DIRECTIONS)[Math.floor(Math.random() * 4)]
+	return DIRECTIONS[direction]
 }
 
 export function hopTest(world: World, map: Map3D) {
 	createActor(world, { x: 1, y: 0, z: 0 }, map)
 	const hop2 = createActor(world, { x: 1, y: 0, z: 1 }, map)
 	setTimeout(() => {
-		hopActor(hop2, 'west')
+		hopActor(hop2, DIRECTIONS.west)
 	}, 1700)
 	createActor(world, { x: 0, y: 0, z: 0 }, map)
 	createActor(world, { x: 0, y: -1, z: 0 }, map)
 	createActor(world, { x: 0, y: -1, z: 1 }, map)
-	hopActor(createActor(world, { x: 0, y: -1, z: 2 }, map), 'south')
+	hopActor(createActor(world, { x: 0, y: -1, z: 2 }, map), DIRECTIONS.south)
 
 	createActor(world, { x: -1, y: 4, z: 0 }, map)
 	createActor(world, { x: 0, y: 4, z: 0 }, map)
 	createActor(world, { x: 0, y: 4, z: 1 }, map)
-	hopActor(createActor(world, { x: 0, y: 4, z: 2 }, map), 'west')
+	hopActor(createActor(world, { x: 0, y: 4, z: 2 }, map), DIRECTIONS.west)
 
 	for (let i = 0; i < 4; i++) {
 		const hopper = createActor(world, { x: 4, y: i, z: 0 }, map)
 		setTimeout(() => {
 			setInterval(() => {
-				hopActor(hopper, 'south')
+				hopActor(hopper, DIRECTIONS.south)
 			}, 1500)
 		}, i * 300)
 	}

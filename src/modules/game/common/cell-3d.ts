@@ -1,4 +1,5 @@
 import Map3D from './map-3d'
+import { Grid } from '../typings'
 
 export class Cell3D {
 	private readonly map: Map3D | null
@@ -16,6 +17,7 @@ export class Cell3D {
 		if (options.parentCell) this.parentCell = options.parentCell
 		Object.assign(this.properties, options.properties)
 	}
+	// TODO: Move all these methods to Map3D class
 	getHash(): string {
 		return this.x + ':' + this.y + ':' + this.z
 	}
@@ -74,11 +76,8 @@ export class Cell3D {
 	}
 }
 
-export interface Cell3DOptions {
+export interface Cell3DOptions extends Grid {
 	map: Map3D | null
-	x: number
-	y: number
-	z: number
 	parentCell?: Cell3D
 	properties?: Cell3DProperties
 }
@@ -86,10 +85,4 @@ export interface Cell3DOptions {
 interface Cell3DProperties {
 	solid?: boolean
 	platform?: boolean
-}
-
-export interface Grid {
-	x: number
-	y: number
-	z: number
 }
