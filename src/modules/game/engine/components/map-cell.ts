@@ -1,5 +1,5 @@
 import { Component } from 'ape-ecs'
-import { Cell3D } from '../../common/map'
+import { Cell3D } from '../../common/cell-3d'
 
 export default class MapCell extends Component {
 	cell!: Cell3D

@@ -1,12 +1,14 @@
 import { Entity, IEntityConfig, World } from 'ape-ecs'
-import { Grid } from '../common/map'
+import Map3D from '../common/map-3d'
+import { Cell3D, Grid } from '../common/cell-3d'
 import Transform from './components/transform'
 import Sprite from './components/sprite'
 import Actor from './components/actor'
 import Hop from './components/hop'
+import MapCell from './components/map-cell'
 import Engine from '.'
 
-export function createActor(world: World, grid: Grid): Entity {
+export function createActor(world: World, grid: Grid, map: Map3D): Entity {
 	return world.createEntity({
 		components: [
 			{
@@ -26,11 +28,20 @@ export function createActor(world: World, grid: Grid): Entity {
 				username: randomString([32, 126], Math.floor(Math.random() * 12) + 3),
 				color: randomColor(),
 			},
+			{
+				type: MapCell.typeName,
+				key: 'mapCell',
+				cell: new Cell3D({
+					map,
+					...grid,
+					properties: { solid: true, platform: true },
+				}),
+			},
 		],
 	} as IEntityConfig)
 }
 
-export function addActors(world: World, count: number): Entity[] {
+export function addActors(world: World, map: Map3D, count: number): Entity[] {
 	const entities: Entity[] = []
 	const gridPool = createGridPool(20, 20, 1)
 	for (let i = 0; i < count; i++) {
@@ -38,7 +49,7 @@ export function addActors(world: World, count: number): Entity[] {
 			Math.floor(Math.random() * gridPool.length),
 			1
 		)[0]
-		entities.push(createActor(world, grid))
+		entities.push(createActor(world, grid, map))
 	}
 	return entities
 }
@@ -112,24 +123,24 @@ export function randomHop(): typeof directions[keyof typeof directions] {
 	return directions[direction as keyof typeof directions]
 }
 
-export function hopTest(world: World) {
-	createActor(world, { x: 1, y: 0, z: 0 })
-	const hop2 = createActor(world, { x: 1, y: 0, z: 1 })
+export function hopTest(world: World, map: Map3D) {
+	createActor(world, { x: 1, y: 0, z: 0 }, map)
+	const hop2 = createActor(world, { x: 1, y: 0, z: 1 }, map)
 	setTimeout(() => {
 		hopActor(hop2, 'west')
 	}, 1700)
-	createActor(world, { x: 0, y: 0, z: 0 })
-	createActor(world, { x: 0, y: -1, z: 0 })
-	createActor(world, { x: 0, y: -1, z: 1 })
-	hopActor(createActor(world, { x: 0, y: -1, z: 2 }), 'south')
+	createActor(world, { x: 0, y: 0, z: 0 }, map)
+	createActor(world, { x: 0, y: -1, z: 0 }, map)
+	createActor(world, { x: 0, y: -1, z: 1 }, map)
+	hopActor(createActor(world, { x: 0, y: -1, z: 2 }, map), 'south')
 
-	createActor(world, { x: -1, y: 4, z: 0 })
-	createActor(world, { x: 0, y: 4, z: 0 })
-	createActor(world, { x: 0, y: 4, z: 1 })
-	hopActor(createActor(world, { x: 0, y: 4, z: 2 }), 'west')
+	createActor(world, { x: -1, y: 4, z: 0 }, map)
+	createActor(world, { x: 0, y: 4, z: 0 }, map)
+	createActor(world, { x: 0, y: 4, z: 1 }, map)
+	hopActor(createActor(world, { x: 0, y: 4, z: 2 }, map), 'west')
 
 	for (let i = 0; i < 4; i++) {
-		const hopper = createActor(world, { x: 4, y: i, z: 0 })
+		const hopper = createActor(world, { x: 4, y: i, z: 0 }, map)
 		setTimeout(() => {
 			setInterval(() => {
 				hopActor(hopper, 'south')
@@ -138,8 +149,8 @@ export function hopTest(world: World) {
 	}
 }
 
-export function seedGame(engine: Engine) {
-	const actors = addActors(engine.world, 100)
+export function seedGame(engine: Engine, map: Map3D) {
+	const actors = addActors(engine.world, map, 100)
 	setInterval(() => {
 		hopActor(actors[Math.floor(Math.random() * actors.length)])
 	}, 250)

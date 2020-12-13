@@ -10,14 +10,12 @@ import TransformSystem from './systems/transform'
 import SpriteSystem from './systems/sprite'
 import Renderer from '../renderer'
 import Resources from '../renderer/resources/resources'
-import { Map3D } from '../common/map'
 import Engine from '.'
 
 export function registerECS(
 	engine: Engine,
 	renderer: Renderer,
-	resources: Resources,
-	map: Map3D
+	resources: Resources
 ) {
 	engine.world.registerComponent(Sprite)
 	engine.world.registerComponent(Transform)
@@ -28,7 +26,7 @@ export function registerECS(
 	engine.world.registerSystem('default', HopSystem, [
 		resources.sheet.spritesheet.animations,
 	])
-	engine.world.registerSystem('default', MapSystem, [map])
+	engine.world.registerSystem('default', MapSystem)
 	engine.world.registerSystem('default', TransformSystem)
 	engine.world.registerSystem('default', SpriteSystem, [
 		resources.sheet.textures,

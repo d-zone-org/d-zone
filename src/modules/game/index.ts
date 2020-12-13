@@ -1,7 +1,7 @@
 import Renderer from './renderer'
 import Resources from './renderer/resources/resources'
 import Engine from './engine'
-import { Map3D } from './common/map'
+import Map3D from './common/map-3d'
 import { registerECS } from './engine/register-ecs'
 import { seedGame } from './engine/benchmark'
 
@@ -20,11 +20,11 @@ export default class Game {
 		console.log('Resources loaded')
 
 		// Register ECS components and systems
-		registerECS(this.engine, this.renderer, this.resources, this.map)
+		registerECS(this.engine, this.renderer, this.resources)
 		console.log('ECS world initialized!', this.engine.world)
 
 		// Add placeholder content
-		seedGame(this.engine)
+		seedGame(this.engine, this.map)
 
 		// Start update loop
 		this.engine.start(60)

@@ -1,26 +1,8 @@
-const FLOOR = 0
+import Map3D from './map-3d'
 
-export class Map3D {
-	private data: Map<string, Cell3D>
-	constructor() {
-		this.data = new Map()
-	}
-	getXYZ(grid: Grid): Cell3D {
-		if (grid.z < FLOOR) return FloorCell
-		return this.data.get(Map3D.gridToHash(grid)) || EmptyCell
-	}
-	addCell(cell: Cell3D): void {
-		this.data.set(cell.getHash(), cell)
-	}
-	clearXYZ(grid: Grid): void {
-		this.data.delete(Map3D.gridToHash(grid))
-	}
-	private static gridToHash(grid: Grid): string {
-		return grid.x + ':' + grid.y + ':' + grid.z
-	}
-}
 export class Cell3D {
 	private readonly map: Map3D | null
+	private static hopZLevels: number[] = [0, 1, -1]
 	x: number
 	y: number
 	z: number
@@ -68,21 +50,29 @@ export class Cell3D {
 		if (!this.map) return
 		this.map.clearXYZ(this)
 	}
+	getHopTarget(target: Grid): Grid | false {
+		const aboveNeighbor = this.getNeighbor({ x: 0, y: 0, z: 1 })
+		if (!aboveNeighbor || aboveNeighbor.properties.solid) return false
+		const newTarget = { ...target }
+		for (const z of Cell3D.hopZLevels) {
+			newTarget.z = z
+			const newTargetCell = this.getNeighbor(newTarget)
+			const underNewTarget = this.getNeighbor({ ...target, z: newTarget.z - 1 })
+			if (
+				newTargetCell &&
+				!newTargetCell.properties.solid &&
+				underNewTarget &&
+				underNewTarget.properties.platform
+			) {
+				return newTarget
+			}
+		}
+		return false
+	}
+	reserveTarget(target: Grid): void {
+		this.spread(target, { solid: true })
+	}
 }
-const EmptyCell = new Cell3D({
-	map: null,
-	x: 0,
-	y: 0,
-	z: 0,
-	properties: { solid: false },
-})
-const FloorCell = new Cell3D({
-	map: null,
-	x: 0,
-	y: 0,
-	z: -1,
-	properties: { platform: true, solid: true },
-})
 
 export interface Cell3DOptions {
 	map: Map3D | null
