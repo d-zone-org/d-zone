@@ -1,18 +1,21 @@
 import * as PIXI from 'pixi.js-legacy'
 import { SpatialHash } from 'pixi-cull'
 import { Viewport, BuiltInPlugins } from 'pixi-viewport'
-
 import WheelStepped from './wheel-stepped'
+import {
+	RENDER_SETTINGS,
+	BACKGROUND_COLOR,
+	ZOOM_OPTIONS,
+	PANNING_FRICTION,
+} from '../config/renderer-config'
 
 export interface Plugins extends BuiltInPlugins {
 	'wheel-stepped': WheelStepped
 }
 
 // Global PIXI settings
-PIXI.settings.RESOLUTION = 1
-PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
-
-const zoomLevels = [0.25, 0.5, 1, 2, 3, 4, 5, 6, 8] as const
+PIXI.settings.RESOLUTION = RENDER_SETTINGS.resolution
+PIXI.settings.SCALE_MODE = RENDER_SETTINGS.scaleMode
 
 export default class Renderer {
 	app!: PIXI.Application
@@ -21,7 +24,7 @@ export default class Renderer {
 
 	init(canvas: HTMLCanvasElement) {
 		this.app = new PIXI.Application({
-			backgroundColor: 0x1d171f,
+			backgroundColor: BACKGROUND_COLOR,
 			view: canvas,
 		})
 
@@ -33,21 +36,24 @@ export default class Renderer {
 
 		this.view.plugins.add(
 			'wheel-stepped',
-			new WheelStepped(this.view, { smooth: 3, steps: zoomLevels }),
+			new WheelStepped(this.view, {
+				smooth: ZOOM_OPTIONS.smoothing,
+				steps: ZOOM_OPTIONS.levels,
+			}),
 			0
 		)
 
 		this.view
 			.drag({ wheel: false })
 			.pinch()
-			.decelerate({ friction: 0.8 })
+			.decelerate({ friction: PANNING_FRICTION })
 			.clampZoom({
-				minScale: zoomLevels[0],
-				maxScale: zoomLevels[zoomLevels.length - 1],
+				minScale: ZOOM_OPTIONS.levels[0],
+				maxScale: ZOOM_OPTIONS.levels[ZOOM_OPTIONS.levels.length - 1],
 			})
 
 		this.view.moveCenter(0, 0)
-		this.view.scaled = zoomLevels[3]
+		this.view.scaled = ZOOM_OPTIONS.default_level
 		this.view.sortableChildren = true
 
 		this.app.stage.addChild(this.view)

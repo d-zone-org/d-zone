@@ -1,6 +1,6 @@
 import type { ISpriteDefinition } from '../typings'
 
-export const SPRITE_JSON_PATH = './img/sprites.json'
+export const SPRITE_JSON_PATH = './img/sprites.json' as const
 
 export const SPRITE_DEFINITIONS: Record<string, ISpriteDefinition> = {
 	cube: { w: 14, h: 14 },
@@ -17,7 +17,7 @@ export const SPRITE_DEFINITIONS: Record<string, ISpriteDefinition> = {
 	flowers: { w: 32, h: 16 },
 	grass: { w: 32, h: 16 },
 	beacon: { w: 31, h: 56 },
-}
+} as const
 
 export const HOP_OFFSETS = {
 	hopUpY: {
@@ -35,6 +35,6 @@ export const HOP_OFFSETS = {
 		south: [0.5, 0.5],
 		east: [0.5, 0.5],
 	},
-}
+} as const
 
-export const HOP_FRAMERATE = 2
+export const HOP_FRAMERATE = 2 as const
