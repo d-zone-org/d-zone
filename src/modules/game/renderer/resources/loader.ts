@@ -1,5 +1,8 @@
 import * as PIXI from 'pixi.js-legacy'
-import { SPRITE_DEFINITIONS } from '../../config/sprite-config'
+import {
+	SPRITE_DEFINITIONS,
+	SPRITE_JSON_PATH,
+} from '../../config/sprite-config'
 
 interface FrameConfig {
 	w: number
@@ -41,7 +44,7 @@ let loader: PIXI.Loader
 
 export function initLoader() {
 	loader = new PIXI.Loader()
-	loader.add('./img/sprites.json')
+	loader.add(SPRITE_JSON_PATH)
 	loader.pre(parseSheet)
 }
 

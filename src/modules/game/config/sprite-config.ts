@@ -1,4 +1,6 @@
-import { ISpriteDefinition } from '../typings'
+import type { ISpriteDefinition } from '../typings'
+
+export const SPRITE_JSON_PATH = './img/sprites.json'
 
 export const SPRITE_DEFINITIONS: Record<string, ISpriteDefinition> = {
 	cube: { w: 14, h: 14 },
@@ -17,20 +19,22 @@ export const SPRITE_DEFINITIONS: Record<string, ISpriteDefinition> = {
 	beacon: { w: 31, h: 56 },
 }
 
-export const HOP_UP_Y_OFFSETS = {
-	frames: [4, 6, 7, 8, 9],
-	values: [-1, -1, -1, -2, -3],
+export const HOP_OFFSETS = {
+	hopUpY: {
+		frames: [4, 6, 7, 8, 9],
+		values: [-1, -1, -1, -2, -3],
+	},
+	hopDownY: {
+		frames: [4, 5, 6, 7, 8, 9],
+		values: [1, 1, 2, 1, 2, 1],
+	},
+	hopZDepth: {
+		frames: [6, 9],
+		north: [-0.5, -0.5],
+		west: [-0.5, -0.5],
+		south: [0.5, 0.5],
+		east: [0.5, 0.5],
+	},
 }
 
-export const HOP_DOWN_Y_OFFSETS = {
-	frames: [4, 5, 6, 7, 8, 9],
-	values: [1, 1, 2, 1, 2, 1],
-}
-
-export const HOP_Z_DEPTH_OFFSETS = {
-	frames: [6, 9],
-	north: [-0.5, -0.5],
-	west: [-0.5, -0.5],
-	south: [0.5, 0.5],
-	east: [0.5, 0.5],
-}
+export const HOP_FRAMERATE = 2

@@ -12,10 +12,10 @@ export type Animations = Record<string, PIXI.BaseTexture[]>
 export type Textures = Record<string, PIXI.Texture>
 
 export enum Direction {
-	North,
-	South,
-	East,
-	West,
+	North = 'north',
+	South = 'south',
+	East = 'east',
+	West = 'west',
 }
 
 export interface Grid {

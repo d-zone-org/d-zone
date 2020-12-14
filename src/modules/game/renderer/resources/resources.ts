@@ -1,6 +1,7 @@
 import { initLoader, runLoader } from './loader'
 import { IResources, Sheet } from '../../typings'
 import { LoaderResource } from 'pixi.js-legacy'
+import { SPRITE_JSON_PATH } from '../../config/sprite-config'
 
 export default class Resources implements IResources {
 	sheet!: Sheet
@@ -12,7 +13,7 @@ export default class Resources implements IResources {
 	async load() {
 		const loader: Partial<Record<string, LoaderResource>> = await runLoader()
 		Object.keys(loader).forEach((resourceKey) => {
-			if (resourceKey === './img/sprites.json')
+			if (resourceKey === SPRITE_JSON_PATH)
 				this.sheet = loader[resourceKey] as Sheet
 		})
 	}

@@ -3,23 +3,17 @@ import Hop from '../components/hop'
 import Transform from '../components/transform'
 import Sprite from '../components/sprite'
 import MapCell from '../components/map-cell'
-import {
-	HOP_UP_Y_OFFSETS,
-	HOP_DOWN_Y_OFFSETS,
-	HOP_Z_DEPTH_OFFSETS,
-} from '../../config/sprite-config'
+import { HOP_OFFSETS, HOP_FRAMERATE } from '../../config/sprite-config'
 import { Animations, Direction } from '../../typings'
-
-let hopFrameCount: number
-const hopFrameRate = 2
 
 export default class HopSystem extends System {
 	private animations!: Animations
 	private hopQuery!: Query
+	private hopFrameCount!: number
 
 	init(animations: Animations) {
 		this.animations = animations
-		hopFrameCount = this.animations['hop-east'].length
+		this.hopFrameCount = this.animations['hop-east'].length
 		this.hopQuery = this.createQuery()
 			.fromAll(Hop, Transform, Sprite, MapCell)
 			.persist(true)
@@ -47,7 +41,7 @@ export default class HopSystem extends System {
 		// TODO: Hop system should not be handling animation, make an animation component & system
 		this.hopQuery.execute().forEach((entity) => {
 			const hop = entity.c.hop as Hop
-			const frame = Math.floor(hopFrameCount * hop.progress)
+			const frame = Math.floor(this.hopFrameCount * hop.progress)
 			if (hop.progress >= 1) {
 				const { x, y, z } = entity.c.transform
 				entity.c.transform.update({
@@ -62,7 +56,7 @@ export default class HopSystem extends System {
 				hop.frame = frame
 				const sprite = entity.c.sprite
 				sprite.update({
-					texture: this.animations[getAnimationName(hop.direction)][hop.frame]
+					texture: this.animations[`hop-${hop.direction}`][hop.frame]
 						.textureCacheIds[0],
 				})
 				if (hop.progress === 0) {
@@ -70,17 +64,16 @@ export default class HopSystem extends System {
 						zIndex: sprite.zIndex + 0.01,
 					})
 				}
-				const zDepthOffsetIndex = HOP_Z_DEPTH_OFFSETS.frames.indexOf(hop.frame)
-				if (zDepthOffsetIndex >= 0) {
+				const zDepthOffset = getZDepthOffset(frame, hop.direction)
+				if (zDepthOffset) {
 					// Adjust z-depth while hopping
 					sprite.update({
-						zIndex:
-							sprite.zIndex + getZDepthOffset(hop.direction)[zDepthOffsetIndex],
+						zIndex: sprite.zIndex + zDepthOffset,
 					})
 				}
 				if (hop.z !== 0) {
 					// Raise or lower sprite while hopping up/down
-					const yOffsets = hop.z > 0 ? HOP_UP_Y_OFFSETS : HOP_DOWN_Y_OFFSETS
+					const yOffsets = hop.z > 0 ? HOP_OFFSETS.hopUpY : HOP_OFFSETS.hopDownY
 					const yOffsetIndex = yOffsets.frames.indexOf(hop.frame)
 					if (yOffsetIndex >= 0) {
 						sprite.update({
@@ -89,7 +82,7 @@ export default class HopSystem extends System {
 					}
 				}
 			}
-			hop.progress += 1 / hopFrameCount / hopFrameRate
+			hop.progress += 1 / this.hopFrameCount / HOP_FRAMERATE
 		})
 	}
 }
@@ -112,28 +105,11 @@ function getHopTexture(direction: Direction): string {
 	}
 }
 
-function getZDepthOffset(direction: Direction): number[] {
-	switch (direction) {
-		case Direction.East:
-			return HOP_Z_DEPTH_OFFSETS.east
-		case Direction.South:
-			return HOP_Z_DEPTH_OFFSETS.south
-		case Direction.North:
-			return HOP_Z_DEPTH_OFFSETS.north
-		case Direction.West:
-			return HOP_Z_DEPTH_OFFSETS.west
-	}
-}
-
-function getAnimationName(direction: Direction): string {
-	switch (direction) {
-		case Direction.East:
-			return 'hop-east'
-		case Direction.South:
-			return 'hop-south'
-		case Direction.North:
-			return 'hop-north'
-		case Direction.West:
-			return 'hop-west'
+function getZDepthOffset(frame: number, direction: Direction): number {
+	const frameIndex = HOP_OFFSETS.hopZDepth.frames.indexOf(frame)
+	if (frameIndex >= 0) {
+		return HOP_OFFSETS.hopZDepth[direction][frameIndex]
+	} else {
+		return 0
 	}
 }
