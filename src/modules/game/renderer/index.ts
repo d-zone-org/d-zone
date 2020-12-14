@@ -53,7 +53,7 @@ export default class Renderer {
 			})
 
 		this.view.moveCenter(0, 0)
-		this.view.scaled = ZOOM_OPTIONS.default_level
+		this.view.scaled = ZOOM_OPTIONS.defaultLevel
 		this.view.sortableChildren = true
 
 		this.app.stage.addChild(this.view)

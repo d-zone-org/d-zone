@@ -10,7 +10,7 @@ export const BACKGROUND_COLOR = 0x1d171f as const
 export const ZOOM_OPTIONS = {
 	smoothing: 3,
 	levels: [0.25, 0.5, 1, 2, 3, 4, 5, 6, 8],
-	default_level: 1,
+	defaultLevel: 2,
 } as const
 
 export const PANNING_FRICTION = 0.8 as const
