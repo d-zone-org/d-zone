@@ -3,12 +3,11 @@ import Hop from '../components/hop'
 import Transform from '../components/transform'
 import Sprite from '../components/sprite'
 import MapCell from '../components/map-cell'
-// TODO: Make a sprite config constants file
 import {
-	hopDownYOffsets,
-	hopUpYOffsets,
-	hopZDepthOffsets,
-} from 'web/art/sprite-config.json'
+	HOP_UP_Y_OFFSETS,
+	HOP_DOWN_Y_OFFSETS,
+	HOP_Z_DEPTH_OFFSETS,
+} from '../../config/sprite-config'
 import { Animations, Direction } from '../../typings'
 
 let hopFrameCount: number
@@ -71,7 +70,7 @@ export default class HopSystem extends System {
 						zIndex: sprite.zIndex + 0.01,
 					})
 				}
-				const zDepthOffsetIndex = hopZDepthOffsets.frames.indexOf(hop.frame)
+				const zDepthOffsetIndex = HOP_Z_DEPTH_OFFSETS.frames.indexOf(hop.frame)
 				if (zDepthOffsetIndex >= 0) {
 					// Adjust z-depth while hopping
 					sprite.update({
@@ -81,7 +80,7 @@ export default class HopSystem extends System {
 				}
 				if (hop.z !== 0) {
 					// Raise or lower sprite while hopping up/down
-					const yOffsets = hop.z > 0 ? hopUpYOffsets : hopDownYOffsets
+					const yOffsets = hop.z > 0 ? HOP_UP_Y_OFFSETS : HOP_DOWN_Y_OFFSETS
 					const yOffsetIndex = yOffsets.frames.indexOf(hop.frame)
 					if (yOffsetIndex >= 0) {
 						sprite.update({
@@ -116,13 +115,13 @@ function getHopTexture(direction: Direction): string {
 function getZDepthOffset(direction: Direction): number[] {
 	switch (direction) {
 		case Direction.East:
-			return hopZDepthOffsets.east
+			return HOP_Z_DEPTH_OFFSETS.east
 		case Direction.South:
-			return hopZDepthOffsets.south
+			return HOP_Z_DEPTH_OFFSETS.south
 		case Direction.North:
-			return hopZDepthOffsets.north
+			return HOP_Z_DEPTH_OFFSETS.north
 		case Direction.West:
-			return hopZDepthOffsets.west
+			return HOP_Z_DEPTH_OFFSETS.west
 	}
 }
 

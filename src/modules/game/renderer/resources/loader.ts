@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js-legacy'
-import spriteConfig from 'web/art/sprite-config.json'
+import { SPRITE_DEFINITIONS } from '../../config/sprite-config'
 
 interface FrameConfig {
 	w: number
@@ -17,8 +17,7 @@ function parseSheet(sheet: PIXI.LoaderResource, next: () => void) {
 			for (const frameKey of Object.keys(res.data.frames)) {
 				const layer = frameKey.split(':')[0]
 				const frame = res.data.frames[frameKey as keyof typeof res.data.frames]
-				const config: FrameConfig =
-					spriteConfig.frames[layer as keyof typeof spriteConfig.frames]
+				const config: FrameConfig = SPRITE_DEFINITIONS[layer]
 				frame.sourceSize.w = config.w
 				frame.sourceSize.h = config.h
 				if (config.anchor) {

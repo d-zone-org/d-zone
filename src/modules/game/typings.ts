@@ -27,3 +27,10 @@ export interface Grid {
 export interface GridDirection extends Grid {
 	direction: Direction
 }
+
+export interface ISpriteDefinition {
+	w: number
+	h: number
+	animation?: boolean
+	anchor?: { x: number; y: number }
+}
