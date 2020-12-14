@@ -7,7 +7,7 @@ import {
 	BACKGROUND_COLOR,
 	ZOOM_OPTIONS,
 	PANNING_FRICTION,
-} from '../config/renderer-config'
+} from '../config/renderer'
 
 export interface Plugins extends BuiltInPlugins {
 	'wheel-stepped': WheelStepped

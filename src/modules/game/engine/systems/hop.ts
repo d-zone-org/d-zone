@@ -3,7 +3,7 @@ import Hop from '../components/hop'
 import Transform from '../components/transform'
 import Sprite from '../components/sprite'
 import MapCell from '../components/map-cell'
-import { HOP_OFFSETS, HOP_FRAMERATE } from '../../config/sprite-config'
+import { HOP_OFFSETS, HOP_FRAMERATE } from '../../config/sprite'
 import { Animations, Direction } from '../../typings'
 
 export default class HopSystem extends System {

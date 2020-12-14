@@ -1,7 +1,7 @@
 import { initLoader, runLoader } from './loader'
 import { IResources, Sheet } from '../../typings'
 import { LoaderResource } from 'pixi.js-legacy'
-import { SPRITE_JSON_PATH } from '../../config/sprite-config'
+import { SPRITE_JSON_PATH } from '../../config/sprite'
 
 export default class Resources implements IResources {
 	sheet!: Sheet

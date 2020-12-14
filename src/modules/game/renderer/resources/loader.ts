@@ -1,8 +1,5 @@
 import * as PIXI from 'pixi.js-legacy'
-import {
-	SPRITE_DEFINITIONS,
-	SPRITE_JSON_PATH,
-} from '../../config/sprite-config'
+import { SPRITE_DEFINITIONS, SPRITE_JSON_PATH } from '../../config/sprite'
 
 interface FrameConfig {
 	w: number
