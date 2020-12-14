@@ -9,6 +9,7 @@ export default class Hop extends Component {
 	progress!: number
 	frame!: number
 	static typeName = 'Hop'
+	static key = 'hop'
 	static properties = {
 		x: 0,
 		y: 0,

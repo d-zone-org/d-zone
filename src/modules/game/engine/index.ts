@@ -1,5 +1,9 @@
 import { World } from 'ape-ecs'
 
+export enum SystemGroup {
+	Default = 'default',
+}
+
 export default class Engine {
 	readonly world: World
 
@@ -10,7 +14,7 @@ export default class Engine {
 	private interval?: number
 
 	update() {
-		this.world.runSystems('default')
+		this.world.runSystems(SystemGroup.Default)
 		this.world.tick()
 	}
 

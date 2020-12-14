@@ -10,8 +10,8 @@ export default class MapSystem extends System {
 
 	update(tick: number) {
 		this.mapQuery.execute().forEach((entity) => {
-			if (entity.c.transform._meta.updated !== tick) return
-			entity.c.mapCell.cell.moveTo(entity.c.transform)
+			if (entity.c[Transform.key]._meta.updated !== tick) return
+			entity.c[MapCell.key].cell.moveTo(entity.c[Transform.key])
 		})
 	}
 }

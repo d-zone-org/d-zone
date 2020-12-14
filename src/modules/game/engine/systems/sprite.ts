@@ -42,9 +42,9 @@ export default class SpriteSystem extends System {
 	updatePixiSprites(tick: number) {
 		let updatedSprites = 0
 		this.spriteQuery.execute().forEach((entity) => {
-			if (entity.c.sprite._meta.updated !== tick) return
-			const sprite = entity.c.sprite
-			const { sprite: pixiSprite } = entity.c.pixiSprite
+			if (entity.c[Sprite.key]._meta.updated !== tick) return
+			const sprite = entity.c[Sprite.key] as Sprite
+			const { sprite: pixiSprite } = entity.c[PixiSprite.key]
 			pixiSprite.setTransform(sprite.x, sprite.y)
 			pixiSprite.zIndex = sprite.zIndex
 			pixiSprite.texture = this.textures[sprite.texture]
@@ -59,14 +59,14 @@ export default class SpriteSystem extends System {
 
 	addPixiSprites() {
 		this.spriteAddQuery.execute().forEach((entity) => {
-			const sprite = entity.c.sprite
+			const sprite = entity.c[Sprite.key] as Sprite
 			const pixiSprite = new PIXI.Sprite(this.textures[sprite.texture])
 			pixiSprite.setTransform(sprite.x, sprite.y)
 			pixiSprite.zIndex = sprite.zIndex
 			this.view.addChild(pixiSprite)
 			entity.addComponent({
 				type: PixiSprite.typeName,
-				key: 'pixiSprite',
+				key: PixiSprite.key,
 				sprite: pixiSprite,
 			})
 		})
@@ -74,7 +74,7 @@ export default class SpriteSystem extends System {
 
 	removePixiSprites() {
 		this.spriteRemoveQuery.execute().forEach((entity) => {
-			const pixiSprite = entity.c.pixiSprite
+			const pixiSprite = entity.c[PixiSprite.key]
 			this.view.removeChild(pixiSprite.value)
 			pixiSprite.value.destroy()
 			entity.removeComponent(pixiSprite)

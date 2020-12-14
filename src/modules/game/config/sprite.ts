@@ -35,6 +35,6 @@ export const HOP_OFFSETS = {
 		south: [0.5, 0.5],
 		east: [0.5, 0.5],
 	},
-} as const
+}
 
 export const HOP_FRAMERATE = 2 as const

@@ -5,6 +5,7 @@ export default class Actor extends Component {
 	username!: string
 	color!: number
 	static typeName = 'Actor'
+	static key = 'actor'
 	static properties = {
 		userID: '',
 		username: '',

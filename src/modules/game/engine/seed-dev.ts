@@ -8,38 +8,34 @@ import Hop from './components/hop'
 import MapCell from './components/map-cell'
 import Engine from '.'
 import { DIRECTIONS } from '../constants'
-import { Grid, GridDirection } from '../typings'
+import { Direction, Grid, GridDirection } from '../typings'
 
 export function createActor(world: World, grid: Grid, map: Map3D): Entity {
 	return world.createEntity({
-		components: [
-			{
+		c: {
+			[Transform.key]: {
 				type: Transform.typeName,
 				...grid,
-				key: 'transform',
 			},
-			{
+			[Sprite.key]: {
 				type: Sprite.typeName,
 				texture: 'cube:0',
-				key: 'sprite',
 			},
-			{
+			[Actor.key]: {
 				type: Actor.typeName,
-				key: 'actor',
 				userID: randomString([48, 57], 18),
 				username: randomString([32, 126], Math.floor(Math.random() * 12) + 3),
 				color: randomColor(),
 			},
-			{
+			[MapCell.key]: {
 				type: MapCell.typeName,
-				key: 'mapCell',
 				cell: new Cell3D({
 					map,
 					...grid,
 					properties: { solid: true, platform: true },
 				}),
 			},
-		],
+		},
 	} as IEntityConfig)
 }
 
@@ -104,13 +100,15 @@ export function hopActor(actor: Entity, direction?: GridDirection) {
 	if (actor.has(Hop.typeName)) return // Already hopping
 	actor.addComponent({
 		type: Hop.typeName,
-		key: 'hop',
+		key: Hop.key,
 		...(direction || randomHop()),
 	})
 }
 
 export function randomHop(): GridDirection {
-	const direction = Object.keys(DIRECTIONS)[Math.floor(Math.random() * 4)]
+	const direction = Object.keys(DIRECTIONS)[
+		Math.floor(Math.random() * 4)
+	] as Direction
 	return DIRECTIONS[direction]
 }
 

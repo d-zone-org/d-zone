@@ -6,6 +6,7 @@ export default class Sprite extends Component {
 	texture!: string
 	zIndex!: number
 	static typeName = 'Sprite'
+	static key = 'sprite'
 	static properties = {
 		x: 0,
 		y: 0,

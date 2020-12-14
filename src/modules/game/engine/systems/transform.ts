@@ -12,10 +12,10 @@ export default class TransformSystem extends System {
 	}
 	update(tick: number) {
 		this.transformQuery.execute().forEach((entity: Entity) => {
-			if (entity.c.transform._meta.updated !== tick) return
-			const { x, y, z } = entity.c.transform
+			if (entity.c[Transform.key]._meta.updated !== tick) return
+			const { x, y, z } = entity.c[Transform.key]
 			const [newX, newY] = get2dCoordsFromIso(x, y, z)
-			entity.c.sprite.update({
+			entity.c[Sprite.key].update({
 				x: newX,
 				y: newY,
 				zIndex: getZIndex(x, y, z),
