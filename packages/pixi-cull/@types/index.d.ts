@@ -1,2 +1,2 @@
-export * from "./simple";
-export * from "./spatial-hash";
+export * from './simple'
+export * from './spatial-hash'
