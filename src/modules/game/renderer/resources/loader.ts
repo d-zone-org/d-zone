@@ -1,13 +1,6 @@
 import * as PIXI from 'pixi.js-legacy'
 import { SPRITE_DEFINITIONS, SPRITE_JSON_PATH } from '../../config/sprite'
 
-interface FrameConfig {
-	w: number
-	h: number
-	animation?: boolean
-	anchor?: { x: number; y: number }
-}
-
 function parseSheet(sheet: PIXI.LoaderResource, next: () => void) {
 	if (sheet.extension === 'json') {
 		// @ts-expect-error "onComplete" event emitter does, in fact, exist
@@ -17,7 +10,7 @@ function parseSheet(sheet: PIXI.LoaderResource, next: () => void) {
 			for (const frameKey of Object.keys(res.data.frames)) {
 				const layer = frameKey.split(':')[0]
 				const frame = res.data.frames[frameKey as keyof typeof res.data.frames]
-				const config: FrameConfig = SPRITE_DEFINITIONS[layer]
+				const config = SPRITE_DEFINITIONS[layer]
 				frame.sourceSize.w = config.w
 				frame.sourceSize.h = config.h
 				if (config.anchor) {

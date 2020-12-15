@@ -1,5 +1,5 @@
 import Map3D from './map-3d'
-import { Grid } from '../typings'
+import { IGrid } from '../typings'
 
 export class Cell3D {
 	private readonly map: Map3D | null
@@ -8,8 +8,8 @@ export class Cell3D {
 	y: number
 	z: number
 	parentCell?: Cell3D
-	properties: Cell3DProperties = {}
-	constructor(options: Cell3DOptions) {
+	properties: ICell3DProperties = {}
+	constructor(options: ICell3DOptions) {
 		this.map = options.map
 		this.x = options.x
 		this.y = options.y
@@ -21,13 +21,13 @@ export class Cell3D {
 	getHash(): string {
 		return this.x + ':' + this.y + ':' + this.z
 	}
-	moveTo(grid: Grid): void {
+	moveTo(grid: IGrid): void {
 		if (!this.map) return
 		this.map.clearXYZ(this)
 		Object.assign(this, grid)
 		this.map.addCell(this)
 	}
-	getNeighbor(grid: Grid): Cell3D | void {
+	getNeighbor(grid: IGrid): Cell3D | void {
 		if (!this.map) return
 		return this.map.getXYZ({
 			x: this.x + grid.x,
@@ -35,7 +35,7 @@ export class Cell3D {
 			z: this.z + grid.z,
 		})
 	}
-	spread(grid: Grid, cellProperties?: Cell3DProperties): void {
+	spread(grid: IGrid, cellProperties?: ICell3DProperties): void {
 		if (!this.map) return
 		this.map.addCell(
 			new Cell3D({
@@ -52,7 +52,7 @@ export class Cell3D {
 		if (!this.map) return
 		this.map.clearXYZ(this)
 	}
-	getHopTarget(target: Grid): Grid | false {
+	getHopTarget(target: IGrid): IGrid | false {
 		const aboveNeighbor = this.getNeighbor({ x: 0, y: 0, z: 1 })
 		if (!aboveNeighbor || aboveNeighbor.properties.solid) return false
 		const newTarget = { ...target }
@@ -71,18 +71,18 @@ export class Cell3D {
 		}
 		return false
 	}
-	reserveTarget(target: Grid): void {
+	reserveTarget(target: IGrid): void {
 		this.spread(target, { solid: true })
 	}
 }
 
-export interface Cell3DOptions extends Grid {
+export interface ICell3DOptions extends IGrid {
 	map: Map3D | null
 	parentCell?: Cell3D
-	properties?: Cell3DProperties
+	properties?: ICell3DProperties
 }
 
-interface Cell3DProperties {
+interface ICell3DProperties {
 	solid?: boolean
 	platform?: boolean
 }

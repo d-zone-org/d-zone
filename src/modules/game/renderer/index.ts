@@ -9,7 +9,7 @@ import {
 	PANNING_FRICTION,
 } from '../config/renderer'
 
-export interface Plugins extends BuiltInPlugins {
+export interface IPlugins extends BuiltInPlugins {
 	'wheel-stepped': WheelStepped
 }
 
@@ -19,7 +19,7 @@ PIXI.settings.SCALE_MODE = RENDER_SETTINGS.scaleMode
 
 export default class Renderer {
 	app!: PIXI.Application
-	view!: Viewport<Plugins>
+	view!: Viewport<IPlugins>
 	cull!: SpatialHash
 
 	init(canvas: HTMLCanvasElement) {

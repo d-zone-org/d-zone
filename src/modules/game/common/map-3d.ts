@@ -1,5 +1,5 @@
 import { Cell3D } from './cell-3d'
-import { Grid } from '../typings'
+import { IGrid } from '../typings'
 
 const FLOOR = 0
 
@@ -9,17 +9,17 @@ export default class Map3D {
 	constructor() {
 		this.data = new Map()
 	}
-	getXYZ(grid: Grid): Cell3D {
+	getXYZ(grid: IGrid): Cell3D {
 		if (grid.z < FLOOR) return FloorCell
 		return this.data.get(Map3D.gridToHash(grid)) || EmptyCell
 	}
 	addCell(cell: Cell3D): void {
 		this.data.set(cell.getHash(), cell)
 	}
-	clearXYZ(grid: Grid): void {
+	clearXYZ(grid: IGrid): void {
 		this.data.delete(Map3D.gridToHash(grid))
 	}
-	private static gridToHash(grid: Grid): string {
+	private static gridToHash(grid: IGrid): string {
 		return grid.x + ':' + grid.y + ':' + grid.z
 	}
 }

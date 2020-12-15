@@ -3,7 +3,7 @@ import Sprite from '../components/sprite'
 import PixiSprite from '../components/pixi-sprite'
 import * as PIXI from 'pixi.js-legacy'
 import type Renderer from '../../renderer'
-import type { Plugins } from '../../renderer'
+import type { IPlugins } from '../../renderer'
 import type { Viewport } from 'pixi-viewport'
 import type { SpatialHash } from 'pixi-cull'
 import type { Textures } from '../../typings'
@@ -11,7 +11,7 @@ import type { Textures } from '../../typings'
 export default class SpriteSystem extends System {
 	private renderer!: Renderer
 	private textures!: Textures
-	private view!: Viewport<Plugins>
+	private view!: Viewport<IPlugins>
 	private cull!: SpatialHash
 	private spriteQuery!: Query
 	private spriteAddQuery!: Query

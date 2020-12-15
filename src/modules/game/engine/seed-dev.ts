@@ -8,9 +8,9 @@ import Hop from './components/hop'
 import MapCell from './components/map-cell'
 import Engine from '.'
 import { DIRECTIONS } from '../constants'
-import { Direction, Grid, GridDirection } from '../typings'
+import { Direction, IGrid, IGridDirection } from '../typings'
 
-export function createActor(world: World, grid: Grid, map: Map3D): Entity {
+export function createActor(world: World, grid: IGrid, map: Map3D): Entity {
 	return world.createEntity({
 		c: {
 			[Transform.key]: {
@@ -80,8 +80,8 @@ export function createGridPool(
 	xSize: number,
 	ySize: number,
 	zSize: number
-): Grid[] {
-	const pool: Grid[] = []
+): IGrid[] {
+	const pool: IGrid[] = []
 	for (let x = 0; x < xSize; x++) {
 		for (let y = 0; y < ySize; y++) {
 			for (let z = 0; z < zSize; z++) {
@@ -96,7 +96,7 @@ export function createGridPool(
 	return pool
 }
 
-export function hopActor(actor: Entity, direction?: GridDirection) {
+export function hopActor(actor: Entity, direction?: IGridDirection) {
 	if (actor.has(Hop.typeName)) return // Already hopping
 	actor.addComponent({
 		type: Hop.typeName,
@@ -105,7 +105,7 @@ export function hopActor(actor: Entity, direction?: GridDirection) {
 	})
 }
 
-export function randomHop(): GridDirection {
+export function randomHop(): IGridDirection {
 	const direction = Object.keys(DIRECTIONS)[
 		Math.floor(Math.random() * 4)
 	] as Direction

@@ -1,6 +1,6 @@
 import { Plugin, Viewport } from 'pixi-viewport'
 import * as PIXI from 'pixi.js-legacy'
-import { Plugins } from '.'
+import { IPlugins } from '.'
 
 const wheelSteppedOptions = {
 	smooth: false,
@@ -33,7 +33,7 @@ export default class WheelStepped extends Plugin {
 	private smoothingCount = 0
 	private targetZoomLevel = 0
 
-	constructor(parent: Viewport<Plugins>, options = {}) {
+	constructor(parent: Viewport<IPlugins>, options = {}) {
 		super(parent)
 		this.options = { ...wheelSteppedOptions, ...options }
 	}

@@ -18,13 +18,13 @@ export enum Direction {
 	West = 'west',
 }
 
-export interface Grid {
+export interface IGrid {
 	x: number
 	y: number
 	z: number
 }
 
-export interface GridDirection extends Grid {
+export interface IGridDirection extends IGrid {
 	direction: Direction
 }
 
