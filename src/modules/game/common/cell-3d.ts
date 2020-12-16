@@ -2,8 +2,7 @@ import Map3D from './map-3d'
 import { IGrid } from '../typings'
 
 export class Cell3D {
-	private readonly map: Map3D | null
-	private static hopZLevels: number[] = [0, 1, -1]
+	readonly map: Map3D
 	x: number
 	y: number
 	z: number
@@ -17,27 +16,18 @@ export class Cell3D {
 		if (options.parentCell) this.parentCell = options.parentCell
 		Object.assign(this.properties, options.properties)
 	}
-	// TODO: Move all these methods to Map3D class
-	getHash(): string {
-		return this.x + ':' + this.y + ':' + this.z
+	moveTo(grid: IGrid): Cell3D[] {
+		return this.map.moveCellToGrid(this, grid)
 	}
-	moveTo(grid: IGrid): void {
-		if (!this.map) return
-		this.map.clearXYZ(this)
-		Object.assign(this, grid)
-		this.map.addCell(this)
-	}
-	getNeighbor(grid: IGrid): Cell3D | void {
-		if (!this.map) return
-		return this.map.getXYZ({
+	getCellsAtNeighbor(grid: IGrid): Cell3D[] {
+		return this.map.getCellsAtGrid({
 			x: this.x + grid.x,
 			y: this.y + grid.y,
 			z: this.z + grid.z,
 		})
 	}
-	spread(grid: IGrid, cellProperties?: ICell3DProperties): void {
-		if (!this.map) return
-		this.map.addCell(
+	spread(grid: IGrid, cellProperties?: ICell3DProperties): Cell3D[] {
+		return this.map.addCell(
 			new Cell3D({
 				map: this.map,
 				x: this.x + grid.x,
@@ -48,36 +38,13 @@ export class Cell3D {
 			})
 		)
 	}
-	destroy(): void {
-		if (!this.map) return
-		this.map.clearXYZ(this)
-	}
-	getHopTarget(target: IGrid): IGrid | false {
-		const aboveNeighbor = this.getNeighbor({ x: 0, y: 0, z: 1 })
-		if (!aboveNeighbor || aboveNeighbor.properties.solid) return false
-		const newTarget = { ...target }
-		for (const z of Cell3D.hopZLevels) {
-			newTarget.z = z
-			const newTargetCell = this.getNeighbor(newTarget)
-			const underNewTarget = this.getNeighbor({ ...target, z: newTarget.z - 1 })
-			if (
-				newTargetCell &&
-				!newTargetCell.properties.solid &&
-				underNewTarget &&
-				underNewTarget.properties.platform
-			) {
-				return newTarget
-			}
-		}
-		return false
-	}
-	reserveTarget(target: IGrid): void {
-		this.spread(target, { solid: true })
+	destroy(): Cell3D[] {
+		return this.map.removeCellFromGrid(this, this)
 	}
 }
 
 export interface ICell3DOptions extends IGrid {
-	map: Map3D | null
+	map: Map3D
 	parentCell?: Cell3D
 	properties?: ICell3DProperties
 }

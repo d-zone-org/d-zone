@@ -7,7 +7,6 @@ import Actor from './components/actor'
 import Hop from './components/hop'
 import MapCell from './components/map-cell'
 import Engine from '.'
-import { DIRECTIONS } from '../constants'
 import { Direction, IGrid, IGridDirection } from '../typings'
 
 export function createActor(world: World, grid: IGrid, map: Map3D): Entity {
@@ -106,33 +105,36 @@ export function hopActor(actor: Entity, direction?: IGridDirection) {
 }
 
 export function randomHop(): IGridDirection {
-	const direction = Object.keys(DIRECTIONS)[
+	const direction = Object.keys(Map3D.Directions)[
 		Math.floor(Math.random() * 4)
 	] as Direction
-	return DIRECTIONS[direction]
+	return Map3D.Directions[direction]
 }
 
 export function hopTest(world: World, map: Map3D) {
 	createActor(world, { x: 1, y: 0, z: 0 }, map)
 	const hop2 = createActor(world, { x: 1, y: 0, z: 1 }, map)
 	setTimeout(() => {
-		hopActor(hop2, DIRECTIONS.west)
+		hopActor(hop2, Map3D.Directions.west)
 	}, 1700)
 	createActor(world, { x: 0, y: 0, z: 0 }, map)
 	createActor(world, { x: 0, y: -1, z: 0 }, map)
 	createActor(world, { x: 0, y: -1, z: 1 }, map)
-	hopActor(createActor(world, { x: 0, y: -1, z: 2 }, map), DIRECTIONS.south)
+	hopActor(
+		createActor(world, { x: 0, y: -1, z: 2 }, map),
+		Map3D.Directions.south
+	)
 
 	createActor(world, { x: -1, y: 4, z: 0 }, map)
 	createActor(world, { x: 0, y: 4, z: 0 }, map)
 	createActor(world, { x: 0, y: 4, z: 1 }, map)
-	hopActor(createActor(world, { x: 0, y: 4, z: 2 }, map), DIRECTIONS.west)
+	hopActor(createActor(world, { x: 0, y: 4, z: 2 }, map), Map3D.Directions.west)
 
 	for (let i = 0; i < 4; i++) {
 		const hopper = createActor(world, { x: 4, y: i, z: 0 }, map)
 		setTimeout(() => {
 			setInterval(() => {
-				hopActor(hopper, DIRECTIONS.south)
+				hopActor(hopper, Map3D.Directions.south)
 			}, 1500)
 		}, i * 300)
 	}

@@ -1,39 +1,43 @@
 import { Cell3D } from './cell-3d'
-import { IGrid } from '../typings'
+import { Direction, IGrid, IGridDirection } from '../typings'
 
-const FLOOR = 0
-
-// TODO: Rewrite the map system
 export default class Map3D {
-	private data: Map<string, Cell3D>
+	private data: Map<string, Cell3D[]>
 	constructor() {
 		this.data = new Map()
 	}
-	getXYZ(grid: IGrid): Cell3D {
-		if (grid.z < FLOOR) return FloorCell
-		return this.data.get(Map3D.gridToHash(grid)) || EmptyCell
+	getCellsAtGrid(grid: IGrid): Cell3D[] {
+		const hash = Map3D.gridToHash(grid)
+		let cells = this.data.get(hash)
+		if (!cells) {
+			cells = []
+			this.data.set(hash, cells)
+		}
+		return cells
 	}
-	addCell(cell: Cell3D): void {
-		this.data.set(cell.getHash(), cell)
+	addCell(cell: Cell3D): Cell3D[] {
+		const cells = this.getCellsAtGrid(cell)
+		cells.push(cell)
+		return cells
 	}
-	clearXYZ(grid: IGrid): void {
-		this.data.delete(Map3D.gridToHash(grid))
+	removeCellFromGrid(cell: Cell3D, grid: IGrid): Cell3D[] {
+		const cells = this.getCellsAtGrid(grid)
+		const cellIndex = cells.indexOf(cell)
+		if (cellIndex >= 0) cells.splice(cellIndex, 1)
+		return cells
 	}
-	private static gridToHash(grid: IGrid): string {
+	moveCellToGrid(cell: Cell3D, grid: IGrid): Cell3D[] {
+		this.removeCellFromGrid(cell, cell)
+		Object.assign(cell, grid)
+		return this.addCell(cell)
+	}
+	static gridToHash(grid: IGrid): string {
 		return grid.x + ':' + grid.y + ':' + grid.z
 	}
+	static Directions: Record<Direction, IGridDirection> = {
+		east: { x: 1, y: 0, z: 0, direction: Direction.East },
+		west: { x: -1, y: 0, z: 0, direction: Direction.West },
+		south: { y: 1, x: 0, z: 0, direction: Direction.South },
+		north: { y: -1, x: 0, z: 0, direction: Direction.North },
+	}
 }
-const EmptyCell = new Cell3D({
-	map: null,
-	x: 0,
-	y: 0,
-	z: 0,
-	properties: { solid: false },
-})
-const FloorCell = new Cell3D({
-	map: null,
-	x: 0,
-	y: 0,
-	z: -1,
-	properties: { platform: true, solid: true },
-})
