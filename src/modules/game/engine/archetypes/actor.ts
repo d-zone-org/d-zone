@@ -53,24 +53,31 @@ export function reserveTarget(cell: Cell3D, target: IGrid): void {
 	cell.spread(target, { solid: true })
 }
 
-export function getHopTarget(cell: Cell3D, target: IGrid): IGrid | false {
+export function getValidHop(cell: Cell3D, hop: IGrid): IGrid | false {
 	const aboveNeighbor = cell.getCellsAtNeighbor({ x: 0, y: 0, z: 1 })
 	if (aboveNeighbor.some((cell) => cell.properties.solid)) return false
-	const newTarget = { ...target }
+	const target = { x: cell.x + hop.x, y: cell.y + hop.y, z: cell.z }
 	for (const z of HOP_Z_LEVELS) {
-		newTarget.z = z
-		const newTargetCells = cell.getCellsAtNeighbor(newTarget)
+		target.z = cell.z + z
 		if (
 			gridIsAbovePlatform(cell.map, target) &&
-			!newTargetCells.some((cell) => cell.properties.solid)
+			gridIsEmpty(cell.map, target)
 		) {
-			return newTarget
+			return { ...hop, z }
 		}
 	}
 	return false
 }
 
+function gridIsEmpty(map: Map3D, grid: IGrid): boolean {
+	// If grid is below ground, it's not empty
+	if (grid.z < 0) return false
+	const cells = map.getCellsAtGrid(grid)
+	return !cells.some((cell) => cell.properties.solid)
+}
+
 function gridIsAbovePlatform(map: Map3D, grid: IGrid): boolean {
+	// If grid is at ground level, it's on a platform
 	if (grid.z <= 0) return true
 	const underNewTarget = map.getCellsAtGrid({
 		...grid,

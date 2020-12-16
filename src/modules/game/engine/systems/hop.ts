@@ -6,7 +6,7 @@ import MapCell from '../components/map-cell'
 import { HOP_OFFSETS, HOP_FRAMERATE } from '../../config/sprite'
 import { Animations, Direction } from '../../typings'
 import { Cell3D } from '../../common/cell-3d'
-import { reserveTarget, getHopTarget } from '../archetypes/actor'
+import { reserveTarget, getValidHop } from '../archetypes/actor'
 
 export default class HopSystem extends System {
 	private animations!: Animations
@@ -26,11 +26,11 @@ export default class HopSystem extends System {
 		this.hopQuery.added.forEach((entity) => {
 			const hop = entity.c[Hop.key] as Hop
 			const actorCell = entity.c[MapCell.key].cell as Cell3D
-			const target = getHopTarget(actorCell, hop)
-			if (target) {
-				reserveTarget(actorCell, target)
+			const validHop = getValidHop(actorCell, hop)
+			if (validHop) {
+				Object.assign(hop, validHop)
+				reserveTarget(actorCell, validHop)
 				actorCell.properties.platform = false
-				Object.assign(hop, target)
 			} else {
 				faceSpriteToHop(entity.c[Sprite.key] as Sprite, hop)
 				entity.removeComponent(hop)

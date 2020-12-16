@@ -68,11 +68,11 @@ export function randomHop(): IGridDirection {
 }
 
 export function hopTest(world: World, map: Map3D) {
-	createActor(world, { x: 1, y: 0, z: 0 }, map)
-	const hop2 = createActor(world, { x: 1, y: 0, z: 1 }, map)
+	createActor(world, { x: 0, y: 0, z: 0 }, map)
+	const hop2 = createActor(world, { x: 0, y: 0, z: 1 }, map)
 	setTimeout(() => {
 		hopActor(hop2, Map3D.Directions.west)
-	}, 1700)
+	}, 1000)
 	createActor(world, { x: 0, y: 0, z: 0 }, map)
 	createActor(world, { x: 0, y: -1, z: 0 }, map)
 	createActor(world, { x: 0, y: -1, z: 1 }, map)
@@ -101,4 +101,5 @@ export function seedGame(world: World, map: Map3D) {
 	setInterval(() => {
 		hopActor(actors[Math.floor(Math.random() * actors.length)])
 	}, 250)
+	// hopTest(world, map)
 }
