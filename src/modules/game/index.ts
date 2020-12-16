@@ -25,8 +25,8 @@ export default class Game {
 		registerECS(this.engine, this.renderer, this.resources)
 		console.log('ECS world initialized!', this.engine.world)
 
-		// Add placeholder content
-		seedGame(this.engine, this.map)
+		// Create placeholder activity
+		seedGame(this.engine.world, this.map)
 
 		// Start update loop
 		this.engine.start(FPS)
