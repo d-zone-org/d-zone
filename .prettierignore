@@ -1,6 +1,7 @@
 .yarn/*
 .next/*
 dist/*
+docs/*
 .vscode/*
 .pnp.js
 **/coverage/*

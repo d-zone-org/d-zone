@@ -1522,25 +1522,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/tsdoc-config@npm:0.13.9":
-  version: 0.13.9
-  resolution: "@microsoft/tsdoc-config@npm:0.13.9"
-  dependencies:
-    "@microsoft/tsdoc": 0.12.24
-    ajv: ~6.12.6
-    jju: ~1.4.0
-    resolve: ~1.19.0
-  checksum: 6365a595943dce9ee4f42a51c22f386ac3a0dc3e9baa91ce58d89d4cedf2806ef87c79de7da53a459f4dfd2d30aa14aa83adf43d5d61af7d5f47efb3e659f44e
-  languageName: node
-  linkType: hard
-
-"@microsoft/tsdoc@npm:0.12.24":
-  version: 0.12.24
-  resolution: "@microsoft/tsdoc@npm:0.12.24"
-  checksum: 286b68331b3b26729cb5c98bb81a99f5ca32f3b56307913044e58a90ccb218d4ead7f1c94e1cc6cdddcdc49bf59ed7ce671c6170a7cbb069e3a7a68680976be3
-  languageName: node
-  linkType: hard
-
 "@next/env@npm:10.0.1":
   version: 10.0.1
   resolution: "@next/env@npm:10.0.1"
@@ -2656,7 +2637,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:^6.1.0, ajv@npm:^6.10.0, ajv@npm:^6.10.2, ajv@npm:^6.12.2, ajv@npm:^6.12.3, ajv@npm:^6.12.4, ajv@npm:~6.12.6":
+"ajv@npm:^6.1.0, ajv@npm:^6.10.0, ajv@npm:^6.10.2, ajv@npm:^6.12.2, ajv@npm:^6.12.3, ajv@npm:^6.12.4":
   version: 6.12.6
   resolution: "ajv@npm:6.12.6"
   dependencies:
@@ -4165,7 +4146,6 @@ __metadata:
     eslint: ^7.14.0
     eslint-config-prettier: ^6.15.0
     eslint-plugin-react: latest
-    eslint-plugin-tsdoc: ^0.2.10
     gitmoji-cli: ^3.2.12
     next: 10.0.1
     nodemon: ^2.0.6
@@ -4826,16 +4806,6 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7
   checksum: a7123f6feb287ad7e15d36b1c9fda8f78a0f0d39b9ee2d6479a5f0ad0effb8f60f639ef7449cecabb711095060e487f0950b69478b22768547b909c0de4f3afd
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-tsdoc@npm:^0.2.10":
-  version: 0.2.10
-  resolution: "eslint-plugin-tsdoc@npm:0.2.10"
-  dependencies:
-    "@microsoft/tsdoc": 0.12.24
-    "@microsoft/tsdoc-config": 0.13.9
-  checksum: cb7640ab4057fd6f2c5528ece49c18d846747d3a6b96435315ccc49c63abf4d5f33df3ad46a28a5d3c033973cbf57ca3637d6be3fdb89f5b09fc9f8ca07139bc
   languageName: node
   linkType: hard
 
@@ -6478,13 +6448,6 @@ fsevents@~2.1.2:
     merge-stream: ^2.0.0
     supports-color: ^6.1.0
   checksum: 9740355081d8f98b15e035405a76a9eafc4ee2b943e00bbc74c34fa632a23e2c2d9d9efb4eb86165435ff76f8bc95dcd74ec63b5acbeb2f0755c83e77d0e71f4
-  languageName: node
-  linkType: hard
-
-"jju@npm:~1.4.0":
-  version: 1.4.0
-  resolution: "jju@npm:1.4.0"
-  checksum: a58023d40e8e262366e95175dec782c7dc6ad94f2ad1fafe91f675ca6177505b4a8e679cec49c800acb8ceab9391856c7c03e871b30ef0590115d081fad814b9
   languageName: node
   linkType: hard
 
@@ -8908,7 +8871,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"resolve@^1.1.6, resolve@^1.10.0, resolve@^1.18.1, resolve@^1.3.2, resolve@^1.8.1, resolve@~1.19.0":
+"resolve@^1.1.6, resolve@^1.10.0, resolve@^1.18.1, resolve@^1.3.2, resolve@^1.8.1":
   version: 1.19.0
   resolution: "resolve@npm:1.19.0"
   dependencies:
@@ -8918,7 +8881,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.1.6#builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#builtin<compat/resolve>, resolve@patch:resolve@^1.18.1#builtin<compat/resolve>, resolve@patch:resolve@^1.3.2#builtin<compat/resolve>, resolve@patch:resolve@^1.8.1#builtin<compat/resolve>, resolve@patch:resolve@~1.19.0#builtin<compat/resolve>":
+"resolve@patch:resolve@^1.1.6#builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#builtin<compat/resolve>, resolve@patch:resolve@^1.18.1#builtin<compat/resolve>, resolve@patch:resolve@^1.3.2#builtin<compat/resolve>, resolve@patch:resolve@^1.8.1#builtin<compat/resolve>":
   version: 1.19.0
   resolution: "resolve@patch:resolve@npm%3A1.19.0#builtin<compat/resolve>::version=1.19.0&hash=3388aa"
   dependencies:

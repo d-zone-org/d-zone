@@ -16,7 +16,7 @@
 	"parserOptions": {
 		"project": "./tsconfig.json"
 	},
-	"plugins": ["react", "@typescript-eslint", "eslint-plugin-tsdoc"],
+	"plugins": ["react", "@typescript-eslint"],
 	"ignorePatterns": [
 		"dist/**/*.js",
 		"packages/pixi-viewport/**/*",
@@ -24,7 +24,6 @@
 		"next.config.js"
 	],
 	"rules": {
-		"@typescript-eslint/explicit-module-boundary-types": "off",
-		"tsdoc/syntax": "warn"
+		"@typescript-eslint/explicit-module-boundary-types": "off"
 	}
 }
