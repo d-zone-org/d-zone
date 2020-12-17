@@ -32,8 +32,8 @@ export default class Map3D {
 		return this.addCell(cell)
 	}
 
-	static gridToHash(grid: IGrid): string {
-		return grid.x + ':' + grid.y + ':' + grid.z
+	static gridToHash({ x, y, z }: IGrid): string {
+		return x + ':' + y + ':' + z
 	}
 
 	static Directions: Record<Direction, IGridDirection> = {

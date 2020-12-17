@@ -23,31 +23,31 @@ export class Cell3D {
 		this.attributes = { ...DEFAULT_ATTRIBUTES, ...attributes }
 	}
 
-	setGrid(grid: IGrid): void {
-		this.x = grid.x
-		this.y = grid.y
-		this.z = grid.z
+	setGrid({ x, y, z }: IGrid): void {
+		this.x = x
+		this.y = y
+		this.z = z
 	}
 
 	moveTo(grid: IGrid): Cell3D[] {
 		return this.map.moveCellToGrid(this, grid)
 	}
 
-	getCellsAtNeighbor(grid: IGrid): Cell3D[] {
+	getCellsAtNeighbor({ x, y, z }: IGrid): Cell3D[] {
 		return this.map.getCellsAtGrid({
-			x: this.x + grid.x,
-			y: this.y + grid.y,
-			z: this.z + grid.z,
+			x: this.x + x,
+			y: this.y + y,
+			z: this.z + z,
 		})
 	}
 
-	spread(grid: IGrid, attributes?: ICell3DAttributes): Cell3D[] {
+	spread({ x, y, z }: IGrid, attributes?: ICell3DAttributes): Cell3D[] {
 		return this.map.addCell(
 			new Cell3D({
 				map: this.map,
-				x: this.x + grid.x,
-				y: this.y + grid.y,
-				z: this.z + grid.z,
+				x: this.x + x,
+				y: this.y + y,
+				z: this.z + z,
 				parentCell: this,
 				attributes,
 			})
