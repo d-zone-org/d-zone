@@ -1,24 +1,32 @@
 import Map3D from './map-3d'
 import { IGrid } from '../typings'
 
+const ATTRIBUTE_DEFAULTS: ICell3DAttributes = {
+	solid: false,
+	platform: false,
+}
+
 export class Cell3D {
 	readonly map: Map3D
 	x: number
 	y: number
 	z: number
 	parentCell?: Cell3D
-	properties: ICell3DProperties = {}
-	constructor(options: ICell3DOptions) {
-		this.map = options.map
-		this.x = options.x
-		this.y = options.y
-		this.z = options.z
-		if (options.parentCell) this.parentCell = options.parentCell
-		Object.assign(this.properties, options.properties)
+	attributes: ICell3DAttributes
+
+	constructor({ map, parentCell, attributes, x, y, z }: ICell3DOptions) {
+		this.map = map
+		this.x = x
+		this.y = y
+		this.z = z
+		this.parentCell = parentCell
+		this.attributes = { ...ATTRIBUTE_DEFAULTS, ...attributes }
 	}
+
 	moveTo(grid: IGrid): Cell3D[] {
 		return this.map.moveCellToGrid(this, grid)
 	}
+
 	getCellsAtNeighbor(grid: IGrid): Cell3D[] {
 		return this.map.getCellsAtGrid({
 			x: this.x + grid.x,
@@ -26,7 +34,8 @@ export class Cell3D {
 			z: this.z + grid.z,
 		})
 	}
-	spread(grid: IGrid, cellProperties?: ICell3DProperties): Cell3D[] {
+
+	spread(grid: IGrid, attributes?: ICell3DAttributes): Cell3D[] {
 		return this.map.addCell(
 			new Cell3D({
 				map: this.map,
@@ -34,10 +43,11 @@ export class Cell3D {
 				y: this.y + grid.y,
 				z: this.z + grid.z,
 				parentCell: this,
-				properties: cellProperties,
+				attributes: attributes,
 			})
 		)
 	}
+
 	destroy(): Cell3D[] {
 		return this.map.removeCellFromGrid(this, this)
 	}
@@ -46,10 +56,10 @@ export class Cell3D {
 export interface ICell3DOptions extends IGrid {
 	map: Map3D
 	parentCell?: Cell3D
-	properties?: ICell3DProperties
+	attributes?: ICell3DAttributes
 }
 
-interface ICell3DProperties {
+interface ICell3DAttributes {
 	solid?: boolean
 	platform?: boolean
 }

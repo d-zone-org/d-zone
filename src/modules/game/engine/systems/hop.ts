@@ -30,7 +30,7 @@ export default class HopSystem extends System {
 			if (validHop) {
 				Object.assign(hop, validHop)
 				reserveTarget(actorCell, validHop)
-				actorCell.properties.platform = false
+				actorCell.attributes.platform = false
 			} else {
 				faceSpriteToHop(entity.c[Sprite.key] as Sprite, hop)
 				entity.removeComponent(hop)
@@ -54,7 +54,7 @@ export default class HopSystem extends System {
 					z: z + hop.z,
 				})
 				faceSpriteToHop(sprite, hop)
-				entity.c[MapCell.key].cell.properties.platform = true
+				entity.c[MapCell.key].cell.attributes.platform = true
 				entity.removeComponent(hop)
 			} else if (hop.progress === 0 || frame > hop.frame) {
 				hop.frame = frame

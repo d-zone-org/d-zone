@@ -33,7 +33,7 @@ export function createActor(world: World, grid: IGrid, map: Map3D): Entity {
 				cell: new Cell3D({
 					map,
 					...grid,
-					properties: { solid: true, platform: true },
+					attributes: { solid: true, platform: true },
 				}),
 			},
 		},
@@ -55,7 +55,7 @@ export function reserveTarget(cell: Cell3D, target: IGrid): void {
 
 export function getValidHop(cell: Cell3D, hop: IGrid): IGrid | false {
 	const aboveNeighbor = cell.getCellsAtNeighbor({ x: 0, y: 0, z: 1 })
-	if (aboveNeighbor.some((cell) => cell.properties.solid)) return false
+	if (aboveNeighbor.some((cell) => cell.attributes.solid)) return false
 	const target = { x: cell.x + hop.x, y: cell.y + hop.y, z: cell.z }
 	for (const z of HOP_Z_LEVELS) {
 		target.z = cell.z + z
@@ -73,7 +73,7 @@ function gridIsEmpty(map: Map3D, grid: IGrid): boolean {
 	// If grid is below ground, it's not empty
 	if (grid.z < 0) return false
 	const cells = map.getCellsAtGrid(grid)
-	return !cells.some((cell) => cell.properties.solid)
+	return !cells.some((cell) => cell.attributes.solid)
 }
 
 function gridIsAbovePlatform(map: Map3D, grid: IGrid): boolean {
@@ -83,5 +83,5 @@ function gridIsAbovePlatform(map: Map3D, grid: IGrid): boolean {
 		...grid,
 		z: grid.z - 1,
 	})
-	return underNewTarget.some((cell) => cell.properties.platform)
+	return underNewTarget.some((cell) => cell.attributes.platform)
 }
