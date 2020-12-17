@@ -28,7 +28,7 @@ export default class HopSystem extends System {
 			const actorCell = entity.c[MapCell.key].cell as Cell3D
 			const validHop = getValidHop(actorCell, hop)
 			if (validHop) {
-				Object.assign(hop, validHop)
+				hop.z = validHop.z
 				reserveTarget(actorCell, validHop)
 				actorCell.attributes.platform = false
 			} else {

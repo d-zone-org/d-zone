@@ -23,6 +23,12 @@ export class Cell3D {
 		this.attributes = { ...DEFAULT_ATTRIBUTES, ...attributes }
 	}
 
+	setGrid(grid: IGrid): void {
+		this.x = grid.x
+		this.y = grid.y
+		this.z = grid.z
+	}
+
 	moveTo(grid: IGrid): Cell3D[] {
 		return this.map.moveCellToGrid(this, grid)
 	}
@@ -43,7 +49,7 @@ export class Cell3D {
 				y: this.y + grid.y,
 				z: this.z + grid.z,
 				parentCell: this,
-				attributes: attributes,
+				attributes,
 			})
 		)
 	}

@@ -28,7 +28,7 @@ export default class Map3D {
 
 	moveCellToGrid(cell: Cell3D, grid: IGrid): Cell3D[] {
 		this.removeCellFromGrid(cell, cell)
-		Object.assign(cell, grid)
+		cell.setGrid(grid)
 		return this.addCell(cell)
 	}
 
