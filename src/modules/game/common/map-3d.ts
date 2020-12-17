@@ -11,27 +11,31 @@ export default class Map3D {
 			cells = []
 			this.data.set(hash, cells)
 		}
-		return cells
+		return [...cells]
 	}
+
 	addCell(cell: Cell3D): Cell3D[] {
-		const cells = this.getCellsAtGrid(cell)
-		cells.push(cell)
-		return cells
+		const cells = [...this.getCellsAtGrid(cell), cell]
+		this.data.set(Map3D.gridToHash(cell), cells)
+		return [...cells]
 	}
+
 	removeCellFromGrid(cell: Cell3D, grid: IGrid): Cell3D[] {
-		const cells = this.getCellsAtGrid(grid)
-		const cellIndex = cells.indexOf(cell)
-		if (cellIndex >= 0) cells.splice(cellIndex, 1)
-		return cells
+		const cells = this.getCellsAtGrid(grid).filter((c) => c !== cell)
+		this.data.set(Map3D.gridToHash(cell), cells)
+		return [...cells]
 	}
+
 	moveCellToGrid(cell: Cell3D, grid: IGrid): Cell3D[] {
 		this.removeCellFromGrid(cell, cell)
 		Object.assign(cell, grid)
 		return this.addCell(cell)
 	}
+
 	static gridToHash(grid: IGrid): string {
 		return grid.x + ':' + grid.y + ':' + grid.z
 	}
+
 	static Directions: Record<Direction, IGridDirection> = {
 		east: { x: 1, y: 0, z: 0, direction: Direction.East },
 		west: { x: -1, y: 0, z: 0, direction: Direction.West },
