@@ -1,7 +1,7 @@
 import Map3D from './map-3d'
 import { IGrid } from '../typings'
 
-const ATTRIBUTE_DEFAULTS: ICell3DAttributes = {
+const DEFAULT_ATTRIBUTES: ICell3DAttributes = {
 	solid: false,
 	platform: false,
 }
@@ -20,7 +20,7 @@ export class Cell3D {
 		this.y = y
 		this.z = z
 		this.parentCell = parentCell
-		this.attributes = { ...ATTRIBUTE_DEFAULTS, ...attributes }
+		this.attributes = { ...DEFAULT_ATTRIBUTES, ...attributes }
 	}
 
 	moveTo(grid: IGrid): Cell3D[] {
