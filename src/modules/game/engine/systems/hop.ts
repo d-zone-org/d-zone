@@ -5,6 +5,8 @@ import Sprite from '../components/sprite'
 import MapCell from '../components/map-cell'
 import { HOP_OFFSETS, HOP_FRAMERATE } from '../../config/sprite'
 import { Animations, Direction } from '../../typings'
+import { Cell3D } from '../../common/cell-3d'
+import { reserveTarget, getValidHop } from '../archetypes/actor'
 
 export default class HopSystem extends System {
 	private animations!: Animations
@@ -23,12 +25,12 @@ export default class HopSystem extends System {
 		let needRefresh = false
 		this.hopQuery.added.forEach((entity) => {
 			const hop = entity.c[Hop.key] as Hop
-			const actorCell = entity.c[MapCell.key].cell
-			const target = actorCell.getHopTarget(hop)
-			if (target) {
-				actorCell.reserveTarget(target)
-				actorCell.properties.platform = false
-				Object.assign(hop, target)
+			const actorCell = entity.c[MapCell.key].cell as Cell3D
+			const validHop = getValidHop(actorCell, hop)
+			if (validHop) {
+				hop.z = validHop.z
+				reserveTarget(actorCell, validHop)
+				actorCell.attributes.platform = false
 			} else {
 				faceSpriteToHop(entity.c[Sprite.key] as Sprite, hop)
 				entity.removeComponent(hop)
@@ -52,7 +54,7 @@ export default class HopSystem extends System {
 					z: z + hop.z,
 				})
 				faceSpriteToHop(sprite, hop)
-				entity.c[MapCell.key].cell.properties.platform = true
+				entity.c[MapCell.key].cell.attributes.platform = true
 				entity.removeComponent(hop)
 			} else if (hop.progress === 0 || frame > hop.frame) {
 				hop.frame = frame
