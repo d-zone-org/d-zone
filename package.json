@@ -44,6 +44,7 @@
 		"eslint": "^7.14.0",
 		"eslint-config-prettier": "^6.15.0",
 		"eslint-plugin-react": "latest",
+		"eslint-plugin-tsdoc": "^0.2.10",
 		"gitmoji-cli": "^3.2.12",
 		"nodemon": "^2.0.6",
 		"pixi.js": "^5.3.3",
