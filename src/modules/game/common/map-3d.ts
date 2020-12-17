@@ -2,10 +2,8 @@ import { Cell3D } from './cell-3d'
 import { Direction, IGrid, IGridDirection } from '../typings'
 
 export default class Map3D {
-	private data: Map<string, Cell3D[]>
-	constructor() {
-		this.data = new Map()
-	}
+	private data: Map<string, Cell3D[]> = new Map()
+
 	getCellsAtGrid(grid: IGrid): Cell3D[] {
 		const hash = Map3D.gridToHash(grid)
 		let cells = this.data.get(hash)
