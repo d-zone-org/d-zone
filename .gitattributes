@@ -1,2 +1,4 @@
 .yarn/* linguist-vendored
+.vscode/* linguist-vendored
+packages/* linguist-vendored
 * text=auto eol=lf
