@@ -41,6 +41,7 @@
 
 	"typedocOptions": {
 		"mode": "file",
-		"out": "docs"
+		"out": "docs",
+		"name": "D-Zone"
 	}
 }

@@ -82,7 +82,7 @@ export default class Map3D {
 	}
 
 	/**
-	 * Objects representing the four cardinal directions.
+	 * Contains objects representing the four cardinal directions.
 	 *
 	 * @remarks
 	 * This can be used when creating [[Hop]] components.
