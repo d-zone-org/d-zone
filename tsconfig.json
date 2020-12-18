@@ -40,7 +40,7 @@
 	"exclude": ["node_modules", ".next", "out", "next.config.js"],
 
 	"typedocOptions": {
-		"mode": "modules",
+		"mode": "file",
 		"out": "docs"
 	}
 }
