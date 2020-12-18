@@ -1,7 +1,7 @@
 import { Cell3D } from './cell-3d'
 import { Direction, IGrid, IGridDirection } from '../typings'
 
-/** Stores instances of [[Cell3D]] and provides methods for manipulating them. */
+/** A manager used for storing instances of [[Cell3D]] and providing methods to manipulate them. */
 export default class Map3D {
 	/**
 	 * Stores the map cells indexed by grid location. Use [[Map3D.gridToHash]] to generate the hash string used for indexing.
@@ -82,7 +82,7 @@ export default class Map3D {
 	}
 
 	/**
-	 * Contains objects representing the four cardinal directions.
+	 * A constant containing objects that represent the four cardinal directions.
 	 *
 	 * @remarks
 	 * This can be used when creating [[Hop]] components.

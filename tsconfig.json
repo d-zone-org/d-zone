@@ -42,6 +42,7 @@
 	"typedocOptions": {
 		"mode": "file",
 		"out": "docs",
-		"name": "D-Zone"
+		"name": "D-Zone",
+		"gitRevision": "rewrite"
 	}
 }
