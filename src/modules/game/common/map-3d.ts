@@ -1,7 +1,7 @@
 import { Cell3D } from './cell-3d'
 import { Direction, IGrid, IGridDirection } from '../typings'
 
-/** Stores instances of [[Cell3D]] in a map object. */
+/** Stores instances of [[Cell3D]] and provides methods for manipulating them. */
 export default class Map3D {
 	/**
 	 * Stores the map cells indexed by grid location. Use [[Map3D.gridToHash]] to generate the hash string used for indexing.
