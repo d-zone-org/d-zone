@@ -44,6 +44,7 @@
 		"babel-plugin-styled-components": "^1.8.0",
 		"eslint": "^7.14.0",
 		"eslint-config-prettier": "^6.15.0",
+		"eslint-plugin-jsdoc": "^30.7.9",
 		"eslint-plugin-react": "latest",
 		"gitmoji-cli": "^3.2.12",
 		"nodemon": "^2.0.6",

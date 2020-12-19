@@ -37,7 +37,7 @@
 	],
 
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.json"],
-	"exclude": ["node_modules", ".next", "out", "next.config.js"],
+	"exclude": ["node_modules", ".next", "out", "next.config.js", "dist", "docs"],
 
 	"typedocOptions": {
 		"mode": "file",

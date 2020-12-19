@@ -3781,6 +3781,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"comment-parser@npm:^0.7.6":
+  version: 0.7.6
+  resolution: "comment-parser@npm:0.7.6"
+  checksum: 6c01e065018737d629538567522f1aa82f09c2c97c489530238e721e5e0c6d380e3a332271fe1c07ad6255224ccd66f562aa99acfbfb44fe3f780a6c51943e26
+  languageName: node
+  linkType: hard
+
 "commondir@npm:^1.0.1":
   version: 1.0.1
   resolution: "commondir@npm:1.0.1"
@@ -4145,6 +4152,7 @@ __metadata:
     eris: ^0.14.0
     eslint: ^7.14.0
     eslint-config-prettier: ^6.15.0
+    eslint-plugin-jsdoc: ^30.7.9
     eslint-plugin-react: latest
     gitmoji-cli: ^3.2.12
     next: 10.0.1
@@ -4230,6 +4238,18 @@ __metadata:
   dependencies:
     ms: ^2.1.1
   checksum: 9fc1277e666db3af31df89e9e41f5c83da6e9de56d4a95b37e095d47ba1958238b8c7b49d4327b516465d46b6340bee723a97a7b2f28c5c7563f8b0a8fc9458a
+  languageName: node
+  linkType: hard
+
+"debug@npm:^4.3.1":
+  version: 4.3.2
+  resolution: "debug@npm:4.3.2"
+  dependencies:
+    ms: 2.1.2
+  peerDependenciesMeta:
+    supports-color:
+      optional: true
+  checksum: 5543570879e2274f6725d4285a034d6e0822d35faefc6f55965933fb440e8c21eb3a0bef934e66f4b6b491f898ee2de37cab980e9d4fd61372136c19d3ce4527
   languageName: node
   linkType: hard
 
@@ -4785,6 +4805,23 @@ __metadata:
   bin:
     eslint-config-prettier-check: bin/cli.js
   checksum: a790bc61699e43a2edc5453488576cd977fad3b3cf99c129c10760ce6970d422923fddf80b65b2b10a93c00af0180a854e4b7824cc268e5957826cbe5b969e90
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-jsdoc@npm:^30.7.9":
+  version: 30.7.9
+  resolution: "eslint-plugin-jsdoc@npm:30.7.9"
+  dependencies:
+    comment-parser: ^0.7.6
+    debug: ^4.3.1
+    jsdoctypeparser: ^9.0.0
+    lodash: ^4.17.20
+    regextras: ^0.7.1
+    semver: ^7.3.4
+    spdx-expression-parse: ^3.0.1
+  peerDependencies:
+    eslint: ^6.0.0 || ^7.0.0
+  checksum: 56bfb0a469913ef0c7ee18df06ded62654a949a1bc08ec4ac37442d3f622d6f0c0277143df48a5fd8e9f9bb034ba895063047ea35681d3dbf186d991a54d61f2
   languageName: node
   linkType: hard
 
@@ -6474,6 +6511,15 @@ fsevents@~2.1.2:
   version: 0.1.1
   resolution: "jsbn@npm:0.1.1"
   checksum: b530d48a64e6aff9523407856a54c5b9beee30f34a410612057f4fa097d90072fc8403c49604dacf0c3e7620dca43c2b7f0de3f954af611e43716a254c46f6f5
+  languageName: node
+  linkType: hard
+
+"jsdoctypeparser@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "jsdoctypeparser@npm:9.0.0"
+  bin:
+    jsdoctypeparser: bin/jsdoctypeparser
+  checksum: d0c855be23ddb77260d54c8d833bf089e2e5a08f7b7dd7fdd60c35d3a222669e2edadc455fd69c435e593413e09b6792410d1d877c8f423662053f5e5012513b
   languageName: node
   linkType: hard
 
@@ -8754,6 +8800,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"regextras@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "regextras@npm:0.7.1"
+  checksum: 60e965d826751da5c7c744c9ecdca3bd90026f8376ec6a362b04b9eeb8140e8be5f6028de155f9b4d3a713344aff625668522c3fb3fc391aec67815bdc3ab509
+  languageName: node
+  linkType: hard
+
 "registry-auth-token@npm:^4.0.0":
   version: 4.2.1
   resolution: "registry-auth-token@npm:4.2.1"
@@ -9149,7 +9202,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.2.1":
+"semver@npm:^7.2.1, semver@npm:^7.3.4":
   version: 7.3.4
   resolution: "semver@npm:7.3.4"
   dependencies:
@@ -9470,7 +9523,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"spdx-expression-parse@npm:^3.0.0":
+"spdx-expression-parse@npm:^3.0.0, spdx-expression-parse@npm:^3.0.1":
   version: 3.0.1
   resolution: "spdx-expression-parse@npm:3.0.1"
   dependencies:
