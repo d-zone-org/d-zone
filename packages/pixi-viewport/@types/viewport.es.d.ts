@@ -21,303 +21,199 @@ export type LastDrag = {
 	parent: PIXI.Point
 }
 export type DragOptions = {
-	/**
-	 * direction to drag
-	 */
+	/** Direction to drag */
 	direction?: string
-	/**
-	 * whether click to drag is active
-	 */
+	/** Whether click to drag is active */
 	pressDrag?: boolean
-	/**
-	 * use wheel to scroll in direction (unless wheel plugin is active)
-	 */
+	/** Use wheel to scroll in direction (unless wheel plugin is active) */
 	wheel?: boolean
-	/**
-	 * number of pixels to scroll with each wheel spin
-	 */
+	/** Number of pixels to scroll with each wheel spin */
 	wheelScroll?: number
-	/**
-	 * reverse the direction of the wheel scroll
-	 */
+	/** Reverse the direction of the wheel scroll */
 	reverse?: boolean
-	/**
-	 * clamp wheel(to avoid weird bounce with mouse wheel)
-	 */
+	/** Clamp wheel(to avoid weird bounce with mouse wheel) */
 	clampWheel?: boolean | string
-	/**
-	 * where to place world if too small for screen
-	 */
+	/** Where to place world if too small for screen */
 	underflow?: string
-	/**
-	 * factor to multiply drag to increase the speed of movement
-	 */
+	/** Factor to multiply drag to increase the speed of movement */
 	factor?: number
 	/**
-	 * changes which mouse buttons trigger drag, use: 'all', 'left', right' 'middle', or some combination, like, 'middle-right'; you may want to set viewport.options.disableOnContextMenu if you want to use right-click dragging
+	 * Changes which mouse buttons trigger drag, use: 'all', 'left', right'
+	 * 'middle', or some combination, like, 'middle-right'; you may want to set
+	 * viewport.options.disableOnContextMenu if you want to use right-click dragging
 	 */
 	mouseButtons?: string
 	/**
-	 * array containing {@link key|https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code} codes of keys that can be pressed for the drag to be triggered, e.g.: ['ShiftLeft', 'ShiftRight'}.
+	 * Array containing {@link
+	 * key|https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code}
+	 * codes of keys that can be pressed for the drag to be triggered, e.g.:
+	 * ['ShiftLeft', 'ShiftRight'}.
 	 */
 	keyToPress?: string[]
-	/**
-	 * ignore keyToPress for touch events
-	 */
+	/** Ignore keyToPress for touch events */
 	ignoreKeyToPressOnTouch?: boolean
 }
 export type PinchOptions = {
-	/**
-	 * disable two-finger dragging
-	 */
+	/** Disable two-finger dragging */
 	noDrag?: boolean
-	/**
-	 * percent to modify pinch speed
-	 */
+	/** Percent to modify pinch speed */
 	percent?: number
-	/**
-	 * factor to multiply two-finger drag to increase the speed of movement
-	 */
+	/** Factor to multiply two-finger drag to increase the speed of movement */
 	factor?: number
-	/**
-	 * place this point at center during zoom instead of center of two fingers
-	 */
+	/** Place this point at center during zoom instead of center of two fingers */
 	center?: PIXI.Point
 }
 export type ClampOptions = {
-	/**
-	 * clamp left; true = 0
-	 */
+	/** Clamp left; true = 0 */
 	left?: number | boolean
-	/**
-	 * clamp right; true = viewport.worldWidth
-	 */
+	/** Clamp right; true = viewport.worldWidth */
 	right?: number | boolean
-	/**
-	 * clamp top; true = 0
-	 */
+	/** Clamp top; true = 0 */
 	top?: number | boolean
-	/**
-	 * clamp bottom; true = viewport.worldHeight
-	 */
+	/** Clamp bottom; true = viewport.worldHeight */
 	bottom?: number | boolean
 	/**
-	 * (all, x, or y) using clamps of [0, viewport.worldWidth/viewport.worldHeight]; replaces left/right/top/bottom if set
+	 * (all, x, or y) using clamps of [0,
+	 * viewport.worldWidth/viewport.worldHeight]; replaces left/right/top/bottom if set
 	 */
 	direction?: string
 	/**
-	 * where to place world if too small for screen (e.g., top-right, center, none, bottomleft)
+	 * Where to place world if too small for screen (e.g., top-right, center, none,
+	 * bottomleft)
 	 */
 	underflow?: string
 }
-/**
- * use either minimum width/height or minimum scale
- */
+/** Use either minimum width/height or minimum scale */
 export type ClampZoomOptions = {
-	/**
-	 * minimum width
-	 */
+	/** Minimum width */
 	minWidth?: number
-	/**
-	 * minimum height
-	 */
+	/** Minimum height */
 	minHeight?: number
-	/**
-	 * maximum width
-	 */
+	/** Maximum width */
 	maxWidth?: number
-	/**
-	 * maximum height
-	 */
+	/** Maximum height */
 	maxHeight?: number
-	/**
-	 * minimum scale
-	 */
+	/** Minimum scale */
 	minScale?: number
-	/**
-	 * minimum scale
-	 */
+	/** Minimum scale */
 	maxScale?: number
 }
 export type DecelerateOptions = {
-	/**
-	 * percent to decelerate after movement
-	 */
+	/** Percent to decelerate after movement */
 	friction?: number
 	/**
-	 * percent to decelerate when past boundaries (only applicable when viewport.bounce() is active)
+	 * Percent to decelerate when past boundaries (only applicable when
+	 * viewport.bounce() is active)
 	 */
 	bounce?: number
-	/**
-	 * minimum velocity before stopping/reversing acceleration
-	 */
+	/** Minimum velocity before stopping/reversing acceleration */
 	minSpeed?: number
 }
 export type BounceOptions = any
 export type SnapOptions = {
-	/**
-	 * snap to the top-left of viewport instead of center
-	 */
+	/** Snap to the top-left of viewport instead of center */
 	topLeft?: boolean
-	/**
-	 * friction/frame to apply if decelerate is active
-	 */
+	/** Friction/frame to apply if decelerate is active */
 	friction?: number
 	time?: number
-	/**
-	 * ease function or name (see http://easings.net/ for supported names)
-	 */
+	/** Ease function or name (see http://easings.net/ for supported names) */
 	ease?: string | Function
-	/**
-	 * pause snapping with any user input on the viewport
-	 */
+	/** Pause snapping with any user input on the viewport */
 	interrupt?: boolean
-	/**
-	 * removes this plugin after snapping is complete
-	 */
+	/** Removes this plugin after snapping is complete */
 	removeOnComplete?: boolean
-	/**
-	 * removes this plugin if interrupted by any user input
-	 */
+	/** Removes this plugin if interrupted by any user input */
 	removeOnInterrupt?: boolean
 	/**
-	 * starts the snap immediately regardless of whether the viewport is at the desired location
+	 * Starts the snap immediately regardless of whether the viewport is at the
+	 * desired location
 	 */
 	forceStart?: boolean
 }
 export type SnapZoomOptions = {
-	/**
-	 * the desired width to snap (to maintain aspect ratio, choose only width or height)
-	 */
+	/** The desired width to snap (to maintain aspect ratio, choose only width or height) */
 	width?: number
-	/**
-	 * the desired height to snap (to maintain aspect ratio, choose only width or height)
-	 */
+	/** The desired height to snap (to maintain aspect ratio, choose only width or height) */
 	height?: number
-	/**
-	 * time for snapping in ms
-	 */
+	/** Time for snapping in ms */
 	time?: number
-	/**
-	 * ease function or name (see http://easings.net/ for supported names)
-	 */
+	/** Ease function or name (see http://easings.net/ for supported names) */
 	ease?: string | Function
-	/**
-	 * place this point at center during zoom instead of center of the viewport
-	 */
+	/** Place this point at center during zoom instead of center of the viewport */
 	center?: PIXI.Point
-	/**
-	 * pause snapping with any user input on the viewport
-	 */
+	/** Pause snapping with any user input on the viewport */
 	interrupt?: boolean
-	/**
-	 * removes this plugin after snapping is complete
-	 */
+	/** Removes this plugin after snapping is complete */
 	removeOnComplete?: boolean
-	/**
-	 * removes this plugin if interrupted by any user input
-	 */
+	/** Removes this plugin if interrupted by any user input */
 	removeOnInterrupt?: boolean
-	/**
-	 * starts the snap immediately regardless of whether the viewport is at the desired zoom
-	 */
+	/** Starts the snap immediately regardless of whether the viewport is at the desired zoom */
 	forceStart?: boolean
-	/**
-	 * zoom but do not move
-	 */
+	/** Zoom but do not move */
 	noMove?: boolean
 }
 export type FollowOptions = {
-	/**
-	 * to follow in pixels/frame (0=teleport to location)
-	 */
+	/** To follow in pixels/frame (0=teleport to location) */
 	speed?: number
 	/**
-	 * set acceleration to accelerate and decelerate at this rate; speed cannot be 0 to use acceleration
+	 * Set acceleration to accelerate and decelerate at this rate; speed cannot be
+	 * 0 to use acceleration
 	 */
 	acceleration?: number
 	/**
-	 * radius (in world coordinates) of center circle where movement is allowed without moving the viewport
+	 * Radius (in world coordinates) of center circle where movement is allowed
+	 * without moving the viewport
 	 */
 	radius?: number
 }
 /**
- * the default event listener for 'wheel' event is document.body. Use `Viewport.options.divWheel` to change this default
+ * The default event listener for 'wheel' event is document.body. Use
+ * `Viewport.options.divWheel` to change this default
  */
 export type WheelOptions = {
-	/**
-	 * percent to scroll with each spin
-	 */
+	/** Percent to scroll with each spin */
 	percent?: number
-	/**
-	 * smooth the zooming by providing the number of frames to zoom between wheel spins
-	 */
+	/** Smooth the zooming by providing the number of frames to zoom between wheel spins */
 	smooth?: number
-	/**
-	 * stop smoothing with any user input on the viewport
-	 */
+	/** Stop smoothing with any user input on the viewport */
 	interrupt?: boolean
-	/**
-	 * reverse the direction of the scroll
-	 */
+	/** Reverse the direction of the scroll */
 	reverse?: boolean
-	/**
-	 * place this point at center during zoom instead of current mouse position
-	 */
+	/** Place this point at center during zoom instead of current mouse position */
 	center?: PIXI.Point
-	/**
-	 * scaling factor for non-DOM_DELTA_PIXEL scrolling events
-	 */
+	/** Scaling factor for non-DOM_DELTA_PIXEL scrolling events */
 	lineHeight?: number
 }
 export type MouseEdgesOptions = {
-	/**
-	 * distance from center of screen in screen pixels
-	 */
+	/** Distance from center of screen in screen pixels */
 	radius?: number
-	/**
-	 * distance from all sides in screen pixels
-	 */
+	/** Distance from all sides in screen pixels */
 	distance?: number
-	/**
-	 * alternatively, set top distance (leave unset for no top scroll)
-	 */
+	/** Alternatively, set top distance (leave unset for no top scroll) */
 	top?: number
-	/**
-	 * alternatively, set bottom distance (leave unset for no top scroll)
-	 */
+	/** Alternatively, set bottom distance (leave unset for no top scroll) */
 	bottom?: number
-	/**
-	 * alternatively, set left distance (leave unset for no top scroll)
-	 */
+	/** Alternatively, set left distance (leave unset for no top scroll) */
 	left?: number
-	/**
-	 * alternatively, set right distance (leave unset for no top scroll)
-	 */
+	/** Alternatively, set right distance (leave unset for no top scroll) */
 	right?: number
-	/**
-	 * speed in pixels/frame to scroll viewport
-	 */
+	/** Speed in pixels/frame to scroll viewport */
 	speed?: number
-	/**
-	 * reverse direction of scroll
-	 */
+	/** Reverse direction of scroll */
 	reverse?: boolean
-	/**
-	 * don't use decelerate plugin even if it's installed
-	 */
+	/** Don't use decelerate plugin even if it's installed */
 	noDecelerate?: boolean
 	/**
-	 * if using radius, use linear movement (+/- 1, +/- 1) instead of angled movement (Math.cos(angle from center), Math.sin(angle from center))
+	 * If using radius, use linear movement (+/- 1, +/- 1) instead of angled
+	 * movement (Math.cos(angle from center), Math.sin(angle from center))
 	 */
 	linear?: boolean
-	/**
-	 * allows plugin to continue working even when there's a mousedown event
-	 */
+	/** Allows plugin to continue working even when there's a mousedown event */
 	allowButtons?: boolean
 }
 /**
- * To set the zoom level, use: (1) scale, (2) scaleX and scaleY, or (3) width and/or height
+ * To set the zoom level, use: (1) scale, (2) scaleX and scaleY, or (3) width
+ * and/or height
  */
 export type AnimateOptions = any
 export type ViewportOptions = {
@@ -326,105 +222,99 @@ export type ViewportOptions = {
 	worldWidth?: number
 	worldHeight?: number
 	/**
-	 * number of pixels to move to trigger an input event (e.g., drag, pinch) or disable a clicked event
+	 * Number of pixels to move to trigger an input event (e.g., drag, pinch) or
+	 * disable a clicked event
 	 */
 	threshold?: number
 	/**
-	 * whether the 'wheel' event is set to passive (note: if false, e.preventDefault() will be called when wheel is used over the viewport)
+	 * Whether the 'wheel' event is set to passive (note: if false,
+	 * e.preventDefault() will be called when wheel is used over the viewport)
 	 */
 	passiveWheel?: boolean
 	/**
-	 * whether to stopPropagation of events that impact the viewport (except wheel events, see options.passiveWheel)
+	 * Whether to stopPropagation of events that impact the viewport (except wheel
+	 * events, see options.passiveWheel)
 	 */
 	stopPropagation?: boolean
-	/**
-	 * change the default hitArea from world size to a new value
-	 */
+	/** Change the default hitArea from world size to a new value */
 	forceHitArea?: any
-	/**
-	 * set this if you want to manually call update() function on each frame
-	 */
+	/** Set this if you want to manually call update() function on each frame */
 	noTicker?: boolean
-	/**
-	 * use this PIXI.ticker for updates
-	 */
+	/** Use this PIXI.ticker for updates */
 	ticker?: PIXI.Ticker
 	/**
-	 * InteractionManager, available from instantiated WebGLRenderer/CanvasRenderer.plugins.interaction - used to calculate pointer postion relative to canvas location on screen
+	 * InteractionManager, available from instantiated
+	 * WebGLRenderer/CanvasRenderer.plugins.interaction - used to calculate
+	 * pointer postion relative to canvas location on screen
 	 */
 	interaction?: PIXI.InteractionManager
-	/**
-	 * div to attach the wheel event
-	 */
+	/** Div to attach the wheel event */
 	divWheel?: HTMLElement
-	/**
-	 * remove oncontextmenu=() => {} from the divWheel element
-	 */
+	/** Remove oncontextmenu=() => {} from the divWheel element */
 	disableOnContextMenu?: boolean
 }
-/**
- * {(PIXI.Rectangle | PIXI.Circle | PIXI.Ellipse | PIXI.Polygon | PIXI.RoundedRectangle)}
- */
+/** {(PIXI.Rectangle | PIXI.Circle | PIXI.Ellipse | PIXI.Polygon | PIXI.RoundedRectangle)} */
 export type HitArea = any
 export type OutOfBounds = any
 export type LastViewport = any
-/**
- * derive this class to create user-defined plugins
- */
+/** Derive this class to create user-defined plugins */
 export class Plugin {
-	/**
-	 * @param {Viewport} parent
-	 */
+	/** @param {Viewport} parent */
 	constructor(parent: Viewport<any>)
 	parent: Viewport<any>
 	paused: boolean
-	/** called when plugin is removed */
+	/** Called when plugin is removed */
 	destroy(): void
 	/**
-	 * handler for pointerdown PIXI event
+	 * Handler for pointerdown PIXI event
+	 *
 	 * @param {PIXI.InteractionEvent} event
 	 * @returns {boolean | void}
 	 */
 	down(): boolean | void
 	/**
-	 * handler for pointermove PIXI event
+	 * Handler for pointermove PIXI event
+	 *
 	 * @param {PIXI.InteractionEvent} event
 	 * @returns {boolean | void}
 	 */
 	move(): boolean | void
 	/**
-	 * handler for pointerup PIXI event
+	 * Handler for pointerup PIXI event
+	 *
 	 * @param {PIXI.InteractionEvent} event
 	 * @returns {boolean | void}
 	 */
 	up(): boolean | void
 	/**
-	 * handler for wheel event on div
+	 * Handler for wheel event on div
+	 *
 	 * @param {WheelEvent} event
 	 * @returns {boolean | void}
 	 */
 	wheel(event: WheelEvent): boolean | void
 	/**
-	 * called on each tick
-	 * @param {number} elapsed time in millisecond since last update
+	 * Called on each tick
+	 *
+	 * @param {number} elapsed Time in millisecond since last update
 	 */
 	update(): void
-	/** called when the viewport is resized */
+	/** Called when the viewport is resized */
 	resize(): void
-	/** called when the viewport is manually moved */
+	/** Called when the viewport is manually moved */
 	reset(): void
-	/** pause the plugin */
+	/** Pause the plugin */
 	pause(): void
-	/** un-pause the plugin */
+	/** Un-pause the plugin */
 	resume(): void
 }
 /**
  * Main class to use when creating a Viewport
+ *
  * @template {BuiltInPlugins} Plugins
  */
 export class Viewport<Plugins extends BuiltInPlugins> extends PIXI.Container {
 	/**
-	 * @param {ViewportOptions} [options]
 	 * @fires clicked
 	 * @fires drag-start
 	 * @fires drag-end
@@ -455,6 +345,7 @@ export class Viewport<Plugins extends BuiltInPlugins> extends PIXI.Container {
 	 * @fires zoomed
 	 * @fires zoomed-end
 	 * @fires frame-end
+	 * @param {ViewportOptions} [options]
 	 */
 	constructor(options?: ViewportOptions)
 	/** @type {ViewportOptions} */
@@ -467,13 +358,17 @@ export class Viewport<Plugins extends BuiltInPlugins> extends PIXI.Container {
 	_worldHeight: number
 	set forceHitArea(arg: any)
 	/**
-	 * permanently changes the Viewport's hitArea
-	 * NOTE: if not set then hitArea = PIXI.Rectangle(Viewport.left, Viewport.top, Viewport.worldScreenWidth, Viewport.worldScreenHeight)
+	 * Permanently changes the Viewport's hitArea NOTE: if not set then hitArea =
+	 * PIXI.Rectangle(Viewport.left, Viewport.top, Viewport.worldScreenWidth,
+	 * Viewport.worldScreenHeight)
+	 *
 	 * @returns {HitArea}
 	 */
 	get forceHitArea(): any
 	/**
-	 * number of pixels to move to trigger an input event (e.g., drag, pinch) or disable a clicked event
+	 * Number of pixels to move to trigger an input event (e.g., drag, pinch) or
+	 * disable a clicked event
+	 *
 	 * @type {number}
 	 */
 	threshold: number
@@ -481,14 +376,17 @@ export class Viewport<Plugins extends BuiltInPlugins> extends PIXI.Container {
 	/** @type {InputManager} */
 	input: InputManager
 	/**
-	 * Use this to add user plugins or access existing plugins (e.g., to pause, resume, or remove them)
+	 * Use this to add user plugins or access existing plugins (e.g., to pause,
+	 * resume, or remove them)
+	 *
 	 * @type {PluginManager<Plugins>}
 	 */
 	plugins: PluginManager<Plugins>
 	/**
-	 * update viewport on each frame
-	 * by default, you do not need to call this unless you set options.noTicker=true
-	 * @param {number} elapsed time in milliseconds since last update
+	 * Update viewport on each frame by default, you do not need to call this
+	 * unless you set options.noTicker=true
+	 *
+	 * @param {number} elapsed Time in milliseconds since last update
 	 */
 	update(elapsed: number): void
 	moving: boolean
@@ -497,9 +395,10 @@ export class Viewport<Plugins extends BuiltInPlugins> extends PIXI.Container {
 	_dirty: any
 	lastViewport: any
 	/**
-	 * use this to set screen and world sizes--needed for pinch/wheel/clamp/bounce
-	 * @param {number} [screenWidth=window.innerWidth]
-	 * @param {number} [screenHeight=window.innerHeight]
+	 * Use this to set screen and world sizes--needed for pinch/wheel/clamp/bounce
+	 *
+	 * @param {number} [screenWidth] Default is `window.innerWidth`
+	 * @param {number} [screenHeight] Default is `window.innerHeight`
 	 * @param {number} [worldWidth]
 	 * @param {number} [worldHeight]
 	 */
@@ -511,134 +410,157 @@ export class Viewport<Plugins extends BuiltInPlugins> extends PIXI.Container {
 	): void
 	set dirty(arg: boolean)
 	/**
-	 * determines whether the viewport is dirty (i.e., needs to be renderered to the screen because of a change)
+	 * Determines whether the viewport is dirty (i.e., needs to be renderered to
+	 * the screen because of a change)
+	 *
 	 * @type {boolean}
 	 */
 	get dirty(): boolean
 	set worldWidth(arg: number)
 	/**
-	 * world width in pixels
+	 * World width in pixels
+	 *
 	 * @type {number}
 	 */
 	get worldWidth(): number
 	set worldHeight(arg: number)
 	/**
-	 * world height in pixels
+	 * World height in pixels
+	 *
 	 * @type {number}
 	 */
 	get worldHeight(): number
 	/**
-	 * get visible bounds of viewport
+	 * Get visible bounds of viewport
+	 *
 	 * @returns {PIXI.Rectangle}
 	 */
 	getVisibleBounds(): PIXI.Rectangle
 	/**
-	 * change coordinates from screen to world
-	 * @param {(number|PIXI.Point)} x or point
+	 * Change coordinates from screen to world
+	 *
+	 * @param {number | PIXI.Point} x Or point
 	 * @param {number} [y]
-	 * @return {PIXI.Point}
+	 * @returns {PIXI.Point}
 	 */
 	toWorld(x: number | PIXI.Point, y?: number, ...args: any[]): PIXI.Point
 	/**
-	 * change coordinates from world to screen
-	 * @param {(number|PIXI.Point)} x or point
+	 * Change coordinates from world to screen
+	 *
+	 * @param {number | PIXI.Point} x Or point
 	 * @param {number} [y]
-	 * @return {PIXI.Point}
+	 * @returns {PIXI.Point}
 	 */
 	toScreen(x: number | PIXI.Point, y?: number, ...args: any[]): PIXI.Point
 	/**
-	 * screen width in world coordinates
+	 * Screen width in world coordinates
+	 *
 	 * @type {number}
 	 */
 	get worldScreenWidth(): number
 	/**
-	 * screen height in world coordinates
+	 * Screen height in world coordinates
+	 *
 	 * @type {number}
 	 */
 	get worldScreenHeight(): number
 	/**
-	 * world width in screen coordinates
+	 * World width in screen coordinates
+	 *
 	 * @type {number}
 	 */
 	get screenWorldWidth(): number
 	/**
-	 * world height in screen coordinates
+	 * World height in screen coordinates
+	 *
 	 * @type {number}
 	 */
 	get screenWorldHeight(): number
 	set center(arg: PIXI.Point)
 	/**
-	 * center of screen in world coordinates
+	 * Center of screen in world coordinates
+	 *
 	 * @type {PIXI.Point}
 	 */
 	get center(): PIXI.Point
 	/**
-	 * move center of viewport to point
-	 * @param {(number|PIXI.Point)} x or point
+	 * Move center of viewport to point
+	 *
+	 * @param {number | PIXI.Point} x Or point
 	 * @param {number} [y]
-	 * @return {Viewport} this
+	 * @returns {Viewport} This
 	 */
 	moveCenter(...args: any[]): Viewport<any>
 	set corner(arg: PIXI.Point)
 	/**
-	 * top-left corner of Viewport
+	 * Top-left corner of Viewport
+	 *
 	 * @type {PIXI.Point}
 	 */
 	get corner(): PIXI.Point
 	/**
-	 * move viewport's top-left corner; also clamps and resets decelerate and bounce (as needed)
-	 * @param {(number|PIXI.Point)} x or point
+	 * Move viewport's top-left corner; also clamps and resets decelerate and
+	 * bounce (as needed)
+	 *
+	 * @param {number | PIXI.Point} x Or point
 	 * @param {number} [y]
-	 * @return {Viewport} this
+	 * @returns {Viewport} This
 	 */
 	moveCorner(x: number | PIXI.Point, y?: number, ...args: any[]): Viewport<any>
 	/**
-	 * get how many world pixels fit in screen's width
+	 * Get how many world pixels fit in screen's width
+	 *
 	 * @type {number}
 	 */
 	get screenWidthInWorldPixels(): number
 	/**
-	 * get how many world pixels fit on screen's height
+	 * Get how many world pixels fit on screen's height
+	 *
 	 * @type {number}
 	 */
 	get screenHeightInWorldPixels(): number
 	/**
-	 * find the scale value that fits a world width on the screen
-	 * does not change the viewport (use fit... to change)
-	 * @param {number} width in world pixels
-	 * @returns {number} scale
+	 * Find the scale value that fits a world width on the screen does not change
+	 * the viewport (use fit... to change)
+	 *
+	 * @param {number} width In world pixels
+	 * @returns {number} Scale
 	 */
 	findFitWidth(width: number): number
 	/**
-	 * finds the scale value that fits a world height on the screens
-	 * does not change the viewport (use fit... to change)
-	 * @param {number} height in world pixels
-	 * @returns {number} scale
+	 * Finds the scale value that fits a world height on the screens does not
+	 * change the viewport (use fit... to change)
+	 *
+	 * @param {number} height In world pixels
+	 * @returns {number} Scale
 	 */
 	findFitHeight(height: number): number
 	/**
-	 * finds the scale value that fits the smaller of a world width and world height on the screen
-	 * does not change the viewport (use fit... to change)
-	 * @param {number} width in world pixels
-	 * @param {number} height in world pixels
-	 * @returns {number} scale
+	 * Finds the scale value that fits the smaller of a world width and world
+	 * height on the screen does not change the viewport (use fit... to change)
+	 *
+	 * @param {number} width In world pixels
+	 * @param {number} height In world pixels
+	 * @returns {number} Scale
 	 */
 	findFit(width: number, height: number): number
 	/**
-	 * finds the scale value that fits the larger of a world width and world height on the screen
-	 * does not change the viewport (use fit... to change)
-	 * @param {number} width in world pixels
-	 * @param {number} height in world pixels
-	 * @returns {number} scale
+	 * Finds the scale value that fits the larger of a world width and world height
+	 * on the screen does not change the viewport (use fit... to change)
+	 *
+	 * @param {number} width In world pixels
+	 * @param {number} height In world pixels
+	 * @returns {number} Scale
 	 */
 	findCover(width: number, height: number): number
 	/**
-	 * change zoom so the width fits in the viewport
-	 * @param {number} [width=this.worldWidth] in world coordinates
-	 * @param {boolean} [center] maintain the same center
-	 * @param {boolean} [scaleY=true] whether to set scaleY=scaleX
-	 * @param {boolean} [noClamp] whether to disable clamp-zoom
-	 * @returns {Viewport} this
+	 * Change zoom so the width fits in the viewport
+	 *
+	 * @param {number} [width] In world coordinates Default is `this.worldWidth`
+	 * @param {boolean} [center] Maintain the same center
+	 * @param {boolean} [scaleY] Whether to set scaleY=scaleX Default is `true`
+	 * @param {boolean} [noClamp] Whether to disable clamp-zoom
+	 * @returns {Viewport} This
 	 */
 	fitWidth(
 		width?: number,
@@ -647,12 +569,13 @@ export class Viewport<Plugins extends BuiltInPlugins> extends PIXI.Container {
 		noClamp?: boolean
 	): Viewport<any>
 	/**
-	 * change zoom so the height fits in the viewport
-	 * @param {number} [height=this.worldHeight] in world coordinates
-	 * @param {boolean} [center] maintain the same center of the screen after zoom
-	 * @param {boolean} [scaleX=true] whether to set scaleX = scaleY
-	 * @param {boolean} [noClamp] whether to disable clamp-zoom
-	 * @returns {Viewport} this
+	 * Change zoom so the height fits in the viewport
+	 *
+	 * @param {number} [height] In world coordinates Default is `this.worldHeight`
+	 * @param {boolean} [center] Maintain the same center of the screen after zoom
+	 * @param {boolean} [scaleX] Whether to set scaleX = scaleY Default is `true`
+	 * @param {boolean} [noClamp] Whether to disable clamp-zoom
+	 * @returns {Viewport} This
 	 */
 	fitHeight(
 		height?: number,
@@ -661,120 +584,141 @@ export class Viewport<Plugins extends BuiltInPlugins> extends PIXI.Container {
 		noClamp?: boolean
 	): Viewport<any>
 	/**
-	 * change zoom so it fits the entire world in the viewport
-	 * @param {boolean} center maintain the same center of the screen after zoom
-	 * @returns {Viewport} this
+	 * Change zoom so it fits the entire world in the viewport
+	 *
+	 * @param {boolean} center Maintain the same center of the screen after zoom
+	 * @returns {Viewport} This
 	 */
 	fitWorld(center: boolean): Viewport<any>
 	/**
-	 * change zoom so it fits the size or the entire world in the viewport
-	 * @param {boolean} [center] maintain the same center of the screen after zoom
-	 * @param {number} [width=this.worldWidth] desired width
-	 * @param {number} [height=this.worldHeight] desired height
-	 * @returns {Viewport} this
+	 * Change zoom so it fits the size or the entire world in the viewport
+	 *
+	 * @param {boolean} [center] Maintain the same center of the screen after zoom
+	 * @param {number} [width] Desired width Default is `this.worldWidth`
+	 * @param {number} [height] Desired height Default is `this.worldHeight`
+	 * @returns {Viewport} This
 	 */
 	fit(center?: boolean, width?: number, height?: number): Viewport<any>
 	/**
-	 * zoom viewport to specific value
-	 * @param {number} scale value (e.g., 1 would be 100%, 0.25 would be 25%)
-	 * @param {boolean} [center] maintain the same center of the screen after zoom
-	 * @return {Viewport} this
+	 * Zoom viewport to specific value
+	 *
+	 * @param {number} scale Value (e.g., 1 would be 100%, 0.25 would be 25%)
+	 * @param {boolean} [center] Maintain the same center of the screen after zoom
+	 * @returns {Viewport} This
 	 */
 	setZoom(scale: number, center?: boolean): Viewport<any>
 	/**
-	 * zoom viewport by a certain percent (in both x and y direction)
-	 * @param {number} percent change (e.g., 0.25 would increase a starting scale of 1.0 to 1.25)
-	 * @param {boolean} [center] maintain the same center of the screen after zoom
-	 * @return {Viewport} this
+	 * Zoom viewport by a certain percent (in both x and y direction)
+	 *
+	 * @param {number} percent Change (e.g., 0.25 would increase a starting scale
+	 *     of 1.0 to 1.25)
+	 * @param {boolean} [center] Maintain the same center of the screen after zoom
+	 * @returns {Viewport} This
 	 */
 	zoomPercent(percent: number, center?: boolean): Viewport<any>
 	/**
-	 * zoom viewport by increasing/decreasing width by a certain number of pixels
-	 * @param {number} change in pixels
-	 * @param {boolean} [center] maintain the same center of the screen after zoom
-	 * @return {Viewport} this
+	 * Zoom viewport by increasing/decreasing width by a certain number of pixels
+	 *
+	 * @param {number} change In pixels
+	 * @param {boolean} [center] Maintain the same center of the screen after zoom
+	 * @returns {Viewport} This
 	 */
 	zoom(change: number, center?: boolean): Viewport<any>
 	/**
-	 * changes scale of viewport and maintains center of viewport
+	 * Changes scale of viewport and maintains center of viewport
+	 *
 	 * @type {number}
 	 */
 	set scaled(arg: number)
 	get scaled(): number
-	/**
-	 * @param {SnapZoomOptions} options
-	 */
+	/** @param {SnapZoomOptions} options */
 	snapZoom(options: SnapZoomOptions): Viewport<Plugins>
 	/**
-	 * is container out of world bounds
+	 * Is container out of world bounds
+	 *
 	 * @returns {OutOfBounds}
 	 */
 	OOB(): OutOfBounds
 	set right(arg: number)
 	/**
-	 * world coordinates of the right edge of the screen
+	 * World coordinates of the right edge of the screen
+	 *
 	 * @type {number}
 	 */
 	get right(): number
 	set left(arg: number)
 	/**
-	 * world coordinates of the left edge of the screen
-	 * @type { number }
+	 * World coordinates of the left edge of the screen
+	 *
+	 * @type {number}
 	 */
 	get left(): number
 	set top(arg: number)
 	/**
-	 * world coordinates of the top edge of the screen
+	 * World coordinates of the top edge of the screen
+	 *
 	 * @type {number}
 	 */
 	get top(): number
 	set bottom(arg: number)
 	/**
-	 * world coordinates of the bottom edge of the screen
+	 * World coordinates of the bottom edge of the screen
+	 *
 	 * @type {number}
 	 */
 	get bottom(): number
 	_forceHitArea: any
 	/**
-	 * enable one-finger touch to drag
-	 * NOTE: if you expect users to use right-click dragging, you should enable viewport.options.disableOnContextMenu to avoid the context menu popping up on each right-click drag
+	 * Enable one-finger touch to drag NOTE: if you expect users to use right-click
+	 * dragging, you should enable viewport.options.disableOnContextMenu to avoid
+	 * the context menu popping up on each right-click drag
+	 *
 	 * @param {DragOptions} [options]
-	 * @returns {Viewport} this
+	 * @returns {Viewport} This
 	 */
 	drag(options?: DragOptions): Viewport<any>
 	/**
-	 * clamp to world boundaries or other provided boundaries
-	 * NOTES:
-	 *   clamp is disabled if called with no options; use { direction: 'all' } for all edge clamping
-	 *   screenWidth, screenHeight, worldWidth, and worldHeight needs to be set for this to work properly
+	 * Clamp to world boundaries or other provided boundaries NOTES: clamp is
+	 * disabled if called with no options; use { direction: 'all' } for all edge
+	 * clamping screenWidth, screenHeight, worldWidth, and worldHeight needs to be
+	 * set for this to work properly
+	 *
 	 * @param {ClampOptions} [options]
-	 * @returns {Viewport} this
+	 * @returns {Viewport} This
 	 */
 	clamp(options?: ClampOptions): Viewport<any>
 	/**
-	 * decelerate after a move
-	 * NOTE: this fires 'moved' event during deceleration
+	 * Decelerate after a move NOTE: this fires 'moved' event during deceleration
+	 *
 	 * @param {DecelerateOptions} [options]
-	 * @return {Viewport} this
+	 * @returns {Viewport} This
 	 */
 	decelerate(options?: DecelerateOptions): Viewport<any>
 	/**
-	 * bounce on borders
-	 * NOTES:
-	 *    screenWidth, screenHeight, worldWidth, and worldHeight needs to be set for this to work properly
-	 *    fires 'moved', 'bounce-x-start', 'bounce-y-start', 'bounce-x-end', and 'bounce-y-end' events
+	 * Bounce on borders NOTES:
+	 *     screenWidth, screenHeight, worldWidth, and worldHeight needs to be set for
+	 * this to work properly
+	 *     fires 'moved', 'bounce-x-start', 'bounce-y-start', 'bounce-x-end', and
+	 * 'bounce-y-end' events
+	 *
 	 * @param {object} [options]
-	 * @param {string} [options.sides=all] all, horizontal, vertical, or combination of top, bottom, right, left (e.g., 'top-bottom-right')
-	 * @param {number} [options.friction=0.5] friction to apply to decelerate if active
-	 * @param {number} [options.time=150] time in ms to finish bounce
-	 * @param {object} [options.bounceBox] use this bounceBox instead of (0, 0, viewport.worldWidth, viewport.worldHeight)
-	 * @param {number} [options.bounceBox.x=0]
-	 * @param {number} [options.bounceBox.y=0]
-	 * @param {number} [options.bounceBox.width=viewport.worldWidth]
-	 * @param {number} [options.bounceBox.height=viewport.worldHeight]
-	 * @param {string|function} [options.ease=easeInOutSine] ease function or name (see http://easings.net/ for supported names)
-	 * @param {string} [options.underflow=center] (top/bottom/center and left/right/center, or center) where to place world if too small for screen
-	 * @return {Viewport} this
+	 * @param {string} [options.sides] All, horizontal, vertical, or combination of
+	 *     top, bottom, right, left (e.g., 'top-bottom-right') Default is `all`
+	 * @param {number} [options.friction] Friction to apply to decelerate if active
+	 *     Default is `0.5`
+	 * @param {number} [options.time] Time in ms to finish bounce Default is `150`
+	 * @param {object} [options.bounceBox] Use this bounceBox instead of (0, 0,
+	 *     viewport.worldWidth, viewport.worldHeight)
+	 * @param {number} [options.bounceBox.x] Default is `0`
+	 * @param {number} [options.bounceBox.y] Default is `0`
+	 * @param {number} [options.bounceBox.width] Default is `viewport.worldWidth`
+	 * @param {number} [options.bounceBox.height] Default is `viewport.worldHeight`
+	 * @param {string | function} [options.ease] Ease function or name (see
+	 *     http://easings.net/ for supported names) Default is `easeInOutSine`
+	 * @param {string} [options.underflow] (top/bottom/center and
+	 *     left/right/center, or center) where to place world if too small for
+	 *     screen Default is `center`
+	 * @returns {Viewport} This
 	 */
 	bounce(options?: {
 		sides: string
@@ -790,79 +734,88 @@ export class Viewport<Plugins extends BuiltInPlugins> extends PIXI.Container {
 		underflow: string
 	}): Viewport<any>
 	/**
-	 * enable pinch to zoom and two-finger touch to drag
+	 * Enable pinch to zoom and two-finger touch to drag
+	 *
 	 * @param {PinchOptions} [options]
-	 * @return {Viewport} this
+	 * @returns {Viewport} This
 	 */
 	pinch(options?: PinchOptions): Viewport<any>
 	/**
-	 * snap to a point
+	 * Snap to a point
+	 *
 	 * @param {number} x
 	 * @param {number} y
 	 * @param {SnapOptions} [options]
-	 * @return {Viewport} this
+	 * @returns {Viewport} This
 	 */
 	snap(x: number, y: number, options?: SnapOptions): Viewport<any>
 	/**
-	 * follow a target
-	 * NOTES:
-	 *    uses the (x, y) as the center to follow; for PIXI.Sprite to work properly, use sprite.anchor.set(0.5)
-	 *    options.acceleration is not perfect as it doesn't know the velocity of the target
-	 *    it adds acceleration to the start of movement and deceleration to the end of movement when the target is stopped
-	 *    fires 'moved' event
-	 * @param {PIXI.DisplayObject} target to follow
+	 * Follow a target NOTES:
+	 *     uses the (x, y) as the center to follow; for PIXI.Sprite to work properly,
+	 * use sprite.anchor.set(0.5)
+	 *     options.acceleration is not perfect as it doesn't know the velocity of the target
+	 *     it adds acceleration to the start of movement and deceleration to the end of
+	 * movement when the target is stopped
+	 *     fires 'moved' event
+	 *
+	 * @param {PIXI.DisplayObject} target To follow
 	 * @param {FollowOptions} [options]
-	 * @returns {Viewport} this
+	 * @returns {Viewport} This
 	 */
 	follow(target: PIXI.DisplayObject, options?: FollowOptions): Viewport<any>
 	/**
-	 * zoom using mouse wheel
+	 * Zoom using mouse wheel
+	 *
 	 * @param {WheelOptions} [options]
-	 * @return {Viewport} this
+	 * @returns {Viewport} This
 	 */
 	wheel(options?: WheelOptions): Viewport<any>
 	/**
-	 * animate the position and/or scale of the viewport
+	 * Animate the position and/or scale of the viewport
+	 *
 	 * @param {AnimateOptions} options
-	 * @returns {Viewport} this
+	 * @returns {Viewport} This
 	 */
 	animate(options: any): Viewport<any>
 	/**
-	 * enable clamping of zoom to constraints
-	 * @description
-	 * The minWidth/Height settings are how small the world can get (as it would appear on the screen)
-	 * before clamping. The maxWidth/maxHeight is how larger the world can scale (as it would appear on
-	 * the screen) before clamping.
+	 * The minWidth/Height settings are how small the world can get (as it would
+	 * appear on the screen) before clamping. The maxWidth/maxHeight is how larger
+	 * the world can scale (as it would appear on the screen) before clamping.
 	 *
-	 * For example, if you have a world size of 1000 x 1000 and a screen size of 100 x 100, if you set
-	 * minWidth/Height = 100 then the world will not be able to zoom smaller than the screen size (ie,
-	 * zooming out so it appears smaller than the screen). Similarly, if you set maxWidth/Height = 100
-	 * the world will not be able to zoom larger than the screen size (ie, zooming in so it appears
-	 * larger than the screen).
+	 * For example, if you have a world size of 1000 x 1000 and a screen size of
+	 * 100 x 100, if you set minWidth/Height = 100 then the world will not be able
+	 * to zoom smaller than the screen size (ie, zooming out so it appears smaller
+	 * than the screen). Similarly, if you set maxWidth/Height = 100 the world
+	 * will not be able to zoom larger than the screen size (ie, zooming in so it
+	 * appears larger than the screen). enable clamping of zoom to constraints
+	 *
 	 * @param {ClampZoomOptions} [options]
-	 * @return {Viewport} this
+	 * @returns {Viewport} This
 	 */
 	clampZoom(options?: ClampZoomOptions): Viewport<any>
 	/**
-	 * Scroll viewport when mouse hovers near one of the edges or radius-distance from center of screen.
-	 * NOTE: fires 'moved' event
+	 * Scroll viewport when mouse hovers near one of the edges or radius-distance
+	 * from center of screen. NOTE: fires 'moved' event
+	 *
 	 * @param {MouseEdgesOptions} [options]
 	 */
 	mouseEdges(options?: MouseEdgesOptions): Viewport<Plugins>
 	set pause(arg: boolean)
 	/**
-	 * pause viewport (including animation updates such as decelerate)
+	 * Pause viewport (including animation updates such as decelerate)
+	 *
 	 * @type {boolean}
 	 */
 	get pause(): boolean
 	_pause: boolean
 	/**
-	 * move the viewport so the bounding box is visible
-	 * @param {number} x - left
-	 * @param {number} y - top
+	 * Move the viewport so the bounding box is visible
+	 *
+	 * @param {number} x - Left
+	 * @param {number} y - Top
 	 * @param {number} width
 	 * @param {number} height
-	 * @param {boolean} [resizeToFit] resize the viewport so the box fits within the viewport
+	 * @param {boolean} [resizeToFit] Resize the viewport so the box fits within the viewport
 	 */
 	ensureVisible(
 		x: number,
@@ -874,9 +827,7 @@ export class Viewport<Plugins extends BuiltInPlugins> extends PIXI.Container {
 }
 import * as PIXI from 'pixi.js'
 import { Point } from 'pixi.js'
-/**
- * @private
- */
+/** @private */
 declare class Drag extends Plugin {
 	/**
 	 * @param {Viewport} parent
@@ -903,11 +854,13 @@ declare class Drag extends Plugin {
 	keyIsPressed: boolean
 	/**
 	 * Handles keypress events and set the keyIsPressed boolean accordingly
-	 * @param {array} codes - key codes that can be used to trigger drag event
+	 *
+	 * @param {array} codes - Key codes that can be used to trigger drag event
 	 */
 	handleKeyPresses(codes: any[]): void
 	/**
-	 * initialize mousebuttons array
+	 * Initialize mousebuttons array
+	 *
 	 * @param {string} buttons
 	 */
 	mouseButtons(buttons: string): void
@@ -971,7 +924,7 @@ declare class Follow extends Plugin {
 	/**
 	 * @private
 	 * @param {Viewport} parent
-	 * @param {PIXI.DisplayObject} target to follow
+	 * @param {PIXI.DisplayObject} target To follow
 	 * @param {FollowOptions} [options]
 	 */
 	private constructor()
@@ -989,6 +942,7 @@ declare class Follow extends Plugin {
 declare class MouseEdges extends Plugin {
 	/**
 	 * Scroll viewport when mouse hovers near one of the edges.
+	 *
 	 * @private
 	 * @param {Viewport} parent
 	 * @param {MouseEdgeOptions} [options]
@@ -1029,7 +983,8 @@ declare class Decelerate extends Plugin {
 	percentChangeX: number
 	percentChangeY: number
 	/**
-	 * manually activate plugin
+	 * Manually activate plugin
+	 *
 	 * @param {object} options
 	 * @param {number} [options.x]
 	 * @param {number} [options.y]
@@ -1039,12 +994,12 @@ declare class Decelerate extends Plugin {
 declare class Bounce extends Plugin {
 	/**
 	 * @private
-	 * @param {Viewport} parent
-	 * @param {BounceOptions} [options]
 	 * @fires bounce-start-x
 	 * @fires bounce.end-x
 	 * @fires bounce-start-y
 	 * @fires bounce-end-y
+	 * @param {Viewport} parent
+	 * @param {BounceOptions} [options]
 	 */
 	private constructor()
 	options: any
@@ -1142,7 +1097,8 @@ declare class Snap extends Plugin {
 	 * @param {number} y
 	 * @param {SnapOptions} [options]
 	 * @event snap-start(Viewport) emitted each time a snap animation starts
-	 * @event snap-restart(Viewport) emitted each time a snap resets because of a change in viewport size
+	 * @event snap-restart(Viewport) emitted each time a snap resets because of a
+	 *     change in viewport size
 	 * @event snap-end(Viewport) emitted each time snap reaches its target
 	 * @event snap-remove(Viewport) emitted if snap plugin is removed
 	 */
@@ -1202,81 +1158,87 @@ declare class Clamp extends Plugin {
  * @property {PIXI.Point} last
  */
 /**
- * handles all input for Viewport
+ * Handles all input for Viewport
+ *
  * @private
  */
 declare class InputManager {
 	constructor(viewport: any)
 	viewport: any
 	/**
-	 * list of active touches on viewport
+	 * List of active touches on viewport
+	 *
 	 * @type {ViewportTouch[]}
 	 */
 	touches: ViewportTouch[]
 	/**
-	 * add input listeners
+	 * Add input listeners
+	 *
 	 * @private
 	 */
 	private addListeners
 	wheelFunction: (e: any) => void
 	isMouseDown: boolean
 	/**
-	 * removes all event listeners from viewport
-	 * (useful for cleanup of wheel when removing viewport)
+	 * Removes all event listeners from viewport (useful for cleanup of wheel when
+	 * removing viewport)
 	 */
 	destroy(): void
 	/**
-	 * handle down events for viewport
+	 * Handle down events for viewport
+	 *
 	 * @param {PIXI.InteractionEvent} event
 	 */
 	down(event: PIXI.InteractionEvent): void
 	last: PIXI.Point
 	clickedAvailable: boolean
-	/**
-	 * clears all pointer events
-	 */
+	/** Clears all pointer events */
 	clear(): void
 	/**
 	 * @param {number} change
-	 * @returns whether change exceeds threshold
+	 * @returns Whether change exceeds threshold
 	 */
 	checkThreshold(change: number): boolean
 	/**
-	 * handle move events for viewport
+	 * Handle move events for viewport
+	 *
 	 * @param {PIXI.InteractionEvent} event
 	 */
 	move(event: PIXI.InteractionEvent): void
 	/**
-	 * handle up events for viewport
+	 * Handle up events for viewport
+	 *
 	 * @param {PIXI.InteractionEvent} event
 	 */
 	up(event: PIXI.InteractionEvent): void
 	/**
-	 * gets pointer position if this.interaction is set
+	 * Gets pointer position if this.interaction is set
+	 *
 	 * @param {WheelEvent} event
-	 * @return {PIXI.Point}
+	 * @returns {PIXI.Point}
 	 */
 	getPointerPosition(event: WheelEvent): PIXI.Point
 	/**
-	 * handle wheel events
+	 * Handle wheel events
+	 *
 	 * @param {WheelEvent} event
 	 */
 	handleWheel(event: WheelEvent): void
 	pause(): void
 	/**
-	 * get touch by id
+	 * Get touch by id
+	 *
 	 * @param {number} id
-	 * @return {ViewportTouch}
+	 * @returns {ViewportTouch}
 	 */
 	get(id: number): ViewportTouch
 	/**
-	 * remove touch by number
+	 * Remove touch by number
+	 *
 	 * @param {number} id
 	 */
 	remove(id: number): void
-	/**
-	 * @returns {number} count of mouse/touch pointers that are down on the viewport
-	 */
+	/** @returns {number} Count of mouse/touch pointers that are down on the viewport */
 	count(): number
 }
 /**
@@ -1295,11 +1257,13 @@ declare class InputManager {
  */
 /**
  * Use this to access current plugins or add user-defined plugins
+ *
  * @template {BuiltInPlugins} Plugins
  */
 declare class PluginManager<Plugins extends BuiltInPlugins> {
 	/**
-	 * instantiated by Viewport
+	 * Instantiated by Viewport
+	 *
 	 * @param {Viewport} viewport
 	 */
 	constructor(viewport: Viewport<any>)
@@ -1307,81 +1271,92 @@ declare class PluginManager<Plugins extends BuiltInPlugins> {
 	list: any[]
 	plugins: {}
 	/**
-	 * Inserts a named plugin or a user plugin into the viewport
-	 * default plugin order: 'drag', 'pinch', 'wheel', 'follow', 'mouse-edges', 'decelerate', 'bounce', 'snap-zoom', 'clamp-zoom', 'snap', 'clamp'
-	 * @param {keyof Plugins} name - name of plugin
-	 * @param {Plugin} plugin - instantiated Plugin class
-	 * @param {number} index - to insert userPlugin (otherwise inserts it at the end)
+	 * Inserts a named plugin or a user plugin into the viewport default plugin
+	 * order: 'drag', 'pinch', 'wheel', 'follow', 'mouse-edges', 'decelerate',
+	 * 'bounce', 'snap-zoom', 'clamp-zoom', 'snap', 'clamp'
+	 *
+	 * @param {keyof Plugins} name - Name of plugin
+	 * @param {Plugin} plugin - Instantiated Plugin class
+	 * @param {number} index - To insert userPlugin (otherwise inserts it at the end)
 	 */
 	add(name: keyof Plugins, plugin: Plugin, index?: number): void
 	/**
-	 * get plugin
+	 * Get plugin
+	 *
 	 * @template {keyof Plugins} T extends keyof Plugins
-	 * @param {T} name - of plugin
-	 * @param {boolean} [ignorePaused] - return null if plugin is paused
-	 * @return {Plugins[T] | null}
+	 * @param {T} name - Of plugin
+	 * @param {boolean} [ignorePaused] - Return null if plugin is paused
+	 * @returns {Plugins[T] | null}
 	 */
 	get<T extends keyof Plugins>(name: T, ignorePaused?: boolean): Plugins[T]
 	/**
-	 * update all active plugins
+	 * Update all active plugins
+	 *
+	 * @param {number} elapsed Type in milliseconds since last update
 	 * @ignore
-	 * @param {number} elapsed type in milliseconds since last update
 	 */
 	update(elapsed: number): void
 	/**
-	 * resize all active plugins
+	 * Resize all active plugins
+	 *
 	 * @ignore
 	 */
 	resize(): void
-	/**
-	 * clamps and resets bounce and decelerate (as needed) after manually moving viewport
-	 */
+	/** Clamps and resets bounce and decelerate (as needed) after manually moving viewport */
 	reset(): void
 	/**
-	 * removes installed plugin
-	 * @param {keyof Plugins} name name of plugin
+	 * Removes installed plugin
+	 *
+	 * @param {keyof Plugins} name Name of plugin
 	 */
 	remove(name: keyof Plugins): void
 	/**
-	 * pause plugin
-	 * @param {keyof Plugins} name name of plugin
+	 * Pause plugin
+	 *
+	 * @param {keyof Plugins} name Name of plugin
 	 */
 	pause(name: keyof Plugins): void
 	/**
-	 * resume plugin
-	 * @param {keyof Plugins} name name of plugin
+	 * Resume plugin
+	 *
+	 * @param {keyof Plugins} name Name of plugin
 	 */
 	resume(name: keyof Plugins): void
 	/**
-	 * sort plugins according to PLUGIN_ORDER
+	 * Sort plugins according to PLUGIN_ORDER
+	 *
 	 * @ignore
 	 */
 	sort(): void
 	/**
-	 * handle down for all plugins
-	 * @ignore
+	 * Handle down for all plugins
+	 *
 	 * @param {PIXI.InteractionEvent} event
+	 * @ignore
 	 * @returns {boolean}
 	 */
 	down(event: PIXI.InteractionEvent): boolean
 	/**
-	 * handle move for all plugins
-	 * @ignore
+	 * Handle move for all plugins
+	 *
 	 * @param {PIXI.InteractionEvent} event
+	 * @ignore
 	 * @returns {boolean}
 	 */
 	move(event: PIXI.InteractionEvent): boolean
 	/**
-	 * handle up for all plugins
-	 * @ignore
+	 * Handle up for all plugins
+	 *
 	 * @param {PIXI.InteractionEvent} event
+	 * @ignore
 	 * @returns {boolean}
 	 */
 	up(event: PIXI.InteractionEvent): boolean
 	/**
-	 * handle wheel event for all plugins
-	 * @ignore
+	 * Handle wheel event for all plugins
+	 *
 	 * @param {WheelEvent} event
+	 * @ignore
 	 * @returns {boolean}
 	 */
 	wheel(e: any): boolean

@@ -20,7 +20,10 @@ export const SPRITE_DEFINITIONS: Record<string, ISpriteDefinition> = {
 	beacon: { w: 31, h: 56 },
 } as const
 
-/** Sprite Y coordinate and z-index offsets to apply at specified frames during hop animations. */
+/**
+ * Sprite Y coordinate and z-index offsets to apply at specified frames during
+ * hop animations.
+ */
 export const HOP_OFFSETS = {
 	hopUpY: {
 		frames: [4, 6, 7, 8, 9],
