@@ -26,7 +26,11 @@ export class Cell3D {
 		this.attributes = { ...DEFAULT_ATTRIBUTES, ...attributes }
 	}
 
-	/** Sets the grid location of the cell without changing the map. */
+	/**
+	 * Sets the grid location of the cell without changing the map.
+	 *
+	 * @param __namedParameters - The grid location to set the cell location to.
+	 */
 	setGrid({ x, y, z }: IGrid): void {
 		this.x = x
 		this.y = y
@@ -96,11 +100,13 @@ export interface ICell3DOptions extends IGrid {
 interface ICell3DAttributes {
 	/**
 	 * Whether the cell should be able to occupy the same space as another solid cell.
+	 *
 	 * @default false
 	 * */
 	solid?: boolean
 	/**
 	 * Whether the cell should be able to support another cell on top of it.
+	 *
 	 * @default false
 	 * */
 	platform?: boolean
