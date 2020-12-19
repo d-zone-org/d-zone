@@ -4162,6 +4162,7 @@ __metadata:
     pixi.js: ^5.3.3
     pixi.js-legacy: ^5.3.3
     prettier: ^2.2.0
+    prettier-plugin-jsdoc: ^0.2.7
     react: ^16.8.0
     react-dom: ^16.8.0
     react-is: ^16.8.0
@@ -6754,6 +6755,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"linguist-languages@npm:^7.11.1":
+  version: 7.12.2
+  resolution: "linguist-languages@npm:7.12.2"
+  checksum: c707d08bdf550db8e03e5237c246876ac7b605256dc3399cb9369cfb700358772b1c4cc856dc313ab7cdcb9fabffb4e6f1b495e2783a0683129a73f1faee4d08
+  languageName: node
+  linkType: hard
+
 "loader-runner@npm:^2.4.0":
   version: 2.4.0
   resolution: "loader-runner@npm:2.4.0"
@@ -8376,6 +8384,18 @@ fsevents@~2.1.2:
   version: 2.0.0
   resolution: "prepend-http@npm:2.0.0"
   checksum: d39325775adce38e18213fd19656af4abd7672ef6b1e330437079bb237de011d49a70bfb56b35037603d30ef279cceddb33794f70168582d50845c2ade29968e
+  languageName: node
+  linkType: hard
+
+"prettier-plugin-jsdoc@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "prettier-plugin-jsdoc@npm:0.2.7"
+  dependencies:
+    comment-parser: ^0.7.6
+    linguist-languages: ^7.11.1
+  peerDependencies:
+    prettier: ">=2.1.2"
+  checksum: 3028a27624a10a29b51e09d73e1fbb1b04d5aacaaadfe86f2d48e120a5d1839071b544c528826bd166b12b0a99ee49b61d5428f90a9f7c37623c9d58f416ccce
   languageName: node
   linkType: hard
 
