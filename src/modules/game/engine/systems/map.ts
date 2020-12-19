@@ -11,7 +11,9 @@ export default class MapSystem extends System {
 	update(tick: number) {
 		this.mapQuery.execute().forEach((entity) => {
 			if (entity.c[Transform.key]._meta.updated !== tick) return
-			entity.c[MapCell.key].cell.moveTo(entity.c[Transform.key])
+			entity.c[MapCell.key].cell.moveToGrid(
+				entity.c[Transform.key] as Transform
+			)
 		})
 	}
 }
