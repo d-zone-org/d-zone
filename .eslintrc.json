@@ -5,7 +5,7 @@
 		"node": true
 	},
 
-	"plugins": ["react", "@typescript-eslint", "jsdoc"],
+	"plugins": ["react", "jsdoc"],
 
 	"extends": [
 		"eslint:recommended",
