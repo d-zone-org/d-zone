@@ -314,9 +314,14 @@
 					<div class="tsd-signature tsd-kind-icon">SCALE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">8</span><span class="tsd-signature-symbol"> = 8</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/projection.ts#L1">src/modules/game/common/projection.ts:1</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/projection.ts#L2">src/modules/game/common/projection.ts:2</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Number of vertical pixels per grid unit.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="sprite_definitions" class="tsd-anchor"></a>
@@ -573,22 +578,39 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/projection.ts#L3">src/modules/game/common/projection.ts:3</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/projection.ts#L12">src/modules/game/common/projection.ts:12</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts a 3D grid location to a 2D isometric screen projection.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The X grid coordinate in 3D space.</p>
+									</div>
 								</li>
 								<li>
 									<h5>y: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The Y grid coordinate in 3D space.</p>
+									</div>
 								</li>
 								<li>
 									<h5>z: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The Z grid coordinate in 3D space.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
+							<ul>
+								<li>An <code>[X, Y]</code> array of the 2D screen coordinates.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -703,22 +725,44 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/projection.ts#L11">src/modules/game/common/projection.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/projection.ts#L31">src/modules/game/common/projection.ts:31</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the Z-index of a grid location.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>This is used to draw sprites to the screen in the correct order (back to front, bottom to top).</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The X grid coordinate in 3D space.</p>
+									</div>
 								</li>
 								<li>
 									<h5>y: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The Y grid coordinate in 3D space.</p>
+									</div>
 								</li>
 								<li>
 									<h5>z: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The Z grid coordinate in 3D space.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<ul>
+								<li>The Z-index of the input grid coordinates.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
