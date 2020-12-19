@@ -80,7 +80,7 @@ export class Cell3D {
 	/**
 	 * Removes the cell from its [[Map3D]] instance.
 	 *
-	 * @returns - An array of the cells at the cell's location
+	 * @returns - An array of the cells at the cell's location.
 	 */
 	destroy(): Cell3D[] {
 		return this.map.removeCellFromGrid(this, this)

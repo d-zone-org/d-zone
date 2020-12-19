@@ -274,9 +274,14 @@
 					<div class="tsd-signature tsd-kind-icon">HOP_<wbr>FRAMERATE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">2</span><span class="tsd-signature-symbol"> = 2 as const</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L40">src/modules/game/config/sprite.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L43">src/modules/game/config/sprite.ts:43</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Number of game ticks per frame of hop animation.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="hop_z_levels" class="tsd-anchor"></a>
@@ -284,9 +289,14 @@
 					<div class="tsd-signature tsd-kind-icon">HOP_<wbr><wbr>Z_LEVELS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">0</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">-1</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> = [0, 1, -1] as const</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L12">src/modules/game/engine/archetypes/actor.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L13">src/modules/game/engine/archetypes/actor.ts:13</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An ordered list of relative Z levels (heights) to try hopping to.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="layout" class="tsd-anchor"></a>
@@ -329,9 +339,14 @@
 					<div class="tsd-signature tsd-kind-icon">SPRITE_<wbr>DEFINITIONS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="interfaces/ispritedefinition.html" class="tsd-signature-type">ISpriteDefinition</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = {cube: { w: 14, h: 14 },&#x27;cube-idle&#x27;: { w: 14, h: 14 },&#x27;cube-off&#x27;: { w: 14, h: 14 },&#x27;talk-right&#x27;: { w: 14, h: 14, animation: true },&#x27;talk-left&#x27;: { w: 14, h: 14, animation: true },&#x27;hop-west&#x27;: { w: 35, h: 27, anchor: { x: 19, y: 11 }, animation: true },&#x27;hop-north&#x27;: { w: 35, h: 27, anchor: { x: 2, y: 11 }, animation: true },&#x27;hop-east&#x27;: { w: 35, h: 25, anchor: { x: 2, y: 2 }, animation: true },&#x27;hop-south&#x27;: { w: 35, h: 25, anchor: { x: 19, y: 2 }, animation: true },&#x27;brick-edge&#x27;: { w: 32, h: 16 },&#x27;grass-brick&#x27;: { w: 32, h: 16 },flowers: { w: 32, h: 16 },grass: { w: 32, h: 16 },beacon: { w: 31, h: 56 },} as const</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L5">src/modules/game/config/sprite.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L6">src/modules/game/config/sprite.ts:6</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Sprite data used to configure PIXI textures in <a href="globals.html#loader">loader</a>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="sprite_json_path" class="tsd-anchor"></a>
@@ -494,22 +509,39 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L14">src/modules/game/engine/archetypes/actor.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L23">src/modules/game/engine/archetypes/actor.ts:23</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an actor entity.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>world: <span class="tsd-signature-type">World</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ECS world instance to create the actor entity in.</p>
+									</div>
 								</li>
 								<li>
 									<h5>grid: <a href="interfaces/igrid.html" class="tsd-signature-type">IGrid</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grid location to create the actor map cell at.</p>
+									</div>
 								</li>
 								<li>
 									<h5>map: <a href="classes/map3d.html" class="tsd-signature-type">Map3D</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The map instance to add the actor map cell to.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Entity</span></h4>
+							<ul>
+								<li>The created actor entity.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -673,19 +705,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L56">src/modules/game/engine/archetypes/actor.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L90">src/modules/game/engine/archetypes/actor.ts:90</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks for the validity of an actor&#39;s hop.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>cell: <a href="classes/cell3d.html" class="tsd-signature-type">Cell3D</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The actor cell that is attempting to hop.</p>
+									</div>
 								</li>
 								<li>
 									<h5>hop: <a href="interfaces/igrid.html" class="tsd-signature-type">IGrid</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The relative grid location of the hop.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="interfaces/igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></h4>
+							<ul>
+								<li>A valid hop target or <code>false</code> if one cannot be found.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -776,19 +822,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L79">src/modules/game/engine/archetypes/actor.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L127">src/modules/game/engine/archetypes/actor.ts:127</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks that a grid location is above a platform.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>map: <a href="classes/map3d.html" class="tsd-signature-type">Map3D</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The map instance to check in.</p>
+									</div>
 								</li>
 								<li>
 									<h5>grid: <a href="interfaces/igrid.html" class="tsd-signature-type">IGrid</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grid location to check.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<ul>
+								<li>Grid locations that are one unit above a platform will return true.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -802,19 +862,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L72">src/modules/game/engine/archetypes/actor.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L113">src/modules/game/engine/archetypes/actor.ts:113</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks that a grid location is not solid.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>map: <a href="classes/map3d.html" class="tsd-signature-type">Map3D</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The map instance to check in.</p>
+									</div>
 								</li>
 								<li>
 									<h5>grid: <a href="interfaces/igrid.html" class="tsd-signature-type">IGrid</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grid location to check.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<ul>
+								<li>Grid locations containing no solids will return true.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -828,16 +902,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L43">src/modules/game/engine/archetypes/actor.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L61">src/modules/game/engine/archetypes/actor.ts:61</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Adds a <a href="classes/hop.html">Hop</a> component to the input actor entity.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>If the actor already has a hop component, this will not add another.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>actor: <span class="tsd-signature-type">Entity</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The actor entity to hop.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> direction: <a href="interfaces/igriddirection.html" class="tsd-signature-type">IGridDirection</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The direction of the hop. If not provided, a random direction will be chosen.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1024,16 +1114,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L52">src/modules/game/engine/archetypes/actor.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L79">src/modules/game/engine/archetypes/actor.ts:79</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a child cell at the specified relative grid location.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>This is used to prevent other solid entities from moving to the target location.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>cell: <a href="classes/cell3d.html" class="tsd-signature-type">Cell3D</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parent cell to create a child from.</p>
+									</div>
 								</li>
 								<li>
 									<h5>target: <a href="interfaces/igrid.html" class="tsd-signature-type">IGrid</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The relative grid location to reserve.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1122,16 +1228,21 @@
 					<div class="tsd-signature tsd-kind-icon">HOP_<wbr>OFFSETS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L22">src/modules/game/config/sprite.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L24">src/modules/game/config/sprite.ts:24</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Sprite Y coordinate and z-index offsets to apply at specified frames during hop animations.</p>
+						</div>
+					</div>
 					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
 						<a name="hop_offsets.hopdowny" class="tsd-anchor"></a>
 						<h3>hop<wbr>DownY</h3>
 						<div class="tsd-signature tsd-kind-icon">hop<wbr>DownY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L27">src/modules/game/config/sprite.ts:27</a></li>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L29">src/modules/game/config/sprite.ts:29</a></li>
 							</ul>
 						</aside>
 						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1140,7 +1251,7 @@
 							<div class="tsd-signature tsd-kind-icon">frames<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [4, 5, 6, 7, 8, 9]</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L28">src/modules/game/config/sprite.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L30">src/modules/game/config/sprite.ts:30</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1150,7 +1261,7 @@
 							<div class="tsd-signature tsd-kind-icon">values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [1, 1, 2, 1, 2, 1]</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L29">src/modules/game/config/sprite.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L31">src/modules/game/config/sprite.ts:31</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1161,7 +1272,7 @@
 						<div class="tsd-signature tsd-kind-icon">hop<wbr>UpY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L23">src/modules/game/config/sprite.ts:23</a></li>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L25">src/modules/game/config/sprite.ts:25</a></li>
 							</ul>
 						</aside>
 						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1170,7 +1281,7 @@
 							<div class="tsd-signature tsd-kind-icon">frames<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [4, 6, 7, 8, 9]</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L24">src/modules/game/config/sprite.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L26">src/modules/game/config/sprite.ts:26</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1180,7 +1291,7 @@
 							<div class="tsd-signature tsd-kind-icon">values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [-1, -1, -1, -2, -3]</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L25">src/modules/game/config/sprite.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L27">src/modules/game/config/sprite.ts:27</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1191,7 +1302,7 @@
 						<div class="tsd-signature tsd-kind-icon">hopZDepth<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L31">src/modules/game/config/sprite.ts:31</a></li>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L33">src/modules/game/config/sprite.ts:33</a></li>
 							</ul>
 						</aside>
 						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1200,7 +1311,7 @@
 							<div class="tsd-signature tsd-kind-icon">east<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [0.5, 0.5]</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L36">src/modules/game/config/sprite.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L38">src/modules/game/config/sprite.ts:38</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1210,7 +1321,7 @@
 							<div class="tsd-signature tsd-kind-icon">frames<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [6, 9]</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L32">src/modules/game/config/sprite.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L34">src/modules/game/config/sprite.ts:34</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1220,7 +1331,7 @@
 							<div class="tsd-signature tsd-kind-icon">north<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [-0.5, -0.5]</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L33">src/modules/game/config/sprite.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L35">src/modules/game/config/sprite.ts:35</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1230,7 +1341,7 @@
 							<div class="tsd-signature tsd-kind-icon">south<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [0.5, 0.5]</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L35">src/modules/game/config/sprite.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L37">src/modules/game/config/sprite.ts:37</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -1240,7 +1351,7 @@
 							<div class="tsd-signature tsd-kind-icon">west<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [-0.5, -0.5]</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L34">src/modules/game/config/sprite.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L36">src/modules/game/config/sprite.ts:36</a></li>
 								</ul>
 							</aside>
 						</section>

@@ -9,8 +9,17 @@ import MapCell from '../components/map-cell'
 import Hop from '../components/hop'
 import { randomColor, randomHop, randomString } from '../seed-dev'
 
+/** An ordered list of relative Z levels (heights) to try hopping to. */
 const HOP_Z_LEVELS = [0, 1, -1] as const
 
+/**
+ * Creates an actor entity.
+ *
+ * @param world - The ECS world instance to create the actor entity in.
+ * @param grid - The grid location to create the actor map cell at.
+ * @param map - The map instance to add the actor map cell to.
+ * @returns - The created actor entity.
+ */
 export function createActor(world: World, grid: IGrid, map: Map3D): Entity {
 	return world.createEntity({
 		c: {
@@ -40,6 +49,15 @@ export function createActor(world: World, grid: IGrid, map: Map3D): Entity {
 	})
 }
 
+/**
+ * Adds a [[Hop]] component to the input actor entity.
+ *
+ * @remarks
+ * If the actor already has a hop component, this will not add another.
+ *
+ * @param actor - The actor entity to hop.
+ * @param direction - The direction of the hop. If not provided, a random direction will be chosen.
+ */
 export function hopActor(actor: Entity, direction?: IGridDirection) {
 	if (actor.has(Hop.typeName)) return // Already hopping
 	actor.addComponent({
@@ -49,10 +67,26 @@ export function hopActor(actor: Entity, direction?: IGridDirection) {
 	})
 }
 
+/**
+ * Creates a child cell at the specified relative grid location.
+ *
+ * @remarks
+ * This is used to prevent other solid entities from moving to the target location.
+ *
+ * @param cell - The parent cell to create a child from.
+ * @param target - The relative grid location to reserve.
+ */
 export function reserveTarget(cell: Cell3D, target: IGrid): void {
 	cell.spread(target, { solid: true })
 }
 
+/**
+ * Checks for the validity of an actor's hop.
+ *
+ * @param cell - The actor cell that is attempting to hop.
+ * @param hop - The relative grid location of the hop.
+ * @returns - A valid hop target or `false` if one cannot be found.
+ */
 export function getValidHop(cell: Cell3D, hop: IGrid): IGrid | false {
 	const aboveNeighbor = cell.getCellsAtNeighbor({ x: 0, y: 0, z: 1 })
 	if (aboveNeighbor.some((cell) => cell.attributes.solid)) return false
@@ -69,6 +103,13 @@ export function getValidHop(cell: Cell3D, hop: IGrid): IGrid | false {
 	return false
 }
 
+/**
+ * Checks that a grid location is not solid.
+ *
+ * @param map - The map instance to check in.
+ * @param grid - The grid location to check.
+ * @returns - Grid locations containing no solids will return true.
+ */
 function gridIsEmpty(map: Map3D, grid: IGrid): boolean {
 	// If grid is below ground, it's not empty
 	if (grid.z < 0) return false
@@ -76,6 +117,13 @@ function gridIsEmpty(map: Map3D, grid: IGrid): boolean {
 	return !cells.some((cell) => cell.attributes.solid)
 }
 
+/**
+ * Checks that a grid location is above a platform.
+ *
+ * @param map - The map instance to check in.
+ * @param grid - The grid location to check.
+ * @returns - Grid locations that are one unit above a platform will return true.
+ */
 function gridIsAbovePlatform(map: Map3D, grid: IGrid): boolean {
 	// If grid is at ground level, it's on a platform
 	if (grid.z <= 0) return true
