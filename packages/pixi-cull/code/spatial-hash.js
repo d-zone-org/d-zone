@@ -4,18 +4,29 @@
 
 export class SpatialHash {
 	/**
-	 * creates a spatial-hash cull
+	 * Creates a spatial-hash cull
+	 *
 	 * @param {object} [options]
-	 * @param {number} [options.size=1000] cell size used to create hash (xSize = ySize)
-	 * @param {number} [options.xSize] horizontal cell size
-	 * @param {number} [options.ySize] vertical cell size
-	 * @param {boolean} [options.calculatePIXI=true] calculate bounding box automatically; if this is set to false then it uses object[options.AABB] for bounding box
-	 * @param {boolean} [options.visible=visible] parameter of the object to set (usually visible or renderable)
-	 * @param {boolean} [options.simpleTest=true] iterate through visible buckets to check for bounds
-	 * @param {string} [options.dirtyTest=true] only update spatial hash for objects with object[options.dirtyTest]=true; this has a HUGE impact on performance
-	 * @param {string} [options.AABB=AABB] object property that holds bounding box so that object[type] = { x: number, y: number, width: number, height: number }
-	 * @param {string} [options.spatial=spatial] object property that holds object's hash list
-	 * @param {string} [options.dirty=dirty] object property for dirtyTest
+	 * @param {number} [options.size] Cell size used to create hash (xSize = ySize)
+	 *     Default is `1000`
+	 * @param {number} [options.xSize] Horizontal cell size
+	 * @param {number} [options.ySize] Vertical cell size
+	 * @param {boolean} [options.calculatePIXI] Calculate bounding box
+	 *     automatically; if this is set to false then it uses
+	 *     object[options.AABB] for bounding box Default is `true`
+	 * @param {boolean} [options.visible] Parameter of the object to set (usually
+	 *     visible or renderable) Default is `visible`
+	 * @param {boolean} [options.simpleTest] Iterate through visible buckets to
+	 *     check for bounds Default is `true`
+	 * @param {string} [options.dirtyTest] Only update spatial hash for objects
+	 *     with object[options.dirtyTest]=true; this has a HUGE impact on
+	 *     performance Default is `true`
+	 * @param {string} [options.AABB] Object property that holds bounding box so
+	 *     that object[type] = { x: number, y: number, width: number, height:
+	 *     number } Default is `AABB`
+	 * @param {string} [options.spatial] Object property that holds object's hash
+	 *     list Default is `spatial`
+	 * @param {string} [options.dirty] Object property for dirtyTest Default is `dirty`
 	 */
 	constructor(options) {
 		options = options || {}
@@ -42,11 +53,13 @@ export class SpatialHash {
 	}
 
 	/**
-	 * add an object to be culled
-	 * side effect: adds object.spatialHashes to track existing hashes
-	 * @param {*} object
-	 * @param {boolean} [staticObject] set to true if the object's position/size does not change
-	 * @return {*} object
+	 * Add an object to be culled side effect: adds object.spatialHashes to track
+	 * existing hashes
+	 *
+	 * @param {any} object
+	 * @param {boolean} [staticObject] Set to true if the object's position/size
+	 *     does not change
+	 * @returns {any} Object
 	 */
 	add(object, staticObject) {
 		object[this.spatial] = { hashes: [] }
@@ -61,9 +74,10 @@ export class SpatialHash {
 	}
 
 	/**
-	 * remove an object added by add()
-	 * @param {*} object
-	 * @return {*} object
+	 * Remove an object added by add()
+	 *
+	 * @param {any} object
+	 * @returns {any} Object
 	 */
 	remove(object) {
 		this.containers[0].splice(this.list[0].indexOf(object), 1)
@@ -72,10 +86,13 @@ export class SpatialHash {
 	}
 
 	/**
-	 * add an array of objects to be culled
+	 * Add an array of objects to be culled
+	 *
 	 * @param {PIXI.Container} container
-	 * @param {boolean} [staticObject] set to true if the objects in the container's position/size do not change
-	 * note: this only works with pixi v5.0.0rc2+ because it relies on the new container events childAdded and childRemoved
+	 * @param {boolean} [staticObject] Set to true if the objects in the
+	 *     container's position/size do not change note: this only works with pixi
+	 *     v5.0.0rc2+ because it relies on the new container events childAdded and
+	 *     childRemoved
 	 */
 	addContainer(container, staticObject) {
 		const added = function (object) {
@@ -103,9 +120,10 @@ export class SpatialHash {
 	}
 
 	/**
-	 * remove an array added by addContainer()
+	 * Remove an array added by addContainer()
+	 *
 	 * @param {PIXI.Container} container
-	 * @return {PIXI.Container} container
+	 * @returns {PIXI.Container} Container
 	 */
 	removeContainer(container) {
 		this.containers.splice(this.containers.indexOf(container), 1)
@@ -117,10 +135,11 @@ export class SpatialHash {
 	}
 
 	/**
-	 * update the hashes and cull the items in the list
+	 * Update the hashes and cull the items in the list
+	 *
 	 * @param {AABB} AABB
-	 * @param {boolean} [skipUpdate] skip updating the hashes of all objects
-	 * @return {number} number of buckets in results
+	 * @param {boolean} [skipUpdate] Skip updating the hashes of all objects
+	 * @returns {number} Number of buckets in results
 	 */
 	cull(AABB, skipUpdate) {
 		if (!skipUpdate) {
@@ -132,9 +151,7 @@ export class SpatialHash {
 		return this.lastBuckets
 	}
 
-	/**
-	 * set all objects in hash to visible=false
-	 */
+	/** Set all objects in hash to visible=false */
 	invisible() {
 		for (let container of this.containers) {
 			container.children.forEach((object) => (object[this.visible] = false))
@@ -142,8 +159,8 @@ export class SpatialHash {
 	}
 
 	/**
-	 * update the hashes for all objects
-	 * automatically called from update() when skipUpdate=false
+	 * Update the hashes for all objects automatically called from update() when
+	 * skipUpdate=false
 	 */
 	updateObjects() {
 		if (this.dirtyTest) {
@@ -171,10 +188,10 @@ export class SpatialHash {
 	}
 
 	/**
-	 * update the has of an object
-	 * automatically called from updateObjects()
-	 * @param {*} object
-	 * @param {boolean} [force] force update for calculatePIXI
+	 * Update the has of an object automatically called from updateObjects()
+	 *
+	 * @param {any} object
+	 * @param {boolean} [force] Force update for calculatePIXI
 	 */
 	updateObject(object) {
 		let AABB
@@ -221,9 +238,10 @@ export class SpatialHash {
 	}
 
 	/**
-	 * returns an array of buckets with >= minimum of objects in each bucket
-	 * @param {number} [minimum=1]
-	 * @return {array} array of buckets
+	 * Returns an array of buckets with >= minimum of objects in each bucket
+	 *
+	 * @param {number} [minimum] Default is `1`
+	 * @returns {array} Array of buckets
 	 */
 	getBuckets(minimum = 1) {
 		const hashes = []
@@ -237,10 +255,12 @@ export class SpatialHash {
 	}
 
 	/**
-	 * gets hash bounds
-	 * @param {AABB} AABB
-	 * @return {Bounds}
+	 * Gets hash bounds
+	 *
 	 * @private
+	 *
+	 * @param {AABB} AABB
+	 * @returns {Bounds}
 	 */
 	getBounds(AABB) {
 		let xStart = Math.floor(AABB.x / this.xSize)
@@ -251,9 +271,9 @@ export class SpatialHash {
 	}
 
 	/**
-	 * insert object into the spatial hash
-	 * automatically called from updateObject()
-	 * @param {*} object
+	 * Insert object into the spatial hash automatically called from updateObject()
+	 *
+	 * @param {any} object
 	 * @param {string} key
 	 */
 	insert(object, key) {
@@ -265,9 +285,9 @@ export class SpatialHash {
 	}
 
 	/**
-	 * removes object from the hash table
-	 * should be called when removing an object
+	 * Removes object from the hash table should be called when removing an object
 	 * automatically called from updateObject()
+	 *
 	 * @param {object} object
 	 */
 	removeFromHash(object) {
@@ -280,9 +300,10 @@ export class SpatialHash {
 	}
 
 	/**
-	 * get all neighbors that share the same hash as object
-	 * @param {*} object in the spatial hash
-	 * @return {Array} of objects that are in the same hash as object
+	 * Get all neighbors that share the same hash as object
+	 *
+	 * @param {any} object In the spatial hash
+	 * @returns {Array} Of objects that are in the same hash as object
 	 */
 	neighbors(object) {
 		let results = []
@@ -293,10 +314,12 @@ export class SpatialHash {
 	}
 
 	/**
-	 * returns an array of objects contained within bounding box
-	 * @param {AABB} AABB bounding box to search
-	 * @param {boolean} [simpleTest=true] perform a simple bounds check of all items in the buckets
-	 * @return {object[]} search results
+	 * Returns an array of objects contained within bounding box
+	 *
+	 * @param {AABB} AABB Bounding box to search
+	 * @param {boolean} [simpleTest] Perform a simple bounds check of all items in
+	 *     the buckets Default is `true`
+	 * @returns {object[]} Search results
 	 */
 	query(AABB, simpleTest) {
 		simpleTest = typeof simpleTest !== 'undefined' ? simpleTest : true
@@ -331,12 +354,14 @@ export class SpatialHash {
 	}
 
 	/**
-	 * iterates through objects contained within bounding box
-	 * stops iterating if the callback returns true
-	 * @param {AABB} AABB bounding box to search
+	 * Iterates through objects contained within bounding box stops iterating if
+	 * the callback returns true
+	 *
+	 * @param {AABB} AABB Bounding box to search
 	 * @param {function} callback
-	 * @param {boolean} [simpleTest=true] perform a simple bounds check of all items in the buckets
-	 * @return {boolean} true if callback returned early
+	 * @param {boolean} [simpleTest] Perform a simple bounds check of all items in
+	 *     the buckets Default is `true`
+	 * @returns {boolean} True if callback returned early
 	 */
 	queryCallback(AABB, callback, simpleTest) {
 		simpleTest = typeof simpleTest !== 'undefined' ? simpleTest : true
@@ -372,8 +397,9 @@ export class SpatialHash {
 	}
 
 	/**
-	 * get stats
-	 * @return {Stats}
+	 * Get stats
+	 *
+	 * @returns {Stats}
 	 */
 	stats() {
 		let visible = 0,
@@ -393,16 +419,18 @@ export class SpatialHash {
 	}
 
 	/**
-	 * helper function to evaluate hash table
-	 * @return {number} the number of buckets in the hash table
-	 * */
+	 * Helper function to evaluate hash table
+	 *
+	 * @returns {number} The number of buckets in the hash table
+	 */
 	getNumberOfBuckets() {
 		return Object.keys(this.hash).length
 	}
 
 	/**
-	 * helper function to evaluate hash table
-	 * @return {number} the average number of entries in each bucket
+	 * Helper function to evaluate hash table
+	 *
+	 * @returns {number} The average number of entries in each bucket
 	 */
 	getAverageSize() {
 		let total = 0
@@ -413,8 +441,9 @@ export class SpatialHash {
 	}
 
 	/**
-	 * helper function to evaluate the hash table
-	 * @return {number} the largest sized bucket
+	 * Helper function to evaluate the hash table
+	 *
+	 * @returns {number} The largest sized bucket
 	 */
 	getLargest() {
 		let largest = 0
@@ -427,8 +456,9 @@ export class SpatialHash {
 	}
 
 	/**
-	 * gets quadrant bounds
-	 * @return {Bounds}
+	 * Gets quadrant bounds
+	 *
+	 * @returns {Bounds}
 	 */
 	getWorldBounds() {
 		let xStart = Infinity,
@@ -448,9 +478,11 @@ export class SpatialHash {
 	}
 
 	/**
-	 * helper function to evalute the hash table
-	 * @param {AABB} [AABB] bounding box to search or entire world
-	 * @return {number} sparseness percentage (i.e., buckets with at least 1 element divided by total possible buckets)
+	 * Helper function to evalute the hash table
+	 *
+	 * @param {AABB} [AABB] Bounding box to search or entire world
+	 * @returns {number} Sparseness percentage (i.e., buckets with at least 1
+	 *     element divided by total possible buckets)
 	 */
 	getSparseness(AABB) {
 		let count = 0,

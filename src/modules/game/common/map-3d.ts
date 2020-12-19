@@ -1,14 +1,19 @@
 import { Cell3D } from './cell-3d'
 import { Direction, IGrid, IGridDirection } from '../typings'
 
-/** A manager used for storing instances of [[Cell3D]] and providing methods to manipulate them. */
+/**
+ * A manager used for storing instances of [[Cell3D]] and providing methods to
+ * manipulate them.
+ */
 export default class Map3D {
 	/**
-	 * Stores the map cells indexed by grid location. Use [[Map3D.gridToHash]] to generate the hash string used for indexing.
+	 * Stores the map cells indexed by grid location. Use [[Map3D.gridToHash]] to
+	 * generate the hash string used for indexing.
 	 *
 	 * @remarks
-	 * Methods that return arrays from this data should always return shallow copies.
-	 * */
+	 * Methods that return arrays from this data should always return
+	 *     shallow copies.
+	 */
 	private data: Map<string, Cell3D[]> = new Map()
 
 	/**
@@ -40,7 +45,8 @@ export default class Map3D {
 	}
 
 	/**
-	 * Removes a cell from the specified grid location, and returns an array of cells at that location.
+	 * Removes a cell from the specified grid location, and returns an array of
+	 * cells at that location.
 	 *
 	 * @param cell - The map cell to be removed.
 	 * @param grid - The grid location to remove the cell from.
@@ -53,7 +59,8 @@ export default class Map3D {
 	}
 
 	/**
-	 * Moves a cell to the specified grid location, and returns an array of cells at that location.
+	 * Moves a cell to the specified grid location, and returns an array of cells
+	 * at that location.
 	 *
 	 * @param cell - The map cell to be moved.
 	 * @param grid - The grid location to move the cell to.
@@ -71,10 +78,9 @@ export default class Map3D {
 	/**
 	 * Returns the string representation (hash) of a grid.
 	 *
+	 * @param __namedParameters - The grid object to convert into a hash.
 	 * @remarks
 	 * This hash is used to index the [[data]] of [[Map3D]].
-	 *
-	 * @param __namedParameters - The grid object to convert into a hash.
 	 * @returns - Grid coordinates in string format.
 	 */
 	static gridToHash({ x, y, z }: IGrid): string {
@@ -86,7 +92,7 @@ export default class Map3D {
 	 *
 	 * @remarks
 	 * This can be used when creating [[Hop]] components.
-	 * */
+	 */
 	static Directions: Record<Direction, IGridDirection> = {
 		east: { x: 1, y: 0, z: 0, direction: Direction.East },
 		west: { x: -1, y: 0, z: 0, direction: Direction.West },

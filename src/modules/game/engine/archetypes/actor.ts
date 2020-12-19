@@ -52,11 +52,11 @@ export function createActor(world: World, grid: IGrid, map: Map3D): Entity {
 /**
  * Adds a [[Hop]] component to the input actor entity.
  *
+ * @param actor - The actor entity to hop.
+ * @param direction - The direction of the hop. If not provided, a random
+ *     direction will be chosen.
  * @remarks
  * If the actor already has a hop component, this will not add another.
- *
- * @param actor - The actor entity to hop.
- * @param direction - The direction of the hop. If not provided, a random direction will be chosen.
  */
 export function hopActor(actor: Entity, direction?: IGridDirection) {
 	if (actor.has(Hop.typeName)) return // Already hopping
@@ -70,11 +70,11 @@ export function hopActor(actor: Entity, direction?: IGridDirection) {
 /**
  * Creates a child cell at the specified relative grid location.
  *
- * @remarks
- * This is used to prevent other solid entities from moving to the target location.
- *
  * @param cell - The parent cell to create a child from.
  * @param target - The relative grid location to reserve.
+ * @remarks
+ * This is used to prevent other solid entities from moving to the
+ *     target location.
  */
 export function reserveTarget(cell: Cell3D, target: IGrid): void {
 	cell.spread(target, { solid: true })

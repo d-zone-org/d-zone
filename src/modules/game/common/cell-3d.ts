@@ -7,7 +7,8 @@ const DEFAULT_ATTRIBUTES: ICell3DAttributes = {
 }
 
 /**
- * A position marker containing an `{ X, Y, Z }` grid location to be stored in a [[Map3D]] instance.
+ * A position marker containing an `{ X, Y, Z }` grid location to be stored in a
+ * [[Map3D]] instance.
  */
 export class Cell3D {
 	readonly map: Map3D
@@ -42,7 +43,7 @@ export class Cell3D {
 	 *
 	 * @param grid - The grid location to move the cell to.
 	 * @returns - An array of the cells at the input grid location.
-	 * */
+	 */
 	moveToGrid(grid: IGrid): Cell3D[] {
 		return this.map.moveCellToGrid(this, grid)
 	}
@@ -52,7 +53,7 @@ export class Cell3D {
 	 *
 	 * @param grid - The grid location relative to the cell.
 	 * @returns - An array of the cells at the input relative grid location.
-	 * */
+	 */
 	getCellsAtNeighbor({ x, y, z }: IGrid): Cell3D[] {
 		return this.map.getCellsAtGrid({
 			x: this.x + x,
@@ -102,12 +103,12 @@ interface ICell3DAttributes {
 	 * Whether the cell should be able to occupy the same space as another solid cell.
 	 *
 	 * @default false
-	 * */
+	 */
 	solid?: boolean
 	/**
 	 * Whether the cell should be able to support another cell on top of it.
 	 *
 	 * @default false
-	 * */
+	 */
 	platform?: boolean
 }
