@@ -29,6 +29,7 @@ export default class HopSystem extends System {
 			const validHop = getValidHop(actorCell, hop)
 			if (validHop) {
 				hop.z = validHop.z
+				// TODO: URGENT FIX NEEDED - The placeholder is never removed from the map
 				reserveTarget(actorCell, validHop)
 				actorCell.attributes.platform = false
 			} else {

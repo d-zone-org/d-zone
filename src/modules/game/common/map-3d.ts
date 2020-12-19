@@ -69,7 +69,7 @@ export default class Map3D {
 	}
 
 	/**
-	 * Returns the string representation (hash) of a grid
+	 * Returns the string representation (hash) of a grid.
 	 *
 	 * @remarks
 	 * This hash is used to index the [[data]] of [[Map3D]].

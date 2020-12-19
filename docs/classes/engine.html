@@ -64,6 +64,18 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The manager for the ECS World instance.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>see</dt>
+						<dd><p><a href="https://github.com/fritzy/ape-ecs/blob/master/docs/World.md" class="external">https://github.com/fritzy/ape-ecs/blob/master/docs/World.md</a></p>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -112,7 +124,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L8">src/modules/game/engine/index.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L19">src/modules/game/engine/index.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="engine.html" class="tsd-signature-type">Engine</a></h4>
@@ -128,9 +140,14 @@
 					<div class="tsd-signature tsd-kind-icon">interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L14">src/modules/game/engine/index.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L26">src/modules/game/engine/index.ts:26</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The interval ID for the game loop.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="world" class="tsd-anchor"></a>
@@ -138,7 +155,7 @@
 					<div class="tsd-signature tsd-kind-icon">world<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">World</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L8">src/modules/game/engine/index.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L19">src/modules/game/engine/index.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -155,13 +172,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L21">src/modules/game/engine/index.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L41">src/modules/game/engine/index.ts:41</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Starts the game loop</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p><code>setInterval</code> is used instead of <code>requestAnimationFrame</code> because we want all logic to run at a fixed rate.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>fps: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The target number of times per second to run the interval at.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -178,9 +208,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L26">src/modules/game/engine/index.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L46">src/modules/game/engine/index.ts:46</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Stops the game loop.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -195,9 +230,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L16">src/modules/game/engine/index.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/index.ts#L29">src/modules/game/engine/index.ts:29</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The game loop that runs the ECS systems and ticks the world.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
