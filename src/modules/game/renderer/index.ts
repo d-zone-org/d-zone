@@ -17,9 +17,13 @@ export interface IPlugins extends BuiltInPlugins {
 PIXI.settings.RESOLUTION = RENDER_SETTINGS.resolution
 PIXI.settings.SCALE_MODE = RENDER_SETTINGS.scaleMode
 
+/** A manager for the PIXI renderer and related plugins. */
 export default class Renderer {
+	/** The PIXI application itself */
 	app!: PIXI.Application
+	/** The viewport container which manages camera movement. */
 	view!: Viewport<IPlugins>
+	/** The culler which prevents off-camera sprites from rendering. */
 	cull!: SpatialHash
 
 	init(canvas: HTMLCanvasElement) {
@@ -44,31 +48,35 @@ export default class Renderer {
 		)
 
 		this.view
-			.drag({ wheel: false })
-			.pinch()
-			.decelerate({ friction: PANNING_FRICTION })
+			.drag({ wheel: false }) // Click and hold or touch to pan the camera
+			.pinch() // Pinch to zoom
+			.decelerate({ friction: PANNING_FRICTION }) // Add easing to camera movements
 			.clampZoom({
+				// Set a minimum and maximum zoom amount
 				minScale: ZOOM_OPTIONS.levels[0],
 				maxScale: ZOOM_OPTIONS.levels[ZOOM_OPTIONS.levels.length - 1],
 			})
 
 		this.view.moveCenter(0, 0)
 		this.view.scaled = ZOOM_OPTIONS.defaultLevel
-		this.view.sortableChildren = true
+		this.view.sortableChildren = true // Enables use of the zIndex property to draw sprites in the correct order
 
 		this.app.stage.addChild(this.view)
 
 		canvas.addEventListener('wheel', (event) => {
-			event.preventDefault()
+			event.preventDefault() // Disable default mouse wheel behavior
 		})
 
 		this.cull = new SpatialHash()
-		this.cull.addContainer(this.view)
+		this.cull.addContainer(this.view) // Culling occurs on the viewport container
 
 		this.app.ticker.add(() => {
+			// Whenever the camera changes
 			if (this.view.dirty) {
+				// Adjust the viewport to the nearest whole pixel
 				this.view.x = Math.round(this.view.x)
 				this.view.y = Math.round(this.view.y)
+				// Cull the sprites in the viewport
 				this.cull.cull(this.view.getVisibleBounds())
 				this.view.dirty = false
 			}
@@ -77,6 +85,6 @@ export default class Renderer {
 
 	stop() {
 		this.app.stop()
-		PIXI.utils.clearTextureCache()
+		PIXI.utils.clearTextureCache() // Required for fast-refresh during dev
 	}
 }

@@ -8,6 +8,7 @@ import type { Viewport } from 'pixi-viewport'
 import type { SpatialHash } from 'pixi-cull'
 import type { Textures } from '../../typings'
 
+/** Manages the link between [[Sprite]] components and [[PixiSprite]] components. */
 export default class SpriteSystem extends System {
 	private renderer!: Renderer
 	private textures!: Textures
@@ -39,6 +40,11 @@ export default class SpriteSystem extends System {
 		this.removePixiSprites()
 	}
 
+	/**
+	 * Copies all sprite component changes to the PIXI sprite.
+	 *
+	 * @param tick - The current game engine tick.
+	 */
 	updatePixiSprites(tick: number) {
 		let updatedSprites = 0
 		this.spriteQuery.execute().forEach((entity) => {
@@ -57,6 +63,7 @@ export default class SpriteSystem extends System {
 		}
 	}
 
+	/** Instantiates PIXI sprites for entities that have [[Sprite]] components. */
 	addPixiSprites() {
 		this.spriteAddQuery.execute().forEach((entity) => {
 			const sprite = entity.c[Sprite.key] as Sprite
@@ -72,6 +79,7 @@ export default class SpriteSystem extends System {
 		})
 	}
 
+	/** Removes PIXI sprites for entities that no longer have [[Sprite]] components. */
 	removePixiSprites() {
 		this.spriteRemoveQuery.execute().forEach((entity) => {
 			const pixiSprite = entity.c[PixiSprite.key]

@@ -234,7 +234,7 @@
 					<div class="tsd-signature tsd-kind-icon">ACTOR_<wbr>COLORS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [0x119922,0x99ff22,0x00ff22,0xffff33,0x992222,0x44ff99,]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L30">src/modules/game/engine/seed-dev.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L45">src/modules/game/engine/seed-dev.ts:45</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -398,7 +398,7 @@
 					<div class="tsd-signature tsd-kind-icon">loader<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Loader</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/renderer/resources/loader.ts#L33">src/modules/game/renderer/resources/loader.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/renderer/resources/loader.ts#L42">src/modules/game/renderer/resources/loader.ts:42</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -480,22 +480,39 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L6">src/modules/game/engine/seed-dev.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L14">src/modules/game/engine/seed-dev.ts:14</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Adds random actors to the world.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>world: <span class="tsd-signature-type">World</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The world instance to add actors to.</p>
+									</div>
 								</li>
 								<li>
 									<h5>map: <a href="classes/map3d.html" class="tsd-signature-type">Map3D</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The map instance to use for creating <a href="classes/mapcell.html">MapCell</a> components.</p>
+									</div>
 								</li>
 								<li>
 									<h5>count: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The number of actors to add.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Entity</span><span class="tsd-signature-symbol">[]</span></h4>
+							<ul>
+								<li>An array of the actor entities that were added.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -555,22 +572,39 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L43">src/modules/game/engine/seed-dev.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L71">src/modules/game/engine/seed-dev.ts:71</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a list of grid coordinates for an area of a specified size.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>xSize: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The width of the grid pool to create.</p>
+									</div>
 								</li>
 								<li>
 									<h5>ySize: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The length of the grid pool to create.</p>
+									</div>
 								</li>
 								<li>
 									<h5>zSize: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The height of the grid pool to create.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="interfaces/igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">[]</span></h4>
+							<ul>
+								<li>An array of grid coordinates.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -946,16 +980,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L70">src/modules/game/engine/seed-dev.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L110">src/modules/game/engine/seed-dev.ts:110</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Debug function used to create actors in specific locations and hop them in
+									specific directions at specific times.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>world: <span class="tsd-signature-type">World</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The game world instance.</p>
+									</div>
 								</li>
 								<li>
 									<h5>map: <a href="classes/map3d.html" class="tsd-signature-type">Map3D</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The map instance to create actors in.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -972,9 +1018,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/renderer/resources/loader.ts#L35">src/modules/game/renderer/resources/loader.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/renderer/resources/loader.ts#L45">src/modules/game/renderer/resources/loader.ts:45</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Initializes a PIXI loader instance and adds resources and parsers to it.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -989,16 +1040,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/renderer/resources/loader.ts#L4">src/modules/game/renderer/resources/loader.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/renderer/resources/loader.ts#L10">src/modules/game/renderer/resources/loader.ts:10</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Parses resources loaded into PIXI.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>sheet: <span class="tsd-signature-type">LoaderResource</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The sprite sheet being parsed.</p>
+									</div>
 								</li>
 								<li>
 									<h5>next: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The method called when parsing of the current sheet is complete.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
@@ -1027,10 +1089,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L39">src/modules/game/engine/seed-dev.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L59">src/modules/game/engine/seed-dev.ts:59</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Picks a random color from a predefined list of actor colors.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<ul>
+								<li>A 24-bit color value.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -1044,10 +1114,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L63">src/modules/game/engine/seed-dev.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L96">src/modules/game/engine/seed-dev.ts:96</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Picks a random direction to use for hopping.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="interfaces/igriddirection.html" class="tsd-signature-type">IGridDirection</a></h4>
+							<ul>
+								<li>A random direction.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -1061,19 +1139,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L19">src/modules/game/engine/seed-dev.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L34">src/modules/game/engine/seed-dev.ts:34</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generates a random string of specified length and character code space.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>__namedParameters: <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The range of character codes to use in the generated string.</p>
+										</div>
+									</div>
 								</li>
 								<li>
 									<h5>length: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The length of the string to generate.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<ul>
+								<li>A random string.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -1087,19 +1181,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/register-ecs.ts#L15">src/modules/game/engine/register-ecs.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/register-ecs.ts#L22">src/modules/game/engine/register-ecs.ts:22</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Registers all components and systems to the ECS world instance.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>engine: <a href="classes/engine.html" class="tsd-signature-type">Engine</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The game engine instance.</p>
+									</div>
 								</li>
 								<li>
 									<h5>renderer: <a href="classes/renderer.html" class="tsd-signature-type">Renderer</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The game renderer instance.</p>
+									</div>
 								</li>
 								<li>
 									<h5>resources: <a href="classes/resources.html" class="tsd-signature-type">Resources</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The game resources instance.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1159,10 +1267,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/renderer/resources/loader.ts#L41">src/modules/game/renderer/resources/loader.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/renderer/resources/loader.ts#L56">src/modules/game/renderer/resources/loader.ts:56</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Loads and parses the resources as set up by <a href="globals.html#initloader">initLoader</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">LoaderResource</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<ul>
+								<li>A promise that resolves when all resources have been loaded and parsed.</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -1176,16 +1292,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L99">src/modules/game/engine/seed-dev.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/seed-dev.ts#L145">src/modules/game/engine/seed-dev.ts:145</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Populates the game with actors for demonstration purposes.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>world: <span class="tsd-signature-type">World</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The game world instance.</p>
+									</div>
 								</li>
 								<li>
 									<h5>map: <a href="classes/map3d.html" class="tsd-signature-type">Map3D</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The map instance to create actors in.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
