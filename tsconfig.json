@@ -40,7 +40,7 @@
 	"exclude": ["node_modules", ".next", "out", "next.config.js", "dist", "docs"],
 
 	"typedocOptions": {
-		"mode": "file",
+		"mode": "modules",
 		"out": "docs",
 		"name": "D-Zone",
 		"gitRevision": "rewrite"
