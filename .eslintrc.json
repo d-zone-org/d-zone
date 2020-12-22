@@ -4,26 +4,40 @@
 		"es2021": true,
 		"node": true
 	},
+
 	"extends": [
 		"eslint:recommended",
 		"plugin:react/recommended",
 		"plugin:@typescript-eslint/recommended",
 		"prettier",
 		"prettier/@typescript-eslint",
-		"prettier/react"
+		"prettier/react",
+		"plugin:jsdoc/recommended"
 	],
-	"parser": "@typescript-eslint/parser",
+
 	"parserOptions": {
 		"project": "./tsconfig.json"
 	},
-	"plugins": ["react", "@typescript-eslint"],
+
+	"settings": {
+		"react": { "version": "detect" }
+	},
+
 	"ignorePatterns": [
-		"dist/**/*.js",
-		"packages/pixi-viewport/**/*",
-		"packages/pixi-cull/**/*",
-		"next.config.js"
+		"packages/pixi-viewport/*",
+		"packages/pixi-cull/*",
+		"next.config.js",
+		"dist/*",
+		"docs/*"
 	],
+
 	"rules": {
-		"@typescript-eslint/explicit-module-boundary-types": "off"
+		"@typescript-eslint/explicit-module-boundary-types": "off",
+
+		"jsdoc/require-param-type": "off",
+		"jsdoc/require-returns-type": "off",
+		"jsdoc/check-param-names": ["warn", { "checkDestructured": false }],
+		"jsdoc/require-param": ["warn", { "checkDestructured": false }],
+		"jsdoc/check-tag-names": ["warn", { "definedTags": ["remarks"] }]
 	}
 }

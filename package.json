@@ -8,7 +8,8 @@
 		"build": "next build && tsc --project ./server/tsconfig.json",
 		"start": "yarn node dist/server/index.js",
 		"commit": "gitmoji --commit",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"docs": "typedoc --excludeNotExported ./src"
 	},
 	"workspaces": [
 		"packages/**/*"
@@ -43,12 +44,15 @@
 		"babel-plugin-styled-components": "^1.8.0",
 		"eslint": "^7.14.0",
 		"eslint-config-prettier": "^6.15.0",
+		"eslint-plugin-jsdoc": "^30.7.9",
 		"eslint-plugin-react": "latest",
 		"gitmoji-cli": "^3.2.12",
 		"nodemon": "^2.0.6",
 		"pixi.js": "^5.3.3",
 		"prettier": "^2.2.0",
+		"prettier-plugin-jsdoc": "^0.2.7",
 		"ts-node": "^9.0.0",
+		"typedoc": "^0.19.2",
 		"typescript": "^4.1.2"
 	},
 	"prettier": {
@@ -56,7 +60,8 @@
 		"useTabs": true,
 		"tabWidth": 2,
 		"semi": false,
-		"singleQuote": true
+		"singleQuote": true,
+		"jsdocParser": true
 	},
 	"homepage": "https://github.com/vegeta897/d-zone#readme",
 	"repository": {

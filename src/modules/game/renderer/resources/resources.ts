@@ -3,6 +3,7 @@ import { IResources, Sheet } from '../../typings'
 import { LoaderResource } from 'pixi.js-legacy'
 import { SPRITE_JSON_PATH } from '../../config/sprite'
 
+/** A manager for PIXI resources. */
 export default class Resources implements IResources {
 	sheet!: Sheet
 

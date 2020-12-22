@@ -1,11 +1,19 @@
 export class Simple {
 	/**
-	 * creates a simple cull
+	 * Creates a simple cull
+	 *
 	 * @param {object} [options]
-	 * @param {boolean} [options.visible=visible] parameter of the object to set (usually visible or renderable)
-	 * @param {boolean} [options.calculatePIXI=true] calculate pixi.js bounding box automatically; if this is set to false then it uses object[options.AABB] for bounding box
-	 * @param {string} [options.dirtyTest=true] only update spatial hash for objects with object[options.dirtyTest]=true; this has a HUGE impact on performance
-	 * @param {string} [options.AABB=AABB] object property that holds bounding box so that object[type] = { x: number, y: number, width: number, height: number }; not needed if options.calculatePIXI=true
+	 * @param {boolean} [options.visible] Parameter of the object to set (usually
+	 *     visible or renderable) Default is `visible`
+	 * @param {boolean} [options.calculatePIXI] Calculate pixi.js bounding box
+	 *     automatically; if this is set to false then it uses
+	 *     object[options.AABB] for bounding box Default is `true`
+	 * @param {string} [options.dirtyTest] Only update spatial hash for objects
+	 *     with object[options.dirtyTest]=true; this has a HUGE impact on
+	 *     performance Default is `true`
+	 * @param {string} [options.AABB] Object property that holds bounding box so
+	 *     that object[type] = { x: number, y: number, width: number, height:
+	 *     number }; not needed if options.calculatePIXI=true Default is `AABB`
 	 */
 	constructor(options?: {
 		visible: boolean
@@ -19,39 +27,46 @@ export class Simple {
 	AABB: string
 	lists: any[][]
 	/**
-	 * add an array of objects to be culled
+	 * Add an array of objects to be culled
+	 *
 	 * @param {Array} array
-	 * @param {boolean} [staticObject] set to true if the object's position/size does not change
-	 * @return {Array} array
+	 * @param {boolean} [staticObject] Set to true if the object's position/size
+	 *     does not change
+	 * @returns {Array} Array
 	 */
 	addList(array: any[], staticObject?: boolean): any[]
 	/**
-	 * remove an array added by addList()
+	 * Remove an array added by addList()
+	 *
 	 * @param {Array} array
-	 * @return {Array} array
+	 * @returns {Array} Array
 	 */
 	removeList(array: any[]): any[]
 	/**
-	 * add an object to be culled
-	 * @param {*} object
-	 * @param {boolean} [staticObject] set to true if the object's position/size does not change
-	 * @return {*} object
+	 * Add an object to be culled
+	 *
+	 * @param {any} object
+	 * @param {boolean} [staticObject] Set to true if the object's position/size
+	 *     does not change
+	 * @returns {any} Object
 	 */
 	add(object: any, staticObject?: boolean): any
 	/**
-	 * remove an object added by add()
-	 * @param {*} object
-	 * @return {*} object
+	 * Remove an object added by add()
+	 *
+	 * @param {any} object
+	 * @returns {any} Object
 	 */
 	remove(object: any): any
 	/**
-	 * cull the items in the list by setting visible parameter
+	 * Cull the items in the list by setting visible parameter
+	 *
 	 * @param {object} bounds
 	 * @param {number} bounds.x
 	 * @param {number} bounds.y
 	 * @param {number} bounds.width
 	 * @param {number} bounds.height
-	 * @param {boolean} [skipUpdate] skip updating the AABB bounding box of all objects
+	 * @param {boolean} [skipUpdate] Skip updating the AABB bounding box of all objects
 	 */
 	cull(
 		bounds: {
@@ -63,36 +78,38 @@ export class Simple {
 		skipUpdate?: boolean
 	): void
 	/**
-	 * update the AABB for all objects
-	 * automatically called from update() when calculatePIXI=true and skipUpdate=false
+	 * Update the AABB for all objects automatically called from update() when
+	 * calculatePIXI=true and skipUpdate=false
 	 */
 	updateObjects(): void
 	/**
-	 * update the has of an object
-	 * automatically called from updateObjects()
-	 * @param {*} object
+	 * Update the has of an object automatically called from updateObjects()
+	 *
+	 * @param {any} object
 	 */
 	updateObject(object: any): void
 	/**
-	 * returns an array of objects contained within bounding box
-	 * @param {object} boudns bounding box to search
+	 * Returns an array of objects contained within bounding box
+	 *
+	 * @param {object} boudns Bounding box to search
 	 * @param {number} bounds.x
 	 * @param {number} bounds.y
 	 * @param {number} bounds.width
 	 * @param {number} bounds.height
-	 * @return {object[]} search results
+	 * @returns {object[]} Search results
 	 */
 	query(bounds: any): object[]
 	/**
-	 * iterates through objects contained within bounding box
-	 * stops iterating if the callback returns true
-	 * @param {object} bounds bounding box to search
+	 * Iterates through objects contained within bounding box stops iterating if
+	 * the callback returns true
+	 *
+	 * @param {object} bounds Bounding box to search
 	 * @param {number} bounds.x
 	 * @param {number} bounds.y
 	 * @param {number} bounds.width
 	 * @param {number} bounds.height
 	 * @param {function} callback
-	 * @return {boolean} true if callback returned early
+	 * @returns {boolean} True if callback returned early
 	 */
 	queryCallback(
 		bounds: {
@@ -104,8 +121,9 @@ export class Simple {
 		callback: Function
 	): boolean
 	/**
-	 * get stats (only updated after update() is called)
-	 * @return {SimpleStats}
+	 * Get stats (only updated after update() is called)
+	 *
+	 * @returns {SimpleStats}
 	 */
 	stats(): SimpleStats
 }

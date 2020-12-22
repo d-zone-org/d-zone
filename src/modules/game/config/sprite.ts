@@ -2,6 +2,7 @@ import type { ISpriteDefinition } from '../typings'
 
 export const SPRITE_JSON_PATH = './img/sprites.json' as const
 
+/** Sprite data used to configure PIXI textures in [[loader]]. */
 export const SPRITE_DEFINITIONS: Record<string, ISpriteDefinition> = {
 	cube: { w: 14, h: 14 },
 	'cube-idle': { w: 14, h: 14 },
@@ -19,6 +20,10 @@ export const SPRITE_DEFINITIONS: Record<string, ISpriteDefinition> = {
 	beacon: { w: 31, h: 56 },
 } as const
 
+/**
+ * Sprite Y coordinate and z-index offsets to apply at specified frames during
+ * hop animations.
+ */
 export const HOP_OFFSETS = {
 	hopUpY: {
 		frames: [4, 6, 7, 8, 9],
@@ -37,4 +42,5 @@ export const HOP_OFFSETS = {
 	},
 }
 
+/** Number of game ticks per frame of hop animation. */
 export const HOP_FRAMERATE = 2 as const
