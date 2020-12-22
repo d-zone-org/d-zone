@@ -1,6 +1,8 @@
 import Map3D from './map-3d'
 import { IGrid } from '../typings'
 
+// TODO: Remove this class, move all Cell3D methods to Map3D, store entities in Map3D
+
 const DEFAULT_ATTRIBUTES: ICell3DAttributes = {
 	solid: false,
 	platform: false,
