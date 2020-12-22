@@ -13,7 +13,8 @@ export default class Map3D {
 	 * @remarks
 	 * Methods that return arrays from this data should always return
 	 *
-	 *     shallow copies.
+	 *
+	 *      shallow copies.
 	 */
 	private data: Map<string, Cell3D[]> = new Map()
 

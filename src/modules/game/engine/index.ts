@@ -38,7 +38,8 @@ export default class Engine {
 	 * @remarks
 	 * `setInterval` is used instead of `requestAnimationFrame` because
 	 *
-	 *       we want all logic to run at a fixed rate.
+	 *
+	 *          we want all logic to run at a fixed rate.
 	 */
 	start(fps: number): void {
 		this.interval = window.setInterval(() => this.update(), 1000 / fps)
