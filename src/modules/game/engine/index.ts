@@ -38,6 +38,7 @@ export default class Engine {
 	 * @remarks
 	 * `setInterval` is used instead of `requestAnimationFrame`
 	 *
+	 *
 	 *     because
 	 *
 	 *

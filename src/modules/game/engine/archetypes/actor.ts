@@ -73,7 +73,8 @@ export function hopActor(actor: Entity, direction?: IGridDirection) {
  * @param cell - The parent cell to create a child from.
  * @param target - The relative grid location to reserve.
  * @remarks
- * This is used to prevent other solid entities from moving to the
+ * This is used to prevent other solid entities from moving to
+ *     the
  *
  *
  *

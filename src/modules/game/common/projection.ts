@@ -24,7 +24,8 @@ export function get2dCoordsFromIso(
  * @param y - The Y grid coordinate in 3D space.
  * @param z - The Z grid coordinate in 3D space.
  * @remarks
- * This is used to draw sprites to the screen in the correct order
+ * This is used to draw sprites to the screen in the correct
+ *     order
  *
  *
  *

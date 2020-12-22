@@ -11,7 +11,8 @@ export default class Map3D {
 	 * generate the hash string used for indexing.
 	 *
 	 * @remarks
-	 * Methods that return arrays from this data should always return
+	 * Methods that return arrays from this data should always
+	 *     return
 	 *
 	 *
 	 *
