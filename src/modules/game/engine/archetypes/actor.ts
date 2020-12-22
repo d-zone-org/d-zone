@@ -74,6 +74,7 @@ export function hopActor(actor: Entity, direction?: IGridDirection) {
  * @param target - The relative grid location to reserve.
  * @remarks
  * This is used to prevent other solid entities from moving to the
+ *
  *     target location.
  */
 export function reserveTarget(cell: Cell3D, target: IGrid): void {
