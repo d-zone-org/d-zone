@@ -1098,6 +1098,7 @@ declare class Snap extends Plugin {
 	 * @param {SnapOptions} [options]
 	 * @event snap-start(Viewport) emitted each time a snap animation starts
 	 * @event snap-restart(Viewport) emitted each time a snap resets because of
+	 *
 	 *     a
 	 *
 	 *

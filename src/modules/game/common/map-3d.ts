@@ -15,7 +15,8 @@ export default class Map3D {
 	 *
 	 *
 	 *
-	 *        shallow copies.
+	 *
+	 *           shallow copies.
 	 */
 	private data: Map<string, Cell3D[]> = new Map()
 

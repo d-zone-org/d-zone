@@ -28,7 +28,8 @@ export function get2dCoordsFromIso(
  *
  *
  *
- *        (back to front, bottom to top).
+ *
+ *           (back to front, bottom to top).
  * @returns - The Z-index of the input grid coordinates.
  */
 export function getZIndex(x: number, y: number, z: number): number {

@@ -37,6 +37,7 @@ export default class Engine {
 	 * @param fps - The target number of times per second to run the interval at.
 	 * @remarks
 	 * `setInterval` is used instead of `requestAnimationFrame`
+	 *
 	 *     because
 	 *
 	 *
