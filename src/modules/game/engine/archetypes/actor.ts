@@ -76,7 +76,8 @@ export function hopActor(actor: Entity, direction?: IGridDirection) {
  * This is used to prevent other solid entities from moving to the
  *
  *
- *      target location.
+ *
+ *        target location.
  */
 export function reserveTarget(cell: Cell3D, target: IGrid): void {
 	cell.spread(target, { solid: true })

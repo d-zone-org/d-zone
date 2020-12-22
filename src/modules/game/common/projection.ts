@@ -27,7 +27,8 @@ export function get2dCoordsFromIso(
  * This is used to draw sprites to the screen in the correct order
  *
  *
- *      (back to front, bottom to top).
+ *
+ *        (back to front, bottom to top).
  * @returns - The Z-index of the input grid coordinates.
  */
 export function getZIndex(x: number, y: number, z: number): number {
