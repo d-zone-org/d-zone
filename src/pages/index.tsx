@@ -27,7 +27,6 @@ export default function Home() {
 			</Head>
 
 			<Layout>
-				{' '}
 				<Title>Hey there!</Title>
 				<Game></Game>
 			</Layout>

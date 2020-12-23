@@ -9,4 +9,6 @@ export default async () => {
 	})
 
 	await client.connect()
+
+	return client
 }

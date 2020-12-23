@@ -42,6 +42,7 @@
 		"@typescript-eslint/eslint-plugin": "latest",
 		"@typescript-eslint/parser": "latest",
 		"babel-plugin-styled-components": "^1.8.0",
+		"comlink-loader": "^2.0.0",
 		"eslint": "^7.14.0",
 		"eslint-config-prettier": "^6.15.0",
 		"eslint-plugin-jsdoc": "^30.7.9",
