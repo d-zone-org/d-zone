@@ -1,83 +1,102 @@
-import { Cell3D } from './cell-3d'
 import { Direction, IGrid, IGridDirection } from '../typings'
 
 /**
- * A manager used for storing instances of [[Cell3D]] and providing methods to
- * manipulate them.
+ * A manager used for storing objects of type `T` as "cells" and providing
+ * methods to manipulate them.
  */
-export default class Map3D {
+export default class Map3D<T> {
 	/**
-	 * Stores the map cells indexed by grid location. Use [[Map3D.gridToHash]] to
+	 * Stores the cells indexed by grid location. Use [[Map3D.gridToHash]] to
 	 * generate the hash string used for indexing.
 	 *
 	 * @remarks
-	 * Methods that return arrays from this data should always
-	 *     return
-	 *
-	 *
-	 *
-	 *
-	 *           shallow copies.
+	 * Methods returning sets from this data should always return shallow copies.
 	 */
-	private data: Map<string, Cell3D[]> = new Map()
+	private cellMap: Map<string, Set<T>> = new Map()
+
+	/**
+	 * Stores grid locations of all cells, indexed by cell. This can be used to
+	 * retrieve the location of any cell in the map.
+	 *
+	 * @remarks
+	 * Methods returning grids from this data should always return shallow copies.
+	 */
+	private cellGrids: Map<T, IGrid> = new Map()
 
 	/**
 	 * Gets the cells at a specified grid location.
 	 *
 	 * @param grid - The grid location to retrieve cells from.
-	 * @returns - An array of the cells at the input grid location.
+	 * @returns - A Set containing the cells at the input grid location.
 	 */
-	getCellsAtGrid(grid: IGrid): Cell3D[] {
+	getCellsAtGrid(grid: IGrid): Set<T> {
 		const hash = Map3D.gridToHash(grid)
-		let cells = this.data.get(hash)
+		let cells = this.cellMap.get(hash)
 		if (!cells) {
-			cells = []
-			this.data.set(hash, cells)
+			cells = new Set()
+			this.cellMap.set(hash, cells)
 		}
-		return [...cells]
+		return new Set(cells)
 	}
 
 	/**
-	 * Adds a cell to the map. The target grid is inferred from the cell's properties.
-	 *
-	 * @param cell - The map cell to add to the map.
-	 * @returns - An array of the cells at the location the input cell was added to.
-	 */
-	addCell(cell: Cell3D): Cell3D[] {
-		const cells = [...this.getCellsAtGrid(cell), cell]
-		this.data.set(Map3D.gridToHash(cell), cells)
-		return [...cells]
-	}
-
-	/**
-	 * Removes a cell from the specified grid location, and returns an array of
+	 * Adds a cell to the specified grid location, and returns a Set containing the
 	 * cells at that location.
+	 *
+	 * @param cell - The map cell to be added.
+	 * @param grid - The grid location to add the cell to.
+	 * @returns - A Set containing the cells at the input grid location.
+	 */
+	addCellToGrid(cell: T, grid: IGrid): Set<T> {
+		const cells = new Set([...this.getCellsAtGrid(grid), cell])
+		this.cellMap.set(Map3D.gridToHash(grid), cells)
+		this.cellGrids.set(cell, { ...grid })
+		return new Set(cells)
+	}
+
+	/**
+	 * Removes a cell from the specified grid location, and returns a Set
+	 * containing the cells at that location.
 	 *
 	 * @param cell - The map cell to be removed.
 	 * @param grid - The grid location to remove the cell from.
-	 * @returns - An array of the cells at the input grid location.
+	 * @returns - A Set containing the cells at the input grid location.
 	 */
-	removeCellFromGrid(cell: Cell3D, grid: IGrid): Cell3D[] {
-		const cells = this.getCellsAtGrid(grid).filter((c) => c !== cell)
-		this.data.set(Map3D.gridToHash(cell), cells)
-		return [...cells]
+	removeCellFromGrid(cell: T, grid: IGrid): Set<T> {
+		const cellsAtGrid = this.cellMap.get(Map3D.gridToHash(grid))
+		if (cellsAtGrid) cellsAtGrid.delete(cell)
+		this.cellGrids.delete(cell)
+		return this.getCellsAtGrid(grid)
 	}
 
 	/**
-	 * Moves a cell to the specified grid location, and returns an array of cells
-	 * at that location.
+	 * Moves a cell to the specified grid location, and returns a Set containing
+	 * the cells at that location.
 	 *
 	 * @param cell - The map cell to be moved.
 	 * @param grid - The grid location to move the cell to.
-	 * @returns - An array of the cells at the input grid location.
+	 * @returns - A Set containing the cells at the input grid location.
 	 */
-	moveCellToGrid(cell: Cell3D, grid: IGrid): Cell3D[] {
-		if (Map3D.gridToHash(cell) === Map3D.gridToHash(grid)) {
-			return this.getCellsAtGrid(grid)
+	moveCellToGrid(cell: T, grid: IGrid): Set<T> {
+		const prevGrid = this.cellGrids.get(cell)
+		if (prevGrid) {
+			if (Map3D.gridToHash(prevGrid) === Map3D.gridToHash(grid)) {
+				return this.getCellsAtGrid(grid)
+			}
+			this.removeCellFromGrid(cell, prevGrid)
 		}
-		this.removeCellFromGrid(cell, cell)
-		cell.setGrid(grid)
-		return this.addCell(cell)
+		return this.addCellToGrid(cell, grid)
+	}
+
+	/**
+	 * Returns the grid location of a cell in the map.
+	 *
+	 * @param cell - The map cell to obtain the grid from.
+	 * @returns - The grid location of the input cell.
+	 */
+	getCellGrid(cell: T): IGrid | undefined {
+		const grid = this.cellGrids.get(cell)
+		return grid ? { ...grid } : undefined
 	}
 
 	/**
@@ -90,6 +109,22 @@ export default class Map3D {
 	 */
 	static gridToHash({ x, y, z }: IGrid): string {
 		return x + ':' + y + ':' + z
+	}
+
+	/**
+	 * Returns the sum of two or more grid objects.
+	 *
+	 * @param grids - An array of grids to be summed.
+	 * @returns - The summed grid location.
+	 */
+	static addGrids(...grids: IGrid[]): IGrid {
+		const summedGrid = { x: 0, y: 0, z: 0 }
+		for (const grid of grids) {
+			summedGrid.x += grid.x
+			summedGrid.y += grid.y
+			summedGrid.z += grid.z
+		}
+		return summedGrid
 	}
 
 	/**

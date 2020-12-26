@@ -1,12 +1,12 @@
 import { Query, System } from 'ape-ecs'
 import Transform from '../components/transform'
-import MapCell from '../components/map-cell'
+import Map from '../components/map'
 
-/** Manages the link between [[Transform]] components and [[MapCell]] components. */
+/** Manages the link between [[Transform]] components and [[Map]] components. */
 export default class MapSystem extends System {
 	private mapQuery!: Query
 	init() {
-		this.mapQuery = this.createQuery().fromAll(Transform, MapCell).persist()
+		this.mapQuery = this.createQuery().fromAll(Transform, Map).persist()
 	}
 
 	/**
@@ -17,7 +17,8 @@ export default class MapSystem extends System {
 	update(tick: number) {
 		this.mapQuery.execute().forEach((entity) => {
 			if (entity.c[Transform.key]._meta.updated !== tick) return
-			entity.c[MapCell.key].cell.moveToGrid(
+			entity.c[Map.key].map.moveCellToGrid(
+				entity,
 				entity.c[Transform.key] as Transform
 			)
 		})

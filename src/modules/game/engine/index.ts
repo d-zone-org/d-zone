@@ -10,6 +10,14 @@ export enum SystemGroup {
 	Default = 'default',
 }
 
+/** ECS Entity tags. */
+export enum Tags {
+	/** The entity is solid. */
+	Solid = 'solid',
+	/** The entity can support another entity on top of it. */
+	Platform = 'platform',
+}
+
 /**
  * The manager for the ECS World instance.
  *
@@ -36,13 +44,8 @@ export default class Engine {
 	 *
 	 * @param fps - The target number of times per second to run the interval at.
 	 * @remarks
-	 * `setInterval` is used instead of `requestAnimationFrame`
-	 *
-	 *
-	 *     because
-	 *
-	 *
-	 *          we want all logic to run at a fixed rate.
+	 * `setInterval` is used instead of `requestAnimationFrame` because
+	 *     all logic runs at a fixed rate.
 	 */
 	start(fps: number): void {
 		this.interval = window.setInterval(() => this.update(), 1000 / fps)
