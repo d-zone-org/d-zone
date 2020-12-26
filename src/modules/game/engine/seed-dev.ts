@@ -112,26 +112,14 @@ export function randomHop(): IGridDirection {
  * @param map - The map instance to create actors in.
  */
 export function hopTest(world: World, map: Map3D<Entity>) {
-	const hop1 = createActor(world, { x: 0, y: 0, z: 0 }, map)
-	const hop2 = createActor(world, { x: -1, y: 0, z: 0 }, map)
+	const hop1 = createActor(world, { x: -1, y: 0, z: 0 }, map)
+	const hop2 = createActor(world, { x: 0, y: 1, z: 0 }, map)
 	setTimeout(() => {
-		hopActor(hop2, Map3D.Directions.east)
+		hopActor(hop1, Map3D.Directions.east)
 	}, 1000)
 	setTimeout(() => {
-		hopActor(hop2, Map3D.Directions.east)
-	}, 2000)
-	setTimeout(() => {
-		hopActor(hop1, Map3D.Directions.east)
-	}, 3000)
-	setTimeout(() => {
-		hopActor(hop1, Map3D.Directions.west)
-	}, 4000)
-	setTimeout(() => {
-		hopActor(hop2, Map3D.Directions.west)
-	}, 5000)
-	setTimeout(() => {
-		hopActor(hop1, Map3D.Directions.east)
-	}, 6000)
+		hopActor(hop2, Map3D.Directions.north)
+	}, 1430)
 	// createActor(world, { x: 0, y: 0, z: 0 }, map)
 	// createActor(world, { x: 0, y: -1, z: 0 }, map)
 	// createActor(world, { x: 0, y: -1, z: 1 }, map)

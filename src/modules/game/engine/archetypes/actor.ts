@@ -25,7 +25,7 @@ export function createActor(
 	grid: IGrid,
 	map: Map3D<Entity>
 ): Entity {
-	return world.createEntity({
+	const actor = world.createEntity({
 		c: {
 			[Transform.key]: {
 				type: Transform.typeName,
@@ -48,6 +48,8 @@ export function createActor(
 		},
 		tags: [Tags.Solid, Tags.Platform],
 	})
+	map.addCellToGrid(actor, grid)
+	return actor
 }
 
 /**

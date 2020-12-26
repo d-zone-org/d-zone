@@ -5,7 +5,6 @@ import Actor from './components/actor'
 import Hop from './components/hop'
 import Map from './components/map'
 import HopSystem from './systems/hop'
-import MapSystem from './systems/map'
 import TransformSystem from './systems/transform'
 import SpriteSystem from './systems/sprite'
 import type Renderer from '../renderer'
@@ -38,7 +37,6 @@ export function registerECS(
 	engine.world.registerSystem(SystemGroup.Default, HopSystem, [
 		resources.sheet.spritesheet.animations,
 	])
-	engine.world.registerSystem(SystemGroup.Default, MapSystem)
 	engine.world.registerSystem(SystemGroup.Default, TransformSystem)
 	engine.world.registerSystem(SystemGroup.Default, SpriteSystem, [
 		resources.sheet.textures,
