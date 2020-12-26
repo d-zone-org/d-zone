@@ -9,8 +9,7 @@ export default class Map3D<T> {
 	 * Stores the cells indexed by grid location. Use [[Map3D.gridToHash]] to
 	 * generate the hash string used for indexing.
 	 *
-	 * @remarks
-	 * Methods returning sets from this data should always return shallow copies.
+	 * Note: Methods returning sets from this data should always return shallow copies.
 	 */
 	private cellMap: Map<string, Set<T>> = new Map()
 
@@ -18,8 +17,7 @@ export default class Map3D<T> {
 	 * Stores grid locations of all cells, indexed by cell. This can be used to
 	 * retrieve the location of any cell in the map.
 	 *
-	 * @remarks
-	 * Methods returning grids from this data should always return shallow copies.
+	 * Note: Methods returning grids from this data should always return shallow copies.
 	 */
 	private cellGrids: Map<T, IGrid> = new Map()
 
@@ -102,9 +100,9 @@ export default class Map3D<T> {
 	/**
 	 * Returns the string representation (hash) of a grid.
 	 *
+	 * Note: This hash is used to index the [[data]] of [[Map3D]].
+	 *
 	 * @param __namedParameters - The grid object to convert into a hash.
-	 * @remarks
-	 * This hash is used to index the [[data]] of [[Map3D]].
 	 * @returns - Grid coordinates in string format.
 	 */
 	static gridToHash({ x, y, z }: IGrid): string {
@@ -130,8 +128,7 @@ export default class Map3D<T> {
 	/**
 	 * A constant containing objects that represent the four cardinal directions.
 	 *
-	 * @remarks
-	 * This can be used when creating [[Hop]] components.
+	 * Note: This can be used when creating [[Hop]] components.
 	 */
 	static Directions: Record<Direction, IGridDirection> = {
 		east: { x: 1, y: 0, z: 0, direction: Direction.East },

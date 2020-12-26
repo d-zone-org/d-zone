@@ -53,11 +53,11 @@ export function createActor(
 /**
  * Adds a [[Hop]] component to the input actor entity.
  *
+ * Note: If the actor already has a hop component, this will not add another.
+ *
  * @param actor - The actor entity to hop.
  * @param direction - The direction of the hop. If not provided, a random
  *     direction will be chosen.
- * @remarks
- * If the actor already has a hop component, this will not add another.
  */
 export function hopActor(actor: Entity, direction?: IGridDirection) {
 	if (actor.has(Hop.typeName)) return // Already hopping

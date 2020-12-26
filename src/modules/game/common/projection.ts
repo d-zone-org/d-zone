@@ -20,17 +20,12 @@ export function get2dCoordsFromIso(
 /**
  * Gets the Z-index of a grid location.
  *
+ * Note: This is used to draw sprites to the screen in the correct order (back
+ * to front, bottom to top).
+ *
  * @param x - The X grid coordinate in 3D space.
  * @param y - The Y grid coordinate in 3D space.
  * @param z - The Z grid coordinate in 3D space.
- * @remarks
- * This is used to draw sprites to the screen in the correct
- *     order
- *
- *
- *
- *
- *           (back to front, bottom to top).
  * @returns - The Z-index of the input grid coordinates.
  */
 export function getZIndex(x: number, y: number, z: number): number {
