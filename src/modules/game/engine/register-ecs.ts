@@ -1,12 +1,14 @@
 import Texture from './components/texture'
 import Graphic from './components/graphic'
+import Animation from './components/animation'
+import Transform from './components/transform'
 import Draw from './components/draw'
 import PixiObject from './components/pixi-object'
-import Transform from './components/transform'
 import Actor from './components/actor'
 import Hop from './components/hop'
 import Map from './components/map'
 import HopSystem from './systems/hop'
+import AnimationSystem from './systems/animation'
 import TransformSystem from './systems/transform'
 import PixiSystem from './systems/pixi'
 import type Renderer from '../renderer'
@@ -27,6 +29,7 @@ export function registerECS(
 ) {
 	engine.world.registerComponent(Texture)
 	engine.world.registerComponent(Graphic)
+	engine.world.registerComponent(Animation)
 	engine.world.registerComponent(Transform)
 	engine.world.registerComponent(Draw)
 	engine.world.registerComponent(Actor)
@@ -41,6 +44,7 @@ export function registerECS(
 	engine.world.registerSystem(SystemGroup.Default, HopSystem, [
 		resources.sheet.spritesheet.animations,
 	])
+	engine.world.registerSystem(SystemGroup.Default, AnimationSystem)
 	engine.world.registerSystem(SystemGroup.Default, TransformSystem)
 	engine.world.registerSystem(SystemGroup.Default, PixiSystem, [
 		resources.sheet.textures,

@@ -18,6 +18,12 @@ export enum Direction {
 	West = 'west',
 }
 
+export interface ITexture {
+	anchorX: number
+	anchorY: number
+	name: string
+}
+
 export interface IGrid {
 	x: number
 	y: number

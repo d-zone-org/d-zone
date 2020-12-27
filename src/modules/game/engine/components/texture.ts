@@ -1,7 +1,8 @@
 import { Component } from 'ape-ecs'
+import { ITexture } from '../../typings'
 
 /** Data for an entity's texture. */
-export default class Texture extends Component {
+export default class Texture extends Component implements ITexture {
 	/** The texture's X anchor coordinate, in pixels. */
 	anchorX!: number
 	/** The texture's Y anchor coordinate, in pixels. */
