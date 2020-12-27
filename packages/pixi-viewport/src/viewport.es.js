@@ -2249,7 +2249,8 @@ class Snap extends Plugin {
 	 * @event snap-restart(Viewport) emitted each time a snap resets because of
 	 *
 	 *
-	 *      a
+	 *
+	 *        a
 	 *
 	 *
 	 *          change in viewport size
