@@ -32,5 +32,5 @@ export interface ISpriteDefinition {
 	w: number
 	h: number
 	animation?: boolean
-	anchor?: { x: number; y: number }
+	anchor: { x: number; y: number }
 }

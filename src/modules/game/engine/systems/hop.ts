@@ -1,9 +1,15 @@
 import { Entity, Query, System } from 'ape-ecs'
 import Hop from '../components/hop'
 import Transform from '../components/transform'
-import Sprite from '../components/sprite'
+import Draw from '../components/draw'
+import Texture from '../components/texture'
+// import Graphic from '../components/graphic'
 import Map from '../components/map'
-import { HOP_OFFSETS, HOP_FRAMERATE } from '../../config/sprite'
+import {
+	SPRITE_DEFINITIONS,
+	HOP_OFFSETS,
+	HOP_FRAMERATE,
+} from '../../config/sprite'
 import { Animations, Direction } from '../../typings'
 import { getValidHop } from '../archetypes/actor'
 import Map3D from '../../common/map-3d'
@@ -17,9 +23,10 @@ export default class HopSystem extends System {
 	init(animations: Animations) {
 		this.animations = animations
 		this.hopFrameCount = this.animations['hop-east'].length
-		this.hopQuery = this.createQuery()
-			.fromAll(Hop, Transform, Sprite, Map)
-			.persist()
+		this.hopQuery = this.createQuery({
+			all: [Hop, Transform, Draw, Texture, Map],
+			persist: true,
+		})
 	}
 
 	update(/*tick: number*/) {
@@ -36,16 +43,36 @@ export default class HopSystem extends System {
 				if (validHop) {
 					hop.z = validHop.z
 					entity.removeTag(Tags.Platform)
-					hop.placeholder = this.world.createEntity({ tags: [Tags.Solid] })
-					map.addCellToGrid(hop.placeholder, Map3D.addGrids(actorGrid, hop))
+					const hopGrid = Map3D.addGrids(actorGrid, hop)
+					hop.placeholder = this.world.createEntity({
+						tags: [Tags.Solid],
+						// c: {
+						// 	[Graphic.key]: {
+						// 		type: Graphic.typeName,
+						// 		color: 0xaa0044,
+						// 		width: 10,
+						// 		height: 10,
+						// 		anchorX: 5,
+						// 		anchorY: 5,
+						// 	},
+						// 	[Transform.key]: {
+						// 		type: Transform.typeName,
+						// 		...hopGrid,
+						// 	},
+						// 	[Draw.key]: {
+						// 		type: Draw.typeName,
+						// 	},
+						// },
+					})
+					map.addCellToGrid(hop.placeholder, hopGrid)
 				} else {
-					faceSpriteToHop(entity.c[Sprite.key] as Sprite, hop)
+					faceSpriteToDirection(entity.c[Texture.key] as Texture, hop.direction)
 					entity.removeComponent(hop)
 					return
 				}
 			}
 
-			const sprite = entity.c[Sprite.key] as Sprite
+			const texture = entity.c[Texture.key] as Texture
 			const frame = Math.floor(this.hopFrameCount * hop.progress)
 			if (hop.progress >= 1) {
 				// Hop completed
@@ -61,34 +88,39 @@ export default class HopSystem extends System {
 					map.removeCellFromGrid(hop.placeholder, newGrid)
 					hop.placeholder.destroy()
 				}
-				faceSpriteToHop(sprite, hop)
+				faceSpriteToDirection(texture, hop.direction)
 				entity.addTag(Tags.Platform)
 				entity.removeComponent(hop)
 			} else if (hop.progress === 0 || frame > hop.frame) {
+				const draw = entity.c[Draw.key] as Draw
 				hop.frame = frame
-				sprite.update({
-					texture: this.animations[`hop-${hop.direction}`][hop.frame]
-						.textureCacheIds[0],
+				const animation = `hop-${hop.direction}`
+				texture.update({
+					name: this.animations[animation][hop.frame].textureCacheIds[0],
 				})
 				if (hop.progress === 0) {
-					sprite.update({
-						zIndex: sprite.zIndex + 0.01,
+					draw.update({
+						zIndex: draw.zIndex + 0.01,
+					})
+					texture.update({
+						anchorX: SPRITE_DEFINITIONS[animation].anchor.x,
+						anchorY: SPRITE_DEFINITIONS[animation].anchor.y,
 					})
 				}
 				const zDepthOffset = getZDepthOffset(frame, hop.direction)
 				if (zDepthOffset) {
 					// Adjust z-depth while hopping
-					sprite.update({
-						zIndex: sprite.zIndex + zDepthOffset,
+					draw.update({
+						zIndex: draw.zIndex + zDepthOffset,
 					})
 				}
 				if (hop.z !== 0) {
-					// Raise or lower sprite while hopping up/down
+					// Raise or lower texture while hopping up/down
 					const yOffsets = hop.z > 0 ? HOP_OFFSETS.hopUpY : HOP_OFFSETS.hopDownY
 					const yOffsetIndex = yOffsets.frames.indexOf(hop.frame)
 					if (yOffsetIndex >= 0) {
-						sprite.update({
-							y: sprite.y + yOffsets.values[yOffsetIndex],
+						texture.update({
+							anchorY: texture.anchorY - yOffsets.values[yOffsetIndex],
 						})
 					}
 				}
@@ -98,9 +130,11 @@ export default class HopSystem extends System {
 	}
 }
 
-function faceSpriteToHop(sprite: Sprite, hop: Hop) {
-	sprite.update({
-		texture: getCubeTexture(hop.direction),
+function faceSpriteToDirection(texture: Texture, direction: Direction) {
+	texture.update({
+		anchorX: 7,
+		anchorY: 7,
+		name: getCubeTexture(direction),
 	})
 }
 

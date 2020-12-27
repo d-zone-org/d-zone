@@ -2,7 +2,8 @@ import type { Entity, World } from 'ape-ecs'
 import type { IGrid, IGridDirection } from '../../typings'
 import Map3D from '../../common/map-3d'
 import Transform from '../components/transform'
-import Sprite from '../components/sprite'
+import Texture from '../components/texture'
+import Draw from '../components/draw'
 import Actor from '../components/actor'
 import Map from '../components/map'
 import Hop from '../components/hop'
@@ -31,9 +32,14 @@ export function createActor(
 				type: Transform.typeName,
 				...grid,
 			},
-			[Sprite.key]: {
-				type: Sprite.typeName,
-				texture: 'cube:0',
+			[Texture.key]: {
+				type: Texture.typeName,
+				anchorX: 7,
+				anchorY: 7,
+				name: 'cube:0',
+			},
+			[Draw.key]: {
+				type: Draw.typeName,
 			},
 			[Actor.key]: {
 				type: Actor.typeName,

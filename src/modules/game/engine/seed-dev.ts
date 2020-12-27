@@ -113,7 +113,7 @@ export function randomHop(): IGridDirection {
  */
 export function hopTest(world: World, map: Map3D<Entity>) {
 	const hop1 = createActor(world, { x: -1, y: 0, z: 0 }, map)
-	const hop2 = createActor(world, { x: 0, y: 1, z: 0 }, map)
+	const hop2 = createActor(world, { x: 0, y: 0, z: 0 }, map)
 	setTimeout(() => {
 		hopActor(hop1, Map3D.Directions.east)
 	}, 1000)

@@ -1,12 +1,14 @@
-import Sprite from './components/sprite'
-import PixiSprite from './components/pixi-sprite'
+import Texture from './components/texture'
+import Graphic from './components/graphic'
+import Draw from './components/draw'
+import PixiObject from './components/pixi-object'
 import Transform from './components/transform'
 import Actor from './components/actor'
 import Hop from './components/hop'
 import Map from './components/map'
 import HopSystem from './systems/hop'
 import TransformSystem from './systems/transform'
-import SpriteSystem from './systems/sprite'
+import PixiSystem from './systems/pixi'
 import type Renderer from '../renderer'
 import type Resources from '../renderer/resources/resources'
 import Engine, { SystemGroup, Tags } from '.'
@@ -23,12 +25,14 @@ export function registerECS(
 	renderer: Renderer,
 	resources: Resources
 ) {
-	engine.world.registerComponent(Sprite)
+	engine.world.registerComponent(Texture)
+	engine.world.registerComponent(Graphic)
 	engine.world.registerComponent(Transform)
+	engine.world.registerComponent(Draw)
 	engine.world.registerComponent(Actor)
 	engine.world.registerComponent(Hop)
 	engine.world.registerComponent(Map)
-	engine.world.registerComponent(PixiSprite)
+	engine.world.registerComponent(PixiObject)
 
 	engine.world.registerTags(Tags.Solid, Tags.Platform)
 
@@ -38,7 +42,7 @@ export function registerECS(
 		resources.sheet.spritesheet.animations,
 	])
 	engine.world.registerSystem(SystemGroup.Default, TransformSystem)
-	engine.world.registerSystem(SystemGroup.Default, SpriteSystem, [
+	engine.world.registerSystem(SystemGroup.Default, PixiSystem, [
 		resources.sheet.textures,
 		renderer,
 	])
