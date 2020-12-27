@@ -1101,7 +1101,8 @@ declare class Snap extends Plugin {
 	 *
 	 *
 	 *
-	 *        a
+	 *
+	 *           a
 	 *
 	 *
 	 *          change in viewport size
