@@ -127,7 +127,8 @@ export default class PixiSystem extends System {
 	}
 
 	/**
-	 * Instantiates PIXI objects for entities that have [[Texture]] or [[Graphic]] components.
+	 * Instantiates PIXI objects for entities that have [[Texture]] or [[Graphic]]
+	 * components.
 	 *
 	 * @private
 	 */
