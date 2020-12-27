@@ -1,12 +1,13 @@
-import { Query, System } from 'ape-ecs'
+import { Entity, Query, System } from 'ape-ecs'
 import Hop from '../components/hop'
 import Transform from '../components/transform'
 import Sprite from '../components/sprite'
-import MapCell from '../components/map-cell'
+import Map from '../components/map'
 import { HOP_OFFSETS, HOP_FRAMERATE } from '../../config/sprite'
 import { Animations, Direction } from '../../typings'
-import { Cell3D } from '../../common/cell-3d'
-import { reserveTarget, getValidHop } from '../archetypes/actor'
+import { getValidHop } from '../archetypes/actor'
+import Map3D from '../../common/map-3d'
+import { Tags } from '../'
 
 export default class HopSystem extends System {
 	private animations!: Animations
@@ -17,45 +18,51 @@ export default class HopSystem extends System {
 		this.animations = animations
 		this.hopFrameCount = this.animations['hop-east'].length
 		this.hopQuery = this.createQuery()
-			.fromAll(Hop, Transform, Sprite, MapCell)
-			.persist(true)
+			.fromAll(Hop, Transform, Sprite, Map)
+			.persist()
 	}
 
 	update(/*tick: number*/) {
-		let needRefresh = false
-		this.hopQuery.added.forEach((entity) => {
-			const hop = entity.c[Hop.key] as Hop
-			const actorCell = entity.c[MapCell.key].cell as Cell3D
-			const validHop = getValidHop(actorCell, hop)
-			if (validHop) {
-				hop.z = validHop.z
-				// TODO: URGENT FIX NEEDED - The placeholder is never removed from the map
-				reserveTarget(actorCell, validHop)
-				actorCell.attributes.platform = false
-			} else {
-				faceSpriteToHop(entity.c[Sprite.key] as Sprite, hop)
-				entity.removeComponent(hop)
-				needRefresh = true
-			}
-		})
-		// Refresh hop query if any hops were aborted
-		if (needRefresh) this.hopQuery.refresh()
-
 		// TODO: Hop system should not be handling animation, make an animation component & system
 		this.hopQuery.execute().forEach((entity) => {
 			const hop = entity.c[Hop.key] as Hop
+			const map = entity.c[Map.key].map as Map3D<Entity>
+
+			if (!hop.placeholder) {
+				// Initialize new hop
+				const actorGrid = map.getCellGrid(entity)
+				if (!actorGrid) return console.error('Actor not found in map', entity)
+				const validHop = getValidHop(actorGrid, hop, map)
+				if (validHop) {
+					hop.z = validHop.z
+					entity.removeTag(Tags.Platform)
+					hop.placeholder = this.world.createEntity({ tags: [Tags.Solid] })
+					map.addCellToGrid(hop.placeholder, Map3D.addGrids(actorGrid, hop))
+				} else {
+					faceSpriteToHop(entity.c[Sprite.key] as Sprite, hop)
+					entity.removeComponent(hop)
+					return
+				}
+			}
+
 			const sprite = entity.c[Sprite.key] as Sprite
 			const frame = Math.floor(this.hopFrameCount * hop.progress)
 			if (hop.progress >= 1) {
 				// Hop completed
 				const { x, y, z } = entity.c[Transform.key]
-				entity.c[Transform.key].update({
+				const newGrid = {
 					x: x + hop.x,
 					y: y + hop.y,
 					z: z + hop.z,
-				})
+				}
+				entity.c[Transform.key].update(newGrid)
+				map.moveCellToGrid(entity, newGrid)
+				if (hop.placeholder) {
+					map.removeCellFromGrid(hop.placeholder, newGrid)
+					hop.placeholder.destroy()
+				}
 				faceSpriteToHop(sprite, hop)
-				entity.c[MapCell.key].cell.attributes.platform = true
+				entity.addTag(Tags.Platform)
 				entity.removeComponent(hop)
 			} else if (hop.progress === 0 || frame > hop.frame) {
 				hop.frame = frame

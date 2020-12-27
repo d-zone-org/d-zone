@@ -4,13 +4,14 @@ import Engine from './engine'
 import Map3D from './common/map-3d'
 import { registerECS } from './engine/register-ecs'
 import { seedGame } from './engine/seed-dev'
+import type { Entity } from 'ape-ecs'
 
 const FPS = 60
 
 export default class Game {
 	renderer = new Renderer()
 	resources = new Resources()
-	map = new Map3D()
+	map = new Map3D<Entity>()
 	engine = new Engine()
 
 	async init(canvas: HTMLCanvasElement) {
