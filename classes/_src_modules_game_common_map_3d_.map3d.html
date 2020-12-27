@@ -60,7 +60,7 @@
 					<a href="_src_modules_game_common_map_3d_.map3d.html">Map3D</a>
 				</li>
 			</ul>
-			<h1>Class Map3D</h1>
+			<h1>Class Map3D&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -70,10 +70,18 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A manager used for storing instances of <a href="_src_modules_game_common_cell_3d_.cell3d.html">Cell3D</a> and providing methods to
-						manipulate them.</p>
+						<p>A manager used for storing objects of type <code>T</code> as &quot;cells&quot; and providing
+						methods to manipulate them.</p>
 					</div>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
@@ -90,17 +98,20 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_modules_game_common_map_3d_.map3d.html#data" class="tsd-kind-icon">data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_modules_game_common_map_3d_.map3d.html#cellgrids" class="tsd-kind-icon">cell<wbr>Grids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_modules_game_common_map_3d_.map3d.html#cellmap" class="tsd-kind-icon">cell<wbr>Map</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_src_modules_game_common_map_3d_.map3d.html#directions" class="tsd-kind-icon">Directions</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_modules_game_common_map_3d_.map3d.html#addcell" class="tsd-kind-icon">add<wbr>Cell</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_modules_game_common_map_3d_.map3d.html#addcelltogrid" class="tsd-kind-icon">add<wbr>Cell<wbr>ToGrid</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_modules_game_common_map_3d_.map3d.html#getcellgrid" class="tsd-kind-icon">get<wbr>Cell<wbr>Grid</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_modules_game_common_map_3d_.map3d.html#getcellsatgrid" class="tsd-kind-icon">get<wbr>Cells<wbr>AtGrid</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_modules_game_common_map_3d_.map3d.html#movecelltogrid" class="tsd-kind-icon">move<wbr>Cell<wbr>ToGrid</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_modules_game_common_map_3d_.map3d.html#removecellfromgrid" class="tsd-kind-icon">remove<wbr>Cell<wbr>From<wbr>Grid</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_src_modules_game_common_map_3d_.map3d.html#addgrids" class="tsd-kind-icon">add<wbr>Grids</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_src_modules_game_common_map_3d_.map3d.html#gridtohash" class="tsd-kind-icon">grid<wbr>ToHash</a></li>
 							</ul>
 						</section>
@@ -110,25 +121,37 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="data" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> data</h3>
-					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map()</span></div>
+					<a name="cellgrids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> cell<wbr>Grids</h3>
+					<div class="tsd-signature tsd-kind-icon">cell<wbr>Grids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L21">src/modules/game/common/map-3d.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L22">src/modules/game/common/map-3d.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Stores the map cells indexed by grid location. Use <a href="_src_modules_game_common_map_3d_.map3d.html#gridtohash">Map3D.gridToHash</a> to
+							<p>Stores grid locations of all cells, indexed by cell. This can be used to
+							retrieve the location of any cell in the map.</p>
+						</div>
+						<p>Note: Methods returning grids from this data should always return shallow copies.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="cellmap" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> cell<wbr>Map</h3>
+					<div class="tsd-signature tsd-kind-icon">cell<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L14">src/modules/game/common/map-3d.ts:14</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Stores the cells indexed by grid location. Use <a href="_src_modules_game_common_map_3d_.map3d.html#gridtohash">Map3D.gridToHash</a> to
 							generate the hash string used for indexing.</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt>remarks</dt>
-							<dd><p>Methods that return arrays from this data should always return</p>
-								<pre><code>      shallow copies.</code></pre>
-							</dd>
-						</dl>
+						<p>Note: Methods returning sets from this data should always return shallow copies.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
@@ -137,53 +160,90 @@
 					<div class="tsd-signature tsd-kind-icon">Directions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/_src_modules_game_typings_.direction.html" class="tsd-signature-type">Direction</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/_src_modules_game_typings_.igriddirection.html" class="tsd-signature-type">IGridDirection</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = {east: { x: 1, y: 0, z: 0, direction: Direction.East },west: { x: -1, y: 0, z: 0, direction: Direction.West },south: { y: 1, x: 0, z: 0, direction: Direction.South },north: { y: -1, x: 0, z: 0, direction: Direction.North },} as const</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L100">src/modules/game/common/map-3d.ts:100</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L133">src/modules/game/common/map-3d.ts:133</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>A constant containing objects that represent the four cardinal directions.</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt>remarks</dt>
-							<dd><p>This can be used when creating <a href="_src_modules_game_engine_components_hop_.hop.html">Hop</a> components.</p>
-							</dd>
-						</dl>
+						<p>Note: This can be used when creating <a href="_src_modules_game_engine_components_hop_.hop.html">Hop</a> components.</p>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="addcell" class="tsd-anchor"></a>
-					<h3>add<wbr>Cell</h3>
+					<a name="addcelltogrid" class="tsd-anchor"></a>
+					<h3>add<wbr>Cell<wbr>ToGrid</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Cell<span class="tsd-signature-symbol">(</span>cell<span class="tsd-signature-symbol">: </span><a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Cell<wbr>ToGrid<span class="tsd-signature-symbol">(</span>cell<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, grid<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L45">src/modules/game/common/map-3d.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L48">src/modules/game/common/map-3d.ts:48</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Adds a cell to the map. The target grid is inferred from the cell&#39;s properties.</p>
+									<p>Adds a cell to the specified grid location, and returns a Set containing the
+									cells at that location.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>cell: <a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a></h5>
+									<h5>cell: <span class="tsd-signature-type">T</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The map cell to add to the map.</p>
+										<p>The map cell to be added.</p>
+									</div>
+								</li>
+								<li>
+									<h5>grid: <a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grid location to add the cell to.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<ul>
-								<li>An array of the cells at the location the input cell was added to.</li>
+								<li>A Set containing the cells at the input grid location.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcellgrid" class="tsd-anchor"></a>
+					<h3>get<wbr>Cell<wbr>Grid</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Cell<wbr>Grid<span class="tsd-signature-symbol">(</span>cell<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L95">src/modules/game/common/map-3d.ts:95</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the grid location of a cell in the map.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>cell: <span class="tsd-signature-type">T</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The map cell to obtain the grid from.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<ul>
+								<li>The grid location of the input cell.</li>
 							</ul>
 						</li>
 					</ul>
@@ -192,13 +252,13 @@
 					<a name="getcellsatgrid" class="tsd-anchor"></a>
 					<h3>get<wbr>Cells<wbr>AtGrid</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Cells<wbr>AtGrid<span class="tsd-signature-symbol">(</span>grid<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Cells<wbr>AtGrid<span class="tsd-signature-symbol">(</span>grid<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L29">src/modules/game/common/map-3d.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L30">src/modules/game/common/map-3d.ts:30</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -215,9 +275,9 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<ul>
-								<li>An array of the cells at the input grid location.</li>
+								<li>A Set containing the cells at the input grid location.</li>
 							</ul>
 						</li>
 					</ul>
@@ -226,25 +286,25 @@
 					<a name="movecelltogrid" class="tsd-anchor"></a>
 					<h3>move<wbr>Cell<wbr>ToGrid</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">move<wbr>Cell<wbr>ToGrid<span class="tsd-signature-symbol">(</span>cell<span class="tsd-signature-symbol">: </span><a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a>, grid<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">move<wbr>Cell<wbr>ToGrid<span class="tsd-signature-symbol">(</span>cell<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, grid<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L73">src/modules/game/common/map-3d.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L78">src/modules/game/common/map-3d.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Moves a cell to the specified grid location, and returns an array of cells
-									at that location.</p>
+									<p>Moves a cell to the specified grid location, and returns a Set containing
+									the cells at that location.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>cell: <a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a></h5>
+									<h5>cell: <span class="tsd-signature-type">T</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The map cell to be moved.</p>
 									</div>
@@ -256,9 +316,9 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<ul>
-								<li>An array of the cells at the input grid location.</li>
+								<li>A Set containing the cells at the input grid location.</li>
 							</ul>
 						</li>
 					</ul>
@@ -267,25 +327,25 @@
 					<a name="removecellfromgrid" class="tsd-anchor"></a>
 					<h3>remove<wbr>Cell<wbr>From<wbr>Grid</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Cell<wbr>From<wbr>Grid<span class="tsd-signature-symbol">(</span>cell<span class="tsd-signature-symbol">: </span><a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a>, grid<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Cell<wbr>From<wbr>Grid<span class="tsd-signature-symbol">(</span>cell<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, grid<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L59">src/modules/game/common/map-3d.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L63">src/modules/game/common/map-3d.ts:63</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Removes a cell from the specified grid location, and returns an array of
-									cells at that location.</p>
+									<p>Removes a cell from the specified grid location, and returns a Set
+									containing the cells at that location.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>cell: <a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a></h5>
+									<h5>cell: <span class="tsd-signature-type">T</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The map cell to be removed.</p>
 									</div>
@@ -297,9 +357,43 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<ul>
-								<li>An array of the cells at the input grid location.</li>
+								<li>A Set containing the cells at the input grid location.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="addgrids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> add<wbr>Grids</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Grids<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>grids<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L118">src/modules/game/common/map-3d.ts:118</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the sum of two or more grid objects.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>grids: <a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An array of grids to be summed.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a></h4>
+							<ul>
+								<li>The summed grid location.</li>
 							</ul>
 						</li>
 					</ul>
@@ -314,18 +408,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L90">src/modules/game/common/map-3d.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/common/map-3d.ts#L108">src/modules/game/common/map-3d.ts:108</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Returns the string representation (hash) of a grid.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>remarks</dt>
-									<dd><p>This hash is used to index the <a href="_src_modules_game_common_map_3d_.map3d.html#data">data</a> of <a href="_src_modules_game_common_map_3d_.map3d.html">Map3D</a>.</p>
-									</dd>
-								</dl>
+								<p>Note: This hash is used to index the [[data]] of <a href="_src_modules_game_common_map_3d_.map3d.html">Map3D</a>.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -373,17 +463,23 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-module">
+					<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="_src_modules_game_common_map_3d_.map3d.html" class="tsd-kind-icon">Map3D</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_src_modules_game_common_map_3d_.map3d.html#data" class="tsd-kind-icon">data</a>
+								<a href="_src_modules_game_common_map_3d_.map3d.html#cellgrids" class="tsd-kind-icon">cell<wbr>Grids</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_src_modules_game_common_map_3d_.map3d.html#cellmap" class="tsd-kind-icon">cell<wbr>Map</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
 								<a href="_src_modules_game_common_map_3d_.map3d.html#directions" class="tsd-kind-icon">Directions</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_modules_game_common_map_3d_.map3d.html#addcell" class="tsd-kind-icon">add<wbr>Cell</a>
+								<a href="_src_modules_game_common_map_3d_.map3d.html#addcelltogrid" class="tsd-kind-icon">add<wbr>Cell<wbr>ToGrid</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_src_modules_game_common_map_3d_.map3d.html#getcellgrid" class="tsd-kind-icon">get<wbr>Cell<wbr>Grid</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_modules_game_common_map_3d_.map3d.html#getcellsatgrid" class="tsd-kind-icon">get<wbr>Cells<wbr>AtGrid</a>
@@ -393,6 +489,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_modules_game_common_map_3d_.map3d.html#removecellfromgrid" class="tsd-kind-icon">remove<wbr>Cell<wbr>From<wbr>Grid</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_src_modules_game_common_map_3d_.map3d.html#addgrids" class="tsd-kind-icon">add<wbr>Grids</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_src_modules_game_common_map_3d_.map3d.html#gridtohash" class="tsd-kind-icon">grid<wbr>ToHash</a>
@@ -418,6 +517,7 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">

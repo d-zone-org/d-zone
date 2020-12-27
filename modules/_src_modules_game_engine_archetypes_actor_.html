@@ -74,7 +74,6 @@
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_modules_game_engine_archetypes_actor_.html#createactor" class="tsd-kind-icon">create<wbr>Actor</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_modules_game_engine_archetypes_actor_.html#getvalidhop" class="tsd-kind-icon">get<wbr>Valid<wbr>Hop</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_modules_game_engine_archetypes_actor_.html#hopactor" class="tsd-kind-icon">hop<wbr>Actor</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_modules_game_engine_archetypes_actor_.html#reservetarget" class="tsd-kind-icon">reserve<wbr>Target</a></li>
 							</ul>
 						</section>
 					</div>
@@ -86,7 +85,7 @@
 					<a name="createactor" class="tsd-anchor"></a>
 					<h3>create<wbr>Actor</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Actor<span class="tsd-signature-symbol">(</span>world<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">World</span>, grid<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a>, map<span class="tsd-signature-symbol">: </span><a href="../classes/_src_modules_game_common_map_3d_.map3d.html" class="tsd-signature-type">Map3D</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Entity</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Actor<span class="tsd-signature-symbol">(</span>world<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">World</span>, grid<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a>, map<span class="tsd-signature-symbol">: </span><a href="../classes/_src_modules_game_common_map_3d_.map3d.html" class="tsd-signature-type">Map3D</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Entity</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Entity</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -115,7 +114,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>map: <a href="../classes/_src_modules_game_common_map_3d_.map3d.html" class="tsd-signature-type">Map3D</a></h5>
+									<h5>map: <a href="../classes/_src_modules_game_common_map_3d_.map3d.html" class="tsd-signature-type">Map3D</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Entity</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The map instance to add the actor map cell to.</p>
 									</div>
@@ -132,13 +131,13 @@
 					<a name="getvalidhop" class="tsd-anchor"></a>
 					<h3>get<wbr>Valid<wbr>Hop</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Valid<wbr>Hop<span class="tsd-signature-symbol">(</span>cell<span class="tsd-signature-symbol">: </span><a href="../classes/_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a>, hop<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Valid<wbr>Hop<span class="tsd-signature-symbol">(</span>actor<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a>, hop<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a>, map<span class="tsd-signature-symbol">: </span><a href="../classes/_src_modules_game_common_map_3d_.map3d.html" class="tsd-signature-type">Map3D</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Entity</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L94">src/modules/game/engine/archetypes/actor.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L81">src/modules/game/engine/archetypes/actor.ts:81</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -149,15 +148,21 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>cell: <a href="../classes/_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a></h5>
+									<h5>actor: <a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The actor cell that is attempting to hop.</p>
+										<p>The grid location of the actor attempting to hop.</p>
 									</div>
 								</li>
 								<li>
 									<h5>hop: <a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The relative grid location of the hop.</p>
+									</div>
+								</li>
+								<li>
+									<h5>map: <a href="../classes/_src_modules_game_common_map_3d_.map3d.html" class="tsd-signature-type">Map3D</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Entity</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The map containing the actor entity.</p>
 									</div>
 								</li>
 							</ul>
@@ -178,18 +183,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L61">src/modules/game/engine/archetypes/actor.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L64">src/modules/game/engine/archetypes/actor.ts:64</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Adds a <a href="../classes/_src_modules_game_engine_components_hop_.hop.html">Hop</a> component to the input actor entity.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>remarks</dt>
-									<dd><p>If the actor already has a hop component, this will not add another.</p>
-									</dd>
-								</dl>
+								<p>Note: If the actor already has a hop component, this will not add another.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -204,49 +205,6 @@
 									<div class="tsd-comment tsd-typography">
 										<p>The direction of the hop. If not provided, a random
 										direction will be chosen.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="reservetarget" class="tsd-anchor"></a>
-					<h3>reserve<wbr>Target</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">reserve<wbr>Target<span class="tsd-signature-symbol">(</span>cell<span class="tsd-signature-symbol">: </span><a href="../classes/_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a>, target<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/archetypes/actor.ts#L83">src/modules/game/engine/archetypes/actor.ts:83</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Creates a child cell at the specified relative grid location.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>remarks</dt>
-									<dd><p>This is used to prevent other solid entities from moving to the</p>
-										<pre><code>      <span class="hljs-keyword">target</span> location.</code></pre>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>cell: <a href="../classes/_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The parent cell to create a child from.</p>
-									</div>
-								</li>
-								<li>
-									<h5>target: <a href="../interfaces/_src_modules_game_typings_.igrid.html" class="tsd-signature-type">IGrid</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The relative grid location to reserve.</p>
 									</div>
 								</li>
 							</ul>
@@ -278,9 +236,6 @@
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_src_modules_game_engine_archetypes_actor_.html#hopactor" class="tsd-kind-icon">hop<wbr>Actor</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_src_modules_game_engine_archetypes_actor_.html#reservetarget" class="tsd-kind-icon">reserve<wbr>Target</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -297,13 +252,14 @@
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 			</ul>
 		</div>
 	</div>

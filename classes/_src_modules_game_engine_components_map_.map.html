@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MapCell | D-Zone</title>
+	<title>Map | D-Zone</title>
 	<meta name="description" content="Documentation for D-Zone">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,13 +54,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_src_modules_game_engine_components_map_cell_.html">&quot;src/modules/game/engine/components/map-cell&quot;</a>
+					<a href="../modules/_src_modules_game_engine_components_map_.html">&quot;src/modules/game/engine/components/map&quot;</a>
 				</li>
 				<li>
-					<a href="_src_modules_game_engine_components_map_cell_.mapcell.html">MapCell</a>
+					<a href="_src_modules_game_engine_components_map_.map.html">Map</a>
 				</li>
 			</ul>
-			<h1>Class MapCell</h1>
+			<h1>Class Map&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -70,9 +70,17 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Data for an entity&#39;s map cell.</p>
+						<p>Data for an entity&#39;s map.</p>
 					</div>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
@@ -81,18 +89,18 @@
 						<span class="tsd-signature-type">Component</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">MapCell</span>
+								<span class="target">Map</span>
 							</li>
 						</ul>
 					</li>
 				</ul>
 			</section>
-			<section class="tsd-panel tsd-kind-class tsd-parent-kind-module">
+			<section class="tsd-panel tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 				<h3 class="tsd-before-signature">Indexable</h3>
 				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Data for an entity&#39;s map cell.</p>
+						<p>Data for an entity&#39;s map.</p>
 					</div>
 				</div>
 			</section>
@@ -103,41 +111,41 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#cell" class="tsd-kind-icon">cell</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#entity" class="tsd-kind-icon">entity</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#key" class="tsd-kind-icon">key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#registered" class="tsd-kind-icon">registered</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#serialize" class="tsd-kind-icon">serialize</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#subbed" class="tsd-kind-icon">subbed</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#typename" class="tsd-kind-icon">type<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_.map.html#entity" class="tsd-kind-icon">entity</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_.map.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_map_.map.html#map" class="tsd-kind-icon">map</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_src_modules_game_engine_components_map_.map.html#key" class="tsd-kind-icon">key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_map_.map.html#registered" class="tsd-kind-icon">registered</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_map_.map.html#serialize" class="tsd-kind-icon">serialize</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_map_.map.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_map_.map.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_map_.map.html#subbed" class="tsd-kind-icon">subbed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_map_.map.html#typename" class="tsd-kind-icon">type<wbr>Name</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-set-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#key-1" class="tsd-kind-icon">key</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-set-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_src_modules_game_engine_components_map_.map.html#key-1" class="tsd-kind-icon">key</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_.map.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#destroy" class="tsd-kind-icon">destroy</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#getobject" class="tsd-kind-icon">get<wbr>Object</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#init" class="tsd-kind-icon">init</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#update" class="tsd-kind-icon">update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_.map.html#destroy" class="tsd-kind-icon">destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_.map.html#getobject" class="tsd-kind-icon">get<wbr>Object</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_.map.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_.map.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_.map.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_.map.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_map_.map.html#update" class="tsd-kind-icon">update</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Object literals</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_map_cell_.mapcell.html#properties" class="tsd-kind-icon">properties</a></li>
+								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_map_.map.html#properties" class="tsd-kind-icon">properties</a></li>
 							</ul>
 						</section>
 					</div>
@@ -145,21 +153,6 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="cell" class="tsd-anchor"></a>
-					<h3>cell</h3>
-					<div class="tsd-signature tsd-kind-icon">cell<span class="tsd-signature-symbol">:</span> <a href="_src_modules_game_common_cell_3d_.cell3d.html" class="tsd-signature-type">Cell3D</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/map-cell.ts#L7">src/modules/game/engine/components/map-cell.ts:7</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The map cell.</p>
-						</div>
-					</div>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="entity" class="tsd-anchor"></a>
 					<h3>entity</h3>
@@ -182,13 +175,28 @@
 						</ul>
 					</aside>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="map" class="tsd-anchor"></a>
+					<h3>map</h3>
+					<div class="tsd-signature tsd-kind-icon">map<span class="tsd-signature-symbol">:</span> <a href="_src_modules_game_common_map_3d_.map3d.html" class="tsd-signature-type">Map3D</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/map.ts#L7">src/modules/game/engine/components/map.ts:7</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The map instance.</p>
+						</div>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
 					<a name="key" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> key</h3>
-					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;mapCell&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;map&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/map-cell.ts#L9">src/modules/game/engine/components/map-cell.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/map.ts#L9">src/modules/game/engine/components/map.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -250,11 +258,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="typename" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> type<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">type<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;MapCell&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;Map&quot;</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides Component.typeName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/map-cell.ts#L8">src/modules/game/engine/components/map-cell.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/map.ts#L8">src/modules/game/engine/components/map.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -467,16 +475,16 @@
 					<aside class="tsd-sources">
 						<p>Overrides Component.properties</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/map-cell.ts#L10">src/modules/game/engine/components/map-cell.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/map.ts#L10">src/modules/game/engine/components/map.ts:10</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="properties.cell-1" class="tsd-anchor"></a>
-						<h3>cell</h3>
-						<div class="tsd-signature tsd-kind-icon">cell<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> = null</span></div>
+						<a name="properties.map-1" class="tsd-anchor"></a>
+						<h3>map</h3>
+						<div class="tsd-signature tsd-kind-icon">map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> = null</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/map-cell.ts#L11">src/modules/game/engine/components/map-cell.ts:11</a></li>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/map.ts#L11">src/modules/game/engine/components/map.ts:11</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -490,7 +498,7 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/_src_modules_game_engine_components_map_cell_.html">&quot;src/modules/game/engine/components/map-<wbr>cell&quot;</a>
+						<a href="../modules/_src_modules_game_engine_components_map_.html">&quot;src/modules/game/engine/components/map&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -498,68 +506,68 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_src_modules_game_engine_components_map_cell_.mapcell.html" class="tsd-kind-icon">Map<wbr>Cell</a>
+					<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="_src_modules_game_engine_components_map_.map.html" class="tsd-kind-icon">Map</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="_src_modules_game_engine_components_map_.map.html#entity" class="tsd-kind-icon">entity</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="_src_modules_game_engine_components_map_.map.html#id" class="tsd-kind-icon">id</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#cell" class="tsd-kind-icon">cell</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#entity" class="tsd-kind-icon">entity</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#id" class="tsd-kind-icon">id</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#map" class="tsd-kind-icon">map</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#key" class="tsd-kind-icon">key</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#key" class="tsd-kind-icon">key</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#registered" class="tsd-kind-icon">registered</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#registered" class="tsd-kind-icon">registered</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#serialize" class="tsd-kind-icon">serialize</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#serialize" class="tsd-kind-icon">serialize</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#subbed" class="tsd-kind-icon">subbed</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#subbed" class="tsd-kind-icon">subbed</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#typename" class="tsd-kind-icon">type<wbr>Name</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#typename" class="tsd-kind-icon">type<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-set-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#key-1" class="tsd-kind-icon">key</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#key-1" class="tsd-kind-icon">key</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#type" class="tsd-kind-icon">type</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#type" class="tsd-kind-icon">type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#destroy" class="tsd-kind-icon">destroy</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#destroy" class="tsd-kind-icon">destroy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#getobject" class="tsd-kind-icon">get<wbr>Object</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#getobject" class="tsd-kind-icon">get<wbr>Object</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#init" class="tsd-kind-icon">init</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#init" class="tsd-kind-icon">init</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#update" class="tsd-kind-icon">update</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#update" class="tsd-kind-icon">update</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-								<a href="_src_modules_game_engine_components_map_cell_.mapcell.html#properties" class="tsd-kind-icon">properties</a>
+								<a href="_src_modules_game_engine_components_map_.map.html#properties" class="tsd-kind-icon">properties</a>
 							</li>
 						</ul>
 					</li>
@@ -582,6 +590,7 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 			</ul>
 			<ul class="tsd-legend">
