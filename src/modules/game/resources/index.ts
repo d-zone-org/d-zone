@@ -4,7 +4,7 @@ import { LoaderResource } from 'pixi.js-legacy'
 import { SPRITE_JSON_PATH } from '../config/sprite'
 import { buildAnimations } from 'web/modules/game/resources/animations'
 
-/** A manager for PIXI resources. */
+/** A manager for sprite-related resources. */
 export default class Resources implements IResources {
 	sheet!: Sheet
 	animations!: Animations

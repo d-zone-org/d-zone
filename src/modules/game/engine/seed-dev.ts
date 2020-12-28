@@ -1,7 +1,7 @@
 import type { Entity, World } from 'ape-ecs'
 import type { Direction, IGrid, IGridDirection } from '../typings'
 import Map3D from '../common/map-3d'
-import { createActor, hopActor } from './archetypes/actor'
+import { createActor, addHopComponent } from './archetypes/actor'
 
 /**
  * Adds random actors to the world.
@@ -115,15 +115,15 @@ export function hopTest(world: World, map: Map3D<Entity>) {
 	const hop1 = createActor(world, { x: -1, y: 0, z: 0 }, map)
 	const hop2 = createActor(world, { x: 0, y: 0, z: 0 }, map)
 	setTimeout(() => {
-		hopActor(hop1, Map3D.Directions.east)
+		addHopComponent(hop1, Map3D.Directions.east)
 	}, 1000)
 	setTimeout(() => {
-		hopActor(hop2, Map3D.Directions.north)
+		addHopComponent(hop2, Map3D.Directions.north)
 	}, 1430)
 	// createActor(world, { x: 0, y: 0, z: 0 }, map)
 	// createActor(world, { x: 0, y: -1, z: 0 }, map)
 	// createActor(world, { x: 0, y: -1, z: 1 }, map)
-	// hopActor(
+	// addHopComponent(
 	// 	createActor(world, { x: 0, y: -1, z: 2 }, map),
 	// 	Map3D.Directions.south
 	// )
@@ -131,13 +131,13 @@ export function hopTest(world: World, map: Map3D<Entity>) {
 	// createActor(world, { x: -1, y: 4, z: 0 }, map)
 	// createActor(world, { x: 0, y: 4, z: 0 }, map)
 	// createActor(world, { x: 0, y: 4, z: 1 }, map)
-	// hopActor(createActor(world, { x: 0, y: 4, z: 2 }, map), Map3D.Directions.west)
+	// addHopComponent(createActor(world, { x: 0, y: 4, z: 2 }, map), Map3D.Directions.west)
 	//
 	// for (let i = 0; i < 4; i++) {
 	// 	const hopper = createActor(world, { x: 4, y: i, z: 0 }, map)
 	// 	setTimeout(() => {
 	// 		setInterval(() => {
-	// 			hopActor(hopper, Map3D.Directions.south)
+	// 			addHopComponent(hopper, Map3D.Directions.south)
 	// 		}, 1500)
 	// 	}, i * 300)
 	// }
@@ -152,7 +152,7 @@ export function hopTest(world: World, map: Map3D<Entity>) {
 export function seedGame(world: World, map: Map3D<Entity>) {
 	const actors = addActors(world, map, 100)
 	setInterval(() => {
-		hopActor(actors[Math.floor(Math.random() * actors.length)])
+		addHopComponent(actors[Math.floor(Math.random() * actors.length)])
 	}, 250)
 	// hopTest(world, map)
 }
