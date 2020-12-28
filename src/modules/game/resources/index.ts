@@ -1,11 +1,13 @@
 import { initLoader, runLoader } from './loader'
-import { IResources, Sheet } from '../typings'
+import { Animations, IResources, Sheet } from '../typings'
 import { LoaderResource } from 'pixi.js-legacy'
 import { SPRITE_JSON_PATH } from '../config/sprite'
+import { buildAnimations } from 'web/modules/game/resources/animations'
 
 /** A manager for PIXI resources. */
 export default class Resources implements IResources {
 	sheet!: Sheet
+	animations!: Animations
 
 	constructor() {
 		initLoader()
@@ -14,8 +16,10 @@ export default class Resources implements IResources {
 	async load() {
 		const loader: Partial<Record<string, LoaderResource>> = await runLoader()
 		Object.keys(loader).forEach((resourceKey) => {
-			if (resourceKey === SPRITE_JSON_PATH)
+			if (resourceKey === SPRITE_JSON_PATH) {
 				this.sheet = loader[resourceKey] as Sheet
+				this.animations = buildAnimations(this.sheet.spritesheet.animations)
+			}
 		})
 	}
 }

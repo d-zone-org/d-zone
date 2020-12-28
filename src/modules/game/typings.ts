@@ -1,15 +1,18 @@
 export interface IResources {
 	sheet: Sheet
+	animations: Animations
 }
 
 export type Sheet = {
 	spritesheet: {
-		animations: Animations
+		animations: Record<string, PIXI.BaseTexture[]>
 	}
 	textures: Textures
 }
-export type Animations = Record<string, PIXI.BaseTexture[]>
+
 export type Textures = Record<string, PIXI.Texture>
+
+export type Animations = Record<string, ITexture[]>
 
 export enum Direction {
 	North = 'north',

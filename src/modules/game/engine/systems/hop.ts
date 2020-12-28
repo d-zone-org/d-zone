@@ -21,7 +21,7 @@ export default class HopSystem extends System {
 	private hopQuery!: Query
 
 	init(animations: Animations) {
-		this.animations = this.buildAnimations(animations)
+		this.animations = animations
 		this.hopQuery = this.createQuery({
 			all: [Hop, Transform, Draw, Texture, Map],
 			persist: true,
@@ -111,36 +111,6 @@ export default class HopSystem extends System {
 			}
 			hop.tick++
 		})
-	}
-
-	private buildAnimations(animations: Animations): HopSystem['animations'] {
-		const hopAnimations: HopSystem['animations'] = {}
-		for (const direction of Object.values(Direction)) {
-			const baseName = `hop-${direction}`
-			const { x: anchorX, y: anchorY } = SPRITE_DEFINITIONS[baseName].anchor
-			hopAnimations[baseName] = animations[baseName].map((t) => {
-				return { name: t.textureCacheIds[0], anchorX, anchorY }
-			})
-			for (const zVariant of ['up', 'down']) {
-				let anchorYOffset = 0
-				const { frames, values } =
-					zVariant === 'up' ? HOP_OFFSETS.hopUpY : HOP_OFFSETS.hopDownY
-				hopAnimations[`${baseName}-${zVariant}`] = animations[baseName].map(
-					(t, i) => {
-						const offsetIndex = frames.indexOf(i)
-						if (offsetIndex >= 0) {
-							anchorYOffset += values[offsetIndex]
-						}
-						return {
-							name: t.textureCacheIds[0],
-							anchorX,
-							anchorY: anchorY - anchorYOffset,
-						}
-					}
-				)
-			}
-		}
-		return hopAnimations
 	}
 }
 

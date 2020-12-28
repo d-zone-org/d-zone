@@ -42,7 +42,7 @@ export function registerECS(
 	// Systems are registered in order of execution during the update loop.
 	// For now, all systems run under the "default" group.
 	engine.world.registerSystem(SystemGroup.Default, HopSystem, [
-		resources.sheet.spritesheet.animations,
+		resources.animations,
 	])
 	engine.world.registerSystem(SystemGroup.Default, AnimationSystem)
 	engine.world.registerSystem(SystemGroup.Default, TransformSystem)
