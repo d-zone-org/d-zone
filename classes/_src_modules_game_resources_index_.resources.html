@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_src_modules_game_renderer_resources_resources_.html">&quot;src/modules/game/renderer/resources/resources&quot;</a>
+					<a href="../modules/_src_modules_game_resources_index_.html">&quot;src/modules/game/resources/index&quot;</a>
 				</li>
 				<li>
-					<a href="_src_modules_game_renderer_resources_resources_.resources.html">Resources</a>
+					<a href="_src_modules_game_resources_index_.resources.html">Resources</a>
 				</li>
 			</ul>
 			<h1>Class Resources</h1>
@@ -70,7 +70,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A manager for PIXI resources.</p>
+						<p>A manager for sprite-related resources.</p>
 					</div>
 				</div>
 			</section>
@@ -95,19 +95,20 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_src_modules_game_renderer_resources_resources_.resources.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_src_modules_game_resources_index_.resources.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_renderer_resources_resources_.resources.html#sheet" class="tsd-kind-icon">sheet</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_resources_index_.resources.html#animations" class="tsd-kind-icon">animations</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_resources_index_.resources.html#sheet" class="tsd-kind-icon">sheet</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_modules_game_renderer_resources_resources_.resources.html#load" class="tsd-kind-icon">load</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_modules_game_resources_index_.resources.html#load" class="tsd-kind-icon">load</a></li>
 							</ul>
 						</section>
 					</div>
@@ -119,16 +120,16 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Resources<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_modules_game_renderer_resources_resources_.resources.html" class="tsd-signature-type">Resources</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Resources<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_modules_game_resources_index_.resources.html" class="tsd-signature-type">Resources</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/renderer/resources/resources.ts#L8">src/modules/game/renderer/resources/resources.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/resources/index.ts#L10">src/modules/game/resources/index.ts:10</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="_src_modules_game_renderer_resources_resources_.resources.html" class="tsd-signature-type">Resources</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_src_modules_game_resources_index_.resources.html" class="tsd-signature-type">Resources</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -136,13 +137,24 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="animations" class="tsd-anchor"></a>
+					<h3>animations</h3>
+					<div class="tsd-signature tsd-kind-icon">animations<span class="tsd-signature-symbol">:</span> <a href="../modules/_src_modules_game_typings_.html#animations" class="tsd-signature-type">Animations</a></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/_src_modules_game_typings_.iresources.html">IResources</a>.<a href="../interfaces/_src_modules_game_typings_.iresources.html#animations">animations</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/resources/index.ts#L10">src/modules/game/resources/index.ts:10</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="sheet" class="tsd-anchor"></a>
 					<h3>sheet</h3>
 					<div class="tsd-signature tsd-kind-icon">sheet<span class="tsd-signature-symbol">:</span> <a href="../modules/_src_modules_game_typings_.html#sheet" class="tsd-signature-type">Sheet</a></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_src_modules_game_typings_.iresources.html">IResources</a>.<a href="../interfaces/_src_modules_game_typings_.iresources.html#sheet">sheet</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/renderer/resources/resources.ts#L8">src/modules/game/renderer/resources/resources.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/resources/index.ts#L9">src/modules/game/resources/index.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -159,7 +171,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/renderer/resources/resources.ts#L14">src/modules/game/renderer/resources/resources.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/resources/index.ts#L16">src/modules/game/resources/index.ts:16</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -175,7 +187,7 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/_src_modules_game_renderer_resources_resources_.html">&quot;src/modules/game/renderer/resources/resources&quot;</a>
+						<a href="../modules/_src_modules_game_resources_index_.html">&quot;src/modules/game/resources/index&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -184,16 +196,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_src_modules_game_renderer_resources_resources_.resources.html" class="tsd-kind-icon">Resources</a>
+						<a href="_src_modules_game_resources_index_.resources.html" class="tsd-kind-icon">Resources</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_src_modules_game_renderer_resources_resources_.resources.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_src_modules_game_resources_index_.resources.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_modules_game_renderer_resources_resources_.resources.html#sheet" class="tsd-kind-icon">sheet</a>
+								<a href="_src_modules_game_resources_index_.resources.html#animations" class="tsd-kind-icon">animations</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_modules_game_resources_index_.resources.html#sheet" class="tsd-kind-icon">sheet</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_modules_game_renderer_resources_resources_.resources.html#load" class="tsd-kind-icon">load</a>
+								<a href="_src_modules_game_resources_index_.resources.html#load" class="tsd-kind-icon">load</a>
 							</li>
 						</ul>
 					</li>

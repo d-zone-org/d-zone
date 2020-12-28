@@ -95,7 +95,6 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_modules_game_engine_systems_hop_.hopsystem.html#animations" class="tsd-kind-icon">animations</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_systems_hop_.hopsystem.html#changes" class="tsd-kind-icon">changes</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_modules_game_engine_systems_hop_.hopsystem.html#hopframecount" class="tsd-kind-icon">hop<wbr>Frame<wbr>Count</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_modules_game_engine_systems_hop_.hopsystem.html#hopquery" class="tsd-kind-icon">hop<wbr>Query</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_systems_hop_.hopsystem.html#lasttick" class="tsd-kind-icon">last<wbr>Tick</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_systems_hop_.hopsystem.html#queries" class="tsd-kind-icon">queries</a></li>
@@ -150,10 +149,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="animations" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> animations</h3>
-					<div class="tsd-signature tsd-kind-icon">animations<span class="tsd-signature-symbol">:</span> <a href="../modules/_src_modules_game_typings_.html#animations" class="tsd-signature-type">Animations</a></div>
+					<div class="tsd-signature tsd-kind-icon">animations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/_src_modules_game_typings_.itexture.html" class="tsd-signature-type">ITexture</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/systems/hop.ts#L13">src/modules/game/engine/systems/hop.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/systems/hop.ts#L20">src/modules/game/engine/systems/hop.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -169,22 +168,12 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="hopframecount" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> hop<wbr>Frame<wbr>Count</h3>
-					<div class="tsd-signature tsd-kind-icon">hop<wbr>Frame<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/systems/hop.ts#L15">src/modules/game/engine/systems/hop.ts:15</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="hopquery" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> hop<wbr>Query</h3>
 					<div class="tsd-signature tsd-kind-icon">hop<wbr>Query<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Query</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/systems/hop.ts#L14">src/modules/game/engine/systems/hop.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/systems/hop.ts#L21">src/modules/game/engine/systems/hop.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -270,7 +259,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides System.init</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/systems/hop.ts#L17">src/modules/game/engine/systems/hop.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/systems/hop.ts#L23">src/modules/game/engine/systems/hop.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -318,7 +307,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides System.update</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/systems/hop.ts#L25">src/modules/game/engine/systems/hop.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/systems/hop.ts#L31">src/modules/game/engine/systems/hop.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -353,9 +342,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="_src_modules_game_engine_systems_hop_.hopsystem.html#changes" class="tsd-kind-icon">changes</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_src_modules_game_engine_systems_hop_.hopsystem.html#hopframecount" class="tsd-kind-icon">hop<wbr>Frame<wbr>Count</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_src_modules_game_engine_systems_hop_.hopsystem.html#hopquery" class="tsd-kind-icon">hop<wbr>Query</a>

@@ -71,7 +71,7 @@
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_src_modules_game_config_sprite_.html#hop_framerate" class="tsd-kind-icon">HOP_<wbr>FRAMERATE</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_src_modules_game_config_sprite_.html#hop_ticks_per_frame" class="tsd-kind-icon">HOP_<wbr>TICKS_<wbr>PER_<wbr>FRAME</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_src_modules_game_config_sprite_.html#sprite_definitions" class="tsd-kind-icon">SPRITE_<wbr>DEFINITIONS</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_src_modules_game_config_sprite_.html#sprite_json_path" class="tsd-kind-icon">SPRITE_<wbr>JSON_<wbr>PATH</a></li>
 							</ul>
@@ -88,9 +88,9 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
-					<a name="hop_framerate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> HOP_<wbr>FRAMERATE</h3>
-					<div class="tsd-signature tsd-kind-icon">HOP_<wbr>FRAMERATE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">2</span><span class="tsd-signature-symbol"> = 2 as const</span></div>
+					<a name="hop_ticks_per_frame" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> HOP_<wbr>TICKS_<wbr>PER_<wbr>FRAME</h3>
+					<div class="tsd-signature tsd-kind-icon">HOP_<wbr>TICKS_<wbr>PER_<wbr>FRAME<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">2</span><span class="tsd-signature-symbol"> = 2 as const</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L46">src/modules/game/config/sprite.ts:46</a></li>
@@ -105,7 +105,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
 					<a name="sprite_definitions" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> SPRITE_<wbr>DEFINITIONS</h3>
-					<div class="tsd-signature tsd-kind-icon">SPRITE_<wbr>DEFINITIONS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/_src_modules_game_typings_.ispritedefinition.html" class="tsd-signature-type">ISpriteDefinition</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = {cube: { w: 14, h: 14 },&#x27;cube-idle&#x27;: { w: 14, h: 14 },&#x27;cube-off&#x27;: { w: 14, h: 14 },&#x27;talk-right&#x27;: { w: 14, h: 14, animation: true },&#x27;talk-left&#x27;: { w: 14, h: 14, animation: true },&#x27;hop-west&#x27;: { w: 35, h: 27, anchor: { x: 19, y: 11 }, animation: true },&#x27;hop-north&#x27;: { w: 35, h: 27, anchor: { x: 2, y: 11 }, animation: true },&#x27;hop-east&#x27;: { w: 35, h: 25, anchor: { x: 2, y: 2 }, animation: true },&#x27;hop-south&#x27;: { w: 35, h: 25, anchor: { x: 19, y: 2 }, animation: true },&#x27;brick-edge&#x27;: { w: 32, h: 16 },&#x27;grass-brick&#x27;: { w: 32, h: 16 },flowers: { w: 32, h: 16 },grass: { w: 32, h: 16 },beacon: { w: 31, h: 56 },} as const</span></div>
+					<div class="tsd-signature tsd-kind-icon">SPRITE_<wbr>DEFINITIONS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/_src_modules_game_typings_.ispritedefinition.html" class="tsd-signature-type">ISpriteDefinition</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = {cube: { w: 14, h: 14, anchor: { x: 7, y: 7 } },&#x27;cube-idle&#x27;: { w: 14, h: 14, anchor: { x: 7, y: 7 } },&#x27;cube-off&#x27;: { w: 14, h: 14, anchor: { x: 7, y: 7 } },&#x27;talk-right&#x27;: { w: 14, h: 14, anchor: { x: 7, y: 7 }, animation: true },&#x27;talk-left&#x27;: { w: 14, h: 14, anchor: { x: 7, y: 7 }, animation: true },&#x27;hop-west&#x27;: { w: 35, h: 27, anchor: { x: 26, y: 18 }, animation: true },&#x27;hop-north&#x27;: { w: 35, h: 27, anchor: { x: 9, y: 18 }, animation: true },&#x27;hop-east&#x27;: { w: 35, h: 25, anchor: { x: 9, y: 9 }, animation: true },&#x27;hop-south&#x27;: { w: 35, h: 25, anchor: { x: 26, y: 9 }, animation: true },&#x27;brick-edge&#x27;: { w: 32, h: 16, anchor: { x: 0, y: 0 } },&#x27;grass-brick&#x27;: { w: 32, h: 16, anchor: { x: 0, y: 0 } },flowers: { w: 32, h: 16, anchor: { x: 0, y: 0 } },grass: { w: 32, h: 16, anchor: { x: 0, y: 0 } },beacon: { w: 31, h: 56, anchor: { x: 0, y: 0 } },} as const</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/config/sprite.ts#L6">src/modules/game/config/sprite.ts:6</a></li>
@@ -282,7 +282,7 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-variable tsd-parent-kind-module">
-						<a href="_src_modules_game_config_sprite_.html#hop_framerate" class="tsd-kind-icon">HOP_<wbr>FRAMERATE</a>
+						<a href="_src_modules_game_config_sprite_.html#hop_ticks_per_frame" class="tsd-kind-icon">HOP_<wbr>TICKS_<wbr>PER_<wbr>FRAME</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module">
 						<a href="_src_modules_game_config_sprite_.html#sprite_definitions" class="tsd-kind-icon">SPRITE_<wbr>DEFINITIONS</a>

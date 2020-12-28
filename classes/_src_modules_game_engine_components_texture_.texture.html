@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Transform | D-Zone</title>
+	<title>Texture | D-Zone</title>
 	<meta name="description" content="Documentation for D-Zone">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,13 +54,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_src_modules_game_engine_components_transform_.html">&quot;src/modules/game/engine/components/transform&quot;</a>
+					<a href="../modules/_src_modules_game_engine_components_texture_.html">&quot;src/modules/game/engine/components/texture&quot;</a>
 				</li>
 				<li>
-					<a href="_src_modules_game_engine_components_transform_.transform.html">Transform</a>
+					<a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>
 				</li>
 			</ul>
-			<h1>Class Transform</h1>
+			<h1>Class Texture</h1>
 		</div>
 	</div>
 </header>
@@ -70,9 +70,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Data for an entity&#39;s location in 3D space. Systems should manipulate this
-							component instead of the <a href="_src_modules_game_engine_components_map_.map.html">map cell component</a>. Changes made to this
-						component will be copied to the map cell.</p>
+						<p>Data for an entity&#39;s texture.</p>
 					</div>
 				</div>
 			</section>
@@ -83,10 +81,16 @@
 						<span class="tsd-signature-type">Component</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">Transform</span>
+								<span class="target">Texture</span>
 							</li>
 						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/_src_modules_game_typings_.itexture.html" class="tsd-signature-type">ITexture</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel tsd-kind-class tsd-parent-kind-module">
@@ -94,9 +98,7 @@
 				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Data for an entity&#39;s location in 3D space. Systems should manipulate this
-							component instead of the <a href="_src_modules_game_engine_components_map_.map.html">map cell component</a>. Changes made to this
-						component will be copied to the map cell.</p>
+						<p>Data for an entity&#39;s texture.</p>
 					</div>
 				</div>
 			</section>
@@ -107,43 +109,43 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_transform_.transform.html#entity" class="tsd-kind-icon">entity</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_transform_.transform.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_transform_.transform.html#x" class="tsd-kind-icon">x</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_transform_.transform.html#y" class="tsd-kind-icon">y</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_transform_.transform.html#z" class="tsd-kind-icon">z</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_src_modules_game_engine_components_transform_.transform.html#key" class="tsd-kind-icon">key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_transform_.transform.html#registered" class="tsd-kind-icon">registered</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_transform_.transform.html#serialize" class="tsd-kind-icon">serialize</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_transform_.transform.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_transform_.transform.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_transform_.transform.html#subbed" class="tsd-kind-icon">subbed</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_transform_.transform.html#typename" class="tsd-kind-icon">type<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_texture_.texture.html#anchorx" class="tsd-kind-icon">anchorX</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_texture_.texture.html#anchory" class="tsd-kind-icon">anchorY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_texture_.texture.html#entity" class="tsd-kind-icon">entity</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_texture_.texture.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_texture_.texture.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_src_modules_game_engine_components_texture_.texture.html#key" class="tsd-kind-icon">key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_texture_.texture.html#registered" class="tsd-kind-icon">registered</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_texture_.texture.html#serialize" class="tsd-kind-icon">serialize</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_texture_.texture.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_texture_.texture.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_texture_.texture.html#subbed" class="tsd-kind-icon">subbed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_texture_.texture.html#typename" class="tsd-kind-icon">type<wbr>Name</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-set-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_src_modules_game_engine_components_transform_.transform.html#key-1" class="tsd-kind-icon">key</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_transform_.transform.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-set-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_src_modules_game_engine_components_texture_.texture.html#key-1" class="tsd-kind-icon">key</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_texture_.texture.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_transform_.transform.html#destroy" class="tsd-kind-icon">destroy</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_transform_.transform.html#getobject" class="tsd-kind-icon">get<wbr>Object</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_transform_.transform.html#init" class="tsd-kind-icon">init</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_transform_.transform.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_transform_.transform.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_transform_.transform.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_transform_.transform.html#update" class="tsd-kind-icon">update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_texture_.texture.html#destroy" class="tsd-kind-icon">destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_texture_.texture.html#getobject" class="tsd-kind-icon">get<wbr>Object</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_texture_.texture.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_texture_.texture.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_texture_.texture.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_texture_.texture.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_texture_.texture.html#update" class="tsd-kind-icon">update</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Object literals</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_transform_.transform.html#properties" class="tsd-kind-icon">properties</a></li>
+								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_texture_.texture.html#properties" class="tsd-kind-icon">properties</a></li>
 							</ul>
 						</section>
 					</div>
@@ -151,6 +153,38 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="anchorx" class="tsd-anchor"></a>
+					<h3>anchorX</h3>
+					<div class="tsd-signature tsd-kind-icon">anchorX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/_src_modules_game_typings_.itexture.html">ITexture</a>.<a href="../interfaces/_src_modules_game_typings_.itexture.html#anchorx">anchorX</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/texture.ts#L7">src/modules/game/engine/components/texture.ts:7</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The texture&#39;s X anchor coordinate, in pixels.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="anchory" class="tsd-anchor"></a>
+					<h3>anchorY</h3>
+					<div class="tsd-signature tsd-kind-icon">anchorY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/_src_modules_game_typings_.itexture.html">ITexture</a>.<a href="../interfaces/_src_modules_game_typings_.itexture.html#anchory">anchorY</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/texture.ts#L9">src/modules/game/engine/components/texture.ts:9</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The texture&#39;s Y anchor coordinate, in pixels.</p>
+						</div>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="entity" class="tsd-anchor"></a>
 					<h3>entity</h3>
@@ -174,57 +208,28 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="x" class="tsd-anchor"></a>
-					<h3>x</h3>
-					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/_src_modules_game_typings_.itexture.html">ITexture</a>.<a href="../interfaces/_src_modules_game_typings_.itexture.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/transform.ts#L10">src/modules/game/engine/components/transform.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/texture.ts#L11">src/modules/game/engine/components/texture.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The X coordinate of the entity&#39;s location. Negative is West, positive is East.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="y" class="tsd-anchor"></a>
-					<h3>y</h3>
-					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/transform.ts#L12">src/modules/game/engine/components/transform.ts:12</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The Y coordinate of the entity&#39;s location. Negative is North, positive is South.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="z" class="tsd-anchor"></a>
-					<h3>z</h3>
-					<div class="tsd-signature tsd-kind-icon">z<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/transform.ts#L14">src/modules/game/engine/components/transform.ts:14</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The Z coordinate of the entity&#39;s location. Negative is down, positive is up.</p>
+							<p>The texture name.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
 					<a name="key" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> key</h3>
-					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;transform&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;texture&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/transform.ts#L16">src/modules/game/engine/components/transform.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/texture.ts#L13">src/modules/game/engine/components/texture.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -286,11 +291,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="typename" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> type<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">type<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;Transform&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;Texture&quot;</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides Component.typeName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/transform.ts#L15">src/modules/game/engine/components/transform.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/texture.ts#L12">src/modules/game/engine/components/texture.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -503,36 +508,36 @@
 					<aside class="tsd-sources">
 						<p>Overrides Component.properties</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/transform.ts#L17">src/modules/game/engine/components/transform.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/texture.ts#L14">src/modules/game/engine/components/texture.ts:14</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="properties.x-1" class="tsd-anchor"></a>
-						<h3>x</h3>
-						<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<a name="properties.anchorx-1" class="tsd-anchor"></a>
+						<h3>anchorX</h3>
+						<div class="tsd-signature tsd-kind-icon">anchorX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/transform.ts#L18">src/modules/game/engine/components/transform.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/texture.ts#L15">src/modules/game/engine/components/texture.ts:15</a></li>
 							</ul>
 						</aside>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="properties.y-1" class="tsd-anchor"></a>
-						<h3>y</h3>
-						<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<a name="properties.anchory-1" class="tsd-anchor"></a>
+						<h3>anchorY</h3>
+						<div class="tsd-signature tsd-kind-icon">anchorY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/transform.ts#L19">src/modules/game/engine/components/transform.ts:19</a></li>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/texture.ts#L16">src/modules/game/engine/components/texture.ts:16</a></li>
 							</ul>
 						</aside>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="properties.z-1" class="tsd-anchor"></a>
-						<h3>z</h3>
-						<div class="tsd-signature tsd-kind-icon">z<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<a name="properties.name-1" class="tsd-anchor"></a>
+						<h3>name</h3>
+						<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/transform.ts#L20">src/modules/game/engine/components/transform.ts:20</a></li>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/texture.ts#L17">src/modules/game/engine/components/texture.ts:17</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -546,7 +551,7 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/_src_modules_game_engine_components_transform_.html">&quot;src/modules/game/engine/components/transform&quot;</a>
+						<a href="../modules/_src_modules_game_engine_components_texture_.html">&quot;src/modules/game/engine/components/texture&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -555,73 +560,73 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_src_modules_game_engine_components_transform_.transform.html" class="tsd-kind-icon">Transform</a>
+						<a href="_src_modules_game_engine_components_texture_.texture.html" class="tsd-kind-icon">Texture</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_modules_game_engine_components_texture_.texture.html#anchorx" class="tsd-kind-icon">anchorX</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_modules_game_engine_components_texture_.texture.html#anchory" class="tsd-kind-icon">anchorY</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#entity" class="tsd-kind-icon">entity</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#entity" class="tsd-kind-icon">entity</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#id" class="tsd-kind-icon">id</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#id" class="tsd-kind-icon">id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#x" class="tsd-kind-icon">x</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#y" class="tsd-kind-icon">y</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#z" class="tsd-kind-icon">z</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#key" class="tsd-kind-icon">key</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#key" class="tsd-kind-icon">key</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#registered" class="tsd-kind-icon">registered</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#registered" class="tsd-kind-icon">registered</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#serialize" class="tsd-kind-icon">serialize</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#serialize" class="tsd-kind-icon">serialize</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#subbed" class="tsd-kind-icon">subbed</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#subbed" class="tsd-kind-icon">subbed</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#typename" class="tsd-kind-icon">type<wbr>Name</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#typename" class="tsd-kind-icon">type<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-set-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#key-1" class="tsd-kind-icon">key</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#key-1" class="tsd-kind-icon">key</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#type" class="tsd-kind-icon">type</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#type" class="tsd-kind-icon">type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#destroy" class="tsd-kind-icon">destroy</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#destroy" class="tsd-kind-icon">destroy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#getobject" class="tsd-kind-icon">get<wbr>Object</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#getobject" class="tsd-kind-icon">get<wbr>Object</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#init" class="tsd-kind-icon">init</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#init" class="tsd-kind-icon">init</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#update" class="tsd-kind-icon">update</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#update" class="tsd-kind-icon">update</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-								<a href="_src_modules_game_engine_components_transform_.transform.html#properties" class="tsd-kind-icon">properties</a>
+								<a href="_src_modules_game_engine_components_texture_.texture.html#properties" class="tsd-kind-icon">properties</a>
 							</li>
 						</ul>
 					</li>

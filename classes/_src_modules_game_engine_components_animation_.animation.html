@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Sprite | D-Zone</title>
+	<title>Animation | D-Zone</title>
 	<meta name="description" content="Documentation for D-Zone">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,13 +54,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_src_modules_game_engine_components_sprite_.html">&quot;src/modules/game/engine/components/sprite&quot;</a>
+					<a href="../modules/_src_modules_game_engine_components_animation_.html">&quot;src/modules/game/engine/components/animation&quot;</a>
 				</li>
 				<li>
-					<a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>
+					<a href="_src_modules_game_engine_components_animation_.animation.html">Animation</a>
 				</li>
 			</ul>
-			<h1>Class Sprite</h1>
+			<h1>Class Animation</h1>
 		</div>
 	</div>
 </header>
@@ -70,9 +70,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Data for an entity&#39;s sprite. Systems should manipulate this component instead
-							of the <a href="_src_modules_game_engine_components_pixi_sprite_.pixisprite.html">PIXI sprite component</a>. Changes made to this
-						component will be copied to the PIXI sprite.</p>
+						<p>Data for an entity&#39;s animation.</p>
 					</div>
 				</div>
 			</section>
@@ -83,7 +81,7 @@
 						<span class="tsd-signature-type">Component</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">Sprite</span>
+								<span class="target">Animation</span>
 							</li>
 						</ul>
 					</li>
@@ -94,9 +92,7 @@
 				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Data for an entity&#39;s sprite. Systems should manipulate this component instead
-							of the <a href="_src_modules_game_engine_components_pixi_sprite_.pixisprite.html">PIXI sprite component</a>. Changes made to this
-						component will be copied to the PIXI sprite.</p>
+						<p>Data for an entity&#39;s animation.</p>
 					</div>
 				</div>
 			</section>
@@ -107,44 +103,46 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_sprite_.sprite.html#entity" class="tsd-kind-icon">entity</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_sprite_.sprite.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_sprite_.sprite.html#texture" class="tsd-kind-icon">texture</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_sprite_.sprite.html#x" class="tsd-kind-icon">x</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_sprite_.sprite.html#y" class="tsd-kind-icon">y</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_sprite_.sprite.html#zindex" class="tsd-kind-icon">z<wbr>Index</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_src_modules_game_engine_components_sprite_.sprite.html#key" class="tsd-kind-icon">key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_sprite_.sprite.html#registered" class="tsd-kind-icon">registered</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_sprite_.sprite.html#serialize" class="tsd-kind-icon">serialize</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_sprite_.sprite.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_sprite_.sprite.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_sprite_.sprite.html#subbed" class="tsd-kind-icon">subbed</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_sprite_.sprite.html#typename" class="tsd-kind-icon">type<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_animation_.animation.html#entity" class="tsd-kind-icon">entity</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_animation_.animation.html#frame" class="tsd-kind-icon">frame</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_animation_.animation.html#frames" class="tsd-kind-icon">frames</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_animation_.animation.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_animation_.animation.html#loop" class="tsd-kind-icon">loop</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_animation_.animation.html#paused" class="tsd-kind-icon">paused</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_animation_.animation.html#tick" class="tsd-kind-icon">tick</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_modules_game_engine_components_animation_.animation.html#ticksperframe" class="tsd-kind-icon">ticks<wbr>Per<wbr>Frame</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_src_modules_game_engine_components_animation_.animation.html#key" class="tsd-kind-icon">key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_animation_.animation.html#registered" class="tsd-kind-icon">registered</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_animation_.animation.html#serialize" class="tsd-kind-icon">serialize</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_animation_.animation.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_animation_.animation.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_src_modules_game_engine_components_animation_.animation.html#subbed" class="tsd-kind-icon">subbed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_animation_.animation.html#typename" class="tsd-kind-icon">type<wbr>Name</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-set-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_src_modules_game_engine_components_sprite_.sprite.html#key-1" class="tsd-kind-icon">key</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_sprite_.sprite.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-set-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_src_modules_game_engine_components_animation_.animation.html#key-1" class="tsd-kind-icon">key</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_animation_.animation.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_sprite_.sprite.html#destroy" class="tsd-kind-icon">destroy</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_sprite_.sprite.html#getobject" class="tsd-kind-icon">get<wbr>Object</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_sprite_.sprite.html#init" class="tsd-kind-icon">init</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_sprite_.sprite.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_sprite_.sprite.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_sprite_.sprite.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_sprite_.sprite.html#update" class="tsd-kind-icon">update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_animation_.animation.html#destroy" class="tsd-kind-icon">destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_animation_.animation.html#getobject" class="tsd-kind-icon">get<wbr>Object</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_animation_.animation.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_animation_.animation.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_animation_.animation.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_animation_.animation.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_modules_game_engine_components_animation_.animation.html#update" class="tsd-kind-icon">update</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Object literals</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_sprite_.sprite.html#properties" class="tsd-kind-icon">properties</a></li>
+								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="_src_modules_game_engine_components_animation_.animation.html#properties" class="tsd-kind-icon">properties</a></li>
 							</ul>
 						</section>
 					</div>
@@ -157,91 +155,120 @@
 					<h3>entity</h3>
 					<div class="tsd-signature tsd-kind-icon">entity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Entity</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#entity">entity</a></p>
+						<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#entity">entity</a></p>
 						<ul>
 							<li>Defined in node_modules/ape-ecs/src/index.d.ts:108</li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="frame" class="tsd-anchor"></a>
+					<h3>frame</h3>
+					<div class="tsd-signature tsd-kind-icon">frame<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L13">src/modules/game/engine/components/animation.ts:13</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current frame number of the animation.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="frames" class="tsd-anchor"></a>
+					<h3>frames</h3>
+					<div class="tsd-signature tsd-kind-icon">frames<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_src_modules_game_typings_.itexture.html" class="tsd-signature-type">ITexture</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L9">src/modules/game/engine/components/animation.ts:9</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The texture objects to use in each frame of the animation.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="id" class="tsd-anchor"></a>
 					<h3>id</h3>
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#id">id</a></p>
+						<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#id">id</a></p>
 						<ul>
 							<li>Defined in node_modules/ape-ecs/src/index.d.ts:109</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="texture" class="tsd-anchor"></a>
-					<h3>texture</h3>
-					<div class="tsd-signature tsd-kind-icon">texture<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="loop" class="tsd-anchor"></a>
+					<h3>loop</h3>
+					<div class="tsd-signature tsd-kind-icon">loop<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/sprite.ts#L14">src/modules/game/engine/components/sprite.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L17">src/modules/game/engine/components/animation.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The texture name for the sprite.</p>
+							<p>Whether to repeat the animation indefinitely.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="x" class="tsd-anchor"></a>
-					<h3>x</h3>
-					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="paused" class="tsd-anchor"></a>
+					<h3>paused</h3>
+					<div class="tsd-signature tsd-kind-icon">paused<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/sprite.ts#L10">src/modules/game/engine/components/sprite.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L15">src/modules/game/engine/components/animation.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The screen X coordinate of the sprite.</p>
+							<p>Whether the animation is paused.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="y" class="tsd-anchor"></a>
-					<h3>y</h3>
-					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="tick" class="tsd-anchor"></a>
+					<h3>tick</h3>
+					<div class="tsd-signature tsd-kind-icon">tick<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/sprite.ts#L12">src/modules/game/engine/components/sprite.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L11">src/modules/game/engine/components/animation.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The screen Y coordinate of the sprite.</p>
+							<p>The current tick number of the animation.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="zindex" class="tsd-anchor"></a>
-					<h3>z<wbr>Index</h3>
-					<div class="tsd-signature tsd-kind-icon">z<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="ticksperframe" class="tsd-anchor"></a>
+					<h3>ticks<wbr>Per<wbr>Frame</h3>
+					<div class="tsd-signature tsd-kind-icon">ticks<wbr>Per<wbr>Frame<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/sprite.ts#L19">src/modules/game/engine/components/sprite.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L7">src/modules/game/engine/components/animation.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The Z-index of the sprite. This determines the order in which sprites are
-							drawn to the screen.</p>
+							<p>The animation speed in ticks per frame.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
 					<a name="key" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> key</h3>
-					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;sprite&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;animation&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/sprite.ts#L21">src/modules/game/engine/components/sprite.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L19">src/modules/game/engine/components/animation.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -250,7 +277,7 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> registered</h3>
 					<div class="tsd-signature tsd-kind-icon">registered<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#registered">registered</a></p>
+						<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#registered">registered</a></p>
 						<ul>
 							<li>Defined in node_modules/ape-ecs/src/index.d.ts:117</li>
 						</ul>
@@ -261,7 +288,7 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> serialize</h3>
 					<div class="tsd-signature tsd-kind-icon">serialize<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#serialize">serialize</a></p>
+						<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#serialize">serialize</a></p>
 						<ul>
 							<li>Defined in node_modules/ape-ecs/src/index.d.ts:113</li>
 						</ul>
@@ -272,7 +299,7 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> serialize<wbr>Fields</h3>
 					<div class="tsd-signature tsd-kind-icon">serialize<wbr>Fields<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#serializefields">serializeFields</a></p>
+						<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#serializefields">serializeFields</a></p>
 						<ul>
 							<li>Defined in node_modules/ape-ecs/src/index.d.ts:114</li>
 						</ul>
@@ -283,7 +310,7 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> skip<wbr>Serialize<wbr>Fields</h3>
 					<div class="tsd-signature tsd-kind-icon">skip<wbr>Serialize<wbr>Fields<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#skipserializefields">skipSerializeFields</a></p>
+						<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#skipserializefields">skipSerializeFields</a></p>
 						<ul>
 							<li>Defined in node_modules/ape-ecs/src/index.d.ts:115</li>
 						</ul>
@@ -294,7 +321,7 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> subbed</h3>
 					<div class="tsd-signature tsd-kind-icon">subbed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#subbed">subbed</a></p>
+						<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#subbed">subbed</a></p>
 						<ul>
 							<li>Defined in node_modules/ape-ecs/src/index.d.ts:116</li>
 						</ul>
@@ -303,11 +330,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="typename" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> type<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">type<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;Sprite&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;Animation&quot;</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides Component.typeName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/sprite.ts#L20">src/modules/game/engine/components/sprite.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L18">src/modules/game/engine/components/animation.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -323,8 +350,8 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#key-1">key</a></p>
-								<p>Overrides <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#key-1">key</a></p>
+								<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#key-1">key</a></p>
+								<p>Overrides <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#key-1">key</a></p>
 								<ul>
 									<li>Defined in node_modules/ape-ecs/src/index.d.ts:102</li>
 								</ul>
@@ -348,7 +375,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#type">type</a></p>
+								<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#type">type</a></p>
 								<ul>
 									<li>Defined in node_modules/ape-ecs/src/index.d.ts:101</li>
 								</ul>
@@ -369,7 +396,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#destroy">destroy</a></p>
+								<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#destroy">destroy</a></p>
 								<ul>
 									<li>Defined in node_modules/ape-ecs/src/index.d.ts:104</li>
 								</ul>
@@ -387,7 +414,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#getobject">getObject</a></p>
+								<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#getobject">getObject</a></p>
 								<ul>
 									<li>Defined in node_modules/ape-ecs/src/index.d.ts:107</li>
 								</ul>
@@ -411,7 +438,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#init">init</a></p>
+								<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#init">init</a></p>
 								<ul>
 									<li>Defined in node_modules/ape-ecs/src/index.d.ts:100</li>
 								</ul>
@@ -435,7 +462,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#postdestroy">postDestroy</a></p>
+								<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#postdestroy">postDestroy</a></p>
 								<ul>
 									<li>Defined in node_modules/ape-ecs/src/index.d.ts:106</li>
 								</ul>
@@ -453,7 +480,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#predestroy">preDestroy</a></p>
+								<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#predestroy">preDestroy</a></p>
 								<ul>
 									<li>Defined in node_modules/ape-ecs/src/index.d.ts:105</li>
 								</ul>
@@ -471,7 +498,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#preinit">preInit</a></p>
+								<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#preinit">preInit</a></p>
 								<ul>
 									<li>Defined in node_modules/ape-ecs/src/index.d.ts:99</li>
 								</ul>
@@ -495,7 +522,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_src_modules_game_engine_components_sprite_.sprite.html">Sprite</a>.<a href="_src_modules_game_engine_components_sprite_.sprite.html#update">update</a></p>
+								<p>Inherited from <a href="_src_modules_game_engine_components_texture_.texture.html">Texture</a>.<a href="_src_modules_game_engine_components_texture_.texture.html#update">update</a></p>
 								<ul>
 									<li>Defined in node_modules/ape-ecs/src/index.d.ts:110</li>
 								</ul>
@@ -520,46 +547,66 @@
 					<aside class="tsd-sources">
 						<p>Overrides Component.properties</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/sprite.ts#L22">src/modules/game/engine/components/sprite.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L20">src/modules/game/engine/components/animation.ts:20</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="properties.texture-1" class="tsd-anchor"></a>
-						<h3>texture</h3>
-						<div class="tsd-signature tsd-kind-icon">texture<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></div>
+						<a name="properties.frame-1" class="tsd-anchor"></a>
+						<h3>frame</h3>
+						<div class="tsd-signature tsd-kind-icon">frame<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/sprite.ts#L25">src/modules/game/engine/components/sprite.ts:25</a></li>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L24">src/modules/game/engine/components/animation.ts:24</a></li>
 							</ul>
 						</aside>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="properties.x-1" class="tsd-anchor"></a>
-						<h3>x</h3>
-						<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<a name="properties.frames-1" class="tsd-anchor"></a>
+						<h3>frames</h3>
+						<div class="tsd-signature tsd-kind-icon">frames<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/sprite.ts#L23">src/modules/game/engine/components/sprite.ts:23</a></li>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L22">src/modules/game/engine/components/animation.ts:22</a></li>
 							</ul>
 						</aside>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="properties.y-1" class="tsd-anchor"></a>
-						<h3>y</h3>
-						<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<a name="properties.loop-1" class="tsd-anchor"></a>
+						<h3>loop</h3>
+						<div class="tsd-signature tsd-kind-icon">loop<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/sprite.ts#L24">src/modules/game/engine/components/sprite.ts:24</a></li>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L26">src/modules/game/engine/components/animation.ts:26</a></li>
 							</ul>
 						</aside>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="properties.zindex-1" class="tsd-anchor"></a>
-						<h3>z<wbr>Index</h3>
-						<div class="tsd-signature tsd-kind-icon">z<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<a name="properties.paused-1" class="tsd-anchor"></a>
+						<h3>paused</h3>
+						<div class="tsd-signature tsd-kind-icon">paused<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/sprite.ts#L26">src/modules/game/engine/components/sprite.ts:26</a></li>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L25">src/modules/game/engine/components/animation.ts:25</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="properties.tick-1" class="tsd-anchor"></a>
+						<h3>tick</h3>
+						<div class="tsd-signature tsd-kind-icon">tick<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L23">src/modules/game/engine/components/animation.ts:23</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="properties.ticksperframe-1" class="tsd-anchor"></a>
+						<h3>ticks<wbr>Per<wbr>Frame</h3>
+						<div class="tsd-signature tsd-kind-icon">ticks<wbr>Per<wbr>Frame<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/d-zone-org/d-zone/blob/rewrite/src/modules/game/engine/components/animation.ts#L21">src/modules/game/engine/components/animation.ts:21</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -573,7 +620,7 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/_src_modules_game_engine_components_sprite_.html">&quot;src/modules/game/engine/components/sprite&quot;</a>
+						<a href="../modules/_src_modules_game_engine_components_animation_.html">&quot;src/modules/game/engine/components/animation&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -582,76 +629,82 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_src_modules_game_engine_components_sprite_.sprite.html" class="tsd-kind-icon">Sprite</a>
+						<a href="_src_modules_game_engine_components_animation_.animation.html" class="tsd-kind-icon">Animation</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#entity" class="tsd-kind-icon">entity</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#entity" class="tsd-kind-icon">entity</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_modules_game_engine_components_animation_.animation.html#frame" class="tsd-kind-icon">frame</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_modules_game_engine_components_animation_.animation.html#frames" class="tsd-kind-icon">frames</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#id" class="tsd-kind-icon">id</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#id" class="tsd-kind-icon">id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#texture" class="tsd-kind-icon">texture</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#loop" class="tsd-kind-icon">loop</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#x" class="tsd-kind-icon">x</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#paused" class="tsd-kind-icon">paused</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#y" class="tsd-kind-icon">y</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#tick" class="tsd-kind-icon">tick</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#zindex" class="tsd-kind-icon">z<wbr>Index</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#ticksperframe" class="tsd-kind-icon">ticks<wbr>Per<wbr>Frame</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#key" class="tsd-kind-icon">key</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#key" class="tsd-kind-icon">key</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#registered" class="tsd-kind-icon">registered</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#registered" class="tsd-kind-icon">registered</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#serialize" class="tsd-kind-icon">serialize</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#serialize" class="tsd-kind-icon">serialize</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#serializefields" class="tsd-kind-icon">serialize<wbr>Fields</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#skipserializefields" class="tsd-kind-icon">skip<wbr>Serialize<wbr>Fields</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#subbed" class="tsd-kind-icon">subbed</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#subbed" class="tsd-kind-icon">subbed</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#typename" class="tsd-kind-icon">type<wbr>Name</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#typename" class="tsd-kind-icon">type<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-set-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#key-1" class="tsd-kind-icon">key</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#key-1" class="tsd-kind-icon">key</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#type" class="tsd-kind-icon">type</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#type" class="tsd-kind-icon">type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#destroy" class="tsd-kind-icon">destroy</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#destroy" class="tsd-kind-icon">destroy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#getobject" class="tsd-kind-icon">get<wbr>Object</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#getobject" class="tsd-kind-icon">get<wbr>Object</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#init" class="tsd-kind-icon">init</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#init" class="tsd-kind-icon">init</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#postdestroy" class="tsd-kind-icon">post<wbr>Destroy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#predestroy" class="tsd-kind-icon">pre<wbr>Destroy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#preinit" class="tsd-kind-icon">pre<wbr>Init</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#update" class="tsd-kind-icon">update</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#update" class="tsd-kind-icon">update</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-								<a href="_src_modules_game_engine_components_sprite_.sprite.html#properties" class="tsd-kind-icon">properties</a>
+								<a href="_src_modules_game_engine_components_animation_.animation.html#properties" class="tsd-kind-icon">properties</a>
 							</li>
 						</ul>
 					</li>
