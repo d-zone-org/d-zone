@@ -9,6 +9,7 @@ import Map from '../components/map'
 import Hop from '../components/hop'
 import { Tags } from '../'
 import { randomColor, randomHop, randomString } from '../seed-dev'
+import { SPRITE_DEFINITIONS } from '../../config/sprite'
 
 /** An ordered list of relative Z levels (heights) to try hopping to. */
 const HOP_Z_LEVELS = [0, 1, -1] as const
@@ -34,8 +35,8 @@ export function createActor(
 			},
 			[Texture.key]: {
 				type: Texture.typeName,
-				anchorX: 7,
-				anchorY: 7,
+				anchorX: SPRITE_DEFINITIONS.cube.anchor.x,
+				anchorY: SPRITE_DEFINITIONS.cube.anchor.y,
 				name: 'cube:0',
 			},
 			[Draw.key]: {

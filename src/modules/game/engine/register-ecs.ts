@@ -12,7 +12,7 @@ import AnimationSystem from './systems/animation'
 import TransformSystem from './systems/transform'
 import PixiSystem from './systems/pixi'
 import type Renderer from '../renderer'
-import type Resources from '../renderer/resources/resources'
+import type Resources from '../resources'
 import Engine, { SystemGroup, Tags } from '.'
 
 /**

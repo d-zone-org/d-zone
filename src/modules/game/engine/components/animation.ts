@@ -18,7 +18,7 @@ export default class Animation extends Component {
 	static typeName = 'Animation'
 	static key = 'animation'
 	static properties = {
-		ticksPerFrame: 0,
+		ticksPerFrame: 1,
 		frames: [],
 		tick: 0,
 		frame: 0,

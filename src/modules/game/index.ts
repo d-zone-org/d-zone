@@ -1,12 +1,12 @@
 import Renderer from './renderer'
-import Resources from './renderer/resources/resources'
+import Resources from './resources'
 import Engine from './engine'
 import Map3D from './common/map-3d'
 import { registerECS } from './engine/register-ecs'
 import { seedGame } from './engine/seed-dev'
 import type { Entity } from 'ape-ecs'
 
-const FPS = 60
+const TICKS_PER_SECOND = 60
 
 export default class Game {
 	renderer = new Renderer()
@@ -30,7 +30,7 @@ export default class Game {
 		seedGame(this.engine.world, this.map)
 
 		// Start update loop
-		this.engine.start(FPS)
+		this.engine.start(TICKS_PER_SECOND)
 	}
 
 	exit() {

@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js-legacy'
-import { SPRITE_DEFINITIONS, SPRITE_JSON_PATH } from '../../config/sprite'
+import { SPRITE_DEFINITIONS, SPRITE_JSON_PATH } from '../config/sprite'
 
 /**
  * Parses resources loaded into PIXI.
