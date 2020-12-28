@@ -70,6 +70,7 @@ export default class HopSystem extends System {
 			if (!animation) {
 				// Hop completed
 				const transform = entity.c[Transform.key] as Transform
+				// Update transform and map
 				const newGrid = Map3D.addGrids(transform, hop)
 				transform.update(newGrid)
 				map.moveCellToGrid(entity, newGrid)
@@ -77,8 +78,8 @@ export default class HopSystem extends System {
 					map.removeCellFromGrid(hop.placeholder, newGrid)
 					hop.placeholder.destroy()
 				}
-				texture.update(getDirectionalCubeTexture(hop.direction))
 				entity.addTag(Tags.Platform)
+				texture.update(getDirectionalCubeTexture(hop.direction))
 				entity.removeComponent(hop)
 			} else if (hop.tick === 0 || animation.frame > hop.frame) {
 				const draw = entity.c[Draw.key] as Draw

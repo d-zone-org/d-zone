@@ -93,11 +93,11 @@ export function createGridPool(
 }
 
 /**
- * Picks a random direction to use for hopping.
+ * Picks a random direction.
  *
  * @returns - A random direction.
  */
-export function randomHop(): IGridDirection {
+export function getRandomDirection(): IGridDirection {
 	const direction = Object.keys(Map3D.Directions)[
 		Math.floor(Math.random() * 4)
 	] as Direction

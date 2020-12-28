@@ -8,7 +8,7 @@ import Actor from '../components/actor'
 import Map from '../components/map'
 import Hop from '../components/hop'
 import { Tags } from '../'
-import { randomColor, randomHop, randomString } from '../seed-dev'
+import { randomColor, getRandomDirection, randomString } from '../seed-dev'
 import { HOP_TICKS_PER_FRAME, SPRITE_DEFINITIONS } from '../../config/sprite'
 import { Direction } from '../../typings'
 import Animation from 'web/modules/game/engine/components/animation'
@@ -39,7 +39,7 @@ export function createActor(
 				type: Texture.typeName,
 				anchorX: SPRITE_DEFINITIONS.cube.anchor.x,
 				anchorY: SPRITE_DEFINITIONS.cube.anchor.y,
-				name: 'cube:0',
+				name: getCubeTextureName(getRandomDirection().direction),
 			},
 			[Draw.key]: {
 				type: Draw.typeName,
@@ -78,7 +78,7 @@ export function addHopComponent(
 	actor.addComponent({
 		type: Hop.typeName,
 		key: Hop.key,
-		...(direction || randomHop()),
+		...(direction || getRandomDirection()),
 	})
 }
 
@@ -184,7 +184,9 @@ export function getDirectionalCubeTexture(direction: Direction): ITexture {
  * @param direction - The direction of the actor.
  * @returns - The texture name corresponding to the input direction.
  */
-function getCubeTextureName(direction: Direction): string {
+function getCubeTextureName(
+	direction: Direction
+): 'cube:0' | 'cube:1' | 'cube:2' {
 	switch (direction) {
 		case Direction.East:
 			return 'cube:0'
