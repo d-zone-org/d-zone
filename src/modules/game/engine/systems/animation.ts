@@ -17,20 +17,18 @@ export default class AnimationSystem extends System {
 			if (animation.paused) return
 			if (animation.tick % animation.ticksPerFrame === 0) {
 				// Next frame of animation
-				let frameNumber = Math.floor(animation.tick / animation.ticksPerFrame)
-				if (frameNumber === animation.frames.length) {
+				animation.frame = Math.floor(animation.tick / animation.ticksPerFrame)
+				if (animation.frame === animation.frames.length) {
 					// End of animation reached
 					if (animation.loop) {
-						animation.update({
-							ticks: 0,
-						})
-						frameNumber = 0
+						animation.tick = 0
+						animation.frame = 0
 					} else {
 						entity.removeComponent(animation)
 						return
 					}
 				}
-				const { anchorX, anchorY, name } = animation.frames[frameNumber]
+				const { anchorX, anchorY, name } = animation.frames[animation.frame]
 				const texture = entity.c[Texture.key] as Texture
 				texture.update({ anchorX, anchorY, name })
 			}

@@ -43,4 +43,4 @@ export const HOP_OFFSETS = {
 }
 
 /** Number of game ticks per frame of hop animation. */
-export const HOP_FRAMERATE = 2 as const
+export const HOP_TICKS_PER_FRAME = 2 as const

@@ -1,5 +1,6 @@
 import { Entity, Query, System } from 'ape-ecs'
 import Hop from '../components/hop'
+import Animation from '../components/animation'
 import Transform from '../components/transform'
 import Draw from '../components/draw'
 import Texture from '../components/texture'
@@ -8,21 +9,19 @@ import Map from '../components/map'
 import {
 	SPRITE_DEFINITIONS,
 	HOP_OFFSETS,
-	HOP_FRAMERATE,
+	HOP_TICKS_PER_FRAME,
 } from '../../config/sprite'
-import { Animations, Direction } from '../../typings'
+import { Animations, Direction, ITexture } from '../../typings'
 import { getValidHop } from '../archetypes/actor'
 import Map3D from '../../common/map-3d'
 import { Tags } from '../'
 
 export default class HopSystem extends System {
-	private animations!: Animations
+	private animations!: Record<string, ITexture[]>
 	private hopQuery!: Query
-	private hopFrameCount!: number
 
 	init(animations: Animations) {
-		this.animations = animations
-		this.hopFrameCount = this.animations['hop-east'].length
+		this.animations = this.buildAnimations(animations)
 		this.hopQuery = this.createQuery({
 			all: [Hop, Transform, Draw, Texture, Map],
 			persist: true,
@@ -30,7 +29,6 @@ export default class HopSystem extends System {
 	}
 
 	update(/*tick: number*/) {
-		// TODO: Hop system should not be handling animation, make an animation component & system
 		this.hopQuery.execute().forEach((entity) => {
 			const hop = entity.c[Hop.key] as Hop
 			const map = entity.c[Map.key].map as Map3D<Entity>
@@ -65,75 +63,91 @@ export default class HopSystem extends System {
 						// },
 					})
 					map.addCellToGrid(hop.placeholder, hopGrid)
+					// Create animation component
+					let animationName = `hop-${hop.direction}`
+					if (hop.z > 0) animationName += '-up'
+					if (hop.z < 0) animationName += '-down'
+					entity.addComponent({
+						type: Animation.typeName,
+						key: Animation.key,
+						ticksPerFrame: HOP_TICKS_PER_FRAME,
+						frames: this.animations[animationName],
+					})
 				} else {
 					faceSpriteToDirection(entity.c[Texture.key] as Texture, hop.direction)
 					entity.removeComponent(hop)
 					return
 				}
 			}
-
-			const texture = entity.c[Texture.key] as Texture
-			const frame = Math.floor(this.hopFrameCount * hop.progress)
-			if (hop.progress >= 1) {
+			const animation = entity.c.animation as Animation | undefined
+			if (!animation) {
 				// Hop completed
-				const { x, y, z } = entity.c[Transform.key]
-				const newGrid = {
-					x: x + hop.x,
-					y: y + hop.y,
-					z: z + hop.z,
-				}
-				entity.c[Transform.key].update(newGrid)
+				const transform = entity.c[Transform.key] as Transform
+				const newGrid = Map3D.addGrids(transform, hop)
+				transform.update(newGrid)
 				map.moveCellToGrid(entity, newGrid)
 				if (hop.placeholder) {
 					map.removeCellFromGrid(hop.placeholder, newGrid)
 					hop.placeholder.destroy()
 				}
-				faceSpriteToDirection(texture, hop.direction)
+				faceSpriteToDirection(entity.c[Texture.key] as Texture, hop.direction)
 				entity.addTag(Tags.Platform)
 				entity.removeComponent(hop)
-			} else if (hop.progress === 0 || frame > hop.frame) {
+			} else if (hop.tick === 0 || animation.frame > hop.frame) {
 				const draw = entity.c[Draw.key] as Draw
-				hop.frame = frame
-				const animation = `hop-${hop.direction}`
-				texture.update({
-					name: this.animations[animation][hop.frame].textureCacheIds[0],
-				})
-				if (hop.progress === 0) {
+				hop.frame = animation.frame
+				if (hop.tick === 0) {
 					draw.update({
 						zIndex: draw.zIndex + 0.01,
 					})
-					texture.update({
-						anchorX: SPRITE_DEFINITIONS[animation].anchor.x,
-						anchorY: SPRITE_DEFINITIONS[animation].anchor.y,
-					})
 				}
-				const zDepthOffset = getZDepthOffset(frame, hop.direction)
+				const zDepthOffset = getZDepthOffset(hop.frame, hop.direction)
 				if (zDepthOffset) {
 					// Adjust z-depth while hopping
 					draw.update({
 						zIndex: draw.zIndex + zDepthOffset,
 					})
 				}
-				if (hop.z !== 0) {
-					// Raise or lower texture while hopping up/down
-					const yOffsets = hop.z > 0 ? HOP_OFFSETS.hopUpY : HOP_OFFSETS.hopDownY
-					const yOffsetIndex = yOffsets.frames.indexOf(hop.frame)
-					if (yOffsetIndex >= 0) {
-						texture.update({
-							anchorY: texture.anchorY - yOffsets.values[yOffsetIndex],
-						})
-					}
-				}
 			}
-			hop.progress += 1 / this.hopFrameCount / HOP_FRAMERATE
+			hop.tick++
 		})
+	}
+
+	private buildAnimations(animations: Animations): HopSystem['animations'] {
+		const hopAnimations: HopSystem['animations'] = {}
+		for (const direction of Object.values(Direction)) {
+			const baseName = `hop-${direction}`
+			const { x: anchorX, y: anchorY } = SPRITE_DEFINITIONS[baseName].anchor
+			hopAnimations[baseName] = animations[baseName].map((t) => {
+				return { name: t.textureCacheIds[0], anchorX, anchorY }
+			})
+			for (const zVariant of ['up', 'down']) {
+				let anchorYOffset = 0
+				const { frames, values } =
+					zVariant === 'up' ? HOP_OFFSETS.hopUpY : HOP_OFFSETS.hopDownY
+				hopAnimations[`${baseName}-${zVariant}`] = animations[baseName].map(
+					(t, i) => {
+						const offsetIndex = frames.indexOf(i)
+						if (offsetIndex >= 0) {
+							anchorYOffset += values[offsetIndex]
+						}
+						return {
+							name: t.textureCacheIds[0],
+							anchorX,
+							anchorY: anchorY - anchorYOffset,
+						}
+					}
+				)
+			}
+		}
+		return hopAnimations
 	}
 }
 
 function faceSpriteToDirection(texture: Texture, direction: Direction) {
 	texture.update({
-		anchorX: 7,
-		anchorY: 7,
+		anchorX: SPRITE_DEFINITIONS.cube.anchor.x,
+		anchorY: SPRITE_DEFINITIONS.cube.anchor.y,
 		name: getCubeTexture(direction),
 	})
 }

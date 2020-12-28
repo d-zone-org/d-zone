@@ -5,10 +5,12 @@ import { ITexture } from '../../typings'
 export default class Animation extends Component {
 	/** The animation speed in ticks per frame. */
 	ticksPerFrame!: number
-	/** The texture names to use in each frame of the animation. */
+	/** The texture objects to use in each frame of the animation. */
 	frames!: ITexture[]
 	/** The current tick number of the animation. */
 	tick!: number
+	/** The current frame number of the animation. */
+	frame!: number
 	/** Whether the animation is paused. */
 	paused!: boolean
 	/** Whether to repeat the animation indefinitely. */
@@ -19,6 +21,7 @@ export default class Animation extends Component {
 		ticksPerFrame: 0,
 		frames: [],
 		tick: 0,
+		frame: 0,
 		paused: false,
 		loop: false,
 	}

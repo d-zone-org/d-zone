@@ -66,11 +66,11 @@ export default class PixiSystem extends System {
 			if (draw._meta.updated === tick) {
 				this.updateDraw(draw, pixiObject)
 			}
-			const texture = entity.c[Texture.key] as Texture
+			const texture = entity.c[Texture.key] as Texture | undefined
 			if (texture && texture._meta.updated === tick) {
 				this.updateTexture(texture, pixiObject as PIXI.Sprite)
 			}
-			const graphic = entity.c[Graphic.key] as Graphic
+			const graphic = entity.c[Graphic.key] as Graphic | undefined
 			if (graphic && graphic._meta.updated === tick) {
 				PixiSystem.updateGraphic(graphic, pixiObject as PIXI.Graphics)
 			}
@@ -135,12 +135,12 @@ export default class PixiSystem extends System {
 	private addPixiObjects() {
 		this.pixiObjectAddQuery.execute().forEach((entity) => {
 			let pixiObject: PIXI.Graphics | PIXI.Sprite | undefined
-			const texture = entity.c[Texture.key] as Texture
+			const texture = entity.c[Texture.key] as Texture | undefined
 			if (texture) {
 				pixiObject = new PIXI.Sprite(this.textures[texture.name])
 				this.updateTexture(texture, pixiObject)
 			}
-			const graphic = entity.c[Graphic.key] as Graphic
+			const graphic = entity.c[Graphic.key] as Graphic | undefined
 			if (graphic) {
 				pixiObject = new PIXI.Graphics()
 				PixiSystem.updateGraphic(graphic, pixiObject)
