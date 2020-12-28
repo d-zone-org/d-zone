@@ -1,33 +1,38 @@
 import { Entity, Query, System } from 'ape-ecs'
 import Hop from '../components/hop'
+import Animation from '../components/animation'
 import Transform from '../components/transform'
-import Sprite from '../components/sprite'
+import Draw from '../components/draw'
+import Texture from '../components/texture'
+// import Graphic from '../components/graphic'
 import Map from '../components/map'
-import { HOP_OFFSETS, HOP_FRAMERATE } from '../../config/sprite'
-import { Animations, Direction } from '../../typings'
-import { getValidHop } from '../archetypes/actor'
+import { HOP_OFFSETS } from '../../config/sprite'
+import { Animations, ITexture } from '../../typings'
+import {
+	addHopAnimationComponent,
+	getDirectionalCubeTexture,
+	getValidHop,
+} from '../archetypes/actor'
 import Map3D from '../../common/map-3d'
 import { Tags } from '../'
 
 export default class HopSystem extends System {
-	private animations!: Animations
+	private animations!: Record<string, ITexture[]>
 	private hopQuery!: Query
-	private hopFrameCount!: number
 
 	init(animations: Animations) {
 		this.animations = animations
-		this.hopFrameCount = this.animations['hop-east'].length
-		this.hopQuery = this.createQuery()
-			.fromAll(Hop, Transform, Sprite, Map)
-			.persist()
+		this.hopQuery = this.createQuery({
+			all: [Hop, Transform, Draw, Texture, Map],
+			persist: true,
+		})
 	}
 
 	update(/*tick: number*/) {
-		// TODO: Hop system should not be handling animation, make an animation component & system
 		this.hopQuery.execute().forEach((entity) => {
 			const hop = entity.c[Hop.key] as Hop
 			const map = entity.c[Map.key].map as Map3D<Entity>
-
+			const texture = entity.c[Texture.key] as Texture
 			if (!hop.placeholder) {
 				// Initialize new hop
 				const actorGrid = map.getCellGrid(entity)
@@ -36,91 +41,65 @@ export default class HopSystem extends System {
 				if (validHop) {
 					hop.z = validHop.z
 					entity.removeTag(Tags.Platform)
-					hop.placeholder = this.world.createEntity({ tags: [Tags.Solid] })
-					map.addCellToGrid(hop.placeholder, Map3D.addGrids(actorGrid, hop))
+					const hopGrid = Map3D.addGrids(actorGrid, hop)
+					hop.placeholder = this.world.createEntity({
+						tags: [Tags.Solid],
+						// c: {
+						// 	[Graphic.key]: {
+						// 		type: Graphic.typeName,
+						// 		color: 0xaa0044,
+						// 		width: 10,
+						// 		height: 10,
+						// 		anchorX: 5,
+						// 		anchorY: 5,
+						// 	},
+						// 	[Transform.key]: { type: Transform.typeName, ...hopGrid },
+						// 	[Draw.key]: { type: Draw.typeName },
+						// },
+					})
+					map.addCellToGrid(hop.placeholder, hopGrid)
+					// Add animation component
+					addHopAnimationComponent(entity, hop, this.animations)
 				} else {
-					faceSpriteToHop(entity.c[Sprite.key] as Sprite, hop)
+					texture.update(getDirectionalCubeTexture(hop.direction))
 					entity.removeComponent(hop)
 					return
 				}
 			}
-
-			const sprite = entity.c[Sprite.key] as Sprite
-			const frame = Math.floor(this.hopFrameCount * hop.progress)
-			if (hop.progress >= 1) {
+			const animation = entity.c.animation as Animation | undefined
+			if (!animation) {
 				// Hop completed
-				const { x, y, z } = entity.c[Transform.key]
-				const newGrid = {
-					x: x + hop.x,
-					y: y + hop.y,
-					z: z + hop.z,
-				}
-				entity.c[Transform.key].update(newGrid)
+				const transform = entity.c[Transform.key] as Transform
+				// Update transform and map
+				const newGrid = Map3D.addGrids(transform, hop)
+				transform.update(newGrid)
 				map.moveCellToGrid(entity, newGrid)
 				if (hop.placeholder) {
 					map.removeCellFromGrid(hop.placeholder, newGrid)
 					hop.placeholder.destroy()
 				}
-				faceSpriteToHop(sprite, hop)
 				entity.addTag(Tags.Platform)
+				texture.update(getDirectionalCubeTexture(hop.direction))
 				entity.removeComponent(hop)
-			} else if (hop.progress === 0 || frame > hop.frame) {
-				hop.frame = frame
-				sprite.update({
-					texture: this.animations[`hop-${hop.direction}`][hop.frame]
-						.textureCacheIds[0],
-				})
-				if (hop.progress === 0) {
-					sprite.update({
-						zIndex: sprite.zIndex + 0.01,
+			} else if (hop.tick === 0 || animation.frame > hop.frame) {
+				const draw = entity.c[Draw.key] as Draw
+				hop.frame = animation.frame
+				if (hop.tick === 0) {
+					draw.update({
+						zIndex: draw.zIndex + 0.01,
 					})
 				}
-				const zDepthOffset = getZDepthOffset(frame, hop.direction)
-				if (zDepthOffset) {
-					// Adjust z-depth while hopping
-					sprite.update({
-						zIndex: sprite.zIndex + zDepthOffset,
+				// Adjust z-depth while hopping
+				const hopZDepthIndex = HOP_OFFSETS.hopZDepth.frames.indexOf(hop.frame)
+				if (hopZDepthIndex >= 0) {
+					draw.update({
+						zIndex:
+							draw.zIndex +
+							HOP_OFFSETS.hopZDepth[hop.direction][hopZDepthIndex],
 					})
-				}
-				if (hop.z !== 0) {
-					// Raise or lower sprite while hopping up/down
-					const yOffsets = hop.z > 0 ? HOP_OFFSETS.hopUpY : HOP_OFFSETS.hopDownY
-					const yOffsetIndex = yOffsets.frames.indexOf(hop.frame)
-					if (yOffsetIndex >= 0) {
-						sprite.update({
-							y: sprite.y + yOffsets.values[yOffsetIndex],
-						})
-					}
 				}
 			}
-			hop.progress += 1 / this.hopFrameCount / HOP_FRAMERATE
+			hop.tick++
 		})
-	}
-}
-
-function faceSpriteToHop(sprite: Sprite, hop: Hop) {
-	sprite.update({
-		texture: getCubeTexture(hop.direction),
-	})
-}
-
-function getCubeTexture(direction: Direction): string {
-	switch (direction) {
-		case Direction.East:
-			return 'cube:0'
-		case Direction.South:
-			return 'cube:1'
-		case Direction.North:
-		case Direction.West:
-			return 'cube:2'
-	}
-}
-
-function getZDepthOffset(frame: number, direction: Direction): number {
-	const frameIndex = HOP_OFFSETS.hopZDepth.frames.indexOf(frame)
-	if (frameIndex >= 0) {
-		return HOP_OFFSETS.hopZDepth[direction][frameIndex]
-	} else {
-		return 0
 	}
 }

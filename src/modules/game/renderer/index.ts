@@ -23,7 +23,7 @@ export default class Renderer {
 	app!: PIXI.Application
 	/** The viewport container which manages camera movement. */
 	view!: Viewport<IPlugins>
-	/** The culler which prevents off-camera sprites from rendering. */
+	/** The culler which prevents off-camera objects from rendering. */
 	cull!: SpatialHash
 
 	init(canvas: HTMLCanvasElement) {

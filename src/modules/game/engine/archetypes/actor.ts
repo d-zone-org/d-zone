@@ -1,13 +1,17 @@
 import type { Entity, World } from 'ape-ecs'
-import type { IGrid, IGridDirection } from '../../typings'
+import type { Animations, IGrid, IGridDirection, ITexture } from '../../typings'
 import Map3D from '../../common/map-3d'
 import Transform from '../components/transform'
-import Sprite from '../components/sprite'
+import Texture from '../components/texture'
+import Draw from '../components/draw'
 import Actor from '../components/actor'
 import Map from '../components/map'
 import Hop from '../components/hop'
 import { Tags } from '../'
-import { randomColor, randomHop, randomString } from '../seed-dev'
+import { randomColor, getRandomDirection, randomString } from '../seed-dev'
+import { HOP_TICKS_PER_FRAME, SPRITE_DEFINITIONS } from '../../config/sprite'
+import { Direction } from '../../typings'
+import Animation from 'web/modules/game/engine/components/animation'
 
 /** An ordered list of relative Z levels (heights) to try hopping to. */
 const HOP_Z_LEVELS = [0, 1, -1] as const
@@ -31,9 +35,14 @@ export function createActor(
 				type: Transform.typeName,
 				...grid,
 			},
-			[Sprite.key]: {
-				type: Sprite.typeName,
-				texture: 'cube:0',
+			[Texture.key]: {
+				type: Texture.typeName,
+				anchorX: SPRITE_DEFINITIONS.cube.anchor.x,
+				anchorY: SPRITE_DEFINITIONS.cube.anchor.y,
+				name: getCubeTextureName(getRandomDirection().direction),
+			},
+			[Draw.key]: {
+				type: Draw.typeName,
 			},
 			[Actor.key]: {
 				type: Actor.typeName,
@@ -61,12 +70,39 @@ export function createActor(
  * @param direction - The direction of the hop. If not provided, a random
  *     direction will be chosen.
  */
-export function hopActor(actor: Entity, direction?: IGridDirection) {
+export function addHopComponent(
+	actor: Entity,
+	direction?: IGridDirection
+): void {
 	if (actor.has(Hop.typeName)) return // Already hopping
 	actor.addComponent({
 		type: Hop.typeName,
 		key: Hop.key,
-		...(direction || randomHop()),
+		...(direction || getRandomDirection()),
+	})
+}
+
+/**
+ * Adds an [[Animation]] component to the input actor entity based on the
+ * actor's [[Hop]] component.
+ *
+ * @param actor - The actor entity to animate.
+ * @param hop - The actor's hop component.
+ * @param animations - The animations object from [[Resources]].
+ */
+export function addHopAnimationComponent(
+	actor: Entity,
+	hop: Hop,
+	animations: Animations
+): void {
+	let animationName = `hop-${hop.direction}`
+	if (hop.z > 0) animationName += '-up'
+	if (hop.z < 0) animationName += '-down'
+	actor.addComponent({
+		type: Animation.typeName,
+		key: Animation.key,
+		ticksPerFrame: HOP_TICKS_PER_FRAME,
+		frames: animations[animationName],
 	})
 }
 
@@ -126,4 +162,38 @@ function gridIsAbovePlatform(map: Map3D<Entity>, grid: IGrid): boolean {
 		}),
 	]
 	return underNewTarget.some((cell) => cell.has(Tags.Platform))
+}
+
+/**
+ * Gets a cube texture based on direction.
+ *
+ * @param direction - The direction of the actor.
+ * @returns - The texture corresponding to the input direction.
+ */
+export function getDirectionalCubeTexture(direction: Direction): ITexture {
+	return {
+		anchorX: SPRITE_DEFINITIONS.cube.anchor.x,
+		anchorY: SPRITE_DEFINITIONS.cube.anchor.y,
+		name: getCubeTextureName(direction),
+	}
+}
+
+/**
+ * Gets a directional cube texture name.
+ *
+ * @param direction - The direction of the actor.
+ * @returns - The texture name corresponding to the input direction.
+ */
+function getCubeTextureName(
+	direction: Direction
+): 'cube:0' | 'cube:1' | 'cube:2' {
+	switch (direction) {
+		case Direction.East:
+			return 'cube:0'
+		case Direction.South:
+			return 'cube:1'
+		case Direction.North:
+		case Direction.West:
+			return 'cube:2'
+	}
 }

@@ -13,8 +13,8 @@ export default class Hop extends Component {
 	placeholder!: Entity | null
 	/** The direction of the hop. */
 	direction!: Direction
-	/** The [0-1] progress of the hop. */
-	progress!: number
+	/** The current tick number of the hop. */
+	tick!: number
 	/** The frame of the hop animation to display. */
 	frame!: number
 	static typeName = 'Hop'
@@ -25,7 +25,7 @@ export default class Hop extends Component {
 		z: 0,
 		placeholder: EntityRef,
 		direction: null,
-		progress: 0,
+		tick: 0,
 		frame: 0,
 	}
 }

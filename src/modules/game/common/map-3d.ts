@@ -100,7 +100,7 @@ export default class Map3D<T> {
 	/**
 	 * Returns the string representation (hash) of a grid.
 	 *
-	 * Note: This hash is used to index the [[data]] of [[Map3D]].
+	 * Note: This hash is used to index the [[cellMap]] of [[Map3D]].
 	 *
 	 * @param __namedParameters - The grid object to convert into a hash.
 	 * @returns - Grid coordinates in string format.

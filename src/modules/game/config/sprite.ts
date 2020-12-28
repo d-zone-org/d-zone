@@ -4,20 +4,20 @@ export const SPRITE_JSON_PATH = './img/sprites.json' as const
 
 /** Sprite data used to configure PIXI textures in [[loader]]. */
 export const SPRITE_DEFINITIONS: Record<string, ISpriteDefinition> = {
-	cube: { w: 14, h: 14 },
-	'cube-idle': { w: 14, h: 14 },
-	'cube-off': { w: 14, h: 14 },
-	'talk-right': { w: 14, h: 14, animation: true },
-	'talk-left': { w: 14, h: 14, animation: true },
-	'hop-west': { w: 35, h: 27, anchor: { x: 19, y: 11 }, animation: true },
-	'hop-north': { w: 35, h: 27, anchor: { x: 2, y: 11 }, animation: true },
-	'hop-east': { w: 35, h: 25, anchor: { x: 2, y: 2 }, animation: true },
-	'hop-south': { w: 35, h: 25, anchor: { x: 19, y: 2 }, animation: true },
-	'brick-edge': { w: 32, h: 16 },
-	'grass-brick': { w: 32, h: 16 },
-	flowers: { w: 32, h: 16 },
-	grass: { w: 32, h: 16 },
-	beacon: { w: 31, h: 56 },
+	cube: { w: 14, h: 14, anchor: { x: 7, y: 7 } },
+	'cube-idle': { w: 14, h: 14, anchor: { x: 7, y: 7 } },
+	'cube-off': { w: 14, h: 14, anchor: { x: 7, y: 7 } },
+	'talk-right': { w: 14, h: 14, anchor: { x: 7, y: 7 }, animation: true },
+	'talk-left': { w: 14, h: 14, anchor: { x: 7, y: 7 }, animation: true },
+	'hop-west': { w: 35, h: 27, anchor: { x: 26, y: 18 }, animation: true },
+	'hop-north': { w: 35, h: 27, anchor: { x: 9, y: 18 }, animation: true },
+	'hop-east': { w: 35, h: 25, anchor: { x: 9, y: 9 }, animation: true },
+	'hop-south': { w: 35, h: 25, anchor: { x: 26, y: 9 }, animation: true },
+	'brick-edge': { w: 32, h: 16, anchor: { x: 0, y: 0 } },
+	'grass-brick': { w: 32, h: 16, anchor: { x: 0, y: 0 } },
+	flowers: { w: 32, h: 16, anchor: { x: 0, y: 0 } },
+	grass: { w: 32, h: 16, anchor: { x: 0, y: 0 } },
+	beacon: { w: 31, h: 56, anchor: { x: 0, y: 0 } },
 } as const
 
 /**
@@ -43,4 +43,4 @@ export const HOP_OFFSETS = {
 }
 
 /** Number of game ticks per frame of hop animation. */
-export const HOP_FRAMERATE = 2 as const
+export const HOP_TICKS_PER_FRAME = 2 as const
