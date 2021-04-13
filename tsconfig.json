@@ -13,9 +13,7 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 
-		"resolveJsonModule": true,
-
-		"typeRoots": ["./typings/vendor", "./node_modules/@types"]
+		"resolveJsonModule": true
 	},
 
 	"typedocOptions": {
