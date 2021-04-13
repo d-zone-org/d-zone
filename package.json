@@ -3,58 +3,26 @@
 	"version": "0.2.0",
 	"description": "An ambient life simulation driven by the user activity within a Discord server",
 	"private": true,
-	"scripts": {
-		"dev": "nodemon",
-		"build": "next build && tsc --project ./server/tsconfig.json",
-		"start": "yarn node dist/server/index.js",
-		"commit": "gitmoji --commit",
-		"format": "prettier --write .",
-		"docs": "typedoc --excludeNotExported ./src"
-	},
 	"workspaces": [
-		"packages/**/*"
+		"./server",
+		"./web"
 	],
-	"dependencies": {
-		"ape-ecs": "^1.3.0",
-		"dotenv": "^8.2.0",
-		"eris": "^0.14.0",
-		"next": "10.0.1",
-		"pixi-cull": "workspace:packages/pixi-cull",
-		"pixi-viewport": "workspace:packages/pixi-viewport",
-		"pixi.js-legacy": "^5.3.3",
-		"react": "^16.8.0",
-		"react-dom": "^16.8.0",
-		"react-is": "^16.8.0",
-		"styled-components": "^5.2.1",
-		"ws": "^7.4.0",
-		"zod": "^1.11.10"
+	"scripts": {
+		"commit": "gitmoji --commit",
+		"format": "prettier --write ."
 	},
 	"devDependencies": {
-		"@babel/core": "^7.12.9",
-		"@babel/preset-typescript": "^7.12.7",
-		"@types/eslint": "^7",
-		"@types/eslint-config-prettier": "^6",
-		"@types/node": "^14.14.9",
-		"@types/react": "^17.0.0",
-		"@types/react-dom": "^17.0.0",
-		"@types/styled-components": "^5",
-		"@types/ws": "^7",
 		"@typescript-eslint/eslint-plugin": "latest",
 		"@typescript-eslint/parser": "latest",
-		"babel-plugin-styled-components": "^1.8.0",
-		"comlink-loader": "^2.0.0",
+		"@yarnpkg/pnpify": "^2.4.0",
 		"eslint": "^7.14.0",
 		"eslint-config-prettier": "^6.15.0",
 		"eslint-plugin-jsdoc": "^30.7.9",
 		"eslint-plugin-react": "latest",
 		"gitmoji-cli": "^3.2.12",
-		"nodemon": "^2.0.6",
-		"pixi.js": "^5.3.3",
-		"prettier": "^2.2.0",
-		"prettier-plugin-jsdoc": "^0.2.7",
-		"ts-node": "^9.0.0",
-		"typedoc": "^0.19.2",
-		"typescript": "^4.1.2"
+		"prettier": "^2.2.1",
+		"prettier-plugin-jsdoc": "^0.2.12",
+		"typescript": "^4.1.3"
 	},
 	"prettier": {
 		"trailingComma": "es5",

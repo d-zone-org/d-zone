@@ -38,6 +38,8 @@ jobs:
 
       - run: yarn run docs
 
+      - run: curl https://gist.githubusercontent.com/vegeta897/0083c0f77d5952a904917dc7f990ae65/raw/79d3f5610bfa2dd45c59ce559e17ebd79399b6eb/_config.yml > docs/_config.yml
+
       - name: Deploy to github pages
         uses: s0/git-publish-subdir-action@develop
         env:

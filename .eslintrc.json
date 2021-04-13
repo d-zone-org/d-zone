@@ -23,13 +23,7 @@
 		"react": { "version": "detect" }
 	},
 
-	"ignorePatterns": [
-		"packages/pixi-viewport/*",
-		"packages/pixi-cull/*",
-		"next.config.js",
-		"dist/*",
-		"docs/*"
-	],
+	"ignorePatterns": ["typings/vendor/*", "next.config.js", "dist/*", "docs/*"],
 
 	"rules": {
 		"@typescript-eslint/explicit-module-boundary-types": "off",
