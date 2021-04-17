@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ rewrite ]
+    branches: [rewrite]
   pull_request:
-    branches: [ rewrite ]
+    branches: [rewrite]
 
 jobs:
   install:
@@ -35,9 +35,6 @@ jobs:
 
       - run: yarn install
 
-  check:
-    runs-on: ubuntu-latest
-    needs: [ install ]
-    steps:
       - run: yarn prettier . -c
+
       - run: yarn eslint .
