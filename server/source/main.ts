@@ -6,8 +6,10 @@ import { Logger } from 'tslog'
 
 import { PrismaClient } from './prisma'
 import { handleError } from './error'
+
 import { createDiscordModule } from './chat/discord'
-import { createSocketServer } from './socket'
+import { createSocketServer, connectSocketChat } from './socket'
+
 import { createNextServer } from './next'
 
 async function main() {
@@ -22,14 +24,18 @@ async function main() {
 		await createNextServer(DEV, logger.getChildLogger())
 	)
 
-	createSocketServer(httpServer, logger.getChildLogger())
+	const socketServer = createSocketServer(httpServer, logger.getChildLogger())
 
-	// @ts-expect-error Connect this to sockets
 	const chatModules = [
 		await createDiscordModule(DISCORD_TOKEN!, prisma, logger.getChildLogger()),
 	]
+
+	connectSocketChat(chatModules, socketServer)
 
 	httpServer.listen(PORT, () => logger.info(`Listening on ${PORT}`))
 }
 
 main().catch(handleError)
+
+export * from './socket/type'
+export * from './chat/type'

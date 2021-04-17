@@ -1,6 +1,6 @@
 {
 	"name": "server",
-	"main": "./dist/index.js",
+	"main": "./source/main.ts",
 	"scripts": {
 		"start": "ts-node ./source/main.ts",
 		"dev": "ts-node-dev --ignore-watch \"../web\" ./source/main.ts"
