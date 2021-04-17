@@ -11,4 +11,4 @@ type ServerChatEvents = {
 	[K in keyof ChatEvents]: (argument: ChatEvents[K][0]) => void
 }
 
-export interface ServerEvents extends ServerChatEvents {}
+export type ServerEvents = ServerChatEvents

@@ -1,15 +1,13 @@
-name: Prettier
+name: CI
 
 on:
   push:
-    branches:
-      - rewrite
-  workflow_dispatch:
+    branches: [rewrite]
+  pull_request:
+    branches: [rewrite]
 
 jobs:
-  format:
-    name: Run Prettier
-    if: github.event.pusher.name != 'd-zone-maintenance'
+  lint-format:
     runs-on: ubuntu-latest
     steps:
       - uses: tibdex/github-app-token@v1
@@ -37,8 +35,6 @@ jobs:
 
       - run: yarn install
 
-      - run: yarn run format
+      - run: yarn prettier . -c
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 🎨 Auto format by prettier
+      - run: yarn eslint .

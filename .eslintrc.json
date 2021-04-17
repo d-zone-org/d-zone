@@ -16,14 +16,12 @@
 	],
 
 	"parserOptions": {
-		"project": "./tsconfig.json"
+		"project": ["./server/tsconfig.json", "./web/src/tsconfig.json"]
 	},
 
 	"settings": {
-		"react": { "version": "detect" }
+		"react": { "version": "^16.8.0" }
 	},
-
-	"ignorePatterns": ["typings/vendor/*", "next.config.js", "dist/*", "docs/*"],
 
 	"rules": {
 		"@typescript-eslint/explicit-module-boundary-types": "off",
@@ -32,6 +30,6 @@
 		"jsdoc/require-returns-type": "off",
 		"jsdoc/check-param-names": ["warn", { "checkDestructured": false }],
 		"jsdoc/require-param": ["warn", { "checkDestructured": false }],
-		"jsdoc/check-tag-names": ["warn", { "definedTags": ["remarks"] }]
+		"jsdoc/check-tag-names": ["warn", { "definedTags": ["link"] }]
 	}
 }

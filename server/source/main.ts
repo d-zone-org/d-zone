@@ -12,10 +12,13 @@ import { createSocketServer, connectSocketChat } from './socket'
 
 import { createNextServer } from './next'
 
+/** Main entry point for runtime */
 async function main() {
 	const DISCORD_TOKEN = process.env['DISCORD_TOKEN']
 	const PORT = process.env['PORT'] || 8080
 	const DEV = !process.env['PRODUCTION']
+
+	if (!DISCORD_TOKEN) throw new Error('DISCORD_TOKEN not set')
 
 	const logger = new Logger()
 	const prisma = new PrismaClient()
@@ -27,7 +30,7 @@ async function main() {
 	const socketServer = createSocketServer(httpServer, logger.getChildLogger())
 
 	const chatModules = [
-		await createDiscordModule(DISCORD_TOKEN!, prisma, logger.getChildLogger()),
+		await createDiscordModule(DISCORD_TOKEN, prisma, logger.getChildLogger()),
 	]
 
 	connectSocketChat(chatModules, socketServer)

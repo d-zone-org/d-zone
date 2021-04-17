@@ -1,7 +1,5 @@
 .yarn/*
-.next/*
-dist/*
-docs/*
+**/.next/*
 .vscode/*
 .pnp.js
 **/coverage/*
@@ -9,3 +7,4 @@ docs/*
 yarn.lock
 **/patches/*
 public/img/*
+server/source/prisma/*
