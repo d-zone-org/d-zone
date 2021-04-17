@@ -36,18 +36,18 @@ export default class Engine {
 	}
 
 	/**
-	 * Starts the game loop.
-<<<<<<< HEAD:src/modules/game/engine/index.ts
+	 * Starts the game loop. <<<<<<< HEAD:src/modules/game/engine/index.ts
 	 *
 	 * Note: `setInterval` is used instead of `requestAnimationFrame` because all
 	 * logic runs at a fixed rate.
 	 *
-=======
+	 * =======
 	 *
 	 * Note: `setInterval` is used instead of `requestAnimationFrame` because all
 	 * logic runs at a fixed rate.
 	 *
->>>>>>> feat/comms:web/src/modules/game/engine/index.ts
+	 * >>>>>>> feat/comms:web/src/modules/game/engine/index.ts
+	 *
 	 * @param fps - The target number of times per second to run the interval at.
 	 */
 	start(fps: number): void {

@@ -9,14 +9,11 @@ const wheelSteppedOptions = {
 	steps: [0.25, 0.5, 1, 2, 3, 4, 5, 6, 8],
 }
 
-function getClosestIndex(arr: number[], target: number): number {
-	let closest = 0
-	arr.forEach((value, index) => {
-		if (Math.abs(value - target) < Math.abs(arr[closest] - target))
-			closest = index
-	})
-	return closest
-}
+const getClosestIndex = (arr: number[], target: number) => 
+	arr.reduce((closest, value, index) => 
+		(Math.abs(value - target) < Math.abs(arr[closest] - target))
+			? index : closest
+	, 0)
 
 export default class WheelStepped extends Plugin {
 	private options: {

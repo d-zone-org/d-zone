@@ -3277,6 +3277,7 @@ __metadata:
     eslint-plugin-jsdoc: ^30.7.9
     eslint-plugin-react: latest
     gitmoji-cli: ^3.2.12
+    husky: ^6.0.0
     prettier: ^2.2.1
     prettier-plugin-jsdoc: ^0.2.12
     typescript: ^4.1.3
@@ -4922,6 +4923,15 @@ fsevents@~2.3.1:
   version: 1.1.1
   resolution: "human-signals@npm:1.1.1"
   checksum: cac115f635090055427bbd9d066781b17de3a2d8bbf839d920ae2fa52c3eab4efc63b4c8abc10e9a8b979233fa932c43a83a48864003a8c684ed9fb78135dd45
+  languageName: node
+  linkType: hard
+
+"husky@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "husky@npm:6.0.0"
+  bin:
+    husky: lib/bin.js
+  checksum: 61e1f7f53f3c969d361c2a1d4ed8018b9447406ea6cd644a2526d18b76877d135001d8cbd48a1d201fc1614d96995e691ecd2b82a8d8513a6b4a313da1188ccd
   languageName: node
   linkType: hard
 

@@ -7,8 +7,8 @@
 		"lib": ["es2020"],
 
 		"rootDir": "./source",
-		"sourceMap": true,
 
+		"sourceMap": true,
 		"declaration": true
 	}
 }

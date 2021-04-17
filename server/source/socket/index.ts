@@ -24,6 +24,12 @@ export const createSocketServer = (httpServer: http.Server, logger: Logger) => {
 	return server
 }
 
+/**
+ * Connects socket to chat modules
+ * 
+ * @param chatModules - Chat modules
+ * @param socket - Socket server
+ */
 export function connectSocketChat(
 	chatModules: ChatModule[],
 	socket: Server<ClientEvents, ServerEvents>
