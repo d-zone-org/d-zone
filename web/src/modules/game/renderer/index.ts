@@ -19,11 +19,7 @@ export default class Renderer {
 	/** The PIXI application itself */
 	app!: PIXI.Application
 	/** The viewport container which manages camera movement. */
-<<<<<<< HEAD:src/modules/game/renderer/index.ts
-	view!: Viewport<IPlugins>
-=======
 	view!: Viewport
->>>>>>> feat/comms:web/src/modules/game/renderer/index.ts
 	/** The culler which prevents off-camera objects from rendering. */
 	cull!: SpatialHash
 
