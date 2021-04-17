@@ -2,7 +2,6 @@
 .next/*
 dist/*
 docs/*
-packages/*
 .vscode/*
 .pnp.js
 **/coverage/*
