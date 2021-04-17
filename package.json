@@ -11,7 +11,9 @@
 		"commit": "gitmoji --commit",
 		"lint": "eslint .",
 		"format": "prettier --write .",
-		"postinstall": "husky install"
+		"postinstall": "husky install",
+		"dev": "yarn workspace server dev",
+		"start": "yarn workspace server start"
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "latest",
