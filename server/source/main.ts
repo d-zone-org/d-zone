@@ -18,7 +18,7 @@ async function main() {
 	const PORT = process.env['PORT'] || 8080
 	const DEV = !process.env['PRODUCTION']
 
-	if (!DISCORD_TOKEN) throw new Error("DISCORD_TOKEN not set")
+	if (!DISCORD_TOKEN) throw new Error('DISCORD_TOKEN not set')
 
 	const logger = new Logger()
 	const prisma = new PrismaClient()

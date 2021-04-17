@@ -26,7 +26,7 @@ export const createSocketServer = (httpServer: http.Server, logger: Logger) => {
 
 /**
  * Connects socket to chat modules
- * 
+ *
  * @param chatModules - Chat modules
  * @param socket - Socket server
  */
