@@ -19,7 +19,7 @@
 	"devDependencies": {
 		"@types/react": "^17.0.0",
 		"@types/react-dom": "^17.0.0",
-		"root": "link:./src",
+		"root": "link:./source",
 		"server": "workspace:server",
 		"typescript": "^4.1.3"
 	}

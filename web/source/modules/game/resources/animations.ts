@@ -1,5 +1,8 @@
-import { Animations, Direction, Sheet } from 'web/modules/game/typings'
-import { HOP_OFFSETS, SPRITE_DEFINITIONS } from 'web/modules/game/config/sprite'
+import { Animations, Direction, Sheet } from 'web/source/modules/game/typings'
+import {
+	HOP_OFFSETS,
+	SPRITE_DEFINITIONS,
+} from 'web/source/modules/game/config/sprite'
 
 /**
  * Transforms PIXI texture arrays into [[ITexture]] arrays used for [[Animation.frames]].

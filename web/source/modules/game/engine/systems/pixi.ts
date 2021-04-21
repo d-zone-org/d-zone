@@ -5,7 +5,6 @@ import Draw from '../components/draw'
 import PixiObject from '../components/pixi-object'
 import * as PIXI from 'pixi.js-legacy'
 import type Renderer from '../../renderer'
-import type { IPlugins } from '../../renderer'
 import type { Viewport } from 'pixi-viewport'
 import type { SpatialHash } from 'pixi-cull'
 import type { Textures } from '../../typings'
@@ -14,7 +13,7 @@ import type { Textures } from '../../typings'
 export default class PixiSystem extends System {
 	private renderer!: Renderer
 	private textures!: Textures
-	private view!: Viewport<IPlugins>
+	private view!: Viewport
 	private cull!: SpatialHash
 	private pixiObjectQuery!: Query
 	private pixiObjectAddQuery!: Query
