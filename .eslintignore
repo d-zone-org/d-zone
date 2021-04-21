@@ -1,4 +1,3 @@
-web/src/typings/vendor.d.ts
-next.config.js
+web/source/typings/vendor.d.ts
 
 server/source/prisma/

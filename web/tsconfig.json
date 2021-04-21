@@ -1,0 +1,16 @@
+{
+	"extends": "../tsconfig.json",
+
+	"compilerOptions": {
+		"target": "es6",
+		"module": "esnext",
+		"lib": ["dom", "es2020"],
+
+		"rootDir": "source",
+
+		"isolatedModules": true,
+		"jsx": "preserve"
+	},
+
+	"include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"]
+}

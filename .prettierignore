@@ -1,10 +1,11 @@
 .yarn/*
-**/.next/*
 .vscode/*
 .pnp.js
+yarn.lock
+
 **/coverage/*
 **/build/*
-yarn.lock
+**/dist/*
 **/patches/*
-public/img/*
+
 server/source/prisma/*

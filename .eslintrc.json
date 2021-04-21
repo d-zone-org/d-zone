@@ -16,7 +16,7 @@
 	],
 
 	"parserOptions": {
-		"project": ["./server/tsconfig.json", "./web/src/tsconfig.json"]
+		"project": ["./server/tsconfig.json", "./web/tsconfig.json"]
 	},
 
 	"settings": {

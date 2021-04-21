@@ -9,8 +9,7 @@ import { handleError } from './error'
 
 import { createDiscordModule } from './chat/discord'
 import { createSocketServer, connectSocketChat } from './socket'
-
-import { createNextServer } from './next'
+import { createHTTPServer } from './http'
 
 /** Main entry point for runtime */
 async function main() {
@@ -24,7 +23,7 @@ async function main() {
 	const prisma = new PrismaClient()
 
 	const httpServer = http.createServer(
-		await createNextServer(DEV, logger.getChildLogger())
+		await createHTTPServer(DEV, logger.getChildLogger())
 	)
 
 	const socketServer = createSocketServer(httpServer, logger.getChildLogger())
