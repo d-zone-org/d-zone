@@ -1,3 +1,5 @@
 web/source/typings/vendor.d.ts
 
 server/source/prisma/
+
+tailwind.config.js
