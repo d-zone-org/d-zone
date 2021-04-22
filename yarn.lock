@@ -5214,7 +5214,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "d-zone@workspace:."
   dependencies:
-    "@types/tailwindcss": ^2
     "@typescript-eslint/eslint-plugin": latest
     "@typescript-eslint/parser": latest
     "@yarnpkg/pnpify": ^2.4.0

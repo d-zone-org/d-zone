@@ -16,7 +16,6 @@
 		"start": "yarn workspace server start"
 	},
 	"devDependencies": {
-		"@types/tailwindcss": "^2",
 		"@typescript-eslint/eslint-plugin": "latest",
 		"@typescript-eslint/parser": "latest",
 		"@yarnpkg/pnpify": "^2.4.0",
