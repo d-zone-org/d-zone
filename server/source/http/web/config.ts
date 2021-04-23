@@ -1,11 +1,14 @@
 import { Configuration } from 'webpack'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
+import MiniCSSExtactWebpackPlugin from 'mini-css-extract-plugin'
 // @ts-expect-error No types
 import PNPWebpackPlugin from 'pnp-webpack-plugin'
+import tailwindcss from 'tailwindcss'
 
 import { join } from 'path'
 export const root = (path = '') => join(process.cwd(), '../web', path)
+const glob = (path: string) => root().replace('\\', '/') + path
 
 const configuration = (dev: boolean): Configuration => ({
 	mode: dev ? 'development' : 'production',
@@ -36,6 +39,32 @@ const configuration = (dev: boolean): Configuration => ({
 					},
 				},
 			},
+			{
+				test: /\.css$/,
+
+				use: [
+					MiniCSSExtactWebpackPlugin.loader,
+					require.resolve('css-loader'),
+					{
+						loader: require.resolve('postcss-loader'),
+						options: {
+							implementation: require('postcss'),
+
+							postcssOptions: {
+								plugins: [
+									require('autoprefixer'),
+
+									tailwindcss({
+										...require(root('../tailwind.config')),
+
+										purge: [glob('/**/*.tsx'), glob('./**/*.html')],
+									}),
+								],
+							},
+						},
+					},
+				],
+			},
 		],
 	},
 
@@ -48,6 +77,8 @@ const configuration = (dev: boolean): Configuration => ({
 				typescriptPath: require.resolve('typescript'),
 			},
 		}),
+		// @ts-expect-error Webpack V4 and V5 types do not match
+		new MiniCSSExtactWebpackPlugin(),
 	],
 
 	resolve: {

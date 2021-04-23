@@ -13,13 +13,16 @@ import { createHTTPServer } from './http'
 
 /** Main entry point for runtime */
 async function main() {
+	const logger = new Logger()
+
 	const DISCORD_TOKEN = process.env['DISCORD_TOKEN']
 	const PORT = process.env['PORT'] || 8080
-	const DEV = !process.env['PRODUCTION']
+	const DEV = process.env['NODE_ENV'] !== 'production'
+
+	logger.info(`Development mode`, DEV)
 
 	if (!DISCORD_TOKEN) throw new Error('DISCORD_TOKEN not set')
 
-	const logger = new Logger()
 	const prisma = new PrismaClient()
 
 	const httpServer = http.createServer(
