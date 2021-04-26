@@ -1,4 +1,6 @@
 web/source/typings/vendor.d.ts
+web/webpack.config.js
+web/dist/
 
 server/source/prisma/
 

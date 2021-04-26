@@ -7,10 +7,9 @@ export const useSocket = () => {
 	const socketRef = useRef<Socket | null>(null)
 
 	useEffect(() => {
-		const socket: Socket<
-			ServerEvents,
-			ClientEvents
-		> = (socketRef.current = io())
+		const socket: Socket<ServerEvents, ClientEvents> = (socketRef.current = io({
+			path: '/api/socket.io',
+		}))
 
 		socket.once('connect', () =>
 			socket.emit('joinRequest', '754236248314347530', (connected) =>

@@ -1,9 +1,1 @@
-module.exports = {
-	purge: [],
-	darkMode: false,
-	theme: {
-		extend: {},
-	},
-	variants: {},
-	plugins: [],
-}
+module.exports = require('./web/tailwind.config')

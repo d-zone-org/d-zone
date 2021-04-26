@@ -12,5 +12,6 @@
 		"jsx": "preserve"
 	},
 
-	"include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"]
+	"include": ["./source/**/*.ts", "./source/**/*.tsx", "./source/**/*.d.ts"],
+	"exclude": ["node-modules", "dist", "../server/**/*"]
 }
