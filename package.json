@@ -12,13 +12,15 @@
 		"lint": "eslint .",
 		"format": "prettier --write .",
 		"postinstall": "husky install",
-		"dev": "yarn workspace server dev",
-		"start": "yarn workspace server start"
+		"dev": "concurrently --kill-others \"yarn workspace web dev\" \"yarn workspace server dev\"",
+		"build": "yarn workspace web build"
 	},
 	"devDependencies": {
+		"@types/concurrently": "^6",
 		"@typescript-eslint/eslint-plugin": "latest",
 		"@typescript-eslint/parser": "latest",
 		"@yarnpkg/pnpify": "^2.4.0",
+		"concurrently": "^6.0.2",
 		"eslint": "^7.14.0",
 		"eslint-config-prettier": "^6.15.0",
 		"eslint-plugin-jsdoc": "^30.7.9",
