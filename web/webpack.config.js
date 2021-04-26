@@ -1,6 +1,6 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const MiniCSSExtactWebpackPlugin = require('mini-css-extract-plugin')
+const MiniCSSExtractWebpackPlugin = require('mini-css-extract-plugin')
 
 const path = require('path')
 
@@ -45,7 +45,7 @@ const configuration = {
 			{
 				test: /\.css$/,
 				use: [
-					MiniCSSExtactWebpackPlugin.loader,
+					MiniCSSExtractWebpackPlugin.loader,
 					'css-loader',
 					{
 						loader: 'postcss-loader',
@@ -67,7 +67,7 @@ const configuration = {
 		}),
 
 		// @ts-expect-error types seem to be messed up
-		new MiniCSSExtactWebpackPlugin(),
+		new MiniCSSExtractWebpackPlugin(),
 	],
 
 	resolve: {
