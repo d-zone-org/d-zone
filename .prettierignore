@@ -8,4 +8,4 @@ yarn.lock
 **/dist/*
 **/patches/*
 
-**/datastore-generated/*
+**/prisma/source/*

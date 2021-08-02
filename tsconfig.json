@@ -1,25 +1,23 @@
 {
 	"compilerOptions": {
+		"target": "esnext",
+		"lib": ["esnext"],
+
 		"strict": true,
+
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUncheckedIndexedAccess": false,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": true,
 
 		"moduleResolution": "node",
+
 		"esModuleInterop": true,
 
 		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-
-		"resolveJsonModule": true
-	},
-
-	"typedocOptions": {
-		"mode": "modules",
-		"out": "docs",
-		"name": "D-Zone",
-		"gitRevision": "rewrite"
+		"forceConsistentCasingInFileNames": true
 	}
 }

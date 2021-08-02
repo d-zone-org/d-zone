@@ -1,0 +1,37 @@
+datasource Datasource {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator Client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
+  output          = "./source"
+}
+
+model User {
+  id    String @id @map("_id")
+  email String @unique
+}
+
+model Server {
+  id      String   @id @map("_id")
+  name    String
+  channel Channel?
+  roles   Role[]
+}
+
+model Channel {
+  id       String @id @map("_id")
+  name     String
+  serverId String
+  server   Server @relation(fields: [serverId], references: [id])
+}
+
+model Role {
+  id       String @id @map("_id")
+  name     String
+  color    String
+  serverId String
+  server   Server @relation(fields: [serverId], references: [id])
+}
