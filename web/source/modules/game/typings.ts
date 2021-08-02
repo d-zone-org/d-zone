@@ -1,11 +1,13 @@
+import PIXI from 'pixi.js-legacy'
+
 export interface IResources {
 	sheet: Sheet
 	animations: Animations
 }
 
-export type Sheet = {
+export interface Sheet {
 	spritesheet: {
-		animations: Record<string, PIXI.BaseTexture[]>
+		animations: Record<string, PIXI.Texture[]>
 	}
 	textures: Textures
 }

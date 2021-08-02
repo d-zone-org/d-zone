@@ -68,7 +68,7 @@ export function createActor(
  *
  * @param actor - The actor entity to hop.
  * @param direction - The direction of the hop. If not provided, a random
- *     direction will be chosen.
+ *   direction will be chosen.
  */
 export function addHopComponent(
 	actor: Entity,

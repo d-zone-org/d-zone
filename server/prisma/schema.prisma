@@ -5,7 +5,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../source/prisma"
+  output   = "../source/core/datastore-generated"
 }
 
 model ChatChannel {

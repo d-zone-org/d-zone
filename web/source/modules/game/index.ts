@@ -1,5 +1,4 @@
 import type { Entity } from 'ape-ecs'
-import { ChatUser } from 'server/source/chat/type'
 import Map3D from './common/map-3d'
 import Engine from './engine'
 import Interactions from './engine/interactions'
@@ -41,7 +40,7 @@ export class Game {
 		this.engine.start(TICKS_PER_SECOND)
 	}
 
-	addUsers(users: ChatUser[]) {
+	addUsers(users: {}[]) {
 		console.log('Creating actors from user list')
 		users.forEach((_, i) =>
 			setTimeout(() => this.interactions.addActor(), i * 200)

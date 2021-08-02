@@ -16,22 +16,21 @@
 		"build": "yarn workspace web build"
 	},
 	"devDependencies": {
-		"@types/concurrently": "^6",
 		"@typescript-eslint/eslint-plugin": "latest",
 		"@typescript-eslint/parser": "latest",
 		"@yarnpkg/pnpify": "^2.4.0",
 		"concurrently": "^6.0.2",
-		"eslint": "^7.14.0",
-		"eslint-config-prettier": "^6.15.0",
-		"eslint-plugin-jsdoc": "^30.7.9",
-		"eslint-plugin-react": "latest",
-		"gitmoji-cli": "^3.2.12",
+		"eslint": "^7.25.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-jsdoc": "^33.0.0",
+		"eslint-plugin-react": "^7.23.2",
+		"gitmoji-cli": "^4.0.0",
 		"husky": "^6.0.0",
-		"postcss": "^8.2.10",
+		"postcss": "^8.2.13",
 		"prettier": "^2.2.1",
-		"prettier-plugin-jsdoc": "^0.2.12",
-		"tailwindcss": "^2.1.1",
-		"typescript": "^4.1.3"
+		"prettier-plugin-jsdoc": "^0.3.21",
+		"tailwindcss": "^2.1.2",
+		"typescript": "^4.2.4"
 	},
 	"homepage": "https://github.com/vegeta897/d-zone#readme",
 	"repository": {

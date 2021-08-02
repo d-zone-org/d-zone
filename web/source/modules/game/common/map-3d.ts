@@ -38,8 +38,8 @@ export default class Map3D<T> {
 	}
 
 	/**
-	 * Adds a cell to the specified grid location, and returns a Set containing the
-	 * cells at that location.
+	 * Adds a cell to the specified grid location, and returns a Set containing
+	 * the cells at that location.
 	 *
 	 * @param cell - The map cell to be added.
 	 * @param grid - The grid location to add the cell to.

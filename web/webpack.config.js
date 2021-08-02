@@ -8,7 +8,7 @@ const prod = process.env.NODE_ENV === 'production'
 
 /**
  * @type import('webpack').Configuration & { devServer?:
- *     import('webpack-dev-server').Configuration }
+ *   import('webpack-dev-server').Configuration }
  */
 const configuration = {
 	mode: prod ? 'production' : 'development',

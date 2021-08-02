@@ -1,4 +1,4 @@
-import * as PIXI from 'pixi.js-legacy'
+import PIXI from 'pixi.js-legacy'
 import { SPRITE_DEFINITIONS, SPRITE_JSON_PATH } from '../config/sprite'
 
 /**
@@ -7,15 +7,14 @@ import { SPRITE_DEFINITIONS, SPRITE_JSON_PATH } from '../config/sprite'
  * @param sheet - The sprite sheet being parsed.
  * @param next - The method called when parsing of the current sheet is complete.
  */
-function parseSheet(sheet: PIXI.LoaderResource, next: () => void) {
+function parseSheet(sheet: PIXI.ILoaderResource, next: () => void) {
 	if (sheet.extension === 'json') {
-		// @ts-expect-error "onComplete" event emitter does, in fact, exist
-		sheet.onComplete.once((res: PIXI.LoaderResource) => {
+		sheet.onComplete.once((res: PIXI.ILoaderResource) => {
 			if (!res.data) return
 			const animations: Record<string, string[]> = {}
 			for (const frameKey of Object.keys(res.data.frames)) {
 				const layer = frameKey.split(':')[0]
-				const frame = res.data.frames[frameKey as keyof typeof res.data.frames]
+				const frame = res.data.frames[frameKey]
 				// There is extra data about our sprites that is not included in the generated sprite export file.
 				const config = SPRITE_DEFINITIONS[layer]
 				frame.sourceSize.w = config.w
@@ -54,7 +53,7 @@ export function initLoader() {
  * @returns - A promise that resolves when all resources have been loaded and parsed.
  */
 export async function runLoader(): Promise<
-	Partial<Record<string, PIXI.LoaderResource>>
+	Partial<Record<string, PIXI.ILoaderResource>>
 > {
 	return new Promise((resolve, reject) => {
 		loader.load((_loader, resources) => {

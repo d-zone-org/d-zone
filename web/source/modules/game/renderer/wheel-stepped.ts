@@ -41,17 +41,19 @@ export default class WheelStepped extends Plugin {
 		this.options = { ...wheelSteppedOptions, ...options }
 	}
 
-	down() {
+	down(_e: PIXI.InteractionEvent) {
 		if (this.options.interrupt) {
 			this.smoothing = null
 		}
+
+		return false
 	}
 
 	update() {
 		if (!this.smoothing) return
 		const point = this.smoothingCenter
 		const change = this.smoothing
-		const oldPoint: PIXI.Point | null = !this.options.center
+		const oldPoint: PIXI.IPointData | null = !this.options.center
 			? this.parent.toLocal(point)
 			: null
 
@@ -60,7 +62,6 @@ export default class WheelStepped extends Plugin {
 		this.parent.emit('zoomed', { viewport: this.parent, type: 'wheel' })
 
 		const clamp = this.parent.plugins.get('clamp-zoom')
-		// @ts-expect-error "clamp" does exist on the clamp plugin
 		if (clamp) clamp.clamp()
 
 		if (this.options.center) {
@@ -84,7 +85,6 @@ export default class WheelStepped extends Plugin {
 	wheel(e: WheelEvent): boolean | undefined {
 		if (this.paused || this.smoothing) return
 
-		// @ts-expect-error "input" does exist on Viewport
 		const inputManager = this.parent.input
 		const point = inputManager.getPointerPosition(e)
 		const sign = this.options.reverse ? -1 : 1
@@ -122,7 +122,6 @@ export default class WheelStepped extends Plugin {
 			this.parent.emit('zoomed', { viewport: this.parent, type: 'wheel' })
 
 			const clamp = this.parent.plugins.get('clamp-zoom')
-			// @ts-expect-error "clamp" does exist on the clamp plugin
 			if (clamp) clamp.clamp()
 
 			if (this.options.center) {
@@ -141,7 +140,6 @@ export default class WheelStepped extends Plugin {
 			viewport: this.parent,
 		})
 
-		// @ts-expect-error "options" does exist on Viewport
 		const parentViewportOptions = this.parent.options
 		return !parentViewportOptions.passiveWheel
 	}
