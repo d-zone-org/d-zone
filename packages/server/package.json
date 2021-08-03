@@ -1,0 +1,15 @@
+{
+	"name": "@d-zone/server",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"scripts": {
+		"watch": "tsc -w",
+		"build": "tsc",
+		"start": "ndoe ./dist/main.js"
+	},
+	"dependencies": {
+		"@types/node": "^16.4.10",
+		"typescript": "^4.3.5"
+	},
+	"packageManager": "yarn@3.0.0"
+}
