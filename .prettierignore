@@ -9,3 +9,6 @@ yarn.lock
 **/patches/*
 
 **/prisma/source/*
+
+**/.next/*
+**/dist/*

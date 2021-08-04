@@ -4,17 +4,17 @@ declare module 'pixi-cull' {
 		 * Creates a simple cull
 		 *
 		 * @param {object} [options]
-		 * @param {boolean} [options.visible] Parameter of the object to set (usually
-		 *     visible or renderable) Default is `visible`
+		 * @param {boolean} [options.visible] Parameter of the object to set
+		 *   (usually visible or renderable) Default is `visible`
 		 * @param {boolean} [options.calculatePIXI] Calculate pixi.js bounding box
-		 *     automatically; if this is set to false then it uses
-		 *     object[options.AABB] for bounding box Default is `true`
+		 *   automatically; if this is set to false then it uses
+		 *   object[options.AABB] for bounding box Default is `true`
 		 * @param {string} [options.dirtyTest] Only update spatial hash for objects
-		 *     with object[options.dirtyTest]=true; this has a HUGE impact on
-		 *     performance Default is `true`
+		 *   with object[options.dirtyTest]=true; this has a HUGE impact on
+		 *   performance Default is `true`
 		 * @param {string} [options.AABB] Object property that holds bounding box so
-		 *     that object[type] = { x: number, y: number, width: number, height:
-		 *     number }; not needed if options.calculatePIXI=true Default is `AABB`
+		 *   that object[type] = { x: number, y: number, width: number, height:
+		 *   number }; not needed if options.calculatePIXI=true Default is `AABB`
 		 */
 		constructor(options?: {
 			visible: boolean
@@ -32,7 +32,7 @@ declare module 'pixi-cull' {
 		 *
 		 * @param {Array} array
 		 * @param {boolean} [staticObject] Set to true if the object's position/size
-		 *     does not change
+		 *   does not change
 		 * @returns {Array} Array
 		 */
 		addList(array: any[], staticObject?: boolean): any[]
@@ -48,7 +48,7 @@ declare module 'pixi-cull' {
 		 *
 		 * @param {any} object
 		 * @param {boolean} [staticObject] Set to true if the object's position/size
-		 *     does not change
+		 *   does not change
 		 * @returns {any} Object
 		 */
 		add(object: any, staticObject?: boolean): any
@@ -138,25 +138,25 @@ declare module 'pixi-cull' {
 		 * Creates a spatial-hash cull
 		 *
 		 * @param {object} [options]
-		 * @param {number} [options.size] Cell size used to create hash (xSize = ySize)
-		 *     Default is `1000`
+		 * @param {number} [options.size] Cell size used to create hash (xSize =
+		 *   ySize) Default is `1000`
 		 * @param {number} [options.xSize] Horizontal cell size
 		 * @param {number} [options.ySize] Vertical cell size
 		 * @param {boolean} [options.calculatePIXI] Calculate bounding box
-		 *     automatically; if this is set to false then it uses
-		 *     object[options.AABB] for bounding box Default is `true`
-		 * @param {boolean} [options.visible] Parameter of the object to set (usually
-		 *     visible or renderable) Default is `visible`
+		 *   automatically; if this is set to false then it uses
+		 *   object[options.AABB] for bounding box Default is `true`
+		 * @param {boolean} [options.visible] Parameter of the object to set
+		 *   (usually visible or renderable) Default is `visible`
 		 * @param {boolean} [options.simpleTest] Iterate through visible buckets to
-		 *     check for bounds Default is `true`
+		 *   check for bounds Default is `true`
 		 * @param {string} [options.dirtyTest] Only update spatial hash for objects
-		 *     with object[options.dirtyTest]=true; this has a HUGE impact on
-		 *     performance Default is `true`
+		 *   with object[options.dirtyTest]=true; this has a HUGE impact on
+		 *   performance Default is `true`
 		 * @param {string} [options.AABB] Object property that holds bounding box so
-		 *     that object[type] = { x: number, y: number, width: number, height:
-		 *     number } Default is `AABB`
-		 * @param {string} [options.spatial] Object property that holds object's hash
-		 *     list Default is `spatial`
+		 *   that object[type] = { x: number, y: number, width: number, height:
+		 *   number } Default is `AABB`
+		 * @param {string} [options.spatial] Object property that holds object's
+		 *   hash list Default is `spatial`
 		 * @param {string} [options.dirty] Object property for dirtyTest Default is `dirty`
 		 */
 		constructor(options?: {
@@ -187,12 +187,12 @@ declare module 'pixi-cull' {
 		objects: any[]
 		containers: any[]
 		/**
-		 * Add an object to be culled side effect: adds object.spatialHashes to track
-		 * existing hashes
+		 * Add an object to be culled side effect: adds object.spatialHashes to
+		 * track existing hashes
 		 *
 		 * @param {any} object
 		 * @param {boolean} [staticObject] Set to true if the object's position/size
-		 *     does not change
+		 *   does not change
 		 * @returns {any} Object
 		 */
 		add(object: any, staticObject?: boolean): any
@@ -208,9 +208,9 @@ declare module 'pixi-cull' {
 		 *
 		 * @param {PIXI.Container} container
 		 * @param {boolean} [staticObject] Set to true if the objects in the
-		 *     container's position/size do not change note: this only works with pixi
-		 *     v5.0.0rc2+ because it relies on the new container events childAdded and
-		 *     childRemoved
+		 *   container's position/size do not change note: this only works with pixi
+		 *   v5.0.0rc2+ because it relies on the new container events childAdded and
+		 *   childRemoved
 		 */
 		addContainer(container: any, staticObject?: boolean): void
 		/**
@@ -253,7 +253,6 @@ declare module 'pixi-cull' {
 		 * Gets hash bounds
 		 *
 		 * @private
-		 *
 		 * @param {AABB} AABB
 		 * @returns {Bounds}
 		 */
@@ -266,8 +265,8 @@ declare module 'pixi-cull' {
 		 */
 		insert(object: any, key: string): void
 		/**
-		 * Removes object from the hash table should be called when removing an object
-		 * automatically called from updateObject()
+		 * Removes object from the hash table should be called when removing an
+		 * object automatically called from updateObject()
 		 *
 		 * @param {object} object
 		 */
@@ -283,8 +282,8 @@ declare module 'pixi-cull' {
 		 * Returns an array of objects contained within bounding box
 		 *
 		 * @param {AABB} AABB Bounding box to search
-		 * @param {boolean} [simpleTest] Perform a simple bounds check of all items in
-		 *     the buckets Default is `true`
+		 * @param {boolean} [simpleTest] Perform a simple bounds check of all items
+		 *   in the buckets Default is `true`
 		 * @returns {object[]} Search results
 		 */
 		query(AABB: AABB, simpleTest?: boolean): object[]
@@ -295,8 +294,8 @@ declare module 'pixi-cull' {
 		 *
 		 * @param {AABB} AABB Bounding box to search
 		 * @param {function} callback
-		 * @param {boolean} [simpleTest] Perform a simple bounds check of all items in
-		 *     the buckets Default is `true`
+		 * @param {boolean} [simpleTest] Perform a simple bounds check of all items
+		 *   in the buckets Default is `true`
 		 * @returns {boolean} True if callback returned early
 		 */
 		queryCallback(AABB: AABB, callback: Function, simpleTest?: boolean): boolean
@@ -335,7 +334,7 @@ declare module 'pixi-cull' {
 		 *
 		 * @param {AABB} [AABB] Bounding box to search or entire world
 		 * @returns {number} Sparseness percentage (i.e., buckets with at least 1
-		 *     element divided by total possible buckets)
+		 *   element divided by total possible buckets)
 		 */
 		getSparseness(AABB?: AABB): number
 	}

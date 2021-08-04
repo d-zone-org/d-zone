@@ -55,7 +55,6 @@ export default class PixiSystem extends System {
 	 * Copies all sprite or graphic component changes to the PIXI object.
 	 *
 	 * @private
-	 *
 	 * @param tick - The current game engine tick.
 	 */
 	private updatePixiObjects(tick: number) {
@@ -80,7 +79,6 @@ export default class PixiSystem extends System {
 	 * Updates a PIXI object from a Draw component.
 	 *
 	 * @private
-	 *
 	 * @param draw - The Draw component used to update the PIXI object.
 	 * @param object - The PIXI object being updated.
 	 */
@@ -95,7 +93,6 @@ export default class PixiSystem extends System {
 	 * Updates a PIXI sprite from a Texture component.
 	 *
 	 * @private
-	 *
 	 * @param texture - The Texture component used to update the PIXI sprite.
 	 * @param sprite - The PIXI sprite being updated.
 	 */
@@ -111,9 +108,8 @@ export default class PixiSystem extends System {
 	 * Updates a PIXI graphics object from a Graphic component.
 	 *
 	 * @private
-	 *
 	 * @param __namedParameters - The Graphic component used to update the PIXI
-	 *     graphics object.
+	 *   graphics object.
 	 * @param graphics - The PIXI graphics object being updated.
 	 */
 	private static updateGraphic(
