@@ -4,14 +4,18 @@ import { StatusCodes } from 'http-status-codes'
 import {
 	OAuth2Routes,
 	OAuth2Scopes,
+	RESTGetAPIUserResult,
 	RESTPostOAuth2AccessTokenResult,
+	RouteBases,
+	Routes,
 } from 'discord-api-types/v9'
 
 import axios from 'axios'
 
 import { URL, URLSearchParams } from 'url'
 import { Logger } from 'tslog'
-import { DZoneInternalError, handleError } from '../utils/error'
+import { DZoneInternalError, handleError } from '../../utils/error'
+import { DZoneContext } from '../utils/session'
 
 /**
  * Creates router to handle oauth and sessions.
@@ -30,7 +34,7 @@ export function createOAuthRouter({
 	routerOptions: Router.IRouterOptions
 	options: { clientId: string; clientSecret: string; baseUrl: string }
 }) {
-	const router = new Router(routerOptions)
+	const router = new Router<any, DZoneContext>(routerOptions)
 
 	const discordRedirectUrl = generateDiscordRedirectUrl(
 		options.clientId,
@@ -52,20 +56,29 @@ export function createOAuthRouter({
 			return
 		}
 
-		const response = await requestDiscordToken({
+		const tokenResponse = await requestDiscordToken({
 			code,
 			clientId: options.clientId,
 			clientSecret: options.clientSecret,
 			redirectUri: options.baseUrl + '/discord/callback',
 		})
 
-		if (response.error) {
-			handleError(response.error)
+		if (tokenResponse.error) {
+			handleError(tokenResponse.error)
 			context.status = StatusCodes.INTERNAL_SERVER_ERROR
 			return
 		}
 
-		// TODO: Do something with token
+		const userResponse = await getUser(tokenResponse.token)
+
+		if (userResponse.error) {
+			handleError(userResponse.error)
+			context.status = StatusCodes.INTERNAL_SERVER_ERROR
+			return
+		}
+
+		context.session.userId = userResponse.user.id
+		console.log({ user: userResponse.user })
 
 		context.status = StatusCodes.OK
 	})
@@ -120,6 +133,17 @@ async function requestDiscordToken(options: {
 	return axios
 		.post<RESTPostOAuth2AccessTokenResult>(OAuth2Routes.tokenURL, body)
 		.then((res) => ({ error: null, token: res.data.access_token }))
+		.catch((error) => ({
+			error: DZoneInternalError.fromAxiosError(error, true),
+		}))
+}
+
+function getUser(token: string) {
+	return axios
+		.get<RESTGetAPIUserResult>(RouteBases.api + Routes.user(), {
+			headers: { Authorization: `Bearer ${token}` },
+		})
+		.then((res) => ({ error: null, user: res.data }))
 		.catch((error) => ({
 			error: DZoneInternalError.fromAxiosError(error, true),
 		}))

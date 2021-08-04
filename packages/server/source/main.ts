@@ -1,20 +1,17 @@
 import Discord from 'discord.js'
 import Koa from 'koa'
-import session from 'koa-session'
 import body from 'koa-body'
 import { Logger } from 'tslog'
 
 import { handleError } from './library/utils/error'
 import { config } from './library/utils/config'
-import { createOAuthRouter } from './library/routers/oauth'
+import { createOAuthRouter } from './library/api/routers/oauth'
+import { withSession } from './library/api/utils/session'
 
 async function main() {
 	const client = new Discord.Client()
-	const server = new Koa()
 	const logger = new Logger()
-
-	server.use(session({ maxAge: 1000 * 60 * 15, rolling: true }, server))
-	server.use(body())
+	const server = withSession(new Koa()).use(body())
 
 	const oAuth = createOAuthRouter({
 		logger: logger.getChildLogger({ name: 'oauthRouter' }),
