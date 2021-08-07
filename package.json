@@ -5,6 +5,10 @@
 	"workspaces": [
 		"./packages/**"
 	],
+	"scripts": {
+		"dev": "docker-compose -f docker-compose.yml up --build",
+		"prod": "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --build"
+	},
 	"devDependencies": {
 		"prettier": "^2.3.2",
 		"prettier-plugin-jsdoc": "^0.3.23",
@@ -15,5 +19,8 @@
 		"Devin Spikowski <vegeta897@gmail.com> (https://pixelatomy.com)",
 		"Sagnik Pradhan <markten6321@gmail.com> (https://sagnikpradhan.github.io)"
 	],
-	"license": "ISC"
+	"license": "ISC",
+	"dependencies": {
+		"@d-zone/common": "workspace:packages/common"
+	}
 }

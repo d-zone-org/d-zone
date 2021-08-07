@@ -1,10 +1,8 @@
-import { Server, User } from '@d-zone/server'
-
 export interface StoreState {
-	user?: User
+	user?: { username: string }
 
 	server?: {
-		details: Server
+		details: unknown
 		messages: { id: string; message: string; username: string }[]
 	}
 }

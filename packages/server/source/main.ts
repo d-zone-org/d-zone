@@ -41,6 +41,7 @@ async function main() {
 	})
 
 	await client.login(config.discordClient.token)
+	logger.info('Connected to discord', client.user?.username)
 
 	await server.listen(4000)
 	logger.info('Listening on localhost:4000')

@@ -1,27 +1,3 @@
 {
-	"compilerOptions": {
-		"target": "esnext",
-		"lib": ["esnext"],
-
-		"strict": true,
-		"allowJs": false,
-
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true,
-		"noUncheckedIndexedAccess": true,
-		"noImplicitOverride": true,
-		"noPropertyAccessFromIndexSignature": true,
-
-		"moduleResolution": "node",
-
-		"esModuleInterop": true,
-
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-
-		"noEmit": true,
-		"resolveJsonModule": true
-	}
+	"extends": "@d-zone/common/tsconfig.json"
 }

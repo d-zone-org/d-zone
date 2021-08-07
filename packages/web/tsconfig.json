@@ -1,5 +1,5 @@
 {
-	"extends": "../../tsconfig.json",
+	"extends": "@d-zone/common/tsconfig.json",
 
 	"compilerOptions": {
 		"module": "esnext",
@@ -10,7 +10,7 @@
 		"isolatedModules": true,
 
 		"paths": {
-			"@d-zone/web/*": ["./*"]
+			"@d-zone/web/*": ["./*", "./src/library/*"]
 		}
 	},
 

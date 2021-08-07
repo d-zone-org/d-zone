@@ -30,7 +30,7 @@ export function generateDiscordRedirectUrl(
 		client_id: clientId,
 		redirect_uri: callbackUrl,
 		response_type: 'code',
-		scope: OAuth2Scopes.Identify,
+		scope: `${OAuth2Scopes.Identify} ${OAuth2Scopes.Guilds}`,
 		prompt: 'none',
 	}
 

@@ -1,0 +1,36 @@
+services:
+  server:
+    container_name: server
+    build:
+      target: server
+    networks:
+      - local
+    volumes:
+      - type: bind
+        source: ./packages/server
+        target: /d-zone/packages/server
+
+  web:
+    container_name: web
+    build:
+      target: web
+    networks:
+      - local
+    volumes:
+      - type: bind
+        source: ./packages/web
+        target: /d-zone/packages/web
+      - /d-zone/packages/web/.next
+
+  nginx:
+    container_name: nginx
+    build:
+      target: nginx
+    networks:
+      - local
+    ports:
+      - '3500:3500'
+
+networks:
+  local:
+    driver: bridge

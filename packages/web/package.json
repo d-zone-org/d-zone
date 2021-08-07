@@ -4,6 +4,7 @@
 	"scripts": {
 		"dev": "next",
 		"build": "next build",
+		"b-start": "next build && next start",
 		"start": "next start"
 	},
 	"babelMacros": {
@@ -12,6 +13,7 @@
 		}
 	},
 	"dependencies": {
+		"@d-zone/common": "workspace:packages/common",
 		"@pixi/constants": "^6.1.0",
 		"@pixi/core": "^6.1.0",
 		"@pixi/display": "^6.1.0",
@@ -34,7 +36,6 @@
 		"zustand": "^3.5.7"
 	},
 	"devDependencies": {
-		"@d-zone/server": "workspace:packages/server",
 		"@types/node": "^16.4.10",
 		"@types/react": "^17.0.15",
 		"@types/react-dom": "^17.0.9",
