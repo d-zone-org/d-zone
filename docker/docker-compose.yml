@@ -1,35 +1,39 @@
 services:
   server:
-    container_name: server
     build:
-      target: server
+      context: ..
+      dockerfile: ./packages/server/dockerfile
+      target: development
     networks:
       - local
     volumes:
       - type: bind
-        source: ./packages/server
+        source: ../packages/server
         target: /d-zone/packages/server
 
   web:
-    container_name: web
     build:
-      target: web
+      context: ..
+      dockerfile: ./packages/web/dockerfile
+      target: development
     networks:
       - local
     volumes:
       - type: bind
-        source: ./packages/web
+        source: ../packages/web
         target: /d-zone/packages/web
       - /d-zone/packages/web/.next
 
-  nginx:
-    container_name: nginx
-    build:
-      target: nginx
+  caddy:
+    image: caddy:latest
     networks:
       - local
     ports:
       - '3500:3500'
+    volumes:
+      - ./caddyfile:/etc/caddy/Caddyfile
+      - /data
+      - /config
 
 networks:
   local:

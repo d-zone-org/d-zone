@@ -3,10 +3,10 @@ services:
     environment:
       NODE_ENV: production
     build:
-      target: server-production
+      target: production
 
   web:
     environment:
       NODE_ENV: production
     build:
-      target: web-production
+      target: production

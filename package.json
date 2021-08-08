@@ -6,8 +6,8 @@
 		"./packages/**"
 	],
 	"scripts": {
-		"dev": "docker-compose -f docker-compose.yml up --build",
-		"prod": "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --build"
+		"dev": "docker-compose -f ./docker/docker-compose.yml up",
+		"prod": "docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.production.yml up"
 	},
 	"devDependencies": {
 		"prettier": "^2.3.2",

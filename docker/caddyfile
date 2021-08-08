@@ -1,0 +1,12 @@
+:3500 {
+        encode zstd gzip
+
+        reverse_proxy /api/* {
+                to api:4000
+        }
+
+        reverse_proxy /* {
+                to web:3000
+                flush_interval -1
+        }
+}

@@ -1,0 +1,39 @@
+# base image
+FROM node:16 as base
+
+# copies the same monorepo structure as host
+# excluding unrequired workspaces
+WORKDIR /d-zone
+COPY .yarn .yarn
+COPY package.json .yarnrc.yml yarn.lock ./
+COPY ./packages/common ./packages/common
+COPY ./packages/web ./packages/web
+
+# install all the dependencies
+RUN yarn
+
+# development
+FROM base as development
+WORKDIR /d-zone/packages/web
+CMD ["yarn", "dev"]
+
+# production build
+# builder stage
+FROM base as builder
+WORKDIR /d-zone/packages/web
+RUN yarn build
+
+# we run production install
+# to skip dev dependencies and also pack local packages
+# d-zone-temp acts as a decoupled project folder
+RUN yarn prod-install /d-zone-temp/build/web
+RUN cp -r .next /d-zone-temp/build/web/.next
+
+# actual production code
+# we copy the built files from builder stage
+# and then run it normally
+FROM node:16 as production
+WORKDIR /web
+COPY --from=builder /d-zone-temp/build/web .
+COPY ./packages/web/*.env .
+CMD ["yarn", "start"]
