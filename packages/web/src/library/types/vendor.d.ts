@@ -92,7 +92,7 @@ declare module 'pixi-cull' {
 		/**
 		 * Returns an array of objects contained within bounding box
 		 *
-		 * @param {object} boudns Bounding box to search
+		 * @param {object} bounds Bounding box to search
 		 * @param {number} bounds.x
 		 * @param {number} bounds.y
 		 * @param {number} bounds.width
@@ -330,7 +330,7 @@ declare module 'pixi-cull' {
 		 */
 		getWorldBounds(): Bounds
 		/**
-		 * Helper function to evalute the hash table
+		 * Helper function to evaluate the hash table
 		 *
 		 * @param {AABB} [AABB] Bounding box to search or entire world
 		 * @returns {number} Sparseness percentage (i.e., buckets with at least 1
