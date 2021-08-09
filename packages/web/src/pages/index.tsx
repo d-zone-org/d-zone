@@ -3,8 +3,8 @@ import tw from 'twin.macro'
 
 import { useStore } from '../library/store'
 
-import SignIn from '../components/core/sign-in'
-import Page from '../components/ui/page'
+import SignIn from '../components/sign-in-card'
+import Page from '../components/basic/page'
 
 const SignInSection = styled.section`
 	${tw`h-screen w-screen flex flex-row items-center justify-around`}

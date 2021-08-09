@@ -4,6 +4,7 @@ const Button = styled.button`
 	border-radius: 9px;
 	font-family: 'Open Sans', sans-serif;
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+	gap: 1ch;
 
 	&:hover {
 		box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
@@ -11,7 +12,7 @@ const Button = styled.button`
 
 	${tw`
 		flex flex-row items-center justify-center 
-		py-4 px-6 gap-3
+		py-4 px-6
 		border-none bg-white
 		text-black font-normal`}
 `
