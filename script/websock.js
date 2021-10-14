@@ -4,18 +4,30 @@ const https = require('https');
 const WSServer = require('ws').Server;
 const DateFormat = require('dateformat');
 
-module.exports = WebSock;
+let keyModified = false;
+let certModified = false;
+let reloading = false;
 
 function WebSock(config, onConnect, onJoinServer) {
     let wss;
     if(config.get('secure')) {
-        const server = new https.createServer({
-            cert: fs.readFileSync(process.env.cert),
-            key: fs.readFileSync(process.env.key)
+        const server =  new https.createServer({
+            key: fs.readFileSync(process.env.key),
+            cert: fs.readFileSync(process.env.cert)
         });
+        this.server = server
         wss = new WSServer({ server });
         server.on('error', err => console.log('Websocket server error:', err));
         server.listen(config.get('port'));
+
+        fs.watch(process.env.key, { persistent: false }, () => {
+            keyModified = true;
+            if(certModified && !reloading) this.reloadCerts();
+        });
+        fs.watch(process.env.cert, { persistent: false }, () => {
+            certModified = true;
+            if(keyModified && !reloading) this.reloadCerts();
+        });
     } else {
         wss = new WSServer({ port: config.get('port') })
     }
@@ -47,3 +59,25 @@ WebSock.prototype.sendData = function(data) {
         client.send(JSON.stringify(data));
     });
 };
+
+// https://github.com/nodejs/node/issues/15115#issuecomment-709389849
+WebSock.prototype.reloadCerts = async function() {
+    reloading = true;
+    //keep trying until success
+    while(true) {
+        try {
+            //sometimes throws an error if certs haven't finished writing to disk
+            this.server.setSecureContext({
+                key: fs.readFileSync(process.env.key),
+                cert: fs.readFileSync(process.env.cert)
+            });
+            keyModified = certModified = reloading = false;
+            console.log('Certificates reloaded');
+            break;
+        }
+        catch(swallow) {}
+        await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+}
+
+module.exports = WebSock;
