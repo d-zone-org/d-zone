@@ -19,7 +19,7 @@ export function createNewStore(initState: StoreState) {
 }
 
 /**
- * Creates a new store or returns the existing based on evironment then hydrates
+ * Creates a new store or returns the existing based on environment then hydrates
  * it again when dom loads
  *
  * @param state - Store state

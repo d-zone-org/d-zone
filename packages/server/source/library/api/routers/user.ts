@@ -16,7 +16,7 @@ export async function initialiseUserRouter(
 
 	router.get('/', (context) => {
 		context.body = JSON.stringify(context.session.user)
-		context.set('Conent-Type', 'application/json')
+		context.set('Content-Type', 'application/json')
 	})
 
 	application.use(router.routes())
