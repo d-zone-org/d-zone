@@ -7,7 +7,8 @@
 	],
 	"scripts": {
 		"dev": "docker-compose -f ./docker/docker-compose.yml up",
-		"prod": "docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.production.yml up"
+		"prod": "docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.production.yml up",
+		"format-caddy": "caddy fmt ./docker/caddyfile '>' ./docker/caddyfile"
 	},
 	"devDependencies": {
 		"prettier": "^2.3.2",
@@ -22,5 +23,6 @@
 	"license": "ISC",
 	"dependencies": {
 		"@d-zone/common": "workspace:packages/common"
-	}
+	},
+	"packageManager": "yarn@3.0.0"
 }

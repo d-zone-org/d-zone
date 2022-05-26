@@ -4,6 +4,7 @@ services:
       context: ..
       dockerfile: ./packages/server/dockerfile
       target: development
+    env_file: '../.env'
     networks:
       - local
     volumes:
@@ -16,6 +17,7 @@ services:
       context: ..
       dockerfile: ./packages/web/dockerfile
       target: development
+    env_file: '../.env'
     networks:
       - local
     volumes:

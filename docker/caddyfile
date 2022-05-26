@@ -1,12 +1,17 @@
-:3500 {
-        encode zstd gzip
+{
+	auto_https off
+}
 
-        reverse_proxy /api/* {
-                to api:4000
-        }
 
-        reverse_proxy /* {
-                to web:3000
-                flush_interval -1
-        }
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	reverse_proxy /api/* {
+		to api:4000
+	}
+
+	reverse_proxy /* {
+		to web:3000
+		flush_interval -1
+	}
 }

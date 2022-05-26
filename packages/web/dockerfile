@@ -26,6 +26,7 @@ RUN yarn build
 # we run production install
 # to skip dev dependencies and also pack local packages
 # d-zone-temp acts as a decoupled project folder
+RUN yarn plugin import https://gitlab.com/Larry1123/yarn-contrib/-/raw/master/packages/plugin-production-install/bundles/@yarnpkg/plugin-production-install.js
 RUN yarn prod-install /d-zone-temp/build/web
 RUN cp -r .next /d-zone-temp/build/web/.next
 

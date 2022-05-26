@@ -26,6 +26,7 @@ WORKDIR /d-zone/packages/server
 RUN yarn build
 
 # production install
+RUN yarn plugin import https://gitlab.com/Larry1123/yarn-contrib/-/raw/master/packages/plugin-production-install/bundles/@yarnpkg/plugin-production-install.js
 RUN yarn prod-install /d-zone-temp/build/server
 RUN cp -r dist /d-zone-temp/build/server/dist
 
