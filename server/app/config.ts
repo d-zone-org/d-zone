@@ -12,7 +12,5 @@ export const configuration = new K({
 			secret: zod(z.string()),
 			redirectPath: zod(z.string().url()),
 		},
-
-		sessionSecret: zod(z.string()),
 	},
 })

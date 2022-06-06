@@ -124,3 +124,4 @@ dist
 *.gen
 typegen.ts
 build
+hooks.ts
