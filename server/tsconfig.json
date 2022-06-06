@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"lib": ["esnext"],
+		"module": "CommonJS",
+
+		"strict": true,
+		"skipLibCheck": true,
+
+		"moduleResolution": "Node",
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true
+	},
+
+	"include": ["**/*.ts", "**/*.d.ts"]
+}

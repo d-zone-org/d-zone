@@ -3,17 +3,17 @@
 	"private": true,
 	"description": "An ambient life simulation driven by the user activity within a Discord server",
 	"workspaces": [
-		"./packages/**"
+		"./web",
+		"./server"
 	],
 	"scripts": {
 		"dev": "docker-compose -f ./docker/docker-compose.yml up",
-		"prod": "docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.production.yml up",
-		"format-caddy": "caddy fmt ./docker/caddyfile '>' ./docker/caddyfile"
+		"prod": "docker-compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.production.yml up"
 	},
 	"devDependencies": {
-		"prettier": "^2.3.2",
+		"prettier": "^2.6.2",
 		"prettier-plugin-jsdoc": "^0.3.23",
-		"typescript": "^4.3.5"
+		"typescript": "^4.7.2"
 	},
 	"author": "Devin Spikowski",
 	"contributors": [
@@ -21,8 +21,5 @@
 		"Sagnik Pradhan <markten6321@gmail.com> (https://sagnikpradhan.github.io)"
 	],
 	"license": "ISC",
-	"dependencies": {
-		"@d-zone/common": "workspace:packages/common"
-	},
-	"packageManager": "yarn@3.0.0"
+	"packageManager": "yarn@3.2.1"
 }

@@ -1,9 +1,0 @@
-.yarn/*
-!.yarn/cache
-!.yarn/releases
-!.yarn/plugins
-!.yarn/patches
-.pnp.*
-
-*/dist/*
-*/.next/*

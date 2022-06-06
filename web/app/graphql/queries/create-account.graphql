@@ -1,0 +1,10 @@
+query UserDetails {
+	GetSessionUser {
+		id
+		username
+		discriminator
+		avatar
+		accentColor
+		registered
+	}
+}
