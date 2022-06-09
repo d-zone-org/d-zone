@@ -1,8 +1,9 @@
 import 'dotenv/config'
-import { startBot } from './discord'
-import { getPrisma } from './database'
 import { Logger } from 'tslog'
+
+import { getPrisma } from './database'
 import { startServers } from './server'
+import { startBot } from './discord/client'
 
 const logger = new Logger({ name: 'root' })
 

@@ -1,5 +1,5 @@
 import { Client } from 'eris'
-import { PrismaClient } from 'server/.gen/prisma'
+import { PrismaClient } from '@d-zone/server/.gen/prisma'
 import { Session } from '$/server/session'
 
 export interface Context {

@@ -1,4 +1,4 @@
-import { PrismaClient } from 'server/.gen/prisma'
+import { PrismaClient } from '@d-zone/server/.gen/prisma'
 import { Logger } from 'tslog'
 
 export function getPrisma() {
@@ -13,4 +13,4 @@ export function getPrisma() {
 	return prisma
 }
 
-export * from 'server/.gen/prisma'
+export * from '@d-zone/server/.gen/prisma'

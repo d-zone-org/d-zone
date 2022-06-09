@@ -10,6 +10,7 @@ export const configuration = new K({
 			token: zod(z.string()),
 			id: zod(z.string()),
 			secret: zod(z.string()),
+			publicKey: zod(z.string()),
 			redirectPath: zod(z.string().url()),
 		},
 	},

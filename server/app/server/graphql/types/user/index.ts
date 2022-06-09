@@ -1,5 +1,5 @@
 import { objectType } from 'nexus'
-import { User } from 'server/.gen/nexus'
+import { User } from '@d-zone/server/.gen/nexus'
 
 export const UserObject = objectType({
 	name: User.$name,

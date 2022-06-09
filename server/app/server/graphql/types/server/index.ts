@@ -1,5 +1,5 @@
 import { objectType } from 'nexus'
-import { Server } from 'server/.gen/nexus'
+import { Server } from '@d-zone/server/.gen/nexus'
 
 export const ServerObject = objectType({
 	name: Server.$name,
