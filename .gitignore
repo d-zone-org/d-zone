@@ -120,5 +120,8 @@ dist
 # Jetbrains IDE
 .idea
 
-# prisma
-**/prisma/source/*
+# Generated files
+*.gen
+typegen.ts
+build
+hooks.ts

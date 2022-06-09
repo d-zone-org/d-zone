@@ -1,14 +1,14 @@
 {
   "search.exclude": {
     "**/.yarn": true,
-    "**/.pnp.*": true
   },
-  "typescript.tsdk": ".yarn/sdks/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
+  
   "conventionalCommits.scopes": [
     "core",
     "server",
     "web"
-  ]
+  ],
+
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "prettier.prettierPath": "node_modules\\prettier"
 }

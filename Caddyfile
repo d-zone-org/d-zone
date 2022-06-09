@@ -1,0 +1,8 @@
+:5000
+
+@backend {
+	path /api/* /graphql
+}
+
+reverse_proxy @backend host.docker.internal:4000
+reverse_proxy host.docker.internal:3000

@@ -1,0 +1,41 @@
+{
+	"name": "@d-zone/web",
+	"private": true,
+	"sideEffects": false,
+	"scripts": {
+		"build": "remix build",
+		"dev": "remix dev",
+		"start": "remix-serve build",
+		"gen": "graphql-codegen"
+	},
+	"dependencies": {
+		"@graphql-codegen/typescript-operations": "^2.4.0",
+		"@graphql-codegen/typescript-urql": "^3.5.10",
+		"@react-aria/link": "^3.3.0",
+		"@remix-run/node": "^1.5.1",
+		"@remix-run/react": "^1.5.1",
+		"@remix-run/serve": "^1.5.1",
+		"@stitches/react": "^1.2.8",
+		"@urql/exchange-refocus": "^0.2.5",
+		"framer-motion": "^6.3.6",
+		"graphql": "^16.5.0",
+		"graphql-ws": "^5.8.2",
+		"isomorphic-ws": "^4.0.1",
+		"react": "17.x",
+		"react-dom": "17.x",
+		"urql": "^2.2.0",
+		"use-persisted-state": "^0.3.3",
+		"ws": "^8.6.0"
+	},
+	"devDependencies": {
+		"@graphql-codegen/cli": "^2.6.2",
+		"@remix-run/dev": "^1.5.1",
+		"@remix-run/eslint-config": "^1.5.1",
+		"@types/react": "17.x",
+		"@types/react-dom": "17.x",
+		"@types/use-persisted-state": "^0",
+		"@types/ws": "^8",
+		"eslint": "^8.15.0",
+		"typescript": "^4.6.4"
+	}
+}

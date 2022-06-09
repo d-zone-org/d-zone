@@ -1,0 +1,9 @@
+mutation CreateAccount {
+	CreateUser {
+		id
+		username
+		discriminator
+		avatar
+		accentColor
+	}
+}
