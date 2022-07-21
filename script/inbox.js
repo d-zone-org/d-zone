@@ -55,6 +55,7 @@ function Inbox(config) {
             newServer.id = util.abbreviate(newServer.name, serverIDs);
             serverIDs.push(newServer.id);
             if(server.password) newServer.password = server.password;
+            if(server.ignoreUsers) newServer.ignoreUsers = server.ignoreUsers;
             if(server.ignoreChannels) newServer.ignoreChannels = server.ignoreChannels;
             if(server.listenChannels) newServer.listenChannels = server.listenChannels;
             if(server.hideOffline) newServer.hideOffline = true
