@@ -113,6 +113,7 @@ Inbox.prototype.getUsers = function(connectRequest) {
     let server = this.servers.get(connectRequest.server) ||
         Array.from(this.servers.values()).find(s => s.id === connectRequest.server || s.default && connectRequest.server === 'default');
     if(!server) return 'unknown-server';
+    console.log('Should be logging now 1.0')
     console.log(server.ignoreUsers)
     if(server.password && server.password !== connectRequest.password) return 'bad-password';
     let guild = this.bot.guilds.get(server.discordID);
