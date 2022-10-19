@@ -20,6 +20,8 @@ RUN apk del --purge git
 RUN rm -rf /root/.cache /tmp/*
 RUN rm /app/d-zone/socket-config.json
 RUN rm /etc/nginx/http.d/default.conf
+RUN git apply /app/d-zone/docker.patch
+RUN rm /app/d-zone/docker.patch
 
 # Communicate ports and volumes to be used
 EXPOSE 80
