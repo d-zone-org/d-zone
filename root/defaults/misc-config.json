@@ -1,0 +1,16 @@
+{
+  "textbox": {
+    "maxWidth": 96,
+    "linesPerPage": 4,
+    "scrollSpeeds": [
+      [0, 3],
+      [75, 2],
+      [150, 1]
+    ],
+    "pageDelay": 5,
+    "finalDelay": 30,
+    "openTime": 10,
+    "closeTime": 8,
+    "bgColor": "rgba(0, 0, 0, 0.7)"
+  }
+}

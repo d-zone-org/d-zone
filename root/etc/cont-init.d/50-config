@@ -1,0 +1,28 @@
+#!/usr/bin/with-contenv bash
+
+
+# Check if configs are provided by host, if not, use defaults
+if [ ! -f "/config/discord-config.json" ]; then
+	cp /defaults/discord-config.json /config/discord-config.json
+fi
+
+if [ ! -f "/config/misc-config.json" ]; then
+  cp /defaults/misc-config.json /config/misc-config.json
+fi
+
+if [ ! -f "/config/socket-config.json" ]; then
+  cp /defaults/socket-config.json /config/socket-config.json
+fi
+
+# Overwrite config files in d-zone directory
+ln -sf /config/discord-config.json /app/d-zone/discord-config.json
+ln -sf /config/misc-config.json /app/d-zone/misc-config.json
+ln -sf /config/socket-config.json /app/d-zone/socket-config.json
+
+# permissions stuff
+chown -R abc:abc \
+	/config
+
+# chwon the app directory, but not node_modules
+find /app/d-zone -maxdepth 1 ! -name node_modules ! -name d-zone -exec chown -R abc:abc '{}' \;
+
