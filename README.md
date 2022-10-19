@@ -15,7 +15,7 @@ Hopefully the simulation is interesting to watch. You can see the current (unint
 The Docker installation is very straightforward. You might need to change PUID and PGID to your user value, default is root. Don't forget to edit/check the config files after the installation.
 
 ```
-docker create \
+docker run \
   --name=d-zone \
   -e TZ=Europe/Amsterdam \
   -e token=YOUR_DISCORD_BOT_TOKEN \
@@ -34,7 +34,7 @@ git clone --branch v1/docker https://github.com/d-zone-org/d-zone.git
 cd d-zone
 docker build -t d-zone-org/d-zone:latest .
 
-docker create \
+docker run \
   --name=d-zone \
   -e TZ=Europe/Amsterdam \
   -e token=YOUR_DISCORD_BOT_TOKEN \
