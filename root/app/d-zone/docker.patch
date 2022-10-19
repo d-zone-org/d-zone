@@ -1,0 +1,65 @@
+From 14305ec6d43c3ae64921207f02a4e1f4129d325a Mon Sep 17 00:00:00 2001
+From: Pepper <admin@peppershade.nl>
+Date: Wed, 19 Oct 2022 17:41:38 +0200
+Subject: [PATCH] Fixes for docker
+
+---
+ socket-config.js | 7 ++++++-
+ web/main.js      | 8 +++++---
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/socket-config.js b/socket-config.js
+index b2657940..3bdf644a 100644
+--- a/socket-config.js
++++ b/socket-config.js
+@@ -3,6 +3,11 @@ const path = require('path');
+ 
+ // Define a schema
+ const config = convict({
++    websocket_url: {
++        doc: 'The external address/URL of your websocket server.',
++        format: String,
++        default: 'ws://127.0.0.1'
++    },
+     address: {
+         doc: 'The address/URL of your websocket server.',
+         format: String,
+@@ -26,4 +31,4 @@ config.loadFile(path.resolve(__dirname,'socket-config.json'));
+ // Perform validation
+ config.validate({allowed: 'strict'});
+ 
+-module.exports = config;
++module.exports = config;
+\ No newline at end of file
+diff --git a/web/main.js b/web/main.js
+index 0bf5d16b..15fb2980 100644
+--- a/web/main.js
++++ b/web/main.js
+@@ -7,7 +7,7 @@ var Canvas = require('./script/engine/canvas.js');
+ var UI = require('./script/ui/ui.js');
+ var bs = require('browser-storage');
+ var packageInfo = require('./../package.json');
+-var socketConfig = require('./../socket-config.json');
++//var socketConfig = require('./../socket-config.json');
+ 
+ // TODO: Loading screen while preloading images, connecting to websocket, and generating world
+ console.log('Loading...');
+@@ -36,8 +36,10 @@ function initWebsocket() {
+     var Users = require('./script/actors/users.js');
+     var Decorator = require('./script/props/decorator.js');
+     var users, world, decorator;
++    
++    if(window.location.protocol == 'https:') { var wssprotocol = 'wss://'} else { var wssprotocol = 'ws://'}
+ 
+-    var socketURL = (socketConfig.secure ? 'wss://' : 'ws://') + socketConfig.address + ':' + socketConfig.port;
++    var socketURL = wssprotocol + window.location.host
+     console.log('Initializing websocket on', socketURL);
+ 
+     // Swap the comments on the next 3 lines to switch between your websocket server and a virtual one
+@@ -216,4 +218,4 @@ function getStartupServer() {
+     return startupServer;
+ }
+ 
+-//setTimeout(function() { game.paused = true; },1000);
++//setTimeout(function() { game.paused = true; },1000);
+\ No newline at end of file

@@ -1,10 +1,6 @@
-.git/
+.git
 .gitignore
-'Update Configuration.bat'
-discord-config-example.json
-ideas.md
-node_modules
-package-lock.json
-socket-config-example.json
-update-configuration.sh
-
+.github
+.gitattributes
+README.md
+LICENSE.md
