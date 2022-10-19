@@ -11,19 +11,24 @@ RUN apk add --no-cache git npm nginx rsync
 RUN mkdir -p /app/d-zone
 RUN git clone -b master https://github.com/d-zone-org/d-zone.git /app/d-zone
 
-# Install project
+# Create workspace
 RUN cd /app/d-zone
 COPY root/ /
+
+# Patch source to work with Docker and Websocket
+RUN git apply /app/d-zone/docker.patch
+
+# Compile the app
 RUN npm install --no-optional
 RUN npm run-script build
-RUN git apply /app/d-zone/docker.patch
-RUN rm /app/d-zone/docker.patch
 RUN apk del --purge git
+
+# Remove files we don't need
 RUN rm -rf /root/.cache /tmp/*
 RUN rm /app/d-zone/socket-config.json
 RUN rm /etc/nginx/http.d/default.conf
+RUN rm /app/d-zone/docker.patch
 
 # Communicate ports and volumes to be used
 EXPOSE 80
-
 VOLUME /config
